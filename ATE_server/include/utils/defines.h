@@ -1,6 +1,8 @@
 #ifndef ATE_SERVER_UTILS_DEFINES_H_
 #define ATE_SERVER_UTILS_DEFINES_H_
 
+#include <tuple>
+
 namespace defines {
 
 #define x_y std::pair(int, int)
