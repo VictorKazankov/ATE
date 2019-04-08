@@ -3,6 +3,7 @@
 
 #include <string>
 
+namespace interaction {
 /**
   * @brief Interface class for interaction with LVDS board
   **/
@@ -45,5 +46,6 @@ class Interaction {
      **/
     virtual void Drag(const int x, const int y) const = 0;
 };
+}
 
 #endif // ATE_SERVER_INTERACTION_INTERACTION_H_
