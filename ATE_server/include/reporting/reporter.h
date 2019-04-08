@@ -1,6 +1,7 @@
 #ifndef ATE_SERVER_REPORTING_REPORTER_H_
 #define ATE_SERVER_REPORTING_REPORTER_H_
 
+namespace reporter {
 /**
   * @brief Interface class for reporting test results
   **/
@@ -17,5 +18,6 @@ class Reporter {
      **/
     virtual void Close() = 0;
 };
+}
 
 #endif // ATE_SERVER_REPORTING_REPORTER_H_
