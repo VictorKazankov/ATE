@@ -1,0 +1,10 @@
+.idea
+__pycache__
+*.csv
+venv/
+
+# Qt Creator CMake settings
+CMakeLists.txt.user*
+
+# Visual Studio Code settings
+.vscode/
