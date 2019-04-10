@@ -1,13 +1,11 @@
 #include "ate.h"
 
 ATE::ATE() {
-    //TODO
+  // TODO
 }
 
-ATE::~ATE() {
-    Close();
-}
+ATE::~ATE() { Close(); }
 
-ATE::Close() {
-    //TODO
+void ATE::Close() {
+  // TODO
 }

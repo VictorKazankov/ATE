@@ -4,11 +4,10 @@
 namespace streamer {
 
 /**
-  * @brief Interface class for streamers
-  **/
-class Streamer {
-};
+ * @brief Interface class for streamers
+ **/
+class Streamer {};
 
-}
+}  // namespace streamer
 
-#endif // ATE_SERVER_VIDEO_STREAMING_STREAMING_H_
+#endif  // ATE_SERVER_VIDEO_STREAMING_STREAMING_H_
