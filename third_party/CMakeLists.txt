@@ -111,3 +111,18 @@ target_include_directories(inihcpp
 ### Pybind11
 ### https://pybind11.readthedocs.io/en/stable/index.html
 add_subdirectory(pybind11)
+
+if(VHAT_WITH_TESTS)
+  ### Google Test
+  ### https://github.com/google/googletest
+
+  ## For now, we don't use Google Mock
+  set(BUILD_GMOCK OFF CACHE BOOL
+    "Builds the Google Mock subproject")
+
+  set(INSTALL_GTEST OFF CACHE BOOL
+    "Enable installation of googletest. Projects embedding googletest may want to turn this OFF")
+
+  add_subdirectory(googletest)
+
+endif(VHAT_WITH_TESTS)

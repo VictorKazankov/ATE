@@ -12,5 +12,12 @@ set(CMAKE_CXX_STANDARD 17 CACHE STRING
 set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
   "Default value for CXX_STANDARD_REQUIRED property of targets")
 
+option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
+
 add_subdirectory(third_party)
 add_subdirectory(ATE_server/src)
+
+if(VHAT_WITH_TESTS)
+  # ATE-server tests directory
+  add_subdirectory(ATE_server/test)
+endif(VHAT_WITH_TESTS)
