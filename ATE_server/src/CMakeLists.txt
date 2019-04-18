@@ -26,6 +26,9 @@ add_executable(vhat_server
   ate_server_main.cpp
 )
 
+target_compile_options(vhat_server_lib
+  PUBLIC -Wall -Wextra -pedantic -Werror)
+
 target_link_libraries(vhat_server
   PRIVATE
     vhat_server_lib
