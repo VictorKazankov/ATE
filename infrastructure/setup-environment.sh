@@ -1,7 +1,7 @@
 # Example for usage:
 # ./setup-environment.sh
 
-cd `dirname "$0"`
+cd "$(dirname "$0")/.."
 
 # Download submodules
 git submodule init
@@ -17,5 +17,5 @@ sudo apt install -y g++-5 ninja-build cmake clang-format
 sudo apt install -y libssl-dev libjsoncpp-dev
 
 # Copy Visual Studio Code tasks
-mkdir -p .vscode
-cp ide_integration/vscode-linux-tasks.json .vscode/tasks.json
+mkdir -pv .vscode
+cp infrastructure/ide_integration/vscode-linux-tasks.json .vscode/tasks.json
