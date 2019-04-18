@@ -16,10 +16,37 @@ target_include_directories(vhat_server_lib
 # Debian/Ubuntu package name: libjsoncpp-dev
 find_package(jsoncpp REQUIRED)
 
+# Get OpenCV version from config
+file(STRINGS "${CMAKE_SOURCE_DIR}/infrastructure/config/opencv-version" VHAT_OPENCV_VERSION
+  LIMIT_COUNT 1
+)
+
+if (NOT DEFINED VHAT_OPENCV_VERSION)
+message(FATAL_ERROR "VHAT_OPENCV_VERSION is not defined")
+endif(NOT DEFINED VHAT_OPENCV_VERSION)
+
+find_package(OpenCV "${VHAT_OPENCV_VERSION}" EXACT REQUIRED
+  COMPONENTS
+    calib3d
+    core
+    features2d
+    imgcodecs
+    imgproc
+    videoio
+  PATH_SUFFIXES
+    "${CMAKE_SOURCE_DIR}/../OpenCV/share/OpenCV"
+)
+
 target_link_libraries(vhat_server_lib
   inihcpp
   jsoncpp_lib
   Boost::asio
+  opencv_calib3d
+  opencv_core
+  opencv_features2d
+  opencv_imgcodecs
+  opencv_imgproc
+  opencv_videoio
 )
 
 add_executable(vhat_server
