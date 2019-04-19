@@ -8,7 +8,7 @@ sudo apt update
 readonly VHAT_DEV_TOOLS="g++-5 ninja-build cmake clang-format"
 readonly VHAT_USE_LIBS="libssl-dev libjsoncpp-dev"
 readonly OPENCV_DEV_TOOLS="pkg-config ccache"
-readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libpng-dev"
+readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libpng-dev libgtk2.0-dev"
 
 # List of the all necessary packages
 readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $OPENCV_DEV_TOOLS $OPENCV_USE_LIBS"
@@ -64,22 +64,22 @@ cmake ../$OPENCV_SOURCE_DIR_NAME -GNinja \
   -DBUILD_opencv_apps:BOOL=OFF \
   -DBUILD_opencv_calib3d:BOOL=ON \
   -DBUILD_opencv_core:BOOL=ON \
-  -DBUILD_opencv_dnn:BOOL=OFF \
+  -DBUILD_opencv_dnn:BOOL=ON \
   -DBUILD_opencv_features2d:BOOL=ON \
-  -DBUILD_opencv_flann:BOOL=OFF \
-  -DBUILD_opencv_highgui:BOOL=OFF \
+  -DBUILD_opencv_flann:BOOL=ON \
+  -DBUILD_opencv_highgui:BOOL=ON \
   -DBUILD_opencv_imgcodecs:BOOL=ON \
   -DBUILD_opencv_imgproc:BOOL=ON \
   -DBUILD_opencv_js:BOOL=OFF \
-  -DBUILD_opencv_ml:BOOL=OFF \
-  -DBUILD_opencv_objdetect:BOOL=OFF \
-  -DBUILD_opencv_photo:BOOL=OFF \
+  -DBUILD_opencv_ml:BOOL=ON \
+  -DBUILD_opencv_objdetect:BOOL=ON \
+  -DBUILD_opencv_photo:BOOL=ON \
   -DBUILD_opencv_python3:BOOL=OFF \
   -DBUILD_opencv_shape:BOOL=OFF \
-  -DBUILD_opencv_stitching:BOOL=OFF \
+  -DBUILD_opencv_stitching:BOOL=ON \
   -DBUILD_opencv_superres:BOOL=OFF \
   -DBUILD_opencv_ts:BOOL=OFF \
-  -DBUILD_opencv_video:BOOL=OFF \
+  -DBUILD_opencv_video:BOOL=ON \
   -DBUILD_opencv_videoio:BOOL=ON \
   -DBUILD_opencv_videostab:BOOL=OFF \
   -DBUILD_opencv_world:BOOL=OFF \
