@@ -43,6 +43,7 @@ target_link_libraries(vhat_server_lib
 add_executable(vhat_server
   ate_server_main.cpp
   interaction/vdp_interaction.cpp
+  interaction/https_client.cpp
 )
 
 target_compile_definitions(vhat_server_lib
