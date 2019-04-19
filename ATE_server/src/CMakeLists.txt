@@ -10,6 +10,7 @@ add_library(vhat_server_lib
 target_include_directories(vhat_server_lib
   PUBLIC
     ../include
+    "${OpenCV_INCLUDE_DIRS}"
 )
 
 # JsonCpp
@@ -34,8 +35,6 @@ find_package(OpenCV "${VHAT_OPENCV_VERSION}" EXACT REQUIRED
     imgcodecs
     imgproc
     videoio
-  PATH_SUFFIXES
-    "${CMAKE_SOURCE_DIR}/../OpenCV/share/OpenCV"
 )
 
 target_link_libraries(vhat_server_lib

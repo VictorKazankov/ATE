@@ -1,29 +1,32 @@
 ## Example for usage:
 ## ./setup-environment.sh
 
+## Update repositories
+sudo apt update
+
+## Install packages
+readonly VHAT_DEV_TOOLS="g++-5 ninja-build cmake clang-format"
+readonly VHAT_USE_LIBS="libssl-dev libjsoncpp-dev"
+readonly OPENCV_DEV_TOOLS="pkg-config ccache"
+readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libpng-dev"
+
+# List of the all necessary packages
+readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $OPENCV_DEV_TOOLS $OPENCV_USE_LIBS"
+
+sudo apt install -y $INSTALL_PACKAGES
+
+## Go to the source root directory
 cd "$(dirname "$0")/.."
 
 ## Download submodules
 git submodule init
 git submodule update
 
-## Update repositories
-sudo apt update
-
-## Install development tools
-sudo apt install -y g++-5 ninja-build cmake clang-format ccache
-
-## Install the libraries with headers needed for the VHAT
-sudo apt install -y libssl-dev libjsoncpp-dev
-
 ## Copy Visual Studio Code tasks
 mkdir -pv .vscode
 cp infrastructure/ide_integration/vscode-linux-tasks.json .vscode/tasks.json
 
 ## OpenCV build
-
-# Install OpenCV dependencies
-sudo apt install -y libavcodec-dev libavformat-dev libswscale-dev libpng-dev
 
 # Toolchain from the VHAT
 readonly TOOLCHAIN_ABSOLUTE_PATH="$(pwd -P)/infrastructure/cmake/toolchains/desktop.cmake"
@@ -34,9 +37,6 @@ readonly OPENCV_VERSION=`cat infrastructure/config/opencv-version`
 # Create a root directory for OpenCV sources, builds and installed files
 mkdir -pv ../OpenCV
 cd ../OpenCV
-
-# Prefix for installation files
-readonly OPENCV_INSTALL_ABSOLUTE_DIR=`pwd -P`
 
 # Download archive if necessary and extract it
 readonly OPENCV_ARCHIVE_FILENAME=$OPENCV_VERSION.tar.gz
@@ -51,8 +51,12 @@ cd build-$OPENCV_SOURCE_DIR_NAME
 
 readonly OPENCV_BUILD_ABSOLUTE_DIR=`pwd -P`
 
+# OpenCV 3.3.1 doesn't build in C++14 mode, so used C++11 mode
+
 cmake ../$OPENCV_SOURCE_DIR_NAME -GNinja \
-  -DCMAKE_INSTALL_PREFIX:PATH="$OPENCV_INSTALL_ABSOLUTE_DIR" \
+  -DCMAKE_CXX_STANDARD:STRING=11 \
+  -DCMAKE_CXX_STANDARD_REQUIRED:BOOL=ON \
+  -DCMAKE_INSTALL_PREFIX:PATH=/opt/OpenCV \
   -DCMAKE_TOOLCHAIN_FILE:FILEPTAH="$TOOLCHAIN_ABSOLUTE_PATH" \
   -DBUILD_DOCS:BOOL=OFF \
   -DBUILD_PERF_TESTS:BOOL=OFF \
@@ -81,4 +85,5 @@ cmake ../$OPENCV_SOURCE_DIR_NAME -GNinja \
   -DBUILD_opencv_world:BOOL=OFF \
   -DWITH_PNG:BOOL=ON
 
-cmake --build . --target install
+cmake --build .
+sudo cmake --build . --target install
