@@ -5,6 +5,7 @@ add_library(vhat_server_lib
   STATIC
     config/config.cpp
     storage/json_storage.cpp
+    video_streaming/stream_reader.cpp
     ate.cpp
 )
 
