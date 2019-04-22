@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # A separate static library is necessary to support unit tests
 add_library(vhat_server_lib
   STATIC
+    config/config.cpp
     storage/json_storage.cpp
     ate.cpp
 )
