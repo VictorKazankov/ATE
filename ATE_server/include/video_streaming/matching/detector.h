@@ -3,10 +3,7 @@
 
 #include <string>
 
-namespace cv {
-class Mat;
-class Rect;
-}  // namespace cv
+#include <opencv2/core/types.hpp>
 
 namespace detector {
 
