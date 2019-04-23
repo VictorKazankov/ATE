@@ -1,8 +1,6 @@
 #ifndef ATE_SERVER_VIDEO_STREAMING_MATCHING_DETECTOR_H_
 #define ATE_SERVER_VIDEO_STREAMING_MATCHING_DETECTOR_H_
 
-#include <string>
-
 #include <opencv2/core/types.hpp>
 
 namespace detector {
@@ -11,9 +9,6 @@ namespace detector {
  * @brief Interface class for detectors
  **/
 class Detector {
- private:
-  std::string name_;
-
  public:
   virtual ~Detector() = default;
 
@@ -24,12 +19,6 @@ class Detector {
    * @return pattern coordinates
    **/
   virtual cv::Rect Detect(const cv::Mat& frame, const cv::Mat& pattern) const = 0;
-
-  /**
-   * @brief Gets name of the detector
-   * @return name of the detector
-   **/
-  const std::string& Name() const { return name_; }
 };
 
 }  // namespace detector

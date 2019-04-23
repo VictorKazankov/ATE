@@ -6,6 +6,7 @@ add_library(vhat_server_lib
     config/config.cpp
     storage/json_storage.cpp
     video_streaming/stream_reader.cpp
+    video_streaming/matching/template_detector.cpp
     ate.cpp
 )
 
