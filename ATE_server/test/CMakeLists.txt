@@ -10,3 +10,9 @@ target_link_libraries(vhat_server_test
     gtest_main
     vhat_server_lib
 )
+
+file(COPY
+  config/bad_comment.ini
+  config/test_config.ini
+  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config"
+)
