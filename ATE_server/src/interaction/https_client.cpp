@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <iostream>
+#include <sstream>
 
 namespace interaction {
 
@@ -18,20 +19,39 @@ HttpsClient::HttpsClient(boost::asio::io_context& io_context, boost::asio::ssl::
 
 HttpsClient::~HttpsClient() {}
 
+std::string HttpsClient::PreparePackage(const std::string& command) const noexcept {
+  std::ostringstream request_stream;
+  request_stream << "POST /ontouchevent\r\n";
+  request_stream << "Host: 172.31.239.130:8444 \r\n";
+  request_stream << "Content-Type: application/x-www-form-urlencoded \r\n";
+  request_stream << "Content-Length: " << command.length() << "\r\n";
+  request_stream << "Accept: text/plain\r\n\r\n";
+  request_stream << command;
+
+  return request_stream.str();
+}
+
+void HttpsClient::SendCommand(const std::string& command) {
+  const std::string request = PreparePackage(command);
+
+  // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
+  std::clog << "Debug: Request to send:\n" << request << "\n";
+
+  boost::asio::async_write(socket_, boost::asio::buffer(request.c_str(), request.length()),
+                           std::bind(&HttpsClient::HandleWrite, this, std::placeholders::_1, std::placeholders::_2));
+}
+
 void HttpsClient::HandleConnect(const boost::system::error_code& error) {
   if (!error) {
-    socket_.async_handshake(boost::asio::ssl::stream_base::client,
-                            std::bind(&HttpsClient::HandleHandshake, this, std::placeholders::_1));
+    socket_.async_handshake(boost::asio::ssl::stream_base::client, [this](const boost::system::error_code& error) {
+      if (error) {
+        // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
+        std::clog << "Error: Handshake failed: " << error.message() << "\n";
+      }
+    });
   } else {
     // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
     std::clog << "Error: Connect failed: " << error.message() << "\n";
-  }
-}
-
-void HttpsClient::HandleHandshake(const boost::system::error_code& error) {
-  if (error) {
-    // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-    std::clog << "Error: Handshake failed: " << error.message() << "\n";
   }
 }
 
@@ -45,10 +65,10 @@ void HttpsClient::HandleWrite(const boost::system::error_code& error, size_t byt
   }
 }
 
-void HttpsClient::HandleRead(const boost::system::error_code& error, size_t bytes_transferred) {
+void HttpsClient::HandleRead(const boost::system::error_code& error, size_t bytes_transferred) const {
   if (!error) {
     // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-    std::clog << "Debug: Reply: ";
+    std::clog << "Debug: Reply:\n";
     std::clog.write(reply_, bytes_transferred);
     std::clog << "\n";
   } else {

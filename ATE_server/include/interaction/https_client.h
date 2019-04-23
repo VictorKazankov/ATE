@@ -13,7 +13,6 @@ const size_t kMaxMessageLength = 1024;
 class HttpsClient {
  private:
   boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket_;
-  char request_[kMaxMessageLength];
   char reply_[kMaxMessageLength];
 
  public:
@@ -21,11 +20,14 @@ class HttpsClient {
               boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> endpoints);
   ~HttpsClient();
 
+  void SendCommand(const std::string& command);
+
  private:
   void HandleConnect(const boost::system::error_code& error);
-  void HandleHandshake(const boost::system::error_code& error);
   void HandleWrite(const boost::system::error_code& error, size_t bytes_transferred);
-  void HandleRead(const boost::system::error_code& error, size_t bytes_transferred);
+  void HandleRead(const boost::system::error_code& error, size_t bytes_transferred) const;
+
+  std::string PreparePackage(const std::string& command) const noexcept;
 };
 }  // namespace interaction
 
