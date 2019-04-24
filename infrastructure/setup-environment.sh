@@ -9,9 +9,10 @@ readonly VHAT_DEV_TOOLS="g++-5 ninja-build cmake clang-format"
 readonly VHAT_USE_LIBS="libssl-dev libjsoncpp-dev"
 readonly OPENCV_DEV_TOOLS="pkg-config ccache"
 readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libpng-dev libgtk2.0-dev"
+readonly TESSERACT_USE_LIBS=ocl-icd-opencl-dev
 
 # List of the all necessary packages
-readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $OPENCV_DEV_TOOLS $OPENCV_USE_LIBS"
+readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $OPENCV_DEV_TOOLS $OPENCV_USE_LIBS $TESSERACT_USE_LIBS"
 
 sudo apt install -y $INSTALL_PACKAGES
 
@@ -29,3 +30,5 @@ cp infrastructure/ide_integration/vscode-linux-tasks.json .vscode/tasks.json
 # Build the required libraries
 cd infrastructure/build_dependencies
 sh ./opencv.sh
+sh ./leptonica.sh
+sh ./tesseract.sh
