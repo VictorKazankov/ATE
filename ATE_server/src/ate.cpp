@@ -1,6 +1,10 @@
 #include "ate.h"
 
-ATE::ATE() {
+namespace {
+constexpr auto kConfigFile = "config.ini";
+}
+
+ATE::ATE() : config_{kConfigFile} {
   // TODO
 }
 

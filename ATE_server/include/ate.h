@@ -2,6 +2,8 @@
 #define ATE_SERVER_ATE_H_
 
 #include <memory>
+
+#include "config/config.h"
 #include "interaction/interaction.h"
 #include "reporting/reporter.h"
 #include "storage/storage.h"
@@ -13,6 +15,7 @@
  **/
 class ATE {
  private:
+  config::Reader config_;
   std::unique_ptr<storage::Storage> storage_;
   std::unique_ptr<interaction::Interaction> interaction_;
   std::unique_ptr<streamer::Streamer> streamer_;
