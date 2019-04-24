@@ -19,13 +19,8 @@ target_include_directories(vhat_server_lib
 # Debian/Ubuntu package name: libjsoncpp-dev
 find_package(jsoncpp REQUIRED)
 
-# Get OpenCV version from config
-file(STRINGS "${CMAKE_SOURCE_DIR}/infrastructure/config/opencv-version" VHAT_OPENCV_VERSION
-  LIMIT_COUNT 1
-)
-
 if (NOT DEFINED VHAT_OPENCV_VERSION)
-message(FATAL_ERROR "VHAT_OPENCV_VERSION is not defined")
+  message(FATAL_ERROR "VHAT_OPENCV_VERSION is not defined")
 endif(NOT DEFINED VHAT_OPENCV_VERSION)
 
 find_package(OpenCV "${VHAT_OPENCV_VERSION}" EXACT REQUIRED
