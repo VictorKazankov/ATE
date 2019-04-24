@@ -61,3 +61,8 @@ target_link_libraries(vhat_server
   PRIVATE
     vhat_server_lib
 )
+
+file(COPY
+  config/config.ini
+  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
+)
