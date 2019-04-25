@@ -11,20 +11,10 @@ constexpr auto kIconName = "name";
 constexpr auto kIconLocation = "location";
 }  // namespace
 
-storage::JsonStorage::JsonStorage(const std::string& storage_name, const std::string& collection_name)
-    : storage_name_(storage_name), collection_name_(collection_name) {
-  LoadCollection();
-}
+storage::JsonStorage::JsonStorage(const std::string& storage_path, const std::string& collection_name)
+    : storage_path_(storage_path), collection_name_(collection_name) {}
 
-void storage::JsonStorage::Connect(const std::string& storage_name) {
-  if (storage_name != storage_name_) {
-    storage_name_ = storage_name;
-    LoadCollection();
-  } else {
-    // TODO(MShvaiko@luxoft.com) : Change 'clog' to logger system
-    std::clog << "INFO : Storage and collection have already upload." << std::endl;
-  }
-}
+bool storage::JsonStorage::Connect() { return LoadCollection(); }
 
 std::string storage::JsonStorage::ItemPath(const std::string& icon_name) const {
   auto it = collection_.find(icon_name);
@@ -37,20 +27,17 @@ std::string storage::JsonStorage::ItemPath(const std::string& icon_name) const {
   }
 }
 
-storage::JsonStorage::IconMap storage::JsonStorage::Collection() const { return collection_; }
-
-void storage::JsonStorage::ChangeCollection(const std::string& collection_name) {
-  if (collection_name_ != collection_name) {
-    collection_name_ = collection_name;
-    LoadCollection();
-  } else {
-    // TODO(MShvaiko@luxoft.com) : Change 'clog' to logger system
-    std::clog << "INFO : Storage and collection have already upload." << std::endl;
+bool storage::JsonStorage::ChangeCollection(const std::string& collection_name) {
+  if (collection_name == collection_name_) {
+    return false;
   }
+
+  collection_name_ = collection_name;
+  return LoadCollection();
 }
 
-void storage::JsonStorage::LoadCollection() {
-  const auto path = storage_name_ + "/" + collection_name_;
+bool storage::JsonStorage::LoadCollection() {
+  const auto path = storage_path_ + "/" + collection_name_;
   std::ifstream file(path);
   Json::Reader reader;
   Json::Value jsonobj;
@@ -62,20 +49,22 @@ void storage::JsonStorage::LoadCollection() {
   if (!file) {
     // TODO(MShvaiko@luxoft.com) : Create custom exception class and use instead throwing string
     std::clog << "ERROR : File \'" << path << "\' can't open." << std::endl;
-    throw std::runtime_error("ERROR : File \'" + path + "\' can't open.");
+    return false;
   }
 
-  if (reader.parse(file, jsonobj, false)) {
-    try {
-      for (const auto& it : jsonobj) {
-        collection_.emplace(it[kIconName].asString(), it[kIconLocation].asString());
-      }
-    } catch (const Json::LogicError& err) {
-      std::cerr << "ERROR : " << err.what() << std::endl;
-      throw;
-    }
-  } else {
+  if (!reader.parse(file, jsonobj, false)) {
     std::cerr << "ERROR : Parsing of " << path << " failure." << std::endl;
-    throw std::runtime_error("ERROR : \'" + reader.getFormattedErrorMessages() + "\'.");
+    return false;
   }
+
+  try {
+    for (const auto& it : jsonobj) {
+      collection_.emplace(it[kIconName].asString(), it[kIconLocation].asString());
+    }
+  } catch (const Json::LogicError& err) {
+    std::cerr << "ERROR : " << err.what() << std::endl;
+    return false;
+  }
+
+  return true;
 }

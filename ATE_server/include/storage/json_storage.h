@@ -10,29 +10,41 @@ namespace storage {
 /**
  * @brief Scheme of file database discribe at <https://adc.luxoft.com/jira/browse/VHAT-229>
  * This class repressent interaction with file database.
- * - storage_name_ - contain path to json files with styles
- * - collection_name_ - name of json file which contain mapping between icon name and path to icon
- * - collection_ - map which contain icon name and path to icon
  **/
 class JsonStorage : public Storage {
- public:
   using IconMap = std::unordered_map<std::string, std::string>;
 
-  JsonStorage(const std::string& storage_name, const std::string& collection_name);
+ public:
+  JsonStorage(const std::string& storage_path, const std::string& collection_name);
 
-  void Connect(const std::string& storage_name) override;
+  /**
+   * @brief The function establish connect to the image storage
+   * @return Returns true if successful, or false otherwise.
+   **/
+  bool Connect() override;
+
+  /**
+   * @brief The function returns path to the image
+   * @param Image name
+   * @return Returns path to the image
+   **/
   std::string ItemPath(const std::string& icon_name) const override;
-  void ChangeCollection(const std::string& collection_name);
-  IconMap Collection() const;
+
+  /**
+   * @brief The function changes image storage source
+   * @param New collection name
+   * @return Returns true if successful, or false otherwise.
+   **/
+  bool ChangeCollection(const std::string& collection_name);
 
   JsonStorage(const JsonStorage&) = delete;
   JsonStorage& operator=(const JsonStorage&) = delete;
   ~JsonStorage() = default;
 
  private:
-  void LoadCollection();
+  bool LoadCollection();
 
-  std::string storage_name_;
+  std::string storage_path_;
   std::string collection_name_;
   IconMap collection_;
 };

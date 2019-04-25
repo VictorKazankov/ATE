@@ -9,8 +9,25 @@ namespace storage {
  **/
 class Storage {
  public:
-  virtual void Connect(const std::string&) = 0;
+  /**
+   * @brief The function establish connect to the image storage
+   * @return Returns true if successful, or false otherwise.
+   **/
+  virtual bool Connect() = 0;
+
+  /**
+   * @brief The function returns path to the image
+   * @param Image name
+   * @return Returns path to the image
+   **/
   virtual std::string ItemPath(const std::string&) const = 0;
+  
+  /**
+   * @brief The function changes image storage source
+   * @param New collection name
+   * @return Returns true if successful, or false otherwise.
+   **/
+  virtual bool ChangeCollection(const std::string&) = 0;
 
   virtual ~Storage() = default;
 };
