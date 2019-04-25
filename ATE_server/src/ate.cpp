@@ -1,8 +1,8 @@
 #include "ate.h"
 
 namespace {
-constexpr auto kConfigFile = "config.ini";
-}
+constexpr auto kConfigFile = VHAT_DATA_PATH "/config.ini";
+}  // namespace
 
 ATE::ATE() : config_{kConfigFile} {
   // TODO
