@@ -19,6 +19,10 @@ add_subdirectory(third_party)
 add_subdirectory(ATE_server/src)
 
 if(VHAT_WITH_TESTS)
+  if(NOT EXISTS "${CMAKE_SOURCE_DIR}/ATE_server/data/test")
+    message(FATAL_ERROR "cannot build tests: ATE_server/data/test does not exist")
+  endif()
+
   # ATE-server tests directory
   add_subdirectory(ATE_server/test)
 endif(VHAT_WITH_TESTS)
