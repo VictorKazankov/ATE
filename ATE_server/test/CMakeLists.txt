@@ -11,6 +11,7 @@ add_executable(vhat_server_test
   utils/safe_env.cpp
   video_streaming/matching/hausdorff_distance.cpp
   video_streaming/matching/template_detector.cpp
+  video_streaming/matching/text_detector.cpp
 )
 
 target_compile_definitions(vhat_server_test
