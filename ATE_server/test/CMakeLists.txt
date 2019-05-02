@@ -5,6 +5,7 @@ set(VHAT_TEST_DATA_PATH "${VHAT_DATA_PATH}/test" CACHE PATH "Path to VHAT test d
 add_executable(vhat_server_test
   config/config.cpp
   storage/json_storage.cpp
+  video_streaming/matching/template_detector.cpp
 )
 
 target_compile_definitions(vhat_server_test
