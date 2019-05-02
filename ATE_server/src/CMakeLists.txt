@@ -10,6 +10,8 @@ add_library(vhat_server_lib
     utils/logger_setup.cpp
     video_streaming/stream_reader.cpp
     video_streaming/matching/template_detector.cpp
+    server/tcp_connection.cpp
+    server/tcp_server.cpp
     ate.cpp
 )
 
