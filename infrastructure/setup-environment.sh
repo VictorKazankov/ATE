@@ -5,14 +5,14 @@
 sudo apt update
 
 ## Install packages
-readonly VHAT_DEV_TOOLS="g++-5 ninja-build cmake clang-format"
+readonly VHAT_DEV_TOOLS="g++-5 ninja-build cmake clang-format pkg-config"
 readonly VHAT_USE_LIBS="libssl-dev libjsoncpp-dev"
-readonly OPENCV_DEV_TOOLS="pkg-config ccache"
-readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libpng-dev libgtk2.0-dev"
-readonly TESSERACT_USE_LIBS=ocl-icd-opencl-dev
+readonly IMAGE_FORMAT_LIBS="libpng-dev libjpeg-dev libtiff-dev"
+readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libgtk2.0-dev"
+readonly TESSERACT_DEV_TOOLS="autoconf automake libtool"
 
 # List of the all necessary packages
-readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $OPENCV_DEV_TOOLS $OPENCV_USE_LIBS $TESSERACT_USE_LIBS"
+readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $IMAGE_FORMAT_LIBS $OPENCV_USE_LIBS $TESSERACT_DEV_TOOLS"
 
 sudo apt install -y $INSTALL_PACKAGES
 

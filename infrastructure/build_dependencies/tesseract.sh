@@ -22,13 +22,18 @@ readonly TESSERACT_SOURCE_DIR_NAME="tesseract-$VHAT_TESSERACT_VERSION"
 mkdir -pv "build-$TESSERACT_SOURCE_DIR_NAME"
 cd "build-$TESSERACT_SOURCE_DIR_NAME"
 
+readonly TESSERACT_INSTALL_PREFIX=/opt/Tesseract
+
 # Definition of the Leptonica_DIR is a workaround for usage find_package(Leptonica)
 # instead of pkg_check_modules(Leptonica)
 # It's necessary because pkg_check_modules doesn't search modules in the /opt directory
 # in default mode instead of find_package
 
 cmake ../$TESSERACT_SOURCE_DIR_NAME -GNinja \
-  -DCMAKE_INSTALL_PREFIX:PATH=/opt/Tesseract \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX:PATH="$TESSERACT_INSTALL_PREFIX" \
+  -DCMAKE_INSTALL_RPATH:PATH="$TESSERACT_INSTALL_PREFIX/lib" \
+  -DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=ON \
   -DCMAKE_TOOLCHAIN_FILE:FILEPTAH="$TOOLCHAIN_ABSOLUTE_PATH" \
   -DLeptonica_DIR:PATH=/opt/Leptonica
 

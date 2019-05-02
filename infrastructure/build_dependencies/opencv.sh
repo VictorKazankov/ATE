@@ -12,12 +12,12 @@ mkdir -pv ../third_party/OpenCV
 cd ../third_party/OpenCV
 
 # Download archive if necessary and extract it
-readonly OPENCV_ARCHIVE_FILENAME="$OPENCV_VERSION.tar.gz"
+readonly OPENCV_ARCHIVE_FILENAME="$VHAT_OPENCV_VERSION.tar.gz"
 wget -nc "https://github.com/opencv/opencv/archive/$OPENCV_ARCHIVE_FILENAME"
 tar --skip-old-files -xvf "$OPENCV_ARCHIVE_FILENAME"
 
 # Create directory for build files
-readonly OPENCV_SOURCE_DIR_NAME="opencv-$OPENCV_VERSION"
+readonly OPENCV_SOURCE_DIR_NAME="opencv-$VHAT_OPENCV_VERSION"
 
 mkdir -pv "build-$OPENCV_SOURCE_DIR_NAME"
 cd "build-$OPENCV_SOURCE_DIR_NAME"
@@ -51,7 +51,12 @@ cmake ../$OPENCV_SOURCE_DIR_NAME -GNinja \
   -DBUILD_opencv_videoio:BOOL=ON \
   -DBUILD_opencv_videostab:BOOL=OFF \
   -DBUILD_opencv_world:BOOL=OFF \
-  -DWITH_PNG:BOOL=ON
+  -DBUILD_JPEG:BOOL=OFF \
+  -DWITH_JPEG:BOOL=ON \
+  -DBUILD_PNG:BOOL=OFF \
+  -DWITH_PNG:BOOL=ON \
+  -DBUILD_TIFF:BOOL=OFF \
+  -DWITH_TIFF:BOOL=ON
 
 cmake --build .
 sudo cmake --build . --target install
