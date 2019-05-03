@@ -11,6 +11,17 @@ readonly TOOLCHAIN_ABSOLUTE_PATH="$(pwd -P)/infrastructure/cmake/toolchains/desk
 mkdir -pv ../third_party/Tesseract
 cd ../third_party/Tesseract
 
+# Download trained data if necessary
+readonly TESSERACT_TRAINED_DATA_ENG_URL=https://github.com/tesseract-ocr/tessdata/raw/4.00/eng.traineddata
+readonly TESSERACT_TRAINED_DATA_ENG_FILENAME=`basename "$TESSERACT_TRAINED_DATA_ENG_URL"`
+wget -nc "$TESSERACT_TRAINED_DATA_ENG_URL"
+
+# Install trained data
+readonly TESSERACT_INSTALL_PREFIX=/opt/Tesseract
+readonly TESSERACT_TRAINED_DATA_INSTALL_DIR="$TESSERACT_INSTALL_PREFIX/traineddata"
+sudo mkdir -pv "$TESSERACT_TRAINED_DATA_INSTALL_DIR"
+sudo cp "$TESSERACT_TRAINED_DATA_ENG_FILENAME" "$TESSERACT_TRAINED_DATA_INSTALL_DIR"
+
 # Download archive if necessary and extract it
 readonly TESSERACT_ARCHIVE_FILENAME="$VHAT_TESSERACT_VERSION.tar.gz"
 wget -nc "https://github.com/tesseract-ocr/tesseract/archive/$TESSERACT_ARCHIVE_FILENAME"
@@ -21,8 +32,6 @@ readonly TESSERACT_SOURCE_DIR_NAME="tesseract-$VHAT_TESSERACT_VERSION"
 
 mkdir -pv "build-$TESSERACT_SOURCE_DIR_NAME"
 cd "build-$TESSERACT_SOURCE_DIR_NAME"
-
-readonly TESSERACT_INSTALL_PREFIX=/opt/Tesseract
 
 # Definition of the Leptonica_DIR is a workaround for usage find_package(Leptonica)
 # instead of pkg_check_modules(Leptonica)
