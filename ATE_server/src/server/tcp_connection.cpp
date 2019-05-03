@@ -21,7 +21,11 @@ void TcpConnection::Stop() {
   if (running_) {
     running_ = false;
     std::clog << "[INFO] Stopping client - " << Address() << std::endl;
-    socket_.cancel();
+    boost::system::error_code error;
+    socket_.cancel(error);
+    if (error) {
+      std::clog << "[ERROR] " << error.message() << std::endl;
+    }
   }
 }
 
@@ -79,16 +83,14 @@ void TcpConnection::OnReceive(const boost::system::error_code& error, std::size_
     Stop();
     return;
   }
-  std::string message;
-  std::getline(read_stream_, message);
 
-  std::clog << "[DEBUG] Received message : \'" << message << "\' : " << bytes_transferred << " bytes from - "
-            << Address() << std::endl;
+  if (handler_) {
+    std::string message;
+    std::getline(read_stream_, message);
 
-  // TODO (MShvaiko@luxoft.com) : message parsing
-  // TODO : remove 'Send("Hello from server!")'
-  // Test sending of messages to client
-  Send("Hello from server!");
+    std::clog << "[DEBUG] Received : " << bytes_transferred << " bytes from - " << Address() << std::endl;
+    handler_->OnMessage(shared_from_this(), message);
+  }
   Receive();
 }
 

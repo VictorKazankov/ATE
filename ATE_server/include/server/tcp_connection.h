@@ -9,8 +9,11 @@
 
 #include <boost/asio.hpp>
 
+#include "server/session_handler.h"
+
 namespace interaction {
 
+class SessionHandler;
 /**
  * \class TcpConnection
  *
@@ -52,12 +55,17 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection> {
    */
   void Stop();
 
-  // TODO (MShvaiko@luxoft.com) : need to use inside Handling class
   /**
    * \brief Send message to client (push messages into message queue)
    * \param message - string representation of message
    */
   void Send(const std::string& message);
+
+  /**
+   * \brief Set connection listener
+   * \param message - string representation of message
+   */
+  void SetHandler(std::shared_ptr<SessionHandler> handler) { handler_ = handler;}
 
  private:
   /**
@@ -102,6 +110,7 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection> {
   boost::asio::streambuf read_buffer_;
   std::istream read_stream_;
   std::queue<std::string> message_queue_;
+  std::shared_ptr<SessionHandler> handler_;
   std::string address_;
   bool running_{false};
 };

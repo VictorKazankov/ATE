@@ -9,6 +9,7 @@
 
 #include "server/server.h"
 #include "server/tcp_connection.h"
+#include "server/tcp_session_handler.h"
 
 namespace interaction {
 
@@ -20,7 +21,7 @@ namespace interaction {
  * This class is accepting clients and creates tcp sessions.
  *
  */
-class TcpServer : public std::enable_shared_from_this<TcpServer>, Server {
+class TcpServer : public std::enable_shared_from_this<TcpServer>, public Server {
  public:
   using TcpServerPtr = std::shared_ptr<TcpServer>;
 
@@ -65,6 +66,7 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, Server {
 
   boost::asio::io_context& context_;
   boost::asio::ip::tcp::acceptor acceptor_;
+  std::shared_ptr<SessionHandler> handler_;
   bool running_{false};
 };
 

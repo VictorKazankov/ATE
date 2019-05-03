@@ -5,7 +5,8 @@
 namespace interaction {
 
 TcpServer::TcpServer(boost::asio::io_context& context, uint16_t port)
-    : context_(context), acceptor_(context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)) {
+    : context_(context), acceptor_(context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
+    handler_(std::make_shared<TcpSessionHandler>()) {
   boost::system::error_code error;
   acceptor_.set_option(boost::asio::socket_base::reuse_address(true), error);
   if (error) {
@@ -44,13 +45,16 @@ void TcpServer::Accept() {
   acceptor_.async_accept(connection->Socket(), std::move(handler));
 }
 
-void TcpServer::OnAccept(const TcpConnection::TcpConnectionPtr& connection, const boost::system::error_code& error) {
+
+void TcpServer::OnAccept(const TcpConnection::TcpConnectionPtr& connection,
+                                 const boost::system::error_code& error) {
   if (error) {
     if (error != boost::system::errc::operation_canceled) {
       std::clog << "[ERROR] Error on accepting connection: " << error.message() << std::endl;
     }
   }
-  connection->Start();
+  connection->SetHandler(handler_);
+  handler_->OnOpen(connection);
   Accept();
 }
 
