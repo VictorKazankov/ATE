@@ -16,11 +16,6 @@ target_include_directories(vhat_server_lib
     "${OpenCV_INCLUDE_DIRS}"
 )
 
-# JsonCpp
-# http://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html
-# Debian/Ubuntu package name: libjsoncpp-dev
-find_package(jsoncpp REQUIRED)
-
 if (NOT DEFINED VHAT_OPENCV_VERSION)
   message(FATAL_ERROR "VHAT_OPENCV_VERSION is not defined")
 endif(NOT DEFINED VHAT_OPENCV_VERSION)
@@ -36,9 +31,7 @@ find_package(OpenCV "${VHAT_OPENCV_VERSION}" EXACT REQUIRED
 )
 
 target_link_libraries(vhat_server_lib
-  inihcpp
-  jsoncpp_lib
-  Boost::asio
+  vhat_common
   opencv_calib3d
   opencv_core
   opencv_features2d
@@ -50,9 +43,6 @@ target_link_libraries(vhat_server_lib
 add_executable(vhat_server
   ate_server_main.cpp
 )
-
-target_compile_options(vhat_server_lib
-  PUBLIC -Wall -Wextra -pedantic -Werror)
 
 target_compile_definitions(vhat_server_lib
   PUBLIC

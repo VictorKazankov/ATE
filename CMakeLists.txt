@@ -16,6 +16,7 @@ option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
 set(VHAT_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_server/data" CACHE PATH "Path to VHAT data")
 
 add_subdirectory(third_party)
+add_subdirectory(ATE_common/src)
 add_subdirectory(ATE_server/src)
 
 if(VHAT_WITH_TESTS)
