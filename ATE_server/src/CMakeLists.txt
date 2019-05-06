@@ -14,17 +14,9 @@ add_library(vhat_server_lib
     ate.cpp
 )
 
-target_include_directories(vhat_server_lib
-  PUBLIC
-    ../include
-    "${OpenCV_INCLUDE_DIRS}"
-)
-
-if (NOT DEFINED VHAT_OPENCV_VERSION)
-  message(FATAL_ERROR "VHAT_OPENCV_VERSION is not defined")
-endif(NOT DEFINED VHAT_OPENCV_VERSION)
-
-find_package(OpenCV "${VHAT_OPENCV_VERSION}" EXACT REQUIRED
+# OpenCV
+# https://opencv.org
+find_package(OpenCV REQUIRED
   COMPONENTS
     calib3d
     core
@@ -32,6 +24,22 @@ find_package(OpenCV "${VHAT_OPENCV_VERSION}" EXACT REQUIRED
     imgcodecs
     imgproc
     videoio
+)
+
+# Leptonica by Dan Bloomberg
+# http://www.leptonica.org
+find_package(Leptonica REQUIRED)
+
+# Tesseract
+# https://github.com/tesseract-ocr/tesseract
+find_package(Tesseract REQUIRED)
+
+target_include_directories(vhat_server_lib
+  PUBLIC
+    ../include
+    "${Leptonica_INCLUDE_DIRS}"
+    "${OpenCV_INCLUDE_DIRS}"
+    "${Tesseract_INCLUDE_DIRS}"
 )
 
 target_link_libraries(vhat_server_lib
@@ -42,6 +50,8 @@ target_link_libraries(vhat_server_lib
   opencv_imgcodecs
   opencv_imgproc
   opencv_videoio
+  ${Leptonica_LIBRARIES}
+  ${Tesseract_LIBRARIES}
 )
 
 add_executable(vhat_server

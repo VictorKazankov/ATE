@@ -5,9 +5,6 @@
 cd "$(dirname "$0")/.."
 readonly SOURCE_ABSOLUTE_DIR=`pwd -P`
 
-# Script that contains versions of the external libraries
-. infrastructure/build_dependencies/version.sh
-
 if [ "$1" ]
 then
   readonly BUILD_TYPE="$1"
@@ -25,7 +22,6 @@ cd "../$BUILD_DIR_NAME"
 
 cmake "$SOURCE_ABSOLUTE_DIR" -GNinja \
   -DCMAKE_BUILD_TYPE:STRING="$BUILD_TYPE" \
-  -DCMAKE_TOOLCHAIN_FILE:FILEPATH="$TOOLCHAIN_ABSOLUTE_PATH" \
-  -DVHAT_OPENCV_VERSION:STRING="$VHAT_OPENCV_VERSION"
+  -DCMAKE_TOOLCHAIN_FILE:FILEPATH="$TOOLCHAIN_ABSOLUTE_PATH"
 
 cmake --build .
