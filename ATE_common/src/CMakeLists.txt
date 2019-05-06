@@ -19,6 +19,7 @@ target_include_directories(vhat_common
 # TODO: remove INTERFACE after add source file
 target_link_libraries(vhat_common INTERFACE
   inihcpp
+  spdlog
   jsoncpp_lib
   Boost::asio
 )

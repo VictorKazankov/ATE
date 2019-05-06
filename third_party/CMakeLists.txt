@@ -112,6 +112,10 @@ target_include_directories(inihcpp
 ### https://pybind11.readthedocs.io/en/stable/index.html
 add_subdirectory(pybind11)
 
+### spdlog
+### https://github.com/gabime/spdlog
+add_subdirectory(spdlog)
+
 if(VHAT_WITH_TESTS)
   ### Google Test
   ### https://github.com/google/googletest
