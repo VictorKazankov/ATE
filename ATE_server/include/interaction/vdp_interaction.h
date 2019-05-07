@@ -1,11 +1,11 @@
 #ifndef ATE_SERVER_INTERACTION_VDP_INTERACTION_H_
 #define ATE_SERVER_INTERACTION_VDP_INTERACTION_H_
 
+#include <boost/asio/io_context.hpp>
+
 #include "https_client.h"
 #include "interaction.h"
 #include "utils/defines.h"
-
-#include <memory>
 
 namespace interaction {
 
@@ -16,13 +16,14 @@ enum class EventType { PRESS, RELEASE, MOVE };
  **/
 class VDPInteraction : public Interaction {
  private:
-  std::unique_ptr<HttpsClient> vdp_client_;
   defines::DisplayType display_type_;
+
+  HttpsClient::HttpsClientShared vdp_client_;
 
  public:
   VDPInteraction(boost::asio::io_context& io_context, const std::string& ip_address, const std::string& port,
                  defines::DisplayType display_type);
-  ~VDPInteraction() override = default;
+  ~VDPInteraction() override;
 
   /**
    * @brief Taps screen (press + release) at x,y coordinates
@@ -53,7 +54,7 @@ class VDPInteraction : public Interaction {
   void Drag(const int x, const int y) const override;
 
  private:
-  std::string PrepareCommand(const int x, const int y, const EventType event_type) const noexcept;
+  std::string PrepareCommand(const int x, const int y, const EventType event_type) const;
 };
 }  // namespace interaction
 

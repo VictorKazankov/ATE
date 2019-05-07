@@ -1,8 +1,6 @@
 #ifndef ATE_SERVER_INTERACTION_INTERACTION_H_
 #define ATE_SERVER_INTERACTION_INTERACTION_H_
 
-#include <string>
-
 namespace interaction {
 /**
  * @brief Interface class for interaction with LVDS board
