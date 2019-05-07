@@ -3,6 +3,7 @@
 
 namespace defines {
 enum class DisplayType {
+  UNDEFINED_DISP = -1,
   G1_8INCH_DISP = 0,
   G2_6INCH_DISP = 1,
   G2_8INCH_DISP = 2,

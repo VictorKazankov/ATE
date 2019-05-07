@@ -1,7 +1,11 @@
-#include <cstdlib>
-#include <iostream>
+#include <boost/asio/io_context.hpp>
+
+#include "ate.h"
 
 int main() {
-  std::cout << "Hello world\n";
+  boost::asio::io_context io_context;
+  ATE ate(io_context);
+  io_context.run();
+
   return EXIT_SUCCESS;
 }

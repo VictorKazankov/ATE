@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include <boost/asio/io_context.hpp>
+
 #include "config/config.h"
 #include "interaction/interaction.h"
 #include "reporting/reporter.h"
@@ -23,12 +25,9 @@ class ATE {
   std::unique_ptr<reporter::Reporter> reporter_;
 
  public:
-  ATE();
+  ATE(boost::asio::io_context& io_context);
   ~ATE();
 
-  /**
-   * Closes connections
-   **/
   void Close();
 };
 
