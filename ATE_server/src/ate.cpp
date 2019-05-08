@@ -26,6 +26,7 @@ defines::DisplayType StrToDisplayType(const std::string& display_type_str) {
 
 ATE::ATE(boost::asio::io_context& io_context)
     : config_{kConfigFile},
+      logger_{config_},
       storage_{std::make_unique<storage::JsonStorage>(config_.GetString(kDBSection, kPathOption, ""),
                                                       config_.GetString(kDBSection, kCollectionModeOption, ""))} {
   if (!storage_->Connect()) {

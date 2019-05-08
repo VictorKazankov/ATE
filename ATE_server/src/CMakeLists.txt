@@ -7,6 +7,7 @@ add_library(vhat_server_lib
     interaction/vdp_interaction.cpp
     interaction/https_client.cpp
     storage/json_storage.cpp
+    utils/logger_setup.cpp
     video_streaming/stream_reader.cpp
     video_streaming/matching/template_detector.cpp
     ate.cpp
