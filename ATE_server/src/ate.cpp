@@ -1,9 +1,10 @@
 #include "ate.h"
 #include "interaction/vdp_interaction.h"
 #include "storage/json_storage.h"
+#include "video_streaming/stream_reader.h"
 
 namespace {
-constexpr auto kConfigFile = VHAT_DATA_PATH "/config.ini";
+const std::string kConfigFile = VHAT_DATA_PATH "/config.ini";
 const std::string kDBSection = "DB";
 const std::string kPathOption = "Path";
 const std::string kCollectionModeOption = "CollectionMode";
@@ -11,6 +12,7 @@ const std::string kBoardSection = "BOARD";
 const std::string kAddressOption = "Address";
 const std::string kPortOption = "Port";
 const std::string kDisplayTypeOption = "DisplayType";
+const std::string kVideoStreamOption = "VideoStream";
 
 defines::DisplayType StrToDisplayType(const std::string& display_type_str) {
   if ("G1_8INCH_DISP" == display_type_str) return defines::DisplayType::G1_8INCH_DISP;
@@ -34,6 +36,8 @@ ATE::ATE(boost::asio::io_context& io_context)
       io_context, config_.GetString(kBoardSection, kAddressOption, ""),
       config_.GetString(kBoardSection, kPortOption, ""),
       StrToDisplayType(config_.GetString(kBoardSection, kDisplayTypeOption, "")));
+
+  streamer_ = std::make_unique<streamer::StreamReader>(config_.GetString(kBoardSection, kVideoStreamOption, ""));
 }
 
 ATE::~ATE() { Close(); }
