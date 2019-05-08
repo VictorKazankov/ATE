@@ -4,6 +4,8 @@ add_library(vhat_common
   SHARED
     config/config.cpp
     logger/logger_setup.cpp
+    message_factory/json_utils.cpp
+    message_factory/message_factory.cpp
     common.cpp
 )
 

@@ -10,6 +10,7 @@
 #include <boost/asio/ssl/stream.hpp>
 #include <boost/asio/steady_timer.hpp>
 
+// TODO: Move this file into ATE_ccommon
 #include "interaction/ATE/connection.h"
 
 namespace interaction {

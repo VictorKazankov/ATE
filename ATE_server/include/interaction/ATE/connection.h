@@ -1,8 +1,6 @@
 #ifndef ATE_SERVER_INTERACTION_ATE_CONNECTION_H_
 #define ATE_SERVER_INTERACTION_ATE_CONNECTION_H_
 
-#include <string>
-
 namespace interaction {
 
 /**

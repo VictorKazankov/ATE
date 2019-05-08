@@ -1,14 +1,14 @@
 #ifndef ATE_COMMON_MESSAGE_FACTORY_JSON_MESSAGES_H_
 #define ATE_COMMON_MESSAGE_FACTORY_JSON_MESSAGES_H_
 
-namespace vhat_common {
+namespace common {
 namespace jmsg {
 
-constexpr auto kAttachToApplication = "WaitForApplicationLaunch";
+constexpr auto kAttachToApplication = "AttachToApplication";
 constexpr auto kWaitForObject = "WaitForObject";
 constexpr auto kTapObject = "TapObject";
 
-} // namespace jmsg
-} // namespace vhat_common
+}  // namespace jmsg
+}  // namespace common
 
-#endif // ATE_COMMON_MESSAGE_FACTORY_JSON_MESSAGES_H_
+#endif  // ATE_COMMON_MESSAGE_FACTORY_JSON_MESSAGES_H_
