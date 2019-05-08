@@ -13,15 +13,15 @@ def config():
 
 
 # TODO: add attach to application import
-# @pytest.fixture(scope='session', autouse=True)
-# def app_connector(config):
-#     sync_config = config["sync"]
-#     sync = attachToApplication(
-#     sync_config['name'], host=sync_config['host'], port=sync_config['port'])
-#     try:
-#         yield sync
-#     finally:
-#         sync.detach()
+@pytest.fixture(scope='session', autouse=True)
+def app_connector(config):
+    sync_config = config["sync"]
+    sync = attachToApplication(
+        sync_config['name'], host=sync_config['host'], port=sync_config['port'])
+    try:
+        yield sync
+    finally:
+        sync.detach()
 
 
 @pytest.fixture(scope='module')
