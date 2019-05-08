@@ -8,3 +8,8 @@ CMakeLists.txt.user*
 
 # Visual Studio Code settings
 .vscode/
+
+# Python
+.tox/
+.pytest_cache/
+*.py[cod]
