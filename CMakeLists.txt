@@ -23,6 +23,7 @@ set(VHAT_SERVER_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_server/data" CACHE PATH "Path
 add_subdirectory(third_party)
 add_subdirectory(ATE_common/src)
 add_subdirectory(ATE_server/src)
+add_subdirectory(ATE_client/src)
 
 if(VHAT_WITH_TESTS)
   # Enable testing via CTest
