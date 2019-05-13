@@ -10,7 +10,7 @@
 
 namespace {
 
-constexpr auto kConfigFilename = VHAT_TEST_DATA_PATH "/config/test_config.ini";
+constexpr auto kConfigFilename = VHAT_COMMON_TEST_DATA_PATH "/config/test_config.ini";
 
 class ConfigReaderTest : public ::testing::Test {
  protected:
@@ -26,7 +26,7 @@ void ConfigReaderTest::TearDown() { reader_.reset(); }
 
 TEST_F(ConfigReaderTest, BadConstruction) {
   EXPECT_THROW(config::Reader{"there_is_no_file"}, config::FileReadFailure);
-  EXPECT_THROW(config::Reader{VHAT_TEST_DATA_PATH "/config/bad_comment.ini"}, config::FileReadFailure);
+  EXPECT_THROW(config::Reader{VHAT_COMMON_TEST_DATA_PATH "/config/bad_comment.ini"}, config::FileReadFailure);
 }
 
 TEST_F(ConfigReaderTest, SecondaryConstruction) { EXPECT_NO_THROW(config::Reader{kConfigFilename}); }

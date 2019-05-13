@@ -13,24 +13,28 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
   "Default value for CXX_STANDARD_REQUIRED property of targets")
 
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
-set(VHAT_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_server/data" CACHE PATH "Path to VHAT data")
+
+set(VHAT_COMMON_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_common/data" CACHE PATH "Path to VHAT common data")
+set(VHAT_SERVER_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_server/data" CACHE PATH "Path to VHAT server data")
 
 add_subdirectory(third_party)
 add_subdirectory(ATE_common/src)
 add_subdirectory(ATE_server/src)
 
 if(VHAT_WITH_TESTS)
-  if(NOT EXISTS "${CMAKE_SOURCE_DIR}/ATE_server/data/test")
-    message(FATAL_ERROR "cannot build tests: ATE_server/data/test does not exist")
-  endif()
-
-  # ATE-server tests directory
+  # ATE tests directories
+  add_subdirectory(ATE_common/test)
   add_subdirectory(ATE_server/test)
 endif(VHAT_WITH_TESTS)
 
-# Copy 'data' directory contents into the target 'data' folder
+# Copy 'data' directories contents into the target 'data' folder
 # Trailing slash is required or 'data' folder itself will be copied inside target 'data'
 file(COPY
+  ATE_common/data/
+  DESTINATION "${VHAT_COMMON_DATA_PATH}"
+)
+
+file(COPY
   ATE_server/data/
-  DESTINATION ${VHAT_DATA_PATH}
+  DESTINATION "${VHAT_SERVER_DATA_PATH}"
 )

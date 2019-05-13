@@ -4,7 +4,7 @@
 
 namespace {
 
-const std::string kImageStoragePath = VHAT_TEST_DATA_PATH "/storage";
+const std::string kImageStoragePath = VHAT_SERVER_TEST_DATA_PATH "/storage";
 const std::string kGoodImageCollectionFile = "test_image_storage.json";
 const std::string kGoodSpareImageCollectionFile = "test_image_storage_spare.json";
 const std::string kCorruptedImageCollectionFile = "corrupted.json";

@@ -19,7 +19,7 @@ target_include_directories(vhat_common
 
 target_compile_definitions(vhat_common
   PUBLIC
-    VHAT_DATA_PATH="${VHAT_DATA_PATH}"
+    VHAT_COMMON_DATA_PATH="${VHAT_COMMON_DATA_PATH}"
 )
 
 target_link_libraries(vhat_common

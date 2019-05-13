@@ -50,7 +50,7 @@ add_executable(vhat_server
 
 target_compile_definitions(vhat_server_lib
   PUBLIC
-    VHAT_DATA_PATH="${VHAT_DATA_PATH}"
+    VHAT_SERVER_DATA_PATH="${VHAT_SERVER_DATA_PATH}"
 )
 
 target_link_libraries(vhat_server

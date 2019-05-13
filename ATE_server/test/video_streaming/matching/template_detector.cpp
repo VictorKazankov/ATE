@@ -8,9 +8,9 @@
 namespace {
 
 // Path to icons
-constexpr auto kFramePath = VHAT_TEST_DATA_PATH "/video_streaming/matching/hmi_screenshot.png";
-constexpr auto kHomeIcon = VHAT_TEST_DATA_PATH "/video_streaming/matching/home.png";
-constexpr auto kBadIcon = VHAT_TEST_DATA_PATH "/video_streaming/matching/bad_icon.png";
+constexpr auto kFramePath = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/hmi_screenshot.png";
+constexpr auto kHomeIcon = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/home.png";
+constexpr auto kBadIcon = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/bad_icon.png";
 
 // Start point (x, y) and (width, hight) of home button
 const cv::Rect home_rect{44,2,50,45};
