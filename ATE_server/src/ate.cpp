@@ -1,6 +1,7 @@
 #include "ate.h"
 #include "interaction/vdp_interaction.h"
 #include "storage/json_storage.h"
+#include "utils/logger.h"
 #include "video_streaming/stream_reader.h"
 
 namespace {
@@ -30,6 +31,7 @@ ATE::ATE(boost::asio::io_context& io_context)
       storage_{std::make_unique<storage::JsonStorage>(config_.GetString(kDBSection, kPathOption, ""),
                                                       config_.GetString(kDBSection, kCollectionModeOption, ""))} {
   if (!storage_->Connect()) {
+    logger::critical("[ate] Failed to connect to storage.");
     exit(EXIT_FAILURE);
   }
 

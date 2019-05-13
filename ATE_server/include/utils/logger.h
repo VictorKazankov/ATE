@@ -1,6 +1,7 @@
 #ifndef ATE_SERVER_UTILS_LOGGER_H_
 #define ATE_SERVER_UTILS_LOGGER_H_
 
+#include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 
 /**

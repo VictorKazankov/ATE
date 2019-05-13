@@ -1,11 +1,12 @@
 #include "interaction/https_client.h"
 
-#include <iostream>
 #include <sstream>
 
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/connect.hpp>
 #include <boost/asio/write.hpp>
+
+#include "utils/logger.h"
 
 namespace interaction {
 
@@ -28,8 +29,7 @@ void HttpsClient::Stop() {
 
   auto handler = [self = shared_from_this()](const boost::system::error_code& error) {
     if (error) {
-      // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-      std::clog << "Error: Shutdown error: " << error.message() << "\n";
+      logger::error("[interaction] Shutdown error: {} ({})", error.message(), error);
     }
   };
 
@@ -46,8 +46,7 @@ void HttpsClient::Resolve() {
 
 void HttpsClient::OnResolve(const boost::system::error_code& error, tcp::resolver::results_type results) {
   if (error) {
-    // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-    std::clog << "Error: Cannot resolve: " << error.message() << "\n";
+    logger::error("[interaction] Cannot resolve: {} ({})", error.message(), error);
     return;
   }
 
@@ -66,8 +65,7 @@ void HttpsClient::OnConnect(const boost::system::error_code& error, tcp::resolve
 
     socket_.async_handshake(boost::asio::ssl::stream_base::client, handler);
   } else {
-    // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-    std::clog << "Error: Connect failed: " << error.message() << "\n";
+    logger::error("[interaction] Connect failed: {} ({})", error.message(), error);
     Reconnect();
   }
 }
@@ -86,15 +84,13 @@ void HttpsClient::OnReconnect(const boost::system::error_code& error) {
   if (!error) {
     Resolve();
   } else {
-    // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-    std::clog << "Error: Can't recconect: " << error.message() << "\n";
+    logger::error("[interaction] Can't recconect: {} ({})", error.message(), error);
   }
 }
 
 void HttpsClient::OnHandshake(const boost::system::error_code& error) {
   if (error) {
-    // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-    std::clog << "Error: Handshake failed: " << error.message() << "\n";
+    logger::error("[interaction] Handshake failed: {} ({})", error.message(), error);
     return;
   }
 
@@ -102,14 +98,13 @@ void HttpsClient::OnHandshake(const boost::system::error_code& error) {
 
   if (message_queue_.empty()) return;
 
-  std::clog << "Warning: message_queue not empty!\n";
+  logger::warn("[interaction] message_queue not empty!");
   SendImpl();
 }  // namespace interaction
 
 void HttpsClient::OnSend(const boost::system::error_code& error, std::size_t) {
   if (error) {
-    // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-    std::clog << "Error: Write failed: " << error.message() << "\n";
+    logger::error("[interaction] Write failed: {} ({})", error.message(), error);
 
     if (boost::system::errc::operation_canceled != error) Reconnect();
   } else {
@@ -130,16 +125,14 @@ std::string HttpsClient::PreparePackage(const std::string& command) const {
 }
 
 void HttpsClient::SendCommand(const std::string& command) {
-  // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-  std::clog << "Debug: Command to send:\n" << command << "\n";
+  logger::debug("[interaction] Command to send: {}", command);
 
   message_queue_.emplace(PreparePackage(command));
   SendImpl();
 }
 
 void HttpsClient::SendCommand(const std::string& first_command, const std::string& second_command) {
-  // TODO(KVGrygoriev@luxoft.com) : Change 'clog' to logger system
-  std::clog << "Debug: Commands to send:\n" << first_command << "\n" << second_command << "\n";
+  logger::debug("[interaction] Commands to send. First command: {}. Second command: {}", first_command, second_command);
 
   message_queue_.emplace(PreparePackage(first_command) + PreparePackage(second_command));
   SendImpl();

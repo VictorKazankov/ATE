@@ -1,10 +1,11 @@
 #include "storage/json_storage.h"
 
 #include <fstream>
-#include <iostream>
 #include <stdexcept>
 
 #include <jsoncpp/json/json.h>
+
+#include "utils/logger.h"
 
 namespace {
 constexpr auto kIconName = "name";
@@ -21,9 +22,8 @@ std::string storage::JsonStorage::ItemPath(const std::string& icon_name) const {
   if (it != collection_.end()) {
     return it->second;
   } else {
-    // TODO(MShvaiko@luxoft.com) : Create custom exception class and use instead throwing string
-    std::clog << "ERROR : Undefind icon \'" << icon_name << "\'" << std::endl;
-    throw std::runtime_error("ERROR : Undefind icon \'" + icon_name + "\'");
+    logger::error("[storage] Undefind icon \'{}\'", icon_name);
+    throw std::runtime_error("Undefind icon \'" + icon_name + "\'");
   }
 }
 
@@ -47,13 +47,12 @@ bool storage::JsonStorage::LoadCollection() {
   }
 
   if (!file) {
-    // TODO(MShvaiko@luxoft.com) : Create custom exception class and use instead throwing string
-    std::clog << "ERROR : File \'" << path << "\' can't open." << std::endl;
+    logger::error("[storage] File \'{}\' can't be open.", path);
     return false;
   }
 
   if (!reader.parse(file, jsonobj, false)) {
-    std::cerr << "ERROR : Parsing of " << path << " failure." << std::endl;
+    logger::error("[storage] Parsing of \'{}\' failure.", path);
     return false;
   }
 
@@ -62,7 +61,7 @@ bool storage::JsonStorage::LoadCollection() {
       collection_.emplace(it[kIconName].asString(), it[kIconLocation].asString());
     }
   } catch (const Json::LogicError& err) {
-    std::cerr << "ERROR : " << err.what() << std::endl;
+    logger::error("[storage] {}", err.what());
     return false;
   }
 
