@@ -2,7 +2,7 @@ import configparser
 import logging
 
 import pytest
-from functional_tests import api
+from functional_tests import api, ate
 
 
 @pytest.fixture(scope='session')
@@ -16,12 +16,14 @@ def config():
 @pytest.fixture(scope='session', autouse=True)
 def app_connector(config):
     sync_config = config["sync"]
-    sync = attachToApplication(
-        sync_config['name'], host=sync_config['host'], port=sync_config['port'])
+    sync = ate.attachToApplication(
+                                app=sync_config['name'],
+                                host=sync_config['host'],
+                                port=sync_config['port'])
     try:
         yield sync
     finally:
-        sync.detach()
+        ate.detach()
 
 
 @pytest.fixture(scope='module')
