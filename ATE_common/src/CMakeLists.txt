@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-# TODO: replace INTERFACE with SHARED after add source file
 add_library(vhat_common
   SHARED
 )
@@ -10,13 +9,11 @@ add_library(vhat_common
 # Debian/Ubuntu package name: libjsoncpp-dev
 find_package(jsoncpp REQUIRED)
 
-# TODO: replace INTERFACE with PUBLIC after add source file
 target_include_directories(vhat_common
   PUBLIC
     ../include
 )
 
-# TODO: remove INTERFACE after add source file
 target_link_libraries(vhat_common 
   inihcpp
   spdlog
@@ -25,7 +22,6 @@ target_link_libraries(vhat_common
 )
 
 if(UNIX)
-  # TODO: replace INTERFACE with PUBLIC after add source file
   target_compile_options(vhat_common
     PUBLIC
       -pedantic

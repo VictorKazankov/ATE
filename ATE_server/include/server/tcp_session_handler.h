@@ -6,9 +6,9 @@
 namespace interaction {
 
 /**
- * \class TcpSessionHandler
+ * @class TcpSessionHandler
  *
- * \brief Class for handlinc tcp connections
+ * @brief Class for handlinc tcp connections
  *
  * Class receives request and send responses via method 'OnMessage' over TCP protocol
  *
@@ -18,15 +18,15 @@ class TcpSessionHandler : public SessionHandler {
   ~TcpSessionHandler() override = default;
 
   /**
-   * \brief Start interaction between client and server calls TcpConnectionPtr->Start()
-   * \param session - Pointer to has been accepted connection
+   * @brief Start interaction between client and server calls TcpConnectionPtr->Start()
+   * @param session - Pointer to has been accepted connection
    */
   void OnOpen(const std::shared_ptr<TcpConnection>& session) override;
 
   /**
-   * \brief Gets messages from client, prepare and send response
-   * \param session - Pointer to connection with client
-   * \param message - Received message from client connection
+   * @brief Gets messages from client, prepare and send response
+   * @param session - Pointer to connection with client
+   * @param message - Received message from client connection
    */
   void OnMessage(const std::shared_ptr<TcpConnection>& session, const std::string& message) override;
 };

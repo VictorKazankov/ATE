@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "utils/logger.h"
+
 namespace interaction {
 
 void TcpSessionHandler::OnOpen(const std::shared_ptr<TcpConnection>& session) {
@@ -9,7 +11,7 @@ void TcpSessionHandler::OnOpen(const std::shared_ptr<TcpConnection>& session) {
 }
 
 void TcpSessionHandler::OnMessage(const std::shared_ptr<TcpConnection>& session, const std::string& message) {
-  std::clog << "[INFO] receive message : " << message << std::endl;
+  logger::info("[INFO] receive message : {}", message);
   // TODO (MShvaiko@luxoft.com) : prepare response for the client
   session->Send(message + " : from server");
 }

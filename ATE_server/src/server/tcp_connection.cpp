@@ -1,6 +1,10 @@
 #include "server/tcp_connection.h"
 
-#include <iostream>
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/read_until.hpp>
+#include <boost/asio/write.hpp>
+
+#include "utils/logger.h"
 
 namespace interaction {
 
@@ -12,7 +16,7 @@ void TcpConnection::Start() {
   if (!running_) {
     SetAddress();
     running_ = true;
-    std::clog << "[INFO] Listening to messages from - " << Address() << std::endl;
+    logger::info("[tcpconnection] Listening to messages from - {}", Address());
     Receive();
   }
 }
@@ -20,11 +24,11 @@ void TcpConnection::Start() {
 void TcpConnection::Stop() {
   if (running_) {
     running_ = false;
-    std::clog << "[INFO] Stopping client - " << Address() << std::endl;
+    logger::info("[tcpconnection] Stopping client - {}", Address());
     boost::system::error_code error;
     socket_.cancel(error);
     if (error) {
-      std::clog << "[ERROR] " << error.message() << std::endl;
+      logger::error("[tcpconnection] {}", error.message());
     }
   }
 }
@@ -39,8 +43,10 @@ void TcpConnection::SendImpl() {
   auto handler = [self = shared_from_this()](auto&&... params) {
     self->OnSend(std::forward<decltype(params)>(params)...);
   };
-  std::clog << "[DEBUG] Sending message - " << message_queue_.front() << " - to client - " << Address() << std::endl;
-  boost::asio::async_write(socket_, boost::asio::buffer(message_queue_.front()), std::move(handler));
+  logger::info("[tcpconnection] Sending message - {} - to client - {}", message_queue_.front(), Address());
+  boost::asio::async_write(socket_,
+                           boost::asio::const_buffer(message_queue_.front().data(), message_queue_.front().length()),
+                           std::move(handler));
 }
 
 void TcpConnection::OnSend(const boost::system::error_code& error, std::size_t bytes_transferred) {
@@ -48,17 +54,17 @@ void TcpConnection::OnSend(const boost::system::error_code& error, std::size_t b
 
   if (error) {
     if (error == boost::asio::error::eof || error == boost::asio::error::connection_reset) {
-      std::clog << "[INFO] Client - " << Address() << " - disconnected" << std::endl;
+      logger::info("[tcpconnection] Client - {}  - disconnected", Address());
     } else {
       if (error != boost::system::errc::operation_canceled) {
-        std::clog << "[ERROR] Error on receiving message from - " << Address() << " - " << error.message() << std::endl;
+        logger::error("[tcpconnection] Error on receiving message from - {} - {}", Address(), error.message());
       }
     }
     Stop();
     return;
   }
 
-  std::clog << "[DEBUG] Sent " << bytes_transferred << " bytes" << std::endl;
+  logger::debug("[tcpconnection] Sent {} bytes", bytes_transferred);
 }
 
 void TcpConnection::Receive() {
@@ -73,13 +79,13 @@ void TcpConnection::Receive() {
 void TcpConnection::OnReceive(const boost::system::error_code& error, std::size_t bytes_transferred) {
   if (error) {
     if (error == boost::asio::error::eof || error == boost::asio::error::connection_reset) {
-      std::clog << "[INFO] Client - " << Address() << " - disconnected" << std::endl;
+      logger::info("[tcpconnection] Client - {} - disconnected", Address());
     } else {
       if (error != boost::system::errc::operation_canceled) {
-        std::cerr << "[EROR] Error on receiving message from - " << Address() << " - " << error.message() << std::endl;
+        logger::error("[tcpconnection] Error on receiving message from - {} - {}", Address(), error.message());
       }
     }
-    
+
     Stop();
     return;
   }
@@ -88,7 +94,7 @@ void TcpConnection::OnReceive(const boost::system::error_code& error, std::size_
     std::string message;
     std::getline(read_stream_, message);
 
-    std::clog << "[DEBUG] Received : " << bytes_transferred << " bytes from - " << Address() << std::endl;
+    logger::debug("[tcpconnection] Received: {} bytes from - {}", bytes_transferred, Address());
     handler_->OnMessage(shared_from_this(), message);
   }
   Receive();
