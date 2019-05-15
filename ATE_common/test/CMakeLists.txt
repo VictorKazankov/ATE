@@ -8,11 +8,13 @@ set(VHAT_COMMON_TEST_DATA_PATH "${VHAT_COMMON_DATA_PATH}/test" CACHE PATH "Path 
 
 add_executable(vhat_common_test
   config/config.cpp
+  logger/logger.cpp
 )
 
 target_link_libraries(vhat_common_test
   PRIVATE
     gtest_main
+    stdc++fs
     vhat_common
 )
 

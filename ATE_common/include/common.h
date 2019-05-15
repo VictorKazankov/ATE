@@ -21,6 +21,17 @@ namespace common {
  */
 const config::Reader& Config();
 
+/**
+ * @fn SetUpLogger
+ *
+ * @brief Function to init logger.
+ *
+ * This function configures the spdlog logger system in a desired way.
+ *
+ * Some parameters can be configured in a LOG section of a default config file.
+ */
+void SetUpLogger();
+
 }  // namespace common
 
 #endif  // ATE_COMMON_COMMON_H_

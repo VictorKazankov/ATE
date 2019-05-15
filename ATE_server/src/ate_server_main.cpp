@@ -5,9 +5,9 @@
 #include <boost/asio/signal_set.hpp>
 
 #include "ate.h"
+#include "common.h"
 #include "exceptions.h"
 #include "logger/logger.h"
-#include "logger/logger_setup.h"
 
 namespace {
 
@@ -28,7 +28,7 @@ void SetupSignalHandling(boost::asio::io_context& io_context, boost::asio::signa
 }  // namespace
 
 int main() try {
-  logger::SetUp();
+  common::SetUpLogger();
 
   boost::asio::io_context io_context;
 

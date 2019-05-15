@@ -6,27 +6,13 @@
 
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
 
-#include "common.h"
 #include "exceptions.h"
 
 namespace logger {
-
-namespace {
+namespace impl {
 
 using spdlog::level::level_enum;
-
-struct Config {
-  Config();
-
-  bool console_enabled{false};
-  spdlog::level::level_enum console_level{spdlog::level::off};
-  bool file_enabled{false};
-  spdlog::level::level_enum file_level{spdlog::level::off};
-  std::size_t max_files{0};
-  std::size_t max_file_size{0};
-};
 
 level_enum StrToLevel(const std::string& str) {
   level_enum level = spdlog::level::from_str(str);
@@ -39,7 +25,7 @@ std::size_t IntToSize(const int size) {
   return static_cast<std::size_t>(size);
 }
 
-Config::Config() {
+Config::Config(const config::Reader& config) {
   const std::string kLogSection = "LOG";
   const std::string kEnableConsoleSetting = "EnableConsoleLog";
   const std::string kConsoleLevelSetting = "ConsoleLogLevel";
@@ -48,26 +34,23 @@ Config::Config() {
   const std::string kMaxNumberOfLogFilesSetting = "MaxNumberOfFiles";
   const std::string kMaxSizeOfLogFileSetting = "MaxSizeOfSingleFile";
 
-  console_enabled = common::Config().GetBool(kLogSection, kEnableConsoleSetting, false);
-  console_level = StrToLevel(common::Config().GetString(kLogSection, kConsoleLevelSetting, "off"));
+  console_enabled = config.GetBool(kLogSection, kEnableConsoleSetting, false);
+  console_level = StrToLevel(config.GetString(kLogSection, kConsoleLevelSetting, "off"));
 
-  file_enabled = common::Config().GetBool(kLogSection, kEnableFileSetting, false);
-  file_level = StrToLevel(common::Config().GetString(kLogSection, kFileLevelSetting, "off"));
+  file_enabled = config.GetBool(kLogSection, kEnableFileSetting, false);
+  file_level = StrToLevel(config.GetString(kLogSection, kFileLevelSetting, "off"));
 
-  max_files = IntToSize(common::Config().GetInt(kLogSection, kMaxNumberOfLogFilesSetting, -1));
-  max_file_size = IntToSize(common::Config().GetInt(kLogSection, kMaxSizeOfLogFileSetting, -1));
+  max_files = IntToSize(config.GetInt(kLogSection, kMaxNumberOfLogFilesSetting, -1));
+  max_file_size = IntToSize(config.GetInt(kLogSection, kMaxSizeOfLogFileSetting, -1));
 }
 
-}  // namespace
-
-void SetUp() {
+void SetUp(const Config& config) {
   constexpr auto kDefaultLoggerName = "ate_server_default_logger";
   constexpr auto kLoggerLevel = spdlog::level::trace;
   constexpr auto kLogFileName = "log.txt";
   constexpr auto kPattern = "[%t] [%Y-%m-%d %H:%M:%S:%F] [%^%l%$] %v";
 
   std::vector<spdlog::sink_ptr> sinks;
-  Config config;
 
   if (config.console_enabled) {
     auto console_sink{std::make_shared<spdlog::sinks::stderr_color_sink_mt>()};
@@ -90,4 +73,5 @@ void SetUp() {
   spdlog::set_default_logger(std::move(logger));
 }
 
+}  // namespace impl
 }  // namespace logger
