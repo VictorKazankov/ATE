@@ -1,4 +1,4 @@
-#include "server/tcp_connection.h"
+#include "interaction/ATE/tcp_connection.h"
 
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/read_until.hpp>

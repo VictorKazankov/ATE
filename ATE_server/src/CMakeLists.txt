@@ -4,11 +4,11 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 add_library(vhat_server_lib
   STATIC
     config/config.cpp
-    interaction/vdp_interaction.cpp
-    interaction/https_client.cpp
-    server/tcp_connection.cpp
-    server/tcp_server.cpp
-    server/tcp_session_handler.cpp
+    interaction/VDP/vdp_interaction.cpp
+    interaction/VDP/https_client.cpp
+    interaction/ATE/tcp_connection.cpp
+    interaction/ATE/tcp_server.cpp
+    interaction/ATE/tcp_session_handler.cpp
     storage/json_storage.cpp
     utils/logger_setup.cpp
     video_streaming/stream_reader.cpp

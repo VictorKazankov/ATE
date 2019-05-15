@@ -1,5 +1,5 @@
-#ifndef ATE_SERVER_INTERACTION_VDP_INTERACTION_H_
-#define ATE_SERVER_INTERACTION_VDP_INTERACTION_H_
+#ifndef ATE_SERVER_INTERACTION_VDP_VDP_INTERACTION_H_
+#define ATE_SERVER_INTERACTION_VDP_VDP_INTERACTION_H_
 
 #include <boost/asio/io_context.hpp>
 
@@ -58,4 +58,4 @@ class VDPInteraction : public Interaction {
 };
 }  // namespace interaction
 
-#endif  // ATE_SERVER_INTERACTION_VDP_INTERACTION_H_
+#endif  // ATE_SERVER_INTERACTION_VDP_VDP_INTERACTION_H_

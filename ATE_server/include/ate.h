@@ -6,7 +6,7 @@
 #include <boost/asio/io_context.hpp>
 
 #include "config/config.h"
-#include "interaction/interaction.h"
+#include "interaction/VDP/interaction.h"
 #include "reporting/reporter.h"
 #include "storage/storage.h"
 #include "utils/logger_setup.h"

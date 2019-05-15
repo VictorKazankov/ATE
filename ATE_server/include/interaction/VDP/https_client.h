@@ -1,5 +1,5 @@
-#ifndef ATE_SERVER_INTERACTION_HTTPS_CLIENT_H_
-#define ATE_SERVER_INTERACTION_HTTPS_CLIENT_H_
+#ifndef ATE_SERVER_INTERACTION_VDP_HTTPS_CLIENT_H_
+#define ATE_SERVER_INTERACTION_VDP_HTTPS_CLIENT_H_
 
 #include <memory>
 #include <queue>
@@ -10,9 +10,11 @@
 #include <boost/asio/ssl/stream.hpp>
 #include <boost/asio/steady_timer.hpp>
 
+#include "interaction/ATE/connection.h"
+
 namespace interaction {
 
-class HttpsClient : public std::enable_shared_from_this<HttpsClient> {
+class HttpsClient : public std::enable_shared_from_this<HttpsClient>, public Connection {
  public:
   using HttpsClientShared = std::shared_ptr<HttpsClient>;
 
@@ -80,4 +82,4 @@ class HttpsClient : public std::enable_shared_from_this<HttpsClient> {
 };
 }  // namespace interaction
 
-#endif  // ATE_SERVER_INTERACTION_HTTPS_CLIENT_H_
+#endif  // ATE_SERVER_INTERACTION_VDP_HTTPS_CLIENT_H_

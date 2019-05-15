@@ -1,4 +1,4 @@
-#include "interaction/vdp_interaction.h"
+#include "interaction/VDP/vdp_interaction.h"
 
 #include <sstream>
 

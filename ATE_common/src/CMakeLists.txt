@@ -14,7 +14,7 @@ target_include_directories(vhat_common
     ../include
 )
 
-target_link_libraries(vhat_common 
+target_link_libraries(vhat_common
   inihcpp
   spdlog
   jsoncpp_lib

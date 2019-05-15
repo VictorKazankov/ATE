@@ -1,5 +1,5 @@
 #include "ate.h"
-#include "interaction/vdp_interaction.h"
+#include "interaction/VDP/vdp_interaction.h"
 #include "storage/json_storage.h"
 #include "utils/logger.h"
 #include "video_streaming/stream_reader.h"

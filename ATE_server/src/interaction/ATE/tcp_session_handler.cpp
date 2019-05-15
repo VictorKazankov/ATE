@@ -1,4 +1,4 @@
-#include "server/tcp_session_handler.h"
+#include "interaction/ATE/tcp_session_handler.h"
 
 #include <iostream>
 
@@ -11,7 +11,7 @@ void TcpSessionHandler::OnOpen(const std::shared_ptr<TcpConnection>& session) {
 }
 
 void TcpSessionHandler::OnMessage(const std::shared_ptr<TcpConnection>& session, const std::string& message) {
-  logger::info("[INFO] receive message : {}", message);
+  logger::info("[sessionhandler] receive message : {}", message);
   // TODO (MShvaiko@luxoft.com) : prepare response for the client
   session->Send(message + " : from server");
 }

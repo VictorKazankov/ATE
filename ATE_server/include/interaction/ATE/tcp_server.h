@@ -1,5 +1,5 @@
-#ifndef ATE_SERVER_TCP_SERVER_H_
-#define ATE_SERVER_TCP_SERVER_H_
+#ifndef ATE_SERVER_INTERACTION_ATE_TCP_SERVER_H_
+#define ATE_SERVER_INTERACTION_ATE_TCP_SERVER_H_
 
 #include <functional>
 #include <memory>
@@ -7,9 +7,9 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
-#include "server/server.h"
-#include "server/tcp_connection.h"
-#include "server/tcp_session_handler.h"
+#include "client_manager.h"
+#include "tcp_connection.h"
+#include "tcp_session_handler.h"
 
 namespace interaction {
 
@@ -21,7 +21,7 @@ namespace interaction {
  * This class is accepting clients and creates tcp sessions.
  *
  */
-class TcpServer : public std::enable_shared_from_this<TcpServer>, public Server {
+class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientManager {
  public:
   using TcpServerPtr = std::shared_ptr<TcpServer>;
 
@@ -72,4 +72,4 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public Server 
 
 }  // namespace interaction
 
-#endif  // ATE_SERVER_TCP_SERVER_H_
+#endif  // ATE_SERVER_INTERACTION_ATE_TCP_SERVER_H_

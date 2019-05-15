@@ -1,4 +1,4 @@
-#include "server/tcp_server.h"
+#include "interaction/ATE/tcp_server.h"
 
 #include "utils/logger.h"
 
@@ -37,7 +37,7 @@ void TcpServer::Stop() {
 
 void TcpServer::Accept() {
   if (!running_) return;
-  logger::info("tcpserver] Accepting connections");
+  logger::info("[tcpserver] Accepting connections");
 
   auto connection = TcpConnection::Create(context_);
   auto handler = [self = shared_from_this(), connection](auto&&... params) {

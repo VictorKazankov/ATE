@@ -1,10 +1,10 @@
-#ifndef ATE_SERVER_SESSION_HANDLER_H_
-#define ATE_SERVER_SESSION_HANDLER_H_
+#ifndef ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_
+#define ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_
 
 #include <memory>
 #include <string>
 
-#include "server/tcp_connection.h"
+#include "tcp_connection.h"
 
 namespace interaction {
 
@@ -38,4 +38,4 @@ class SessionHandler {
 
 }  // namespace interaction
 
-#endif  // ATE_SERVER_SESSION_HANDLER_H_
+#endif  // ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_

@@ -1,5 +1,5 @@
-#ifndef ATE_SERVER_TCP_CONNECTION_H_
-#define ATE_SERVER_TCP_CONNECTION_H_
+#ifndef ATE_SERVER_INTERACTION_ATE_TCP_CONNECTION_H_
+#define ATE_SERVER_INTERACTION_ATE_TCP_CONNECTION_H_
 
 #include <istream>
 #include <memory>
@@ -10,7 +10,8 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/streambuf.hpp>
 
-#include "server/session_handler.h"
+#include "connection.h"
+#include "session_handler.h"
 
 namespace interaction {
 
@@ -20,7 +21,7 @@ class SessionHandler;
  *
  * @brief session class provide interaction between client and server (send/recv) messages
  */
-class TcpConnection : public std::enable_shared_from_this<TcpConnection> {
+class TcpConnection : public std::enable_shared_from_this<TcpConnection>, public Connection {
  public:
   using TcpConnectionPtr = std::shared_ptr<TcpConnection>;
 
@@ -67,7 +68,7 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection> {
    * @brief Set connection listener
    * @param message - string representation of message
    */
-  void SetHandler(std::shared_ptr<SessionHandler> handler) { handler_ = handler; }
+  void SetHandler(std::shared_ptr<SessionHandler> handler) { handler_ = std::move(handler); }
 
  private:
   /**
@@ -119,4 +120,4 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection> {
 
 }  // namespace interaction
 
-#endif  // ATE_SERVER_TCP_CONNECTION_H_
+#endif  // ATE_SERVER_INTERACTION_ATE_TCP_CONNECTION_H_
