@@ -7,6 +7,7 @@ endif()
 set(VHAT_COMMON_TEST_DATA_PATH "${VHAT_COMMON_DATA_PATH}/test" CACHE PATH "Path to VHAT common test data")
 
 add_executable(vhat_common_test
+  common/common.cpp
   config/config.cpp
   logger/logger.cpp
 )
