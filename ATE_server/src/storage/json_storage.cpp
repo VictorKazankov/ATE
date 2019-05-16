@@ -5,7 +5,7 @@
 
 #include <jsoncpp/json/json.h>
 
-#include "utils/logger.h"
+#include "logger/logger.h"
 
 namespace {
 constexpr auto kIconName = "name";

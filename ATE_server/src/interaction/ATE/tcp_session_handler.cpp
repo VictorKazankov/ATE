@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "utils/logger.h"
+#include "logger/logger.h"
 
 namespace interaction {
 

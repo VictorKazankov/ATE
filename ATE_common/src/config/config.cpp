@@ -2,14 +2,14 @@
 
 #include <limits>
 
-#include "config/config_exceptions.h"
+#include "exceptions.h"
 
 namespace config {
 
 using std::string;
 
 Reader::Reader(const string& from_file) : reader_(from_file) {
-  if (reader_.ParseError()) throw ConfigFileReadFailure();
+  if (reader_.ParseError()) throw FileReadFailure();
 }
 
 string Reader::GetString(const string& section, const string& option, const string& default_value) const {

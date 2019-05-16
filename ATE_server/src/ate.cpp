@@ -1,11 +1,13 @@
 #include "ate.h"
+
+#include "common.h"
+#include "exceptions.h"
 #include "interaction/VDP/vdp_interaction.h"
+#include "logger/logger.h"
 #include "storage/json_storage.h"
-#include "utils/logger.h"
 #include "video_streaming/stream_reader.h"
 
 namespace {
-const std::string kConfigFile = VHAT_DATA_PATH "/config.ini";
 const std::string kDBSection = "DB";
 const std::string kPathOption = "Path";
 const std::string kCollectionModeOption = "CollectionMode";
@@ -26,21 +28,18 @@ defines::DisplayType StrToDisplayType(const std::string& display_type_str) {
 }  // namespace
 
 ATE::ATE(boost::asio::io_context& io_context)
-    : config_{kConfigFile},
-      logger_{config_},
-      storage_{std::make_unique<storage::JsonStorage>(config_.GetString(kDBSection, kPathOption, ""),
-                                                      config_.GetString(kDBSection, kCollectionModeOption, ""))} {
-  if (!storage_->Connect()) {
-    logger::critical("[ate] Failed to connect to storage.");
-    exit(EXIT_FAILURE);
-  }
+    : storage_{
+          std::make_unique<storage::JsonStorage>(common::Config().GetString(kDBSection, kPathOption, ""),
+                                                 common::Config().GetString(kDBSection, kCollectionModeOption, ""))} {
+  if (!storage_->Connect()) throw storage::ConnectionFailure{};
 
   interaction_ = std::make_unique<interaction::VDPInteraction>(
-      io_context, config_.GetString(kBoardSection, kAddressOption, ""),
-      config_.GetString(kBoardSection, kPortOption, ""),
-      StrToDisplayType(config_.GetString(kBoardSection, kDisplayTypeOption, "")));
+      io_context, common::Config().GetString(kBoardSection, kAddressOption, ""),
+      common::Config().GetString(kBoardSection, kPortOption, ""),
+      StrToDisplayType(common::Config().GetString(kBoardSection, kDisplayTypeOption, "")));
 
-  streamer_ = std::make_unique<streamer::StreamReader>(config_.GetString(kBoardSection, kVideoStreamOption, ""));
+  streamer_ =
+      std::make_unique<streamer::StreamReader>(common::Config().GetString(kBoardSection, kVideoStreamOption, ""));
 }
 
 ATE::~ATE() { Close(); }

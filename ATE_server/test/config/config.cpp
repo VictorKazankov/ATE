@@ -6,7 +6,7 @@
 #include <gtest/gtest.h>
 
 #include "config/config.h"
-#include "config/config_exceptions.h"
+#include "exceptions.h"
 
 namespace {
 
@@ -25,8 +25,8 @@ void ConfigReaderTest::SetUp() { reader_ = std::make_unique<config::Reader>(kCon
 void ConfigReaderTest::TearDown() { reader_.reset(); }
 
 TEST_F(ConfigReaderTest, BadConstruction) {
-  EXPECT_THROW(config::Reader{"there_is_no_file"}, config::ConfigFileReadFailure);
-  EXPECT_THROW(config::Reader{VHAT_TEST_DATA_PATH "/config/bad_comment.ini"}, config::ConfigFileReadFailure);
+  EXPECT_THROW(config::Reader{"there_is_no_file"}, config::FileReadFailure);
+  EXPECT_THROW(config::Reader{VHAT_TEST_DATA_PATH "/config/bad_comment.ini"}, config::FileReadFailure);
 }
 
 TEST_F(ConfigReaderTest, SecondaryConstruction) { EXPECT_NO_THROW(config::Reader{kConfigFilename}); }

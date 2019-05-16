@@ -1,5 +1,5 @@
-#ifndef ATE_SERVER_CONFIG_CONFIG_H_
-#define ATE_SERVER_CONFIG_CONFIG_H_
+#ifndef ATE_COMMON_CONFIG_READER_H_
+#define ATE_COMMON_CONFIG_READER_H_
 
 #include <string>
 
@@ -8,9 +8,9 @@
 namespace config {
 
 /**
- * \class Reader
+ * @class Reader
  *
- * \brief Class to read config values from *.ini file.
+ * @brief Class to read config values from *.ini file.
  *
  * This class is a wrapper for an INIReader of an INIH lib. It provides functions to read standard INI types.
  * The default value must be provided which is returned in case of read error.
@@ -20,15 +20,17 @@ namespace config {
  */
 class Reader {
  public:
-  /// Create a Reader from a given *.ini file name
+  /**
+   * @brief Create a Reader from a given *.ini file name
+   */
   explicit Reader(const std::string& from_file);
 
   /**
-   * \brief Get a value of a String type
-   * \param section an INI section name which contains desired option name
-   * \param option an INI option name inside a section which contains desired value
-   * \param default_value a default value which will be returned in case of any read errors
-   * \return value read from INI file or default_value in case of error
+   * @brief Get a value of a String type
+   * @param section an INI section name which contains desired option name
+   * @param option an INI option name inside a section which contains desired value
+   * @param default_value a default value which will be returned in case of any read errors
+   * @return value read from INI file or default_value in case of error
    *
    * This functions matches a section and option name to find a value in a INI file, and returns
    * the value as string type.
@@ -38,11 +40,11 @@ class Reader {
   std::string GetString(const std::string& section, const std::string& option, const std::string& default_value) const;
 
   /**
-   * \brief Get a value of an Integer type
-   * \param section an INI section name which contains desired option name
-   * \param option an INI option name inside a section which contains desired value
-   * \param default_value a default value which will be returned in case of any read errors
-   * \return value read from INI file or default_value in case of error
+   * @brief Get a value of an Integer type
+   * @param section an INI section name which contains desired option name
+   * @param option an INI option name inside a section which contains desired value
+   * @param default_value a default value which will be returned in case of any read errors
+   * @return value read from INI file or default_value in case of error
    *
    * This functions matches a section and option name to find a value in a INI file, and converts
    * the value to an int type.
@@ -52,11 +54,11 @@ class Reader {
   int GetInt(const std::string& section, const std::string& option, const int default_value) const;
 
   /**
-   * \brief Get a value of a Real type
-   * \param section an INI section name which contains desired option name
-   * \param option an INI option name inside a section which contains desired value
-   * \param default_value a default value which will be returned in case of any read errors
-   * \return value read from INI file or default_value in case of error
+   * @brief Get a value of a Real type
+   * @param section an INI section name which contains desired option name
+   * @param option an INI option name inside a section which contains desired value
+   * @param default_value a default value which will be returned in case of any read errors
+   * @return value read from INI file or default_value in case of error
    *
    * This functions matches a section and option name to find a value in a INI file, and converts
    * the value to a double type.
@@ -64,11 +66,11 @@ class Reader {
   double GetDouble(const std::string& section, const std::string& option, const double default_value) const;
 
   /**
-   * \brief Get a value of a Boolean type
-   * \param section an INI section name which contains desired option name
-   * \param option an INI option name inside a section which contains desired value
-   * \param default_value a default value which will be returned in case of any read errors
-   * \return vlaue read from INI file or default_value in case of error
+   * @brief Get a value of a Boolean type
+   * @param section an INI section name which contains desired option name
+   * @param option an INI option name inside a section which contains desired value
+   * @param default_value a default value which will be returned in case of any read errors
+   * @return vlaue read from INI file or default_value in case of error
    *
    * This functions matches a section and option name to find a value in a INI file, and converts
    * the value to a bool type.
@@ -87,4 +89,4 @@ class Reader {
 
 }  // namespace config
 
-#endif  // ATE_SERVER_CONFIG_CONFIG_H_
+#endif  // ATE_COMMON_CONFIG_READER_H_

@@ -102,6 +102,11 @@ add_library(inihcpp STATIC
   inih/ini.c
 )
 
+# inihcpp is intended to be linked into the shared lib.
+# Thus it requires -fPIC compilation option.
+# https://stackoverflow.com/questions/38296756/what-is-the-idiomatic-way-in-cmake-to-add-the-fpic-compiler-option
+set_property(TARGET inihcpp PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 target_include_directories(inihcpp
   INTERFACE
     inih/cpp

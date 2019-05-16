@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 add_library(vhat_common
   SHARED
+    config/config.cpp
+    logger/logger_setup.cpp
+    common.cpp
 )
 
 # JsonCpp
@@ -14,11 +17,16 @@ target_include_directories(vhat_common
     ../include
 )
 
+target_compile_definitions(vhat_common
+  PUBLIC
+    VHAT_DATA_PATH="${VHAT_DATA_PATH}"
+)
+
 target_link_libraries(vhat_common
-  inihcpp
-  spdlog
-  jsoncpp_lib
   Boost::asio
+  inihcpp
+  jsoncpp_lib
+  spdlog::spdlog
 )
 
 if(UNIX)

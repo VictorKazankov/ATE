@@ -6,7 +6,7 @@
 #include <boost/asio/connect.hpp>
 #include <boost/asio/write.hpp>
 
-#include "utils/logger.h"
+#include "logger/logger.h"
 
 namespace interaction {
 

@@ -4,7 +4,7 @@
 #include <boost/asio/read_until.hpp>
 #include <boost/asio/write.hpp>
 
-#include "utils/logger.h"
+#include "logger/logger.h"
 
 namespace interaction {
 

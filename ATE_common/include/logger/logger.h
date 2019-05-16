@@ -1,13 +1,13 @@
-#ifndef ATE_SERVER_UTILS_LOGGER_H_
-#define ATE_SERVER_UTILS_LOGGER_H_
+#ifndef ATE_COMMON_LOGGER_LOGGER_H_
+#define ATE_COMMON_LOGGER_LOGGER_H_
 
 #include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 
 /**
- * \namespace logger
+ * @namespace logger
  *
- * \brief Aliases for spdlog
+ * @brief Aliases for spdlog
  */
 namespace logger {
 
@@ -20,4 +20,4 @@ using spdlog::warn;
 
 }  // namespace logger
 
-#endif  // ATE_SERVER_UTILS_LOGGER_H_
+#endif  // ATE_COMMON_LOGGER_LOGGER_H_
