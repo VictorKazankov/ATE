@@ -19,6 +19,8 @@ option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
 
 set(VHAT_COMMON_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_common/data" CACHE PATH "Path to VHAT common data")
 set(VHAT_SERVER_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_server/data" CACHE PATH "Path to VHAT server data")
+set(VHAT_CLIENT_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_client/data" CACHE PATH "Path to VHAT client data")
+
 
 add_subdirectory(third_party)
 add_subdirectory(ATE_common/src)
@@ -34,6 +36,7 @@ if(VHAT_WITH_TESTS)
   # ATE tests directories
   add_subdirectory(ATE_common/test)
   add_subdirectory(ATE_server/test)
+  #add_subdirectory(ATE_client/test)
 endif(VHAT_WITH_TESTS)
 
 # Copy 'data' directories contents into the target 'data' folder
@@ -46,4 +49,9 @@ file(COPY
 file(COPY
   ATE_server/data/
   DESTINATION "${VHAT_SERVER_DATA_PATH}"
+)
+
+file(COPY
+  ATE_client/data/
+  DESTINATION "${VHAT_CLIENT_DATA_PATH}"
 )
