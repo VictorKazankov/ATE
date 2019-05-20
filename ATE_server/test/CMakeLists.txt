@@ -8,6 +8,7 @@ set(VHAT_SERVER_TEST_DATA_PATH "${VHAT_SERVER_DATA_PATH}/test" CACHE PATH "Path 
 
 add_executable(vhat_server_test
   storage/json_storage.cpp
+  utils/safe_env.cpp
   video_streaming/matching/template_detector.cpp
 )
 
