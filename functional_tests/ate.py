@@ -11,3 +11,7 @@ def detach():
 
 def waitForObject(object, timeout):
     print("I am wait_for_object")
+
+
+def tapObject(object):
+    print("I am tab_object")
