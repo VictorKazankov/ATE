@@ -12,6 +12,9 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING
 set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
   "Default value for CXX_STANDARD_REQUIRED property of targets")
 
+# BUILD_SHARED_LIBS=ON necessary for building shared gtest library
+option(BUILD_SHARED_LIBS "Build shared libs by default" ON)
+
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
 
 set(VHAT_COMMON_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_common/data" CACHE PATH "Path to VHAT common data")
