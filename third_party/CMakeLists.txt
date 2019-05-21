@@ -89,8 +89,8 @@ find_package(Threads REQUIRED)
 target_link_libraries(boost_asio
   PUBLIC
     Boost::system
-  PRIVATE
     Threads::Threads
+  PRIVATE
     OpenSSL::Crypto
     OpenSSL::SSL
 )
