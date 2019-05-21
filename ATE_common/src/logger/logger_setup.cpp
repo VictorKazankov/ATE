@@ -6,13 +6,25 @@
 
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
 
 #include "exceptions.h"
 
 namespace logger {
-namespace impl {
+namespace {
 
 using spdlog::level::level_enum;
+
+struct Config {
+  explicit Config(const config::Reader& config);
+
+  bool console_enabled{false};
+  level_enum console_level{spdlog::level::off};
+  bool file_enabled{false};
+  level_enum file_level{spdlog::level::off};
+  std::size_t max_files{0};
+  std::size_t max_file_size{0};
+};
 
 level_enum StrToLevel(const std::string& str) {
   level_enum level = spdlog::level::from_str(str);
@@ -44,26 +56,29 @@ Config::Config(const config::Reader& config) {
   max_file_size = IntToSize(config.GetInt(kLogSection, kMaxSizeOfLogFileSetting, -1));
 }
 
-void SetUp(const Config& config) {
-  constexpr auto kDefaultLoggerName = "ate_server_default_logger";
-  constexpr auto kLoggerLevel = spdlog::level::trace;
-  constexpr auto kLogFileName = "log.txt";
-  constexpr auto kPattern = "[%t] [%Y-%m-%d %H:%M:%S:%F] [%^%l%$] %v";
+}  // namespace
+
+void SetUp(const config::Reader& config) {
+  const std::string& kDefaultLoggerName{"ate_server_default_logger"};
+  constexpr level_enum kLoggerLevel{spdlog::level::trace};
+  const std::string& kLogFileName{"log.txt"};
+  const std::string& kPattern{"[%t] [%Y-%m-%d %H:%M:%S:%F] [%^%l%$] %v"};
 
   std::vector<spdlog::sink_ptr> sinks;
+  const Config logger_config{config};
 
-  if (config.console_enabled) {
+  if (logger_config.console_enabled) {
     auto console_sink{std::make_shared<spdlog::sinks::stderr_color_sink_mt>()};
-    console_sink->set_level(config.console_level);
+    console_sink->set_level(logger_config.console_level);
     sinks.push_back(std::move(console_sink));
   }
 
-  if (config.file_enabled) {
+  if (logger_config.file_enabled) {
     constexpr std::size_t megabyte = 1024 * 1024;
-    const std::size_t file_size_in_bytes = config.max_file_size * megabyte;
-    auto file_sink{
-        std::make_shared<spdlog::sinks::rotating_file_sink_mt>(kLogFileName, file_size_in_bytes, config.max_files)};
-    file_sink->set_level(config.file_level);
+    const std::size_t file_size_in_bytes = logger_config.max_file_size * megabyte;
+    auto file_sink{std::make_shared<spdlog::sinks::rotating_file_sink_mt>(kLogFileName, file_size_in_bytes,
+                                                                          logger_config.max_files)};
+    file_sink->set_level(logger_config.file_level);
     sinks.push_back(std::move(file_sink));
   }
 
@@ -73,5 +88,4 @@ void SetUp(const Config& config) {
   spdlog::set_default_logger(std::move(logger));
 }
 
-}  // namespace impl
 }  // namespace logger

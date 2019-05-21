@@ -1,18 +1,25 @@
 #include "common.h"
 
-#include <string>
+#include <cassert>
+#include <memory>
 
-#include "config/config.h"
+#include "logger/logger.h"
 #include "logger/logger_setup.h"
 
 namespace common {
 
+namespace {
+std::unique_ptr<const config::Reader> kConfig;
+}  // namespace
+
 const config::Reader& Config() {
-  static const std::string kDefaultConfigFile = VHAT_COMMON_DATA_PATH "/config.ini";
-  static const config::Reader kConfig{kDefaultConfigFile};
-  return kConfig;
+  assert(kConfig);
+  return *kConfig;
 }
 
-void SetUpLogger() { logger::impl::SetUp(logger::impl::Config{common::Config()}); }
+void SetUp(const std::string& config_file) {
+  kConfig = std::make_unique<const config::Reader>(config_file);
+  logger::SetUp(*kConfig);
+}
 
 }  // namespace common

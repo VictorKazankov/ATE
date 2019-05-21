@@ -28,7 +28,8 @@ void SetupSignalHandling(boost::asio::io_context& io_context, boost::asio::signa
 }  // namespace
 
 int main() try {
-  common::SetUpLogger();
+  const std::string config_file{VHAT_SERVER_DATA_PATH "/config.ini"};
+  common::SetUp(config_file);
 
   boost::asio::io_context io_context;
 

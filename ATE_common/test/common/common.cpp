@@ -3,21 +3,17 @@
 #include <gtest/gtest.h>
 
 #include "common.h"
+#include "config/config.h"
+#include "exceptions.h"
 
 namespace {
 
-TEST(CommonTest, GetConfigMtTest) {
-  auto get_config = []() { EXPECT_NO_THROW(common::Config()); };
-
-  std::thread t1{get_config};
-  std::thread t2{get_config};
-
-  t1.join();
-  t2.join();
+TEST(CommonTest, SetUpAndDupeSetUpTest) {
+  // Cannot split the test, as test run order is not guaranteed
+  const std::string kDefaultConfigPath = VHAT_COMMON_TEST_DATA_PATH "/test_config.ini";
+  EXPECT_NO_THROW(common::SetUp(kDefaultConfigPath));
+  EXPECT_NO_THROW(common::Config());
+  EXPECT_NO_THROW(common::SetUp(kDefaultConfigPath));
 }
-
-TEST(CommonTest, SetUpLogger) { EXPECT_NO_THROW(common::SetUpLogger()); }
-
-TEST(CommonTest, SetUpLoggerDup) { EXPECT_NO_THROW(common::SetUpLogger()); }
 
 }  // namespace

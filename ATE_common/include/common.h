@@ -1,6 +1,8 @@
 #ifndef ATE_COMMON_COMMON_H_
 #define ATE_COMMON_COMMON_H_
 
+#include <string>
+
 #include "config/config.h"
 
 /**
@@ -13,24 +15,26 @@ namespace common {
 /**
  * @fn Config
  *
- * @brief Get reference to Config instance
- * @return reference to Config instance
+ * @brief Get reference to application global Config instance
+ * @return Reference to Config instance
  *
- * Meyers singleton for lazy thread-safe init of Config instance
- * and  obtaining its reference;
+ * This function is thread-safe unless called simultaneously with SetUp().
  */
 const config::Reader& Config();
 
 /**
- * @fn SetUpLogger
+ * @fn SetUp
  *
- * @brief Function to init logger.
+ * @brief Function to init common facilities.
+ * @param config_file Config
  *
- * This function configures the spdlog logger system in a desired way.
+ * This function initializes common facilities:
+ *  - config with a desired config file
+ *  - logger with a desired configured parameters in a LOG section of config file.
  *
- * Some parameters can be configured in a LOG section of a default config file.
+ * This function is not thread-safe and must be called before any threads spawned.
  */
-void SetUpLogger();
+void SetUp(const std::string& config_file);
 
 }  // namespace common
 

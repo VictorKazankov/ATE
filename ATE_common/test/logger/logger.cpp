@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <experimental/filesystem>
 #include <string>
+#include <system_error>
 
 #include <gtest/gtest.h>
 
@@ -13,7 +14,6 @@
 namespace {
 
 namespace fs = std::experimental::filesystem;
-namespace logger_to_test = logger::impl;
 
 const std::string kConfigFilename = VHAT_COMMON_TEST_DATA_PATH "/logger/rotating_files_good_config.ini";
 constexpr std::size_t kNumberOfFiles = 3;
@@ -23,46 +23,55 @@ constexpr std::size_t kMaxFileSize = kMebi;
 
 class LoggerSetupTest : public ::testing::Test {
  protected:
-  static void SetUpTestCase();
-  static void TearDownTestCase();
+  void SetUp() override;
 
-  static const config::Reader config;
+  static void TearDownTestCase();
 };
 
-const config::Reader LoggerSetupTest::config{kConfigFilename};
+fs::path get_log_name(std::size_t log_number) { return "log." + std::to_string(log_number) + ".txt"; }
 
-void LoggerSetupTest::SetUpTestCase() {
-  EXPECT_EQ(kMaxFileSize, kMebi * config.GetInt("LOG", "MaxSizeOfSingleFile", 0));
-  EXPECT_EQ(kNumberOfFiles, config.GetInt("LOG", "MaxNumberOfFiles", 0));
-
-  logger_to_test::SetUp(logger_to_test::Config{config});
+void clean_up_log_files() {
+  for (std::size_t i = 0; i < kNumberOfFiles + 1; ++i) {
+    std::error_code ec;
+    fs::remove(get_log_name(i + 1), ec);  // do not expect neither true nor false, as file may or may not exist
+    EXPECT_TRUE(!ec || ec == std::errc::no_such_file_or_directory);
+  }
 }
-
-void LoggerSetupTest::TearDownTestCase() {
-  // Leave the global environment with default logger
-  ASSERT_NO_THROW(common::SetUpLogger());
-}
-
-TEST_F(LoggerSetupTest, BadConstruction) {
-  config::Reader config_invalid_size{VHAT_COMMON_TEST_DATA_PATH "/logger/invalid_size_bad_config.ini"};
-  EXPECT_THROW(logger_to_test::SetUp(logger_to_test::Config{config_invalid_size}), logger::ConfigFormatError);
-
-  config::Reader config_invalid_level{VHAT_COMMON_TEST_DATA_PATH "/logger/invalid_level_bad_config.ini"};
-  EXPECT_THROW(logger_to_test::SetUp(logger_to_test::Config{config_invalid_level}), logger::ConfigFormatError);
-}
-
-TEST_F(LoggerSetupTest, DublicateInitialize) { EXPECT_NO_THROW(logger_to_test::SetUp(logger_to_test::Config{config})); }
 
 void fill_log_files() {
   const std::string one_kilo_buffer(kKibi, 'a');
   for (std::size_t i = 0; i < kNumberOfFiles * kKibi; ++i) logger::critical(one_kilo_buffer);
 }
 
-fs::path get_log_name(std::size_t log_number) { return "log." + std::to_string(log_number) + ".txt"; }
+void LoggerSetupTest::TearDownTestCase() {
+  clean_up_log_files();
+
+  // Leave the world with default logger
+  const config::Reader default_config{VHAT_COMMON_TEST_DATA_PATH "/test_config.ini"};
+  ASSERT_NO_THROW(logger::SetUp(default_config));
+}
+
+void LoggerSetupTest::SetUp() {
+  const config::Reader config{kConfigFilename};
+
+  EXPECT_EQ(kMaxFileSize, kMebi * config.GetInt("LOG", "MaxSizeOfSingleFile", 0));
+  EXPECT_EQ(kNumberOfFiles, config.GetInt("LOG", "MaxNumberOfFiles", 0));
+
+  EXPECT_NO_THROW(logger::SetUp(config));
+
+  clean_up_log_files();
+  fill_log_files();
+}
+
+TEST_F(LoggerSetupTest, BadConstruction) {
+  const config::Reader config_invalid_size{VHAT_COMMON_TEST_DATA_PATH "/logger/invalid_size_bad_config.ini"};
+  EXPECT_THROW(logger::SetUp(config_invalid_size), logger::ConfigFormatError);
+
+  const config::Reader config_invalid_level{VHAT_COMMON_TEST_DATA_PATH "/logger/invalid_level_bad_config.ini"};
+  EXPECT_THROW(logger::SetUp(config_invalid_level), logger::ConfigFormatError);
+}
 
 TEST_F(LoggerSetupTest, FilesRotated) {
-  fill_log_files();
-
   std::array<fs::path, kNumberOfFiles> generated_files;
   for (std::size_t i = 0; i < kNumberOfFiles; ++i) generated_files[i] = get_log_name(i + 1);
 
@@ -80,7 +89,6 @@ TEST_F(LoggerSetupTest, FilesRotated) {
 
 TEST_F(LoggerSetupTest, FileSizeCap) {
   ASSERT_GE(kNumberOfFiles, 1);
-  fill_log_files();
 
   const std::string filled_to_cap_file = get_log_name(1);
   std::error_code ec;
