@@ -4,8 +4,6 @@
 
 #include <opencv2/imgproc.hpp>
 
-#include "video_streaming/matching/detect_exception.h"
-
 cv::Rect detector::TemplateDetector::Detect(const cv::Mat& frame, const cv::Mat& pattern) const {
   // verification of size compatibility (pattern should be less than frame)
   assert(frame.rows > pattern.rows);
@@ -30,8 +28,9 @@ cv::Rect detector::TemplateDetector::Detect(const cv::Mat& frame, const cv::Mat&
 
   cv::minMaxLoc(value, &minVal, &maxVal, &minLoc, &matchLoc);
 
+  // If template has not detected return empty Rect
   if (threshold_value > maxVal) {
-    throw detector::LookupError();
+    return cv::Rect();
   }
   return cv::Rect{matchLoc, cv::Size{pattern.cols, pattern.rows}};
 }

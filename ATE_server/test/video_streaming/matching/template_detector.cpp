@@ -2,7 +2,6 @@
 
 #include <opencv2/imgcodecs.hpp>
 
-#include "video_streaming/matching/detect_exception.h"
 #include "video_streaming/matching/template_detector.h"
 
 namespace {
@@ -30,14 +29,16 @@ void TemplateDetectorTest::SetUp() {
 }
 void TemplateDetectorTest::TearDown() { template_detector_.reset(); }
 
-TEST_F(TemplateDetectorTest, BadDetectionException) {
+TEST_F(TemplateDetectorTest, BadDetectionVerify) {
   auto pattern = cv::imread(kBadIcon, cv::IMREAD_GRAYSCALE);
-  EXPECT_THROW(template_detector_->Detect(frame_, pattern), detector::LookupError);
+  auto detected = template_detector_->Detect(frame_, pattern);
+  EXPECT_FALSE(detected.area());
 }
 
-TEST_F(TemplateDetectorTest, GoodDetectionException) {
+TEST_F(TemplateDetectorTest, GoodDetectionVerify) {
   auto pattern = cv::imread(kHomeIcon, cv::IMREAD_GRAYSCALE);
-  EXPECT_NO_THROW(template_detector_->Detect(frame_, pattern));
+  auto detected = template_detector_->Detect(frame_, pattern);
+  EXPECT_TRUE(detected.area());
 }
 
 TEST_F(TemplateDetectorTest, GoodDetecting) {

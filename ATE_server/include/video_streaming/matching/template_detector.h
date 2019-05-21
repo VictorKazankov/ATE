@@ -23,7 +23,7 @@ class TemplateDetector : public Detector {
    * @brief Detect an image pattern at a video frame
    * @param frame - video frame received from Sync (single channel matrix)
    * @param pattern - pattern to be detected (single channel matrix)
-   * @return pattern coordinates
+   * @return pattern coordinates on succeed, otherwise return empty Rect
    **/
   cv::Rect Detect(const cv::Mat& frame, const cv::Mat& pattern) const override;
 };
