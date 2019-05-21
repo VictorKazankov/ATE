@@ -5,17 +5,9 @@
 #include "interaction/VDP/vdp_interaction.h"
 #include "logger/logger.h"
 #include "storage/json_storage.h"
-#include "video_streaming/stream_reader.h"
+#include "utils/defines.h"
 
 namespace {
-const std::string kDBSection = "DB";
-const std::string kPathOption = "Path";
-const std::string kCollectionModeOption = "CollectionMode";
-const std::string kBoardSection = "BOARD";
-const std::string kAddressOption = "Address";
-const std::string kPortOption = "Port";
-const std::string kDisplayTypeOption = "DisplayType";
-const std::string kVideoStreamOption = "VideoStream";
 
 defines::DisplayType StrToDisplayType(const std::string& display_type_str) {
   if ("G1_8INCH_DISP" == display_type_str) return defines::DisplayType::G1_8INCH_DISP;
@@ -28,22 +20,30 @@ defines::DisplayType StrToDisplayType(const std::string& display_type_str) {
 }  // namespace
 
 ATE::ATE(boost::asio::io_context& io_context)
-    : storage_{
-          std::make_unique<storage::JsonStorage>(common::Config().GetString(kDBSection, kPathOption, ""),
-                                                 common::Config().GetString(kDBSection, kCollectionModeOption, ""))} {
+    : storage_{std::make_unique<storage::JsonStorage>(
+          common::Config().GetString(defines::kDBSection, defines::kPathOption, ""),
+          common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, ""))},
+      interaction_{std::make_unique<interaction::VDPInteraction>(
+          io_context, common::Config().GetString(defines::kBoardSection, defines::kAddressOption, ""),
+          common::Config().GetString(defines::kBoardSection, defines::kPortOption, ""),
+          StrToDisplayType(common::Config().GetString(defines::kBoardSection, defines::kDisplayTypeOption, "")))} {
   if (!storage_->Connect()) throw storage::ConnectionFailure{};
-
-  interaction_ = std::make_unique<interaction::VDPInteraction>(
-      io_context, common::Config().GetString(kBoardSection, kAddressOption, ""),
-      common::Config().GetString(kBoardSection, kPortOption, ""),
-      StrToDisplayType(common::Config().GetString(kBoardSection, kDisplayTypeOption, "")));
-
-  streamer_ =
-      std::make_unique<streamer::StreamReader>(common::Config().GetString(kBoardSection, kVideoStreamOption, ""));
 }
 
 ATE::~ATE() { Close(); }
 
+cv::Rect ATE::waitForObject(const std::string& name, const std::chrono::milliseconds& timeout) {
+  const auto item_path = storage_->ItemPath(name);
+  Snooze(timeout);
+  if (!item_path.empty()) {
+    return matcher_.MatchImage(item_path);
+  } else {
+    return matcher_.MatchText(name);
+  }
+}
+
 void ATE::Close() {
   // TODO
 }
+
+void ATE::Snooze(const std::chrono::milliseconds& duration) { std::this_thread::sleep_for(duration); }
