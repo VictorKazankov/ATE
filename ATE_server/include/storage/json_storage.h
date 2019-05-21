@@ -26,7 +26,7 @@ class JsonStorage : public Storage {
   /**
    * @brief The function returns path to the image
    * @param Image name
-   * @return Returns path to the image
+   * @return Returns path to the image on succeed, otherwise empty string
    **/
   std::string ItemPath(const std::string& icon_name) const override;
 

@@ -18,12 +18,11 @@ storage::JsonStorage::JsonStorage(const std::string& storage_path, const std::st
 bool storage::JsonStorage::Connect() { return LoadCollection(); }
 
 std::string storage::JsonStorage::ItemPath(const std::string& icon_name) const {
-  auto it = collection_.find(icon_name);
-  if (it != collection_.end()) {
-    return it->second;
-  } else {
-    logger::error("[storage] Undefind icon \'{}\'", icon_name);
-    throw std::runtime_error("Undefind icon \'" + icon_name + "\'");
+  try {
+    return collection_.at(icon_name);
+  } catch (const std::out_of_range& not_found) {
+    logger::debug("[storage] Not found icon with name: {} ({})", icon_name, not_found.what());
+    return std::string{};
   }
 }
 
@@ -62,6 +61,8 @@ bool storage::JsonStorage::LoadCollection() {
     }
   } catch (const Json::LogicError& err) {
     logger::error("[storage] {}", err.what());
+    // Strong exception warranty require not modified object if an exception occurs
+    collection_.clear();
     return false;
   }
 

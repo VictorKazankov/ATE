@@ -54,9 +54,9 @@ TEST_F(JsonStorageTest, ChangeCollectionToTheSame) {
 }
 
 TEST_F(JsonStorageTest, GetItemPath) {
-  EXPECT_NO_THROW(storage_->ItemPath(kItemContacts));
-  EXPECT_NO_THROW(storage_->ItemPath(kItemApps));
-  EXPECT_NO_THROW(storage_->ItemPath(kItemAudio));
-  EXPECT_THROW(storage_->ItemPath(kItemBadItem), std::runtime_error);
+  EXPECT_FALSE(storage_->ItemPath(kItemContacts).empty()) << "Storage::ItemPath Must return valid path";
+  EXPECT_FALSE(storage_->ItemPath(kItemApps).empty()) << "Storage::ItemPath Must return valid path";
+  EXPECT_FALSE(storage_->ItemPath(kItemAudio).empty()) << "Storage::ItemPath Must return valid path";
+  EXPECT_TRUE(storage_->ItemPath(kItemBadItem).empty()) << "Storage::ItemPath Must return empty string";
 }
 }  // namespace
