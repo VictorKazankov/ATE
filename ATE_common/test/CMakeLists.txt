@@ -23,3 +23,11 @@ target_compile_definitions(vhat_common_test
   PRIVATE
     VHAT_COMMON_TEST_DATA_PATH="${VHAT_COMMON_TEST_DATA_PATH}"
 )
+
+# Add vhat_server_test to the CTest
+# TODO: replace add_test with gtest_discover_tests after upgrade minimum CMake version to 3.10
+# https://cmake.org/cmake/help/latest/module/GoogleTest.html
+add_test(
+  NAME VHAT_Common_Tests
+  COMMAND vhat_common_test
+)

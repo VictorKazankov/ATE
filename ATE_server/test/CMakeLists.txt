@@ -24,3 +24,11 @@ target_link_libraries(vhat_server_test
     gtest_main
     vhat_server_lib
 )
+
+# Add vhat_server_test to the CTest
+# TODO: replace add_test with gtest_discover_tests after upgrade minimum CMake version to 3.10
+# https://cmake.org/cmake/help/latest/module/GoogleTest.html
+add_test(
+  NAME VHAT_Server_Tests
+  COMMAND vhat_server_test
+)

@@ -22,6 +22,11 @@ add_subdirectory(ATE_common/src)
 add_subdirectory(ATE_server/src)
 
 if(VHAT_WITH_TESTS)
+  # Enable testing via CTest
+  # https://cmake.org/cmake/help/latest/manual/ctest.1.html
+  include(CTest)
+  enable_testing()
+
   # ATE tests directories
   add_subdirectory(ATE_common/test)
   add_subdirectory(ATE_server/test)
