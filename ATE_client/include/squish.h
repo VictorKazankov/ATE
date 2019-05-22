@@ -26,6 +26,10 @@ struct ScreenRectangle {
   ScreenPoint Center() const;
 };
 
+enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
+
+enum class MouseButton { NONE, LEFT_BUTTON, MIDLE_BUTTON, RIGHT_BUTTON };
+
 using Object = std::map<std::string, std::string>;
 
 struct ApplicationContext {
@@ -51,7 +55,8 @@ namespace API {
 
 /**
  * @brief This function causes to attach to the application called aut_name.
- * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an attachable AUT
+ * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an attachable
+ * AUT
  * @return A handle to its application context
  **/
 ApplicationContext AttachToApplication(const std::string aut_name = "");
@@ -78,15 +83,22 @@ Object WaitForObject(const std::string& object_or_name, int timeout_msec);
 
 /**
  * @brief TapObject performs a touch tap at the position specified by screenPoint.
- * Position are in screen global coordinates.
+ * @param screen_point - position are in screen global coordinates
+ * @param The optional modifierState specify keyboard modifiers that are held down during the click
+ * @param The optional button specify mouse button that held down during the click
  **/
-void TapObject(const ScreenPoint& screen_point);
+
+void TapObject(const ScreenPoint& screen_point, ModifierState modifier_state = ModifierState::NONE,
+               MouseButton button = MouseButton::NONE);
 
 /**
  * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
- * Position are in screen global coordinates.
+ * @param screen_rectangle - position are in screen global coordinates
+ * @param The optional modifierState specify keyboard modifiers that are held down during the click
+ * @param The optional button specify mouse button that held down during the click
  **/
-void TapObject(const ScreenRectangle& screen_rectangle);
+void TapObject(const ScreenRectangle& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
+               MouseButton button = MouseButton::NONE);
 }  // namespace API
 }  // namespace squish
 

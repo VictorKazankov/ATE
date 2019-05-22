@@ -48,13 +48,13 @@ Object WaitForObject(const std::string& /*object_or_name*/, int /*timeout_msec*/
   return ate_interaction->SendCommand("dump command");  // TODO implement
 }
 
-void TapObject(const ScreenPoint& /*screen_point*/) {
+void TapObject(const ScreenPoint& /*screen_point*/, ModifierState /*modifier_state*/, MouseButton /*button*/) {
   std::clog << "TapObject()\n";
   ate_interaction->SendCommand("dump command");
   // TODO implement
 }
 
-void TapObject(const ScreenRectangle& /*screen_rectangle*/) {
+void TapObject(const ScreenRectangle& /*screen_rectangle*/, ModifierState /*modifier_state*/, MouseButton /*button*/) {
   std::clog << "TapObject()\n";
   ate_interaction->SendCommand("dump command");
   // TODO implement
@@ -69,7 +69,8 @@ PYBIND11_MODULE(vhat_client, m) {
   m.doc() = "VHAT plugin for communication with SYNC";
 
   m.def("attachToApplication", &squish::API::AttachToApplication,
-        "This function causes to attach to the application called aut_name and returns a handle to its application context",
+        "This function causes to attach to the application called aut_name and returns a handle to its application "
+        "context",
         py::arg("aut_name"));
 
   m.def("waitForObject", py::overload_cast<const std::string&>(&squish::API::WaitForObject),
@@ -84,13 +85,17 @@ PYBIND11_MODULE(vhat_client, m) {
         "milliseconds. This function is useful if you want to synchronize your script execution",
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
-  m.def("tapObject", py::overload_cast<const squish::ScreenPoint&>(&squish::API::TapObject),
+  m.def("tapObject",
+        py::overload_cast<const squish::ScreenPoint&, squish::ModifierState, squish::MouseButton>(
+            &squish::API::TapObject),
         "tapObject performs a touch tap at the position specified by screenPoint. Position are in screen global "
         "coordinates",
-        py::arg("screen_point"));
+        py::arg("screen_point"), py::arg("modifier_state"), py::arg("button"));
 
-  m.def("tapObject", py::overload_cast<const squish::ScreenRectangle&>(&squish::API::TapObject),
+  m.def("tapObject",
+        py::overload_cast<const squish::ScreenRectangle&, squish::ModifierState, squish::MouseButton>(
+            &squish::API::TapObject),
         "tapObject performs a touch tap at the center of the rectangle specified by screenRectangle. Position are in "
         "screen global coordinates",
-        py::arg("screen_rectangle"));
+        py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));
 }
