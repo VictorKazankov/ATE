@@ -31,7 +31,7 @@ using Object = std::map<std::string, std::string>;
 struct ApplicationContext {
   std::string host_;
   size_t port;
-  
+
   /**
    * @brief This function detaches from a previously started (or attached) application.
    * If the respective application has been started with startApplication Squish will attempt to close it, and
@@ -47,9 +47,9 @@ struct ApplicationContext {
   void Detach();
 };
 
-const std::chrono::seconds kDefaultApplicationLaunchTimeout{20};
-
 namespace API {
+const int kDefaultApplicationLaunchTimeout{20};
+
 /**
  * @brief WaitForApplicationLaunch waits for a new application to start up, which Squish then hooks into.
  * @param timeout_secs (an integer number of seconds) can be specified to tell Squish how long it should be prepared to
@@ -59,7 +59,7 @@ namespace API {
  * @return If the hooking succeeds it returns an ApplicationContext object representing the application that was
  * started. This is used by Squish for test scripts which access multiple applications which are started by the AUT.
  **/
-ApplicationContext WaitForApplicationLaunch(std::chrono::seconds timeout_secs = kDefaultApplicationLaunchTimeout);
+ApplicationContext WaitForApplicationLaunch(int timeout_secs = kDefaultApplicationLaunchTimeout);
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled).
@@ -79,7 +79,7 @@ Object WaitForObject(const std::string& object_or_name);
  * @returns the object if successful or raises a (catchable) LookupError exception on failure, i.e., if
  * the function times out.
  **/
-Object WaitForObject(const std::string& object_or_name, std::chrono::milliseconds timeout_msec);
+Object WaitForObject(const std::string& object_or_name, int timeout_msec);
 
 /**
  * @brief TapObject performs a touch tap at the position specified by screenPoint.
