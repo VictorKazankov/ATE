@@ -113,6 +113,8 @@ target_include_directories(inihcpp
     inih
 )
 
+set(PYBIND11_PYTHON_VERSION 2.7 CACHE STRING "")
+
 ### Pybind11
 ### https://pybind11.readthedocs.io/en/stable/index.html
 add_subdirectory(pybind11)

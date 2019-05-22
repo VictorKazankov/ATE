@@ -1,30 +1,37 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-# A separate static library is necessary to support unit tests
-add_library(vhat_client_lib
-  STATIC
+project(vhat_client)
+
+add_library(vhat_client
+  MODULE
+    ate_client_main.cpp
     ate_interaction.cpp
 )
 
-target_include_directories(vhat_client_lib
+set_property(TARGET vhat_client PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+set_target_properties(vhat_client PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}"
+                                         SUFFIX "${PYTHON_MODULE_EXTENSION}")
+
+target_include_directories(vhat_client
   PUBLIC
     ../include
 )
 
-target_link_libraries(vhat_client_lib
+target_link_libraries(vhat_client
   vhat_common
+  pybind11::module
 )
 
-add_executable(vhat_client
-  ate_client_main.cpp
-)
-
-target_compile_definitions(vhat_client_lib
+target_compile_definitions(vhat_client
   PUBLIC
     VHAT_CLIENT_DATA_PATH="${VHAT_CLIENT_DATA_PATH}"
 )
 
-target_link_libraries(vhat_client
-  PRIVATE
-    vhat_client_lib
-)
+target_compile_options(vhat_common
+   PUBLIC
+     -pedantic
+     -Wall
+     -Werror
+     -Wextra
+ )
