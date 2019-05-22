@@ -38,7 +38,17 @@ ApplicationContext AttachToApplication(const std::string) {
   return ApplicationContext();  // TODO implement
 }
 
+Object WaitForObject(squish::Object /*object_or_name*/) {
+  std::clog << "WaitForObject(squish::Object)\n";
+  return ate_interaction->SendCommand("dump command");  // TODO implement
+}
+
 Object WaitForObject(const std::string& /*object_or_name*/) {
+  std::clog << "WaitForObject(std::string)\n";
+  return ate_interaction->SendCommand("dump command");  // TODO implement
+}
+
+Object WaitForObject(const squish::Object& /*object_or_name*/, int /*timeout_msec*/) {
   std::clog << "WaitForObject()\n";
   return ate_interaction->SendCommand("dump command");  // TODO implement
 }
@@ -49,13 +59,13 @@ Object WaitForObject(const std::string& /*object_or_name*/, int /*timeout_msec*/
 }
 
 void TapObject(const ScreenPoint& /*screen_point*/, ModifierState /*modifier_state*/, MouseButton /*button*/) {
-  std::clog << "TapObject()\n";
+  logger::info("void TapObject()");
   ate_interaction->SendCommand("dump command");
   // TODO implement
 }
 
 void TapObject(const ScreenRectangle& /*screen_rectangle*/, ModifierState /*modifier_state*/, MouseButton /*button*/) {
-  std::clog << "TapObject()\n";
+  logger::info("void TapObject()");
   ate_interaction->SendCommand("dump command");
   // TODO implement
 }
@@ -79,7 +89,19 @@ PYBIND11_MODULE(vhat_client, m) {
         "milliseconds",
         py::arg("object_or_name"));
 
+  m.def("waitForObject", py::overload_cast<squish::Object>(&squish::API::WaitForObject),
+        "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
+        "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
+        "milliseconds",
+        py::arg("object_or_name"));
+
   m.def("waitForObject", py::overload_cast<const std::string&, int>(&squish::API::WaitForObject),
+        "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
+        "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
+        "milliseconds. This function is useful if you want to synchronize your script execution",
+        py::arg("object_or_name"), py::arg("timeout_msec"));
+
+  m.def("waitForObject", py::overload_cast<const squish::Object&, int>(&squish::API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution",

@@ -17,20 +17,24 @@ struct ScreenPoint {
 /**
  * @brief ScreenRectangle it is a rectangle element with screen position and size properties.
  **/
-struct ScreenRectangle {
-  int x;
-  int y;
+struct ScreenRectangle : ScreenPoint {
   int width;
   int height;
 
-  ScreenPoint Center() const;
+  ScreenPoint Center() const {
+    ScreenPoint sp;
+    sp.x = width/2 + x;
+    sp.y = height/2 + y;
+    return sp;
+  };
+};
+
+struct Object : ScreenRectangle {
 };
 
 enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
 
 enum class MouseButton { NONE, LEFT_BUTTON, MIDLE_BUTTON, RIGHT_BUTTON };
-
-using Object = std::map<std::string, std::string>;
 
 struct ApplicationContext {
   std::string host_;
@@ -69,6 +73,7 @@ ApplicationContext AttachToApplication(const std::string aut_name = "");
  * the function times out
  **/
 Object WaitForObject(const std::string& object_or_name);
+Object WaitForObject( Object object_or_name);
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled).
@@ -80,6 +85,7 @@ Object WaitForObject(const std::string& object_or_name);
  * the function times out.
  **/
 Object WaitForObject(const std::string& object_or_name, int timeout_msec);
+Object WaitForObject(const Object& object_or_name, int timeout_msec);
 
 /**
  * @brief TapObject performs a touch tap at the position specified by screenPoint.
