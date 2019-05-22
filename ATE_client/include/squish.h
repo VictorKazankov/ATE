@@ -48,18 +48,13 @@ struct ApplicationContext {
 };
 
 namespace API {
-const int kDefaultApplicationLaunchTimeout{20};
 
 /**
- * @brief WaitForApplicationLaunch waits for a new application to start up, which Squish then hooks into.
- * @param timeout_secs (an integer number of seconds) can be specified to tell Squish how long it should be prepared to
- * wait for the application to appear before throwing an error. If specified, this value overrides squishrunner's
- * default AUT timeout. If not specified the squishserver's default is used—this is 20 seconds, unless it has been
- * changed;
- * @return If the hooking succeeds it returns an ApplicationContext object representing the application that was
- * started. This is used by Squish for test scripts which access multiple applications which are started by the AUT.
+ * @brief This function causes to attach to the application called aut_name.
+ * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an attachable AUT
+ * @return A handle to its application context
  **/
-ApplicationContext WaitForApplicationLaunch(int timeout_secs = kDefaultApplicationLaunchTimeout);
+ApplicationContext AttachToApplication(const std::string aut_name = "");
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled).

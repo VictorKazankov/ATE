@@ -14,8 +14,8 @@ std::unique_ptr<interaction::ATEInteraction> ate_interaction;
 namespace squish {
 namespace API {
 
-ApplicationContext WaitForApplicationLaunch(int /*timeout_secs*/) {
-  std::clog << "waitForApplicationLaunch()\n";
+ApplicationContext AttachToApplication(const std::string) {
+  std::clog << "AttachToApplication()\n";
   if (ate_interaction) {
     std::clog << "Warning ate_interaction already exist\n";
     return ApplicationContext();  // TODO implement
@@ -67,9 +67,10 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(vhat_client, m) {
   m.doc() = "VHAT plugin for communication with SYNC";
-  m.def("waitForApplicationLaunch", &squish::API::WaitForApplicationLaunch,
-        "WaitForApplicationLaunch waits for a new application to start up, which Squish then hooks into",
-        py::arg("timeout_secs") = squish::API::kDefaultApplicationLaunchTimeout);
+
+  m.def("attachToApplication", &squish::API::AttachToApplication,
+        "This function causes to attach to the application called aut_name and returns a handle to its application context",
+        py::arg("aut_name"));
 
   m.def("waitForObject", py::overload_cast<const std::string&>(&squish::API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
