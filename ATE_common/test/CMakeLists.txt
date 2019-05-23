@@ -10,6 +10,7 @@ add_executable(vhat_common_test
   common/common.cpp
   config/config.cpp
   logger/logger.cpp
+  utils/geometry_types.cpp
 )
 
 target_link_libraries(vhat_common_test
