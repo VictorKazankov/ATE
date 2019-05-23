@@ -3,7 +3,7 @@ import logging
 
 import pytest
 from functional_tests import ate
-from functional_tests.pages.hmi import HMI
+from functional_tests.pages import page_supervisor
 
 
 @pytest.fixture(scope='session')
@@ -29,11 +29,12 @@ def app_connector(config):
 
 @pytest.fixture(scope='module')
 def driver():
-    hmi = HMI()
-    if not hmi.home_page.verify_action_home_page():
-        hmi.home_page.open_home_page()
-    yield hmi
-    hmi.home_page.open_home_page()
+    api = page_supervisor.PageSupervisor()
+
+    if not api.home_page.home_page_is_active():
+        api.home_page.open_home_page()
+    yield api
+    api.home_page.open_home_page()
 
 
 @pytest.fixture(autouse=True)

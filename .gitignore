@@ -14,4 +14,5 @@ CMakeLists.txt.user*
 .pytest_cache/
 *.py[cod]
 allure-report/
+allure-results/
 tmp/
