@@ -8,6 +8,7 @@ add_library(vhat_server_lib
     interaction/ATE/tcp_connection.cpp
     interaction/ATE/tcp_server.cpp
     interaction/ATE/tcp_session_handler.cpp
+    interaction/SPI/spi_interaction.cpp
     storage/json_storage.cpp
     utils/safe_env.cpp
     video_streaming/matching/matcher.cpp

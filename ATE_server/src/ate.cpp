@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "exceptions.h"
+#include "interaction/SPI/spi_interaction.h"
 #include "interaction/VDP/vdp_interaction.h"
 #include "logger/logger.h"
 #include "storage/json_storage.h"
@@ -17,16 +18,33 @@ defines::DisplayType StrToDisplayType(const std::string& display_type_str) {
   if ("G2_10PINCH_DISP" == display_type_str) return defines::DisplayType::G2_10PINCH_DISP;
   return defines::DisplayType::UNDEFINED_DISP;
 }
+
+std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& interaction_type,
+                                                             boost::asio::io_context& io_context) {
+  if (interaction_type == defines::kSpi) {
+    return std::make_unique<interaction::SpiInteraction>(
+        common::Config().GetString(defines::kInteraction, defines::kDeviceAddress, ""),
+        StrToDisplayType(common::Config().GetString(defines::kBoardSection, defines::kDisplayTypeOption, "")));
+  }
+
+  if (interaction_type == defines::kVdp) {
+    return std::make_unique<interaction::VDPInteraction>(
+        io_context, common::Config().GetString(defines::kBoardSection, defines::kAddressOption, ""),
+        common::Config().GetString(defines::kBoardSection, defines::kPortOption, ""),
+        StrToDisplayType(common::Config().GetString(defines::kBoardSection, defines::kDisplayTypeOption, "")));
+  }
+
+  logger::critical("[ATE] Undefined type of interaction");
+  throw interaction::InteractionTypeError{};
+}
 }  // namespace
 
 ATE::ATE(boost::asio::io_context& io_context)
     : storage_{std::make_unique<storage::JsonStorage>(
           common::Config().GetString(defines::kDBSection, defines::kPathOption, ""),
           common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, ""))},
-      interaction_{std::make_unique<interaction::VDPInteraction>(
-          io_context, common::Config().GetString(defines::kBoardSection, defines::kAddressOption, ""),
-          common::Config().GetString(defines::kBoardSection, defines::kPortOption, ""),
-          StrToDisplayType(common::Config().GetString(defines::kBoardSection, defines::kDisplayTypeOption, "")))} {
+      interaction_{InteractionFactory(common::Config().GetString(defines::kInteraction, defines::kInteractionType, ""),
+                                      io_context)} {
   if (!storage_->Connect()) throw storage::ConnectionFailure{};
 }
 

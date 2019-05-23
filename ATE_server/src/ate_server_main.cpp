@@ -9,6 +9,8 @@
 #include "exceptions.h"
 #include "logger/logger.h"
 
+#include "interaction/ATE/tcp_server.h"
+
 namespace {
 
 void SetupSignalHandling(boost::asio::io_context& io_context, boost::asio::signal_set& sig_set) {
@@ -32,8 +34,10 @@ int main() try {
   common::SetUp(config_file);
 
   boost::asio::io_context io_context;
+  auto server = interaction::TcpServer::Create(io_context, 5000);
+  server->Start();
 
-  ATE ate(io_context);
+  // ATE ate(io_context);
 
   boost::asio::signal_set sig_set{io_context};
   SetupSignalHandling(io_context, sig_set);

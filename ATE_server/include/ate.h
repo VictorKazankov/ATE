@@ -5,8 +5,7 @@
 #include <memory>
 
 #include <boost/asio/io_context.hpp>
-
-#include "interaction/VDP/interaction.h"
+#include "interaction/interaction.h"
 #include "reporting/reporter.h"
 #include "storage/storage.h"
 #include "video_streaming/matching/matcher.h"

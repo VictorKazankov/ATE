@@ -11,19 +11,27 @@ enum class DisplayType {
   G2_10PINCH_DISP = 4
 };
 
-const std::string kVideoStreamOption = "VideoStream";
-const std::string kDBSection = "DB";
-const std::string kPathOption = "Path";
-const std::string kCollectionModeOption = "CollectionMode";
-const std::string kBoardSection = "BOARD";
-const std::string kAddressOption = "Address";
-const std::string kPortOption = "Port";
-const std::string kDisplayTypeOption = "DisplayType";
+enum class ContactId { kOneFingerTouch = 0 };
+
+constexpr auto kVideoStreamOption = "VideoStream";
+constexpr auto kDBSection = "DB";
+constexpr auto kPathOption = "Path";
+constexpr auto kCollectionModeOption = "CollectionMode";
+constexpr auto kBoardSection = "BOARD";
+constexpr auto kInteraction = "INTERACTION";
+constexpr auto kAddressOption = "Address";
+constexpr auto kPortOption = "Port";
+constexpr auto kDisplayTypeOption = "DisplayType";
+constexpr auto kInteractionType = "Type";
+constexpr auto kDeviceAddress = "DeviceAddress";
 
 constexpr auto kTextDetectorSection = "MATCHING/TextDetector";
 constexpr auto kTextDetectorConfidenceOption = "Confidence";
 constexpr double kDefaultTextDetectorConfidence = 80.;
 constexpr auto kTessDataOption = "TESSDATA_PREFIX";
+
+constexpr auto kVdp = "VDP";
+constexpr auto kSpi = "SPI";
 
 }  // namespace defines
 

@@ -1,29 +1,22 @@
-#ifndef ATE_SERVER_INTERACTION_VDP_VDP_INTERACTION_H_
-#define ATE_SERVER_INTERACTION_VDP_VDP_INTERACTION_H_
+#ifndef ATE_SERVER_INTERACTION_SPI_SPI_INTERACTION_H_
+#define ATE_SERVER_INTERACTION_SPI_SPI_INTERACTION_H_
 
-#include <boost/asio/io_context.hpp>
+#include <string>
+#include <vector>
 
-#include "https_client.h"
 #include "interaction/interaction.h"
 #include "utils/defines.h"
 
 namespace interaction {
 
-enum class EventType { PRESS, RELEASE, MOVE };
-
 /**
- * @brief Interface class for interaction with LVDS board
- **/
-class VDPInteraction : public Interaction {
- private:
-  defines::DisplayType display_type_;
-
-  HttpsClient::HttpsClientShared vdp_client_;
-
+ * @class SpiInteraction
+ * @brief Class provides ability to send touch events on TDK via spi interface
+ */
+class SpiInteraction : public Interaction {
  public:
-  VDPInteraction(boost::asio::io_context& io_context, const std::string& ip_address, const std::string& port,
-                 defines::DisplayType display_type);
-  ~VDPInteraction() override;
+  SpiInteraction(const std::string& devece_address, defines::DisplayType /*display_type*/);
+  ~SpiInteraction();
 
   /**
    * @brief Taps screen (press + release) at x,y coordinates
@@ -53,9 +46,15 @@ class VDPInteraction : public Interaction {
    **/
   void Drag(const int x, const int y) const override;
 
+
  private:
-  std::string PrepareCommand(const int x, const int y, const EventType event_type) const;
+  enum MouseEvent { MouseEvent_Press = 'P', MouseEvent_Release = 'R', MouseEvent_Move = 'M' };
+  int m_spi_;
+
+  void SendEvent(SpiInteraction::MouseEvent evt, int x, int y) const;
+  void SendPacket(std::vector<char>& data) const;
 };
+
 }  // namespace interaction
 
-#endif  // ATE_SERVER_INTERACTION_VDP_VDP_INTERACTION_H_
+#endif  // ATE_SERVER_INTERACTION_SPI_SPI_INTERACTION_H_
