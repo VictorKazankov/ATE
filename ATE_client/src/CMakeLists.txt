@@ -4,8 +4,9 @@ project(vhat_client)
 
 add_library(vhat_client
   MODULE
-    ate_client_main.cpp
     ate_interaction.cpp
+    squish.cpp
+    vhat_client.cpp
 )
 
 set_property(TARGET vhat_client PROPERTY POSITION_INDEPENDENT_CODE ON)
