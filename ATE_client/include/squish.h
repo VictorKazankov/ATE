@@ -38,8 +38,8 @@ enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
 enum class MouseButton { NONE, LEFT_BUTTON, MIDLE_BUTTON, RIGHT_BUTTON };
 
 struct ApplicationContext {
-  std::string host_;
-  size_t port;
+  std::string host{};
+  std::string port{};
 
   /**
    * @brief This function detaches from a previously started (or attached) application.

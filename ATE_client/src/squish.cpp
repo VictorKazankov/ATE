@@ -20,12 +20,13 @@ static int kDefaultWaitForObjectTimeoutInMs = 0;
 }  // namespace
 
 std::unique_ptr<interaction::ATEInteraction> ate_interaction;
+ApplicationContext applicationContext;
 
 ApplicationContext API::AttachToApplication(const std::string&) {
   logger::info("ApplicationContext AttachToApplication()");
   if (ate_interaction) {
     logger::warn("Warning ate_interaction already exist");
-    return ApplicationContext();
+    return applicationContext;
   }
 
   boost::asio::io_context io_context;
@@ -35,9 +36,11 @@ ApplicationContext API::AttachToApplication(const std::string&) {
   kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
 
   try {
-    ate_interaction = std::make_unique<interaction::ATEInteraction>(
-        io_context, common::Config().GetString(kBoardSection, kAddressOption, ""),
-        common::Config().GetString(kBoardSection, kPortOption, ""));
+    applicationContext.host = common::Config().GetString(kBoardSection, kAddressOption, "");
+    applicationContext.port = common::Config().GetString(kBoardSection, kPortOption, "");
+
+    ate_interaction =
+        std::make_unique<interaction::ATEInteraction>(io_context, applicationContext.host, applicationContext.port);
 
   } catch (const boost::system::system_error& boost_error) {
     logger::critical("boost system error: {} ({})", boost_error.what(), boost_error.code());
@@ -49,7 +52,7 @@ ApplicationContext API::AttachToApplication(const std::string&) {
 
   io_context.run();
 
-  return ApplicationContext();
+  return applicationContext;
 }
 
 Object API::WaitForObject(const std::string& object_or_name) {

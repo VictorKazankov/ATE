@@ -6,6 +6,12 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(vhat_client, m) {
   m.doc() = "VHAT plugin for communication with SYNC";
+
+  py::class_<squish::ApplicationContext>(m, "ApplicationContext")
+      .def(py::init())
+      .def_readonly("host", &squish::ApplicationContext::host)
+      .def_readonly("port", &squish::ApplicationContext::port);
+
   py::class_<squish::Object>(m, "Object")
       .def(py::init())
       .def_readwrite("x", &squish::Object::x)
