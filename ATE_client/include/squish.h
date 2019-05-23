@@ -10,26 +10,27 @@ namespace squish {
  * @brief ScreenPoint it is a point element representing a position on screen.
  **/
 struct ScreenPoint {
-  int x;
-  int y;
+  int x{};
+  int y{};
 };
 
 /**
  * @brief ScreenRectangle it is a rectangle element with screen position and size properties.
  **/
 struct ScreenRectangle : ScreenPoint {
-  int width;
-  int height;
+  int width{};
+  int height{};
 
   ScreenPoint Center() const {
     ScreenPoint sp;
-    sp.x = width/2 + x;
-    sp.y = height/2 + y;
+    sp.x = width / 2 + x;
+    sp.y = height / 2 + y;
     return sp;
   };
 };
 
 struct Object : ScreenRectangle {
+  Object(){};
 };
 
 enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
@@ -63,7 +64,7 @@ namespace API {
  * AUT
  * @return A handle to its application context
  **/
-ApplicationContext AttachToApplication(const std::string aut_name = "");
+ApplicationContext AttachToApplication(const std::string& aut_name = "");
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled).
@@ -73,7 +74,7 @@ ApplicationContext AttachToApplication(const std::string aut_name = "");
  * the function times out
  **/
 Object WaitForObject(const std::string& object_or_name);
-Object WaitForObject( Object object_or_name);
+Object WaitForObject(const Object& object_or_name);
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled).
@@ -104,6 +105,8 @@ void TapObject(const ScreenPoint& screen_point, ModifierState modifier_state = M
  * @param The optional button specify mouse button that held down during the click
  **/
 void TapObject(const ScreenRectangle& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
+               MouseButton button = MouseButton::NONE);
+void TapObject(const Object& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
                MouseButton button = MouseButton::NONE);
 }  // namespace API
 }  // namespace squish
