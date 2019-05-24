@@ -25,21 +25,14 @@ class ATE {
  public:
   ATE(boost::asio::io_context& io_context);
   ~ATE();
-  /*
-   * @brief Waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled).
-   * with values of x, y, width, height zero
-   * @params name object or name of component
-   * @params timeout_msec timeout for detection of object
-   * @return returns a rectangle with specified coordinates of the object if successful, otherwise empty rectangle.
-   */
-  cv::Rect waitForObject(const std::string& name, const std::chrono::milliseconds& timeout);
 
-  /*
-   * @brief This function tells test to sleep for the specified nominal number of milliseconds.
-   * @params timeout_msec milliseconds timeout
+  /**
+   * @brief Waits until the object is accessible (i.e., it exists and is visible and enabled)
+   * @param object_or_name object or name of the component
+   * @param timeout timeout for detection of the object
+   * @return rectangle with specified coordinates of the object if successful, otherwise empty rectangle
    */
-  void Snooze(const std::chrono::milliseconds& duration);
-  void Close();
+  cv::Rect WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout);
 };
 
 #endif  // ATE_SERVER_ATE_H_

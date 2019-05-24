@@ -30,20 +30,17 @@ ATE::ATE(boost::asio::io_context& io_context)
   if (!storage_->Connect()) throw storage::ConnectionFailure{};
 }
 
-ATE::~ATE() { Close(); }
+ATE::~ATE() = default;
 
-cv::Rect ATE::waitForObject(const std::string& name, const std::chrono::milliseconds& timeout) {
-  const auto item_path = storage_->ItemPath(name);
-  Snooze(timeout);
-  if (!item_path.empty()) {
-    return matcher_.MatchImage(item_path);
-  } else {
-    return matcher_.MatchText(name);
-  }
+cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout) {
+  const auto timeout_point = std::chrono::steady_clock::now() + timeout;
+  const auto item_path = storage_->ItemPath(object_or_name);
+  const bool is_image = !item_path.empty();
+  cv::Rect match_result;
+
+  do {
+    match_result = is_image ? matcher_.MatchImage(item_path) : matcher_.MatchText(object_or_name);
+  } while (match_result.empty() && std::chrono::steady_clock::now() <= timeout_point);
+
+  return match_result;
 }
-
-void ATE::Close() {
-  // TODO
-}
-
-void ATE::Snooze(const std::chrono::milliseconds& duration) { std::this_thread::sleep_for(duration); }
