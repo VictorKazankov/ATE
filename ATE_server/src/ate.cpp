@@ -32,6 +32,15 @@ ATE::ATE(boost::asio::io_context& io_context)
 
 ATE::~ATE() = default;
 
+void ATE::TapObject(const cv::Point& point) {
+  interaction_->Tap(point.x, point.y);
+}
+
+void ATE::TapObject(const cv::Rect& rect) {
+  const cv::Point center = (rect.tl() + rect.br()) / 2;
+  TapObject(center);
+}
+
 cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout) {
   const auto timeout_point = std::chrono::steady_clock::now() + timeout;
   const auto item_path = storage_->ItemPath(object_or_name);
