@@ -43,7 +43,7 @@ class TcpSessionHandler : public SessionHandler {
    * @param session - Pointer to connection with client
    * @param json_message - Json::Value json structure using for extract message payload
    */
-  static void HandleAttachToApplication(const std::shared_ptr<TcpConnection>& session,
+  void HandleAttachToApplication(const std::shared_ptr<TcpConnection>& session,
                                              const Json::Value& json_message);
 
   /**
@@ -51,14 +51,14 @@ class TcpSessionHandler : public SessionHandler {
    * @param session - Pointer to connection with client
    * @param json_message - Json::Value json structure using for extract message payload
    */
-  static void HandleWaitForObject(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message);
+  void HandleWaitForObject(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message);
 
   /**
    * @brief Handler method for meessage 'TapObject'
    * @param session - Pointer to connection with client
    * @param json_message - Json::Value json structure using for extract message payload
    */
-  static void HandleTapObject(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message);
+  void HandleTapObject(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message);
 
   using MessageHandlerFunction =
       std::function<void(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message)>;

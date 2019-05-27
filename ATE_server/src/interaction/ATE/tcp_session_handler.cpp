@@ -28,9 +28,18 @@ bool CheckMessage(const std::string& message, Json::Value& value) {
 }  // namespace
 
 TcpSessionHandler::TcpSessionHandler()
-    : handler_map_{{common::jmsg::kAttachToApplication, TcpSessionHandler::HandleAttachToApplication},
-                   {common::jmsg::kWaitForObject, TcpSessionHandler::HandleWaitForObject},
-                   {common::jmsg::kTapObject, TcpSessionHandler::HandleTapObject}} {}
+    : handler_map_{{common::jmsg::kAttachToApplication,
+                    [this](const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message) {
+                      this->HandleAttachToApplication(session, json_message);
+                    }},
+                   {common::jmsg::kWaitForObject,
+                    [this](const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message) {
+                      this->HandleWaitForObject(session, json_message);
+                    }},
+                   {common::jmsg::kTapObject,
+                    [this](const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message) {
+                      this->HandleTapObject(session, json_message);
+                    }}} {}
 
 void TcpSessionHandler::OnOpen(const std::shared_ptr<TcpConnection>& session) { session->Start(); }
 
