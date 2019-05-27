@@ -1,20 +1,22 @@
+import logging
+
 """Mock ATE API file"""
 
 
 def attachToApplication(app, host, port):
-    print('Connecting to {} app {}:{}'.format(app, host, port))
+    logging.info('Connecting to {} app {}:{}'.format(app, host, port))
 
 
 def detach():
-    print("Disconnected")
+    logging.info("Disconnected")
 
 
 def waitForObject(object, timeout=None):
-    print("I am wait_for_object {}".format(object))
+    logging.info("I am wait_for_object {}".format(object))
     x, y = 1, 2
     return x, y
 
 
 def tapObject(object):
-    print("I am tab_object")
+    logging.info("I am tap_object")
     return True

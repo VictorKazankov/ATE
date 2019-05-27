@@ -5,6 +5,8 @@ import pytest
 from functional_tests import ate
 from functional_tests.pages import page_supervisor
 
+pytest_plugins = "functional_tests.utils.logger"
+
 
 @pytest.fixture(scope='session')
 def config():

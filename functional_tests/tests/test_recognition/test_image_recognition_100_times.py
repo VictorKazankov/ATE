@@ -1,3 +1,7 @@
+import logging
+
+import allure
+import pytest
 from functional_tests.tests.test_recognition import helpers
 from functional_tests.utils import constants
 
@@ -9,13 +13,13 @@ PERCENT = 98
 '''
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-254"), "VHAT-254")
+@pytest.mark.image_recognition
 def test_recognition_home_icon(driver):
     if not driver.home_page.home_page_is_active():
         driver.home_page.open_home_page()
     counter = {'success': 0, 'fail': 0}
-    # run recognition and counting successful and failed attempts
     counter = helpers.get_result_recognition(ATTEMPTS, constants.HOME_PAGE_ICON, counter)
-    # verify that successful percent > 98
     check_recognition(counter)
 
 
@@ -24,16 +28,18 @@ def test_recognition_home_icon(driver):
 '''
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-259"), "VHAT-259")
+@pytest.mark.image_recognition
 def test_recognition_climate_up_arrow_temperature(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    # run recognition and counting successful and failed attempts
     counter = helpers.get_result_recognition(ATTEMPTS, constants.CLIMATE_ARROW_UP, counter)
-    # verify that successful percent > 98
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-259"), "VHAT-259")
+@pytest.mark.image_recognition
 def test_recognition_climate_down_arrow_temperature(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
@@ -42,6 +48,8 @@ def test_recognition_climate_down_arrow_temperature(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-260"), "VHAT-260")
+@pytest.mark.image_recognition
 def test_recognition_climate_switch_on_off_button(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
@@ -50,6 +58,8 @@ def test_recognition_climate_switch_on_off_button(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-261"), "VHAT-261")
+@pytest.mark.image_recognition
 def test_recognition_climate_top_airflow_button(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
@@ -63,6 +73,8 @@ Audio page
 '''
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-257"), "VHAT-257")
+@pytest.mark.image_recognition
 def test_recognition_frequency_button(driver):
     if not driver.audio_page.audio_page_is_active():
         driver.audio_page.open_audio_page()
@@ -71,6 +83,8 @@ def test_recognition_frequency_button(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-258"), "VHAT-258")
+@pytest.mark.image_recognition
 def test_recognition_presets_button(driver):
     if not driver.audio_page.audio_page_is_active():
         driver.audio_page.open_audio_page()
@@ -84,6 +98,8 @@ Settings page
 '''
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-276"), "VHAT-276")
+@pytest.mark.image_recognition
 def test_recognition_back_settings_button(driver):
     if not driver.settings_audio_page.setting_audio_page_is_active():
         driver.settings_page.open_settings_page()
@@ -93,6 +109,8 @@ def test_recognition_back_settings_button(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-271"), "VHAT-271")
+@pytest.mark.image_recognition
 def test_recognition_down_scroll_button_active(driver):
     if not driver.settings_clock_page.setting_clock_page_is_active():
         driver.settings_page.open_settings_page()
@@ -102,6 +120,8 @@ def test_recognition_down_scroll_button_active(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-270"), "VHAT-270")
+@pytest.mark.image_recognition
 def test_recognition_up_scroll_button_inactive(driver):
     if not driver.settings_clock_page.setting_clock_page_is_active():
         driver.settings_page.open_settings_page()
@@ -111,6 +131,8 @@ def test_recognition_up_scroll_button_inactive(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-267"), "VHAT-267")
+@pytest.mark.image_recognition
 def test_recognition_info_button(driver):
     if not driver.settings_clock_page.setting_clock_page_is_active():
         driver.settings_page.open_settings_page()
@@ -120,6 +142,8 @@ def test_recognition_info_button(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-272"), "VHAT-272")
+@pytest.mark.image_recognition
 def test_recognition_scroll(driver):
     if not driver.settings_clock_page.setting_clock_page_is_active():
         driver.settings_page.open_settings_page()
@@ -129,6 +153,8 @@ def test_recognition_scroll(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-264"), "VHAT-264")
+@pytest.mark.image_recognition
 def test_recognition_slider(driver):
     if not driver.settings_audio_page.setting_audio_page_is_active():
         driver.settings_page.open_settings_page()
@@ -138,6 +164,8 @@ def test_recognition_slider(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-265"), "VHAT-265")
+@pytest.mark.image_recognition
 def test_recognition_balance_fade_button(driver):
     if not driver.settings_audio_page.setting_audio_page_is_active():
         driver.settings_page.open_settings_page()
@@ -147,6 +175,8 @@ def test_recognition_balance_fade_button(driver):
     check_recognition(counter)
 
 
+@allure.testcase(constants.TASK_LINK.format("VHAT-274"), "VHAT-274")
+@pytest.mark.image_recognition
 def test_back_property_field_button(driver):
     driver.settings_audio_page.open_settings_audio_property_field_page()
     counter = {'success': 0, 'fail': 0}
@@ -155,4 +185,5 @@ def test_back_property_field_button(driver):
 
 
 def check_recognition(counter):
+    logging.info("Recognized {} images".format(counter['success']))
     assert (counter['success'] / ATTEMPTS * 100) > PERCENT, "Image recognition < {}%".format(PERCENT)

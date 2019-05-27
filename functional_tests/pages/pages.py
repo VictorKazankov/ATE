@@ -1,3 +1,5 @@
+import logging
+
 from functional_tests.pages import hmi
 from functional_tests.utils import constants
 
@@ -142,7 +144,7 @@ def tap_if_visible(name):
     obj = check_visibility(name)
     if obj:
         hmi.tap_object(obj)
-        print("Tap on x:{}, y:{}".format(obj[0], obj[1]))
+        logging.info("Tap on x:{}, y:{}".format(obj[0], obj[1]))
         return
     raise Exception("Can`t tap on {}".format(name))
 

@@ -40,6 +40,7 @@ BALANCE_FADE_BUTTON = 'balance_fade'
 SCROOL = 'scrool'
 
 """TEXT"""
+
 NAVIGATION_TEXT = 'Navigation fault'
 CONNECTING_TEXT = 'Connecting phone...'
 PAIR_PHONE_TEXT = 'Pair phone'
@@ -48,3 +49,6 @@ AUTO_TIME_ZONE_TEXT = "If enabled, automatically adjusts the vehicle's clock whe
 AC_CONTROL_TEXT = 'A/C'
 CLOCK_FORMAT_12H_TEXT = '12h'
 FREQUENCY_105_50 = '105.50'
+
+"""JIRA"""
+TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'
