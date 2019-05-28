@@ -8,6 +8,7 @@
 #include "common.h"
 #include "exceptions.h"
 #include "logger/logger.h"
+#include "utils/defines.h"
 
 #include "interaction/ATE/tcp_server.h"
 
@@ -34,10 +35,10 @@ int main() try {
   common::SetUp(config_file);
 
   boost::asio::io_context io_context;
-  auto server = interaction::TcpServer::Create(io_context, 5000);
-  server->Start();
 
-  // ATE ate(io_context);
+  auto server = interaction::TcpServer::Create(
+      io_context, common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
+  server->Start();
 
   boost::asio::signal_set sig_set{io_context};
   SetupSignalHandling(io_context, sig_set);

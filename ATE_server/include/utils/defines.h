@@ -24,6 +24,7 @@ constexpr auto kPortOption = "Port";
 constexpr auto kDisplayTypeOption = "DisplayType";
 constexpr auto kInteractionType = "Type";
 constexpr auto kDeviceAddress = "DeviceAddress";
+constexpr auto kAteListenerPort = "ListenerPort";
 
 constexpr auto kTextDetectorSection = "MATCHING/TextDetector";
 constexpr auto kTextDetectorConfidenceOption = "Confidence";
