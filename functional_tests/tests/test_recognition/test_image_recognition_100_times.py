@@ -184,6 +184,28 @@ def test_back_property_field_button(driver):
     check_recognition(counter)
 
 
+def test_recognition_active_check_button(driver):
+    if not driver.settings_navigation_page.settings_navigation_page_is_active():
+        driver.settings_page.open_settings_page()
+        driver.settings_page.open_setting_navigation_page()
+    driver.settings_navigation_page.open_route_preferences_page()
+    driver.settings_navigation_page.tab_on_down_arrow()
+    counter = {'success': 0, 'fail': 0}
+    counter = helpers.get_result_recognition(ATTEMPTS, constants.CHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON, counter)
+    check_recognition(counter)
+
+
+def test_recognition_inactive_check_button(driver):
+    if not driver.settings_navigation_page.settings_navigation_page_is_active():
+        driver.settings_page.open_settings_page()
+        driver.settings_page.open_setting_navigation_page()
+    driver.settings_navigation_page.open_route_preferences_page()
+    driver.settings_navigation_page.tab_on_down_arrow()
+    counter = {'success': 0, 'fail': 0}
+    counter = helpers.get_result_recognition(ATTEMPTS, constants.UNCHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON, counter)
+    check_recognition(counter)
+
+
 def check_recognition(counter):
     logging.info("Recognized {} images".format(counter['success']))
     assert (counter['success'] / ATTEMPTS * 100) > PERCENT, "Image recognition < {}%".format(PERCENT)

@@ -105,6 +105,9 @@ class SettingsPage:
     def open_setting_audio_page(self):
         return tap_if_visible(constants.SETTINGS_SOUND_BUTTON)
 
+    def open_setting_navigation_page(self):
+        return tap_if_visible(constants.SETTINGS_NAVIGATION_BUTTON)
+
 
 class SettingsClockPage:
 
@@ -137,6 +140,20 @@ class SettingsAudioPage:
 
     def open_settings_audio_property_field_page(self):
         return tap_if_visible(constants.ADAPTIVE_VOLUME_MEDIUM_OPTION)
+
+
+class SettingsNavigationPage:
+
+    def settings_navigation_page_is_active(self):
+        if check_visibility(constants.SETTINGS_NAVIGATION_TEXT):
+            return True
+        return False
+
+    def open_route_preferences_page(self):
+        return tap_if_visible(constants.ROUTE_PREFERENCES_TEXT)
+
+    def tap_on_down_arrow(self):
+        return tap_if_visible(constants.DOWN_SCROLL_BUTTON_ACTIVE)
 
 
 def tap_if_visible(name):

@@ -37,7 +37,10 @@ DOWN_SCROLL_BUTTON_ACTIVE = 'down_active'
 UP_SCROLL_BUTTON_INACTIVE = 'up_inactive'
 SLIDER = 'slider'
 BALANCE_FADE_BUTTON = 'balance_fade'
-SCROOL = 'scrool'
+SCROLL = 'scroll'
+CHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON = 'checkbox_checked'
+UNCHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON = 'checkbox_unchecked'
+SETTINGS_NAVIGATION_BUTTON = 'settings_navigation'
 
 """TEXT"""
 
@@ -49,6 +52,8 @@ AUTO_TIME_ZONE_TEXT = "If enabled, automatically adjusts the vehicle's clock whe
 AC_CONTROL_TEXT = 'A/C'
 CLOCK_FORMAT_12H_TEXT = '12h'
 FREQUENCY_105_50 = '105.50'
+SETTINGS_NAVIGATION_TEXT = 'Navigation settings'
+ROUTE_PREFERENCES_TEXT = 'Route preferences'
 
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'

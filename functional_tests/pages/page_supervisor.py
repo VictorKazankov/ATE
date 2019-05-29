@@ -1,6 +1,7 @@
 from functional_tests.pages.pages import (AudioPage, ClimatePage, HomePage,
                                           PhonePage, SettingsAudioPage,
-                                          SettingsClockPage, SettingsPage)
+                                          SettingsClockPage,
+                                          SettingsNavigationPage, SettingsPage)
 
 
 class PageSupervisor:
@@ -12,3 +13,4 @@ class PageSupervisor:
         self.settings_page = SettingsPage()
         self.settings_clock_page = SettingsClockPage()
         self.settings_audio_page = SettingsAudioPage()
+        self.settings_navigation_page = SettingsNavigationPage()
