@@ -21,7 +21,7 @@ add_library(vhat_server_lib
 
 # OpenCV
 # https://opencv.org
-find_package(OpenCV REQUIRED
+find_package(OpenCV 3.3.1 REQUIRED
   COMPONENTS
     calib3d
     core
