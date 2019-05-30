@@ -1,5 +1,5 @@
-[{"name":"contacts","location":"lightstyles/contacts.png"},
-{"name":"apps","location":"lightstyles/apps.png"},
-{"name":"audio","location":"lightstyles/audio.png"},
-{"name":"climate","location":"lightstyles/climate.png"},
-{"name":"settings_phone","location":"lightstyles/settings_phone.png"}]
+[{"name":"contacts","location":"day_mode/contacts.png"},
+{"name":"apps","location":"day_mode/apps.png"},
+{"name":"audio","location":"day_mode/audio.png"},
+{"name":"climate","location":"day_mode/climate.png"},
+{"name":"settings_phone","location":"day_mode/settings_phone.png"}]
