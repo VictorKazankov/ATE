@@ -1,22 +1,51 @@
 #ifndef ATE_COMMON_MESSAGE_FACTORY_JSON_UTILS_H_
 #define ATE_COMMON_MESSAGE_FACTORY_JSON_UTILS_H_
 
+#include <chrono>
 #include <string>
 
 #include <jsoncpp/json/value.h>
+
+#include "rpc_error.h"
 
 namespace common {
 namespace jmsg {
 
 /**
+ * @brief creates error object in jsonrpc format
+ *
+ * @param code - number that indicates the error type that occurred
+ * @param message - string providing a short description of the error
+ * @param data - primitive or Structured value that contains additional information about the error.
+ * This may be omitted.
+
+ * @return error as JSON object
+ */
+Json::Value CreateErrorObject(rpc::Error code, const char* message, Json::Value data = {});
+
+/**
  * @brief Parses and verify received message accordance with json formatted
- *  fills argument 'value' if parsing is okay
+ * fills argument 'value' if parsing is okay
  *
  * @param json_message received message from client in string format
  * @param value reference to 'Json::Value' which should be filled if parsing is okay
  * @return true if parsing is okay false in bad case
  */
 bool ParseJson(const std::string& json_message, Json::Value& value);
+
+/**
+ * @brief Parses JSON-RPC 2.0 request
+ *
+ * @param[in] json_message received from client
+ *
+ * @param[out] id - identifier established by the Client (not 0)
+ * @param[out] method - string containing the name of the method to be invoke
+ * @param[out] params - value that holds the parameter values to be used during the invocation of the method.
+ * This member MAY be omitted.
+ * @param[out] error - error object, null on successs
+ */
+void ParseJsonRpcRequest(const std::string& json_message, std::uint64_t& id, std::string& method, Json::Value& params,
+                         Json::Value& error);
 
 /**
  * @brief Check header of message
@@ -43,20 +72,29 @@ bool CheckHeaderType(const Json::Value& value);
 bool CheckAttachToApplicationRequest(const Json::Value& schema);
 
 /**
- * @brief Check request scheme of message 'WaitForObject'
+ * @brief Extract params fot 'WaitForObject' method
  *
- * @param value reference to 'Json::Value' for verification of json schema
- * @return true schema is correct otherwise false
+ * @param[in] params - structured value that holds the parameter values to be used
+ * during the invocation of the 'WaitForObject' method
+ *
+ * @param[out] object_or_name
+ * @param[out] timeout - object waiting duration
+ * @param[out] error - error object, null on successs
  */
-bool CheckWaitForObjectRequest(const Json::Value& schema);
+void ExtractWaitForObjectRequestParams(const Json::Value& params, std::string& object_or_name,
+                                       std::chrono::milliseconds& timeout, Json::Value& error);
 
 /**
- * @brief Check request scheme of message 'TapObject'
+ * @brief Extract params fot 'TapObject' method
  *
- * @param value reference to 'Json::Value' for verification of json schema
- * @return true schema is correct otherwise false
+ * @param[in] params - structured value that holds the parameter values to be used
+ * during the invocation of the 'TapObject' method
+ *
+ * @param[out] x
+ * @param[out] y
+ * @param[out] error - error object, null on successs
  */
-bool CheckTapObjectRequest(const Json::Value& schema);
+void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
 
 /**
  * @brief Check response scheme of message 'WaitForApplicationLaunch'
@@ -75,6 +113,6 @@ bool CheckAttachToApplicationResponse(const Json::Value& schema);
 bool CheckWaitForObjectResponse(const Json::Value& schema);
 
 }  // namespace jmsg
-}  // namespace vhat_common
+}  // namespace common
 
 #endif  // ATE_COMMON_MESSAGE_FACTORY_JSON_UTILS_H_

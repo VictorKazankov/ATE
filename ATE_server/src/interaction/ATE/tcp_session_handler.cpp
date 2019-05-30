@@ -1,94 +1,105 @@
 #include "interaction/ATE/tcp_session_handler.h"
 
-#include <iostream>
+#include <cassert>
+#include <utility>
 
+#include <jsoncpp/json/value.h>
+
+#include "interaction/ATE/tcp_connection.h"
 #include "logger/logger.h"
 #include "message_factory/json_defines.h"
 #include "message_factory/json_messages.h"
 #include "message_factory/json_utils.h"
 #include "message_factory/message_factory.h"
+#include "rpc_error.h"
 
 namespace interaction {
 
-namespace {
+TcpSessionHandler::TcpSessionHandler(boost::asio::io_context& io_ctx)
+    : ate_{io_ctx},
+      handler_map_{{common::jmsg::kWaitForObject, &TcpSessionHandler::HandleWaitForObject},
+                   {common::jmsg::kTapObject, &TcpSessionHandler::HandleTapObject}} {}
 
-bool CheckMessage(const std::string& message, Json::Value& value) {
-  if (!common::jmsg::ParseJson(message, value)) {
-    return false;
+void TcpSessionHandler::OnOpen(TcpConnection& session) { session.Start(); }
+
+void TcpSessionHandler::OnMessage(TcpConnection& session, const std::string& message) {
+  std::uint64_t id = 0;
+  std::string method;
+  Json::Value params;
+  std::pair<Json::Value, bool> result_or_error{Json::Value{Json::objectValue}, false};
+
+  common::jmsg::ParseJsonRpcRequest(message, id, method, params, result_or_error.first);
+
+  if (result_or_error.first.empty()) {
+    // Successful parsing
+    const auto method_handler = GetHandler(method);
+    assert(method_handler);
+    result_or_error = (this->*method_handler)(params);
   }
-  if (!common::jmsg::CheckHeader(value)) {
-    return false;
-  }
-  if (!common::jmsg::CheckHeaderType(value)) {
-    return false;
-  }
-  return true;
+
+  SendResponse(session, id, std::move(result_or_error.first), result_or_error.second);
 }
 
-}  // namespace
+void TcpSessionHandler::SendResponse(TcpConnection& session, std::uint64_t id, Json::Value result_or_error,
+                                     bool is_result) {
+  std::string response =
+      common::jmsg::MessageFactory::Server::CreateResponse(id, std::move(result_or_error), is_result);
+  session.Send(response);
+}
 
-TcpSessionHandler::TcpSessionHandler()
-    : handler_map_{{common::jmsg::kAttachToApplication,
-                    [this](const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message) {
-                      this->HandleAttachToApplication(session, json_message);
-                    }},
-                   {common::jmsg::kWaitForObject,
-                    [this](const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message) {
-                      this->HandleWaitForObject(session, json_message);
-                    }},
-                   {common::jmsg::kTapObject,
-                    [this](const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message) {
-                      this->HandleTapObject(session, json_message);
-                    }}} {}
-
-void TcpSessionHandler::OnOpen(const std::shared_ptr<TcpConnection>& session) { session->Start(); }
-
-void TcpSessionHandler::OnMessage(const std::shared_ptr<TcpConnection>& session, const std::string& message) {
-  logger::info("[sessionhandler] receive message : {}", message);
-  Json::Value json_message;
-  if (!CheckMessage(message, json_message)) return;
-
-  const auto& command = json_message[common::jmsg::kMethod].asString();
-  const auto& it = handler_map_.find(command);
-
-  if (it == handler_map_.end()) {
-    logger::error("[sessionhandler] Unexpected command type");
-    return;
+TcpSessionHandler::MessageHandlerFunction TcpSessionHandler::GetHandler(const std::string& method) const noexcept {
+  try {
+    return handler_map_.at(method);
+  } catch (const std::out_of_range& /*not_found*/) {
+    return &TcpSessionHandler::HandleUnknownMethod;
   }
-  it->second(session, json_message);
 }
 
-void TcpSessionHandler::HandleAttachToApplication(const std::shared_ptr<TcpConnection>& session,
-                                                  const Json::Value& json_message) {
-  if (!common::jmsg::CheckAttachToApplicationRequest(json_message)) return;
-  logger::debug("Processing on WaitForApplicationLaunch");
+std::pair<Json::Value, bool> TcpSessionHandler::HandleWaitForObject(const Json::Value& params) {
+  std::string object_or_name;
+  std::chrono::milliseconds timeout;
+  Json::Value error;
 
-  // avoid unused variable
-  (void)(session);
-  // Exctract: timout
-  // TODO : ate.AttachToApplication(timeout);
+  common::jmsg::ExtractWaitForObjectRequestParams(params, object_or_name, timeout, error);
+
+  if (!error.empty()) {
+    // Extract error occurs
+    return std::make_pair(std::move(error), false);
+  }
+
+  const cv::Rect position = ate_.WaitForObject(object_or_name, timeout);
+
+  if (position.empty()) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, "Object not found");
+    logger::info("[session_handler] object_or_name: {}, timeout: {}ms error: {}", object_or_name, timeout.count(),
+                 error.toStyledString());
+    return std::make_pair(std::move(error), false);
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateWaitForObjectResultObject(
+                            position.x, position.y, position.width, position.height),
+                        true);
 }
 
-void TcpSessionHandler::HandleWaitForObject(const std::shared_ptr<TcpConnection>& session,
-                                            const Json::Value& json_message) {
-  if (!common::jmsg::CheckWaitForObjectRequest(json_message)) return;
-  logger::debug("Processing on WaitForObject");
+std::pair<Json::Value, bool> TcpSessionHandler::HandleTapObject(const Json::Value& params) {
+  cv::Point point;
+  Json::Value extract_error;
 
-  // avoid unused variable
-  (void)(session);
-  // Extract: object, timeout
-  // TODO: ate.WaitForObject(object, timeout);
+  common::jmsg::ExtractTapObjectRequestParams(params, point.x, point.y, extract_error);
+
+  if (!extract_error.empty()) {
+    return std::make_pair(std::move(extract_error), false);
+  }
+
+  ate_.TapObject(point);
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateTapObjectResultObject(), true);
 }
 
-void TcpSessionHandler::HandleTapObject(const std::shared_ptr<TcpConnection>& session,
-                                        const Json::Value& json_message) {
-  if (!common::jmsg::CheckTapObjectRequest(json_message)) return;
-  logger::debug("Processing on TapObject");
-
-  // avoid unused variable
-  (void)(session);
-  // Extract: x, y or x, y, width, height and construct Point or Rect
-  // TODO: ate.TapObject(Rect/Point);
+std::pair<Json::Value, bool> TcpSessionHandler::HandleUnknownMethod(const Json::Value& params) {
+  Json::Value error = common::jmsg::CreateErrorObject(rpc::Error::kMethodNotFound, "Method not found");
+  logger::error("[session_handler] {}\nparams: {}", error.toStyledString(), params.toStyledString());
+  return std::make_pair(std::move(error), false);
 }
 
 }  // namespace interaction

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <jsoncpp/json/writer.h>
+#include <jsoncpp/json/value.h>
 
 namespace common {
 namespace jmsg {
@@ -30,9 +30,9 @@ class MessageFactory {
    * @brief Struct 'Server' stores factory methods which uses for creating json messages response (server -> client)
    */
   struct Server {
-    static std::string CreateAttachToApplicationResponse(const std::string& host, uint16_t port, bool is_running,
-                                                         int id);
-    static std::string CreateWaitForObjectResponse(uint16_t x, uint16_t y, uint16_t width, uint16_t hight, int id);
+    static std::string CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result);
+    static Json::Value CreateTapObjectResultObject();
+    static Json::Value CreateWaitForObjectResultObject(int x, int y, int width, int height);
   };
 };
 

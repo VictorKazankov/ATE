@@ -12,6 +12,12 @@ constexpr auto kMethod = "method";
 constexpr auto kParams = "params";
 constexpr auto kResult = "result";
 
+// Error fields
+constexpr auto kError = "error";
+constexpr auto kErrorCode = "code";
+constexpr auto kErrorMessage = "message";
+constexpr auto kErrorData = "data";
+
 // Params names
 constexpr auto kObjectName = "object_or_name";
 constexpr auto kTimeoutMsec = "timeout_msec";

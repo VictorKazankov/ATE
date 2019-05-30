@@ -1,13 +1,18 @@
 #ifndef ATE_SERVER_INTERACTION_ATE_TCP_SESSION_HANDLER_H_
 #define ATE_SERVER_INTERACTION_ATE_TCP_SESSION_HANDLER_H_
 
-#include <functional>
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 
-#include <jsoncpp/json/value.h>
+#include <boost/asio/io_context.hpp>
 
-#include "session_handler.h"
+#include "ate.h"
+#include "interaction/ATE/session_handler.h"
+
+namespace Json {
+class Value;
+}  // namespace Json
 
 namespace interaction {
 
@@ -21,48 +26,49 @@ namespace interaction {
  */
 class TcpSessionHandler : public SessionHandler {
  public:
-  TcpSessionHandler();
+  TcpSessionHandler(boost::asio::io_context& io_ctx);
   ~TcpSessionHandler() override = default;
 
   /**
    * @brief Start interaction between client and server calls TcpConnectionPtr->Start()
-   * @param session - Pointer to has been accepted connection
+   * @param session - Handle for the accepted connection
    */
-  void OnOpen(const std::shared_ptr<TcpConnection>& session) override;
+  void OnOpen(TcpConnection& session) override;
 
   /**
    * @brief Gets messages from client, prepare and send response
-   * @param session - Pointer to connection with client
+   * @param session - Connection with client
    * @param message - Received message from client connection
    */
-  void OnMessage(const std::shared_ptr<TcpConnection>& session, const std::string& message) override;
+  void OnMessage(TcpConnection& session, const std::string& message) override;
 
  private:
-  /**
-   * @brief Handler method for meessage 'AttachToApplication'
-   * @param session - Pointer to connection with client
-   * @param json_message - Json::Value json structure using for extract message payload
-   */
-  void HandleAttachToApplication(const std::shared_ptr<TcpConnection>& session,
-                                             const Json::Value& json_message);
+  void SendResponse(TcpConnection& session, std::uint64_t id, Json::Value result_or_error, bool is_result);
+
+  typedef std::pair<Json::Value, bool> (TcpSessionHandler::*MessageHandlerFunction)(const Json::Value& params);
+
+  MessageHandlerFunction GetHandler(const std::string& method) const noexcept;
 
   /**
-   * @brief Handler method for meessage 'WaitForObject'
-   * @param session - Pointer to connection with client
-   * @param json_message - Json::Value json structure using for extract message payload
+   * @brief Handler for WaitForObject
+   * @param params - WaitForObject params
    */
-  void HandleWaitForObject(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message);
+  std::pair<Json::Value, bool> HandleWaitForObject(const Json::Value& params);
 
   /**
-   * @brief Handler method for meessage 'TapObject'
-   * @param session - Pointer to connection with client
-   * @param json_message - Json::Value json structure using for extract message payload
+   * @brief Handler for TapObject
+   * @param params - TapObject params
    */
-  void HandleTapObject(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message);
+  std::pair<Json::Value, bool> HandleTapObject(const Json::Value& params);
 
-  using MessageHandlerFunction =
-      std::function<void(const std::shared_ptr<TcpConnection>& session, const Json::Value& json_message)>;
-  std::unordered_map<std::string, MessageHandlerFunction> handler_map_;
+  /**
+   * @brief Handler for unknown method
+   * @param params - params from client message
+   */
+  std::pair<Json::Value, bool> HandleUnknownMethod(const Json::Value& params);
+
+  ATE ate_;
+  const std::unordered_map<std::string, MessageHandlerFunction> handler_map_;
 };
 
 }  // namespace interaction

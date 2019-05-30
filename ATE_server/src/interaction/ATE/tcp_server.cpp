@@ -7,7 +7,7 @@ namespace interaction {
 TcpServer::TcpServer(boost::asio::io_context& context, uint16_t port)
     : context_(context),
       acceptor_(context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
-      handler_(std::make_shared<TcpSessionHandler>()) {
+      handler_(std::make_shared<TcpSessionHandler>(context)) {
   boost::system::error_code error;
   acceptor_.set_option(boost::asio::socket_base::reuse_address(true), error);
   if (error) {
@@ -53,7 +53,7 @@ void TcpServer::OnAccept(const TcpConnection::TcpConnectionPtr& connection, cons
     }
   }
   connection->SetHandler(handler_);
-  handler_->OnOpen(connection);
+  handler_->OnOpen(*connection);
   Accept();
 }
 

@@ -1,6 +1,8 @@
 #include "message_factory/message_factory.h"
 
-#include <jsoncpp/json/value.h>
+#include <utility>
+
+#include <jsoncpp/json/writer.h>
 
 #include "message_factory/json_defines.h"
 #include "message_factory/json_messages.h"
@@ -38,7 +40,7 @@ std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string
 
   params[kObjectName] = object_name;
   params[kTimeoutMsec] = timeout_msec;
-  
+
   Json::Value message;
 
   CreatePackageStructure(message, kWaitForObject, id);
@@ -53,7 +55,7 @@ std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t 
 
   params[kAbscissa] = x;
   params[kOrdinate] = y;
-  
+
   Json::Value message;
 
   CreatePackageStructure(message, kTapObject, id);
@@ -73,46 +75,41 @@ std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t 
   params[kHight] = hight;
 
   Json::Value message;
-  
+
   CreatePackageStructure(message, kTapObject, id);
   message[kParams] = params;
 
   return writer.write(message);
 }
 
-std::string MessageFactory::Server::CreateAttachToApplicationResponse(const std::string& host, uint16_t port,
-                                                                      bool is_running, int id) {
-  Json::Value result;
+std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
+  Json::Value response{Json::objectValue};
+
+  response[kJsonRpc] = kRpcVersion;
+
+  if (id) {
+    response[kId] = static_cast<Json::UInt64>(id);
+  } else {
+    response[kId] = Json::nullValue;
+  }
+
+  response[is_result ? kResult : kError] = std::move(result_or_error);
+
   Json::FastWriter writer;
-
-  result[kVdpHost] = host;
-  result[kVdpPort] = port;
-  result[kIsRunning] = is_running;
-  
-  Json::Value message;
-
-  CreatePackageStructure(message, kAttachToApplication, id);
-  message[kResult] = result;
-
-  return writer.write(message);
+  return writer.write(response);
 }
 
-std::string MessageFactory::Server::CreateWaitForObjectResponse(uint16_t x, uint16_t y, uint16_t width, uint16_t hight,
-                                                                int id) {
-  Json::Value result;
-  Json::FastWriter writer;
+Json::Value MessageFactory::Server::CreateTapObjectResultObject() { return Json::Value{true}; }
+
+Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y, int width, int height) {
+  Json::Value result{Json::objectValue};
 
   result[kAbscissa] = x;
   result[kOrdinate] = y;
   result[kWidth] = width;
-  result[kHight] = hight;
-  
-  Json::Value message;
+  result[kHight] = height;
 
-  CreatePackageStructure(message, kWaitForObject, id);
-  message[kResult] = result;
-
-  return writer.write(message);
+  return std::move(result);
 }
 
 }  // namespace jmsg

@@ -1,5 +1,9 @@
 #include "message_factory/json_utils.h"
 
+#include <cassert>
+#include <cstring>
+#include <utility>
+
 #include <jsoncpp/json/reader.h>
 
 #include "logger/logger.h"
@@ -8,46 +12,17 @@
 namespace common {
 namespace jmsg {
 
-namespace {
+Json::Value CreateErrorObject(rpc::Error code, const char* message, Json::Value data) {
+  Json::Value error_value{Json::objectValue};
 
-const uint kPoint = 2;
-const uint kRect = 4;
+  error_value[kErrorCode] = static_cast<int>(code);
+  error_value[kErrorMessage] = message;
 
-}  // namespace
-
-bool CheckPoint(const Json::Value& params) {
-  if (!(params.isMember(kAbscissa) && params.isMember(kOrdinate))) {
-    logger::error("[json msg parser][check point] Argument error: wrong arguments for calling 'TapObject'");
-    return false;
+  if (!data.empty()) {
+    std::swap(error_value[kErrorData], data);
   }
 
-  auto& abscissa = params[kAbscissa];
-  auto& ordinate = params[kOrdinate];
-
-  if (!(abscissa.isUInt() && ordinate.isUInt())) {
-    logger::error("[json msg parser][check point] Argument error: wrong type of params");
-    return false;
-  }
-  return true;
-}
-
-bool CheckRect(const Json::Value& params) {
-  if (!(params.isMember(kAbscissa) && params.isMember(kOrdinate) && params.isMember(kWidth) &&
-        params.isMember(kHight))) {
-    logger::error("[json msg parser][check rect] Argument error: wrong arguments for calling 'TapObject'");
-    return false;
-  }
-
-  auto& abscissa = params[kAbscissa];
-  auto& ordinate = params[kOrdinate];
-  auto& width = params[kWidth];
-  auto& hight = params[kHight];
-
-  if (!(abscissa.isUInt() && ordinate.isUInt() && width.isUInt() && hight.isUInt())) {
-    logger::error("[json msg parser][check rect] Argument error: wrong type of params");
-    return false;
-  }
-  return true;
+  return std::move(error_value);
 }
 
 bool ParseJson(const std::string& json_message, Json::Value& value) {
@@ -59,8 +34,53 @@ bool ParseJson(const std::string& json_message, Json::Value& value) {
   return res;
 }
 
+void ParseJsonRpcRequest(const std::string& json_message, std::uint64_t& id, std::string& method, Json::Value& params,
+                         Json::Value& error) {
+  error = Json::Value{};
+
+  Json::Reader reader;
+  Json::Value message;
+
+  if (!reader.parse(json_message, message, false)) {
+    const auto error_message = reader.getFormattedErrorMessages();
+    error = CreateErrorObject(rpc::Error::kParseError, error_message.c_str());
+    logger::error("[json msg parser] Parse error: {}", error.toStyledString());
+    return;
+  }
+
+  try {
+    id = message[kId].asUInt64();
+  } catch (const Json::LogicError& wrong_id) {
+    id = 0;
+    logger::error("[json msg parser] Failed to extract an id ({})", wrong_id.what());
+  }
+
+  if (!id) {
+    error = CreateErrorObject(rpc::Error::kInvalidRequest, "Invalid id");
+    logger::error("[json msg parser] {}\nid: {}", error.toStyledString(), message[kId].toStyledString());
+    return;
+  }
+
+  try {
+    if (std::strcmp(message[kJsonRpc].asCString(), kRpcVersion)) {
+      error = CreateErrorObject(rpc::Error::kInvalidRequest, "Invalid jsonrpc version string");
+      logger::error("[json msg parser] {}\njsonrpc: {}", error.toStyledString(), message[kJsonRpc].toStyledString());
+      return;
+    }
+    method = message[kMethod].asCString();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidRequest, "Invalid params");
+    logger::error("[json msg parser] {}\nmessage: {}\n({})", error.toStyledString(), message.toStyledString(),
+                  wrong_params.what());
+    return;
+  }
+
+  assert(error.empty());
+  std::swap(params, message[kParams]);
+}
+
 bool CheckHeader(const Json::Value& value) {
-  bool res = value.isMember(kMethod) && value.isMember(kId) && value.isMember(kJsonRpc) && value.isMember(kParams);
+  bool res = value.isMember(kMethod) && value.isMember(kId) && value.isMember(kJsonRpc);
   if (!res) {
     logger::error("[json msg parser][check header] Value error: wrong header");
   }
@@ -105,38 +125,30 @@ bool CheckAttachToApplicationRequest(const Json::Value& schema) {
   return res;
 }
 
-bool CheckWaitForObjectRequest(const Json::Value& schema) {
-  auto& params = schema[kParams];
-  bool res = params.isMember(kObjectName) && params.isMember(kTimeoutMsec);
+void ExtractWaitForObjectRequestParams(const Json::Value& params, std::string& object_or_name,
+                                       std::chrono::milliseconds& timeout, Json::Value& error) {
+  error = Json::Value{};
 
-  if (!res) {
-    logger::error(
-        "[json msg parser][check wait for object] Argument error: wrong arguments for calling 'WaitForObject");
-    return res;
+  try {
+    object_or_name = params[kObjectName].asCString();
+    timeout = std::chrono::milliseconds{params[kTimeoutMsec].asUInt()};
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidRequest, "Invalid WaitForObject params");
+    logger::error("[json msg parser] {}\nparams: {}\n({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
   }
-
-  auto& object_name = params[kObjectName];
-  auto& timeout = params[kTimeoutMsec];
-
-  res = object_name.isString() && timeout.isInt();
-  if (!res) {
-    logger::error("[json msg parser][check wait for object] Argument error: wrong type of params str: {} int:{}",
-                  object_name.isString(), timeout.isInt());
-  }
-  return res;
 }
 
-bool CheckTapObjectRequest(const Json::Value& schema) {
-  auto& params = schema[kParams];
+void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error) {
+  error = Json::Value{};
 
-  switch (params.size()) {
-    case kRect:
-      return CheckRect(params);
-    case kPoint:
-      return CheckPoint(params);
-    default:
-      logger::error("[json msg parser][check tap object] Argument error: wrong count of arguments");
-      return false;
+  try {
+    x = params[kAbscissa].asInt();
+    y = params[kOrdinate].asInt();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidRequest, "Invalid TapObject params");
+    logger::error("[json msg parser] {}\nparams: {}\n({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
   }
 }
 

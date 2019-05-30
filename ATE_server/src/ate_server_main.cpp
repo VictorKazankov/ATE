@@ -4,7 +4,6 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/signal_set.hpp>
 
-#include "ate.h"
 #include "common.h"
 #include "exceptions.h"
 #include "logger/logger.h"

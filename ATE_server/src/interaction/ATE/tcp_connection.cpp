@@ -95,7 +95,7 @@ void TcpConnection::OnReceive(const boost::system::error_code& error, std::size_
     std::getline(read_stream_, message);
 
     logger::debug("[tcpconnection] Received: {} bytes from - {}", bytes_transferred, Address());
-    handler_->OnMessage(shared_from_this(), message);
+    handler_->OnMessage(*this, message);
   }
   Receive();
 }

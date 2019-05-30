@@ -1,10 +1,7 @@
 #ifndef ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_
 #define ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_
 
-#include <memory>
 #include <string>
-
-#include "tcp_connection.h"
 
 namespace interaction {
 
@@ -24,16 +21,16 @@ class SessionHandler {
 
   /**
    * @brief Start interaction between client and server calls TcpConnectionPtr->Start()
-   * @param session - Pointer to has been accepted connection
+   * @param session - Handle for the accepted connection
    */
-  virtual void OnOpen(const std::shared_ptr<TcpConnection>& session) = 0;
+  virtual void OnOpen(TcpConnection& session) = 0;
 
   /**
    * @brief Gets messages from client, prepare and send response
-   * @param session - Pointer to connection with client
+   * @param session - Connection with client
    * @param message - Received message from client connection
    */
-  virtual void OnMessage(const std::shared_ptr<TcpConnection>& session, const std::string& message) = 0;
+  virtual void OnMessage(TcpConnection& session, const std::string& message) = 0;
 };
 
 }  // namespace interaction
