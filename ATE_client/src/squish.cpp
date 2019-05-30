@@ -1,11 +1,13 @@
-#include "memory"
+#include "squish.h"
+
+#include <memory>
 
 #include <boost/asio/io_context.hpp>
 #include "logger/logger.h"
 
 #include "ate_interaction.h"
 #include "common.h"
-#include "squish.h"
+#include "message_factory/message_factory.h"
 
 using namespace squish;
 
@@ -17,13 +19,14 @@ const std::string kTestSettingSection = "TEST_SETTINGS";
 const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
 
 static int kDefaultWaitForObjectTimeoutInMs = 0;
+const int kDefaultMessageId = 1;
 }  // namespace
 
 std::unique_ptr<interaction::ATEInteraction> ate_interaction;
 ApplicationContext applicationContext;
 
 ApplicationContext API::AttachToApplication(const std::string&) {
-  logger::info("ApplicationContext AttachToApplication()");
+  logger::debug("ApplicationContext AttachToApplication()");
   if (ate_interaction) {
     logger::warn("Warning ate_interaction already exist");
     return applicationContext;
@@ -50,39 +53,40 @@ ApplicationContext API::AttachToApplication(const std::string&) {
     exit(EXIT_FAILURE);
   }
 
-  io_context.run();
-
   return applicationContext;
-}
-
-Object API::WaitForObject(const std::string& object_or_name) {
-  return WaitForObject(object_or_name, kDefaultWaitForObjectTimeoutInMs);
 }
 
 Object API::WaitForObject(const Object& object_or_name) {
   return WaitForObject(object_or_name, kDefaultWaitForObjectTimeoutInMs);
 }
 
-Object API::WaitForObject(const squish::Object& /*object_or_name*/, int /*timeout_msec*/) {
-  logger::info("Object WaitForObject()");
-  return ate_interaction->SendCommand("dump command");  // TODO implement
+Object API::WaitForObject(const squish::Object& object_or_name, int timeout_msec) {
+  return WaitForObject(object_or_name.name, timeout_msec);
 }
 
-Object API::WaitForObject(const std::string& /*object_or_name*/, int /*timeout_msec*/) {
-  logger::info("Object WaitForObject()");
-  return ate_interaction->SendCommand("dump command");  // TODO implement
+Object API::WaitForObject(const std::string& object_or_name) {
+  return WaitForObject(object_or_name, kDefaultWaitForObjectTimeoutInMs);
 }
 
-void API::TapObject(const ScreenPoint& /*screen_point*/, ModifierState /*modifier_state*/, MouseButton /*button*/) {
-  logger::info("void TapObject()");
+Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
+  logger::debug("Object waitForObject()");
+  auto message =
+      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec, kDefaultMessageId);
+  return ate_interaction->SendCommand(message);
+}
 
-  ate_interaction->SendCommand("dump command");  // TODO implement
+void API::TapObject(const Object& screen_rectangle, ModifierState modifier_state, MouseButton button) {
+  TapObject(screen_rectangle.Center(), modifier_state, button);
 }
 
 void API::TapObject(const ScreenRectangle& screen_rectangle, ModifierState modifier_state, MouseButton button) {
   TapObject(screen_rectangle.Center(), modifier_state, button);
 }
 
-void API::TapObject(const Object& screen_rectangle, ModifierState modifier_state, MouseButton button) {
-  TapObject(screen_rectangle.Center(), modifier_state, button);
+void API::TapObject(const ScreenPoint& screen_point, ModifierState /*modifier_state*/, MouseButton /*button*/) {
+  logger::debug("Object tapObject");
+  // TODO: modify interaction protocol and add 'modifier_state' and 'button'
+  auto message =
+      common::jmsg::MessageFactory::Client::CreateTapObjectRequest(screen_point.x, screen_point.y, kDefaultMessageId);
+  ate_interaction->SendCommand(message);
 }

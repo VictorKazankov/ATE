@@ -1,22 +1,67 @@
+#include "ate_interaction.h"
+
 #include <unistd.h>
 #include <chrono>
 
-#include "ate_interaction.h"
-
 #include <boost/asio/connect.hpp>
-#include <boost/asio/read.hpp>
+#include <boost/asio/read_until.hpp>
 #include <boost/asio/write.hpp>
 
+#include "error_defines.h"
 #include "logger/logger.h"
+#include "message_factory/json_defines.h"
+#include "message_factory/json_messages.h"
+#include "message_factory/json_utils.h"
 
 namespace interaction {
 
 namespace {
 const std::chrono::seconds kReconnectTimeout{1};
+
+// Verify area if area equel zero throw LookupError
+bool CheckArea(const squish::Object& obj) { return obj.height * obj.width; }
+
+bool CheckJsonStructure(const std::string& message, Json::Value& value) {
+  if (!common::jmsg::ParseJson(message, value)) {
+    return false;
+  }
+  if (!(common::jmsg::CheckHeader(value) || common::jmsg::CheckHeaderType(value))) {
+    return false;
+  }
+  return true;
 }
 
+squish::Object ParseMessage(const std::string& method, const Json::Value& schema) {
+  squish::Object object;
+
+  if (method == common::jmsg::kWaitForObject && common::jmsg::CheckWaitForObjectResponse(schema)) {
+    logger::debug("[parse message] waitForObject response");
+
+    auto& result = schema[common::jmsg::kResult];
+
+    object.x = result[common::jmsg::kAbscissa].asInt();
+    object.y = result[common::jmsg::kOrdinate].asInt();
+    object.width = result[common::jmsg::kWidth].asInt();
+    object.height = result[common::jmsg::kHight].asInt();
+
+    if (!CheckArea(object)) {
+      throw squish::LookupError{};
+    }
+  }
+  if (method == common::jmsg::kTapObject) {
+    logger::info("[parse message] tapObject response");
+    // TODO: prepare handling logic
+  }
+  if (method == common::jmsg::kAttachToApplication) {
+    logger::info("[parse message] attachToApplication response");
+    // TODO: prepare handling logic
+  }
+  return object;
+}
+}  // namespace
+
 ATEInteraction::ATEInteraction(boost::asio::io_context& io_context, const std::string& host, const std::string& port)
-    : host_(host), port_(port), socket_(io_context), resolver_(io_context) {
+    : host_(host), port_(port), socket_(io_context), resolver_(io_context), read_stream_(&read_buffer_) {
   Connect();
 }
 
@@ -41,7 +86,7 @@ void ATEInteraction::Connect() {
     }
 
   } else {
-    reconnect_attempts = 3;
+    reconnect_attempts = kAttempts;
   }
 }
 
@@ -55,16 +100,31 @@ void ATEInteraction::Reconnect() {
 
 squish::Object ATEInteraction::SendCommand(const std::string& command) {
   boost::system::error_code error;
-  boost::asio::write(socket_, boost::asio::buffer(command), boost::asio::transfer_all(), error);
 
+  boost::asio::write(socket_, boost::asio::buffer(command), boost::asio::transfer_all(), error);
   if (error) {
     logger::error("[interaction] Write failed: {} ({})", error.message(), error);
+    throw std::system_error{error};
   }
 
-  socket_.read_some(boost::asio::buffer(read_buffer_), error);
+  boost::asio::read_until(socket_, read_buffer_, '\n', error);
+  if (error) {
+    logger::error("[interaction] Read failed: {} ({})", error.message(), error);
+    throw std::system_error{error};
+  }
 
-  logger::debug("[interaction] Received message: {}", read_buffer_);
+  std::string message;
+  std::getline(read_stream_, message);
+  logger::debug("[interaction] Received message: {}", message);
 
-  return squish::Object();  // TODO convert read_buffer_ convert to an object
+  Json::Value json_structure;
+
+  if (!CheckJsonStructure(message, json_structure)) {
+    return squish::Object{};
+  }
+
+  const auto& method = json_structure[common::jmsg::kMethod].asString();
+
+  return ParseMessage(method, json_structure);
 }
 }  // namespace interaction

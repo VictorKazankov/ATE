@@ -1,8 +1,10 @@
 #ifndef SQUISH_H_
 #define SQUISH_H_
 
-#include "chrono"
-#include "string"
+#include <chrono>
+#include <string>
+
+#include "error_defines.h"
 
 namespace squish {
 
@@ -31,6 +33,8 @@ struct ScreenRectangle : ScreenPoint {
 
 struct Object : ScreenRectangle {
   Object(){};
+  std::string name;
+  std::string type;
 };
 
 enum class ModifierState { NONE, ALT, CONTROL, SHIFT };

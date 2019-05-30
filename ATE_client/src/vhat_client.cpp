@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 
+#include "error_defines.h"
 #include "squish.h"
 
 namespace py = pybind11;
@@ -17,7 +18,11 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readwrite("x", &squish::Object::x)
       .def_readwrite("y", &squish::Object::y)
       .def_readwrite("width", &squish::Object::width)
-      .def_readwrite("height", &squish::Object::height);
+      .def_readwrite("height", &squish::Object::height)
+      .def_readwrite("name", &squish::Object::name)
+      .def_readwrite("type", &squish::Object::type);
+
+  py::register_exception<squish::LookupError>(m, "LookupError");
 
   py::enum_<squish::ModifierState>(m, "ModifierState")
       .value("NONE", squish::ModifierState::NONE)

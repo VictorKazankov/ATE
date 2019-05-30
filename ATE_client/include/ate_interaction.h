@@ -3,8 +3,13 @@
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/streambuf.hpp>
 
 #include "squish.h"
+
+namespace {
+const int kAttempts = 3;
+}  // namespace
 
 namespace interaction {
 
@@ -16,10 +21,10 @@ class ATEInteraction {
   boost::asio::ip::tcp::socket socket_;
   boost::asio::ip::tcp::resolver resolver_;
 
-  size_t reconnect_attempts{3};
+  size_t reconnect_attempts{kAttempts};
 
-  static const size_t kReceiverBuffer{1024};
-  char read_buffer_[kReceiverBuffer];
+  boost::asio::streambuf read_buffer_;
+  std::istream read_stream_;
 
  public:
   ATEInteraction(boost::asio::io_context& io_context, const std::string& host, const std::string& port);
