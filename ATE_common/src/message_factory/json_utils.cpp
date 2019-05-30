@@ -80,7 +80,7 @@ void ParseJsonRpcRequest(const std::string& json_message, std::uint64_t& id, std
 }
 
 bool CheckHeader(const Json::Value& value) {
-  bool res = value.isMember(kId) && value.isMember(kJsonRpc);
+  bool res = value.isMember(kMethod) && value.isMember(kId) && value.isMember(kJsonRpc) && (value.isMember(kParams) || value.isMember(kResult));
   if (!res) {
     logger::error("[json msg parser][check header] Value error: wrong header");
   }
