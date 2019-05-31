@@ -64,6 +64,11 @@ struct Rect {
    */
   template <typename DifferentRectType>
   operator DifferentRectType();
+
+/**
+   * @brief Gets center of the rectangle
+   */
+  Point Center() const;
 };
 
 template <typename DifferentPointType>
