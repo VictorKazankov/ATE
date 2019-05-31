@@ -4,34 +4,14 @@
 #include <chrono>
 #include <string>
 
+#include "utils/geometry_types.h"
+
 #include "error_defines.h"
 
 namespace squish {
 
-/**
- * @brief ScreenPoint it is a point element representing a position on screen.
- **/
-struct ScreenPoint {
-  int x{};
-  int y{};
-};
 
-/**
- * @brief ScreenRectangle it is a rectangle element with screen position and size properties.
- **/
-struct ScreenRectangle : ScreenPoint {
-  int width{};
-  int height{};
-
-  ScreenPoint Center() const {
-    ScreenPoint sp;
-    sp.x = width / 2 + x;
-    sp.y = height / 2 + y;
-    return sp;
-  };
-};
-
-struct Object : ScreenRectangle {
+struct Object : common::Rect {
   Object(){};
   std::string name;
   std::string type;
@@ -99,7 +79,7 @@ struct API {
    * @param The optional button specify mouse button that held down during the click
    **/
 
-  static void TapObject(const ScreenPoint& screen_point, ModifierState modifier_state = ModifierState::NONE,
+  static void TapObject(const common::Point& screen_point, ModifierState modifier_state = ModifierState::NONE,
                         MouseButton button = MouseButton::NONE);
 
   /**
@@ -108,7 +88,7 @@ struct API {
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
    **/
-  static void TapObject(const ScreenRectangle& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
+  static void TapObject(const common::Rect& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
                         MouseButton button = MouseButton::NONE);
   static void TapObject(const Object& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
                         MouseButton button = MouseButton::NONE);

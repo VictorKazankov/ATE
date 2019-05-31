@@ -79,11 +79,11 @@ void API::TapObject(const Object& screen_rectangle, ModifierState modifier_state
   TapObject(screen_rectangle.Center(), modifier_state, button);
 }
 
-void API::TapObject(const ScreenRectangle& screen_rectangle, ModifierState modifier_state, MouseButton button) {
+void API::TapObject(const common::Rect& screen_rectangle, ModifierState modifier_state, MouseButton button) {
   TapObject(screen_rectangle.Center(), modifier_state, button);
 }
 
-void API::TapObject(const ScreenPoint& screen_point, ModifierState /*modifier_state*/, MouseButton /*button*/) {
+void API::TapObject(const common::Point& screen_point, ModifierState /*modifier_state*/, MouseButton /*button*/) {
   logger::debug("Object tapObject");
   // TODO: modify interaction protocol and add 'modifier_state' and 'button'
   auto message =

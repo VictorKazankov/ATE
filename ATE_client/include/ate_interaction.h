@@ -7,10 +7,6 @@
 
 #include "squish.h"
 
-namespace {
-const int kAttempts = 3;
-}  // namespace
-
 namespace interaction {
 
 class ATEInteraction {
@@ -21,6 +17,7 @@ class ATEInteraction {
   boost::asio::ip::tcp::socket socket_;
   boost::asio::ip::tcp::resolver resolver_;
 
+  static const size_t kAttempts {3};
   size_t reconnect_attempts{kAttempts};
 
   boost::asio::streambuf read_buffer_;

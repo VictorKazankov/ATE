@@ -3,6 +3,8 @@
 #include "error_defines.h"
 #include "squish.h"
 
+#include "utils/geometry_types.h"
+
 namespace py = pybind11;
 
 PYBIND11_MODULE(vhat_client, m) {
@@ -66,14 +68,14 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
   m.def("tapObject",
-        py::overload_cast<const squish::ScreenPoint&, squish::ModifierState, squish::MouseButton>(
+        py::overload_cast<const common::Point&, squish::ModifierState, squish::MouseButton>(
             &squish::API::TapObject),
         "tapObject performs a touch tap at the position specified by screenPoint. Position are in screen global "
         "coordinates",
         py::arg("screen_point"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("tapObject",
-        py::overload_cast<const squish::ScreenRectangle&, squish::ModifierState, squish::MouseButton>(
+        py::overload_cast<const common::Rect&, squish::ModifierState, squish::MouseButton>(
             &squish::API::TapObject),
         "tapObject performs a touch tap at the center of the rectangle specified by screenRectangle. Position are in "
         "screen global coordinates",
