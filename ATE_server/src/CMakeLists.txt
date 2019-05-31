@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # A separate static library is necessary to support unit tests
 add_library(vhat_server_lib
   STATIC
+    interaction/dummy/dummy_interaction.cpp
     interaction/VDP/vdp_interaction.cpp
     interaction/VDP/https_client.cpp
     interaction/ATE/tcp_connection.cpp

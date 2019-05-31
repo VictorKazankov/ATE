@@ -4,6 +4,7 @@
 #include "exceptions.h"
 #include "interaction/SPI/spi_interaction.h"
 #include "interaction/VDP/vdp_interaction.h"
+#include "interaction/dummy/dummy_interaction.h"
 #include "logger/logger.h"
 #include "storage/json_storage.h"
 #include "utils/defines.h"
@@ -32,6 +33,11 @@ std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& 
         io_context, common::Config().GetString(defines::kBoardSection, defines::kAddressOption, ""),
         common::Config().GetString(defines::kBoardSection, defines::kPortOption, ""),
         StrToDisplayType(common::Config().GetString(defines::kBoardSection, defines::kDisplayTypeOption, "")));
+  }
+
+  if (interaction_type == defines::kDummy) {
+    logger::critical("[ATE] Used DummyInteraction for debugging only");
+    return std::make_unique<interaction::DummyInteraction>();
   }
 
   logger::critical("[ATE] Undefined type of interaction");

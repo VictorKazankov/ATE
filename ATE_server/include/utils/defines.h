@@ -33,6 +33,7 @@ constexpr auto kTessDataOption = "TESSDATA_PREFIX";
 
 constexpr auto kVdp = "VDP";
 constexpr auto kSpi = "SPI";
+constexpr auto kDummy = "Dummy";
 
 }  // namespace defines
 
