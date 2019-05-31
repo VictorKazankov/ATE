@@ -18,8 +18,10 @@ namespace interaction {
 namespace {
 const std::chrono::seconds kReconnectTimeout{1};
 
-// Verify area if area equel zero throw LookupError
-bool CheckArea(const squish::Object& obj) { return obj.height * obj.width; }
+/**
+ * @brief Verify area if area equel zero throw LookupError
+ **/
+bool CheckIsAreaEmpty(const squish::Object& obj) { return ((0 != obj.height) && (0 != obj.width)); }
 
 bool CheckJsonStructure(const std::string& message, Json::Value& value) {
   if (!common::jmsg::ParseJson(message, value)) {
@@ -44,7 +46,7 @@ squish::Object ParseMessage(const std::string& method, const Json::Value& schema
     object.width = result[common::jmsg::kWidth].asInt();
     object.height = result[common::jmsg::kHight].asInt();
 
-    if (!CheckArea(object)) {
+    if (!CheckIsAreaEmpty(object)) {
       throw squish::LookupError{};
     }
   }

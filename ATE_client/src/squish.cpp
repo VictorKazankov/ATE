@@ -20,10 +20,10 @@ const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
 
 static int kDefaultWaitForObjectTimeoutInMs = 0;
 const int kDefaultMessageId = 1;
-}  // namespace
 
 std::unique_ptr<interaction::ATEInteraction> ate_interaction;
 ApplicationContext applicationContext;
+}  // namespace
 
 ApplicationContext API::AttachToApplication(const std::string&) {
   logger::debug("ApplicationContext AttachToApplication()");
@@ -34,11 +34,11 @@ ApplicationContext API::AttachToApplication(const std::string&) {
 
   boost::asio::io_context io_context;
 
-  const std::string config_file{VHAT_CLIENT_DATA_PATH "/config.ini"};
-  common::SetUp(config_file);
-  kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
-
   try {
+    const std::string config_file{VHAT_CLIENT_DATA_PATH "/config.ini"};
+    common::SetUp(config_file);
+    kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
+
     applicationContext.host = common::Config().GetString(kBoardSection, kAddressOption, "");
     applicationContext.port = common::Config().GetString(kBoardSection, kPortOption, "");
 
