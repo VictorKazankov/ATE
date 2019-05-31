@@ -49,30 +49,15 @@ std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t y, int id) {
+std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t y, squish::ModifierState modifier_state,
+                                                           squish::MouseButton mouse_button, int id) {
   Json::Value params;
   Json::FastWriter writer;
 
   params[kAbscissa] = x;
   params[kOrdinate] = y;
-
-  Json::Value message;
-
-  CreatePackageStructure(message, kTapObject, id);
-  message[kParams] = params;
-
-  return writer.write(message);
-}
-
-std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t y, uint16_t width, uint16_t hight,
-                                                           int id) {
-  Json::Value params;
-  Json::FastWriter writer;
-
-  params[kAbscissa] = x;
-  params[kOrdinate] = y;
-  params[kWidth] = width;
-  params[kHight] = hight;
+  params[kModifierState] = static_cast<int>(modifier_state);
+  params[kMouseButton] = static_cast<int>(mouse_button);
 
   Json::Value message;
 

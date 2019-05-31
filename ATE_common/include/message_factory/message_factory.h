@@ -5,6 +5,8 @@
 
 #include <jsoncpp/json/value.h>
 
+#include "utils/squish_types.h"
+
 namespace common {
 namespace jmsg {
 
@@ -21,8 +23,8 @@ class MessageFactory {
   struct Client {
     static std::string CreateAttachToApplicationRequest(uint16_t timeout_msec, int id);
     static std::string CreateWaitForObjectRequest(const std::string& icon_name, uint32_t timeout_msec, int id);
-    static std::string CreateTapObjectRequest(uint16_t x, uint16_t y, int id);
-    static std::string CreateTapObjectRequest(uint16_t x, uint16_t y, uint16_t width, uint16_t hight, int id);
+    static std::string CreateTapObjectRequest(uint16_t x, uint16_t y, squish::ModifierState modifier_state,
+                                              squish::MouseButton mouse_button, int id);
   };
 
   /**

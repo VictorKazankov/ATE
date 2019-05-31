@@ -85,11 +85,10 @@ void API::TapObject(const common::Rect& screen_rectangle, common::squish::Modifi
   TapObject(screen_rectangle.Center(), modifier_state, button);
 }
 
-void API::TapObject(const common::Point& screen_point, common::squish::ModifierState /*modifier_state*/,
-                    common::squish::MouseButton /*button*/) {
+void API::TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
+                    common::squish::MouseButton button) {
   logger::debug("Object tapObject");
-  // TODO: modify interaction protocol and add 'modifier_state' and 'button'
-  auto message =
-      common::jmsg::MessageFactory::Client::CreateTapObjectRequest(screen_point.x, screen_point.y, kDefaultMessageId);
+  auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
+      screen_point.x, screen_point.y, modifier_state, button, kDefaultMessageId);
   ate_interaction->SendCommand(message);
 }
