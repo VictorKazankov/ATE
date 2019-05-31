@@ -75,15 +75,18 @@ Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
   return ate_interaction->SendCommand(message);
 }
 
-void API::TapObject(const Object& screen_rectangle, ModifierState modifier_state, MouseButton button) {
+void API::TapObject(const Object& screen_rectangle, common::squish::ModifierState modifier_state,
+                    common::squish::MouseButton button) {
   TapObject(screen_rectangle.Center(), modifier_state, button);
 }
 
-void API::TapObject(const common::Rect& screen_rectangle, ModifierState modifier_state, MouseButton button) {
+void API::TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
+                    common::squish::MouseButton button) {
   TapObject(screen_rectangle.Center(), modifier_state, button);
 }
 
-void API::TapObject(const common::Point& screen_point, ModifierState /*modifier_state*/, MouseButton /*button*/) {
+void API::TapObject(const common::Point& screen_point, common::squish::ModifierState /*modifier_state*/,
+                    common::squish::MouseButton /*button*/) {
   logger::debug("Object tapObject");
   // TODO: modify interaction protocol and add 'modifier_state' and 'button'
   auto message =

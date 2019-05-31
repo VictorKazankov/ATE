@@ -4,6 +4,7 @@
 #include "squish.h"
 
 #include "utils/geometry_types.h"
+#include "utils/squish_types.h"
 
 namespace py = pybind11;
 
@@ -26,17 +27,17 @@ PYBIND11_MODULE(vhat_client, m) {
 
   py::register_exception<squish::LookupError>(m, "LookupError");
 
-  py::enum_<squish::ModifierState>(m, "ModifierState")
-      .value("NONE", squish::ModifierState::NONE)
-      .value("ALT", squish::ModifierState::ALT)
-      .value("CONTROL", squish::ModifierState::CONTROL)
-      .value("SHIFT", squish::ModifierState::SHIFT);
+  py::enum_<common::squish::ModifierState>(m, "ModifierState")
+      .value("NONE", common::squish::ModifierState::NONE)
+      .value("ALT", common::squish::ModifierState::ALT)
+      .value("CONTROL", common::squish::ModifierState::CONTROL)
+      .value("SHIFT", common::squish::ModifierState::SHIFT);
 
-  py::enum_<squish::MouseButton>(m, "MouseButton")
-      .value("NONE", squish::MouseButton::NONE)
-      .value("LEFT_BUTTON", squish::MouseButton::LEFT_BUTTON)
-      .value("MIDLE_BUTTON", squish::MouseButton::MIDLE_BUTTON)
-      .value("RIGHT_BUTTON", squish::MouseButton::RIGHT_BUTTON);
+  py::enum_<common::squish::MouseButton>(m, "MouseButton")
+      .value("NONE", common::squish::MouseButton::NONE)
+      .value("LEFT_BUTTON", common::squish::MouseButton::LEFT_BUTTON)
+      .value("MIDLE_BUTTON", common::squish::MouseButton::MIDLE_BUTTON)
+      .value("RIGHT_BUTTON", common::squish::MouseButton::RIGHT_BUTTON);
 
   m.def("attachToApplication", &squish::API::AttachToApplication,
         "This function causes to attach to the application called aut_name and returns a handle to its application "
@@ -68,21 +69,22 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
   m.def("tapObject",
-        py::overload_cast<const common::Point&, squish::ModifierState, squish::MouseButton>(
+        py::overload_cast<const common::Point&, common::squish::ModifierState, common::squish::MouseButton>(
             &squish::API::TapObject),
         "tapObject performs a touch tap at the position specified by screenPoint. Position are in screen global "
         "coordinates",
         py::arg("screen_point"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("tapObject",
-        py::overload_cast<const common::Rect&, squish::ModifierState, squish::MouseButton>(
+        py::overload_cast<const common::Rect&, common::squish::ModifierState, common::squish::MouseButton>(
             &squish::API::TapObject),
         "tapObject performs a touch tap at the center of the rectangle specified by screenRectangle. Position are in "
         "screen global coordinates",
         py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("tapObject",
-        py::overload_cast<const squish::Object&, squish::ModifierState, squish::MouseButton>(&squish::API::TapObject),
+        py::overload_cast<const squish::Object&, common::squish::ModifierState, common::squish::MouseButton>(
+            &squish::API::TapObject),
         "tapObject performs a touch tap at the center of the rectangle specified by screenRectangle. Position are in "
         "screen global coordinates",
         py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));

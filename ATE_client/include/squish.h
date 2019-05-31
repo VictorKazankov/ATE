@@ -5,21 +5,17 @@
 #include <string>
 
 #include "utils/geometry_types.h"
+#include "utils/squish_types.h"
 
 #include "error_defines.h"
 
 namespace squish {
-
 
 struct Object : common::Rect {
   Object(){};
   std::string name;
   std::string type;
 };
-
-enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
-
-enum class MouseButton { NONE, LEFT_BUTTON, MIDLE_BUTTON, RIGHT_BUTTON };
 
 struct ApplicationContext {
   std::string host{};
@@ -79,8 +75,9 @@ struct API {
    * @param The optional button specify mouse button that held down during the click
    **/
 
-  static void TapObject(const common::Point& screen_point, ModifierState modifier_state = ModifierState::NONE,
-                        MouseButton button = MouseButton::NONE);
+  static void TapObject(const common::Point& screen_point,
+                        common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
+                        common::squish::MouseButton button = common::squish::MouseButton::NONE);
 
   /**
    * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
@@ -88,10 +85,12 @@ struct API {
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
    **/
-  static void TapObject(const common::Rect& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
-                        MouseButton button = MouseButton::NONE);
-  static void TapObject(const Object& screen_rectangle, ModifierState modifier_state = ModifierState::NONE,
-                        MouseButton button = MouseButton::NONE);
+  static void TapObject(const common::Rect& screen_rectangle,
+                        common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
+                        common::squish::MouseButton button = common::squish::MouseButton::NONE);
+  static void TapObject(const Object& screen_rectangle,
+                        common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
+                        common::squish::MouseButton button = common::squish::MouseButton::NONE);
 };
 }  // namespace squish
 
