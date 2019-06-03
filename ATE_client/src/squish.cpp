@@ -51,10 +51,10 @@ ApplicationContext API::AttachToApplication(const std::string&) {
 
   } catch (const boost::system::system_error& boost_error) {
     logger::critical("boost system error: {} ({})", boost_error.what(), boost_error.code());
-    exit(EXIT_FAILURE);
+    throw boost_error;
   } catch (const std::exception& exception) {
     logger::critical("fatal error: {}", exception.what());
-    exit(EXIT_FAILURE);
+    throw exception;
   }
 
   return applicationContext;
