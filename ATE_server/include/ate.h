@@ -31,11 +31,6 @@ class ATE {
   void TapObject(const cv::Point& point);
 
   /**
-   * @brief performs a touch tap at the position specified by center of rectangle
-   */
-  void TapObject(const cv::Rect& rect);
-
-  /**
    * @brief Waits until the object is accessible (i.e., it exists and is visible and enabled)
    * @param object_or_name object or name of the component
    * @param timeout timeout for detection of the object
