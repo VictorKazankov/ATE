@@ -1,6 +1,8 @@
 #include "video_streaming/matching/matcher.h"
 
+#include <algorithm>
 #include <cassert>
+#include <cctype>
 
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -12,6 +14,19 @@
 #include "video_streaming/matching/template_detector.h"
 #include "video_streaming/matching/text_detector.h"
 #include "video_streaming/stream_reader.h"
+
+namespace {
+
+tesseract::PageIteratorLevel GetPageLevel(const std::string& text) {
+  assert(!text.empty());
+  if (1 == text.length()) {
+    return tesseract::RIL_SYMBOL;
+  }
+  const auto check_space = [](char symbol) noexcept { return std::isspace(static_cast<unsigned char>(symbol)); };
+  return std::any_of(text.begin(), text.end(), check_space) ? tesseract::RIL_TEXTLINE : tesseract::RIL_WORD;
+}
+
+}  // namespace
 
 namespace detector {
 
@@ -55,24 +70,24 @@ cv::Rect Matcher::MatchImage(const std::string& object_path) {
 }
 
 cv::Rect Matcher::MatchText(const std::string& text) {
-  if (!GrabNewFrame()) {
+  if (text.empty() || !GrabNewFrame()) {
     return cv::Rect{};
   }
+
   const auto result = text_detector_->Recognize(screen_);
+
   if (!result) {
     return cv::Rect{};
   }
-  auto range = result->GetRange(tesseract::RIL_TEXTLINE);
 
-  const auto find_string = [this, &text](const TextObject& text_object) {
+  const auto range = result->GetRange(GetPageLevel(text));
+
+  const auto find_string = [ this, &text ](const TextObject& text_object) noexcept {
     return text_object.confidence >= text_detector_min_confidence_ && text_object.text == text;
   };
-  auto it = std::find_if(range.begin(), range.end(), find_string);
 
-  if (range.end() == it) {
-    return cv::Rect{};
-  }
-  return it->position;
+  const auto it = std::find_if(range.begin(), range.end(), find_string);
+  return range.end() == it ? cv::Rect{} : it->position;
 }
 
 }  // namespace detector
