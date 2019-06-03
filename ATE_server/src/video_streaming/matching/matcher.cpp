@@ -65,7 +65,15 @@ cv::Rect Matcher::MatchImage(const std::string& object_path) {
   if (!GrabNewFrame()) {
     return cv::Rect{};
   }
+
   const cv::Mat pattern = cv::imread(object_path, cv::IMREAD_GRAYSCALE);
+  if (pattern.rows > gray_screen_.rows || pattern.cols > gray_screen_.cols) {
+    logger::error("Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
+                  gray_screen_.size);
+
+    return cv::Rect{};
+  }
+
   return image_detector_->Detect(gray_screen_, pattern);
 }
 
