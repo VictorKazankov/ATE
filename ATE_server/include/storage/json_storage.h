@@ -12,10 +12,10 @@ namespace storage {
  * This class repressent interaction with file database.
  **/
 class JsonStorage : public Storage {
-  using IconMap = std::unordered_map<std::string, std::string>;
+  using IconMap = std::unordered_map<std::string, fs::path>;
 
  public:
-  JsonStorage(const std::string& storage_path, const std::string& collection_name);
+  JsonStorage(const fs::path& storage_path, const std::string& collection_name);
 
   /**
    * @brief The function establish connect to the image storage
@@ -28,7 +28,7 @@ class JsonStorage : public Storage {
    * @param Image name
    * @return Returns path to the image on succeed, otherwise empty string
    **/
-  std::string ItemPath(const std::string& icon_name) const override;
+  fs::path ItemPath(const std::string& icon_name) const override;
 
   /**
    * @brief The function changes image storage source
@@ -44,7 +44,7 @@ class JsonStorage : public Storage {
  private:
   bool LoadCollection();
 
-  std::string storage_path_;
+  fs::path storage_path_;
   std::string collection_name_;
   IconMap collection_;
 };

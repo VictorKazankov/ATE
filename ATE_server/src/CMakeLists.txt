@@ -50,6 +50,7 @@ target_include_directories(vhat_server_lib
 
 target_link_libraries(vhat_server_lib
   vhat_common
+  stdc++fs
   opencv_calib3d
   opencv_core
   opencv_features2d

@@ -1,7 +1,10 @@
 #ifndef ATE_SERVER_STORAGE_STORAGE_H_
 #define ATE_SERVER_STORAGE_STORAGE_H_
 
+#include <experimental/filesystem>
 #include <string>
+
+namespace fs = std::experimental::filesystem;
 
 namespace storage {
 /**
@@ -20,8 +23,8 @@ class Storage {
    * @param Image name
    * @return Returns path to the image
    **/
-  virtual std::string ItemPath(const std::string&) const = 0;
-  
+  virtual fs::path ItemPath(const std::string&) const = 0;
+
   /**
    * @brief The function changes image storage source
    * @param New collection name
