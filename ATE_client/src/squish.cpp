@@ -19,10 +19,14 @@ const std::string kTestSettingSection = "TEST_SETTINGS";
 const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
 
 static int kDefaultWaitForObjectTimeoutInMs = 0;
-const int kDefaultMessageId = 1;
+static uint64_t kCorrelationId = 1;
 
 std::unique_ptr<interaction::ATEInteraction> ate_interaction;
 ApplicationContext applicationContext;
+
+static uint64_t GetCorrelationId() {
+  return kCorrelationId++;
+}
 }  // namespace
 
 ApplicationContext API::AttachToApplication(const std::string&) {
@@ -71,7 +75,7 @@ Object API::WaitForObject(const std::string& object_or_name) {
 Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
   logger::debug("Object waitForObject()");
   auto message =
-      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec, kDefaultMessageId);
+      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec, GetCorrelationId());
   return ate_interaction->SendCommand(message);
 }
 
@@ -89,6 +93,6 @@ void API::TapObject(const common::Point& screen_point, common::squish::ModifierS
                     common::squish::MouseButton button) {
   logger::debug("Object tapObject");
   auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
-      screen_point.x, screen_point.y, modifier_state, button, kDefaultMessageId);
+      screen_point.x, screen_point.y, modifier_state, button, GetCorrelationId());
   ate_interaction->SendCommand(message);
 }
