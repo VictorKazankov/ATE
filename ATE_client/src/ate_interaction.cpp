@@ -36,6 +36,8 @@ bool CheckJsonStructure(const std::string& message, Json::Value& value) {
 squish::Object ParseMessage(const std::string& method, const Json::Value& schema) {
   squish::Object object;
 
+  if (schema.isMember(common::jmsg::kError)) throw squish::LookupError{};
+
   if (method == common::jmsg::kWaitForObject && common::jmsg::CheckWaitForObjectResponse(schema)) {
     logger::debug("[parse message] waitForObject response");
 
