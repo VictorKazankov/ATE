@@ -9,10 +9,9 @@ add_library(vhat_client
     vhat_client.cpp
 )
 
-set_property(TARGET vhat_client PROPERTY POSITION_INDEPENDENT_CODE ON)
-
-set_target_properties(vhat_client PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}"
-                                         SUFFIX "${PYTHON_MODULE_EXTENSION}")
+set_target_properties(vhat_client PROPERTIES
+  PREFIX "${PYTHON_MODULE_PREFIX}"
+  SUFFIX "${PYTHON_MODULE_EXTENSION}")
 
 target_include_directories(vhat_client
   PUBLIC
@@ -28,11 +27,3 @@ target_compile_definitions(vhat_client
   PUBLIC
     VHAT_CLIENT_DATA_PATH="${VHAT_CLIENT_DATA_PATH}"
 )
-
-target_compile_options(vhat_common
-   PUBLIC
-     -pedantic
-     -Wall
-     -Werror
-     -Wextra
- )
