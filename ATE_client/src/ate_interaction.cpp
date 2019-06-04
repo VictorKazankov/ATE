@@ -1,6 +1,5 @@
 #include "ate_interaction.h"
 
-#include <unistd.h>
 #include <chrono>
 #include <thread>
 
@@ -34,10 +33,31 @@ bool CheckJsonStructure(const std::string& message, Json::Value& value) {
   return true;
 }
 
+[[noreturn]] void ErrorHandler(const Json::Value& error) {
+  switch (static_cast<rpc::Error>(error[common::jmsg::kErrorCode].asInt())) {
+    case rpc::Error::kObjectNotFound:
+      throw squish::LookupError{};
+
+    case rpc::Error::kInternalError:
+    case rpc::Error::kParseError:
+    case rpc::Error::kInvalidRequest:
+    case rpc::Error::kMethodNotFound:
+      throw std::runtime_error(error[common::jmsg::kErrorMessage].asString());
+
+    case rpc::Error::kInvalidParams:
+      throw std::invalid_argument(error[common::jmsg::kErrorMessage].asString());
+
+    default:
+      throw std::runtime_error("Undefined error occurred");
+  }
+}
+
 squish::Object ParseMessage(const std::string& method, const Json::Value& schema) {
   squish::Object object;
 
-  if (schema.isMember(common::jmsg::kError)) throw squish::LookupError{};
+  if (schema.isMember(common::jmsg::kError)) {
+    ErrorHandler(schema[common::jmsg::kError]);
+  }
 
   if (method == common::jmsg::kWaitForObject && common::jmsg::CheckWaitForObjectResponse(schema)) {
     logger::debug("[parse message] waitForObject response");

@@ -18,8 +18,8 @@ const std::string kPortOption = "Port";
 const std::string kTestSettingSection = "TEST_SETTINGS";
 const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
 
-static int kDefaultWaitForObjectTimeoutInMs = 0;
-static uint64_t kCorrelationId = 1;
+int kDefaultWaitForObjectTimeoutInMs = 0;
+uint64_t kCorrelationId = 1;
 
 std::unique_ptr<interaction::ATEInteraction> ate_interaction;
 ApplicationContext applicationContext;
@@ -30,7 +30,7 @@ static uint64_t GetCorrelationId() { return kCorrelationId++; }
 ApplicationContext API::AttachToApplication(const std::string&) {
   logger::debug("ApplicationContext AttachToApplication()");
   if (ate_interaction) {
-    logger::warn("Warning ate_interaction already exist");
+    logger::warn("ate_interaction already exist");
     return applicationContext;
   }
 

@@ -27,7 +27,7 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readwrite("type", &squish::Object::type);
 
   py::register_exception<squish::LookupError>(m, "LookupError");
-  py::register_exception<boost::system::system_error>(m, "BOOST system error");
+  py::register_exception<boost::system::system_error>(m, "boost_system_error");
   
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
       .value("NONE", common::squish::ModifierState::NONE)
