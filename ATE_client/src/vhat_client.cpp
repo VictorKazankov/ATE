@@ -28,8 +28,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   py::register_exception<squish::LookupError>(m, "LookupError");
   py::register_exception<boost::system::system_error>(m, "BOOST system error");
-  py::register_exception<std::exception>(m, "STD exception");
-
+  
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
       .value("NONE", common::squish::ModifierState::NONE)
       .value("ALT", common::squish::ModifierState::ALT)

@@ -2,6 +2,7 @@
 
 #include <unistd.h>
 #include <chrono>
+#include <thread>
 
 #include <boost/asio/connect.hpp>
 #include <boost/asio/read_until.hpp>
@@ -98,24 +99,13 @@ void ATEInteraction::Reconnect() {
   logger::error("[interaction] Reconnect attempt left {}", reconnect_attempts);
   --reconnect_attempts;
 
-  sleep(kReconnectTimeout.count());
+  std::this_thread::sleep_for(kReconnectTimeout);
   Connect();
 }
 
 squish::Object ATEInteraction::SendCommand(const std::string& command) {
-  boost::system::error_code error;
-
-  boost::asio::write(socket_, boost::asio::buffer(command), boost::asio::transfer_all(), error);
-  if (error) {
-    logger::error("[interaction] Write failed: {} ({})", error.message(), error);
-    throw std::system_error{error};
-  }
-
-  boost::asio::read_until(socket_, read_buffer_, '\n', error);
-  if (error) {
-    logger::error("[interaction] Read failed: {} ({})", error.message(), error);
-    throw std::system_error{error};
-  }
+  boost::asio::write(socket_, boost::asio::buffer(command), boost::asio::transfer_all());
+  boost::asio::read_until(socket_, read_buffer_, '\n');
 
   std::string message;
   std::getline(read_stream_, message);

@@ -24,9 +24,7 @@ static uint64_t kCorrelationId = 1;
 std::unique_ptr<interaction::ATEInteraction> ate_interaction;
 ApplicationContext applicationContext;
 
-static uint64_t GetCorrelationId() {
-  return kCorrelationId++;
-}
+static uint64_t GetCorrelationId() { return kCorrelationId++; }
 }  // namespace
 
 ApplicationContext API::AttachToApplication(const std::string&) {
@@ -38,24 +36,15 @@ ApplicationContext API::AttachToApplication(const std::string&) {
 
   boost::asio::io_context io_context;
 
-  try {
-    const std::string config_file{VHAT_CLIENT_DATA_PATH "/config.ini"};
-    common::SetUp(config_file);
-    kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
+  const std::string config_file{VHAT_CLIENT_DATA_PATH "/config.ini"};
+  common::SetUp(config_file);
+  kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
 
-    applicationContext.host = common::Config().GetString(kBoardSection, kAddressOption, "");
-    applicationContext.port = common::Config().GetString(kBoardSection, kPortOption, "");
+  applicationContext.host = common::Config().GetString(kBoardSection, kAddressOption, "");
+  applicationContext.port = common::Config().GetString(kBoardSection, kPortOption, "");
 
-    ate_interaction =
-        std::make_unique<interaction::ATEInteraction>(io_context, applicationContext.host, applicationContext.port);
-
-  } catch (const boost::system::system_error& boost_error) {
-    logger::critical("boost system error: {} ({})", boost_error.what(), boost_error.code());
-    throw boost_error;
-  } catch (const std::exception& exception) {
-    logger::critical("fatal error: {}", exception.what());
-    throw exception;
-  }
+  ate_interaction =
+      std::make_unique<interaction::ATEInteraction>(io_context, applicationContext.host, applicationContext.port);
 
   return applicationContext;
 }
@@ -74,8 +63,8 @@ Object API::WaitForObject(const std::string& object_or_name) {
 
 Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
   logger::debug("Object waitForObject()");
-  auto message =
-      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec, GetCorrelationId());
+  auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec,
+                                                                                  GetCorrelationId());
   return ate_interaction->SendCommand(message);
 }
 
