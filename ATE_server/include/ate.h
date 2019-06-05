@@ -6,7 +6,6 @@
 
 #include <boost/asio/io_context.hpp>
 #include "interaction/interaction.h"
-#include "reporting/reporter.h"
 #include "storage/storage.h"
 #include "video_streaming/matching/matcher.h"
 #include "video_streaming/streamer.h"
@@ -18,7 +17,6 @@ class ATE {
  private:
   std::unique_ptr<storage::Storage> storage_;
   std::unique_ptr<interaction::Interaction> interaction_;
-  std::unique_ptr<reporter::Reporter> reporter_;
   detector::Matcher matcher_;
 
  public:
