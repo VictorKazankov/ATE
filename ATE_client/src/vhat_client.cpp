@@ -17,6 +17,20 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readonly("host", &squish::ApplicationContext::host)
       .def_readonly("port", &squish::ApplicationContext::port);
 
+  py::class_<common::Point>(m, "ScreenPoint")
+      .def(py::init())
+      .def(py::init<int&, int&>(), "", py::arg("x"), py::arg("y"))
+      .def_readwrite("x", &common::Point::x)
+      .def_readwrite("y", &common::Point::y);
+
+  py::class_<common::Rect>(m, "ScreenRectangle")
+      .def(py::init())
+      .def(py::init<int&, int&, int&, int&>(), "", py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"))
+      .def_readwrite("x", &common::Rect::x)
+      .def_readwrite("y", &common::Rect::y)
+      .def_readwrite("width", &common::Rect::width)
+      .def_readwrite("height", &common::Rect::height);
+
   py::class_<squish::Object>(m, "Object")
       .def(py::init())
       .def_readwrite("x", &squish::Object::x)
@@ -28,7 +42,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   py::register_exception<squish::LookupError>(m, "LookupError");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
-  
+
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
       .value("NONE", common::squish::ModifierState::NONE)
       .value("ALT", common::squish::ModifierState::ALT)
