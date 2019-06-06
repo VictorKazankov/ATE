@@ -22,6 +22,7 @@ cd "../$BUILD_DIR_NAME"
 
 cmake "$SOURCE_ABSOLUTE_DIR" -GNinja \
   -DCMAKE_BUILD_TYPE:STRING="$BUILD_TYPE" \
+  -DCMAKE_PREFIX_PATH:PATH="/opt;/opt/Leptonica;/opt/Tesseract" \
   -DCMAKE_TOOLCHAIN_FILE:FILEPATH="$TOOLCHAIN_ABSOLUTE_PATH"
 
 cmake --build .

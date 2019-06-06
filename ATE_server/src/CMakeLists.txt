@@ -38,11 +38,26 @@ find_package(OpenCV 3.3.1 REQUIRED
 
 # Leptonica by Dan Bloomberg
 # http://www.leptonica.org
-find_package(Leptonica REQUIRED)
+find_package(Leptonica 1.74 REQUIRED)
 
 # Tesseract
 # https://github.com/tesseract-ocr/tesseract
-find_package(Tesseract REQUIRED)
+set(MINIMUM_TESSERACT_VERSION 4)
+find_package(Tesseract ${MINIMUM_TESSERACT_VERSION} QUIET)
+if(Tesseract_FOUND)
+  message(STATUS "Using CMake find_package for finding Tesseract")
+else(Tesseract_FOUND)
+  message(STATUS "Using pkg-config for finding Tesseract")
+  # https://cmake.org/cmake/help/latest/module/FindPkgConfig.html
+  find_package(PkgConfig REQUIRED)
+  pkg_check_modules(Tesseract REQUIRED
+    tesseract>=${MINIMUM_TESSERACT_VERSION}
+  )
+endif(Tesseract_FOUND)
+
+ # Workaround for build project while tesseract found with pkg-config
+ # TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6
+link_directories("${Tesseract_LIBRARY_DIRS}")
 
 target_include_directories(vhat_server_lib
   PUBLIC

@@ -6,6 +6,10 @@ endif()
 
 set(VHAT_SERVER_TEST_DATA_PATH "${VHAT_SERVER_DATA_PATH}/test" CACHE PATH "Path to VHAT server test data")
 
+# Workaround for build project while tesseract found with pkg-config
+# TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6
+link_directories("${Tesseract_LIBRARY_DIRS}")
+
 add_executable(vhat_server_test
   storage/json_storage.cpp
   utils/safe_env.cpp
