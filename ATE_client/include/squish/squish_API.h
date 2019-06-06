@@ -1,5 +1,5 @@
-#ifndef SQUISH_H_
-#define SQUISH_H_
+#ifndef SQUISH_API_H_
+#define SQUISH_API_H_
 
 #include <chrono>
 #include <string>
@@ -7,34 +7,11 @@
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
+#include "squish/application_context.h"
+#include "squish/squish_types.h"
 #include "error_defines.h"
 
 namespace squish {
-
-struct Object : common::Rect {
-  Object(){};
-  std::string name;
-  std::string type;
-};
-
-struct ApplicationContext {
-  std::string host{};
-  std::string port{};
-
-  /**
-   * @brief This function detaches from a previously started (or attached) application.
-   * If the respective application has been started with startApplication Squish will attempt to close it, and
-   * eventually (if still running) forcefully close it.
-   *
-   * If the respective application has been attached to with attachToApplication Squish will leave it running but detach
-   * from it, thus leaving the application running. The application can then be attached to with attachToApplication
-   * again.
-   *
-   * After detaching from an application one should not access any of its objects anymore. (This would typically be done
-   * by using object references which had been retrieved before detaching.)
-   **/
-  void Detach();
-};
 
 struct API {
   /**
@@ -94,4 +71,4 @@ struct API {
 };
 }  // namespace squish
 
-#endif  // SQUISH_H_
+#endif  // SQUISH_API_H_

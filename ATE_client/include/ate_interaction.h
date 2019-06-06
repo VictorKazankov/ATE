@@ -5,7 +5,7 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/streambuf.hpp>
 
-#include "squish.h"
+#include "squish/squish_types.h"
 
 namespace interaction {
 

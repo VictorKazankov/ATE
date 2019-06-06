@@ -5,8 +5,9 @@ project(vhat_client)
 add_library(vhat_client
   MODULE
     ate_interaction.cpp
-    squish.cpp
     vhat_client.cpp
+    squish/application_context.cpp
+    squish/squish_API.cpp
 )
 
 set_target_properties(vhat_client PROPERTIES

@@ -2,7 +2,7 @@
 #include <boost/system/system_error.hpp>
 
 #include "error_defines.h"
-#include "squish.h"
+#include "squish/squish_API.h"
 
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
