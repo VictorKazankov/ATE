@@ -66,4 +66,5 @@ else
   read -n 1 -s -r -p "Press any key to continue..."
 fi
 sh ./leptonica.sh
-sh ./tesseract.sh
+sh ./tesseract-trained-data.sh
+cmake -P tesseract.cmake
