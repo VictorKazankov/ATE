@@ -14,6 +14,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   py::class_<squish::ApplicationContext>(m, "ApplicationContext")
       .def(py::init())
+      .def("detach", &squish::ApplicationContext::Detach)
       .def_readonly("host", &squish::ApplicationContext::host)
       .def_readonly("port", &squish::ApplicationContext::port);
 

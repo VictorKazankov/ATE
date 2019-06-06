@@ -15,8 +15,10 @@ struct ApplicationContext {
   std::string host{};
   std::string port{};
 
+ private:
   std::unique_ptr<interaction::ATEInteraction> ate_interaction;
 
+ public:
   ApplicationContext() = default;
   ~ApplicationContext() = default;
   ApplicationContext(const squish::ApplicationContext& rhs);
