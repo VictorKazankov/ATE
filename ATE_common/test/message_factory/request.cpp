@@ -57,9 +57,11 @@ void WrongWaitForObjectParamsTest(const char* message) {
 void WrongTapObjectParamsTest(const char* message) {
   int x;
   int y;
+  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE;
+  common::squish::MouseButton mouse_button = common::squish::MouseButton::NONE;
   Json::Value error;
 
-  common::jmsg::ExtractTapObjectRequestParams(message, x, y, error);
+  common::jmsg::ExtractTapObjectRequestParams(message, x, y, modifier_state, mouse_button, error);
 
   EXPECT_FALSE(error.empty()) << "Error must be non-empty";
   int ec = 0;
