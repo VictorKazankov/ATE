@@ -10,6 +10,7 @@ add_executable(vhat_common_test
   common/common.cpp
   config/config.cpp
   logger/logger.cpp
+  message_factory/request.cpp
   utils/geometry_types.cpp
 )
 
