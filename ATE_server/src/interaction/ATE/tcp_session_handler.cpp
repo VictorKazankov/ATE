@@ -12,6 +12,7 @@
 #include "message_factory/json_utils.h"
 #include "message_factory/message_factory.h"
 #include "rpc_error.h"
+#include "utils/squish_types.h"
 
 namespace interaction {
 
@@ -83,14 +84,17 @@ std::pair<Json::Value, bool> TcpSessionHandler::HandleWaitForObject(const Json::
 
 std::pair<Json::Value, bool> TcpSessionHandler::HandleTapObject(const Json::Value& params) {
   cv::Point point;
+  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE;
+  common::squish::MouseButton mouse_button = common::squish::MouseButton::NONE;
   Json::Value extract_error;
 
-  common::jmsg::ExtractTapObjectRequestParams(params, point.x, point.y, extract_error);
+  common::jmsg::ExtractTapObjectRequestParams(params, point.x, point.y, modifier_state, mouse_button, extract_error);
 
   if (!extract_error.empty()) {
     return std::make_pair(std::move(extract_error), false);
   }
 
+  // TODO: we do not provide modifier state and mouse button in TapObject API
   ate_.TapObject(point);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateTapObjectResultObject(), true);

@@ -140,12 +140,15 @@ void ExtractWaitForObjectRequestParams(const Json::Value& params, std::string& o
   }
 }
 
-void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error) {
+void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, squish::ModifierState& modifier_state,
+                                   squish::MouseButton& mouse_button, Json::Value& error) {
   error = Json::Value{};
 
   try {
     x = params[kAbscissa].asInt();
     y = params[kOrdinate].asInt();
+    modifier_state = static_cast<squish::ModifierState>(params[kModifierState].asInt());
+    mouse_button = static_cast<squish::MouseButton>(params[kMouseButton].asInt());
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid TapObject params");
     logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),

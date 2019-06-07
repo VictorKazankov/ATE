@@ -7,6 +7,7 @@
 #include <jsoncpp/json/value.h>
 
 #include "rpc_error.h"
+#include "utils/squish_types.h"
 
 namespace common {
 namespace jmsg {
@@ -90,11 +91,14 @@ void ExtractWaitForObjectRequestParams(const Json::Value& params, std::string& o
  * @param[in] params - structured value that holds the parameter values to be used
  * during the invocation of the 'TapObject' method
  *
- * @param[out] x
- * @param[out] y
+ * @param[out] x - x coordinate
+ * @param[out] y - y coordinate
+ * @param[out] modifier_state - Modifier state
+ * @param[out] mouse_button - Mouse button
  * @param[out] error - error object, null on successs
  */
-void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
+void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, squish::ModifierState& modifier_state,
+                                   squish::MouseButton& mouse_button, Json::Value& error);
 
 /**
  * @brief Check response scheme of message 'WaitForApplicationLaunch'
