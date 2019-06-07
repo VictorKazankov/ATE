@@ -9,6 +9,12 @@
 
 namespace interaction {
 
+enum class Method {
+  kAttachToApplication,
+  kWaitForObject,
+  kTapObject,
+};
+
 class ATEInteraction {
  private:
   const std::string host_;
@@ -17,7 +23,7 @@ class ATEInteraction {
   boost::asio::ip::tcp::socket socket_;
   boost::asio::ip::tcp::resolver resolver_;
 
-  static const size_t kAttempts {3};
+  static const size_t kAttempts{3};
   size_t reconnect_attempts{kAttempts};
 
   boost::asio::streambuf read_buffer_;
@@ -29,7 +35,7 @@ class ATEInteraction {
 
   void Connect();
 
-  squish::Object SendCommand(const std::string& command);
+  squish::Object SendCommand(Method method, const std::string& command);
 
  private:
   void Reconnect();

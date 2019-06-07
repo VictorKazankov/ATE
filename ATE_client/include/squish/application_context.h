@@ -34,7 +34,7 @@ struct ApplicationContext {
    * @param requested command
    * @returns result object
    **/
-  Object SendCommand(const std::string& command);
+  Object SendCommand(interaction::Method method, const std::string& command);
 
   /**
    * @brief Function allows to know if connection was established

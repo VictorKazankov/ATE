@@ -52,35 +52,45 @@ bool CheckJsonStructure(const std::string& message, Json::Value& value) {
   }
 }
 
-squish::Object ParseMessage(const std::string& method, const Json::Value& schema) {
+squish::Object ParseMessage(Method method, const Json::Value& schema) {
   squish::Object object;
 
   if (schema.isMember(common::jmsg::kError)) {
     ErrorHandler(schema[common::jmsg::kError]);
   }
 
-  if (method == common::jmsg::kWaitForObject && common::jmsg::CheckWaitForObjectResponse(schema)) {
-    logger::debug("[parse message] waitForObject response");
+  switch (method) {
+    case Method::kWaitForObject:
+      if (common::jmsg::CheckWaitForObjectResponse(schema)) {
+        logger::debug("[parse message] waitForObject response");
 
-    auto& result = schema[common::jmsg::kResult];
+        auto& result = schema[common::jmsg::kResult];
 
-    object.x = result[common::jmsg::kAbscissa].asInt();
-    object.y = result[common::jmsg::kOrdinate].asInt();
-    object.width = result[common::jmsg::kWidth].asInt();
-    object.height = result[common::jmsg::kHight].asInt();
+        object.x = result[common::jmsg::kAbscissa].asInt();
+        object.y = result[common::jmsg::kOrdinate].asInt();
+        object.width = result[common::jmsg::kWidth].asInt();
+        object.height = result[common::jmsg::kHight].asInt();
 
-    if (!CheckIsAreaEmpty(object)) {
-      throw squish::LookupError{};
-    }
+        if (!CheckIsAreaEmpty(object)) {
+          throw squish::LookupError{};
+        }
+      }
+      break;
+
+    case Method::kTapObject:
+      logger::info("[parse message] tapObject response");
+      // TODO: prepare handling logic
+      break;
+
+    case Method::kAttachToApplication:
+      logger::info("[parse message] attachToApplication response");
+      // TODO: prepare handling logic
+      break;
+
+    default:
+      throw std::logic_error("Unhandled method: " + std::to_string(static_cast<int>(method)));
   }
-  if (method == common::jmsg::kTapObject) {
-    logger::info("[parse message] tapObject response");
-    // TODO: prepare handling logic
-  }
-  if (method == common::jmsg::kAttachToApplication) {
-    logger::info("[parse message] attachToApplication response");
-    // TODO: prepare handling logic
-  }
+
   return object;
 }
 }  // namespace
@@ -123,7 +133,7 @@ void ATEInteraction::Reconnect() {
   Connect();
 }
 
-squish::Object ATEInteraction::SendCommand(const std::string& command) {
+squish::Object ATEInteraction::SendCommand(Method method, const std::string& command) {
   boost::asio::write(socket_, boost::asio::buffer(command), boost::asio::transfer_all());
   boost::asio::read_until(socket_, read_buffer_, '\n');
 
@@ -136,8 +146,6 @@ squish::Object ATEInteraction::SendCommand(const std::string& command) {
   if (!CheckJsonStructure(message, json_structure)) {
     return squish::Object{};
   }
-
-  const auto& method = json_structure[common::jmsg::kMethod].asString();
 
   return ParseMessage(method, json_structure);
 }

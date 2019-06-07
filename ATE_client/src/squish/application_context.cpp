@@ -16,4 +16,6 @@ bool ApplicationContext::IsRunning() const {
 
 void ApplicationContext::Detach() {}
 
-Object ApplicationContext::SendCommand(const std::string& command) { return ate_interaction->SendCommand(command); }
+Object ApplicationContext::SendCommand(interaction::Method method, const std::string& command) {
+  return ate_interaction->SendCommand(method, command);
+}

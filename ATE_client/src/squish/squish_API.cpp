@@ -61,7 +61,7 @@ Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
   logger::debug("Object waitForObject()");
   auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec,
                                                                                   GetCorrelationId());
-  return applicationContext.SendCommand(message);
+  return applicationContext.SendCommand(interaction::Method::kWaitForObject, message);
 }
 
 void API::TapObject(const Object& screen_rectangle, common::squish::ModifierState modifier_state,
@@ -79,5 +79,5 @@ void API::TapObject(const common::Point& screen_point, common::squish::ModifierS
   logger::debug("Object tapObject");
   auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
       screen_point.x, screen_point.y, modifier_state, button, GetCorrelationId());
-  applicationContext.SendCommand(message);
+  applicationContext.SendCommand(interaction::Method::kTapObject, message);
 }
