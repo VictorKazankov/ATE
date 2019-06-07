@@ -51,15 +51,13 @@ bool storage::JsonStorage::LoadCollection() {
   Json::Value jsonobj;
 
   if (!reader.parse(file, jsonobj, false)) {
-    logger::error("[storage] Parsing of {} failure.", collection_json_file);
+    logger::error("[storage] Parsing of {} failure: {}", collection_json_file, reader.getFormattedErrorMessages());
     return false;
   }
 
-  const fs::path collection_root = storage_path_ / collection_name_;
-
   try {
     for (const auto& it : jsonobj) {
-      collection_.emplace(it[kIconName].asString(), collection_root / it[kIconLocation].asCString());
+      collection_.emplace(it[kIconName].asString(), storage_path_ / it[kIconLocation].asCString());
     }
   } catch (const Json::LogicError& err) {
     // Strong exception warranty require not modified object if an exception occurs
