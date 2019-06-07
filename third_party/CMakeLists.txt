@@ -27,24 +27,25 @@ add_library(boost_asio SHARED boost_asio.cpp)
 add_library(Boost::asio ALIAS boost_asio)
 
 if(MSVC)
-# When BOOST_SYSTEM_USE_UTF8 is defined, on Windows
-# the library returns UTF-8 messages using code page CP_UTF8
-# instead of the default CP_ACP.
-# This macro has no effect on POSIX.
-# https://www.boost.org/doc/libs/1_70_0/libs/system/doc/html/system.html#ref_macros
-# https://docs.microsoft.com/en-us/windows/desktop/api/stringapiset/nf-stringapiset-widechartomultibyte
+  # When BOOST_SYSTEM_USE_UTF8 is defined, on Windows
+  # the library returns UTF-8 messages using code page CP_UTF8
+  # instead of the default CP_ACP.
+  # This macro has no effect on POSIX.
+  # https://www.boost.org/doc/libs/1_70_0/libs/system/doc/html/system.html#ref_macros
+  # https://docs.microsoft.com/en-us/windows/desktop/api/stringapiset/nf-stringapiset-widechartomultibyte
 
-# BOOST_USE_WINDOWS_H macro is part of Boost.Config.
-# If defined, Boost.WinAPI will include
-# <windows.h> and any other headers from Windows SDK as needed.
-# Otherwise Boost.WinAPI will provide its own declarations of the SDK components as needed
-# without including SDK headers.
-# https://www.boost.org/doc/libs/1_70_0/libs/winapi/doc/html/winapi/config.html
-target_compile_definitions(boost_asio
-  PUBLIC
-    BOOST_SYSTEM_USE_UTF8
-    BOOST_USE_WINDOWS_H
-)
+  # BOOST_USE_WINDOWS_H macro is part of Boost.Config.
+  # If defined, Boost.WinAPI will include
+  # <windows.h> and any other headers from Windows SDK as needed.
+  # Otherwise Boost.WinAPI will provide its own declarations of the SDK components as needed
+  # without including SDK headers.
+  # https://www.boost.org/doc/libs/1_70_0/libs/winapi/doc/html/winapi/config.html
+
+  target_compile_definitions(boost_asio
+    PUBLIC
+      BOOST_SYSTEM_USE_UTF8
+      BOOST_USE_WINDOWS_H
+  )
 endif(MSVC)
 
 # BOOST_ASIO_DYN_LINK necessary for separate compilling
@@ -67,14 +68,6 @@ target_compile_definitions(boost_asio
 # https://www.openssl.org
 # Debian/Ubuntu package name: libssl-dev
 find_package(OpenSSL REQUIRED)
-
-message(STATUS "
-OpenSSL
- version: ${OPENSSL_VERSION}
- crypto: ${OPENSSL_CRYPTO_LIBRARY}
- ssl: ${OPENSSL_SSL_LIBRARY}
- include directory: ${OPENSSL_INCLUDE_DIR}
-")
 
 target_include_directories(boost_asio
   PUBLIC
