@@ -27,14 +27,14 @@ std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& 
   if (interaction_type == defines::kSpi) {
     return std::make_unique<interaction::SpiInteraction>(
         common::Config().GetString(defines::kInteraction, defines::kDeviceAddress, ""),
-        StrToDisplayType(common::Config().GetString(defines::kBoardSection, defines::kDisplayTypeOption, "")));
+        StrToDisplayType(common::Config().GetString(defines::kInteraction, defines::kDisplayTypeOption, "")));
   }
 
   if (interaction_type == defines::kVdp) {
     return std::make_unique<interaction::VDPInteraction>(
-        io_context, common::Config().GetString(defines::kBoardSection, defines::kAddressOption, ""),
-        common::Config().GetString(defines::kBoardSection, defines::kPortOption, ""),
-        StrToDisplayType(common::Config().GetString(defines::kBoardSection, defines::kDisplayTypeOption, "")));
+        io_context, common::Config().GetString(defines::kInteraction, defines::kAddressOption, ""),
+        common::Config().GetString(defines::kInteraction, defines::kPortOption, ""),
+        StrToDisplayType(common::Config().GetString(defines::kInteraction, defines::kDisplayTypeOption, "")));
   }
 
   if (interaction_type == defines::kDummy) {

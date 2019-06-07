@@ -20,6 +20,7 @@ add_library(vhat_server_lib
     video_streaming/v4l_streamer.cpp
     video_streaming/framebuf_to_mat.cpp
     video_streaming/stream_reader.cpp
+    video_streaming/streamer_factory.cpp
     ate.cpp
 )
 

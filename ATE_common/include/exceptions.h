@@ -43,6 +43,11 @@ class InteractionTypeError : std::invalid_argument {
 }  // namespace interaction
 
 namespace streamer {
+class InvalidConfig : public std::runtime_error {
+ public:
+  explicit InvalidConfig() : std::runtime_error{"Invalid video stream config"} {}
+};
+
 class StreamOpenFailure : public std::runtime_error {
  public:
   explicit StreamOpenFailure(const std::string& what) : std::runtime_error{what} {}

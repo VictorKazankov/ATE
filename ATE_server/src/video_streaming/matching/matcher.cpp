@@ -13,7 +13,8 @@
 #include "utils/defines.h"
 #include "video_streaming/matching/template_detector.h"
 #include "video_streaming/matching/text_detector.h"
-#include "video_streaming/stream_reader.h"
+#include "video_streaming/streamer.h"
+#include "video_streaming/streamer_factory.h"
 
 namespace {
 
@@ -31,8 +32,7 @@ tesseract::PageIteratorLevel GetPageLevel(const std::string& text) {
 namespace detector {
 
 Matcher::Matcher()
-    : streamer_{std::make_unique<streamer::StreamReader>(
-          common::Config().GetString(defines::kBoardSection, defines::kVideoStreamOption, std::string{}))},
+    : streamer_{streamer::MakeStreamer()},
       image_detector_{std::make_unique<detector::TemplateDetector>()},
       text_detector_min_confidence_{common::Config().GetDouble(defines::kTextDetectorSection,
                                                                defines::kTextDetectorConfidenceOption,

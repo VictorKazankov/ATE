@@ -13,11 +13,9 @@ enum class DisplayType {
 
 enum class ContactId { kOneFingerTouch = 0 };
 
-constexpr auto kVideoStreamOption = "VideoStream";
 constexpr auto kDBSection = "DB";
 constexpr auto kPathOption = "Path";
 constexpr auto kCollectionModeOption = "CollectionMode";
-constexpr auto kBoardSection = "BOARD";
 constexpr auto kInteraction = "INTERACTION";
 constexpr auto kAddressOption = "Address";
 constexpr auto kPortOption = "Port";
@@ -35,6 +33,17 @@ constexpr auto kVdp = "VDP";
 constexpr auto kSpi = "SPI";
 constexpr auto kDummy = "Dummy";
 
+const std::string kVideoStreamSection = "VIDEO_STREAM";
+
+const std::string kVideoStreamSourceOption = "Source";
+const std::string kVideoStreamTypeV4l2 = "V4L2";
+const std::string kVideoStreamTypeRtsp = "RTSP";
+
+const std::string kVideo4LinuxDeviceOption = "Device";
+const std::string kVideo4LinuxFrameWidthOption = "FrameWidth";
+const std::string kVideo4LinuxFrameHeightOption = "FrameHeight";
+
+const std::string kRtspAddressOption = "RtspStream";
 }  // namespace defines
 
 #endif  // ATE_SERVER_UTILS_DEFINES_H_
