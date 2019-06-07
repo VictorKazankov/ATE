@@ -17,6 +17,8 @@ add_library(vhat_server_lib
     video_streaming/matching/template_detector.cpp
     video_streaming/matching/text_detector.cpp
     video_streaming/matching/text_detector_exceptions.cpp
+    video_streaming/v4l_streamer.cpp
+    video_streaming/framebuf_to_mat.cpp
     video_streaming/stream_reader.cpp
     ate.cpp
 )

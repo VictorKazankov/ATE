@@ -42,4 +42,11 @@ class InteractionTypeError : std::invalid_argument {
 };
 }  // namespace interaction
 
+namespace streamer {
+class StreamOpenFailure : public std::runtime_error {
+ public:
+  explicit StreamOpenFailure(const std::string& what) : std::runtime_error{what} {}
+};
+}  // namespace streamer
+
 #endif  // ATE_COMMON_EXCEPTIONS_H_
