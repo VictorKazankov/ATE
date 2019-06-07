@@ -3,7 +3,6 @@
 
 #include <boost/asio/io_context.hpp>
 
-#include "https_client.h"
 #include "interaction/interaction.h"
 #include "utils/defines.h"
 
@@ -16,9 +15,10 @@ enum class EventType { PRESS, RELEASE, MOVE };
  **/
 class VDPInteraction : public Interaction {
  private:
+  boost::asio::io_context& context_;
+  std::string host_;
+  std::string port_;
   defines::DisplayType display_type_;
-
-  HttpsClient::HttpsClientShared vdp_client_;
 
  public:
   VDPInteraction(boost::asio::io_context& io_context, const std::string& ip_address, const std::string& port,

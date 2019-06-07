@@ -10,7 +10,7 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/streambuf.hpp>
 
-#include "connection.h"
+#include "interaction/connection.h"
 #include "session_handler.h"
 
 namespace interaction {
@@ -51,18 +51,18 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection>, public
   /**
    * @brief Start session
    */
-  void Start();
+  void Start() override;
 
   /**
    * @brief Stop session
    */
-  void Stop();
+  void Stop() override;
 
   /**
    * @brief Send message to client (push messages into message queue)
    * @param message - string representation of message
    */
-  void Send(const std::string& message);
+  void Send(const std::string& message) override;
 
   /**
    * @brief Set connection listener

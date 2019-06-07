@@ -19,7 +19,11 @@ class Connection {
    * @brief Stop session
    */
   virtual void Stop() = 0;
-  // TODO : Create virtual function for sending messages
+  /**
+   * @brief Send command or messages
+  */
+  virtual void Send(const std::string& command) = 0;
+
 };
 
 }  // namespace interaction

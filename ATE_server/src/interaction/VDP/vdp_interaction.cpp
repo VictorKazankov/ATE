@@ -1,5 +1,5 @@
 #include "interaction/VDP/vdp_interaction.h"
-
+#include "interaction/VDP/https_client.h"
 #include <sstream>
 
 namespace interaction {
@@ -23,11 +23,9 @@ const char* EventTypeToString(EventType e) {
 
 VDPInteraction::VDPInteraction(boost::asio::io_context& io_context, const std::string& ip_address,
                                const std::string& port, defines::DisplayType display_type)
-    : display_type_(display_type), vdp_client_(HttpsClient::CreateHttpsClient(io_context, ip_address, port)) {
-  vdp_client_->Start();
-}
+    : context_(io_context), host_(ip_address), port_(port), display_type_(display_type) {}
 
-VDPInteraction::~VDPInteraction() { vdp_client_->Stop(); }
+VDPInteraction::~VDPInteraction() {}
 
 std::string VDPInteraction::PrepareCommand(const int x, const int y, const EventType event_type) const {
   std::ostringstream command_str;
@@ -40,19 +38,24 @@ std::string VDPInteraction::PrepareCommand(const int x, const int y, const Event
 }
 
 void VDPInteraction::Tap(const int x, const int y) const {
-  vdp_client_->SendCommand(PrepareCommand(x, y, EventType::PRESS), PrepareCommand(x, y, EventType::RELEASE));
+  HttpsClient client(context_, host_, port_);
+  client.Send(PrepareCommand(x, y, EventType::PRESS));
+  client.Send(PrepareCommand(x, y, EventType::RELEASE));
 }
 
 void VDPInteraction::Press(const int x, const int y) const {
-  vdp_client_->SendCommand(PrepareCommand(x, y, EventType::PRESS));
+  HttpsClient client(context_, host_, port_);
+  client.Send(PrepareCommand(x, y, EventType::PRESS));
 }
 
 void VDPInteraction::Release(const int x, const int y) const {
-  vdp_client_->SendCommand(PrepareCommand(x, y, EventType::RELEASE));
+  HttpsClient client(context_, host_, port_);
+  client.Send(PrepareCommand(x, y, EventType::RELEASE));
 }
 
 void VDPInteraction::Drag(const int x, const int y) const {
-  vdp_client_->SendCommand(PrepareCommand(x, y, EventType::MOVE));
+  HttpsClient client(context_, host_, port_);
+  client.Send(PrepareCommand(x, y, EventType::MOVE));
 }
 
 }  // namespace interaction
