@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+include(GNUInstallDirs)
+
 project(vhat_client)
 
 add_library(vhat_client
@@ -27,4 +29,14 @@ target_link_libraries(vhat_client
 target_compile_definitions(vhat_client
   PUBLIC
     VHAT_CLIENT_DATA_PATH="${VHAT_CLIENT_DATA_PATH}"
+)
+
+install(TARGETS
+  vhat_client
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+install(DIRECTORY
+  ../data/
+  DESTINATION ${CMAKE_INSTALL_DATADIR}
 )

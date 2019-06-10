@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+include(GNUInstallDirs)
+
 # A separate static library is necessary to support unit tests
 add_library(vhat_server_lib
   STATIC
@@ -89,4 +91,14 @@ target_compile_definitions(vhat_server_lib
 target_link_libraries(vhat_server
   PRIVATE
     vhat_server_lib
+)
+
+install(TARGETS
+  vhat_server
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(DIRECTORY
+  ../data/
+  DESTINATION ${CMAKE_INSTALL_DATADIR}
 )

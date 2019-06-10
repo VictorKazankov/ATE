@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+include(GNUInstallDirs)
+
 add_library(vhat_common
   SHARED
     config/config.cpp
@@ -36,3 +38,8 @@ if(UNIX)
       -Wextra
   )
 endif(UNIX)
+
+install(TARGETS
+  vhat_common
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)

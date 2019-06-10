@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+include(GNUInstallDirs)
+
 ### Boost libraries
 ### Add new libraries from https://github.com/boostorg
 ### as git submodule
@@ -115,7 +117,7 @@ endif(VHAT_BUILD_CLIENT)
 
 ### spdlog
 ### https://github.com/gabime/spdlog
-add_subdirectory(spdlog)
+add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 
 if(VHAT_WITH_TESTS)
   ### Google Test
@@ -131,3 +133,8 @@ if(VHAT_WITH_TESTS)
   add_subdirectory(googletest)
 
 endif(VHAT_WITH_TESTS)
+
+install(TARGETS
+  boost_asio
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
