@@ -57,8 +57,7 @@ std::unique_ptr<storage::Storage> CreateStorage() {
     storage_path = VHAT_SERVER_DATA_PATH / storage_path;
   }
 
-  return std::make_unique<storage::JsonStorage>(
-      storage_path, common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, {}));
+  return std::make_unique<storage::JsonStorage>(storage_path);
 }
 }  // namespace
 
@@ -66,7 +65,9 @@ ATE::ATE(boost::asio::io_context& io_context)
     : storage_{CreateStorage()},
       interaction_{InteractionFactory(common::Config().GetString(defines::kInteraction, defines::kInteractionType, ""),
                                       io_context)} {
-  if (!storage_->Connect()) throw storage::ConnectionFailure{};
+  if (!storage_->LoadCollection(common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, {}))) {
+    throw storage::ConnectionFailure{};
+  }
 }
 
 ATE::~ATE() = default;

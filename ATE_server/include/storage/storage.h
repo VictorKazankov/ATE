@@ -13,12 +13,6 @@ namespace storage {
 class Storage {
  public:
   /**
-   * @brief The function establish connect to the image storage
-   * @return Returns true if successful, or false otherwise.
-   **/
-  virtual bool Connect() = 0;
-
-  /**
    * @brief The function returns path to the image
    * @param Image name
    * @return Returns path to the image
@@ -26,11 +20,11 @@ class Storage {
   virtual fs::path ItemPath(const std::string&) const = 0;
 
   /**
-   * @brief The function changes image storage source
+   * @brief Loads image storage source if possible otherwise does nothing
    * @param New collection name
    * @return Returns true if successful, or false otherwise.
    **/
-  virtual bool ChangeCollection(const std::string&) = 0;
+  virtual bool LoadCollection(const std::string&) = 0;
 
   virtual ~Storage() = default;
 };

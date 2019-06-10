@@ -1,7 +1,9 @@
 #include "storage/json_storage.h"
 
 #include <fstream>
+#include <iterator>
 #include <stdexcept>
+#include <vector>
 
 #include <jsoncpp/json/json.h>
 
@@ -13,10 +15,7 @@ constexpr auto kIconLocation = "location";
 constexpr auto kJsonExtension = "json";
 }  // namespace
 
-storage::JsonStorage::JsonStorage(const fs::path& storage_path, const std::string& collection_name)
-    : storage_path_(storage_path), collection_name_(collection_name) {}
-
-bool storage::JsonStorage::Connect() { return LoadCollection(); }
+storage::JsonStorage::JsonStorage(const fs::path& storage_path) : storage_path_(storage_path) {}
 
 fs::path storage::JsonStorage::ItemPath(const std::string& icon_name) const {
   try {
@@ -27,19 +26,13 @@ fs::path storage::JsonStorage::ItemPath(const std::string& icon_name) const {
   }
 }
 
-bool storage::JsonStorage::ChangeCollection(const std::string& collection_name) {
-  if (collection_name == collection_name_) {
-    return false;
+bool storage::JsonStorage::LoadCollection(const std::string& new_collection_name) {
+  if (new_collection_name == collection_name_) {
+    logger::debug("[storage] Trying to load already-loaded collection: {}", new_collection_name);
+    return true;
   }
 
-  collection_name_ = collection_name;
-  return LoadCollection();
-}
-
-bool storage::JsonStorage::LoadCollection() {
-  collection_.clear();
-
-  const fs::path collection_json_file = (storage_path_ / collection_name_).replace_extension(kJsonExtension);
+  const fs::path collection_json_file = (storage_path_ / new_collection_name).replace_extension(kJsonExtension);
   std::ifstream file{collection_json_file};
 
   if (!file) {
@@ -55,20 +48,24 @@ bool storage::JsonStorage::LoadCollection() {
     return false;
   }
 
+  std::vector<std::pair<std::string, fs::path>> new_collection;
+
   try {
+    new_collection.reserve(jsonobj.size());
     for (const auto& it : jsonobj) {
-      collection_.emplace(it[kIconName].asString(), storage_path_ / it[kIconLocation].asCString());
+      new_collection.emplace_back(it[kIconName].asString(), storage_path_ / it[kIconLocation].asCString());
     }
   } catch (const Json::LogicError& err) {
-    // Strong exception warranty require not modified object if an exception occurs
-    collection_.clear();
-    logger::error("[storage] Failed parsing of {} ({})", collection_json_file, err.what());
+    logger::error("[storage] Failed to parse of {} at element: {} ({})", collection_json_file, new_collection.size(),
+                  err.what());
     return false;
-  } catch (...) {
-    collection_.clear();
-    logger::error("[storage] Unexpected error");
-    throw;
   }
+
+  collection_.clear();
+  collection_.reserve(new_collection.size());
+  collection_.insert(std::make_move_iterator(new_collection.begin()), std::make_move_iterator(new_collection.end()));
+
+  collection_name_ = new_collection_name;
 
   return true;
 }

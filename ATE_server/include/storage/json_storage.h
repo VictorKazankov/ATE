@@ -15,13 +15,7 @@ class JsonStorage : public Storage {
   using IconMap = std::unordered_map<std::string, fs::path>;
 
  public:
-  JsonStorage(const fs::path& storage_path, const std::string& collection_name);
-
-  /**
-   * @brief The function establish connect to the image storage
-   * @return Returns true if successful, or false otherwise.
-   **/
-  bool Connect() override;
+  JsonStorage(const fs::path& storage_path);
 
   /**
    * @brief The function returns path to the image
@@ -31,19 +25,17 @@ class JsonStorage : public Storage {
   fs::path ItemPath(const std::string& icon_name) const override;
 
   /**
-   * @brief The function changes image storage source
+   * @brief Loads image storage source if possible otherwise does nothing
    * @param New collection name
    * @return Returns true if successful, or false otherwise.
    **/
-  bool ChangeCollection(const std::string& collection_name);
+  bool LoadCollection(const std::string& collection_name) override;
 
   JsonStorage(const JsonStorage&) = delete;
   JsonStorage& operator=(const JsonStorage&) = delete;
-  ~JsonStorage() = default;
+  ~JsonStorage() override = default;
 
  private:
-  bool LoadCollection();
-
   fs::path storage_path_;
   std::string collection_name_;
   IconMap collection_;
