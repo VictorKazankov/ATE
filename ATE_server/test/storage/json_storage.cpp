@@ -23,34 +23,34 @@ class JsonStorageTest : public ::testing::Test {
 };
 
 void JsonStorageTest::SetUp() {
-  storage_ = std::make_unique<storage::JsonStorage>(kImageStoragePath, kGoodImageCollectionFile);
-  storage_->Connect();
+  storage_ = std::make_unique<storage::JsonStorage>(kImageStoragePath);
+  storage_->LoadCollection(kGoodImageCollectionFile);
 }
 
 void JsonStorageTest::TearDown() { storage_.reset(); }
 
 TEST_F(JsonStorageTest, NoFileExistConstruction) {
-  storage::JsonStorage storage("/home", "some_folder.json");
-  EXPECT_FALSE(storage.Connect());
+  storage::JsonStorage storage("/home");
+  EXPECT_FALSE(storage.LoadCollection(kGoodImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, CorruptedFileConstruction) {
-  storage::JsonStorage storage(kImageStoragePath, kCorruptedImageCollectionFile);
-  EXPECT_FALSE(storage.Connect());
+  storage::JsonStorage storage(kImageStoragePath);
+  EXPECT_FALSE(storage.LoadCollection(kCorruptedImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, GoodFileConstruction) {
-  storage::JsonStorage storage(kImageStoragePath, kGoodImageCollectionFile);
-  EXPECT_TRUE(storage.Connect());
+  storage::JsonStorage storage(kImageStoragePath);
+  EXPECT_TRUE(storage.LoadCollection(kGoodImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, ChangeCollection) {
-  EXPECT_TRUE(storage_->ChangeCollection(kGoodSpareImageCollectionFile));
-  EXPECT_FALSE(storage_->ChangeCollection(kCorruptedImageCollectionFile));
+  EXPECT_TRUE(storage_->LoadCollection(kGoodSpareImageCollectionFile));
+  EXPECT_FALSE(storage_->LoadCollection(kCorruptedImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, ChangeCollectionToTheSame) {
-  EXPECT_FALSE(storage_->ChangeCollection(kGoodImageCollectionFile));
+  EXPECT_TRUE(storage_->LoadCollection(kGoodImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, GetItemPath) {
