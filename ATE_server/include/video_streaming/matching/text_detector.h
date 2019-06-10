@@ -139,48 +139,22 @@ class TextDetectorResultRange {
 };
 
 /**
- * @brief Result of the text recognition
- **/
-class TextDetectorResult {
- public:
-  /**
-   * @brief Construct TextDetectorResult
-   *
-   * @param image - image for text recognition
-   * @param lang - language, default language is english (eng)
-   *
-   * @throws std::invalid_argument if
-   * - 'image' is empty
-   * - 'image' matrix isn't 2-dimensional
-   * - 'image' isn't 1 or 3 channel with 8 bits per channel
-   *
-   * TextDetectorInitializationError if can't initialize
-   * TextDetectorRecognitionError if can't recognize
-   **/
-  explicit TextDetectorResult(cv::InputArray image, const char* lang = kDefaultLanguage);
-
-  /**
-   * @return TextDetectorResultRange proxy class with STL-style begin and end
-   * @param level - necessary granulation (e. g. cheracter, word, etc.)
-   **/
-  TextDetectorResultRange GetRange(tesseract::PageIteratorLevel level) const;
-
- private:
-  std::shared_ptr<tesseract::TessBaseAPI> tess_;
-};
-
-/**
  * @brief main class for text detection
  */
 class TextDetector {
  public:
-  explicit TextDetector(const char* tessdata_prefix);
+  /**
+   * @param tessdata_prefix - value for TESSDATA_PREFIX environment variable
+   * @param lang - language, default language is english (eng)
+   *
+   * @throws TextDetectorInitializationError if can't initialize
+   */
+  explicit TextDetector(const char* tessdata_prefix, const char* lang = "eng");
 
   /**
    * @brief Recognize text on the image
    *
    * @param image - image for text recognition
-   * @param lang - language, default language is english (eng)
    *
    * @throws std::invalid_argument if
    * - 'image' is empty
@@ -190,7 +164,17 @@ class TextDetector {
    * @return TextDetectorResult if successful
    * or null if 'image' is valid and recognition error occurs
    */
-  std::unique_ptr<TextDetectorResult> Recognize(cv::InputArray image, const char* lang = kDefaultLanguage) const;
+  bool Recognize(cv::InputArray image);
+
+  /**
+   * @param level - necessary granulation (e. g. cheracter, word, etc.)
+   *
+   * @return TextDetectorResultRange proxy class with STL-style begin and end
+   **/
+  TextDetectorResultRange GetRange(tesseract::PageIteratorLevel level) const;
+
+ private:
+  std::shared_ptr<tesseract::TessBaseAPI> tess_;
 };
 
 }  // namespace detector

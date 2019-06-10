@@ -27,7 +27,7 @@ TextDetectorResultIterator::TextDetectorResultIterator(std::shared_ptr<tesseract
                                                        tesseract::PageIteratorLevel level)
     : level_{level} {
   if (!tess) {
-    WriteErrorAndThrowInvalidArgument("Null Tesseract::TessBaseAPI pointer");
+    WriteErrorAndThrowInvalidArgument("Null tesseract::TessBaseAPI pointer");
   }
   tesseract::ResultIterator* const unsafe_iter = tess->GetIterator();
   if (!unsafe_iter) {
@@ -109,8 +109,19 @@ TextDetectorResultRange::const_iterator TextDetectorResultRange::begin() const {
 
 TextDetectorResultRange::const_iterator TextDetectorResultRange::end() const { return const_iterator{}; }
 
-TextDetectorResult::TextDetectorResult(cv::InputArray image, const char* lang)
-    : tess_{std::make_shared<tesseract::TessBaseAPI>()} {
+TextDetectorResultRange TextDetector::GetRange(tesseract::PageIteratorLevel level) const {
+  return TextDetectorResultRange{tess_, level};
+}
+
+TextDetector::TextDetector(const char* tessdata_prefix, const char* lang) {
+  safe_env::Set(kTessdataPrefixEnvVarName, tessdata_prefix, false);
+  tess_ = std::make_shared<tesseract::TessBaseAPI>();
+  if (tess_->Init(nullptr, lang)) {
+    throw TextDetectorInitializationError{"Couldn't initialize text detector"};
+  }
+}
+
+bool TextDetector::Recognize(cv::InputArray image) {
   const cv::Mat matrix = image.getMat();
 
   if (matrix.empty()) {
@@ -126,32 +137,9 @@ TextDetectorResult::TextDetectorResult(cv::InputArray image, const char* lang)
     WriteErrorAndThrowInvalidArgument("Image must have 1 or 3 channels with 8 bits per channel");
   }
 
-  if (tess_->Init(nullptr, lang)) {
-    throw TextDetectorInitializationError{"Couldn't initialize text detector"};
-  }
-
   tess_->SetImage(static_cast<const unsigned char*>(matrix.data), matrix.cols, matrix.rows, matrix.channels(),
                   matrix.step1());
 
-  if (tess_->Recognize(nullptr)) {
-    throw TextDetectorRecognitionError{"the text detector didn't recognize the image"};
-  }
-}
-
-TextDetectorResultRange TextDetectorResult::GetRange(tesseract::PageIteratorLevel level) const {
-  return TextDetectorResultRange{tess_, level};
-}
-
-TextDetector::TextDetector(const char* tessdata_prefix) {
-  safe_env::Set(kTessdataPrefixEnvVarName, tessdata_prefix, false);
-}
-
-std::unique_ptr<TextDetectorResult> TextDetector::Recognize(cv::InputArray image, const char* lang) const {
-  try {
-    return std::make_unique<TextDetectorResult>(image, lang);
-  } catch (const TextDetectorRuntimeError& error) {
-    logger::error("{}{}", kLoggingCategoryPrefix, error.what());
-    return nullptr;
-  }
+  return !tess_->Recognize(nullptr);
 }
 }  // namespace detector

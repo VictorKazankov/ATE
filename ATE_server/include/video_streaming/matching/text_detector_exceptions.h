@@ -5,22 +5,10 @@
 
 namespace detector {
 
-class TextDetectorRuntimeError : public std::runtime_error {
- public:
-  explicit TextDetectorRuntimeError(const char* what_arg);
-  explicit TextDetectorRuntimeError(const std::string& what_arg);
-};
-
-class TextDetectorInitializationError : public TextDetectorRuntimeError {
+class TextDetectorInitializationError : public std::runtime_error {
  public:
   explicit TextDetectorInitializationError(const char* what_arg);
   explicit TextDetectorInitializationError(const std::string& what_arg);
-};
-
-class TextDetectorRecognitionError : public TextDetectorRuntimeError {
- public:
-  explicit TextDetectorRecognitionError(const char* what_arg);
-  explicit TextDetectorRecognitionError(const std::string& what_arg);
 };
 }  // namespace detector
 

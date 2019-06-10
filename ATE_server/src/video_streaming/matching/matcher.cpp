@@ -82,13 +82,11 @@ cv::Rect Matcher::MatchText(const std::string& text) {
     return cv::Rect{};
   }
 
-  const auto result = text_detector_->Recognize(screen_);
-
-  if (!result) {
+  if (!text_detector_->Recognize(screen_)) {
     return cv::Rect{};
   }
 
-  const auto range = result->GetRange(GetPageLevel(text));
+  const auto range = text_detector_->GetRange(GetPageLevel(text));
 
   const auto find_string = [ this, &text ](const TextObject& text_object) noexcept {
     return text_object.confidence >= text_detector_min_confidence_ && text_object.text == text;
