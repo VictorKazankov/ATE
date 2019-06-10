@@ -29,7 +29,7 @@ struct TestTextObject {
 
 template <typename TestObjectContainer>
 void RecognizeImageBaseTest(const char* image_file, const TestObjectContainer& expected_objects) {
-  const TextDetector text_detector{kTessDataPrefix};
+  TextDetector text_detector{kTessDataPrefix};
 
   const cv::Mat matrix = cv::imread(image_file, cv::IMREAD_COLOR);
 
@@ -38,10 +38,10 @@ void RecognizeImageBaseTest(const char* image_file, const TestObjectContainer& e
   ASSERT_TRUE(CV_8UC1 == matrix.type() || CV_8UC3 == matrix.type())
       << "Image must have 1 or 3 channels with 8 bits per channel";
 
-  const auto recognition_result = text_detector.Recognize(matrix);
-  ASSERT_TRUE(recognition_result) << "The result must be non-null";
+  const bool is_recognized = text_detector.Recognize(matrix);
+  ASSERT_TRUE(is_recognized) << "The result must be valid";
 
-  const TextDetectorResultRange range = recognition_result->GetRange(tesseract::RIL_WORD);
+  const TextDetectorResultRange range = text_detector.GetRange(tesseract::RIL_WORD);
 
   const std::vector<TextObject> data{range.begin(), range.end()};
   const auto expected_size = std::distance(std::begin(expected_objects), std::end(expected_objects));
@@ -57,7 +57,7 @@ void RecognizeImageBaseTest(const char* image_file, const TestObjectContainer& e
 }
 
 TEST(TextDetectorTest, EnvTessDataPrefix) {
-  const TextDetector text_detector{kTessDataPrefix};
+  TextDetector text_detector{kTessDataPrefix};
   const auto get_result = safe_env::Get(kTessdataPrefixEnvVarName);
   EXPECT_TRUE(get_result.second) << std::quoted(kTessdataPrefixEnvVarName) << " environment variable must be defined";
   EXPECT_EQ(get_result.first.back(), '/')
@@ -88,13 +88,11 @@ TEST(TextDetectorTest, NullTessBaseAPI) {
       cv::Mat{}, cv::Mat{1, 1, CV_8UC4},
       cv::Mat{static_cast<int>(multi_dim_image_sizes.size()), multi_dim_image_sizes.begin(), CV_8UC3}};
 
-  const TextDetector text_detector{kTessDataPrefix};
+  TextDetector text_detector{kTessDataPrefix};
 
   for (const cv::Mat& image : invalid_images) {
     EXPECT_THROW(text_detector.Recognize(image), std::invalid_argument)
         << "TextDetector::Recognize must throw invalid_argument";
-    EXPECT_THROW(TextDetectorResult{image}, std::invalid_argument)
-        << "TextDetectorResult constructor must throw invalid_argument";
   }
 
   bool invalid_argument_occurs = false;
@@ -118,10 +116,10 @@ TEST(TextDetectorTest, NullTessBaseAPI) {
 
 TEST(TextDetectorTest, ZeroImage) {
   const cv::Mat zero_image = cv::Mat::zeros(128, 128, CV_8UC3);
-  const TextDetector text_detector{kTessDataPrefix};
-  auto result = text_detector.Recognize(zero_image);
-  ASSERT_TRUE(result) << "The result must be non-null";
-  TextDetectorResultRange range = result->GetRange(tesseract::RIL_SYMBOL);
+  TextDetector text_detector{kTessDataPrefix};
+  const bool is_recognized = text_detector.Recognize(zero_image);
+  ASSERT_TRUE(is_recognized) << "The result must be valid";
+  TextDetectorResultRange range = text_detector.GetRange(tesseract::RIL_SYMBOL);
   const std::ptrdiff_t dist = std::distance(range.begin(), range.end());
   EXPECT_EQ(dist, 0) << "The range must be empty";
 }
