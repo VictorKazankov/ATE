@@ -106,10 +106,12 @@ target_include_directories(inihcpp
     inih
 )
 
-### Pybind11
-### https://pybind11.readthedocs.io/en/stable/index.html
-set(PYBIND11_PYTHON_VERSION 2.7 CACHE STRING "Pybind11 Python version")
-add_subdirectory(pybind11)
+if(VHAT_BUILD_CLIENT)
+  ### Pybind11
+  ### https://pybind11.readthedocs.io/en/stable/index.html
+  set(PYBIND11_PYTHON_VERSION 2.7 CACHE STRING "Pybind11 Python version")
+  add_subdirectory(pybind11)
+endif(VHAT_BUILD_CLIENT)
 
 ### spdlog
 ### https://github.com/gabime/spdlog
