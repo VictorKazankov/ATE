@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/ATE_server/data/test")
-  message(FATAL_ERROR "cannot build tests: ATE_server/data/test does not exist")
-endif()
-
-set(VHAT_SERVER_TEST_DATA_PATH "${VHAT_SERVER_DATA_PATH}/test" CACHE PATH "Path to VHAT server test data")
+set(VHAT_SERVER_TEST_DATA_PATH "${CMAKE_CURRENT_SOURCE_DIR}/data")
 
 # Workaround for build project while tesseract found with pkg-config
 # TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6

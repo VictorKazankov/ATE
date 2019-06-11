@@ -20,11 +20,6 @@ target_include_directories(vhat_common
     ../include
 )
 
-target_compile_definitions(vhat_common
-  PUBLIC
-    VHAT_COMMON_DATA_PATH="${VHAT_COMMON_DATA_PATH}"
-)
-
 target_link_libraries(vhat_common
   Boost::asio
   inihcpp

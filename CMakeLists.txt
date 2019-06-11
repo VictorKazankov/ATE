@@ -17,7 +17,6 @@ option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
 
-set(VHAT_COMMON_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_common/data" CACHE PATH "Path to VHAT common data")
 set(VHAT_SERVER_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_server/data" CACHE PATH "Path to VHAT server data")
 set(VHAT_CLIENT_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_client/data" CACHE PATH "Path to VHAT client data")
 
@@ -55,11 +54,6 @@ endif(VHAT_WITH_TESTS)
 
 # Copy 'data' directories contents into the target 'data' folder
 # Trailing slash is required or 'data' folder itself will be copied inside target 'data'
-file(COPY
-  ATE_common/data/
-  DESTINATION "${VHAT_COMMON_DATA_PATH}"
-)
-
 if(VHAT_BUILD_SERVER)
   file(COPY
     ATE_server/data/
