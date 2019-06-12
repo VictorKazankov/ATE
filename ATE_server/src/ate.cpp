@@ -9,6 +9,7 @@
 #include "interaction/dummy/dummy_interaction.h"
 #include "logger/logger.h"
 #include "storage/json_storage.h"
+#include "utils/ate_server_app_context.h"
 #include "utils/defines.h"
 
 namespace {
@@ -45,24 +46,10 @@ std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& 
   logger::critical("[ATE] Undefined type of interaction");
   throw interaction::InteractionTypeError{};
 }
-
-std::unique_ptr<storage::Storage> CreateStorage() {
-  fs::path storage_path = common::Config().GetString(defines::kDBSection, defines::kPathOption, {});
-
-  if (storage_path.empty()) {
-    throw std::invalid_argument{"Not set path for JSON storage in config"};
-  }
-
-  if (storage_path.is_relative()) {
-    storage_path = VHAT_SERVER_DATA_PATH / storage_path;
-  }
-
-  return std::make_unique<storage::JsonStorage>(storage_path);
-}
 }  // namespace
 
-ATE::ATE(boost::asio::io_context& io_context)
-    : storage_{CreateStorage()},
+ATE::ATE(const utils::ATEServerAppContext& app_context, boost::asio::io_context& io_context)
+    : storage_{std::make_unique<storage::JsonStorage>(app_context.StorageDir())},
       interaction_{InteractionFactory(common::Config().GetString(defines::kInteraction, defines::kInteractionType, ""),
                                       io_context)} {
   if (!storage_->LoadCollection(common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, {}))) {

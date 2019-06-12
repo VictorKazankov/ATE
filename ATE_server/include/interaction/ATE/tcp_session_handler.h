@@ -14,6 +14,10 @@ namespace Json {
 class Value;
 }  // namespace Json
 
+namespace utils {
+class ATEServerAppContext;
+}  // namespace utils
+
 namespace interaction {
 
 /**
@@ -26,7 +30,7 @@ namespace interaction {
  */
 class TcpSessionHandler : public SessionHandler {
  public:
-  TcpSessionHandler(boost::asio::io_context& io_ctx);
+  TcpSessionHandler(const utils::ATEServerAppContext& app_ctx, boost::asio::io_context& io_ctx);
   ~TcpSessionHandler() override = default;
 
   /**

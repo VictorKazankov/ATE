@@ -10,6 +10,10 @@
 #include "video_streaming/matching/matcher.h"
 #include "video_streaming/streamer.h"
 
+namespace utils {
+class ATEServerAppContext;
+}  // namespace utils
+
 /**
  * Automated Test Environment class for communication with LVDS board
  **/
@@ -20,7 +24,7 @@ class ATE {
   detector::Matcher matcher_;
 
  public:
-  ATE(boost::asio::io_context& io_context);
+  ATE(const utils::ATEServerAppContext& app_context, boost::asio::io_context& io_context);
   ~ATE();
 
   /**

@@ -16,8 +16,8 @@
 
 namespace interaction {
 
-TcpSessionHandler::TcpSessionHandler(boost::asio::io_context& io_ctx)
-    : ate_{io_ctx},
+TcpSessionHandler::TcpSessionHandler(const utils::ATEServerAppContext& app_ctx, boost::asio::io_context& io_ctx)
+    : ate_{app_ctx, io_ctx},
       handler_map_{{common::jmsg::kWaitForObject, &TcpSessionHandler::HandleWaitForObject},
                    {common::jmsg::kTapObject, &TcpSessionHandler::HandleTapObject}} {}
 

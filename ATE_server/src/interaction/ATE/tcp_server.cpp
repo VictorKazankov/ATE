@@ -4,15 +4,20 @@
 
 namespace interaction {
 
-TcpServer::TcpServer(boost::asio::io_context& context, uint16_t port)
+TcpServer::TcpServer(const utils::ATEServerAppContext& app_context, boost::asio::io_context& context, uint16_t port)
     : context_(context),
       acceptor_(context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
-      handler_(std::make_shared<TcpSessionHandler>(context)) {
+      handler_(std::make_shared<TcpSessionHandler>(app_context, context)) {
   boost::system::error_code error;
   acceptor_.set_option(boost::asio::socket_base::reuse_address(true), error);
   if (error) {
     logger::error("[tcpserver] Set option failure: {}", error.message());
   }
+}
+
+std::shared_ptr<TcpServer> TcpServer::Create(const utils::ATEServerAppContext& app_context,
+                                             boost::asio::io_context& service, uint16_t port) {
+  return std::shared_ptr<TcpServer>{new TcpServer{app_context, service, port}};
 }
 
 void TcpServer::Start() {

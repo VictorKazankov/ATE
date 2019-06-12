@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <exception>
+#include <iostream>
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/signal_set.hpp>
@@ -7,6 +8,7 @@
 #include "common.h"
 #include "exceptions.h"
 #include "logger/logger.h"
+#include "utils/ate_server_app_context.h"
 #include "utils/defines.h"
 
 #include "interaction/ATE/tcp_server.h"
@@ -29,14 +31,21 @@ void SetupSignalHandling(boost::asio::io_context& io_context, boost::asio::signa
 }
 }  // namespace
 
-int main() try {
-  constexpr auto config_file = VHAT_SERVER_DATA_PATH "/vhat_server.ini";
-  common::SetUp(config_file);
+int main(int argc, const char* const argv[]) try {
+  const utils::ATEServerAppContext app_context{argc, argv};
+
+  if (app_context.HelpRequested()) {
+    std::cout << app_context.HelpMessage() << '\n';
+    return EXIT_SUCCESS;
+  }
+
+  common::SetUp(app_context.ConfigFile());
+  logger::info("[initialization] Config file: {}", app_context.ConfigFile());
 
   boost::asio::io_context io_context;
 
   auto server = interaction::TcpServer::Create(
-      io_context, common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
+      app_context, io_context, common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
   server->Start();
 
   boost::asio::signal_set sig_set{io_context};

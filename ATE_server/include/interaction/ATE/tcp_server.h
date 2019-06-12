@@ -11,6 +11,10 @@
 #include "tcp_connection.h"
 #include "tcp_session_handler.h"
 
+namespace utils {
+class ATEServerAppContext;
+}  // namespace utils
+
 namespace interaction {
 
 /**
@@ -23,8 +27,6 @@ namespace interaction {
  */
 class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientManager {
  public:
-  using TcpServerPtr = std::shared_ptr<TcpServer>;
-
   /**
    * @brief Creates server instance.
    *
@@ -33,7 +35,8 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientM
    * @param port - value of tcp accepting port
    * @return pointer to created server instance
    */
-  static TcpServerPtr Create(boost::asio::io_context& service, uint16_t port) { return TcpServerPtr(new TcpServer(service, port)); }
+  static std::shared_ptr<TcpServer> Create(const utils::ATEServerAppContext& app_context,
+                                           boost::asio::io_context& service, uint16_t port);
 
   /**
    * @brief Start running of the TCP server
@@ -53,7 +56,7 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientM
    * @param port - value of tcp accepting port
    * @return pointer to created server instance
    */
-  TcpServer(boost::asio::io_context& service, uint16_t port);
+  TcpServer(const utils::ATEServerAppContext& app_context, boost::asio::io_context& service, uint16_t port);
 
   /**
    * @brief Accept new client connections
@@ -68,7 +71,7 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientM
   boost::asio::ip::tcp::acceptor acceptor_;
   std::shared_ptr<SessionHandler> handler_;
   volatile bool running_{false};
-};
+};  // namespace interaction
 
 }  // namespace interaction
 
