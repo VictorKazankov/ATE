@@ -45,11 +45,17 @@ class ClimatePage:
     def tap_on_climate_auto_button(self):
         return tap_if_visible(constants.CLIMATE_AUTO_BUTTON)
 
+    def tap_on_climate_defrost_button(self):
+        return tap_if_visible(constants.CLIMATE_DEFROST_BUTTON)
+
+    def close_information_dialog(self):
+        return tap_if_visible(constants.CLOSE_BUTTON)
+
 
 class AudioPage:
 
     def open_audio_page(self):
-        return tap_if_visible(constants.INACTIVE_AUDIO_BUTTON)
+        return tap_if_visible(constants.INACTIVE_AUDIO_PAGE_BUTTON)
 
     def audio_page_is_active(self):
         if check_visibility(constants.ACTIVE_AUDIO_BUTTON):
@@ -89,6 +95,12 @@ class PhonePage:
         return False
 
 
+class MobileApppsPage:
+
+    def open_mobile_apps_page(self):
+        return tap_if_visible(constants.INACTIVE_MOBILE_APPS_PAGE_BUTTON)
+
+
 class SettingsPage:
 
     def open_settings_page(self):
@@ -107,6 +119,12 @@ class SettingsPage:
 
     def open_setting_navigation_page(self):
         return tap_if_visible(constants.SETTINGS_NAVIGATION_BUTTON)
+
+    def open_settings_bluetooth_page(self):
+        return tap_if_visible(constants.MOBILE_BLUETOOTH_BUTTON)
+
+    def open_settings_radio_page(self):
+        return tap_if_visible(constants.SETTINGS_RADIO_BUTTON)
 
 
 class SettingsClockPage:
@@ -130,6 +148,9 @@ class SettingsClockPage:
     def close_information_dialog(self):
         return tap_if_visible(constants.CLOSE_BUTTON)
 
+    def tap_on_back_button(self):
+        return tap_if_visible(constants.BACK_BUTTON)
+
 
 class SettingsAudioPage:
 
@@ -140,6 +161,24 @@ class SettingsAudioPage:
 
     def open_settings_audio_property_field_page(self):
         return tap_if_visible(constants.ADAPTIVE_VOLUME_MEDIUM_OPTION)
+
+    def tap_on_down_scroll_button(self):
+        return tap_if_visible(constants.DOWN_SCROLL_BUTTON_ACTIVE)
+
+    def tap_on_back_button(self):
+        return tap_if_visible(constants.BACK_BUTTON)
+
+
+class SettingsBluetoothPage:
+
+    def tap_on_back_button(self):
+        return tap_if_visible(constants.BACK_BUTTON)
+
+
+class SettingsRadioPage:
+
+    def tap_on_back_button(self):
+        return tap_if_visible(constants.BACK_BUTTON)
 
 
 class SettingsNavigationPage:
@@ -152,8 +191,20 @@ class SettingsNavigationPage:
     def open_route_preferences_page(self):
         return tap_if_visible(constants.ROUTE_PREFERENCES_TEXT)
 
+    def open_navigation_preferences_page(self):
+        return tap_if_visible(constants.NAVIGATION_PREFERENCES_TEXT)
+
+    def open_guidance_prompts_page(self):
+        return tap_if_visible(constants.DOWN_ARROW_SMALL)
+
     def tap_on_down_arrow(self):
         return tap_if_visible(constants.DOWN_SCROLL_BUTTON_ACTIVE)
+
+    def tap_on_back_property_button_on_guidance_prompts_page(self):
+        return tap_if_visible(constants.BACK_PROPERTY)
+
+    def tap_on_back_button(self):
+        return tap_if_visible(constants.BACK_BUTTON)
 
 
 def tap_if_visible(name):

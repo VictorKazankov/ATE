@@ -19,7 +19,7 @@ def test_recognition_home_icon(driver):
     if not driver.home_page.home_page_is_active():
         driver.home_page.open_home_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.HOME_PAGE_ICON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.HOME_PAGE_ICON, counter)
     check_recognition(counter)
 
 
@@ -34,7 +34,7 @@ def test_recognition_climate_up_arrow_temperature(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.CLIMATE_ARROW_UP, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.CLIMATE_ARROW_UP, counter)
     check_recognition(counter)
 
 
@@ -44,7 +44,7 @@ def test_recognition_climate_down_arrow_temperature(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.CLIMATE_ARROW_DOWN, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.CLIMATE_ARROW_DOWN, counter)
     check_recognition(counter)
 
 
@@ -54,7 +54,7 @@ def test_recognition_climate_switch_on_off_button(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.CLIMATE_ON_OFF_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.CLIMATE_ON_OFF_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -64,7 +64,7 @@ def test_recognition_climate_top_airflow_button(driver):
     if not driver.climat_page.climate_page_is_active():
         driver.climat_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.TOP_AIRFLOW_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.TOP_AIRFLOW_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -79,7 +79,7 @@ def test_recognition_frequency_button(driver):
     if not driver.audio_page.audio_page_is_active():
         driver.audio_page.open_audio_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.AUDIO_FREQUENCY_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.AUDIO_FREQUENCY_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -89,7 +89,7 @@ def test_recognition_presets_button(driver):
     if not driver.audio_page.audio_page_is_active():
         driver.audio_page.open_audio_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.PRESETS_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.PRESETS_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -105,7 +105,7 @@ def test_recognition_back_settings_button(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_audio_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.BACK_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.BACK_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -116,7 +116,7 @@ def test_recognition_down_scroll_button_active(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_clock_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.DOWN_SCROLL_BUTTON_ACTIVE, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.DOWN_SCROLL_BUTTON_ACTIVE, counter)
     check_recognition(counter)
 
 
@@ -127,7 +127,7 @@ def test_recognition_up_scroll_button_inactive(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_clock_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.UP_SCROLL_BUTTON_INACTIVE, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.UP_SCROLL_BUTTON_INACTIVE, counter)
     check_recognition(counter)
 
 
@@ -138,7 +138,7 @@ def test_recognition_info_button(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_clock_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.INFORMATION_DIALOG_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.INFORMATION_DIALOG_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -149,7 +149,7 @@ def test_recognition_scroll(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_clock_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.SCROOL, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.SCROLL, counter)
     check_recognition(counter)
 
 
@@ -160,7 +160,7 @@ def test_recognition_slider(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_audio_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.SLIDER, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.SLIDER, counter)
     check_recognition(counter)
 
 
@@ -171,7 +171,7 @@ def test_recognition_balance_fade_button(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_audio_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.BALANCE_FADE_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.BALANCE_FADE_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -180,7 +180,7 @@ def test_recognition_balance_fade_button(driver):
 def test_back_property_field_button(driver):
     driver.settings_audio_page.open_settings_audio_property_field_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.BACK_PROPERTY, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.BACK_PROPERTY, counter)
     check_recognition(counter)
 
 
@@ -189,9 +189,9 @@ def test_recognition_active_check_button(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_navigation_page()
     driver.settings_navigation_page.open_route_preferences_page()
-    driver.settings_navigation_page.tab_on_down_arrow()
+    driver.settings_navigation_page.tap_on_down_arrow()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.CHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.CHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -200,9 +200,9 @@ def test_recognition_inactive_check_button(driver):
         driver.settings_page.open_settings_page()
         driver.settings_page.open_setting_navigation_page()
     driver.settings_navigation_page.open_route_preferences_page()
-    driver.settings_navigation_page.tab_on_down_arrow()
+    driver.settings_navigation_page.tap_on_down_arrow()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition(ATTEMPTS, constants.UNCHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, constants.UNCHECKED_SETTINGS_NAVIGATION_CHECKBOX_BUTTON, counter)
     check_recognition(counter)
 
 
