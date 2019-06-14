@@ -92,7 +92,7 @@ Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y
   result[kAbscissa] = x;
   result[kOrdinate] = y;
   result[kWidth] = width;
-  result[kHight] = height;
+  result[kHeight] = height;
 
   return std::move(result);
 }

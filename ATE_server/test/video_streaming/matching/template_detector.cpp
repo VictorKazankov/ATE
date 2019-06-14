@@ -11,7 +11,7 @@ constexpr auto kFramePath = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matchin
 constexpr auto kHomeIcon = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/home.png";
 constexpr auto kBadIcon = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/bad_icon.png";
 
-// Start point (x, y) and (width, hight) of home button
+// Start point (x, y) and (width, height) of home button
 const cv::Rect home_rect{44,2,50,45};
 
 class TemplateDetectorTest : public ::testing::Test {

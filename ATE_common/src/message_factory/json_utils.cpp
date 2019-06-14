@@ -183,7 +183,7 @@ bool CheckAttachToApplicationResponse(const Json::Value& schema) {
 bool CheckWaitForObjectResponse(const Json::Value& schema) {
   auto& result = schema[kResult];
   bool res =
-      result.isMember(kAbscissa) && result.isMember(kOrdinate) && result.isMember(kWidth) && result.isMember(kHight);
+      result.isMember(kAbscissa) && result.isMember(kOrdinate) && result.isMember(kWidth) && result.isMember(kHeight);
 
   if (!res) {
     logger::error("[json msg parser][check wait for object] Argument error: wrong type of response 'WaitForObject'");
@@ -193,9 +193,9 @@ bool CheckWaitForObjectResponse(const Json::Value& schema) {
   auto& abscissa = result[kAbscissa];
   auto& ordinate = result[kOrdinate];
   auto& width = result[kWidth];
-  auto& hight = result[kHight];
+  auto& height = result[kHeight];
 
-  res = abscissa.isUInt() && ordinate.isUInt() && width.isUInt() && hight.isUInt();
+  res = abscissa.isUInt() && ordinate.isUInt() && width.isUInt() && height.isUInt();
   if (!res) {
     logger::error("[json msg parser][check rect] Argument error: wrong type of params of 'WaitForObject' response");
   }

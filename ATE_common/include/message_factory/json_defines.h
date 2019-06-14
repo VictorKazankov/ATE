@@ -28,7 +28,7 @@ constexpr auto kMouseButton = "button";
 constexpr auto kVdpHost = "host";
 constexpr auto kVdpPort = "port";
 constexpr auto kWidth = "width";
-constexpr auto kHight = "height";
+constexpr auto kHeight = "height";
 constexpr auto kIsRunning = "is_running";
 
 }  // namespace jmsg

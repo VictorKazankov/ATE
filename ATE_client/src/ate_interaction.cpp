@@ -69,7 +69,7 @@ squish::Object ParseMessage(Method method, const Json::Value& schema) {
         object.x = result[common::jmsg::kAbscissa].asInt();
         object.y = result[common::jmsg::kOrdinate].asInt();
         object.width = result[common::jmsg::kWidth].asInt();
-        object.height = result[common::jmsg::kHight].asInt();
+        object.height = result[common::jmsg::kHeight].asInt();
 
         if (!CheckIsAreaEmpty(object)) {
           throw squish::LookupError{};
