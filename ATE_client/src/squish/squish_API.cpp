@@ -1,9 +1,11 @@
 #include "squish/squish_API.h"
 
+#include <cstdlib>
+
 #include <boost/asio/io_context.hpp>
-#include "logger/logger.h"
 
 #include "common.h"
+#include "logger/logger.h"
 #include "message_factory/message_factory.h"
 #include "squish/application_context.h"
 
@@ -15,6 +17,7 @@ const std::string kAddressOption = "Address";
 const std::string kPortOption = "Port";
 const std::string kTestSettingSection = "TEST_SETTINGS";
 const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
+constexpr auto kConfigEnvVar = "VHAT_CLIENT_CONFIG";
 
 int kDefaultWaitForObjectTimeoutInMs = 0;
 uint64_t kCorrelationId = 1;
@@ -33,8 +36,10 @@ ApplicationContext API::AttachToApplication(const std::string&) {
 
   boost::asio::io_context io_context;
 
-  constexpr auto config_file = VHAT_CLIENT_DATA_PATH "/vhat_client.ini";
+  const char* const config_from_env = std::getenv(kConfigEnvVar);
+  const std::string config_file = config_from_env ? config_from_env : VHAT_CLIENT_DATA_PATH "/vhat_client.ini";
   common::SetUp(config_file);
+  logger::info("Config file: {}", config_file);
   kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
 
   applicationContext.host = common::Config().GetString(kBoardSection, kAddressOption, "");
