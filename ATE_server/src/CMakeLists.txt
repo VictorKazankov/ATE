@@ -28,9 +28,7 @@ add_library(vhat_server_lib
 # https://opencv.org
 find_package(OpenCV 3.3.1 REQUIRED
   COMPONENTS
-    calib3d
     core
-    features2d
     imgcodecs
     imgproc
     videoio
@@ -70,9 +68,7 @@ target_include_directories(vhat_server_lib
 target_link_libraries(vhat_server_lib
   vhat_common
   stdc++fs
-  opencv_calib3d
   opencv_core
-  opencv_features2d
   opencv_imgcodecs
   opencv_imgproc
   opencv_videoio
