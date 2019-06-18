@@ -31,12 +31,16 @@ target_compile_definitions(vhat_client
     VHAT_CLIENT_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}"
 )
 
-install(TARGETS
-  vhat_client
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+set_target_properties(vhat_client PROPERTIES
+  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
 )
 
 install(FILES
   ../data/vhat_client.ini
   DESTINATION "${CMAKE_INSTALL_SYSCONFDIR}"
+)
+
+install(TARGETS
+  vhat_client
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )

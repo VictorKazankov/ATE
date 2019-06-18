@@ -96,9 +96,11 @@ target_link_libraries(vhat_server
     vhat_server_lib
 )
 
-install(TARGETS
-  vhat_server
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+# TODO: install Tesseract and OpenCV into /usr/local, so the INSTALL_RPATH_USE_LINK_PATH
+# option will not be needed
+set_target_properties(vhat_server PROPERTIES
+  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
+  INSTALL_RPATH_USE_LINK_PATH TRUE
 )
 
 install(FILES
@@ -109,4 +111,9 @@ install(FILES
 install(DIRECTORY
   ../data/icon_storage
   DESTINATION "${VHAT_SERVER_STORAGE_SUBDIR}"
+)
+
+install(TARGETS
+  vhat_server
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
