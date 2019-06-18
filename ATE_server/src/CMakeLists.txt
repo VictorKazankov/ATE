@@ -83,9 +83,12 @@ add_executable(vhat_server
   ate_server_main.cpp
 )
 
+set(VHAT_SERVER_STORAGE_SUBDIR "${CMAKE_INSTALL_DATADIR}/vhat_server")
+
 target_compile_definitions(vhat_server_lib
   PUBLIC
-    VHAT_SERVER_DATA_PATH="${VHAT_SERVER_DATA_PATH}"
+    VHAT_SERVER_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}"
+    VHAT_SERVER_STORAGE_DIR="${CMAKE_INSTALL_PREFIX}/${VHAT_SERVER_STORAGE_SUBDIR}"
 )
 
 target_link_libraries(vhat_server
@@ -98,7 +101,12 @@ install(TARGETS
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+install(FILES
+  ../data/vhat_server.ini
+  DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}
+)
+
 install(DIRECTORY
-  ../data/
-  DESTINATION ${CMAKE_INSTALL_DATADIR}
+  ../data/icon_storage
+  DESTINATION "${VHAT_SERVER_STORAGE_SUBDIR}"
 )

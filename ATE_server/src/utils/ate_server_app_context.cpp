@@ -24,7 +24,7 @@ ATEServerAppContext::ATEServerAppContext(int argc, const char* const argv[]) {
 
   fs::path config_file = cmd_parser.get<std::string>("config");
   if (config_file.empty()) {
-    config_file = VHAT_SERVER_DATA_PATH "/vhat_server.ini";
+    config_file = VHAT_SERVER_CONFIG_DIR "/vhat_server.ini";
   }
 
   common::SetUp(config_file);
@@ -32,9 +32,10 @@ ATEServerAppContext::ATEServerAppContext(int argc, const char* const argv[]) {
 
   storage_dir_ = cmd_parser.get<std::string>("storage");
   if (storage_dir_.empty()) {
-    storage_dir_ = VHAT_SERVER_DATA_PATH "/icon_storage";
+    storage_dir_ = VHAT_SERVER_STORAGE_DIR "/icon_storage";
   }
   storage_dir_ /= common::Config().GetString(defines::kDBSection, defines::kTargetOption, {});
+  logger::info("[initialization] Target icon storage: {}", storage_dir_);
 }
 
 bool ATEServerAppContext::HelpRequested() const noexcept { return help_requested_; }

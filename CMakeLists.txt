@@ -17,9 +17,6 @@ option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
 
-set(VHAT_SERVER_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_server/share" CACHE PATH "Path to VHAT server data")
-set(VHAT_CLIENT_DATA_PATH "${CMAKE_BINARY_DIR}/ATE_client/share" CACHE PATH "Path to VHAT client data")
-
 message(STATUS ${PROJECT_NAME} " v" ${PROJECT_VERSION})
 message(STATUS "VHAT_BUILD_CLIENT: " ${VHAT_BUILD_CLIENT})
 message(STATUS "VHAT_BUILD_SERVER: " ${VHAT_BUILD_SERVER})

@@ -37,7 +37,7 @@ ApplicationContext API::AttachToApplication(const std::string&) {
   boost::asio::io_context io_context;
 
   const char* const config_from_env = std::getenv(kConfigEnvVar);
-  const std::string config_file = config_from_env ? config_from_env : VHAT_CLIENT_DATA_PATH "/vhat_client.ini";
+  const std::string config_file = config_from_env ? config_from_env : VHAT_CLIENT_CONFIG_DIR "/vhat_client.ini";
   common::SetUp(config_file);
   logger::info("Config file: {}", config_file);
   kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
