@@ -26,18 +26,12 @@ class ATEServerAppContext {
   std::string HelpMessage() const;
 
   /**
-   * @brief Path to the configuration file
-   */
-  const fs::path& ConfigFile() const noexcept;
-
-  /**
    * @brief Path to the storage directory
    */
   const fs::path& StorageDir() const noexcept;
 
  private:
   bool help_requested_ = false;
-  fs::path config_file_;
   fs::path storage_dir_;
 };
 }  // namespace utils

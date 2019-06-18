@@ -2,6 +2,10 @@
 
 #include <opencv2/core/utility.hpp>
 
+#include "common.h"
+#include "logger/logger.h"
+#include "utils/defines.h"
+
 namespace {
 
 constexpr auto kCmdLineArgs =
@@ -18,15 +22,19 @@ ATEServerAppContext::ATEServerAppContext(int argc, const char* const argv[]) {
 
   help_requested_ = cmd_parser.has("help");
 
-  config_file_ = cmd_parser.get<std::string>("config");
-  if (config_file_.empty()) {
-    config_file_ = VHAT_SERVER_DATA_PATH "/vhat_server.ini";
+  fs::path config_file = cmd_parser.get<std::string>("config");
+  if (config_file.empty()) {
+    config_file = VHAT_SERVER_DATA_PATH "/vhat_server.ini";
   }
+
+  common::SetUp(config_file);
+  logger::info("[initialization] Config file: {}", config_file);
 
   storage_dir_ = cmd_parser.get<std::string>("storage");
   if (storage_dir_.empty()) {
-    storage_dir_ = VHAT_SERVER_DATA_PATH "/storage";
+    storage_dir_ = VHAT_SERVER_DATA_PATH "/icon_storage";
   }
+  storage_dir_ /= common::Config().GetString(defines::kDBSection, defines::kTargetOption, {});
 }
 
 bool ATEServerAppContext::HelpRequested() const noexcept { return help_requested_; }
@@ -35,8 +43,6 @@ std::string ATEServerAppContext::HelpMessage() const {
   std::string help_message = "Supported command line arguments:\n{argument names|default value|help message}:\n";
   return help_message.append(kCmdLineArgs);
 }
-
-const fs::path& ATEServerAppContext::ConfigFile() const noexcept { return config_file_; }
 
 const fs::path& ATEServerAppContext::StorageDir() const noexcept { return storage_dir_; }
 

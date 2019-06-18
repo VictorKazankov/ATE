@@ -14,7 +14,7 @@ enum class DisplayType {
 enum class ContactId { kOneFingerTouch = 0 };
 
 constexpr auto kDBSection = "DB";
-constexpr auto kPathOption = "Path";
+constexpr auto kTargetOption = "Target";
 constexpr auto kCollectionModeOption = "CollectionMode";
 constexpr auto kInteraction = "INTERACTION";
 constexpr auto kAddressOption = "Address";

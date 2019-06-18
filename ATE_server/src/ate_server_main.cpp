@@ -39,9 +39,6 @@ int main(int argc, const char* const argv[]) try {
     return EXIT_SUCCESS;
   }
 
-  common::SetUp(app_context.ConfigFile());
-  logger::info("[initialization] Config file: {}", app_context.ConfigFile());
-
   boost::asio::io_context io_context;
 
   auto server = interaction::TcpServer::Create(
