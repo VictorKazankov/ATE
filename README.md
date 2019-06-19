@@ -139,7 +139,7 @@ Virtual HMI Automation Toolset.
     ```
     [VIDEO_STREAM]
     Source = RTSP
-    RtspStream=<address of rtsp stream>
+    Path=<address of RTSP stream or V4L/GStreamer device>
     ```
 
 1. Set up path to send touch events to TDK:

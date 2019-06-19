@@ -32,7 +32,8 @@ tesseract::PageIteratorLevel GetPageLevel(const std::string& text) {
 namespace detector {
 
 Matcher::Matcher()
-    : streamer_{streamer::MakeStreamer()},
+    : streamer_{streamer::MakeStreamer(
+          common::Config().GetString(defines::kVideoStreamSection, defines::kVideoStreamPathOption, {}))},
       image_detector_{std::make_unique<detector::TemplateDetector>()},
       text_detector_min_confidence_{common::Config().GetDouble(defines::kTextDetectorSection,
                                                                defines::kTextDetectorConfidenceOption,

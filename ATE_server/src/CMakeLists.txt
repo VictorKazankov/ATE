@@ -22,9 +22,22 @@ add_library(vhat_server_lib
     video_streaming/matching/text_detector_exceptions.cpp
     video_streaming/v4l_streamer.cpp
     video_streaming/framebuf_to_mat.cpp
+    video_streaming/gst_streamer.cpp
     video_streaming/stream_reader.cpp
     video_streaming/streamer_factory.cpp
     ate.cpp
+)
+
+# pkg-config
+# https://cmake.org/cmake/help/latest/module/FindPkgConfig.html
+# https://www.freedesktop.org/wiki/Software/pkg-config
+find_package(PkgConfig REQUIRED)
+
+# GStreamer
+# https://gstreamer.freedesktop.org
+pkg_check_modules(GStreamer REQUIRED
+  gstreamer-1.0
+  gstreamer-app-1.0
 )
 
 # OpenCV
@@ -49,34 +62,38 @@ if(Tesseract_FOUND)
   message(STATUS "Using CMake find_package for finding Tesseract")
 else(Tesseract_FOUND)
   message(STATUS "Using pkg-config for finding Tesseract")
-  # https://cmake.org/cmake/help/latest/module/FindPkgConfig.html
-  find_package(PkgConfig REQUIRED)
   pkg_check_modules(Tesseract REQUIRED
     tesseract>=${MINIMUM_TESSERACT_VERSION}
   )
 endif(Tesseract_FOUND)
 
- # Workaround for build project while tesseract found with pkg-config
- # TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6
-link_directories("${Tesseract_LIBRARY_DIRS}")
+# Workaround for build project while some packages found with pkg-config
+# TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6
+link_directories(
+  "${GStreamer_LIBRARY_DIRS}"
+  "${Tesseract_LIBRARY_DIRS}"
+)
 
 target_include_directories(vhat_server_lib
   PUBLIC
     ../include
+    "${GStreamer_INCLUDE_DIRS}"
     "${Leptonica_INCLUDE_DIRS}"
     "${OpenCV_INCLUDE_DIRS}"
     "${Tesseract_INCLUDE_DIRS}"
 )
 
 target_link_libraries(vhat_server_lib
-  vhat_common
-  stdc++fs
-  opencv_core
-  opencv_imgcodecs
-  opencv_imgproc
-  opencv_videoio
-  ${Leptonica_LIBRARIES}
-  ${Tesseract_LIBRARIES}
+  PUBLIC
+    vhat_common
+    stdc++fs
+    opencv_core
+    opencv_imgcodecs
+    opencv_imgproc
+    opencv_videoio
+    ${GStreamer_LIBRARIES}
+    ${Leptonica_LIBRARIES}
+    ${Tesseract_LIBRARIES}
 )
 
 add_executable(vhat_server

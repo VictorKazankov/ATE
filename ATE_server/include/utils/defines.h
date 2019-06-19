@@ -36,12 +36,14 @@ constexpr auto kDummy = "Dummy";
 const std::string kVideoStreamSection = "VIDEO_STREAM";
 
 const std::string kVideoStreamSourceOption = "Source";
-const std::string kVideoStreamTypeV4l2 = "V4L2";
-const std::string kVideoStreamTypeRtsp = "RTSP";
+constexpr auto kVideoStreamTypeV4l2 = "V4L2";
+constexpr auto kVideoStreamTypeRtsp = "RTSP";
+constexpr auto kVideoStreamTypeGstreamer = "GStreamer";
 
-const std::string kVideo4LinuxDeviceOption = "Device";
-const std::string kVideo4LinuxFrameWidthOption = "FrameWidth";
-const std::string kVideo4LinuxFrameHeightOption = "FrameHeight";
+constexpr auto kVideoStreamPathOption = "Path";
+
+constexpr auto kFrameWidthOption = "FrameWidth";
+constexpr auto kFrameHeightOption = "FrameHeight";
 
 const std::string kRtspAddressOption = "RtspStream";
 }  // namespace defines
