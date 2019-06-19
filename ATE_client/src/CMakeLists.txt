@@ -40,7 +40,10 @@ install(FILES
   DESTINATION "${CMAKE_INSTALL_SYSCONFDIR}"
 )
 
+message(WARNING "Python 2.7 and debian-style install path were hardcoded (https://wiki.debian.org/Python#Deviations_from_upstream)"
+	" as py 2.7 on Ubuntu 16/18 is rigid required target platform.")
+
 install(TARGETS
   vhat_client
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/python2.7/dist-packages"
 )
