@@ -14,15 +14,29 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # CMAKE_BUILD_TYPE:STRING=[Debug|Release|RelWithDebInfo|MinSizeRel|…]
 # CMAKE_TOOLCHAIN_FILE:FILEPATH
 
-option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
-option(VHAT_BUILD_SERVER "Build VHAT server" ON)
-option(VHAT_WITH_TESTS "Build VHAT Unit Tests" ON)
-option(VHAT_INSTALL "Install VHAT" ON)
+if(UNIX)
+  option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
+  option(VHAT_BUILD_SERVER "Build VHAT server" ON)
+  option(VHAT_WITH_TESTS "Build VHAT Unit Tests" ON)
+  option(VHAT_INSTALL "Install VHAT" ON)
+elseif(WIN32)
+  option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
+  option(VHAT_BUILD_SERVER "Build VHAT server" OFF) 
+  option(VHAT_WITH_TESTS "Build VHAT Unit Tests" ON)
+  option(VHAT_INSTALL "Install VHAT" ON)
+else()
+  message(FATAL_ERROR "build.cmake only support UNIX and WIN32 build")
+  RESULT_VARIABLE ("Platform is not supported")
+endif()
 
 get_filename_component(VHAT_SOURCE_ROOT "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
-
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type: [Debug|Release|RelWithDebInfo|MinSizeRel|…]")
-set(CMAKE_TOOLCHAIN_FILE "${VHAT_SOURCE_ROOT}/infrastructure/cmake/toolchains/desktop.cmake" CACHE FILEPATH "CMake toolchain")
+
+if(UNIX)
+  set(CMAKE_TOOLCHAIN_FILE "${VHAT_SOURCE_ROOT}/infrastructure/cmake/toolchains/desktop.cmake" CACHE FILEPATH "CMake toolchain")
+elseif(WIN32)
+  set(CMAKE_TOOLCHAIN_FILE "${VHAT_SOURCE_ROOT}/infrastructure/cmake/toolchains/desktop_win32.cmake" CACHE FILEPATH "Cmake toolchain for Win32")
+endif()
 
 get_filename_component(VHAT_SOURCE_ROOT_DIR_NAME "${VHAT_SOURCE_ROOT}" NAME)
 get_filename_component(VHAT_BUILD_ROOT "${VHAT_SOURCE_ROOT}/../build-${VHAT_SOURCE_ROOT_DIR_NAME}-${CMAKE_BUILD_TYPE}" ABSOLUTE CACHE)

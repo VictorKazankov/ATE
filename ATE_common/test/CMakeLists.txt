@@ -10,12 +10,34 @@ add_executable(vhat_common_test
   utils/geometry_types.cpp
 )
 
-target_link_libraries(vhat_common_test
-  PRIVATE
-    gtest_main
-    stdc++fs
-    vhat_common
-)
+if(UNIX)
+  target_link_libraries(vhat_common_test
+    PRIVATE
+      gtest_main
+      stdc++fs
+      vhat_common
+      )
+elseif(MSVC)
+  #check msvc version (later MSVC v141) which required to support file system library
+  #https://docs.microsoft.com/en-us/cpp/standard-library/filesystem?view=vs-2019
+  if(MSVC_VERSION LESS 1910) #VS 15.0 (v141 toolset)
+    message(FATAL_ERROR "Unit test using file system library but not supported by current MSVC version: ${MSVC_VERSION}")
+    RESULT_VARIABLE ("Unit test is uncompilable because compiler not support std::experimental::filesystem")
+  else()
+    target_link_libraries(vhat_common_test
+      PRIVATE
+      gtest_main
+      vhat_common
+    )
+    set_target_properties( gtest 
+                           gtest_main
+                           vhat_common
+                           vhat_common_test 
+                           PROPERTIES RUNTIME_OUTPUT_DIRECTORY 
+                           "${CMAKE_BINARY_DIR}/test" )
+
+  endif()
+endif()
 
 target_compile_definitions(vhat_common_test
   PRIVATE

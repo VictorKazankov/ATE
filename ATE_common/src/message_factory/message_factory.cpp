@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include <jsoncpp/json/writer.h>
+#include "json/writer.h"
 
 #include "message_factory/json_defines.h"
 #include "message_factory/json_messages.h"

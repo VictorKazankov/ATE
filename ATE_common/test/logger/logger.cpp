@@ -71,6 +71,7 @@ TEST_F(LoggerSetupTest, BadConstruction) {
   EXPECT_THROW(logger::SetUp(config_invalid_level), logger::ConfigFormatError);
 }
 
+//TODO: FIXME Test is fail in Window. 
 TEST_F(LoggerSetupTest, FilesRotated) {
   std::array<fs::path, kNumberOfFiles> generated_files;
   for (std::size_t i = 0; i < kNumberOfFiles; ++i) generated_files[i] = get_log_name(i + 1);
@@ -87,6 +88,7 @@ TEST_F(LoggerSetupTest, FilesRotated) {
   EXPECT_TRUE(!ec || ec == std::errc::no_such_file_or_directory) << ec.message() << " (" << ec << ')';
 }
 
+//TODO: FIXME Test is fail in Window. 
 TEST_F(LoggerSetupTest, FileSizeCap) {
   ASSERT_GE(kNumberOfFiles, 1);
 

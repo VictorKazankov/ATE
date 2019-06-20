@@ -86,6 +86,7 @@ target_include_directories(vhat_server_lib
 target_link_libraries(vhat_server_lib
   PUBLIC
     vhat_common
+    boost_asio_ssl
     stdc++fs
     opencv_core
     opencv_imgcodecs

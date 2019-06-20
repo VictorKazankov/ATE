@@ -3,7 +3,7 @@
 #include <cassert>
 #include <utility>
 
-#include <jsoncpp/json/value.h>
+#include "json/value.h"
 
 #include "interaction/ATE/tcp_connection.h"
 #include "logger/logger.h"

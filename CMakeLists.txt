@@ -10,9 +10,6 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING
 set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
   "Default value for CXX_STANDARD_REQUIRED property of targets")
 
-# BUILD_SHARED_LIBS=ON necessary for building shared gtest library
-option(BUILD_SHARED_LIBS "Build shared libs by default" ON)
-
 option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)

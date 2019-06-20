@@ -46,7 +46,7 @@ if(MSVC)
   target_compile_definitions(boost_asio
     PUBLIC
       BOOST_SYSTEM_USE_UTF8
-      BOOST_USE_WINDOWS_H
+      _WIN32_WINDOWS=_WIN32_WINNT_WIN7
   )
 endif(MSVC)
 
@@ -65,16 +65,9 @@ target_compile_definitions(boost_asio
     BOOST_ASIO_NO_DEPRECATED
 )
 
-# Find the OpenSSL encryption library.
-# https://cmake.org/cmake/help/latest/module/FindOpenSSL.html
-# https://www.openssl.org
-# Debian/Ubuntu package name: libssl-dev
-find_package(OpenSSL REQUIRED)
-
 target_include_directories(boost_asio
   PUBLIC
     boost/libs/asio/include
-    "${OPENSSL_INCLUDE_DIR}"
 )
 
 # This module determines the thread library of the system.
@@ -85,10 +78,32 @@ target_link_libraries(boost_asio
   PUBLIC
     Boost::system
     Threads::Threads
-  PRIVATE
-    OpenSSL::Crypto
-    OpenSSL::SSL
 )
+
+if(VHAT_BUILD_SERVER)
+  # Find the OpenSSL encryption library.
+  # https://cmake.org/cmake/help/latest/module/FindOpenSSL.html
+  # https://www.openssl.org
+  # Debian/Ubuntu package name: libssl-dev
+
+  find_package(OpenSSL REQUIRED)
+
+  add_library(boost_asio_ssl SHARED boost_asio_ssl.cpp)
+ 
+  target_include_directories(boost_asio_ssl
+    PUBLIC
+      boost/libs/asio/include
+      "${OPENSSL_INCLUDE_DIR}"
+  )
+
+  target_link_libraries(boost_asio_ssl
+    PUBLIC
+      Boost::asio
+    PRIVATE
+      OpenSSL::Crypto
+      OpenSSL::SSL
+  )
+endif()
 
 ### inih
 ### https://github.com/benhoyt/inih
@@ -115,6 +130,15 @@ if(VHAT_BUILD_CLIENT)
   add_subdirectory(pybind11)
 endif(VHAT_BUILD_CLIENT)
 
+# JsonCpp
+# https://github.com/open-source-parsers/jsoncpp
+#Disable build and running unit test for jsoncpp
+set(JSONCPP_WITH_TESTS OFF CACHE BOOL "Disable unit test build")
+set(JSONCPP_WITH_POST_BUILD_UNITTEST OFF CACHE BOOL "Disable run jsoncpp unit test")
+set(JSONCPP_WITH_PKGCONFIG_SUPPORT OFF CACHE BOOL "Disable cmake configure json cmake")
+add_subdirectory(jsoncpp EXCLUDE_FROM_ALL)
+set_property(TARGET jsoncpp_lib_static PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 ### spdlog
 ### https://github.com/gabime/spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
@@ -130,11 +154,27 @@ if(VHAT_WITH_TESTS)
   set(INSTALL_GTEST OFF CACHE BOOL
     "Enable installation of googletest. Projects embedding googletest may want to turn this OFF")
 
+  # BUILD_SHARED_LIBS=ON necessary for building shared gtest library
+  set(BUILD_SHARED_LIBS ON)
   add_subdirectory(googletest)
 
 endif(VHAT_WITH_TESTS)
 
-install(TARGETS
-  boost_asio
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+if(UNIX)
+  install(TARGETS
+    boost_asio
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+elseif(MSVC)
+  install(TARGETS
+    boost_asio
+    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()
+
+if(VHAT_BUILD_SERVER)
+  install(TARGETS
+    boost_asio_ssl
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()

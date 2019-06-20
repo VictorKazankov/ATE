@@ -12,11 +12,6 @@ add_library(vhat_common
     common.cpp
 )
 
-# JsonCpp
-# http://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html
-# Debian/Ubuntu package name: libjsoncpp-dev
-find_package(jsoncpp REQUIRED)
-
 target_include_directories(vhat_common
   PUBLIC
     ../include
@@ -25,7 +20,7 @@ target_include_directories(vhat_common
 target_link_libraries(vhat_common
   Boost::asio
   inihcpp
-  jsoncpp_lib
+  jsoncpp_lib_static
   spdlog::spdlog
 )
 
@@ -37,9 +32,24 @@ if(UNIX)
       -Werror
       -Wextra
   )
-endif(UNIX)
+elseif(MSVC)
+  target_compile_options(vhat_common
+    PUBLIC
+      -DNOMINMAX
+  )
+  set_target_properties(vhat_common 
+      PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
-install(TARGETS
-  vhat_common
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+  endif()
+
+if(UNIX)
+  install(TARGETS
+    vhat_common
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+elseif(MSVC)
+  install(TARGETS
+    vhat_common
+    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()

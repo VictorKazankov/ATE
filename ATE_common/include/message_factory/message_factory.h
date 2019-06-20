@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <jsoncpp/json/value.h>
+#include "json/value.h"
 
 #include "utils/squish_types.h"
 

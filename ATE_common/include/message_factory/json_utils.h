@@ -4,7 +4,7 @@
 #include <chrono>
 #include <string>
 
-#include <jsoncpp/json/value.h>
+#include "json/value.h"
 
 #include "rpc_error.h"
 #include "utils/squish_types.h"

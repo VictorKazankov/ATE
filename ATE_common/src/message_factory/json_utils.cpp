@@ -4,7 +4,7 @@
 #include <cstring>
 #include <utility>
 
-#include <jsoncpp/json/reader.h>
+#include "json/reader.h"
 
 #include "logger/logger.h"
 #include "message_factory/json_defines.h"

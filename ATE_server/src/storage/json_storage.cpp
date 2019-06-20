@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-#include <jsoncpp/json/json.h>
+#include "json/json.h"
 
 #include "logger/logger.h"
 

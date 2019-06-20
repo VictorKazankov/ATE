@@ -23,7 +23,7 @@ sudo apt update
 
 ## Install packages
 readonly VHAT_DEV_TOOLS="wget g++-5 ninja-build cmake clang-format autoconf automake libtool pkg-config"
-readonly VHAT_USE_LIBS="libssl-dev libjsoncpp-dev python2.7-dev"
+readonly VHAT_USE_LIBS="libssl-dev python2.7-dev"
 readonly IMAGE_FORMAT_LIBS="zlib1g-dev libpng-dev libjpeg-dev libtiff-dev"
 
 if [ $TARGET != $LVDS_TARGET ]
