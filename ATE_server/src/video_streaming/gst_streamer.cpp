@@ -10,6 +10,22 @@
 
 namespace {
 
+class GstElementStateGuard {
+ public:
+  explicit GstElementStateGuard(GstElement* gst_element) noexcept;
+  ~GstElementStateGuard() noexcept;
+
+ private:
+  GstElement* const gst_element_;
+};
+
+GstElementStateGuard::GstElementStateGuard(GstElement* gst_element) noexcept : gst_element_{gst_element} {
+  assert(gst_element_);
+  gst_element_set_state(gst_element_, GST_STATE_PLAYING);
+}
+
+GstElementStateGuard::~GstElementStateGuard() noexcept { gst_element_set_state(gst_element_, GST_STATE_NULL); }
+
 std::string ErrorMessage(const GError& error) {
   std::string error_string = "Domain: ";
 
@@ -32,17 +48,7 @@ void GstStreamer::GstElementDeleter::operator()(GstElement* element) const noexc
   gst_object_unref(element);
 }
 
-void GstStreamer::ResizeCvMat(cv::Mat& mat) {
-  if (matrix_size_.width == mat.cols && matrix_size_.height == mat.rows && CV_8UC4 == mat.type()) {
-    return;
-  }
-  mat = cv::Mat{matrix_size_, CV_8UC4};
-
-  logger::info("[gstreamer] setting a new format for image: width={}, height={}, type={}", mat.cols, mat.rows,
-               mat.type());
-}
-
-GstStreamer::GstStreamer(const std::string& path, const cv::Size& size) : buffer_{size, CV_8UC4}, matrix_size_{size} {
+GstStreamer::GstStreamer(const std::string& path, const cv::Size& size) : matrix_size_{size} {
   std::string gst_pipeline_config = "shmsrc socket-path=";
   gst_pipeline_config.append(path).append(" ! appsink name=buff_sink");
 
@@ -53,20 +59,22 @@ GstStreamer::GstStreamer(const std::string& path, const cv::Size& size) : buffer
   std::unique_ptr<GError, void (*)(GError*)> error_wrapper{error, g_error_free};
 
   if (error_wrapper) {
-    // Avoid using default pipeline
-    pipeline_.reset();
+    const std::string error_message = ErrorMessage(*error_wrapper);
+    // if the pipeline is null, then this is an error, otherwise a warning
+    if (!pipeline_) {
+      // Error
+      std::string error_what = "Error while opening GStreamer device \"";
+      error_what.append(path).append("\": ").append(error_message);
 
-    std::string error_message = "Error while opening GStreamer device \"";
-    error_message.append(path).append("\": ").append(ErrorMessage(*error_wrapper));
-
-    throw std::runtime_error{error_message};
+      throw std::runtime_error{error_what};
+    }
+    // Warning
+    logger::warn("[gstreamer] {}", error_message);
   }
-
-  assert(pipeline_);
 }
 
 bool GstStreamer::Frame(cv::Mat& frame) {
-  gst_element_set_state(pipeline_.get(), GST_STATE_PLAYING);
+  const GstElementStateGuard pipeline_state_guard{pipeline_.get()};
 
   const std::unique_ptr<GstElement, GstElementDeleter> testsink{
       gst_bin_get_by_name(GST_BIN(pipeline_.get()), "buff_sink")};
@@ -77,36 +85,35 @@ bool GstStreamer::Frame(cv::Mat& frame) {
 
   const std::unique_ptr<GstSample, void (*)(GstSample*)> sample{gst_app_sink_pull_sample(GST_APP_SINK(testsink.get())),
                                                                 gst_sample_unref};
-  if (!testsink) {
+  if (!sample) {
     logger::error("[gstreamer] gst_app_sink_pull_sample return null");
-    gst_element_set_state(pipeline_.get(), GST_STATE_NULL);
     return false;
   }
 
   GstBuffer* const buffer = gst_sample_get_buffer(sample.get());
   if (!buffer) {
     logger::error("[gstreamer] gst_sample_get_buffer return null");
-    gst_element_set_state(pipeline_.get(), GST_STATE_NULL);
     return false;
   }
 
-  const auto size = gst_buffer_get_size(buffer);
+  return WriteGstBufferToCvMat(buffer, frame);
+}
 
-  ResizeCvMat(frame);
-  const auto bytes_extracted = gst_buffer_extract(buffer, 0, static_cast<void*>(buffer_.data), size);
-  if (bytes_extracted != size) {
-    logger::warn("[gstreamer] Extracted differn count of bytes ({}) than expected ({})", bytes_extracted, size);
-    gst_element_set_state(pipeline_.get(), GST_STATE_NULL);
+bool GstStreamer::WriteGstBufferToCvMat(GstBuffer* buffer, cv::Mat& result) const {
+  GstMapInfo map_info = {};
+  if (!gst_buffer_map(buffer, &map_info, GST_MAP_READ)) {
+    logger::error("[gstreamer] gst_buffer_map return false");
     return false;
   }
-
-  cv::cvtColor(buffer_, frame, cv::COLOR_BGRA2BGR);
-
-  // Todo: Add assertion for the right type of matrix
-  // assert(size == frame.rows * frame.cols * frame.channels() * frame.step1());
-
-  gst_element_set_state(pipeline_.get(), GST_STATE_NULL);
-
+  try {
+    const cv::Mat buffer_mat{matrix_size_, CV_8UC4, map_info.data};
+    cv::cvtColor(buffer_mat, result, cv::COLOR_BGRA2BGR);
+  } catch (...) {
+    gst_buffer_unmap(buffer, &map_info);
+    logger::error("[gstreamer] An unexpected error occurs while extracting data from the buffer");
+    throw;
+  }
+  gst_buffer_unmap(buffer, &map_info);
   return true;
 }
 

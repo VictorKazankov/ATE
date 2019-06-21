@@ -28,9 +28,8 @@ class GstStreamer : public Streamer {
     void operator()(GstElement* pipeline) const noexcept;
   };
 
-  void ResizeCvMat(cv::Mat& mat);
+  bool WriteGstBufferToCvMat(GstBuffer* buffer, cv::Mat& result) const;
 
-  cv::Mat buffer_;
   cv::Size matrix_size_;
   std::unique_ptr<GstElement, GstElementDeleter> pipeline_;
 };

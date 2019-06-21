@@ -58,7 +58,9 @@ std::unique_ptr<Streamer> MakeV4l2Streamer(const std::string& device) {
 
 }  // namespace
 
-std::unique_ptr<Streamer> MakeStreamer(const std::string& path) {
+std::unique_ptr<Streamer> MakeStreamer() {
+  const std::string path =
+      common::Config().GetString(defines::kVideoStreamSection, defines::kVideoStreamPathOption, {});
   if (path.empty()) {
     throw InvalidConfig{};
   }

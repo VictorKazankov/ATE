@@ -25,11 +25,17 @@ sudo apt update
 readonly VHAT_DEV_TOOLS="wget g++-5 ninja-build cmake clang-format autoconf automake libtool pkg-config"
 readonly VHAT_USE_LIBS="libssl-dev libjsoncpp-dev python2.7-dev"
 readonly IMAGE_FORMAT_LIBS="zlib1g-dev libpng-dev libjpeg-dev libtiff-dev"
-if [ $TARGET != $LVDS_TARGET ]; then readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libgtk2.0-dev"; fi
+
+if [ $TARGET != $LVDS_TARGET ]
+then
+  readonly GSTREAMER_LIBS="libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev"
+  readonly OPENCV_USE_LIBS="libavcodec-dev libavformat-dev libswscale-dev libgtk2.0-dev"
+fi
+
 readonly TESSERACT_DEV_TOOLS="autoconf automake libtool"
 
 # List of the all necessary packages
-readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $IMAGE_FORMAT_LIBS $OPENCV_USE_LIBS $TESSERACT_DEV_TOOLS"
+readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $IMAGE_FORMAT_LIBS $OPENCV_USE_LIBS $TESSERACT_DEV_TOOLS $GSTREAMER_LIBS"
 
 sudo apt install -y $INSTALL_PACKAGES
 
