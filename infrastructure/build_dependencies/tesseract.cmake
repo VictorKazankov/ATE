@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-set(LEPTONICA_ROOT_DIR /opt/Leptonica CACHE PATH "Path with Leptonica library files")
+set(LEPTONICA_ROOT_DIR /usr/local/ CACHE PATH "Path with Leptonica library files")
 message(STATUS "Path with Leptonica library files: " ${LEPTONICA_ROOT_DIR})
 
-set(TESSERACT_INSTALL_PREFIX /opt/Tesseract CACHE PATH "Tesseract install root directory")
+set(TESSERACT_INSTALL_PREFIX /usr/local/ CACHE PATH "Tesseract install root directory")
 message(STATUS "Tesseract install root directory: " ${TESSERACT_INSTALL_PREFIX})
 
 get_filename_component(VHAT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
