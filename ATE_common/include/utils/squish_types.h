@@ -13,7 +13,7 @@ enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
  * @brief MouseButton represents squish buttons
  * Named against accepted rules because of them uses in Python
  **/
-enum class MouseButton { NONE, LEFT_BUTTON, MIDLE_BUTTON, RIGHT_BUTTON };
+enum class MouseButton { NONE, LEFT_BUTTON, MIDDLE_BUTTON, RIGHT_BUTTON };
 
 }  // namespace squish
 }  // namespace common

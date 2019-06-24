@@ -53,7 +53,7 @@ PYBIND11_MODULE(vhat_client, m) {
   py::enum_<common::squish::MouseButton>(m, "MouseButton")
       .value("NONE", common::squish::MouseButton::NONE)
       .value("LEFT_BUTTON", common::squish::MouseButton::LEFT_BUTTON)
-      .value("MIDLE_BUTTON", common::squish::MouseButton::MIDLE_BUTTON)
+      .value("MIDDLE_BUTTON", common::squish::MouseButton::MIDDLE_BUTTON)
       .value("RIGHT_BUTTON", common::squish::MouseButton::RIGHT_BUTTON);
 
   m.def("attachToApplication", &squish::API::AttachToApplication,
