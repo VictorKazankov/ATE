@@ -5,6 +5,7 @@
 namespace {
 
 const std::string kImageStoragePath = VHAT_SERVER_TEST_DATA_PATH "/storage";
+const std::string kImageCollectionType = "some_sync";
 const std::string kGoodImageCollectionFile = "test_image_storage.json";
 const std::string kGoodSpareImageCollectionFile = "test_image_storage_spare.json";
 const std::string kCorruptedImageCollectionFile = "corrupted.json";
@@ -24,33 +25,33 @@ class JsonStorageTest : public ::testing::Test {
 
 void JsonStorageTest::SetUp() {
   storage_ = std::make_unique<storage::JsonStorage>(kImageStoragePath);
-  storage_->LoadCollection(kGoodImageCollectionFile);
+  storage_->LoadCollection(kImageCollectionType, kGoodImageCollectionFile);
 }
 
 void JsonStorageTest::TearDown() { storage_.reset(); }
 
 TEST_F(JsonStorageTest, NoFileExistConstruction) {
   storage::JsonStorage storage("/home");
-  EXPECT_FALSE(storage.LoadCollection(kGoodImageCollectionFile));
+  EXPECT_FALSE(storage.LoadCollection(kImageCollectionType, kGoodImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, CorruptedFileConstruction) {
   storage::JsonStorage storage(kImageStoragePath);
-  EXPECT_FALSE(storage.LoadCollection(kCorruptedImageCollectionFile));
+  EXPECT_FALSE(storage.LoadCollection(kImageCollectionType, kCorruptedImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, GoodFileConstruction) {
   storage::JsonStorage storage(kImageStoragePath);
-  EXPECT_TRUE(storage.LoadCollection(kGoodImageCollectionFile));
+  EXPECT_TRUE(storage.LoadCollection(kImageCollectionType, kGoodImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, ChangeCollection) {
-  EXPECT_TRUE(storage_->LoadCollection(kGoodSpareImageCollectionFile));
-  EXPECT_FALSE(storage_->LoadCollection(kCorruptedImageCollectionFile));
+  EXPECT_TRUE(storage_->LoadCollection(kImageCollectionType, kGoodSpareImageCollectionFile));
+  EXPECT_FALSE(storage_->LoadCollection(kImageCollectionType, kCorruptedImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, ChangeCollectionToTheSame) {
-  EXPECT_TRUE(storage_->LoadCollection(kGoodImageCollectionFile));
+  EXPECT_FALSE(storage_->LoadCollection(kImageCollectionType, kGoodImageCollectionFile));
 }
 
 TEST_F(JsonStorageTest, GetItemPath) {
