@@ -6,13 +6,16 @@
 
 namespace {
 
+// Confidence
+constexpr double kConfidence = 0.98;
+
 // Path to icons
 constexpr auto kFramePath = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/hmi_screenshot.png";
 constexpr auto kHomeIcon = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/home.png";
 constexpr auto kBadIcon = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/bad_icon.png";
 
 // Start point (x, y) and (width, height) of home button
-const cv::Rect home_rect{44,2,50,45};
+const cv::Rect home_rect{44, 2, 50, 45};
 
 class TemplateDetectorTest : public ::testing::Test {
  protected:
@@ -24,7 +27,7 @@ class TemplateDetectorTest : public ::testing::Test {
 };
 
 void TemplateDetectorTest::SetUp() {
-  template_detector_ = std::make_unique<detector::TemplateDetector>();
+  template_detector_ = std::make_unique<detector::TemplateDetector>(kConfidence);
   frame_ = cv::imread(kFramePath, cv::IMREAD_GRAYSCALE);
 }
 void TemplateDetectorTest::TearDown() { template_detector_.reset(); }

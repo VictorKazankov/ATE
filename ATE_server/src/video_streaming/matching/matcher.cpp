@@ -35,7 +35,8 @@ using namespace defines;
 
 Matcher::Matcher()
     : streamer_{streamer::MakeStreamer()},
-      image_detector_{std::make_unique<detector::TemplateDetector>()},
+      image_detector_{std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
+          kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence))},
       text_detector_min_confidence_{common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
                                                                kDefaultTextDetectorConfidence)} {
   try {

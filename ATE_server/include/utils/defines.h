@@ -28,7 +28,11 @@ constexpr auto kScreenshotRecorderSection = "SCREENSHOT_RECORDER";
 constexpr auto kScreenshotOption = "Screenshots";
 constexpr auto kScreenshotDirectoryOption = "ScreenshotDirectory";
 
-constexpr auto kTextDetectorSection = "MATCHING/TextDetector";
+constexpr auto kImageDetectorSection = "IMAGE_DETECTOR";
+constexpr auto kImageDetectorConfidenceOption = "Confidence";
+constexpr double kDefaultImageDetectorConfidence = 0.98;
+
+constexpr auto kTextDetectorSection = "TEXT_DETECTOR";
 constexpr auto kTextDetectorConfidenceOption = "Confidence";
 constexpr double kDefaultTextDetectorConfidence = 80.;
 constexpr auto kTessDataOption = "TESSDATA_PREFIX";

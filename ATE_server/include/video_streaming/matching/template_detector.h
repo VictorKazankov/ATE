@@ -14,6 +14,11 @@ namespace detector {
 class TemplateDetector : public Detector {
  public:
   /**
+   * @param confidence - confidence for recognition
+   */
+  explicit TemplateDetector(double confidence);
+
+  /**
    * @brief Default destructor
    **/
   ~TemplateDetector() override = default;
@@ -25,6 +30,9 @@ class TemplateDetector : public Detector {
    * @return pattern coordinates on succeed, otherwise return empty Rect
    **/
   cv::Rect Detect(const cv::Mat& frame, const cv::Mat& pattern) const override;
+
+ private:
+  double confidence_;
 };
 
 }  // namespace detector
