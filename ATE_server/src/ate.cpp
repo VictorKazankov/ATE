@@ -52,7 +52,8 @@ ATE::ATE(const utils::ATEServerAppContext& app_context, boost::asio::io_context&
     : storage_{std::make_unique<storage::JsonStorage>(app_context.StorageDir())},
       interaction_{InteractionFactory(common::Config().GetString(defines::kInteraction, defines::kInteractionType, ""),
                                       io_context)} {
-  if (!storage_->LoadCollection(common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, {}))) {
+  if (!storage_->LoadCollection(common::Config().GetString(defines::kDBSection, defines::kTargetOption, {}),
+                                common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, {}))) {
     throw storage::ConnectionFailure{};
   }
 }

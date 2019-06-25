@@ -34,7 +34,6 @@ ATEServerAppContext::ATEServerAppContext(int argc, const char* const argv[]) {
   if (storage_dir_.empty()) {
     storage_dir_ = VHAT_SERVER_STORAGE_DIR "/icon_storage";
   }
-  storage_dir_ /= common::Config().GetString(defines::kDBSection, defines::kTargetOption, {});
   logger::info("[initialization] Target icon storage: {}", storage_dir_);
 }
 

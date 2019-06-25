@@ -21,10 +21,11 @@ class Storage {
 
   /**
    * @brief Loads image storage source if possible otherwise does nothing
+   * @param New collection type
    * @param New collection name
    * @return Returns true if successful, or false otherwise.
    **/
-  virtual bool LoadCollection(const std::string&) = 0;
+  virtual bool LoadCollection(const std::string&, const std::string&) = 0;
 
   virtual ~Storage() = default;
 };

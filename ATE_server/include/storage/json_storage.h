@@ -26,10 +26,11 @@ class JsonStorage : public Storage {
 
   /**
    * @brief Loads image storage source if possible otherwise does nothing
+   * @param New collection type
    * @param New collection name
    * @return Returns true if successful, or false otherwise.
    **/
-  bool LoadCollection(const std::string& collection_name) override;
+  bool LoadCollection(const std::string& collection_type, const std::string& collection_name) override;
 
   JsonStorage(const JsonStorage&) = delete;
   JsonStorage& operator=(const JsonStorage&) = delete;
@@ -37,6 +38,7 @@ class JsonStorage : public Storage {
 
  private:
   fs::path storage_path_;
+  std::string collection_type_;
   std::string collection_name_;
   IconMap collection_;
 };
