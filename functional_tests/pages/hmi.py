@@ -1,9 +1,14 @@
-from functional_tests import ate
+from vhat_client import (ModifierState, MouseButton, attachToApplication,
+                         tapObject, waitForObject)
 
 
-def wait_for_object(object, timeout=1000):
-    return ate.waitForObject(object, timeout)
+def attach_to_applicatio():
+    return attachToApplication('')
+
+
+def wait_for_object(object, timeout=25000):
+    return waitForObject(object, timeout)
 
 
 def tap_object(object):
-    return ate.tapObject(object)
+    tapObject(object, ModifierState.NONE, MouseButton.LEFT_BUTTON)

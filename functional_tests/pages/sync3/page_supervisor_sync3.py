@@ -1,8 +1,11 @@
-from functional_tests.pages.pages import (AudioPage, ClimatePage, HomePage,
-                                          PhonePage, SettingsAudioPage,
-                                          MobileApppsPage, SettingsBluetoothPage,
-                                          SettingsClockPage, SettingsNavigationPage,
-                                          SettingsPage, SettingsRadioPage)
+from functional_tests.pages.sync3.pages import (AudioPage, ClimatePage,
+                                                HomePage, MobileApppsPage,
+                                                PhonePage, SettingsAudioPage,
+                                                SettingsBluetoothPage,
+                                                SettingsClockPage,
+                                                SettingsNavigationPage,
+                                                SettingsPage,
+                                                SettingsRadioPage)
 
 
 class PageSupervisor:

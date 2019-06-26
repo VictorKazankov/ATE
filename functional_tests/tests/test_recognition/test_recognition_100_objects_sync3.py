@@ -2,31 +2,30 @@ import logging
 
 import allure
 import pytest
-
 from functional_tests.tests.test_recognition import helpers
-from functional_tests.utils import constants
+from functional_tests.utils.sync3 import constants
 
 PERCENT = 98
 
 
 @allure.testcase(constants.TASK_LINK.format("VHAT-284"), "VHAT-284")
 @pytest.mark.text_recognition
-def test_recognition_100_different_objects_1_time(driver):
-    if not driver.home_page.home_page_is_active():
-        driver.home_page.open_home_page()
+def test_recognition_100_different_objects_1_time(driver_sync3):
+    if not driver_sync3.home_page.home_page_is_active():
+        driver_sync3.home_page.open_home_page()
     counter = {'success': 0, 'fail': 0}
 
     home_page(counter)
-    audio_page(counter, driver)
-    climate_page(counter, driver)
-    phone_page(counter, driver)
-    mobile_apps_page(counter, driver)
-    main_settings_page(counter, driver)
-    sound_settings_page(counter, driver)
-    clock_settings_page(counter, driver)
-    bluetooth_settings_page(counter, driver)
-    radio_settings_page(counter, driver)
-    navigation_settings_page(counter, driver)
+    audio_page(counter, driver_sync3)
+    climate_page(counter, driver_sync3)
+    phone_page(counter, driver_sync3)
+    mobile_apps_page(counter, driver_sync3)
+    main_settings_page(counter, driver_sync3)
+    sound_settings_page(counter, driver_sync3)
+    clock_settings_page(counter, driver_sync3)
+    bluetooth_settings_page(counter, driver_sync3)
+    radio_settings_page(counter, driver_sync3)
+    navigation_settings_page(counter, driver_sync3)
 
     check_recognition(counter)
 

@@ -16,6 +16,9 @@
 {"name":"climate_down","location":"day_mode/climate_down.png"},
 {"name":"climate_dual","location":"day_mode/climate_dual.png"},
 {"name":"climate_up","location":"day_mode/climate_up.png"},
+{"name":"climate_on_off","location":"day_mode/climate_on_off.png"},
+{"name":"presets","location":"day_mode/presets.png"},
+{"name":"close","location":"day_mode/close.png"},
 {"name":"clock","location":"day_mode/clock.png"},
 {"name":"contact_search","location":"day_mode/contact_search.png"},
 {"name":"del_active","location":"day_mode/keyboard/del_active.png"},
@@ -44,6 +47,10 @@
 {"name":"phone","location":"day_mode/phone.png"},
 {"name":"phone_active","location":"day_mode/phone_active.png"},
 {"name":"scrollbar_handle","location":"day_mode/scrollbar_handle.png"},
+{"name":"scroll","location":"day_mode/scroll.png"},
+{"name":"slider","location":"day_mode/slider.png"},
+{"name":"back_property_field","location":"day_mode/back_property_field.png"},
+{"name":"balance_fade","location":"day_mode/balance_fade.png"},
 {"name":"settings","location":"day_mode/settings.png"},
 {"name":"settings_active","location":"day_mode/settings_active.png"},
 {"name":"settings_navigation","location":"day_mode/settings_navigation.png"},
@@ -75,4 +82,7 @@
 {"name":"switch_on","location":"day_mode/switch_on.png"},
 {"name":"down_arrow_small","location":"day_mode/down_arrow_small.png"},
 {"name":"radio","location":"day_mode/radio.png"},
+{"name":"top_airflow","location":"day_mode/top_airflow.png"},
+{"name":"settings_sound","location":"day_mode/settings_sound.png"},
 {"name":"up_inactive","location":"day_mode/up_inactive.png"}]
+
