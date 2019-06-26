@@ -34,7 +34,7 @@ void clean_up_log_files() {
   for (std::size_t i = 0; i < kNumberOfFiles + 1; ++i) {
     std::error_code ec;
     fs::remove(get_log_name(i + 1), ec);  // do not expect neither true nor false, as file may or may not exist
-    EXPECT_TRUE(!ec || ec == std::errc::no_such_file_or_directory);
+    EXPECT_TRUE(!ec || ec == std::errc::no_such_file_or_directory) << ec.message() << " (" << ec << ')';
   }
 }
 
@@ -78,22 +78,22 @@ TEST_F(LoggerSetupTest, FilesRotated) {
   for (const auto& file : generated_files) {
     std::error_code ec;
     EXPECT_TRUE(fs::exists(file, ec));
-    EXPECT_EQ(ec.value(), 0);
+    EXPECT_FALSE(ec) << ec.message() << " (" << ec << ')';
   }
 
-  const std::string non_existing_file = get_log_name(kNumberOfFiles + 1);
+  const auto non_existing_file = get_log_name(kNumberOfFiles + 1);
   std::error_code ec;
   EXPECT_FALSE(fs::exists(non_existing_file, ec));
-  EXPECT_EQ(ec.value(), 0);
+  EXPECT_TRUE(!ec || ec == std::errc::no_such_file_or_directory) << ec.message() << " (" << ec << ')';
 }
 
 TEST_F(LoggerSetupTest, FileSizeCap) {
   ASSERT_GE(kNumberOfFiles, 1);
 
-  const std::string filled_to_cap_file = get_log_name(1);
+  const auto filled_to_cap_file = get_log_name(1);
   std::error_code ec;
   EXPECT_LE(fs::file_size(filled_to_cap_file, ec), kMaxFileSize);
-  EXPECT_EQ(ec.value(), 0);
+  EXPECT_FALSE(ec) << ec.message() << " (" << ec << ')';
 }
 
 }  // namespace
