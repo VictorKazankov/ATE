@@ -44,4 +44,5 @@
 {"name":"favorites_button_panel","location":"day_mode/favorites_button_panel.png"},
 {"name":"features_button_panel","location":"day_mode/features_button_panel.png"},
 {"name":"phone_button_panel","location":"day_mode/phone_button_panel.png"},
-{"name":"settings_button_panel","location":"day_mode/settings_button_panel.png"}]
+{"name":"settings_button_panel","location":"day_mode/settings_button_panel.png"},
+{"name":"apps_button_panel_inactive","location":"day_mode/apps_button_panel_inactive.png"}]

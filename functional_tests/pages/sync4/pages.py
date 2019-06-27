@@ -73,7 +73,7 @@ class AppsPage:
         return check_visibility(constants.HELP_TEXT)
 
     def open_apps_page(self):
-        tap(constants.APPS_TEXT)
+        tap(constants.APPS_BUTTON_PANEL_INACTIVE)
 
 
 def tap(name):

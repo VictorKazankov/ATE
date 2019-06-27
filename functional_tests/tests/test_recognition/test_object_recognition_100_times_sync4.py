@@ -5,7 +5,7 @@ import pytest
 from functional_tests.tests.test_recognition import helpers
 from functional_tests.utils.sync4 import constants
 
-ATTEMPTS = 100
+ATTEMPTS = 1
 PERCENT = 98
 
 

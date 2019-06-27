@@ -28,6 +28,7 @@ MODE_BUTTON_ACTIVITY = 'mode_button_active'
 APPS_BUTTON_PANEL_ACTIVE = 'apps_button_panel_active'
 CLIMATE_PAGE_PANEL_BUTTON = 'climate_page_panel_button'
 PM_BUTTON_ACTIVE = 'pm_button_active'
+APPS_BUTTON_PANEL_INACTIVE = 'apps_button_panel_inactive'
 
 """TEXT"""
 
