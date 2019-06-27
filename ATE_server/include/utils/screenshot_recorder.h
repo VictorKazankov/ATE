@@ -12,7 +12,6 @@ namespace fs = std::experimental::filesystem;
 /**
  * @brief Class for recording screenshots
  **/
-
 class ScreenshotRecorder {
   bool storage_directory_available_ = false;
   bool enable_saving_screenshots_ = false;
@@ -26,6 +25,10 @@ class ScreenshotRecorder {
    **/
   ScreenshotRecorder(bool enable_saving_screenshots, const std::string& screenshots_store_dir);
 
+  /**
+   * @brief Function returns flag whether screenshots allowed to store
+   * @return true if allowed, otherwise - false
+   */
   bool IsScreenshotSavingEnabled() const;
 
   /**
@@ -43,6 +46,17 @@ class ScreenshotRecorder {
    * @return true if successful, otherwise - false
    **/
   bool SaveScreenshot(const cv::Mat& frame, const cv::Rect& highlight_area, const std::string& hint = "") const;
+
+  /**
+   * @brief Saves screenshot to file with and without highlight area.
+   * It's a wrapper for SaveScreenshot(const cv::Mat&) and SaveScreenshot(const cv::Mat&, const cv::Rect&, const std::string&)
+   * @param color_frame frame to save to file without highlight area
+   * @param grey_frame frame to save to file with highlight area
+   * @param highlight_area area to highlight at the frame
+   * @param hint suffix for screenshot name
+   * @return true if successful, otherwise - false
+   **/
+  bool TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame, const cv::Rect& highlight_area, const std::string& hint = "") const;
 
  private:
   void ProcessStorageDirectory();

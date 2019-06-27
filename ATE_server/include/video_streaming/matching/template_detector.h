@@ -13,9 +13,8 @@ namespace detector {
  **/
 class TemplateDetector : public Detector {
  public:
-
-/**
-   * @brief Default constructor
+  /**
+   * @brief Default destructor
    **/
   ~TemplateDetector() override = default;
 

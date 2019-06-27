@@ -24,6 +24,10 @@ constexpr auto kInteractionType = "Type";
 constexpr auto kDeviceAddress = "DeviceAddress";
 constexpr auto kAteListenerPort = "ListenerPort";
 
+constexpr auto kScreenshotRecorderSection = "SCREENSHOT_RECORDER";
+constexpr auto kScreenshotOption = "Screenshots";
+constexpr auto kScreenshotDirectoryOption = "ScreenshotDirectory";
+
 constexpr auto kTextDetectorSection = "MATCHING/TextDetector";
 constexpr auto kTextDetectorConfidenceOption = "Confidence";
 constexpr double kDefaultTextDetectorConfidence = 80.;

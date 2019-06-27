@@ -5,6 +5,8 @@
 
 #include <opencv2/core/mat.hpp>
 
+#include "utils/screenshot_recorder.h"
+
 namespace streamer {
 class Streamer;
 }  // namespace streamer
@@ -23,6 +25,7 @@ class Matcher {
   std::unique_ptr<streamer::Streamer> streamer_;
   std::unique_ptr<Detector> image_detector_;
   std::unique_ptr<TextDetector> text_detector_;
+  std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
 
   double text_detector_min_confidence_;
 
@@ -38,11 +41,12 @@ class Matcher {
 
   /**
    * @brief DetectImage privide detection of pattern on TDK screen
+   * @params object object name
    * @params object_path path to pattern image
    * @return rectangle with x, y, width, height of detected object on succeed,
    * on failure x, y, width, height will equele 0
    */
-  cv::Rect MatchImage(const std::string& object_path);
+  cv::Rect MatchImage(const std::string& object, const std::string& object_path);
 
   /**
    * @brief DetectImage privide detection of pattern on TDK screen

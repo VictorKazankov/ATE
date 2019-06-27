@@ -69,7 +69,7 @@ cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono
   cv::Rect match_result;
 
   do {
-    match_result = is_image ? matcher_.MatchImage(item_path) : matcher_.MatchText(object_or_name);
+    match_result = is_image ? matcher_.MatchImage(object_or_name, item_path) : matcher_.MatchText(object_or_name);
   } while (match_result.empty() && std::chrono::steady_clock::now() <= timeout_point);
 
   return match_result;

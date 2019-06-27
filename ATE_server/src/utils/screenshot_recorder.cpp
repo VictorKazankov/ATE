@@ -33,7 +33,7 @@ void ScreenshotRecorder::ProcessStorageDirectory() {
   if (fs::exists(screenshots_store_dir_, ec)) {
     storage_directory_available_ = true;
   } else {
-    if (fs::create_directory(screenshots_store_dir_, ec)) {
+    if (fs::create_directories(screenshots_store_dir_, ec)) {
       logger::info("[screenshot_recorder] Directory for storage screenshots was created at {}", screenshots_store_dir_);
       storage_directory_available_ = true;
     } else {
@@ -104,4 +104,14 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& hi
 
   return true;
 }
+
+bool ScreenshotRecorder::TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame,
+                                         const cv::Rect& highlight_area, const std::string& hint) const {
+  if (IsScreenshotSavingEnabled()) {
+    return SaveScreenshot(color_frame) && SaveScreenshot(grey_frame, highlight_area, hint);
+  }
+
+  return false;
+}
+
 }  // namespace utils
