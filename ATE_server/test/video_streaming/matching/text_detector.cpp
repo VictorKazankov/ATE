@@ -19,7 +19,7 @@ namespace {
 using namespace detector;
 
 constexpr auto kTessDataPrefix = "/usr/local/share/tessdata/";
-constexpr float kMinimalConfidence = 80.f;
+constexpr float kMinimalConfidence = 60.f;
 const double kHausdorffThreshold = 2 * std::sqrt(2);  // x * sqrt(2) for x pixels border difference
 
 struct TestTextObject {
