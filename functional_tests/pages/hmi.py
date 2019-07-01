@@ -6,7 +6,7 @@ def attach_to_applicatio():
     return attachToApplication('')
 
 
-def wait_for_object(object, timeout=25000):
+def wait_for_object(object, timeout=5000):
     return waitForObject(object, timeout)
 
 

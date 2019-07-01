@@ -1,6 +1,6 @@
-from functional_tests.pages.sync4.pages import (AppsPage, ClimatePage,
-                                                FeaturesPage, PhonePage,
-                                                SettingsAudioPage,
+from functional_tests.pages.sync4.pages import (AppsPage, AudioPage,
+                                                ClimatePage, FeaturesPage,
+                                                PhonePage, SettingsAudioPage,
                                                 SettingsClockPage,
                                                 SettingsPage)
 
@@ -14,3 +14,4 @@ class PageSupervisor:
         self.settings_audio_page = SettingsAudioPage()
         self.features_page = FeaturesPage()
         self.settings_clock_page = SettingsClockPage()
+        self.audio_page = AudioPage()
