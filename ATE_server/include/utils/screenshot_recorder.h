@@ -13,7 +13,6 @@ namespace fs = std::experimental::filesystem;
  * @brief Class for recording screenshots
  **/
 class ScreenshotRecorder {
-  bool storage_directory_available_ = false;
   bool enable_saving_screenshots_ = false;
   fs::path screenshots_store_dir_;
 
@@ -24,12 +23,6 @@ class ScreenshotRecorder {
    * @param screenshots_store_dir points out folder to store screenshots
    **/
   ScreenshotRecorder(bool enable_saving_screenshots, const std::string& screenshots_store_dir);
-
-  /**
-   * @brief Function returns flag whether screenshots allowed to store
-   * @return true if allowed, otherwise - false
-   */
-  bool IsScreenshotSavingEnabled() const;
 
   /**
    * @brief Saves screenshot to file

@@ -36,11 +36,16 @@ using namespace defines;
 Matcher::Matcher()
     : streamer_{streamer::MakeStreamer()},
       image_detector_{std::make_unique<detector::TemplateDetector>()},
-      screenshot_recorder_{std::make_unique<utils::ScreenshotRecorder>(
-          common::Config().GetBool(kScreenshotRecorderSection, kScreenshotOption, false),
-          common::Config().GetString(kScreenshotRecorderSection, kScreenshotDirectoryOption, ""))},
       text_detector_min_confidence_{common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
                                                                kDefaultTextDetectorConfidence)} {
+  try {
+    screenshot_recorder_ = std::make_unique<utils::ScreenshotRecorder>(
+        common::Config().GetBool(kScreenshotRecorderSection, kScreenshotOption, false),
+        common::Config().GetString(kScreenshotRecorderSection, kScreenshotDirectoryOption, ""));
+  } catch (const std::runtime_error& e) {
+    logger::info("[matcher] Screenshot recorder was not created, cause: {}.", e.what());
+  }
+
   const std::string tessdata_prefix = common::Config().GetString(kTextDetectorSection, kTessDataOption, std::string{});
   if (tessdata_prefix.empty()) {
     logger::warn("[matcher] TESSDATA_PREFIX isn't present in config. Possible problems with text detection");
@@ -85,7 +90,9 @@ cv::Rect Matcher::MatchImage(const std::string& object, const std::string& objec
 
   const cv::Rect detected_object = image_detector_->Detect(gray_screen_, pattern);
 
-  screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_object, object);
+  if (screenshot_recorder_) {
+    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_object, object);
+  }
 
   return detected_object;
 }
@@ -98,7 +105,9 @@ cv::Rect Matcher::MatchText(const std::string& text) {
   cv::Rect detected_area{};
 
   if (!text_detector_->Recognize(screen_)) {
-    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_area, text);
+    if (screenshot_recorder_) {
+      screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_area, text);
+    }
     return detected_area;
   }
 
@@ -111,7 +120,9 @@ cv::Rect Matcher::MatchText(const std::string& text) {
   const auto it = std::find_if(range.begin(), range.end(), find_string);
   detected_area = range.end() == it ? cv::Rect{} : it->position;
 
-  screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_area, text);
+  if (screenshot_recorder_) {
+    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_area, text);
+  }
 
   return detected_area;
 }

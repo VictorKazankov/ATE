@@ -21,6 +21,10 @@ std::string GetStringTimestamp() {
 
 ScreenshotRecorder::ScreenshotRecorder(bool enable_saving_screenshots, const std::string& screenshots_store_dir)
     : enable_saving_screenshots_(enable_saving_screenshots) {
+  if (!enable_saving_screenshots) {
+    throw std::runtime_error("Screenshot recorder is disabled");
+  }
+
   screenshots_store_dir_ = VHAT_SERVER_STORAGE_DIR;
   screenshots_store_dir_ /= screenshots_store_dir;
 
@@ -31,15 +35,13 @@ void ScreenshotRecorder::ProcessStorageDirectory() {
   std::error_code ec;
 
   if (fs::exists(screenshots_store_dir_, ec)) {
-    storage_directory_available_ = true;
   } else {
     if (fs::create_directories(screenshots_store_dir_, ec)) {
       logger::info("[screenshot_recorder] Directory for storage screenshots was created at {}", screenshots_store_dir_);
-      storage_directory_available_ = true;
     } else {
       logger::warn("[screenshot_recorder] Can't create directory for storage screenshots at {}. {}",
                    screenshots_store_dir_, ec.message());
-      storage_directory_available_ = false;
+      throw std::runtime_error(ec.message());
     }
   }
 }
@@ -60,14 +62,7 @@ fs::path ScreenshotRecorder::GetFileName(const std::string& file_suffix) const {
   return store_file;
 }
 
-bool ScreenshotRecorder::IsScreenshotSavingEnabled() const { return enable_saving_screenshots_; }
-
 bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame) const {
-  if (!storage_directory_available_) {
-    logger::warn("[screenshot_recorder] Screenshot storage directory is unavailable");
-    return false;
-  }
-
   fs::path store_file = GetFileName();
 
   if (store_file.empty()) return false;
@@ -81,11 +76,6 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame) const {
 
 bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& highlight_area,
                                         const std::string& hint) const {
-  if (!storage_directory_available_) {
-    logger::warn("[screenshot_recorder] Screenshot storage directory is unavailable");
-    return false;
-  }
-
   std::string file_suffix = (highlight_area.area() ? "detected" : "not-detected");
   if (!hint.empty()) file_suffix.append("_" + hint);
 
@@ -107,11 +97,7 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& hi
 
 bool ScreenshotRecorder::TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame,
                                          const cv::Rect& highlight_area, const std::string& hint) const {
-  if (IsScreenshotSavingEnabled()) {
-    return SaveScreenshot(color_frame) && SaveScreenshot(grey_frame, highlight_area, hint);
-  }
-
-  return false;
+  return SaveScreenshot(color_frame) && SaveScreenshot(grey_frame, highlight_area, hint);
 }
 
 }  // namespace utils
