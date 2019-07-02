@@ -3,19 +3,24 @@ Virtual HMI Automation Toolset.
 
 ## Prerequisites
 
-1. Supported OS:
-    - Ubuntu 18.04
-    - Ubuntu 16.04 - LVDS board only
-    - Windows 10 - ATE client only - TBD
+### PC
+Supported OS:
+* Ubuntu 18.04 LTS
+* Windows 10 (VHAT client only) - **TBD**
 
-1. (LVDS board only) Install OpenCV from JetPack 3.3: https://github.ford.com/IVIToolsTeam/VHAT_2.0/wiki/Set-up-LVDS-board-for-the-ATE-Server
+### LVDS board
+1. LVDS board rev 0.9 or higher (aka _Luxoft baseboard v.1.0 ("green")_ or _Luxoft baseboard v.1.1 ("black")_ )
 
-## Build
+1. Board set up with latest Jetson TX1 update package from: https://github.ford.com/LVDS2Eth/Jetson_TX1_Update_Package
+
+1. OpenCV installed from JetPack 3.3: https://github.ford.com/IVIToolsTeam/VHAT_2.0/wiki/Set-up-LVDS-board-for-the-ATE-Server
+
+## Build and install
 
 1. Clone the repository:
 
     ```
-    git@github.ford.com:IVIToolsTeam/VHAT_2.0.git
+    git clone git@github.ford.com:IVIToolsTeam/VHAT_2.0.git
     ```
 
 1. Run setup environment script:
@@ -30,7 +35,7 @@ Virtual HMI Automation Toolset.
     cmake -P VHAT_2.0/infrastructure/build.cmake
     ```
 
-1. By default, build root is set to _build-VHAT_2.0-Release_ directory.
+By default, build root is set to _build-VHAT_2.0-Release_ and installation is done into _build-VHAT_2.0-Release/install_.
 
 ### Configure build
 
@@ -45,23 +50,31 @@ Virtual HMI Automation Toolset.
       ```
       CMAKE_BUILD_TYPE:STRING=[Debug|Release|RelWithDebInfo|MinSizeRel|…]
       ```
-    - Directory to place build artifact (default: VHAT_2.0/../build-VHAT_2.0-\<build type\>):
+    - Directory to place build files (default: _VHAT_2.0/../build-VHAT_2.0-\<build type\>_):
       ```
       VHAT_BUILD_ROOT:PATH
       ```
-    - Toggle ATE client build (default: ON):
+    - Toggle VHAT install (default: _ON_):
+      ```
+      VHAT_INSTALL:BOOL
+      ```
+    - Install directory aka _\<install prefix>_ (default: _<build root\>/install_):
+      ```
+      CMAKE_INSTALL_PREFIX:PATH
+      ```
+    - Toggle ATE client build (default: _ON_):
       ```
       VHAT_BUILD_CLIENT:BOOL
       ```
-    - Toggle ATE server build (default: ON):
+    - Toggle ATE server build (default: _ON_):
       ```
       VHAT_BUILD_SERVER:BOOL
       ```
-    - Toggle build of unit-tests (default: ON):
+    - Toggle build of unit-tests (default: _ON_):
       ```
       VHAT_WITH_TESTS:BOOL
       ```
-    - Tweak toolchain (default: VHAT_2.0/infrastructure/cmake/toolchains/desktop.cmake):
+    - Tweak toolchain (default: _VHAT_2.0/infrastructure/cmake/toolchains/desktop.cmake_):
       ```
       CMAKE_TOOLCHAIN_FILE:FILEPATH
       ```
@@ -74,6 +87,10 @@ Virtual HMI Automation Toolset.
     1. Build only client and disable unit tests:
         ```
         cmake -DVHAT_BUILD_SERVER:BOOL=OFF -DVHAT_WITH_TESTS:BOOL=OFF -P build.cmake
+        ```
+    1. Build and install into _/usr/local_:
+        ```
+        sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -P build.cmake
         ```
 
 ## Running the unit tests
@@ -89,60 +106,48 @@ Virtual HMI Automation Toolset.
     build-VHAT_2.0-Release/ATE_common/src/vhat_common_test
     ```
 
-## Run ATE server on LVDS board
+## Run VHAT server on LVDS board
 
 1. Open server config for edit:
     ```
-    build-VHAT_2.0-Release/ATE_server/data/config.ini
+    <install prefix>/etc/vhat_server.ini
     ```
 
-1. Set up video stream source:
+1. Set up video stream:
     ```
     [VIDEO_STREAM]
-    Source = V4L2
-    Device = /dev/video0
-    FrameWidth = <resolution width as configured on TDK>
-    FrameHeight = <resolution heigh as configured on TDK>
+    FrameWidth = <TDK display resolution width>
+    FrameHeight = <TDK display resolution height>
     ```
 
-1. Set up path to send touch events to TDK:
-    ```
-    [INTERACTION]
-    Type = SPI
-    DeviceAddress = /dev/spidev3.0
-    ```
-
-1. Set up icon storage:
+1. Select icon storage:
     ```
     [DB]
-    Path = <path to icon storage relative to data/ directory>
-    CollectionMode = <name of HMI theme to be used>
+    Target = <TDK Sync version (Sync3 | Sync4)>
     ```
 
-    A file named _\<HMI theme name\>.json_ must be present under icon storage path.
-
-1. Save the _config.ini_ and run ATE server:
+1. Save the _vhat_server.ini_ and run VHAT server:
     ```
-    build-VHAT_2.0-Release/ATE_server/src/vhat_server
+    <install prefix>/bin/vhat_server
     ```
 
-1. In case some config options are needed to be changed, ATE server must be restarted.
+VHAT server need to be restarted in order to apply any config or icon storage changes.
 
-## Run ATE server outside the LVDS board
+## Run ATE server outside the LVDS board (debug purpose only)
 
 1. Open server config for edit:
     ```
-    build-VHAT_2.0-Release/ATE_server/data/config.ini
+    <install prefix>/etc/vhat_server.ini
     ```
 
 1. Set up video stream source:
     ```
     [VIDEO_STREAM]
     Source = RTSP
-    Path=<address of RTSP stream or V4L/GStreamer device>
+    Path = rtsp://127.0.0.1:8554/lvds
     ```
 
-1. Set up path to send touch events to TDK:
+1. Either set up path to send touch events to TDK via VDP server:
     ```
     [INTERACTION]
     Type = VDP
@@ -151,22 +156,44 @@ Virtual HMI Automation Toolset.
     DisplayType = <type of HMI display as configured on TDK>
     ```
 
-1. Set up icon storage:
+   Or just stub it:
+    ```
+    [INTERACTION]
+    Type = Dummy
+    ```
+
+1. Select icon storage:
     ```
     [DB]
-    Path = <path to icon storage relative to data/ directory>
-    CollectionMode = <name of HMI theme to be used>
+    Target = <TDK sync version (Sync3 | Sync4)>
     ```
 
-    A file named _\<HMI theme name\>.json_ must be present under icon storage path.
-
-1. Save the _config.ini_ and run ATE server:
+1. Save the _vhat_server.ini_ and run VHAT server:
     ```
-    build-VHAT_2.0-Release/ATE_server/src/vhat_server
+   <install prefix>/bin/vhat_server
     ```
 
-1. In case some config options are needed to be changed, ATE server must be restarted.
+For full video stream support you will also need to set up webrtc client which is not covered by this project.
 
-## Use ATE client
+## Use VHAT client on LVDS board
 
-* Import _vhat_client.so_ (located at _\<build root\>/ATE_client/src_) into your Python 2.7 code.
+Import _vhat_client.so_ from _<install prefix\>/lib/python2.7/dist-packages_ into your Python 2.7 code.
+
+If _\<install prefix>_ was set to a standard system resource directory (i.e. _/usr_ or _/usr/local_) then _vhat_client.so_ could be looked up from any point of a system.
+
+Otherwise you'd like to add module location to _PYTHONPATH_ or look it up manually.
+
+No additional configuration is needed.
+
+## Use VHAT client outside LVDS board
+
+1. Open client config for edit:
+    ```
+    <install prefix>/etc/vhat_client.ini
+    ```
+1. Set IP address of LVDS board running VHAT server:
+    ```
+    [BOARD]
+    Address = <IP address>
+    ```
+1. Import _vhat_client.so_ from _<install prefix\>/lib/python2.7/dist-packages_ into your Python 2.7 code. Module look up rules are the same as for LVDS board case above.
