@@ -21,11 +21,8 @@ namespace detector {
 using namespace defines;
 
 Matcher::Matcher()
-    : streamer_{streamer::MakeStreamer()},
-      image_detector_{std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
-          kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence))},
-      text_detector_min_confidence_{common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
-                                                               kDefaultTextDetectorConfidence)} {
+    : streamer_{streamer::MakeStreamer()}, image_detector_{std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
+          kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence)))} {
   try {
     screenshot_recorder_ = std::make_unique<utils::ScreenshotRecorder>(
         common::Config().GetBool(kScreenshotRecorderSection, kScreenshotOption, false),
@@ -38,7 +35,9 @@ Matcher::Matcher()
   if (tessdata_prefix.empty()) {
     logger::warn("[matcher] TESSDATA_PREFIX isn't present in config. Possible problems with text detection");
   }
-  text_detector_ = std::make_unique<TextDetector>(tessdata_prefix.c_str());
+  text_detector_ = std::make_unique<TextDetector>(
+      common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption, kDefaultTextDetectorConfidence),
+      tessdata_prefix.c_str());
 }
 
 Matcher::~Matcher() = default;
@@ -97,6 +96,5 @@ cv::Rect Matcher::MatchText(const std::string& text) {
   }
 
   return detected_area;
-  
 }
 }  // namespace detector

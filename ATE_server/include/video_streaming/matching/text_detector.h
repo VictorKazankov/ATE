@@ -115,7 +115,7 @@ static_assert(std::is_move_assignable<TextDetectorResultIterator>::value,
               "TextDetectorResultIterator must be Move assignable");
 
 /**
- * @brief main class for text detection
+ * @brief class for text detection based on tesseract
  */
 class TextDetector : public Detector<std::string> {
  private:
@@ -124,12 +124,13 @@ class TextDetector : public Detector<std::string> {
 
  public:
   /**
+   * @param text_detector_min_confidence - value for confidence level for recognized text
    * @param tessdata_prefix - value for TESSDATA_PREFIX environment variable
    * @param lang - language, default language is english (eng)
    *
    * @throws TextDetectorInitializationError if can't initialize
    */
-  explicit TextDetector(const char* tessdata_prefix, const char* lang = "eng");
+  explicit TextDetector(double text_detector_min_confidence, const char* tessdata_prefix, const char* lang = "eng");
 
   /**
    * @brief Detect a text at a video frame
@@ -145,6 +146,7 @@ class TextDetector : public Detector<std::string> {
 
  private:
   std::shared_ptr<tesseract::TessBaseAPI> tess_;
+  double text_detector_min_confidence_;
 };
 
 }  // namespace detector

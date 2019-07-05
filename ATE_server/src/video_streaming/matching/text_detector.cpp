@@ -97,7 +97,8 @@ bool operator==(const TextDetectorResultIterator& lhs, const TextDetectorResultI
 
 bool operator!=(const TextDetectorResultIterator& lhs, const TextDetectorResultIterator& rhs) { return !(lhs == rhs); }
 
-TextDetector::TextDetector(const char* tessdata_prefix, const char* lang) {
+TextDetector::TextDetector(double text_detector_min_confidence, const char* tessdata_prefix, const char* lang)
+    : text_detector_min_confidence_(text_detector_min_confidence) {
   safe_env::Set(kTessdataPrefixEnvVarName, tessdata_prefix, false);
   tess_ = std::make_shared<tesseract::TessBaseAPI>();
   if (tess_->Init(nullptr, lang)) {
@@ -139,7 +140,7 @@ cv::Rect TextDetector::Detect(const cv::Mat& frame, const std::string& pattern) 
   }
 
   const auto find_string = [ this, &pattern ](const TextObject& text_object) noexcept {
-    return text_object.text == pattern;
+    return text_object.confidence >= text_detector_min_confidence_ && text_object.text == pattern;
   };
 
   const auto textDetectorBeginIterator = TextDetectorResultIterator{tess_, GetPageLevel(pattern)};

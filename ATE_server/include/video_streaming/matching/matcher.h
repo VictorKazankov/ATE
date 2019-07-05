@@ -25,8 +25,6 @@ class Matcher {
   std::unique_ptr<Detector<std::string>> text_detector_;
   std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
 
-  double text_detector_min_confidence_;
-
   // Cache images
   cv::Mat screen_;
   cv::Mat gray_screen_;
