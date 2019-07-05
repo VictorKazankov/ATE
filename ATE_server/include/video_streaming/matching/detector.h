@@ -19,7 +19,7 @@ class Detector {
    * @param pattern a pattern to be detected
    * @return pattern coordinates
    **/
-  virtual cv::Rect Detect(const cv::Mat& frame, const T& pattern) const = 0;
+  virtual cv::Rect Detect(const cv::Mat& frame, const T& pattern) = 0;
 };
 }  // namespace detector
 

@@ -121,28 +121,46 @@ TextDetector::TextDetector(const char* tessdata_prefix, const char* lang) {
   }
 }
 
-bool TextDetector::Recognize(cv::InputArray image) {
-  const cv::Mat matrix = image.getMat();
-
-  if (matrix.empty()) {
+void TextDetector::SetImage(const cv::Mat& frame) {
+  if (frame.empty()) {
     WriteErrorAndThrowInvalidArgument("Image must be non empty");
   }
 
   // Image matrix must be 2-dimensional
-  if (2 != matrix.dims) {
-    WriteErrorAndThrowInvalidArgument("Matrix must be 2-dimensional");
+  if (2 != frame.dims) {
+    WriteErrorAndThrowInvalidArgument("Image must be 2-dimensional");
   }
 
-  if (CV_8UC1 != matrix.type() && CV_8UC3 != matrix.type()) {
+  if (CV_8UC1 != frame.type() && CV_8UC3 != frame.type()) {
     WriteErrorAndThrowInvalidArgument("Image must have 1 or 3 channels with 8 bits per channel");
   }
 
-  tess_->SetImage(static_cast<const unsigned char*>(matrix.data), matrix.cols, matrix.rows, matrix.channels(),
-                  matrix.step1());
-
-  return !tess_->Recognize(nullptr);
+  tess_->SetImage(static_cast<const unsigned char*>(frame.data), frame.cols, frame.rows, frame.channels(),
+                  frame.step1());
 }
 
-cv::Rect TextDetector::Detect(const cv::Mat& /*frame */, const std::string& /*pattern*/) const { return cv::Rect(); }
+tesseract::PageIteratorLevel TextDetector::GetPageLevel(const std::string& text) const {
+  if (1 == text.length()) {
+    return tesseract::RIL_SYMBOL;
+  }
+  const auto check_space = [](char symbol) noexcept { return std::isspace(static_cast<unsigned char>(symbol)); };
+  return std::any_of(text.begin(), text.end(), check_space) ? tesseract::RIL_TEXTLINE : tesseract::RIL_WORD;
+}
 
+cv::Rect TextDetector::Detect(const cv::Mat& frame, const std::string& pattern) {
+  SetImage(frame);
+
+  if (tess_->Recognize(nullptr)) {
+    return cv::Rect();
+  }
+
+  const auto range = GetRange(GetPageLevel(pattern));
+
+  const auto find_string = [ this, &pattern ](const TextObject& text_object) noexcept {
+    return text_object.text == pattern;
+  };
+
+  const auto it = std::find_if(range.begin(), range.end(), find_string);
+  return range.end() == it ? cv::Rect{} : it->position;
+}
 }  // namespace detector

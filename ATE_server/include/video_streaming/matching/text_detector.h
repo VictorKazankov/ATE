@@ -144,6 +144,10 @@ class TextDetectorResultRange {
  * @brief main class for text detection
  */
 class TextDetector : public Detector<std::string> {
+ private:
+  void SetImage(const cv::Mat& frame);
+  tesseract::PageIteratorLevel GetPageLevel(const std::string& text) const;
+
  public:
   /**
    * @param tessdata_prefix - value for TESSDATA_PREFIX environment variable
@@ -154,27 +158,16 @@ class TextDetector : public Detector<std::string> {
   explicit TextDetector(const char* tessdata_prefix, const char* lang = "eng");
 
   /**
-   * @brief Recognize text on the image
-   *
-   * @param image - image for text recognition
-   *
+   * @brief Detect a text at a video frame
+   * @param frame - video frame received from Sync (single channel matrix)
+   * @param pattern - text pattern to be detected
    * @throws std::invalid_argument if
    * - 'image' is empty
    * - 'image' matrix isn't 2-dimensional
    * - 'image' isn't 1 or 3 channel with 8 bits per channel
-   *
-   * @return TextDetectorResult if successful
-   * or null if 'image' is valid and recognition error occurs
-   */
-  bool Recognize(cv::InputArray image);
-
-  /**
-   * @brief Detect a text at a video frame
-   * @param frame - video frame received from Sync (single channel matrix)
-   * @param pattern - text pattern to be detected
    * @return pattern coordinates on succeed, otherwise return empty Rect
    **/
-  cv::Rect Detect(const cv::Mat& frame, const std::string& pattern) const override;
+  cv::Rect Detect(const cv::Mat& frame, const std::string& pattern) override;
 
   /**
    * @param level - necessary granulation (e. g. cheracter, word, etc.)

@@ -29,10 +29,7 @@ class TemplateDetector : public Detector<cv::Mat> {
    * @param pattern - pattern to be detected (single channel matrix)
    * @return pattern coordinates on succeed, otherwise return empty Rect
    **/
-  cv::Rect Detect(const cv::Mat& frame, const cv::Mat& pattern) const override;
-
- private:
-  double confidence_;
+  cv::Rect Detect(const cv::Mat& frame, const cv::Mat& pattern) override;
 };
 
 }  // namespace detector

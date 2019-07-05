@@ -16,19 +16,6 @@
 #include "video_streaming/streamer.h"
 #include "video_streaming/streamer_factory.h"
 
-namespace {
-
-tesseract::PageIteratorLevel GetPageLevel(const std::string& text) {
-  assert(!text.empty());
-  if (1 == text.length()) {
-    return tesseract::RIL_SYMBOL;
-  }
-  const auto check_space = [](char symbol) noexcept { return std::isspace(static_cast<unsigned char>(symbol)); };
-  return std::any_of(text.begin(), text.end(), check_space) ? tesseract::RIL_TEXTLINE : tesseract::RIL_WORD;
-}
-
-}  // namespace
-
 namespace detector {
 
 using namespace defines;
@@ -103,28 +90,13 @@ cv::Rect Matcher::MatchText(const std::string& text) {
     return cv::Rect{};
   }
 
-  cv::Rect detected_area{};
-
-  if (!text_detector_->Recognize(screen_)) {
-    if (screenshot_recorder_) {
-      screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_area, text);
-    }
-    return detected_area;
-  }
-
-  const auto range = text_detector_->GetRange(GetPageLevel(text));
-
-  const auto find_string = [ this, &text ](const TextObject& text_object) noexcept {
-    return text_object.confidence >= text_detector_min_confidence_ && text_object.text == text;
-  };
-
-  const auto it = std::find_if(range.begin(), range.end(), find_string);
-  detected_area = range.end() == it ? cv::Rect{} : it->position;
+  cv::Rect detected_area = text_detector_->Detect(screen_, text);
 
   if (screenshot_recorder_) {
     screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_area, text);
   }
 
   return detected_area;
+  
 }
 }  // namespace detector

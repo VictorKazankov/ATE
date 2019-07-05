@@ -8,7 +8,7 @@ namespace detector {
 
 TemplateDetector::TemplateDetector(double confidence) : confidence_{confidence} {}
 
-cv::Rect TemplateDetector::Detect(const cv::Mat& frame, const cv::Mat& pattern) const {
+cv::Rect TemplateDetector::Detect(const cv::Mat& frame, const cv::Mat& pattern) {
   // verification of size compatibility (pattern should be less than frame)
   assert(frame.rows > pattern.rows);
   assert(frame.cols > pattern.cols);
