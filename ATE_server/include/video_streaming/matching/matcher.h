@@ -14,8 +14,6 @@ class Streamer;
 
 namespace detector {
 
-class TextDetector;
-
 /**
  * @brief DetectorFactory class for providing interaction between components: streamer, detector
  * @params detector_type string represantation of detector type, get from configuration file
@@ -24,7 +22,7 @@ class Matcher {
  private:
   std::unique_ptr<streamer::Streamer> streamer_;
   std::unique_ptr<Detector<cv::Mat>> image_detector_;
-  std::unique_ptr<TextDetector> text_detector_;
+  std::unique_ptr<Detector<std::string>> text_detector_;
   std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
 
   double text_detector_min_confidence_;

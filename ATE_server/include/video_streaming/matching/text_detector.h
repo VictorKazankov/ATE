@@ -12,6 +12,8 @@
 
 #include <tesseract/publictypes.h>
 
+#include "detector.h"
+
 namespace tesseract {
 class ResultIterator;
 class TessBaseAPI;
@@ -141,7 +143,7 @@ class TextDetectorResultRange {
 /**
  * @brief main class for text detection
  */
-class TextDetector {
+class TextDetector : public Detector<std::string> {
  public:
   /**
    * @param tessdata_prefix - value for TESSDATA_PREFIX environment variable
@@ -165,6 +167,14 @@ class TextDetector {
    * or null if 'image' is valid and recognition error occurs
    */
   bool Recognize(cv::InputArray image);
+
+  /**
+   * @brief Detect a text at a video frame
+   * @param frame - video frame received from Sync (single channel matrix)
+   * @param pattern - text pattern to be detected
+   * @return pattern coordinates on succeed, otherwise return empty Rect
+   **/
+  cv::Rect Detect(const cv::Mat& frame, const std::string& pattern) const override;
 
   /**
    * @param level - necessary granulation (e. g. cheracter, word, etc.)

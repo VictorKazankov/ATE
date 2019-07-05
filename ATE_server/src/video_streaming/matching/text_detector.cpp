@@ -142,4 +142,7 @@ bool TextDetector::Recognize(cv::InputArray image) {
 
   return !tess_->Recognize(nullptr);
 }
+
+cv::Rect TextDetector::Detect(const cv::Mat& /*frame */, const std::string& /*pattern*/) const { return cv::Rect(); }
+
 }  // namespace detector
