@@ -97,22 +97,6 @@ bool operator==(const TextDetectorResultIterator& lhs, const TextDetectorResultI
 
 bool operator!=(const TextDetectorResultIterator& lhs, const TextDetectorResultIterator& rhs) { return !(lhs == rhs); }
 
-TextDetectorResultRange::TextDetectorResultRange(std::shared_ptr<tesseract::TessBaseAPI> tess,
-                                                 tesseract::PageIteratorLevel level)
-    : tess_{std::move(tess)}, level_{level} {
-  if (!tess_) {
-    WriteErrorAndThrowInvalidArgument("Null tesseract::TessBaseAPI pointer");
-  }
-}
-
-TextDetectorResultRange::const_iterator TextDetectorResultRange::begin() const { return const_iterator{tess_, level_}; }
-
-TextDetectorResultRange::const_iterator TextDetectorResultRange::end() const { return const_iterator{}; }
-
-TextDetectorResultRange TextDetector::GetRange(tesseract::PageIteratorLevel level) const {
-  return TextDetectorResultRange{tess_, level};
-}
-
 TextDetector::TextDetector(const char* tessdata_prefix, const char* lang) {
   safe_env::Set(kTessdataPrefixEnvVarName, tessdata_prefix, false);
   tess_ = std::make_shared<tesseract::TessBaseAPI>();
@@ -154,13 +138,14 @@ cv::Rect TextDetector::Detect(const cv::Mat& frame, const std::string& pattern) 
     return cv::Rect();
   }
 
-  const auto range = GetRange(GetPageLevel(pattern));
-
   const auto find_string = [ this, &pattern ](const TextObject& text_object) noexcept {
     return text_object.text == pattern;
   };
 
-  const auto it = std::find_if(range.begin(), range.end(), find_string);
-  return range.end() == it ? cv::Rect{} : it->position;
+  const auto textDetectorBeginIterator = TextDetectorResultIterator{tess_, GetPageLevel(pattern)};
+  const auto textDetectorEndIterator = TextDetectorResultIterator{};
+
+  const auto it = std::find_if(textDetectorBeginIterator, textDetectorEndIterator, find_string);
+  return textDetectorEndIterator == it ? cv::Rect{} : it->position;
 }
 }  // namespace detector

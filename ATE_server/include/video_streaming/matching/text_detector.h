@@ -115,32 +115,6 @@ static_assert(std::is_move_assignable<TextDetectorResultIterator>::value,
               "TextDetectorResultIterator must be Move assignable");
 
 /**
- * @brief Proxy class for TextDetectorResult with STL-style begin and end
- */
-class TextDetectorResultRange {
- public:
-  using const_iterator = TextDetectorResultIterator;
-  using iterator = const_iterator;
-
-  /**
-   * @brief Construct TextDetectorResultRange
-   *
-   * @param tess - pointer to tesseract::TessBaseAPI
-   * @param level - necessary granulation (e. g. cheracter, word, etc.)
-   *
-   * @throws std::invalid_argument if 'tess' is null
-   */
-  TextDetectorResultRange(std::shared_ptr<tesseract::TessBaseAPI> tess, tesseract::PageIteratorLevel level);
-
-  const_iterator begin() const;
-  const_iterator end() const;
-
- private:
-  std::shared_ptr<tesseract::TessBaseAPI> tess_;
-  tesseract::PageIteratorLevel level_ = kDefaultComponentLevel;
-};
-
-/**
  * @brief main class for text detection
  */
 class TextDetector : public Detector<std::string> {
@@ -168,13 +142,6 @@ class TextDetector : public Detector<std::string> {
    * @return pattern coordinates on succeed, otherwise return empty Rect
    **/
   cv::Rect Detect(const cv::Mat& frame, const std::string& pattern) override;
-
-  /**
-   * @param level - necessary granulation (e. g. cheracter, word, etc.)
-   *
-   * @return TextDetectorResultRange proxy class with STL-style begin and end
-   **/
-  TextDetectorResultRange GetRange(tesseract::PageIteratorLevel level) const;
 
  private:
   std::shared_ptr<tesseract::TessBaseAPI> tess_;
