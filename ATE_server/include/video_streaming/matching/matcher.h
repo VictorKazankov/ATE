@@ -5,6 +5,7 @@
 
 #include <opencv2/core/mat.hpp>
 
+#include "detector.h"
 #include "utils/screenshot_recorder.h"
 
 namespace streamer {
@@ -13,7 +14,6 @@ class Streamer;
 
 namespace detector {
 
-class Detector;
 class TextDetector;
 
 /**
@@ -23,7 +23,7 @@ class TextDetector;
 class Matcher {
  private:
   std::unique_ptr<streamer::Streamer> streamer_;
-  std::unique_ptr<Detector> image_detector_;
+  std::unique_ptr<Detector<cv::Mat>> image_detector_;
   std::unique_ptr<TextDetector> text_detector_;
   std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
 
