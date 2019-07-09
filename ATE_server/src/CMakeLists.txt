@@ -133,3 +133,12 @@ install(TARGETS
   vhat_server
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+if(VHAT_INSTALL_SERVER_SERVICE)
+  configure_file("../service/vhat_server.service.in" "../service/vhat_server.service")
+
+  install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/../service/vhat_server.service"
+    DESTINATION "/lib/systemd/system/"
+  )
+endif(VHAT_INSTALL_SERVER_SERVICE)

@@ -1,0 +1,11 @@
+[Unit]
+Description=VHAT server service
+After=run_media_srv.service
+
+[Service]
+Type=simple
+ExecStart=@CMAKE_INSTALL_PREFIX@/bin/vhat_server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
