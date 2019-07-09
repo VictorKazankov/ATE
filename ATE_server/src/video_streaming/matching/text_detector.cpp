@@ -1,7 +1,9 @@
 #include "video_streaming/matching/text_detector.h"
 
 #include <cassert>
+#include <sstream>
 #include <utility>
+#include <vector>
 
 #include <tesseract/baseapi.h>
 #include <tesseract/resultiterator.h>
@@ -45,6 +47,16 @@ TextDetectorResultIterator::TextDetectorResultIterator(std::shared_ptr<tesseract
   ResetData();
 }
 
+TextDetectorResultIterator::TextDetectorResultIterator(std::shared_ptr<tesseract::ResultIterator> tess_result_itetator,
+                                                       tesseract::PageIteratorLevel level)
+    : level_{level} {
+  if (!tess_result_itetator) {
+    WriteErrorAndThrowInvalidArgument("Null tesseract::TessBaseAPI pointer");
+  }
+
+  tess_iter_ = tess_result_itetator;
+}
+
 TextDetectorResultIterator::reference TextDetectorResultIterator::operator*() const noexcept {
   assert(tess_iter_);
   return data_;
@@ -69,6 +81,8 @@ TextDetectorResultIterator& TextDetectorResultIterator::operator++() {
 }
 
 void TextDetectorResultIterator::ResetData() {
+  data_.tesseract_result_iterator = tess_iter_;
+
   cv::Point top_left;
   cv::Point bottom_right;
 
@@ -124,12 +138,86 @@ void TextDetector::SetImage(const cv::Mat& frame) {
                   frame.step1());
 }
 
-tesseract::PageIteratorLevel TextDetector::GetPageLevel(const std::string& text) const {
-  if (1 == text.length()) {
+tesseract::PageIteratorLevel TextDetector::GetPageLevel(const std::string& pattern) const {
+  if (1 == pattern.length()) {
     return tesseract::RIL_SYMBOL;
   }
   const auto check_space = [](char symbol) noexcept { return std::isspace(static_cast<unsigned char>(symbol)); };
-  return std::any_of(text.begin(), text.end(), check_space) ? tesseract::RIL_TEXTLINE : tesseract::RIL_WORD;
+  return std::any_of(pattern.begin(), pattern.end(), check_space) ? tesseract::RIL_TEXTLINE : tesseract::RIL_WORD;
+}
+
+cv::Rect TextDetector::GetTextCoordinates(const std::string& pattern) const {
+  const auto page_iterator_level = GetPageLevel(pattern);
+
+  const auto pattern_result_iterator = FindPattern(page_iterator_level, pattern);
+  const auto text_detector_end_iterator = TextDetectorResultIterator{};
+
+  // in case of looking for few words, first search the entrance in the whole line, then looking for desired words
+  // coordinates
+  if (page_iterator_level == tesseract::RIL_TEXTLINE && text_detector_end_iterator != pattern_result_iterator) {
+    return GetPhraseCoordinates(pattern_result_iterator->tesseract_result_iterator, pattern);
+  }
+
+  return text_detector_end_iterator == pattern_result_iterator ? cv::Rect{} : pattern_result_iterator->position;
+}
+
+const TextDetectorResultIterator TextDetector::FindPattern(const tesseract::PageIteratorLevel& page_iterator_level,
+                                                           const std::string pattern) const {
+  const auto find_string = [ this, &page_iterator_level, &pattern ](const TextObject& text_object) noexcept {
+    switch (page_iterator_level) {
+      case tesseract::RIL_WORD:
+        return text_object.confidence >= text_detector_min_confidence_ && text_object.text == pattern;
+
+      case tesseract::RIL_TEXTLINE:
+        return text_object.confidence >= text_detector_min_confidence_ &&
+               text_object.text.find(pattern) != std::string::npos;
+
+      default:
+        logger::warn("[matcher] Undefined page iterator level");
+        break;
+    }
+
+    return false;
+  };
+
+  return std::find_if(TextDetectorResultIterator{tess_, page_iterator_level}, TextDetectorResultIterator{},
+                      find_string);
+}
+
+cv::Rect TextDetector::GetPhraseCoordinates(const std::shared_ptr<tesseract::ResultIterator>& detector_result_iterator,
+                                            const std::string& pattern) const {
+  std::istringstream iss(pattern);
+  std::vector<std::string> pattern_splitted_by_words{std::istream_iterator<std::string>{iss},
+                                                     std::istream_iterator<std::string>{}};
+  auto pattern_iterator = pattern_splitted_by_words.begin();
+
+  cv::Rect first_position_at_sequence, last_position_at_sequence;
+
+  const auto sequence_end_iterator = TextDetectorResultIterator{};
+  auto sequence_iterator = TextDetectorResultIterator{detector_result_iterator, tesseract::RIL_WORD};
+
+  for (; sequence_iterator != sequence_end_iterator; ++sequence_iterator) {
+    if (sequence_iterator->text == *pattern_iterator) {
+      if (first_position_at_sequence.empty()) {
+        first_position_at_sequence = sequence_iterator->position;
+        ++pattern_iterator;
+      } else {
+        last_position_at_sequence = sequence_iterator->position;
+        break;
+      }
+    } else {
+      if (!first_position_at_sequence.empty()) {
+        first_position_at_sequence.x = first_position_at_sequence.y = first_position_at_sequence.width =
+            first_position_at_sequence.height = 0;
+        pattern_iterator = pattern_splitted_by_words.begin();
+      }
+    }
+  }
+
+  // rectangle created from the left top corner of first word at the sequence and right bottom of the last one
+  return cv::Rect(cv::Point(first_position_at_sequence.x, first_position_at_sequence.y),
+                  cv::Point(last_position_at_sequence.x + last_position_at_sequence.width,
+                            last_position_at_sequence.y + last_position_at_sequence.height));
 }
 
 cv::Rect TextDetector::Detect(const cv::Mat& frame, const std::string& pattern) {
@@ -139,14 +227,6 @@ cv::Rect TextDetector::Detect(const cv::Mat& frame, const std::string& pattern) 
     return cv::Rect();
   }
 
-  const auto find_string = [ this, &pattern ](const TextObject& text_object) noexcept {
-    return text_object.confidence >= text_detector_min_confidence_ && text_object.text == pattern;
-  };
-
-  const auto textDetectorBeginIterator = TextDetectorResultIterator{tess_, GetPageLevel(pattern)};
-  const auto textDetectorEndIterator = TextDetectorResultIterator{};
-
-  const auto it = std::find_if(textDetectorBeginIterator, textDetectorEndIterator, find_string);
-  return textDetectorEndIterator == it ? cv::Rect{} : it->position;
+  return GetTextCoordinates(pattern);
 }
 }  // namespace detector

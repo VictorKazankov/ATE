@@ -30,6 +30,11 @@ constexpr tesseract::PageIteratorLevel kDefaultComponentLevel = tesseract::RIL_B
  */
 struct TextObject {
   /**
+   * @brief Tesseract result iterator
+   */
+
+  std::shared_ptr<tesseract::ResultIterator> tesseract_result_iterator;
+  /**
    * @brief Position of the text on image
    */
   cv::Rect position;
@@ -70,6 +75,17 @@ class TextDetectorResultIterator {
    * @throws std::invalid_argument if 'tess' is null or level isn't valid
    */
   TextDetectorResultIterator(std::shared_ptr<tesseract::TessBaseAPI> tess, tesseract::PageIteratorLevel level);
+
+  /**
+   * @brief Construct TextDetectorResultIterator
+   *
+   * @param tess_result_itetator - pointer to tesseract::ResultIterator
+   * @param level - necessary granulation (e. g. cheracter, word, etc.)
+   *
+   * @throws std::invalid_argument if 'tess_result_itetator' is null or level isn't valid
+   */
+  TextDetectorResultIterator(std::shared_ptr<tesseract::ResultIterator> tess_result_itetator,
+                             tesseract::PageIteratorLevel level);
 
   /**
    * @return reference to the iterated object
@@ -120,7 +136,14 @@ static_assert(std::is_move_assignable<TextDetectorResultIterator>::value,
 class TextDetector : public Detector<std::string> {
  private:
   void SetImage(const cv::Mat& frame);
-  tesseract::PageIteratorLevel GetPageLevel(const std::string& text) const;
+
+  tesseract::PageIteratorLevel GetPageLevel(const std::string& pattern) const;
+
+  cv::Rect GetTextCoordinates(const std::string& pattern) const;
+  const TextDetectorResultIterator FindPattern(const tesseract::PageIteratorLevel& page_iterator_level,
+                                               const std::string pattern) const;
+  cv::Rect GetPhraseCoordinates(const std::shared_ptr<tesseract::ResultIterator>& detector_result_iterator,
+                                const std::string& pattern) const;
 
  public:
   /**
