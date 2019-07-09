@@ -1,0 +1,5 @@
+#!/bin/bash
+
+systemctl enable vhat_server
+systemctl start vhat_server
+
