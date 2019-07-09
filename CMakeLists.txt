@@ -21,6 +21,7 @@ message(STATUS "VHAT_WITH_TESTS: " ${VHAT_WITH_TESTS})
 message(STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
 message(STATUS "CMAKE_INSTALL_PREFIX: " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
+message(STATUS "VHAT_CREATE_DEBIAN_PACKAGE: " ${VHAT_CREATE_DEBIAN_PACKAGE})
 
 add_subdirectory(third_party)
 add_subdirectory(ATE_common/src)
@@ -46,3 +47,31 @@ if(VHAT_WITH_TESTS)
     add_subdirectory(ATE_server/test)
   endif(VHAT_BUILD_SERVER)
 endif(VHAT_WITH_TESTS)
+
+if(VHAT_CREATE_DEBIAN_PACKAGE)
+  # Unfortunately Debian package cannot be packed with an arbitrary install prefix.
+  # As the binary depends on an absolute path stored in CMAKE_INSTALL_PREFIX var.
+  set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+  set(CPACK_GENERATOR "DEB")
+  set(CPACK_PACKAGE_CONTACT "Luxoft")
+  set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+  set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+  set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, python2.7")
+  set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+  set(CPACK_DEBIAN_PACKAGE_SECTION "unknown")
+  set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Virtual HMI Automation Toolset")
+
+  if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64")
+    set(CPACK_DEBIAN_ARCHITECTURE "arm64")
+  elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "x86_64")
+    set(CPACK_DEBIAN_ARCHITECTURE "amd64")
+  else()
+    message(SEND_ERROR "Unsupported architecture for Debian package")
+  endif()
+
+  set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}_${CPACK_DEBIAN_ARCHITECTURE}")
+
+  include(CPack)
+endif(VHAT_CREATE_DEBIAN_PACKAGE)

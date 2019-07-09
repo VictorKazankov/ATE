@@ -10,6 +10,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # VHAT_BUILD_CLIENT:BOOL
 # VHAT_BUILD_SERVER:BOOL
 # VHAT_INSTALL:BOOL
+# VHAT_CREATE_DEBIAN_PACKAGE:BOOL
 # VHAT_WITH_TESTS:BOOL
 # CMAKE_BUILD_TYPE:STRING=[Debug|Release|RelWithDebInfo|MinSizeRel|…]
 # CMAKE_TOOLCHAIN_FILE:FILEPATH
@@ -19,11 +20,13 @@ if(UNIX)
   option(VHAT_BUILD_SERVER "Build VHAT server" ON)
   option(VHAT_WITH_TESTS "Build VHAT Unit Tests" ON)
   option(VHAT_INSTALL "Install VHAT" ON)
+  option(VHAT_CREATE_DEBIAN_PACKAGE "Create Debian package" ON)
 elseif(WIN32)
   option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
   option(VHAT_BUILD_SERVER "Build VHAT server" OFF) 
   option(VHAT_WITH_TESTS "Build VHAT Unit Tests" ON)
   option(VHAT_INSTALL "Install VHAT" ON)
+  option(VHAT_CREATE_DEBIAN_PACKAGE "Create Debian package" OFF)
 else()
   message(FATAL_ERROR "build.cmake only support UNIX and WIN32 build")
   RESULT_VARIABLE ("Platform is not supported")
@@ -64,6 +67,7 @@ execute_process(
       -DVHAT_BUILD_CLIENT:BOOL=${VHAT_BUILD_CLIENT}
       -DVHAT_BUILD_SERVER:BOOL=${VHAT_BUILD_SERVER}
       -DVHAT_WITH_TESTS:BOOL=${VHAT_WITH_TESTS}
+      -DVHAT_CREATE_DEBIAN_PACKAGE:BOOL=${VHAT_CREATE_DEBIAN_PACKAGE}
 
   RESULT_VARIABLE GENERATING_RETURN
 )
@@ -97,3 +101,17 @@ if(VHAT_INSTALL)
     message(FATAL_ERROR "VHAT installing terminated with failure. Return code: " ${INSTALLING_RETURN})
   endif()
 endif(VHAT_INSTALL)
+
+if(VHAT_CREATE_DEBIAN_PACKAGE)
+  execute_process(
+    COMMAND
+      "${CMAKE_COMMAND}" -E chdir "${VHAT_BUILD_ROOT}"
+      cpack
+
+    RESULT_VARIABLE PACK_RETURN
+  )
+
+  if(NOT 0 EQUAL ${PACK_RETURN})
+    message(FATAL_ERROR "VHAT pack terminated with failure. Return code: " ${PACK_RETURN})
+  endif()
+endif(VHAT_CREATE_DEBIAN_PACKAGE)
