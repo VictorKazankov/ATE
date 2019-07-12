@@ -173,6 +173,7 @@ const TextDetectorResultIterator TextDetector::FindPattern(const tesseract::Page
                                                            const std::string pattern) const {
   const auto find_string = [ this, &page_iterator_level, &pattern ](const TextObject& text_object) noexcept {
     switch (page_iterator_level) {
+      case tesseract::RIL_SYMBOL:
       case tesseract::RIL_WORD:
         return text_object.confidence >= text_detector_min_confidence_ && text_object.text == pattern;
 
