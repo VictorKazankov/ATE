@@ -84,8 +84,7 @@ class TextDetectorResultIterator {
    *
    * @throws std::invalid_argument if 'tess_result_itetator' is null or level isn't valid
    */
-  TextDetectorResultIterator(std::shared_ptr<tesseract::ResultIterator> tess_result_itetator,
-                             tesseract::PageIteratorLevel level);
+  TextDetectorResultIterator(tesseract::ResultIterator* tess_result_itetator, tesseract::PageIteratorLevel level);
 
   /**
    * @return reference to the iterated object
@@ -135,15 +134,41 @@ static_assert(std::is_move_assignable<TextDetectorResultIterator>::value,
  */
 class TextDetector : public Detector<std::string> {
  private:
+  using position_data = std::pair<size_t, TextObject>;
+  using value_metadata = std::pair<std::string, position_data>;
+
+ private:
   void SetImage(const cv::Mat& frame);
 
   tesseract::PageIteratorLevel GetPageLevel(const std::string& pattern) const;
 
   cv::Rect GetTextCoordinates(const std::string& pattern) const;
+
+  /**
+   * @brief Performs a simple search of pattern at the text, detected by tesseract
+   * @return iterator with found data 
+   */
   const TextDetectorResultIterator FindPattern(const tesseract::PageIteratorLevel& page_iterator_level,
                                                const std::string pattern) const;
-  cv::Rect GetPhraseCoordinates(const std::shared_ptr<tesseract::ResultIterator>& detector_result_iterator,
-                                const std::string& pattern) const;
+
+  /**
+   * @brief Looks for a sequence of words which should be found at the line
+   * @param preprocessed_line - source line
+   * @param pattern - pattern for search
+   * @return rectangle with searched sequence
+   */
+  cv::Rect GetPhraseCoordinates(const std::vector<value_metadata>& preprocessed_line,
+                                const std::vector<std::string>& pattern) const;
+
+  /**
+   * @brief PreprocessLine goes through the line and picks words from desired_words variable out with their metadata
+   * (position, index at the line. etc.)
+   * @param detector_result_iterator - line for looking desired_words at it
+   * @param desired_words - words should be found
+   * @return vector with metadata for searched words
+   */
+  std::vector<value_metadata> PreprocessLine(const std::shared_ptr<tesseract::ResultIterator>& detector_result_iterator,
+                                             const std::vector<std::string>& desired_words) const;
 
  public:
   /**
@@ -160,6 +185,7 @@ class TextDetector : public Detector<std::string> {
    * @param frame - video frame received from Sync (single channel matrix)
    * @param pattern - text pattern to be detected
    * @throws std::invalid_argument if
+   * - 'text' is empty
    * - 'image' is empty
    * - 'image' matrix isn't 2-dimensional
    * - 'image' isn't 1 or 3 channel with 8 bits per channel

@@ -37,7 +37,7 @@ TextDetectorResultIterator::TextDetectorResultIterator(std::shared_ptr<tesseract
     logger::warn("{}tesseract::TessBaseAPI::GetIterator return a null pointer", kLoggingCategoryPrefix);
     return;
   }
-  auto safe_deleter = [tess = std::move(tess)](tesseract::ResultIterator * iter) noexcept { delete iter; };
+  auto safe_deleter = [](tesseract::ResultIterator * iter) noexcept { delete iter; };
   std::unique_ptr<tesseract::ResultIterator, decltype(safe_deleter)> iter{unsafe_iter, std::move(safe_deleter)};
   if (iter->Empty(level)) {
     // Construct a not dereferenceable iterator
@@ -47,14 +47,15 @@ TextDetectorResultIterator::TextDetectorResultIterator(std::shared_ptr<tesseract
   ResetData();
 }
 
-TextDetectorResultIterator::TextDetectorResultIterator(std::shared_ptr<tesseract::ResultIterator> tess_result_itetator,
+TextDetectorResultIterator::TextDetectorResultIterator(tesseract::ResultIterator* tess_result_itetator,
                                                        tesseract::PageIteratorLevel level)
     : level_{level} {
   if (!tess_result_itetator) {
     WriteErrorAndThrowInvalidArgument("Null tesseract::TessBaseAPI pointer");
   }
 
-  tess_iter_ = tess_result_itetator;
+  tess_iter_ = std::make_shared<tesseract::ResultIterator>(*tess_result_itetator);
+  ResetData();
 }
 
 TextDetectorResultIterator::reference TextDetectorResultIterator::operator*() const noexcept {
@@ -155,7 +156,14 @@ cv::Rect TextDetector::GetTextCoordinates(const std::string& pattern) const {
   // in case of looking for few words, first search the entrance in the whole line, then looking for desired words
   // coordinates
   if (page_iterator_level == tesseract::RIL_TEXTLINE && text_detector_end_iterator != pattern_result_iterator) {
-    return GetPhraseCoordinates(pattern_result_iterator->tesseract_result_iterator, pattern);
+    std::istringstream iss(pattern);
+    std::vector<std::string> pattern_splitted_by_words{std::istream_iterator<std::string>{iss},
+                                                       std::istream_iterator<std::string>{}};
+
+    std::vector<value_metadata> preprocessed_line =
+        PreprocessLine(pattern_result_iterator->tesseract_result_iterator, pattern_splitted_by_words);
+
+    return GetPhraseCoordinates(preprocessed_line, pattern_splitted_by_words);
   }
 
   return text_detector_end_iterator == pattern_result_iterator ? cv::Rect{} : pattern_result_iterator->position;
@@ -173,7 +181,7 @@ const TextDetectorResultIterator TextDetector::FindPattern(const tesseract::Page
                text_object.text.find(pattern) != std::string::npos;
 
       default:
-        logger::warn("[matcher] Undefined page iterator level");
+        logger::warn("{}Undefined page iterator level", kLoggingCategoryPrefix);
         break;
     }
 
@@ -184,32 +192,101 @@ const TextDetectorResultIterator TextDetector::FindPattern(const tesseract::Page
                       find_string);
 }
 
-cv::Rect TextDetector::GetPhraseCoordinates(const std::shared_ptr<tesseract::ResultIterator>& detector_result_iterator,
-                                            const std::string& pattern) const {
-  std::istringstream iss(pattern);
-  std::vector<std::string> pattern_splitted_by_words{std::istream_iterator<std::string>{iss},
-                                                     std::istream_iterator<std::string>{}};
-  auto pattern_iterator = pattern_splitted_by_words.begin();
+std::vector<TextDetector::value_metadata> TextDetector::PreprocessLine(
+    const std::shared_ptr<tesseract::ResultIterator>& detector_result_iterator,
+    const std::vector<std::string>& desired_words) const {
+  size_t ordinal_index{0};
+  std::vector<value_metadata> found_result;
 
-  cv::Rect first_position_at_sequence, last_position_at_sequence;
+  const auto get_words_and_positions = [&found_result, &desired_words, &ordinal_index](const TextObject& text_object) {
+    bool store_word;
+    const auto last_it_in_sequence{desired_words.rbegin().base() - 1};
+
+    for (auto it = desired_words.begin(); it != desired_words.end(); ++it) {
+      store_word = text_object.text == *it ? true : false;
+
+      if (!store_word && (it == desired_words.begin() || it == last_it_in_sequence)) {
+        // at the first and last words could be missed beginning and end respectively
+        std::size_t word_position = text_object.text.find(*it);
+        // beginning of the first word was missed
+        if (it == desired_words.begin() && word_position != 0 &&
+            (word_position + (*it).length() == text_object.text.length())) {
+          store_word = true;
+        } else {
+          // end of last word was missed
+          if (it == last_it_in_sequence && word_position == 0) {
+            store_word = true;
+          }
+        }
+      }
+
+      if (store_word) {
+        logger::debug("{}Found pattern word '{}' with index position {}", kLoggingCategoryPrefix, *it, ordinal_index);
+        found_result.emplace_back(std::make_pair(*it, std::make_pair(ordinal_index, text_object)));
+      }
+    }
+
+    ++ordinal_index;
+  };
 
   const auto sequence_end_iterator = TextDetectorResultIterator{};
-  auto sequence_iterator = TextDetectorResultIterator{detector_result_iterator, tesseract::RIL_WORD};
+  auto sequence_iterator = TextDetectorResultIterator{detector_result_iterator.get(), tesseract::RIL_WORD};
 
-  for (; sequence_iterator != sequence_end_iterator; ++sequence_iterator) {
-    if (sequence_iterator->text == *pattern_iterator) {
-      if (first_position_at_sequence.empty()) {
-        first_position_at_sequence = sequence_iterator->position;
-        ++pattern_iterator;
+  std::for_each(sequence_iterator, sequence_end_iterator, get_words_and_positions);
+
+  return found_result;
+}  // namespace detector
+
+cv::Rect TextDetector::GetPhraseCoordinates(const std::vector<value_metadata>& preprocessed_line,
+                                            const std::vector<std::string>& pattern) const {
+  cv::Rect first_position_at_sequence, last_position_at_sequence;
+  int previous_word_index{-1};
+
+  if (preprocessed_line.size() == pattern.size()) {
+    // found words as much as need without duplicates
+    first_position_at_sequence = preprocessed_line.begin()->second.second.position;
+    last_position_at_sequence = preprocessed_line.rbegin()->second.second.position;
+  } else {
+    auto pattern_it = pattern.begin();
+
+    for (auto results_it = preprocessed_line.begin(); results_it != preprocessed_line.end(); ++results_it) {
+      size_t step_between_words = results_it->second.first - previous_word_index;
+      bool is_words_are_neighboring = (previous_word_index >= 0) ? step_between_words == 1 : true;
+
+      // a word found and it next to the previous one
+      if (std::string::npos != results_it->second.second.text.find(*pattern_it) && is_words_are_neighboring) {
+        // the first word in the search sequence
+        if (pattern_it == pattern.begin()) {
+          first_position_at_sequence = results_it->second.second.position;
+          logger::debug("{}The first word of sequence '{}' index at line {}", kLoggingCategoryPrefix,
+                        results_it->second.second.text, results_it->second.first);
+        } else {
+          // the last word in the search sequence
+          if (*pattern_it == *pattern.rbegin()) {
+            last_position_at_sequence = results_it->second.second.position;
+            logger::debug("{}The last word of sequence '{}' index at line {}", kLoggingCategoryPrefix,
+                          results_it->second.second.text, results_it->second.first);
+            break;
+          }
+        }
+
+        previous_word_index = results_it->second.first;
+        ++pattern_it;
       } else {
-        last_position_at_sequence = sequence_iterator->position;
-        break;
-      }
-    } else {
-      if (!first_position_at_sequence.empty()) {
-        first_position_at_sequence.x = first_position_at_sequence.y = first_position_at_sequence.width =
-            first_position_at_sequence.height = 0;
-        pattern_iterator = pattern_splitted_by_words.begin();
+        if (!first_position_at_sequence.empty()) {
+          // two identical words in a row next to each other, changing out first found word with that
+          if (results_it->second.second.text == *pattern.begin()) {
+            first_position_at_sequence = results_it->second.second.position;
+            previous_word_index = results_it->second.first;
+          } else {
+            // nothing was found, so settings are resetting
+            logger::debug("{}Reset found words settings", kLoggingCategoryPrefix);
+            previous_word_index = -1;
+            pattern_it = pattern.begin();
+            first_position_at_sequence.x = first_position_at_sequence.y = first_position_at_sequence.width =
+                first_position_at_sequence.height = 0;
+          }
+        }
       }
     }
   }
@@ -218,9 +295,15 @@ cv::Rect TextDetector::GetPhraseCoordinates(const std::shared_ptr<tesseract::Res
   return cv::Rect(cv::Point(first_position_at_sequence.x, first_position_at_sequence.y),
                   cv::Point(last_position_at_sequence.x + last_position_at_sequence.width,
                             last_position_at_sequence.y + last_position_at_sequence.height));
-}
+}  // namespace detector
 
 cv::Rect TextDetector::Detect(const cv::Mat& frame, const std::string& pattern) {
+  if (pattern.empty()) {
+    const std::string msg = "Nothing to detect, pattern is empty";
+    logger::warn("{}{}", kLoggingCategoryPrefix, msg);
+    throw std::invalid_argument{msg};
+  }
+
   SetImage(frame);
 
   if (tess_->Recognize(nullptr)) {
