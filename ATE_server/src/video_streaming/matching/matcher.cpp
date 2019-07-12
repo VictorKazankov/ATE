@@ -86,6 +86,7 @@ cv::Rect Matcher::MatchImage(const std::string& object, const std::string& objec
 
 cv::Rect Matcher::MatchText(const std::string& text) {
   if (text.empty() || !GrabNewFrame()) {
+    logger::error("[matcher] The search text is empty");
     return cv::Rect{};
   }
 

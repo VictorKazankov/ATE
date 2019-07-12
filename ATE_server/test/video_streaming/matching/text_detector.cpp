@@ -63,11 +63,13 @@ TEST(TextDetectorUtilsTest, IteratorStdAlgorithms) {
   EXPECT_EQ(find_result, TextDetectorResultIterator{});
 }
 
-TEST_F(TextDetectorTest, DetectNoTextToDetectException) {
-  EXPECT_THROW(text_detector_->Detect(cv::Mat{}, ""), std::invalid_argument);
+TEST_F(TextDetectorTest, Detect_NoTextToDetect_Exception) {
+  const cv::Mat frame =
+      cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/key_1_active.png", cv::IMREAD_COLOR);
+  EXPECT_THROW(text_detector_->Detect(frame, ""), std::invalid_argument);
 }
 
-TEST_F(TextDetectorTest, DetectBadImagesException) {
+TEST_F(TextDetectorTest, Detect_BadImages_Exception) {
   const auto multi_dim_image_sizes = {1, 1, 1};
 
   // invalid_images[0] - Empty image
@@ -92,45 +94,57 @@ void RecognizeImageBaseTest(std::unique_ptr<detector::TextDetector> text_detecto
   EXPECT_LE(distance, kHausdorffThreshold) << "Rectangles must be approximately equal";
 }
 
-TEST_F(TextDetectorTest, DetectTextAudioFrequencySuccess) {
+TEST_F(TextDetectorTest, Detect_TextAudioFrequency_Success) {
   const TestTextObject expected_object = {{cv::Point{39, 19}, cv::Size{120, 24}}, "Frequency"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/audio_frequency.png", expected_object);
 }
 
-TEST_F(TextDetectorTest, DetectTextClimateDualSuccess) {
+TEST_F(TextDetectorTest, Detect_TextClimateDual_Success) {
   const TestTextObject expected_object = {{cv::Point{55, 17}, cv::Size{67, 20}}, "DUAL"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/climate_dual.png", expected_object);
 }
 
-TEST_F(TextDetectorTest, DetectTextKeyActiveZeroSuccess) {
+TEST_F(TextDetectorTest, Detect_TextKeyActiveZero_Success) {
   const TestTextObject expected_object = {{cv::Point{30, 15}, cv::Size{13, 19}}, "0"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/key_0_active.png", expected_object);
 }
 
-TEST_F(TextDetectorTest, DetectTextKeyActiveOneSuccess) {
+TEST_F(TextDetectorTest, Detect_TextKeyActiveOne_Success) {
   const TestTextObject expected_object = {{cv::Point{32, 17}, cv::Size{8, 18}}, "1"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/key_1_active.png", expected_object);
 }
 
-TEST_F(TextDetectorTest, DetectTextKeyActiveMSuccess) {
+TEST_F(TextDetectorTest, Detect_TextKeyActiveM_Success) {
   const TestTextObject expected_object = {{cv::Point{25, 17}, cv::Size{19, 19}}, "M"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/key_m_active.png", expected_object);
 }
 
-TEST_F(TextDetectorTest, DetectTextTimeAMPeriodSuccess) {
+TEST_F(TextDetectorTest, Detect_TextTimeAMPeriod_Success) {
   const TestTextObject expected_object = {{cv::Point{14, 18}, cv::Size{38, 19}}, "AM"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/time_am_period.png", expected_object);
 }
 
-TEST_F(TextDetectorTest, DetectTextTimePMPeriodSuccess) {
+TEST_F(TextDetectorTest, Detect_TextTimePMPeriod_Success) {
   const TestTextObject expected_object = {{cv::Point{16, 19}, cv::Size{36, 19}}, "PM"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/time_pm_period.png", expected_object);
+}
+
+TEST_F(TextDetectorTest, Detect_PhraseMobileApp_Success) {
+  const TestTextObject expected_object = {cv::Rect{722, 159, 236, 42}, "Mobile App"};
+  RecognizeImageBaseTest(std::move(text_detector_),
+                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/few_words.png", expected_object);
+}
+
+TEST_F(TextDetectorTest, Detect_PhraseFindMobiWithMissedEndOfTheLastWord_Success) {
+  const TestTextObject expected_object = {cv::Rect{395, 159, 222, 35}, "Find Mobi"};
+  RecognizeImageBaseTest(std::move(text_detector_),
+                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/few_words.png", expected_object);
 }
 }  // namespace

@@ -300,9 +300,7 @@ cv::Rect TextDetector::GetPhraseCoordinates(const std::vector<value_metadata>& p
 
 cv::Rect TextDetector::Detect(const cv::Mat& frame, const std::string& pattern) {
   if (pattern.empty()) {
-    const std::string msg = "Nothing to detect, pattern is empty";
-    logger::warn("{}{}", kLoggingCategoryPrefix, msg);
-    throw std::invalid_argument{msg};
+    WriteErrorAndThrowInvalidArgument("Nothing to detect, pattern is empty");
   }
 
   SetImage(frame);
