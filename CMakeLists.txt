@@ -10,6 +10,21 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING
 set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
   "Default value for CXX_STANDARD_REQUIRED property of targets")
 
+#------------------------------------------ cmake includes ------------------------------------------#
+# cmake functions
+include(${PROJECT_SOURCE_DIR}/infrastructure/cmake/functions/functions.cmake)
+
+#------------------------------------------ compiler flags ------------------------------------------#
+if(UNIX)
+  add_cxx_compiler_flag(-Wall)
+  add_cxx_compiler_flag(-Wextra)
+  add_cxx_compiler_flag(-pedantic)
+  add_cxx_compiler_flag(-Werror)
+endif(UNIX)
+
+# BUILD_SHARED_LIBS=ON necessary for building shared gtest library
+option(BUILD_SHARED_LIBS "Build shared libs by default" ON)
+
 option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
@@ -35,7 +50,10 @@ if(VHAT_BUILD_CLIENT)
   add_subdirectory(ATE_client/src)
 endif(VHAT_BUILD_CLIENT)
 
+#------------------------------------------ unit tests ------------------------------------------#
 if(VHAT_WITH_TESTS)
+  find_package(GTest REQUIRED)
+
   # Enable testing via CTest
   # https://cmake.org/cmake/help/latest/manual/ctest.1.html
   include(CTest)
