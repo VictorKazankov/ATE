@@ -13,6 +13,7 @@
 #include "utils/defines.h"
 #include "video_streaming/matching/template_detector.h"
 #include "video_streaming/matching/text_detector.h"
+#include "video_streaming/matching/text_detector_decorator.h"
 #include "video_streaming/streamer.h"
 #include "video_streaming/streamer_factory.h"
 
@@ -35,9 +36,14 @@ Matcher::Matcher()
   if (tessdata_prefix.empty()) {
     logger::warn("[matcher] TESSDATA_PREFIX isn't present in config. Possible problems with text detection");
   }
-  text_detector_ = std::make_unique<TextDetector>(
-      common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption, kDefaultTextDetectorConfidence),
-      tessdata_prefix.c_str());
+
+  // text detector section
+  text_detector_ = std::make_unique<TextDetectorDecorator>(
+      std::make_unique<TextDetector>(common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
+                                                                kDefaultTextDetectorConfidence),
+                                     tessdata_prefix.c_str()),
+      common::Config().GetString(defines::kDBSection, defines::kTargetOption, {}),
+      common::Config().GetString(defines::kTextDetectorSection, defines::kTextDetectorOptimizationLevel, ""));
 }
 
 Matcher::~Matcher() = default;

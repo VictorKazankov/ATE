@@ -36,6 +36,7 @@ constexpr auto kTextDetectorSection = "TEXT_DETECTOR";
 constexpr auto kTextDetectorConfidenceOption = "Confidence";
 constexpr double kDefaultTextDetectorConfidence = 0.;
 constexpr auto kTessDataOption = "TESSDATA_PREFIX";
+constexpr auto kTextDetectorOptimizationLevel = "OptimizationLevel";
 
 constexpr auto kVdp = "VDP";
 constexpr auto kSpi = "SPI";

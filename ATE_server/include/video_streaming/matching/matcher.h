@@ -6,6 +6,7 @@
 #include <opencv2/core/mat.hpp>
 
 #include "detector.h"
+#include "text_detector_decorator.h"
 #include "utils/screenshot_recorder.h"
 
 namespace streamer {
@@ -22,8 +23,8 @@ class Matcher {
  private:
   std::unique_ptr<streamer::Streamer> streamer_;
   std::unique_ptr<Detector<cv::Mat>> image_detector_;
-  std::unique_ptr<Detector<std::string>> text_detector_;
   std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
+  std::unique_ptr<Detector<std::string>> text_detector_;
 
   // Cache images
   cv::Mat screen_;
@@ -34,6 +35,12 @@ class Matcher {
  public:
   Matcher();
   ~Matcher();
+
+  // disable copy and move
+  Matcher(const Matcher&) = delete;
+  Matcher(Matcher&&) = delete;
+  Matcher& operator=(const Matcher&) = delete;
+  Matcher& operator=(Matcher&&) = delete;
 
   /**
    * @brief DetectImage privide detection of pattern on TDK screen
