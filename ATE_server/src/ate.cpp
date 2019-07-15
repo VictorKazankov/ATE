@@ -9,7 +9,6 @@
 #include "interaction/dummy/dummy_interaction.h"
 #include "logger/logger.h"
 #include "storage/json_storage.h"
-#include "utils/ate_server_app_context.h"
 #include "utils/defines.h"
 
 namespace {
@@ -48,8 +47,8 @@ std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& 
 }
 }  // namespace
 
-ATE::ATE(const utils::ATEServerAppContext& app_context, boost::asio::io_context& io_context)
-    : storage_{std::make_unique<storage::JsonStorage>(app_context.StorageDir())},
+ATE::ATE(boost::asio::io_context& io_context)
+    : storage_{std::make_unique<storage::JsonStorage>(VHAT_SERVER_STORAGE_DIR "/icon_storage")},
       interaction_{InteractionFactory(common::Config().GetString(defines::kInteraction, defines::kInteractionType, ""),
                                       io_context)} {
   if (!storage_->LoadCollection(common::Config().GetString(defines::kDBSection, defines::kTargetOption, {}),

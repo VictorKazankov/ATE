@@ -11,10 +11,6 @@
 #include "tcp_connection.h"
 #include "tcp_session_handler.h"
 
-namespace utils {
-class ATEServerAppContext;
-}  // namespace utils
-
 namespace interaction {
 
 /**
@@ -35,8 +31,7 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientM
    * @param port - value of tcp accepting port
    * @return pointer to created server instance
    */
-  static std::shared_ptr<TcpServer> Create(const utils::ATEServerAppContext& app_context,
-                                           boost::asio::io_context& service, uint16_t port);
+  static std::shared_ptr<TcpServer> Create(boost::asio::io_context& service, uint16_t port);
 
   /**
    * @brief Start running of the TCP server
@@ -56,7 +51,7 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientM
    * @param port - value of tcp accepting port
    * @return pointer to created server instance
    */
-  TcpServer(const utils::ATEServerAppContext& app_context, boost::asio::io_context& service, uint16_t port);
+  TcpServer(boost::asio::io_context& service, uint16_t port);
 
   /**
    * @brief Accept new client connections
