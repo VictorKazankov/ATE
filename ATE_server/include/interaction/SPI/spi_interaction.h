@@ -15,8 +15,14 @@ namespace interaction {
  */
 class SpiInteraction : public Interaction {
  public:
-  SpiInteraction(const std::string& devece_address, defines::DisplayType /*display_type*/);
+  SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/);
   ~SpiInteraction();
+
+  // Disable copy and move
+  SpiInteraction(const SpiInteraction&) = delete;
+  SpiInteraction(SpiInteraction&&) = delete;
+  SpiInteraction& operator=(const SpiInteraction&) = delete;
+  SpiInteraction& operator=(SpiInteraction&&) = delete;
 
   /**
    * @brief Taps screen (press + release) at x,y coordinates
@@ -46,10 +52,11 @@ class SpiInteraction : public Interaction {
    **/
   void Drag(const int x, const int y) const override;
 
-
  private:
   enum MouseEvent { MouseEvent_Press = 'P', MouseEvent_Release = 'R', MouseEvent_Move = 'M' };
   int m_spi_;
+  // dummy for unit_test
+  const bool need_bus_configuring_ = true;
 
   void SendEvent(SpiInteraction::MouseEvent evt, int x, int y) const;
   void SendPacket(std::vector<char>& data) const;

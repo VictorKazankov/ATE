@@ -23,19 +23,22 @@ bool CheckResolution(size_t x, size_t y) { return !(x > kWidth || y > kHeight); 
 
 namespace interaction {
 
-SpiInteraction::SpiInteraction(const std::string& devece_address, defines::DisplayType /*display_type*/) {
-  m_spi_ = open(devece_address.c_str(), O_RDWR);
+SpiInteraction::SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/) {
+  m_spi_ = open(device_address.c_str(), O_RDWR);
 
   if (m_spi_ < 0) {
-    logger::error("[spiinteraction] Error open spi: {}", devece_address);
+    logger::error("[spiinteraction] Error open spi: {}", device_address);
     close(m_spi_);
     throw SpiOpenFailure{};
   }
 
-  if (ioctl(m_spi_, SPI_IOC_WR_MAX_SPEED_HZ, &kDefaultSpeed) < 0) {
-    logger::error("[spiinteraction] Error set speed");
-    close(m_spi_);
-    throw SpiOpenFailure{};
+  // configure bus
+  if (need_bus_configuring_) {
+    if (ioctl(m_spi_, SPI_IOC_WR_MAX_SPEED_HZ, &kDefaultSpeed) < 0) {
+      logger::error("[spiinteraction] Error set speed");
+      close(m_spi_);
+      throw SpiOpenFailure{};
+    }
   }
 }
 

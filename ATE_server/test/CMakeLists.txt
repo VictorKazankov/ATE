@@ -16,6 +16,7 @@ add_executable(vhat_server_test
   video_streaming/matching/hausdorff_distance.cpp
   video_streaming/matching/template_detector.cpp
   video_streaming/matching/text_detector.cpp
+  interaction/SPI/spi_interaction.cpp
 )
 
 target_compile_definitions(vhat_server_test
