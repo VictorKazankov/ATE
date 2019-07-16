@@ -63,10 +63,13 @@
 {"name":"time_pm_period","location":"day_mode/time_pm_period.png"},
 {"name":"up_active","location":"day_mode/up_active.png"},
 {"name":"guidance_prompts_voice","location":"day_mode/guidance_prompts_voice.png"},
+{"name":"guidance_prompts_voice_active","location":"day_mode/guidance_prompts_voice_active.png"},
 {"name":"guidance_prompts_plus","location":"day_mode/guidance_prompts_plus.png"},
+{"name":"guidance_prompts_plus_active","location":"day_mode/guidance_prompts_plus_active.png"},
 {"name":"guidance_prompts_chimes_active","location":"day_mode/guidance_prompts_chimes_active.png"},
 {"name":"exclamation_icon","location":"day_mode/exclamation_icon.png"},
 {"name":"down_airflow","location":"day_mode/down_airflow.png"},
+{"name":"down_airflow_active","location":"day_mode/down_airflow_active.png"},
 {"name":"defrost","location":"day_mode/defrost.png"},
 {"name":"max_front_heating_inactive","location":"day_mode/max_front_heating_inactive.png"},
 {"name":"front_heating","location":"day_mode/front_heating.png"},
@@ -83,6 +86,8 @@
 {"name":"down_arrow_small","location":"day_mode/down_arrow_small.png"},
 {"name":"radio","location":"day_mode/radio.png"},
 {"name":"top_airflow","location":"day_mode/top_airflow.png"},
+{"name":"top_airflow_active","location":"day_mode/top_airflow_active.png"},
 {"name":"settings_sound","location":"day_mode/settings_sound.png"},
-{"name":"up_inactive","location":"day_mode/up_inactive.png"}]
-
+{"name":"up_inactive","location":"day_mode/up_inactive.png"},
+{"name":"a_c_active","location":"day_mode/a_c_active.png"},
+{"name":"medium","location":"day_mode/medium.png"}]

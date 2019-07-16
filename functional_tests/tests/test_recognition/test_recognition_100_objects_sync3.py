@@ -36,6 +36,10 @@ def navigation_settings_page(counter, driver):
     helpers.get_result_recognition(constants.MAP_PREFERENCES_TEXT, counter)
     helpers.get_result_recognition(constants.ROUTE_PREFERENCES_TEXT, counter)
     helpers.get_result_recognition(constants.NAVIGATION_PREFERENCES_TEXT, counter)
+    driver.settings_navigation_page.open_map_preferences_page()
+    helpers.get_result_recognition(constants.CITY_MODEL, counter)
+    helpers.get_result_recognition(constants.BREADCRUMBS, counter)
+    driver.settings_radio_page.tap_on_back_button()
     driver.settings_navigation_page.open_route_preferences_page()
     helpers.get_result_recognition(constants.ROUTE_PREFERENCES_TEXT, counter)
     helpers.get_result_recognition(constants.PREFERRED_ROUTE_TEXT, counter)
@@ -57,9 +61,9 @@ def navigation_settings_page(counter, driver):
     helpers.get_result_recognition(constants.VOICE_CHIMES_TEXT, counter)
     helpers.get_result_recognition(constants.VOICE_ONLY_TEXT, counter)
     helpers.get_result_recognition(constants.CHIMES_ONLY_TEXT, counter)
+    helpers.get_result_recognition(constants.VOICE_ICON_ACTIVE, counter)
     helpers.get_result_recognition(constants.VOICE_ICON, counter)
     helpers.get_result_recognition(constants.PLUS_ICON, counter)
-    helpers.get_result_recognition(constants.CHIMES_ICON, counter)
     helpers.get_result_recognition(constants.BACK_PROPERTY, counter)
     driver.settings_navigation_page.tap_on_back_property_button_on_guidance_prompts_page()
     driver.settings_navigation_page.tap_on_back_button()
@@ -91,7 +95,7 @@ def clock_settings_page(counter, driver):
     helpers.get_result_recognition(constants.CLOCK_SETTINGS_TITLE_TEXT, counter)
     if not driver.settings_clock_page.clock_12h_button_is_active():
         driver.settings_clock_page.tap_on_24h_button()
-    helpers.get_result_recognition(constants.CLOCK_FORMAT_12H_TEXT, counter)
+    helpers.get_result_recognition(constants.CLOCK_SETTINGS_12H, counter)
     helpers.get_result_recognition(constants.CLOCK_PM_PERIOD_TEXT, counter)
     helpers.get_result_recognition(constants.CLOCK_SWITCH_OFF, counter)
     helpers.get_result_recognition(constants.CLOCK_FORMAT_TEXT, counter)
@@ -163,10 +167,10 @@ def climate_page(counter, driver):
     helpers.get_result_recognition(constants.DUAL_TEXT, counter)
     helpers.get_result_recognition(constants.CLIMATE_ARROW_UP, counter)
     helpers.get_result_recognition(constants.CLIMATE_ARROW_DOWN, counter)
-    helpers.get_result_recognition(constants.DEFROST_TEXT, counter)
-    helpers.get_result_recognition(constants.TOP_AIRFLOW_BUTTON, counter)
-    helpers.get_result_recognition(constants.DOWN_AIRFLOW_BUTTON, counter)
-    helpers.get_result_recognition(constants.AC_TEXT, counter)
+    helpers.get_result_recognition(constants.DEFROST, counter)
+    helpers.get_result_recognition(constants.TOP_AIRFLOW_ACTIVE_BUTTON, counter)
+    helpers.get_result_recognition(constants.DOWN_AIRFLOW_ACTIVE_BUTTON, counter)
+    helpers.get_result_recognition(constants.A_C_ACTIVE, counter)
     # Go to Defrost controls panel
     driver.climat_page.tap_on_climate_defrost_button()
     helpers.get_result_recognition(constants.DEFROST_CONTROLS_TEXT, counter)
@@ -196,7 +200,6 @@ def home_page(counter):
     helpers.get_result_recognition(constants.INACTIVE_SETTINGS_PAGE_BUTTON, counter)
     helpers.get_result_recognition(constants.EXCLAMATION_ICON, counter)
     helpers.get_result_recognition(constants.NAVIGATION_FAULT_TEXT, counter)
-    helpers.get_result_recognition(constants.CONNECTING_PHONE_TEXT, counter)
 
 
 def check_recognition(counter):

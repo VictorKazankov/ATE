@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 from functional_tests.pages import hmi
 from functional_tests.utils.sync3 import constants
@@ -119,10 +120,10 @@ class SettingsClockPage:
         return check_visibility(constants.CLOCK_SETTINGS_TITLE_TEXT)
 
     def clock_12h_button_is_active(self):
-        return check_visibility(constants.CLOCK_SETTINGS_12H_TEXT)
+        return check_visibility(constants.CLOCK_SETTINGS_12H)
 
     def tap_on_24h_button(self):
-        tap(constants.CLOCK_SETTINGS_24H_TEXT)
+        tap(constants.CLOCK_SETTINGS_24H)
 
     def open_information_dialog(self):
         tap(constants.INFORMATION_DIALOG_BUTTON)
@@ -166,6 +167,9 @@ class SettingsNavigationPage:
     def settings_navigation_page_is_active(self):
         return check_visibility(constants.SETTINGS_NAVIGATION_TEXT)
 
+    def open_map_preferences_page(self):
+        tap(constants.MAP_PREFERENCES_TEXT)
+
     def open_route_preferences_page(self):
         tap(constants.ROUTE_PREFERENCES_TEXT)
 
@@ -208,6 +212,7 @@ def tap_if_visible(name):
     obj = check_visibility(name)
     if obj:
         hmi.tap_object(obj)
+        sleep(1)
         logging.info("Tap on x:{}, y:{}".format(obj.x, obj.y))
         return True
     return False
