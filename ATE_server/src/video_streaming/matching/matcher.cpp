@@ -22,7 +22,7 @@ using namespace defines;
 
 Matcher::Matcher()
     : streamer_{streamer::MakeStreamer()}, image_detector_{std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
-          kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence)))} {
+          kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence))} {
   try {
     screenshot_recorder_ = std::make_unique<utils::ScreenshotRecorder>(
         common::Config().GetBool(kScreenshotRecorderSection, kScreenshotOption, false),

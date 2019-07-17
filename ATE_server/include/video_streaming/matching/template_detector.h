@@ -12,6 +12,9 @@ namespace detector {
  *  based on TM_CCOEFF_NORMED algorithm.
  **/
 class TemplateDetector : public Detector<cv::Mat> {
+ private:
+  double confidence_;
+
  public:
   /**
    * @param confidence - confidence for recognition
