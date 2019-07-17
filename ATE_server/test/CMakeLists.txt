@@ -11,6 +11,7 @@ link_directories(
 
 add_executable(vhat_server_test
   storage/json_storage.cpp
+  utils/file_descriptor.cpp
   utils/safe_env.cpp
   video_streaming/matching/hausdorff_distance.cpp
   video_streaming/matching/template_detector.cpp
