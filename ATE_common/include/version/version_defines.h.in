@@ -1,0 +1,10 @@
+#ifndef ATE_COMMON_VERSION_DEFINES_H_
+#define ATE_COMMON_VERSION_DEFINES_H_
+
+namespace version {
+  constexpr int kMajor = @PROJECT_VERSION_MAJOR@;
+  constexpr int kMinor = @PROJECT_VERSION_MINOR@;
+  constexpr int kPatch = @PROJECT_VERSION_PATCH@;
+}  // namespace version
+
+#endif  // ATE_COMMON_VERSION_DEFINES_H_

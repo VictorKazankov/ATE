@@ -12,9 +12,12 @@ add_library(vhat_common
     common.cpp
 )
 
+configure_file(../include/version/version_defines.h.in ../include/version/version_defines.h)
+
 target_include_directories(vhat_common
   PUBLIC
     ../include
+    "${CMAKE_CURRENT_BINARY_DIR}/../include"
 )
 
 target_link_libraries(vhat_common

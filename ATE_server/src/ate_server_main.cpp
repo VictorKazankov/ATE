@@ -8,6 +8,7 @@
 #include "exceptions.h"
 #include "logger/logger.h"
 #include "utils/defines.h"
+#include "version/version_defines.h"
 
 #include "interaction/ATE/tcp_server.h"
 
@@ -32,6 +33,8 @@ void SetupSignalHandling(boost::asio::io_context& io_context, boost::asio::signa
 int main() try {
   constexpr auto config_file = VHAT_SERVER_CONFIG_DIR "/vhat_server.ini";
   common::SetUp(config_file);
+
+  logger::info("[initialization] VHAT server version: {}.{}.{}", version::kMajor, version::kMinor, version::kPatch);
   logger::info("[initialization] Config file: {}", config_file);
 
   boost::asio::io_context io_context;
