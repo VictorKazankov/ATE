@@ -1,5 +1,16 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+include(${CMAKE_SOURCE_DIR}/infrastructure/cmake/functions/git.cmake)
+
+git_get_commit_hash(GIT_COMMIT_HASH)
+message(STATUS "On a git commit: " ${GIT_COMMIT_HASH})
+
+git_get_latest_tag(GIT_TAG GIT_TAG_VERSION_MAJOR GIT_TAG_VERSION_MINOR)
+message(STATUS "Most recent visible tag: " ${GIT_TAG})
+
+git_get_number_of_commits_since_tag(GIT_COMMITS_SINCE_TAG ${GIT_TAG})
+message(STATUS "Number of commits since ${GIT_TAG}: " ${GIT_COMMITS_SINCE_TAG})
+
 project(VHAT
   VERSION 0.0.1.0
 )
