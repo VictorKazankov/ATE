@@ -11,8 +11,16 @@ message(STATUS "Most recent visible tag: " ${GIT_TAG})
 git_get_number_of_commits_since_tag(GIT_COMMITS_SINCE_TAG ${GIT_TAG})
 message(STATUS "Number of commits since ${GIT_TAG}: " ${GIT_COMMITS_SINCE_TAG})
 
+if(${GIT_COMMITS_SINCE_TAG} EQUAL 0)
+  set(VERSION_MINOR ${GIT_TAG_VERSION_MINOR})
+  set(VERSION_PATCH 0)
+else()
+  math(EXPR VERSION_MINOR "${GIT_TAG_VERSION_MINOR} + 1")
+  set(VERSION_PATCH ${GIT_COMMITS_SINCE_TAG})
+endif()
+
 project(VHAT
-  VERSION 0.0.1.0
+  VERSION ${GIT_TAG_VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 )
 
 set(CMAKE_CXX_STANDARD 14 CACHE STRING
