@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+include(GNUInstallDirs)
+
 include(${CMAKE_SOURCE_DIR}/infrastructure/cmake/functions/git.cmake)
 
 git_get_commit_hash(GIT_COMMIT_HASH)
@@ -22,6 +24,9 @@ endif()
 project(VHAT
   VERSION ${GIT_TAG_VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 )
+
+file(WRITE "${CMAKE_BINARY_DIR}/vhat_version" "${PROJECT_VERSION}\n")
+install(FILES "${CMAKE_BINARY_DIR}/vhat_version" DESTINATION ${CMAKE_INSTALL_SYSCONFDIR})
 
 set(CMAKE_CXX_STANDARD 14 CACHE STRING
   "Default value for CXX_STANDARD property of targets")
