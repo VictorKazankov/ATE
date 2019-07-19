@@ -45,8 +45,8 @@ TEST(TextDetectorUtilsTest, EnvTessDataPrefix) {
   TextDetector text_detector(kMinimalConfidence, kTessDataPrefix);
   const auto get_result = safe_env::Get(kTessdataPrefixEnvVarName);
   EXPECT_TRUE(get_result.second) << std::quoted(kTessdataPrefixEnvVarName) << " environment variable must be defined";
-  EXPECT_EQ(get_result.first.back(), '/')
-      << std::quoted(kTessdataPrefixEnvVarName) << " environment variable must contain a slash at the end";
+  EXPECT_EQ(get_result.first.back(), '/') << std::quoted(kTessdataPrefixEnvVarName)
+                                          << " environment variable must contain a slash at the end";
 }
 
 TEST(TextDetectorUtilsTest, DefaultConstructibleIterator) {
@@ -147,4 +147,21 @@ TEST_F(TextDetectorTest, Detect_PhraseFindMobiWithMissedEndOfTheLastWord_Success
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/few_words.png", expected_object);
 }
+
+TEST_F(TextDetectorTest, Detect_WordsOnFrame_Success) {
+  using textOnScreenshot = std::pair<std::string, std::string>;
+  auto list_text_screen = {textOnScreenshot{"Mobile App", "few_words.png"},
+                           textOnScreenshot{"Find Mobi", "few_words.png"},
+                           textOnScreenshot{"Sources", "audio_screen.png"}};
+
+  for (const auto it : list_text_screen) {
+    std::string text = it.first, screenshot_name = it.second;
+
+    const auto error_message = text + " not found on " + screenshot_name;
+    const cv::Mat frame =
+        cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/" + screenshot_name, cv::IMREAD_COLOR);
+    EXPECT_FALSE(text_detector_->Detect(frame, text) == cv::Rect()) << error_message;
+  }
+}
+
 }  // namespace
