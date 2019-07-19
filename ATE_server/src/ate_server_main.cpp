@@ -34,7 +34,7 @@ int main() try {
   constexpr auto config_file = VHAT_SERVER_CONFIG_DIR "/vhat_server.ini";
   common::SetUp(config_file);
 
-  logger::info("[initialization] VHAT server version: {}.{}.{}", version::kMajor, version::kMinor, version::kPatch);
+  logger::info("[initialization] VHAT server version: {}", version::kStringFull);
   logger::info("[initialization] Config file: {}", config_file);
 
   boost::asio::io_context io_context;

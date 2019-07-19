@@ -5,6 +5,9 @@ namespace version {
   constexpr int kMajor = @PROJECT_VERSION_MAJOR@;
   constexpr int kMinor = @PROJECT_VERSION_MINOR@;
   constexpr int kPatch = @PROJECT_VERSION_PATCH@;
+
+  constexpr auto kCommitHash = "@GIT_COMMIT_HASH@";
+  constexpr auto kStringFull = "@PROJECT_VERSION_FULL@";
 }  // namespace version
 
 #endif  // ATE_COMMON_VERSION_DEFINES_H_
