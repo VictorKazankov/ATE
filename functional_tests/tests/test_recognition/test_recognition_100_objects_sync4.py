@@ -96,7 +96,7 @@ def audio_page(counter, driver_sync4):
     helpers.get_result_recognition(constants.TEXT_BUTTON_9, counter)
     helpers.get_result_recognition(constants.TEXT_BUTTON_0, counter)
     helpers.get_result_recognition(constants.DELETE_BUTTON, counter)
-    helpers.get_result_recognition(constants.ENTER_TEXT, counter)
+    helpers.get_result_recognition(constants.ENTER, counter)
     helpers.get_result_recognition(constants.CANCEL_TEXT, counter)
     driver_sync4.audio_page.tap_on_cancel_button()
 
@@ -186,9 +186,8 @@ def settings_page(counter, driver_sync4):
     # settings general
     driver_sync4.settings_page.open_general_settings()
     helpers.get_result_recognition(constants.TEMPERATURE_UNITS_TEXT, counter)
-    helpers.get_result_recognition(constants.TEMPERATURE_FAHRENHEIT_TEXT, counter)
+    helpers.get_result_recognition(constants.TEMPERATURE_CELSIUS_TEXT, counter)
     helpers.get_result_recognition(constants.LANGUAGE_TEXT, counter)
-    helpers.get_result_recognition(constants.TOUCH_SCREEN_BEEP, counter)
     driver_sync4.settings_page.tap_on_back_button()
 
 
