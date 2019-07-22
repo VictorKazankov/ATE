@@ -11,7 +11,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 
-#include "utils/safe_env.h"
 #include "video_streaming/matching/hausdorff_distance.h"
 
 namespace {
@@ -40,14 +39,6 @@ void TextDetectorTest::SetUp() {
 }
 
 void TextDetectorTest::TearDown() { text_detector_.reset(); }
-
-TEST(TextDetectorUtilsTest, EnvTessDataPrefix) {
-  TextDetector text_detector(kDefaultConfidence, kTessDataPrefix);
-  const auto get_result = safe_env::Get(kTessdataPrefixEnvVarName);
-  EXPECT_TRUE(get_result.second) << std::quoted(kTessdataPrefixEnvVarName) << " environment variable must be defined";
-  EXPECT_EQ(get_result.first.back(), '/')
-      << std::quoted(kTessdataPrefixEnvVarName) << " environment variable must contain a slash at the end";
-}
 
 TEST(TextDetectorUtilsTest, DefaultConstructibleIterator) {
   const TextDetectorResultIterator it1, it2;

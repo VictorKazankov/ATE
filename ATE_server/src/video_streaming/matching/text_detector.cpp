@@ -9,7 +9,6 @@
 #include <tesseract/resultiterator.h>
 
 #include "logger/logger.h"
-#include "utils/safe_env.h"
 #include "video_streaming/matching/text_detector_exceptions.h"
 
 namespace detector {
@@ -114,9 +113,8 @@ bool operator!=(const TextDetectorResultIterator& lhs, const TextDetectorResultI
 
 TextDetector::TextDetector(double text_detector_min_confidence, const char* tessdata_prefix, const char* lang)
     : text_detector_min_confidence_(text_detector_min_confidence) {
-  safe_env::Set(kTessdataPrefixEnvVarName, tessdata_prefix, false);
   tess_ = std::make_shared<tesseract::TessBaseAPI>();
-  if (tess_->Init(nullptr, lang)) {
+  if (tess_->Init(tessdata_prefix, lang) != 0) {
     throw TextDetectorInitializationError{"Couldn't initialize text detector"};
   }
 }

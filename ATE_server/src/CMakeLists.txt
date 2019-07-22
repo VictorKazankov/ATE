@@ -14,7 +14,6 @@ add_library(vhat_server_lib
     interaction/SPI/spi_interaction.cpp
     storage/json_storage.cpp
     utils/file_descriptor.cpp
-    utils/safe_env.cpp
     utils/screenshot_recorder.cpp
     video_streaming/matching/matcher.cpp
     video_streaming/matching/template_detector.cpp
