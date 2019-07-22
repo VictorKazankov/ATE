@@ -210,7 +210,7 @@ std::vector<TextDetector::value_metadata> TextDetector::PreprocessLine(
         // at the first and last words could be missed beginning and end respectively
         std::size_t word_position = text_object.text.find(*it);
         // beginning of the first word was missed
-        if (it == desired_words.begin() && word_position != 0 &&
+        if (it == desired_words.begin() && word_position != std::string::npos && word_position != 0 &&
             (word_position + (*it).length() == text_object.text.length())) {
           store_word = true;
         } else {
