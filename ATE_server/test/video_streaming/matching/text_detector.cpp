@@ -19,7 +19,7 @@ namespace {
 using namespace detector;
 
 constexpr auto kTessDataPrefix = "/usr/local/share/tessdata/";
-constexpr float kMinimalConfidence = 60.f;
+constexpr float kDefaultConfidence = 0.f;
 const double kHausdorffThreshold = 2 * std::sqrt(2);  // x * sqrt(2) for x pixels border difference
 
 struct TestTextObject {
@@ -36,17 +36,17 @@ class TextDetectorTest : public ::testing::Test {
 };
 
 void TextDetectorTest::SetUp() {
-  text_detector_ = std::make_unique<detector::TextDetector>(kMinimalConfidence, kTessDataPrefix);
+  text_detector_ = std::make_unique<detector::TextDetector>(kDefaultConfidence, kTessDataPrefix);
 }
 
 void TextDetectorTest::TearDown() { text_detector_.reset(); }
 
 TEST(TextDetectorUtilsTest, EnvTessDataPrefix) {
-  TextDetector text_detector(kMinimalConfidence, kTessDataPrefix);
+  TextDetector text_detector(kDefaultConfidence, kTessDataPrefix);
   const auto get_result = safe_env::Get(kTessdataPrefixEnvVarName);
   EXPECT_TRUE(get_result.second) << std::quoted(kTessdataPrefixEnvVarName) << " environment variable must be defined";
-  EXPECT_EQ(get_result.first.back(), '/') << std::quoted(kTessdataPrefixEnvVarName)
-                                          << " environment variable must contain a slash at the end";
+  EXPECT_EQ(get_result.first.back(), '/')
+      << std::quoted(kTessdataPrefixEnvVarName) << " environment variable must contain a slash at the end";
 }
 
 TEST(TextDetectorUtilsTest, DefaultConstructibleIterator) {
@@ -146,6 +146,12 @@ TEST_F(TextDetectorTest, Detect_PhraseFindMobiWithMissedEndOfTheLastWord_Success
   const TestTextObject expected_object = {cv::Rect{395, 159, 222, 35}, "Find Mobi"};
   RecognizeImageBaseTest(std::move(text_detector_),
                          VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/few_words.png", expected_object);
+}
+
+TEST_F(TextDetectorTest, Detect_PhraseAvoidTollRoads_Success) {
+  const TestTextObject expected_object = {cv::Rect{150, 239, 178, 19}, "Avoid toll roads"};
+  RecognizeImageBaseTest(std::move(text_detector_),
+                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/avoid_toll_roads.png", expected_object);
 }
 
 TEST_F(TextDetectorTest, Detect_WordsOnFrame_Success) {
