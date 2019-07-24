@@ -8,7 +8,7 @@ add_executable_from_dir_recursive(${TEST_NAME})
 if(UNIX)
   target_link_libraries(vhat_common_test
     PRIVATE
-      ${GTEST_BOTH_LIBRARIES}
+      gtest_main
       stdc++fs
       vhat_common
       )

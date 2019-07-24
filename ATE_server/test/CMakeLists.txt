@@ -14,7 +14,7 @@ add_executable_from_dir_recursive(${TEST_NAME})
 
 target_link_libraries(${TEST_NAME}
   PRIVATE
-    ${GTEST_BOTH_LIBRARIES}
+    gtest_main
     vhat_server_lib
 )
 
