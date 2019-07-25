@@ -58,9 +58,17 @@ By default, build root is set to _build-VHAT_2.0-Release_ and installation is do
       ```
       VHAT_INSTALL:BOOL
       ```
+    - Toggle VHAT server service install (default: _OFF_):
+      ```
+      VHAT_INSTALL_SERVER_SERVICE:BOOL
+      ```
     - Install directory aka _\<install prefix>_ (default: _<build root\>/install_):
       ```
       CMAKE_INSTALL_PREFIX:PATH
+      ```
+    - Toggle VHAT deb package generation from install (default: _ON_):
+      ```
+      VHAT_CREATE_DEBIAN_PACKAGE:BOOL
       ```
     - Toggle ATE client build (default: _ON_):
       ```
@@ -92,6 +100,17 @@ By default, build root is set to _build-VHAT_2.0-Release_ and installation is do
         ```
         sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -P build.cmake
         ```
+### System install and deploy package
+
+1. Set the install prefix to system dir and enable server service install. _sudo_ permissions are required to modify system dirs:
+    ```
+    sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DVHAT_INSTALL_SERVER_SERVICE=ON -P infrastructure/build.cmake
+    ```
+1. The deploy package is _VHAT-X.Y.Z.deb_ located in _build-VHAT_2.0-Release_ build root folder.
+1. You can use _dpkg_ package manager to install this package. This command will also replace the previous installation of VHAT:
+    ```
+    sudo dpkg -i VHAT-X.Y.Z.deb
+    ```
 
 ## Running the unit tests
 
