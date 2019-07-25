@@ -6,7 +6,6 @@
 #include <opencv2/core/mat.hpp>
 
 #include "detector.h"
-#include "text_detector_decorator.h"
 #include "utils/screenshot_recorder.h"
 
 namespace streamer {
@@ -16,8 +15,7 @@ class Streamer;
 namespace detector {
 
 /**
- * @brief DetectorFactory class for providing interaction between components: streamer, detector
- * @params detector_type string represantation of detector type, get from configuration file
+ * @brief Matcher class for providing interaction between components: streamer, detector
  **/
 class Matcher {
  private:
@@ -33,7 +31,16 @@ class Matcher {
   bool GrabNewFrame();
 
  public:
-  Matcher();
+  /**
+   * @params streamer - Streamer. Must be not null
+   * @params image_detector - Image detector. Must be not null
+   * @params text_detector - Text detector. Must be not null
+   * @params screenshot_recorder - Screenshot recorder or null
+   */
+  Matcher(std::unique_ptr<streamer::Streamer> streamer, std::unique_ptr<Detector<cv::Mat>> image_detector,
+          std::unique_ptr<Detector<std::string>> text_detector,
+          std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder);
+
   ~Matcher();
 
   // disable copy and move
@@ -43,19 +50,19 @@ class Matcher {
   Matcher& operator=(Matcher&&) = delete;
 
   /**
-   * @brief DetectImage privide detection of pattern on TDK screen
+   * @brief MatchImage provide image detection of the pattern on TDK screen
    * @params object object name
    * @params object_path path to pattern image
-   * @return rectangle with x, y, width, height of detected object on succeed,
-   * on failure x, y, width, height will equele 0
+   * @return rectangle with x, y, width, height of the detected object on succeed,
+   * on failure x, y, width, height will equal 0
    */
   cv::Rect MatchImage(const std::string& object, const std::string& object_path);
 
   /**
-   * @brief DetectImage privide detection of pattern on TDK screen
+   * @brief MatchText provide text detection of the pattern on TDK screen
    * @params text text which need to find on TDK screen
-   * @return rectangle with x, y, width, height of detected object on succeed,
-   * on failure x, y, width, height will equele 0
+   * @return rectangle with x, y, width, height of the detected object on succeed,
+   * on failure x, y, width, height will equal 0
    */
   cv::Rect MatchText(const std::string& text);
 };

@@ -1,49 +1,26 @@
 #include "video_streaming/matching/matcher.h"
 
-#include <algorithm>
 #include <cassert>
-#include <cctype>
+#include <utility>
 
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "common.h"
-#include "config/config.h"
 #include "logger/logger.h"
-#include "utils/defines.h"
-#include "video_streaming/matching/template_detector.h"
-#include "video_streaming/matching/text_detector.h"
-#include "video_streaming/matching/text_detector_decorator.h"
 #include "video_streaming/streamer.h"
-#include "video_streaming/streamer_factory.h"
 
 namespace detector {
 
-using namespace defines;
-
-Matcher::Matcher()
-    : streamer_{streamer::MakeStreamer()},
-      image_detector_{std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
-          kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence))} {
-  try {
-    screenshot_recorder_ = std::make_unique<utils::ScreenshotRecorder>(
-        common::Config().GetBool(kScreenshotRecorderSection, kScreenshotOption, false),
-        common::Config().GetString(kScreenshotRecorderSection, kScreenshotDirectoryOption, ""));
-  } catch (const std::runtime_error& e) {
-    logger::info("[matcher] Screenshot recorder was not created, cause: {}.", e.what());
-  }
-
-  const std::string tessdata_prefix = common::Config().GetString(kTextDetectorSection, kTessDataOption, std::string{});
-  if (tessdata_prefix.empty()) {
-    logger::warn("[matcher] TESSDATA_PREFIX isn't present in config. Possible problems with text detection");
-  }
-
-  // text detector section
-  text_detector_ = std::make_unique<TextDetectorDecorator>(
-      std::make_unique<TextDetector>(common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
-                                                                kDefaultTextDetectorConfidence),
-                                     tessdata_prefix.c_str()),
-      common::Config().GetString(defines::kTextDetectorSection, defines::kTextDetectorPreprocessingList, ""));
+Matcher::Matcher(std::unique_ptr<streamer::Streamer> streamer, std::unique_ptr<Detector<cv::Mat>> image_detector,
+                 std::unique_ptr<Detector<std::string>> text_detector,
+                 std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder)
+    : streamer_{std::move(streamer)},
+      image_detector_{std::move(image_detector)},
+      text_detector_{std::move(text_detector)},
+      screenshot_recorder_{std::move(screenshot_recorder)} {
+  assert(streamer_);
+  assert(image_detector_);
+  assert(text_detector_);
 }
 
 Matcher::~Matcher() = default;
