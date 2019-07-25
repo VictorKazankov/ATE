@@ -8,9 +8,6 @@
 
 namespace detector {
 
-const std::string kSync3 = "sync3";
-const std::string kSync4 = "sync4";
-
 cv::Mat FramePreprocessing::BinaryPreprocessing(const cv::Mat& source, int color_type, int threshold_type) {
   cv::Mat optimized_screen{};
   cv::Mat gray_screen{};
@@ -31,14 +28,8 @@ cv::Mat FramePreprocessing::CropPreprocessing(const cv::Mat& source, double crop
 }
 
 TextDetectorDecorator::TextDetectorDecorator(std::unique_ptr<Detector<std::string>> text_detector,
-                                             const std::string& sync_type, const std::string& optimization_name)
+                                             const std::string& preprocessing_lists)
     : text_detector_(std::move(text_detector)) {
-  // runtime error if sync type is unknown
-  if (sync_type != kSync3 && sync_type != kSync4) {
-    throw std::runtime_error("Undefined sync configuration");
-  }
-  logger::trace("[TextDetectorDecorator] Init for {}", sync_type);
-
   // runtime error if detector is nullptr
   if (text_detector_ == nullptr) {
     logger::critical("[TextDetectorDecorator] Text detector not initialized!");
@@ -46,7 +37,7 @@ TextDetectorDecorator::TextDetectorDecorator(std::unique_ptr<Detector<std::strin
   }
 
   // fill preprocessing steps
-  FillPreprocessingList(GetOptimizationTypeByName(optimization_name), sync_type);
+  FillPreprocessingList(GetPreprocessingList(preprocessing_lists));
 }
 
 cv::Rect TextDetectorDecorator::Detect(const cv::Mat& frame, const std::string& pattern) {
@@ -61,26 +52,35 @@ cv::Rect TextDetectorDecorator::Detect(const cv::Mat& frame, const std::string& 
     return detected_area;
   }
 
-  // find pattern with preprocessing
+  // find pattern with preprocessing on color frame
   if (frame.channels() > 1) {
-    for (const auto& preprocessing_iter : preprocessing_lists_) {
-      if (preprocessing_iter.first == ScreenPreprocessing::kNone || preprocessing_iter.second == nullptr) {
-        active_preprocessing_ = ScreenPreprocessing::kNone;
-        PrintLogMessage(TypeMessage::kBegin);
-        detected_area = text_detector_->Detect(frame, pattern);
-      } else {
-        // set optimization
-        active_preprocessing_ = preprocessing_iter.first;
-        PrintLogMessage(TypeMessage::kBegin);
-        detected_area = text_detector_->Detect(preprocessing_iter.second(frame), pattern);
+    // without any preprocessing
+    if (preprocessing_lists_.empty()) {
+      text_detector_->Detect(frame, pattern);
+    }
+    // with preprocessing
+    else {
+      for (const auto& preprocessing_iter : preprocessing_lists_) {
+        if (preprocessing_iter.first == ScreenPreprocessing::kNone || preprocessing_iter.second == nullptr) {
+          logger::trace("[TextDetectorDecorator] Start find text on frame {}.",
+                        GetCurrentPreprocessingDescription(preprocessing_iter.first));
+          detected_area = text_detector_->Detect(frame, pattern);
+        } else {
+          // set optimization
+          logger::trace("[TextDetectorDecorator] Start find text on frame {}.",
+                        GetCurrentPreprocessingDescription(preprocessing_iter.first));
+          detected_area = text_detector_->Detect(preprocessing_iter.second(frame), pattern);
+        }
+        // if find object - break out from loop
+        if (!detected_area.empty()) {
+          CorrectionArea(detected_area, preprocessing_iter.first);
+          logger::trace("[TextDetectorDecorator] Found text on frame {}.",
+                        GetCurrentPreprocessingDescription(preprocessing_iter.first));
+          break;
+        }
+        logger::trace("[TextDetectorDecorator] Not found text on frame {}.",
+                      GetCurrentPreprocessingDescription(preprocessing_iter.first));
       }
-      // if find object - break out from loop
-      if (!detected_area.empty()) {
-        CorrectionArea(detected_area);
-        PrintLogMessage(TypeMessage::kFound);
-        break;
-      }
-      PrintLogMessage(TypeMessage::kNotFound);
     }
   }
   // if grayscale mode - find without preprocessing
@@ -92,87 +92,67 @@ cv::Rect TextDetectorDecorator::Detect(const cv::Mat& frame, const std::string& 
   return detected_area;
 }
 
-void TextDetectorDecorator::CorrectionArea(cv::Rect& area) const noexcept {
-  if (active_preprocessing_ == ScreenPreprocessing::kCrop) {
+void TextDetectorDecorator::CorrectionArea(cv::Rect& area, ScreenPreprocessing active_preprocessing) const noexcept {
+  if (active_preprocessing == ScreenPreprocessing::kBinarizedCrop) {
     area.x = static_cast<int>(area.x * crop_coefficient_);
     area.y = static_cast<int>(area.y * crop_coefficient_);
   }
 }
 
-void TextDetectorDecorator::FillPreprocessingList(OptimizationType optimization_type, const std::string& sync_type) {
-  if (sync_type == kSync4) {
-    FillPreprocessingListForSync4(optimization_type);
-  } else if (sync_type == kSync3) {
-    FillPreprocessingListForSync3(optimization_type);
+void TextDetectorDecorator::FillPreprocessingList(const std::vector<ScreenPreprocessing>& list_of_preprocessing_type) {
+  if (list_of_preprocessing_type.empty()) {
+    preprocessing_lists_.emplace_back(ScreenPreprocessing::kNone, [](const cv::Mat& source) { return source; });
+    return;
   }
-}
-
-void TextDetectorDecorator::FillPreprocessingListForSync3(TextDetectorDecorator::OptimizationType optimization_type) {
-  // Preprocessing functions
-  auto empty = [](const cv::Mat& source) { return source; };
-  auto binary_preprocessing = [](const cv::Mat& source) {
-    return FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_BGR2GRAY, CV_THRESH_BINARY | CV_THRESH_OTSU);
-  };
-
-  switch (optimization_type) {
-    case OptimizationType::kZero: {
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kNone, empty);
-      break;
-    }
-    case OptimizationType::kSimple:
-    case OptimizationType::kAdvanced: {
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kNone, empty);
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kOTSUBinarized, binary_preprocessing);
-      break;
-    }
-  }
-}
-
-void TextDetectorDecorator::FillPreprocessingListForSync4(TextDetectorDecorator::OptimizationType optimization_type) {
-  // Preprocessing functions
-  auto empty = [](const cv::Mat& source) { return source; };
-  auto crop_preprocessing = [crop = this->crop_coefficient_](const cv::Mat& source) {
-    return FramePreprocessing::CropPreprocessing(
-        FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_BGR2GRAY, CV_THRESH_BINARY), crop);
-  };
-  auto binary_preprocessing_BGR = [](const cv::Mat& source) {
-    return FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_BGR2GRAY, CV_THRESH_BINARY);
-  };
-
-  auto binary_preprocessing_RGB = [](const cv::Mat& source) {
-    return FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_RGB2GRAY, CV_THRESH_BINARY);
-  };
-
-  // fill preprocessing list
-  switch (optimization_type) {
-    case OptimizationType::kZero: {
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kNone, empty);
-      break;
-    }
-    case OptimizationType::kSimple: {
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kCrop, crop_preprocessing);
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kBinarized, binary_preprocessing_BGR);
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kNone, empty);
-      break;
-    }
-    case OptimizationType::kAdvanced: {
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kCrop, crop_preprocessing);
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kBinarized, binary_preprocessing_BGR);
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kNone, empty);
-      preprocessing_lists_.emplace_back(ScreenPreprocessing::kBinarizedRGB, binary_preprocessing_RGB);
-      break;
+  // fill lists
+  for (const auto& it : list_of_preprocessing_type) {
+    switch (it) {
+      case ScreenPreprocessing::kNone: {
+        preprocessing_lists_.emplace_back(ScreenPreprocessing::kNone, [](const cv::Mat& source) { return source; });
+        break;
+      }
+      case ScreenPreprocessing::kBinarizedCrop: {
+        preprocessing_lists_.emplace_back(
+            ScreenPreprocessing::kBinarizedCrop, [crop = this->crop_coefficient_](const cv::Mat& source) {
+              return FramePreprocessing::CropPreprocessing(
+                  FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_BGR2GRAY, CV_THRESH_BINARY), crop);
+            });
+        break;
+      }
+      case ScreenPreprocessing::kBinarized: {
+        preprocessing_lists_.emplace_back(ScreenPreprocessing::kBinarized, [](const cv::Mat& source) {
+          return FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_BGR2GRAY, CV_THRESH_BINARY);
+        });
+        break;
+      }
+      case ScreenPreprocessing::kBinarizedOTSU: {
+        preprocessing_lists_.emplace_back(ScreenPreprocessing::kBinarizedOTSU, [](const cv::Mat& source) {
+          return FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_BGR2GRAY, CV_THRESH_BINARY | CV_THRESH_OTSU);
+        });
+        break;
+      }
+      case ScreenPreprocessing::kBinarizedRGB: {
+        preprocessing_lists_.emplace_back(ScreenPreprocessing::kBinarizedRGB, [](const cv::Mat& source) {
+          return FramePreprocessing::BinaryPreprocessing(source, cv::COLOR_RGB2GRAY, CV_THRESH_BINARY);
+        });
+        break;
+      }
+      case ScreenPreprocessing::kUnknown: {
+        break;
+      }
     }
   }
 }
 
-std::string TextDetectorDecorator::GetCurrentPreprocessingName() const noexcept {
+std::string TextDetectorDecorator::GetCurrentPreprocessingDescription(ScreenPreprocessing active_preprocessing) const
+    noexcept {
   std::string name_for_logger{"Unknown Preprocessing"};
-  switch (active_preprocessing_) {
+  switch (active_preprocessing) {
     case ScreenPreprocessing::kNone: {
       name_for_logger = "without preprocessing";
       break;
     }
-    case ScreenPreprocessing::kCrop: {
+    case ScreenPreprocessing::kBinarizedCrop: {
       name_for_logger = "with cropping frame";
       break;
     }
@@ -180,29 +160,37 @@ std::string TextDetectorDecorator::GetCurrentPreprocessingName() const noexcept 
       name_for_logger = "with binary converting frame";
       break;
     }
-    case ScreenPreprocessing::kOTSUBinarized: {
+    case ScreenPreprocessing::kBinarizedOTSU: {
       name_for_logger = "with binary converting frame + OTSU method";
       break;
     }
     case ScreenPreprocessing::kBinarizedRGB: {
       name_for_logger = "with binary converting frame from rgb";
+      break;
+    }
+    case ScreenPreprocessing::kUnknown: {
+      break;
     }
   }
+
   return name_for_logger;
 }
 
-TextDetectorDecorator::OptimizationType TextDetectorDecorator::GetOptimizationTypeByName(const std::string& name) const
-    noexcept {
-  static const std::map<std::string, OptimizationType> StringsType{{"Zero", OptimizationType::kZero},
-                                                                   {"Simple", OptimizationType::kSimple},
-                                                                   {"Advanced", OptimizationType::kAdvanced}
-
+TextDetectorDecorator::ScreenPreprocessing TextDetectorDecorator::GetScreenPreprocessingByName(
+    const std::string& name) const noexcept {
+  static const std::map<std::string, ScreenPreprocessing> StringsType{
+      {"None", ScreenPreprocessing::kNone},
+      {"BinarizedCrop", ScreenPreprocessing::kBinarizedCrop},
+      {"Binarized", ScreenPreprocessing::kBinarized},
+      {"BinarizedOTSU", ScreenPreprocessing::kBinarizedOTSU},
+      {"BinarizedRGB", ScreenPreprocessing::kBinarizedRGB},
   };
+
   auto it = StringsType.find(name);
 
-  auto type = OptimizationType::kZero;
+  auto type = ScreenPreprocessing::kUnknown;
   if (it == StringsType.end()) {
-    logger::warn("[TextDetectorDecorator] Error optimization name {}. Optimization disabled.", name);
+    logger::warn("[TextDetectorDecorator] Unknown screen reprocessing procedure: {}", name);
   } else {
     type = it->second;
   }
@@ -210,22 +198,32 @@ TextDetectorDecorator::OptimizationType TextDetectorDecorator::GetOptimizationTy
   return type;
 }
 
-void TextDetectorDecorator::PrintLogMessage(TextDetectorDecorator::TypeMessage type) {
-  std::string message;
-  switch (type) {
-    case TypeMessage::kBegin: {
-      logger::trace("[TextDetectorDecorator] Start find text on frame {}.", GetCurrentPreprocessingName());
-      break;
+std::vector<TextDetectorDecorator::ScreenPreprocessing> TextDetectorDecorator::GetPreprocessingList(
+    const std::string& list_of_preprocessing) const noexcept {
+  std::vector<std::string> split_list{};
+
+  // Split function
+  [list = &split_list](std::string string_for_split, const std::string& delimiter) {
+    if (string_for_split.empty()) {
+      return;
     }
-    case TypeMessage::kFound: {
-      logger::trace("[TextDetectorDecorator] Found text on frame {}.", GetCurrentPreprocessingName());
-      break;
+
+    // parsing
+    size_t pos = 0;
+    while ((pos = string_for_split.find(delimiter)) != std::string::npos) {
+      list->emplace_back(string_for_split.substr(0, pos));
+      string_for_split.erase(0, pos + delimiter.length());
     }
-    case TypeMessage::kNotFound: {
-      logger::trace("[TextDetectorDecorator] Not found text on frame {}.", GetCurrentPreprocessingName());
-      break;
-    }
+    list->emplace_back(string_for_split);
+  }(list_of_preprocessing, "+");
+
+  // fill preprocessing list
+  std::vector<ScreenPreprocessing> preprocessing_list{};
+  for (const auto& it : split_list) {
+    preprocessing_list.emplace_back(GetScreenPreprocessingByName(it));
   }
+
+  return preprocessing_list;
 }
 
 }  // namespace detector

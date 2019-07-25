@@ -17,11 +17,6 @@ using ::testing::_;  // Matcher for parameters
 using ::testing::Return;
 
 // constants
-const std::string kSync3{"sync3"};
-const std::string kSync4{"sync4"};
-const std::string kOptimizationTypeZero{"Zero"};
-const std::string kOptimizationTypeSimple{"Simple"};
-const std::string kOptimizationTypeAdvanced{"Advanced"};
 const std::string kFramePath = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/hmi_screenshot.png";
 
 /*--------------------------- FramePreprocessing tests---------------------------*/
@@ -94,111 +89,77 @@ class MockTextDetector : public detector::Detector<std::string> {
 };
 
 TEST(TextDetectorDecoratorTest, Construct_Success) {
-  ASSERT_NO_THROW(detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), kSync4,
-                                                                kOptimizationTypeAdvanced));
-  ASSERT_NO_THROW(detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), kSync4,
-                                                                kOptimizationTypeAdvanced));
+  ASSERT_NO_THROW(detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), "None"));
+  ASSERT_NO_THROW(detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(),
+                                                                "None+BinarizedOTSU+BinarizedRGB"));
 }
 
 TEST(TextDetectorDecoratorTest, Construct_Exception) {
-  ASSERT_THROW(detector::TextDetectorDecorator text_detector(nullptr, kSync4, kOptimizationTypeAdvanced),
-               std::runtime_error);
-  ASSERT_THROW(detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), "",
-                                                             kOptimizationTypeAdvanced),
-               std::runtime_error);
-}
-
-TEST(TextDetectorDecoratorTest, OptimizationType_Success) {
-  detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), kSync4,
-                                                kOptimizationTypeAdvanced);
-
-  EXPECT_EQ(detector::TextDetectorDecorator::OptimizationType::kAdvanced,
-            text_detector.GetOptimizationTypeByName(kOptimizationTypeAdvanced))
-      << "Incorrect getting optimization type.";
+  ASSERT_THROW(detector::TextDetectorDecorator text_detector(nullptr, "None"), std::runtime_error);
 }
 
 TEST(TextDetectorDecoratorTest, GetCurrentPreprocessingName_Success) {
-  detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), kSync4,
-                                                kOptimizationTypeZero);
-  EXPECT_EQ("without preprocessing", text_detector.GetCurrentPreprocessingName());
+  detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(),
+                                                "None+BinarizedOTSU+BinarizedRGB");
+  EXPECT_EQ("Unknown Preprocessing", text_detector.GetCurrentPreprocessingDescription(
+                                         detector::TextDetectorDecorator::ScreenPreprocessing::kUnknown));
 
-  text_detector.active_preprocessing_ = detector::TextDetectorDecorator::ScreenPreprocessing::kOTSUBinarized;
-  EXPECT_EQ("with binary converting frame + OTSU method", text_detector.GetCurrentPreprocessingName());
+  EXPECT_EQ("with binary converting frame + OTSU method",
+            text_detector.GetCurrentPreprocessingDescription(
+                detector::TextDetectorDecorator::ScreenPreprocessing::kBinarizedOTSU));
 
-  text_detector.active_preprocessing_ = detector::TextDetectorDecorator::ScreenPreprocessing::kBinarizedRGB;
-  EXPECT_EQ("with binary converting frame from rgb", text_detector.GetCurrentPreprocessingName());
+  EXPECT_EQ("with binary converting frame from rgb",
+            text_detector.GetCurrentPreprocessingDescription(
+                detector::TextDetectorDecorator::ScreenPreprocessing::kBinarizedRGB));
 }
 
-TEST(TextDetectorDecoratorTest, Sync3FillPreprocessingList_Success) {
+TEST(TextDetectorDecoratorTest, FillPreprocessingList_Success) {
   using sp = detector::TextDetectorDecorator::ScreenPreprocessing;
   std::vector<sp> etalon_none{sp::kNone};
-  std::vector<sp> etalon_simple_advanced{sp::kNone, sp::kOTSUBinarized};
+  std::vector<sp> etalon_simple{sp::kBinarizedCrop, sp::kBinarized, sp::kNone};
+  std::vector<sp> etalon_advanced{sp::kBinarizedCrop, sp::kBinarized, sp::kNone, sp::kBinarizedRGB};
   std::vector<sp> test_optimization_list;
   // fill test list
-  auto fill_lists = [&test_optimization_list](
-                        std::vector<std::pair<detector::TextDetectorDecorator::ScreenPreprocessing,
-                                              detector::TextDetectorDecorator::PreprocessingFunctionType>>
-                            detector_list) {
-    test_optimization_list.clear();
-    for (const auto& it : detector_list) {
-      test_optimization_list.push_back(it.first);
-    }
-  };
+  auto fill_lists =
+      [&test_optimization_list](
+          const std::vector<std::pair<detector::TextDetectorDecorator::ScreenPreprocessing,
+                                      detector::TextDetectorDecorator::PreprocessingFunctionType>>& detector_list) {
+        test_optimization_list.clear();
+        for (const auto& it : detector_list) {
+          test_optimization_list.push_back(it.first);
+        }
+      };
 
-  detector::TextDetectorDecorator text_detector_none(std::make_unique<MockTextDetector>(), kSync3,
-                                                     kOptimizationTypeZero);
-  fill_lists(text_detector_none.preprocessing_lists_);
-  EXPECT_EQ(etalon_none, test_optimization_list)
-      << "Incorrect fill preprocessing list for sync3 for zero optimization level.";
+  detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), "");
+  fill_lists(text_detector.preprocessing_lists_);
+  EXPECT_EQ(etalon_none, test_optimization_list) << "Incorrect fill preprocessing list for empty preprocessing string";
 
-  detector::TextDetectorDecorator text_detector_simple(std::make_unique<MockTextDetector>(), kSync3,
-                                                       kOptimizationTypeSimple);
-  fill_lists(text_detector_simple.preprocessing_lists_);
-  EXPECT_EQ(etalon_simple_advanced, test_optimization_list)
-      << "Incorrect fill preprocessing list for sync3 for simple optimization level.";
-  ;
+  text_detector.preprocessing_lists_.clear();
+  text_detector.FillPreprocessingList(text_detector.GetPreprocessingList("None"));
+  fill_lists(text_detector.preprocessing_lists_);
+  EXPECT_EQ(etalon_none, test_optimization_list) << "Incorrect fill preprocessing list for 'None' preprocessing string";
 
-  detector::TextDetectorDecorator text_detector_advanced(std::make_unique<MockTextDetector>(), kSync3,
-                                                         kOptimizationTypeAdvanced);
-  fill_lists(text_detector_advanced.preprocessing_lists_);
-  EXPECT_EQ(etalon_simple_advanced, test_optimization_list)
-      << "Incorrect fill preprocessing list for sync3 for advanced optimization level.";
-}
-
-TEST(TextDetectorDecoratorTest, Sync4FillPreprocessingList_Success) {
-  using sp = detector::TextDetectorDecorator::ScreenPreprocessing;
-  std::vector<sp> etalon_none{sp::kNone};
-  std::vector<sp> etalon_simple{sp::kCrop, sp::kBinarized, sp::kNone};
-  std::vector<sp> etalon_advanced{sp::kCrop, sp::kBinarized, sp::kNone, sp::kBinarizedRGB};
-  std::vector<sp> test_optimization_list;
-  // fill test list
-  auto fill_lists = [&test_optimization_list](
-                        std::vector<std::pair<detector::TextDetectorDecorator::ScreenPreprocessing,
-                                              detector::TextDetectorDecorator::PreprocessingFunctionType>>
-                            detector_list) {
-    test_optimization_list.clear();
-    for (const auto& it : detector_list) {
-      test_optimization_list.push_back(it.first);
-    }
-  };
-
-  detector::TextDetectorDecorator text_detector_none(std::make_unique<MockTextDetector>(), kSync4,
-                                                     kOptimizationTypeZero);
-  fill_lists(text_detector_none.preprocessing_lists_);
-  EXPECT_EQ(etalon_none, test_optimization_list)
-      << "Incorrect fill preprocessing list for sync4 for zero optimization level.";
-
-  detector::TextDetectorDecorator text_detector_simple(std::make_unique<MockTextDetector>(), kSync4,
-                                                       kOptimizationTypeSimple);
-  fill_lists(text_detector_simple.preprocessing_lists_);
+  text_detector.preprocessing_lists_.clear();
+  text_detector.FillPreprocessingList(text_detector.GetPreprocessingList("BinarizedCrop+Binarized+None"));
+  fill_lists(text_detector.preprocessing_lists_);
   EXPECT_EQ(etalon_simple, test_optimization_list)
-      << "Incorrect fill preprocessing list for sync4 for simple optimization level.";
+      << "Incorrect fill preprocessing list for 'BinarizedCrop+Binarized+None' preprocessing string";
 
-  detector::TextDetectorDecorator text_detector_advanced(std::make_unique<MockTextDetector>(), kSync4,
-                                                         kOptimizationTypeAdvanced);
-  fill_lists(text_detector_advanced.preprocessing_lists_);
+
+  text_detector.preprocessing_lists_.clear();
+  text_detector.FillPreprocessingList(text_detector.GetPreprocessingList("BinarizedCrop+Binarized+None+BinarizedRGB"));
+  fill_lists(text_detector.preprocessing_lists_);
   EXPECT_EQ(etalon_advanced, test_optimization_list)
-      << "Incorrect fill preprocessing list for sync4 for advanced optimization level.";
+      << "Incorrect fill preprocessing list for 'BinarizedCrop+Binarized+None+BinarizedRGB' preprocessing string";
+
+
+  std::vector<sp> etalon_bad_init{sp::kBinarizedCrop, sp::kNone};
+  text_detector.preprocessing_lists_.clear();
+  text_detector.FillPreprocessingList(text_detector.GetPreprocessingList("BinarizedCrop+BadBad+None+BinarizedRGBBad"));
+  fill_lists(text_detector.preprocessing_lists_);
+  EXPECT_EQ(etalon_bad_init, test_optimization_list)
+            << "Incorrect fill preprocessing list for 'BinarizedCrop+None' preprocessing string";
+
 }
 
 TEST(TextDetectorDecoratorTest, CorrectingArea_Succes) {
@@ -207,64 +168,73 @@ TEST(TextDetectorDecoratorTest, CorrectingArea_Succes) {
   cv::Rect test_area_none{100, 100, 840, 480};
   cv::Rect test_area_crop{100, 100, 840, 480};
 
-  detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), kSync4, kOptimizationTypeZero);
+  detector::TextDetectorDecorator text_detector(std::make_unique<MockTextDetector>(), "None");
   ASSERT_FLOAT_EQ(1.5, text_detector.crop_coefficient_) << "Incorrect crop data.";
 
-  text_detector.active_preprocessing_ = detector::TextDetectorDecorator::ScreenPreprocessing::kCrop;
-  text_detector.CorrectionArea(test_area_crop);
+  text_detector.CorrectionArea(test_area_crop, detector::TextDetectorDecorator::ScreenPreprocessing::kBinarizedCrop);
   EXPECT_TRUE(etalon_area_crop == test_area_crop) << "Detect area is and etalon area in not equal.";
 
-  text_detector.active_preprocessing_ = detector::TextDetectorDecorator::ScreenPreprocessing::kNone;
-  text_detector.CorrectionArea(test_area_none);
+  text_detector.CorrectionArea(test_area_none, detector::TextDetectorDecorator::ScreenPreprocessing::kNone);
   EXPECT_TRUE(etalon_area_none == test_area_none) << "Detect area is and etalon area in not equal.";
 }
 
-TEST(TextDetectorDecoratorTest, Detect_EmtyPattern_Exception) {
-  detector::TextDetectorDecorator decorator(std::make_unique<MockTextDetector>(), kSync4, kOptimizationTypeZero);
+TEST(TextDetectorDecoratorTest, Detect_Emty_Pattern_Exception) {
+  detector::TextDetectorDecorator decorator(std::make_unique<MockTextDetector>(), "None");
   EXPECT_EQ(cv::Rect{}, decorator.Detect(cv::Mat{}, "Hello")) << "Detect area must be empty.";
   EXPECT_EQ(cv::Rect{}, decorator.Detect(cv::Mat{}, "")) << "Detect area must be empty.";
 }
 
-TEST(TextDetectorDecoratorTest, No_Detect_Success) {
+TEST(TextDetectorDecoratorTest, Pattern_No_Detected_Success) {
   auto mock = std::make_unique<MockTextDetector>();
   EXPECT_CALL(*mock, Detect(OpenCVMatMatches(cv::Mat{}), "Hello")).Times(0);
 
-  detector::TextDetectorDecorator decorator(std::move(mock), kSync4, kOptimizationTypeZero);
+  detector::TextDetectorDecorator decorator(std::move(mock), "None");
   decorator.preprocessing_lists_.clear();
   auto detect_area = decorator.Detect(cv::Mat{}, "Hello");
   EXPECT_TRUE(detect_area.empty()) << "Detect area must be empty.";
 }
 
-TEST(TextDetectorDecoratorTest, Detect_Grayscale_No_Throw_Success) {
+TEST(TextDetectorDecoratorTest, Patern_Detected_Grayscale_No_Throw_Success) {
   auto frame = cv::imread(kFramePath, cv::IMREAD_GRAYSCALE);
   auto mock = std::make_unique<MockTextDetector>();
   const cv::Rect etalon_area{150, 150, 840, 480};
   EXPECT_CALL(*mock, Detect(_, _)).Times(1).WillOnce(Return(etalon_area));
 
-  detector::TextDetectorDecorator decorator(std::move(mock), kSync4, kOptimizationTypeZero);
+  detector::TextDetectorDecorator decorator(std::move(mock), "None");
   EXPECT_NO_THROW(decorator.Detect(frame, "Hello"));
 }
 
-TEST(TextDetectorDecoratorTest, Detect_No_Optimization_Success) {
+TEST(TextDetectorDecoratorTest, Pattern_Detected_No_Preprocessing_Success) {
   auto frame = cv::imread(kFramePath);
   auto mock = std::make_unique<MockTextDetector>();
   const cv::Rect etalon_area{150, 150, 840, 480};
   EXPECT_CALL(*mock, Detect(_, _)).Times(1).WillOnce(Return(etalon_area));
 
-  detector::TextDetectorDecorator decorator(std::move(mock), kSync4, kOptimizationTypeZero);
+  detector::TextDetectorDecorator decorator(std::move(mock), "None");
   auto detect_area = decorator.Detect(frame, "Hello");
   EXPECT_TRUE(etalon_area == detect_area) << "Detect area is and etalon area in not equal.";
   EXPECT_FALSE(detect_area.empty()) << "Detect area must be empty.";
 }
 
-TEST(TextDetectorDecoratorTest, Detect_Optimization_Success) {
+TEST(TextDetectorDecoratorTest, No_Pattern_Detected_Preprocessing_Success) {
   auto frame = cv::imread(kFramePath);
   auto mock = std::make_unique<MockTextDetector>();
   EXPECT_CALL(*mock, Detect(_, _)).Times(3).WillRepeatedly(Return(cv::Rect{}));
 
-  detector::TextDetectorDecorator decorator(std::move(mock), kSync4, kOptimizationTypeSimple);
+  detector::TextDetectorDecorator decorator(std::move(mock), "BinarizedCrop+Binarized+None");
   auto detect_area = decorator.Detect(frame, "Hello");
-  EXPECT_TRUE(detect_area.empty()) << "Detect area must be empty.";
+  EXPECT_TRUE(detect_area.empty()) << "Detected area must be empty.";
+}
+
+TEST(TextDetectorDecoratorTest, Pattern_Detected_Preprocessing_Success) {
+  auto frame = cv::imread(kFramePath);
+  const cv::Rect etalon_area{150, 150, 840, 480};
+  auto mock = std::make_unique<MockTextDetector>();
+  EXPECT_CALL(*mock, Detect(_, _)).Times(2).WillOnce(Return(cv::Rect{})).WillOnce(Return(etalon_area));
+
+  detector::TextDetectorDecorator decorator(std::move(mock), "BinarizedCrop+Binarized+None");
+  auto detect_area = decorator.Detect(frame, "Hello");
+  EXPECT_FALSE(detect_area.empty()) << "Detect area must be non empty.";
 }
 
 }  // namespace

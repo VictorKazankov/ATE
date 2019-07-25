@@ -22,7 +22,8 @@ namespace detector {
 using namespace defines;
 
 Matcher::Matcher()
-    : streamer_{streamer::MakeStreamer()}, image_detector_{std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
+    : streamer_{streamer::MakeStreamer()},
+      image_detector_{std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
           kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence))} {
   try {
     screenshot_recorder_ = std::make_unique<utils::ScreenshotRecorder>(
@@ -42,8 +43,7 @@ Matcher::Matcher()
       std::make_unique<TextDetector>(common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
                                                                 kDefaultTextDetectorConfidence),
                                      tessdata_prefix.c_str()),
-      common::Config().GetString(defines::kDBSection, defines::kTargetOption, {}),
-      common::Config().GetString(defines::kTextDetectorSection, defines::kTextDetectorOptimizationLevel, ""));
+      common::Config().GetString(defines::kTextDetectorSection, defines::kTextDetectorPreprocessingList, ""));
 }
 
 Matcher::~Matcher() = default;

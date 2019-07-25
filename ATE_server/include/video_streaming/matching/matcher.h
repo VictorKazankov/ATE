@@ -23,8 +23,8 @@ class Matcher {
  private:
   std::unique_ptr<streamer::Streamer> streamer_;
   std::unique_ptr<Detector<cv::Mat>> image_detector_;
-  std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
   std::unique_ptr<Detector<std::string>> text_detector_;
+  std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
 
   // Cache images
   cv::Mat screen_;

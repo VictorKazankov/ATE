@@ -8,7 +8,7 @@
 
 #include <opencv2/core/mat.hpp>
 
-#include "text_detector.h"
+#include "detector.h"
 
 namespace detector {
 
@@ -41,39 +41,22 @@ class FramePreprocessing {
 class TextDetectorDecorator : public Detector<std::string> {
  private:
   /**
-   * @brief An enum with optimization type
-   */
-  enum class OptimizationType {
-    kZero = 0,
-    kSimple = 1,
-    kAdvanced = 2,
-  };
-
-  /**
    * @brief An enum with frame preprocessing type
    */
   enum class ScreenPreprocessing {
+    kUnknown = -1,
     kNone = 0,
-    kCrop = 1,
+    kBinarizedCrop = 1,
     kBinarized = 2,
-    kOTSUBinarized = 3,
+    kBinarizedOTSU = 3,
     kBinarizedRGB = 4,  // TODO(SLisovenko@luxoft.com): need researching
   };
 
-  /**
-   * @brief Log type message
-   */
-  enum class TypeMessage {
-    kBegin,
-    kFound,
-    kNotFound,
-  };
-
  public:
-  explicit TextDetectorDecorator(std::unique_ptr<Detector<std::string>> text_detector, const std::string& sync_type,
-                                 const std::string& optimization_name);
+  explicit TextDetectorDecorator(std::unique_ptr<Detector<std::string>> text_detector,
+                                 const std::string& preprocessing_lists);
 
-  /*!
+  /**
    * @brief Detect text pattern
    * @param frame frame for search
    * @param pattern text for search
@@ -85,43 +68,42 @@ class TextDetectorDecorator : public Detector<std::string> {
   /**
    * @brief Correct detecting area for optimized frame
    * @param area Detected area for correcting
+   * @param active_preprocessing Current preprocessing type
    */
-  void CorrectionArea(cv::Rect& area) const noexcept;
+  void CorrectionArea(cv::Rect& area, ScreenPreprocessing active_preprocessing) const noexcept;
 
   /**
    * @brief Fill array with preprocessing procedures
-   * @param optimization_type optimization type
-   * @param sync_type Type of sync
+   * @param list_of_preprocessing_type array with active preprocessing procedure type
    */
-  void FillPreprocessingList(OptimizationType optimization_type, const std::string& sync_type);
-  void FillPreprocessingListForSync3(OptimizationType optimization_type);
-  void FillPreprocessingListForSync4(OptimizationType optimization_type);
+  void FillPreprocessingList(const std::vector<ScreenPreprocessing>& list_of_preprocessing_type);
 
-  /*!
-   * @brief Get name of optimization for logging
+  /**
+   * @brief Get description of optimization for logging
+   * @param active_preprocessing Current preprocessing type
    * @return name of optimization
    */
-  std::string GetCurrentPreprocessingName() const noexcept;
+  std::string GetCurrentPreprocessingDescription(ScreenPreprocessing active_preprocessing) const noexcept;
 
-  /*!
-   * @brief Get type of optimization by name
-   * @param name name of type optimization
-   * @return optimization type
+  /**
+   * @brief Get preprocessing type by name
+   * @param name preprocessing name
+   * @return preprocessing type
    */
-  OptimizationType GetOptimizationTypeByName(const std::string& name) const noexcept;
+  ScreenPreprocessing GetScreenPreprocessingByName(const std::string& name) const noexcept;
 
-  /*!
-   * @brief Logging current optimization processing
-   * @param type type message for logging
+  /**
+   * @brief Get list of preprocessing
+   * @param name preprocessing string ("None+BinarizedCrop+Binarized")
+   * @return preprocessing list
    */
-  void PrintLogMessage(TypeMessage type);
+  std::vector<ScreenPreprocessing> GetPreprocessingList(const std::string& list_of_preprocessing) const noexcept;
 
  private:
   using PreprocessingFunctionType = std::function<cv::Mat(const cv::Mat&)>;
   using PreprocessingDataType = std::pair<ScreenPreprocessing, PreprocessingFunctionType>;
 
   const double crop_coefficient_{1.5};
-  mutable ScreenPreprocessing active_preprocessing_{ScreenPreprocessing::kNone};
   std::unique_ptr<Detector<std::string>> text_detector_;
   std::vector<PreprocessingDataType> preprocessing_lists_{};
 };
