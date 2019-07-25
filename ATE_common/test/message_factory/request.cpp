@@ -90,7 +90,7 @@ TEST(RpcRequestTest, WrongId) {
   WrongRequestTest("{\"jsonrpc\":\"2.0\",\"id\":\"1\",\"method\":\"m\"}", rpc::Error::kInvalidRequest);
 
   // Float
-  WrongRequestTest("{\"jsonrpc\":\"2.0\",\"id\":0.9,\"method\":\"m\"}", rpc::Error::kInvalidRequest);
+  WrongRequestTest("{\"jsonrpc\":\"2.0\",\"id\":1.9,\"method\":\"m\"}", rpc::Error::kInvalidRequest);
 
   // Null
   WrongRequestTest("{\"jsonrpc\":\"2.0\",\"id\":null,\"method\":\"m\"}", rpc::Error::kInvalidRequest);

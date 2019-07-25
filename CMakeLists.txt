@@ -50,9 +50,6 @@ if(UNIX)
   add_cxx_compiler_flag(-Werror)
 endif(UNIX)
 
-# BUILD_SHARED_LIBS=ON necessary for building shared gtest library
-option(BUILD_SHARED_LIBS "Build shared libs by default" ON)
-
 option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)

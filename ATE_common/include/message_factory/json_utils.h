@@ -65,7 +65,7 @@ bool CheckHeader(const Json::Value& value);
 bool CheckHeaderType(const Json::Value& value);
 
 /**
- * @brief Check scheme of message 'WaitForApplicationLaunch'
+ * @brief Check scheme of message 'attachToApplication'
  *
  * @param value reference to 'Json::Value' for verification of json schema
  * @return true schema is correct otherwise false
@@ -101,7 +101,7 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
                                    squish::MouseButton& mouse_button, Json::Value& error);
 
 /**
- * @brief Check response scheme of message 'WaitForApplicationLaunch'
+ * @brief Check response scheme of message 'attachToApplication'
  *
  * @param value reference to 'Json::Value' for verification of json schema
  * @return true schema is correct otherwise false

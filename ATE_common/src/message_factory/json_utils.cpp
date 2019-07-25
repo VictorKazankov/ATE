@@ -50,11 +50,11 @@ void ParseJsonRpcRequest(const std::string& json_message, std::uint64_t& id, std
   }
 
   std::string id_error;
-  try {
-    id = message[kId].asUInt64();
-  } catch (const Json::LogicError& wrong_id) {
+  if (!message[kId].isUInt64()) {
     id = 0;
-    id_error.append("Wrong id: ").append(wrong_id.what());
+    id_error.append("Wrong id: id must be unsigned interger");
+  } else {
+    id = message[kId].asUInt64();
   }
 
   if (!id) {
@@ -163,7 +163,7 @@ bool CheckAttachToApplicationResponse(const Json::Value& schema) {
   if (!res) {
     logger::error(
         "[json msg parser][check app launch] Argument error: wrong type of response "
-        "'WaitForApplicationLaunch'");
+        "'attachToApplication'");
     return res;
   }
 
@@ -174,7 +174,7 @@ bool CheckAttachToApplicationResponse(const Json::Value& schema) {
   res = host.isString() && port.isUInt() && is_running.isBool();
   if (!res) {
     logger::error(
-        "[json msg parser][check app launch] Argument error: wrong type of params 'WaitForApplicationLaunch' "
+        "[json msg parser][check app launch] Argument error: wrong type of params 'attachToApplication' "
         "response");
   }
   return res;
