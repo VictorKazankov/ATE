@@ -165,7 +165,7 @@ class SettingsRadioPage:
 class SettingsNavigationPage:
 
     def settings_navigation_page_is_active(self):
-        return check_visibility(constants.SETTINGS_NAVIGATION_TEXT)
+        return check_visibility(constants.NAVIGATION_SETTINGS_TEXT)
 
     def open_map_preferences_page(self):
         tap(constants.MAP_PREFERENCES_TEXT)

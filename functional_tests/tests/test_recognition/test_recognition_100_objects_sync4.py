@@ -104,7 +104,7 @@ def audio_page(counter, driver_sync4):
 def settings_page(counter, driver_sync4):
     if not driver_sync4.settings_page.settings_page_is_active():
         driver_sync4.settings_page.open_settings_page()
-    helpers.get_result_recognition(constants.SOUND_SETTINGS_BUTTON_TEXT, counter)
+    helpers.get_result_recognition(constants.SOUND_SETTINGS_BUTTON_AND_TITLE_TEXT, counter)
     helpers.get_result_recognition(constants.CLOCK_SETTINGS_TEXT, counter)
     helpers.get_result_recognition(constants.CONNECTION_SETTINGS_BUTTON_TEXT, counter)
     helpers.get_result_recognition(constants.PHONE_BUTTON_TEXT, counter)
@@ -118,9 +118,9 @@ def settings_page(counter, driver_sync4):
 
     # setting audio page
     driver_sync4.settings_page.open_setting_audio_page()
-    helpers.get_result_recognition(constants.SOUND_SETTINGS_TITLE_TEXT, counter)
+    helpers.get_result_recognition(constants.SOUND_SETTINGS_BUTTON_AND_TITLE_TEXT, counter)
     helpers.get_result_recognition(constants.TONE_SETTINGS_TEXT, counter)
-    helpers.get_result_recognition(constants.SOUND_SETTINGS_BALANCE_FADE, counter)
+    helpers.get_result_recognition(constants.SOUND_SETTINGS_BALANCE_FADE_TEXT, counter)
     helpers.get_result_recognition(constants.SOUND_SETTINGS_SPEED_COMPENSATED_TEXT, counter)
     helpers.get_result_recognition(constants.SOUND_SETTINGS_OCCUPANCY_MODE_TEXT, counter)
     helpers.get_result_recognition(constants.BACK_BUTTON, counter)
@@ -165,8 +165,8 @@ def settings_page(counter, driver_sync4):
     helpers.get_result_recognition(constants.PM_BUTTON_ACTIVE, counter)
     helpers.get_result_recognition(constants.MODE_BUTTON_INACTIVITY, counter)
     helpers.get_result_recognition(constants.INFO_ICON, counter)
-    helpers.get_result_recognition(constants.HOUR_MODE_12, counter)
-    helpers.get_result_recognition(constants.RESET_CLOCK_GPS, counter)
+    helpers.get_result_recognition(constants.HOUR_MODE_12_TEXT, counter)
+    helpers.get_result_recognition(constants.RESET_CLOCK_GPS_TEXT, counter)
     driver_sync4.settings_page.tap_on_back_button()
 
     # settings connection
@@ -186,7 +186,7 @@ def settings_page(counter, driver_sync4):
     # settings general
     driver_sync4.settings_page.open_general_settings()
     helpers.get_result_recognition(constants.TEMPERATURE_UNITS_TEXT, counter)
-    helpers.get_result_recognition(constants.TEMPERATURE_CELSIUS_TEXT, counter)
+    helpers.get_result_recognition(constants.TEMPERATURE_FAHRENHEIT_TEXT, counter)
     helpers.get_result_recognition(constants.LANGUAGE_TEXT, counter)
     driver_sync4.settings_page.tap_on_back_button()
 

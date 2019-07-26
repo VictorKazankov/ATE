@@ -37,7 +37,7 @@ def navigation_settings_page(counter, driver):
     helpers.get_result_recognition(constants.ROUTE_PREFERENCES_TEXT, counter)
     helpers.get_result_recognition(constants.NAVIGATION_PREFERENCES_TEXT, counter)
     driver.settings_navigation_page.open_map_preferences_page()
-    helpers.get_result_recognition(constants.CITY_MODEL, counter)
+    helpers.get_result_recognition(constants.CITY_MODEL_TEXT, counter)
     helpers.get_result_recognition(constants.BREADCRUMBS, counter)
     driver.settings_radio_page.tap_on_back_button()
     driver.settings_navigation_page.open_route_preferences_page()

@@ -78,7 +78,7 @@ class SettingsAudioPage:
         tap(constants.SOUND_SETTINGS_OCCUPANCY_MODE_TEXT)
 
     def open_balance_fade_page(self):
-        tap(constants.SOUND_SETTINGS_BALANCE_FADE)
+        tap(constants.SOUND_SETTINGS_BALANCE_FADE_TEXT)
 
 
 class SettingsClockPage:
