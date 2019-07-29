@@ -12,7 +12,7 @@ namespace utils {
 
 FileDescriptor::~FileDescriptor() {
   if (fd_ >= 0) {
-    if (::close(fd_) != 0) logger::error("[utils][file descriptor] Failed to close file {}: {}", fd_, errno);
+    if (::close(fd_) != 0) logger::error("[utils][file descriptor: ~FileDescriptor()] Failed to close file {}: {}", fd_, errno);
   }
 }
 
@@ -25,7 +25,7 @@ FileDescriptor::FileDescriptor(FileDescriptor&& rhs) noexcept { *this = std::mov
 FileDescriptor& FileDescriptor::operator=(FileDescriptor&& rhs) noexcept {
   // close current descriptor before moving
   if (fd_ >= 0) {
-    if (::close(fd_) != 0) logger::error("[utils][file descriptor] Failed to close file {}: {}", fd_, errno);
+    if (::close(fd_) != 0) logger::error("[utils][file descriptor: operator=(FileDescriptor&&)] Failed to close file {}: {}", fd_, errno);
   }
   // move
   fd_ = rhs.fd_;
