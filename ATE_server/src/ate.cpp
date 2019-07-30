@@ -52,6 +52,7 @@ ATE::ATE(boost::asio::io_context& io_context)
       interaction_{InteractionFactory(common::Config().GetString(defines::kInteraction, defines::kInteractionType, ""),
                                       io_context)} {
   if (!storage_->LoadCollection(common::Config().GetString(defines::kDBSection, defines::kTargetOption, {}),
+                                common::Config().GetString(defines::kDBSection, defines::kBuildOption, {}),
                                 common::Config().GetString(defines::kDBSection, defines::kCollectionModeOption, {}))) {
     throw storage::ConnectionFailure{};
   }

@@ -15,6 +15,7 @@ enum class ContactId { kOneFingerTouch = 0 };
 
 constexpr auto kDBSection = "DB";
 constexpr auto kTargetOption = "Target";
+constexpr auto kBuildOption = "Build";
 constexpr auto kCollectionModeOption = "CollectionMode";
 constexpr auto kInteraction = "INTERACTION";
 constexpr auto kAddressOption = "Address";

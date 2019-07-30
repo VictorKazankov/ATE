@@ -142,7 +142,9 @@ By default, build root is set to _build-VHAT_2.0-Release_ and installation is do
 1. Select icon storage:
     ```
     [DB]
-    Target = <TDK Sync version (Sync3 | Sync4)>
+    Target = <TDK Sync version (sync3 | sync4)>
+    Build = <TDK Sync software build version>
+    CollectionMode = <Current Sync display theme(day_mode | night_mode)>
     ```
 
 1. Save the _vhat_server.ini_ and run VHAT server:
@@ -184,7 +186,9 @@ VHAT server need to be restarted in order to apply any config or icon storage ch
 1. Select icon storage:
     ```
     [DB]
-    Target = <TDK sync version (Sync3 | Sync4)>
+    Target = <TDK sync version (sync3 | sync4)>
+    Build = <Sync software build version>
+    CollectionMode = <Current Sync display theme(day_mode | night_mode)>
     ```
 
 1. Save the _vhat_server.ini_ and run VHAT server:
