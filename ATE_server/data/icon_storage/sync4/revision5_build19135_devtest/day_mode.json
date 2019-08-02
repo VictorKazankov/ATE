@@ -1,398 +1,1014 @@
 [
-    {
-        "name":"line",
-        "location":"day_mode/line.png"
-    },
-    {
-        "name":"down_arrow_thin",
-        "location":"day_mode/down_arrow_thin.png"
-    },
-    {
-        "name":"arrow_right",
-        "location":"day_mode/arrow_right.png"
-    },
-    {
-        "name":"radio_fm",
-        "location":"day_mode/radio_fm.png"
-    },
-    {
-        "name":"slider",
-        "location":"day_mode/slider.png"
-    },
-    {
-        "name":"phone_button",
-        "location":"day_mode/phone_button.png"
-    },
-    {
-        "name":"glass_heating",
-        "location":"day_mode/glass_heating.png"
-    },
-    {
-        "name":"apps_button_panel_active",
-        "location":"day_mode/apps_button_panel_active.png"
-    },
-    {
-        "name":"mode_button_active",
-        "location":"day_mode/mode_button_active.png"
-    },
-    {
-        "name":"switch_on_off",
-        "location":"day_mode/switch_on_off.png"
-    },
-    {
-        "name":"mobile_apps_settings",
-        "location":"day_mode/mobile_apps_settings.png"
-    },
-    {
-        "name":"features_button_panel",
-        "location":"day_mode/features_button_panel.png"
-    },
-    {
-        "name":"max_glass_heating_inactive",
-        "location":"day_mode/max_glass_heating_inactive.png"
-    },
-    {
-        "name":"clock_settings",
-        "location":"day_mode/clock_settings.png"
-    },
-    {
-        "name":"back_button",
-        "location":"day_mode/back_button.png"
-    },
-    {
-        "name":"air_condition_inside",
-        "location":"day_mode/air_condition_inside.png"
-    },
-    {
-        "name":"assist911",
-        "location":"day_mode/assist911.png"
-    },
-    {
-        "name":"am_button_inactive",
-        "location":"day_mode/am_button_inactive.png"
-    },
-    {
-        "name":"delete",
-        "location":"day_mode/delete.png"
-    },
-    {
-        "name":"sound_settings",
-        "location":"day_mode/sound_settings.png"
-    },
-    {
-        "name":"up_arrow_red",
-        "location":"day_mode/up_arrow_red.png"
-    },
-    {
-        "name":"radio_button_inactive",
-        "location":"day_mode/radio_button_inactive.png"
-    },
-    {
-        "name":"mode_button_inactive",
-        "location":"day_mode/mode_button_inactive.png"
-    },
-    {
-        "name":"up_airflow",
-        "location":"day_mode/up_airflow.png"
-    },
-    {
-        "name":"favorites_button_panel",
-        "location":"day_mode/favorites_button_panel.png"
-    },
-    {
-        "name":"info",
-        "location":"day_mode/info.png"
-    },
-    {
-        "name":"up_arrow_thin",
-        "location":"day_mode/up_arrow_thin.png"
-    },
-    {
-        "name":"down_arrow_blue",
-        "location":"day_mode/down_arrow_blue.png"
-    },
-    {
-        "name":"max_a_c_inactive",
-        "location":"day_mode/max_a_c_inactive.png"
-    },
-    {
-        "name":"down_airflow",
-        "location":"day_mode/down_airflow.png"
-    },
-    {
-        "name":"apps_button_panel_inactive",
-        "location":"day_mode/apps_button_panel_inactive.png"
-    },
-    {
-        "name":"radio_settings",
-        "location":"day_mode/radio_settings.png"
-    },
-    {
-        "name":"menu_button",
-        "location":"day_mode/menu_button.png"
-    },
-    {
-        "name":"right_arrow",
-        "location":"day_mode/right_arrow.png"
-    },
-    {
-        "name":"radio_button_active",
-        "location":"day_mode/radio_button_active.png"
-    },
-    {
-        "name":"apps_button",
-        "location":"day_mode/apps_button.png"
-    },
-    {
-        "name":"general_settings",
-        "location":"day_mode/general_settings.png"
-    },
-    {
-        "name":"bluetooth",
-        "location":"day_mode/bluetooth.png"
-    },
-    {
-        "name":"left_arrow",
-        "location":"day_mode/left_arrow.png"
-    },
-    {
-        "name":"balance_fade",
-        "location":"day_mode/balance_fade.png"
-    },
-    {
-        "name":"glass_heating_back",
-        "location":"day_mode/glass_heating_back.png"
-    },
-    {
-        "name":"settings_button_panel",
-        "location":"day_mode/settings_button_panel.png"
-    },
-    {
-        "name":"up_arrow",
-        "location":"day_mode/up_arrow.png"
-    },
-    {
-        "name":"radio_am",
-        "location":"day_mode/radio_am.png"
-    },
-    {
-        "name":"wifi",
-        "location":"day_mode/wifi.png"
-    },
-    {
-        "name":"down_arrow2",
-        "location":"day_mode/down_arrow2.png"
-    },
-    {
-        "name":"pm_button_active",
-        "location":"day_mode/pm_button_active.png"
-    },
-    {
-        "name":"add_phone_settings",
-        "location":"day_mode/add_phone_settings.png"
-    },
-    {
-        "name":"phone_button_panel",
-        "location":"day_mode/phone_button_panel.png"
-    },
-    {
-        "name":"down_arrow",
-        "location":"day_mode/down_arrow.png"
-    },
-    {
-        "name":"key_f_low_activate",
-        "location":"day_mode/keyboard/key_f_low_activate.png"
-    },
-    {
-        "name":"key_o_low_activate",
-        "location":"day_mode/keyboard/key_o_low_activate.png"
-    },
-    {
-        "name":"key_b_low_activate",
-        "location":"day_mode/keyboard/key_b_low_activate.png"
-    },
-    {
-        "name":"key_h_low_activate",
-        "location":"day_mode/keyboard/key_h_low_activate.png"
-    },
-    {
-        "name":"key_n_low_activate",
-        "location":"day_mode/keyboard/key_n_low_activate.png"
-    },
-    {
-        "name":"key_p_low_activate",
-        "location":"day_mode/keyboard/key_p_low_activate.png"
-    },
-    {
-        "name":"caption_off",
-        "location":"day_mode/keyboard/caption_off.png"
-    },
-    {
-        "name":"del_activate",
-        "location":"day_mode/keyboard/del_activate.png"
-    },
-    {
-        "name":"key_u_low_activate",
-        "location":"day_mode/keyboard/key_u_low_activate.png"
-    },
-    {
-        "name":"key_5_active",
-        "location":"day_mode/keyboard/key_5_active.png"
-    },
-    {
-        "name":"key_l_low_activate",
-        "location":"day_mode/keyboard/key_l_low_activate.png"
-    },
-    {
-        "name":"key_6_active",
-        "location":"day_mode/keyboard/key_6_active.png"
-    },
-    {
-        "name":"key_r_low_activate",
-        "location":"day_mode/keyboard/key_r_low_activate.png"
-    },
-    {
-        "name":"key_8_active",
-        "location":"day_mode/keyboard/key_8_active.png"
-    },
-    {
-        "name":"key_a_low_activate",
-        "location":"day_mode/keyboard/key_a_low_activate.png"
-    },
-    {
-        "name":"key_space_activate",
-        "location":"day_mode/keyboard/key_space_activate.png"
-    },
-    {
-        "name":"key_0_active",
-        "location":"day_mode/keyboard/key_0_active.png"
-    },
-    {
-        "name":"key_d_low_activate",
-        "location":"day_mode/keyboard/key_d_low_activate.png"
-    },
-    {
-        "name":"key_e_low_activate",
-        "location":"day_mode/keyboard/key_e_low_activate.png"
-    },
-    {
-        "name":"key_c_low_activate",
-        "location":"day_mode/keyboard/key_c_low_activate.png"
-    },
-    {
-        "name":"key_3_active",
-        "location":"day_mode/keyboard/key_3_active.png"
-    },
-    {
-        "name":"key_s_low_activate",
-        "location":"day_mode/keyboard/key_s_low_activate.png"
-    },
-    {
-        "name":"key_t_low_activate",
-        "location":"day_mode/keyboard/key_t_low_activate.png"
-    },
-    {
-        "name":"key_m_low_activate",
-        "location":"day_mode/keyboard/key_m_low_activate.png"
-    },
-    {
-        "name":"key_9_active",
-        "location":"day_mode/keyboard/key_9_active.png"
-    },
-    {
-        "name":"key_v_low_activate",
-        "location":"day_mode/keyboard/key_v_low_activate.png"
-    },
-    {
-        "name":"key_x_low_activate",
-        "location":"day_mode/keyboard/key_x_low_activate.png"
-    },
-    {
-        "name":"key_q_low_activate",
-        "location":"day_mode/keyboard/key_q_low_activate.png"
-    },
-    {
-        "name":"key_i_low_activate",
-        "location":"day_mode/keyboard/key_i_low_activate.png"
-    },
-    {
-        "name":"key_4_active",
-        "location":"day_mode/keyboard/key_4_active.png"
-    },
-    {
-        "name":"key_j_low_activate",
-        "location":"day_mode/keyboard/key_j_low_activate.png"
-    },
-    {
-        "name":"caption_on",
-        "location":"day_mode/keyboard/caption_on.png"
-    },
-    {
-        "name":"key_2_active",
-        "location":"day_mode/keyboard/key_2_active.png"
-    },
-    {
-        "name":"key_7_active",
-        "location":"day_mode/keyboard/key_7_active.png"
-    },
-    {
-        "name":"key_w_low_activate",
-        "location":"day_mode/keyboard/key_w_low_activate.png"
-    },
-    {
-        "name":"key_1_active",
-        "location":"day_mode/keyboard/key_1_active.png"
-    },
-    {
-        "name":"key_g_low_activate",
-        "location":"day_mode/keyboard/key_g_low_activate.png"
-    },
-    {
-        "name":"key_k_low_activate",
-        "location":"day_mode/keyboard/key_k_low_activate.png"
-    },
-    {
-        "name":"key_y_low_activate",
-        "location":"day_mode/keyboard/key_y_low_activate.png"
-    },
-    {
-        "name":"audio",
-        "location":"day_mode/radio/audio.png"
-    },
-    {
-        "name":"radio_enter_button_deactive",
-        "location":"day_mode/radio/radio_enter_button_deactive.png"
-    },
-    {
-        "name":"radio_tune_button",
-        "location":"day_mode/radio/radio_tune_button.png"
-    },
-    {
-        "name":"radio_cancel_button_active",
-        "location":"day_mode/radio/radio_cancel_button_active.png"
-    },
-    {
-        "name":"audio_source_button",
-        "location":"day_mode/radio/audio_source_button.png"
-    },
-    {
-        "name":"radio_enter_button_active",
-        "location":"day_mode/radio/radio_enter_button_active.png"
-    },
-    {
-        "name":"audio_active",
-        "location":"day_mode/radio/audio_active.png"
-    },
-    {
-        "name":"radio_fm_active",
-        "location":"day_mode/radio/radio_fm_active.png"
-    },
-    {
-        "name":"mobile_contact_icon",
-        "location":"day_mode/phone/mobile_contact_icon.png"
-    },
-    {
-        "name":"phone_contacts_button",
-        "location":"day_mode/phone/phone_contacts_button.png"
-    }
+  {
+    "name": "panel_phone_tab_active",
+    "location": "day_mode/panel_phone_tab_active.png"
+  },
+  {
+    "name": "main_climate_active_button",
+    "location": "day_mode/main_climate_active_button.png"
+  },
+  {
+    "name": "settings_display_brightness_slider",
+    "location": "day_mode/settings_display_brightness_slider.png"
+  },
+  {
+    "name": "main_favorites_inactive_button",
+    "location": "day_mode/main_favorites_inactive_button.png"
+  },
+  {
+    "name": "main_apps_active_button",
+    "location": "day_mode/main_apps_active_button.png"
+  },
+  {
+    "name": "audio_arrow_left_button",
+    "location": "day_mode/audio_arrow_left_button.png"
+  },
+  {
+    "name": "apps_owner_manual_button",
+    "location": "day_mode/apps_owner_manual_button.png"
+  },
+  {
+    "name": "audio_notifications_button",
+    "location": "day_mode/audio_notifications_button.png"
+  },
+  {
+    "name": "audio_selected_first_pack_icon",
+    "location": "day_mode/audio_selected_first_pack_icon.png"
+  },
+  {
+    "name": "panel_down_arrow_button",
+    "location": "day_mode/panel_down_arrow_button.png"
+  },
+  {
+    "name": "main_audio_inactive_button",
+    "location": "day_mode/main_audio_inactive_button.png"
+  },
+  {
+    "name": "climate_auto_button",
+    "location": "day_mode/climate_auto_button.png"
+  },
+  {
+    "name": "main_features_inactive_button",
+    "location": "day_mode/main_features_inactive_button.png"
+  },
+  {
+    "name": "settings_valet_mode_button",
+    "location": "day_mode/settings_valet_mode_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_trailer_routing_continue_button",
+    "location": "day_mode/settings_sync_navigation_trailer_routing_continue_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_three_button",
+    "location": "day_mode/audio_direct_tune_inactive_three_button.png"
+  },
+  {
+    "name": "settings_sounds_balance",
+    "location": "day_mode/settings_sounds_balance.png"
+  },
+  {
+    "name": "panel_audio_inactive_down_tab",
+    "location": "day_mode/panel_audio_inactive_down_tab.png"
+  },
+  {
+    "name": "panel_eco_active_tab_",
+    "location": "day_mode/panel_eco_active_tab_.png"
+  },
+  {
+    "name": "apps_tab_selected_button",
+    "location": "day_mode/apps_tab_selected_button.png"
+  },
+  {
+    "name": "audio_arrow_right_button",
+    "location": "day_mode/audio_arrow_right_button.png"
+  },
+  {
+    "name": "settings_display_mode_radio_button_off",
+    "location": "day_mode/settings_display_mode_radio_button_off.png"
+  },
+  {
+    "name": "settings_sync_navigation_info_icon",
+    "location": "day_mode/settings_sync_navigation_info_icon.png"
+  },
+  {
+    "name": "panel_vehicle_active_tab",
+    "location": "day_mode/panel_vehicle_active_tab.png"
+  },
+  {
+    "name": "main_audio_active_button",
+    "location": "day_mode/main_audio_active_button.png"
+  },
+  {
+    "name": "climate_head_airflow_button",
+    "location": "day_mode/climate_head_airflow_button.png"
+  },
+  {
+    "name": "settings_display_background#4",
+    "location": "day_mode/settings_display_background#4.png"
+  },
+  {
+    "name": "climate_heated_windshield_button",
+    "location": "day_mode/climate_heated_windshield_button.png"
+  },
+  {
+    "name": "panel_up_arrow_button",
+    "location": "day_mode/panel_up_arrow_button.png"
+  },
+  {
+    "name": "settings_general_schedule_dash",
+    "location": "day_mode/settings_general_schedule_dash.png"
+  },
+  {
+    "name": "settings_sync_navigation_show_map_button",
+    "location": "day_mode/settings_sync_navigation_show_map_button.png"
+  },
+  {
+    "name": "phone_add_phone_button",
+    "location": "day_mode/phone_add_phone_button.png"
+  },
+  {
+    "name": "phone_help_button",
+    "location": "day_mode/phone_help_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_check_off",
+    "location": "day_mode/settings_sync_navigation_check_off.png"
+  },
+  {
+    "name": "audio_fm_button",
+    "location": "day_mode/audio_fm_button.png"
+  },
+  {
+    "name": "settings_voice_help_app_link_button",
+    "location": "day_mode/settings_voice_help_app_link_button.png"
+  },
+  {
+    "name": "climate_auto_selection_icon",
+    "location": "day_mode/climate_auto_selection_icon.png"
+  },
+  {
+    "name": "audio_direct_tune_one_button",
+    "location": "day_mode/audio_direct_tune_one_button.png"
+  },
+  {
+    "name": "panel_navigation_inactive_up_tab",
+    "location": "day_mode/panel_navigation_inactive_up_tab.png"
+  },
+  {
+    "name": "phone_first_favourite_button",
+    "location": "day_mode/phone_first_favourite_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_two_button",
+    "location": "day_mode/audio_direct_tune_inactive_two_button.png"
+  },
+  {
+    "name": "audio_direct_tune_nine_button",
+    "location": "day_mode/audio_direct_tune_nine_button.png"
+  },
+  {
+    "name": "settings_sync_navigation",
+    "location": "day_mode/settings_sync_navigation.png"
+  },
+  {
+    "name": "settings_sync_navigation_map_orientation_button",
+    "location": "day_mode/settings_sync_navigation_map_orientation_button.png"
+  },
+  {
+    "name": "main_apps_inactive_button",
+    "location": "day_mode/main_apps_inactive_button.png"
+  },
+  {
+    "name": "nav_open_location_panel_button",
+    "location": "day_mode/nav_open_location_panel_button.png"
+  },
+  {
+    "name": "main_settings_inactive_button",
+    "location": "day_mode/main_settings_inactive_button.png"
+  },
+  {
+    "name": "audio_yes_button",
+    "location": "day_mode/audio_yes_button.png"
+  },
+  {
+    "name": "apps_close_button",
+    "location": "day_mode/apps_close_button.png"
+  },
+  {
+    "name": "audio_direct_tune_seven_button",
+    "location": "day_mode/audio_direct_tune_seven_button.png"
+  },
+  {
+    "name": "settings_phone_list_music_icon",
+    "location": "day_mode/settings_phone_list_music_icon.png"
+  },
+  {
+    "name": "audio_am_button",
+    "location": "day_mode/audio_am_button.png"
+  },
+  {
+    "name": "settings_voice_help_media_button",
+    "location": "day_mode/settings_voice_help_media_button.png"
+  },
+  {
+    "name": "settings_connection_button",
+    "location": "day_mode/settings_connection_button.png"
+  },
+  {
+    "name": "panel_deceleration_icon",
+    "location": "day_mode/panel_deceleration_icon.png"
+  },
+  {
+    "name": "settings_clock_pm_inactive_button",
+    "location": "day_mode/settings_clock_pm_inactive_button.png"
+  },
+  {
+    "name": "audio_bluetooth_stereo_button",
+    "location": "day_mode/audio_bluetooth_stereo_button.png"
+  },
+  {
+    "name": "settings_display_button",
+    "location": "day_mode/settings_display_button.png"
+  },
+  {
+    "name": "settings_clock_am_active_button",
+    "location": "day_mode/settings_clock_am_active_button.png"
+  },
+  {
+    "name": "audio_direct_tune_enter_button",
+    "location": "day_mode/audio_direct_tune_enter_button.png"
+  },
+  {
+    "name": "panel_vehicle_inactive_down_tab",
+    "location": "day_mode/panel_vehicle_inactive_down_tab.png"
+  },
+  {
+    "name": "apps_find_mobile_apps_button",
+    "location": "day_mode/apps_find_mobile_apps_button.png"
+  },
+  {
+    "name": "settings_voice_help_radio_button",
+    "location": "day_mode/settings_voice_help_radio_button.png"
+  },
+  {
+    "name": "apps_categories_button",
+    "location": "day_mode/apps_categories_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_voice_button",
+    "location": "day_mode/settings_sync_navigation_voice_button.png"
+  },
+  {
+    "name": "climate_on_off_button_disabled",
+    "location": "day_mode/climate_on_off_button_disabled.png"
+  },
+  {
+    "name": "apps_bookmarks_button",
+    "location": "day_mode/apps_bookmarks_button.png"
+  },
+  {
+    "name": "climate_additional_controls_close_button",
+    "location": "day_mode/climate_additional_controls_close_button.png"
+  },
+  {
+    "name": "climate_legs_airflow_button",
+    "location": "day_mode/climate_legs_airflow_button.png"
+  },
+  {
+    "name": "audio_direct_tune_five_button",
+    "location": "day_mode/audio_direct_tune_five_button.png"
+  },
+  {
+    "name": "panel_point_inactive_icon",
+    "location": "day_mode/panel_point_inactive_icon.png"
+  },
+  {
+    "name": "audio_direct_tune_cancel_button",
+    "location": "day_mode/audio_direct_tune_cancel_button.png"
+  },
+  {
+    "name": "phone_close_button",
+    "location": "day_mode/phone_close_button.png"
+  },
+  {
+    "name": "main_nav_active_button",
+    "location": "day_mode/main_nav_active_button.png"
+  },
+  {
+    "name": "settings_star_icon",
+    "location": "day_mode/settings_star_icon.png"
+  },
+  {
+    "name": "settings_voice_help_navigation_button",
+    "location": "day_mode/settings_voice_help_navigation_button.png"
+  },
+  {
+    "name": "settings_clock_up_arrow",
+    "location": "day_mode/settings_clock_up_arrow.png"
+  },
+  {
+    "name": "main_features_active_button",
+    "location": "day_mode/main_features_active_button.png"
+  },
+  {
+    "name": "settings_voice_control_button",
+    "location": "day_mode/settings_voice_control_button.png"
+  },
+  {
+    "name": "panel_point_active_icon",
+    "location": "day_mode/panel_point_active_icon.png"
+  },
+  {
+    "name": "climate_red_arrow_up_button",
+    "location": "day_mode/climate_red_arrow_up_button.png"
+  },
+  {
+    "name": "settings_clock_pm_active",
+    "location": "day_mode/settings_clock_pm_active.png"
+  },
+  {
+    "name": "settings_remove_apple_button",
+    "location": "day_mode/settings_remove_apple_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_five_button",
+    "location": "day_mode/audio_direct_tune_inactive_five_button.png"
+  },
+  {
+    "name": "audio_browse_button",
+    "location": "day_mode/audio_browse_button.png"
+  },
+  {
+    "name": "climate_blue_arrow_down_button",
+    "location": "day_mode/climate_blue_arrow_down_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_traffic_map_button",
+    "location": "day_mode/settings_sync_navigation_traffic_map_button.png"
+  },
+  {
+    "name": "settings_clock_colon_icon",
+    "location": "day_mode/settings_clock_colon_icon.png"
+  },
+  {
+    "name": "settings_general_schedule_days_week_close",
+    "location": "day_mode/settings_general_schedule_days_week_close.png"
+  },
+  {
+    "name": "settings_display_brightness_left_arrow_button",
+    "location": "day_mode/settings_display_brightness_left_arrow_button.png"
+  },
+  {
+    "name": "settings_system_wi_fi",
+    "location": "day_mode/settings_system_wi_fi.png"
+  },
+  {
+    "name": "panel_tab_list_icon",
+    "location": "day_mode/panel_tab_list_icon.png"
+  },
+  {
+    "name": "settings_911_assist_button",
+    "location": "day_mode/settings_911_assist_button.png"
+  },
+  {
+    "name": "climate_air_flow_button",
+    "location": "day_mode/climate_air_flow_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_zero_button",
+    "location": "day_mode/audio_direct_tune_inactive_zero_button.png"
+  },
+  {
+    "name": "climate_tab_selected",
+    "location": "day_mode/climate_tab_selected.png"
+  },
+  {
+    "name": "audio_people_button",
+    "location": "day_mode/audio_people_button.png"
+  },
+  {
+    "name": "on_off_inactive_button",
+    "location": "day_mode/on_off_inactive_button.png"
+  },
+  {
+    "name": "settings_phone_list_plus_icon",
+    "location": "day_mode/settings_phone_list_plus_icon.png"
+  },
+  {
+    "name": "audio_sirius_sources_button",
+    "location": "day_mode/audio_sirius_sources_button.png"
+  },
+  {
+    "name": "settings_mobile_apps_button",
+    "location": "day_mode/settings_mobile_apps_button.png"
+  },
+  {
+    "name": "settings_sound_tone_line",
+    "location": "day_mode/settings_sound_tone_line.png"
+  },
+  {
+    "name": "settings_display_brightness_right_arrow_button",
+    "location": "day_mode/settings_display_brightness_right_arrow_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_eight_button",
+    "location": "day_mode/audio_direct_tune_inactive_eight_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_avoid_route_button",
+    "location": "day_mode/settings_sync_navigation_avoid_route_button.png"
+  },
+  {
+    "name": "settings_apple_carplay_button",
+    "location": "day_mode/settings_apple_carplay_button.png"
+  },
+  {
+    "name": "settings_phone_list_remove_icon",
+    "location": "day_mode/settings_phone_list_remove_icon.png"
+  },
+  {
+    "name": "apps_videos_button",
+    "location": "day_mode/apps_videos_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_trailer_routing_cancel_button",
+    "location": "day_mode/settings_sync_navigation_trailer_routing_cancel_button.png"
+  },
+  {
+    "name": "nav_saved_location_button",
+    "location": "day_mode/nav_saved_location_button.png"
+  },
+  {
+    "name": "settings_clock_button",
+    "location": "day_mode/settings_clock_button.png"
+  },
+  {
+    "name": "panel_audio_tab",
+    "location": "day_mode/panel_audio_tab.png"
+  },
+  {
+    "name": "panel_navigation_active_tab",
+    "location": "day_mode/panel_navigation_active_tab.png"
+  },
+  {
+    "name": "apps_arrow_right_button",
+    "location": "day_mode/apps_arrow_right_button.png"
+  },
+  {
+    "name": "climate_additional_controls_max_A_C_button",
+    "location": "day_mode/climate_additional_controls_max_A_C_button.png"
+  },
+  {
+    "name": "settings_clock_down_arrow",
+    "location": "day_mode/settings_clock_down_arrow.png"
+  },
+  {
+    "name": "apps_search_button",
+    "location": "day_mode/apps_search_button.png"
+  },
+  {
+    "name": "settings_display_brightness_reset_button",
+    "location": "day_mode/settings_display_brightness_reset_button.png"
+  },
+  {
+    "name": "settings_clock_am_inactive",
+    "location": "day_mode/settings_clock_am_inactive.png"
+  },
+  {
+    "name": "panel_audio_inactive_up_tab",
+    "location": "day_mode/panel_audio_inactive_up_tab.png"
+  },
+  {
+    "name": "audio_direct_tune_delete_button",
+    "location": "day_mode/audio_direct_tune_delete_button.png"
+  },
+  {
+    "name": "audio_direct_tune_six_button",
+    "location": "day_mode/audio_direct_tune_six_button.png"
+  },
+  {
+    "name": "settings_display_background#3",
+    "location": "day_mode/settings_display_background#3.png"
+  },
+  {
+    "name": "panel_switch_on_off_button",
+    "location": "day_mode/panel_switch_on_off_button.png"
+  },
+  {
+    "name": "settings_voice_help_climate_button",
+    "location": "day_mode/settings_voice_help_climate_button.png"
+  },
+  {
+    "name": "settings_general_schedule_no_button",
+    "location": "day_mode/settings_general_schedule_no_button.png"
+  },
+  {
+    "name": "audio_cancel_button",
+    "location": "day_mode/audio_cancel_button.png"
+  },
+  {
+    "name": "climate_additional_controls_max_heat_windshield_button",
+    "location": "day_mode/climate_additional_controls_max_heat_windshield_button.png"
+  },
+  {
+    "name": "main_climate_inactive_button",
+    "location": "day_mode/main_climate_inactive_button.png"
+  },
+  {
+    "name": "nav_unnamed_road_button",
+    "location": "day_mode/nav_unnamed_road_button.png"
+  },
+  {
+    "name": "settings_radio_button",
+    "location": "day_mode/settings_radio_button.png"
+  },
+  {
+    "name": "phone_back_button",
+    "location": "day_mode/phone_back_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_four_button",
+    "location": "day_mode/audio_direct_tune_inactive_four_button.png"
+  },
+  {
+    "name": "settings_phone_list_close_button",
+    "location": "day_mode/settings_phone_list_close_button.png"
+  },
+  {
+    "name": "settings_general_schedule_days_week_scroll",
+    "location": "day_mode/settings_general_schedule_days_week_scroll.png"
+  },
+  {
+    "name": "phone_tab_selected_button",
+    "location": "day_mode/phone_tab_selected_button.png"
+  },
+  {
+    "name": "phone_retry_button",
+    "location": "day_mode/phone_retry_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_avoid_route_ok_button",
+    "location": "day_mode/settings_sync_navigation_avoid_route_ok_button.png"
+  },
+  {
+    "name": "settings_general_master_reset",
+    "location": "day_mode/settings_general_master_reset.png"
+  },
+  {
+    "name": "settings_phone_list_button",
+    "location": "day_mode/settings_phone_list_button.png"
+  },
+  {
+    "name": "audio_subscribe_button",
+    "location": "day_mode/audio_subscribe_button.png"
+  },
+  {
+    "name": "info_icon",
+    "location": "day_mode/info_icon.png"
+  },
+  {
+    "name": "main_phone_inactive_button",
+    "location": "day_mode/main_phone_inactive_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_check_on",
+    "location": "day_mode/settings_sync_navigation_check_on.png"
+  },
+  {
+    "name": "audio_am_second_pack_selected",
+    "location": "day_mode/audio_am_second_pack_selected.png"
+  },
+  {
+    "name": "settings_display_background#1",
+    "location": "day_mode/settings_display_background#1.png"
+  },
+  {
+    "name": "climate_back_window_button",
+    "location": "day_mode/climate_back_window_button.png"
+  },
+  {
+    "name": "climate_black_arrow_up_button",
+    "location": "day_mode/climate_black_arrow_up_button.png"
+  },
+  {
+    "name": "audio_next_button",
+    "location": "day_mode/audio_next_button.png"
+  },
+  {
+    "name": "settings_sounds_tone_reset_all_button",
+    "location": "day_mode/settings_sounds_tone_reset_all_button.png"
+  },
+  {
+    "name": "apps_back_button",
+    "location": "day_mode/apps_back_button.png"
+  },
+  {
+    "name": "panel_navigation_inactive_down_tab",
+    "location": "day_mode/panel_navigation_inactive_down_tab.png"
+  },
+  {
+    "name": " settings_connection_refresh_button",
+    "location": "day_mode/ settings_connection_refresh_button.png"
+  },
+  {
+    "name": "settings_voice_help_phone_button",
+    "location": "day_mode/settings_voice_help_phone_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_nine_button",
+    "location": "day_mode/audio_direct_tune_inactive_nine_button.png"
+  },
+  {
+    "name": "main_settings_active_button",
+    "location": "day_mode/main_settings_active_button.png"
+  },
+  {
+    "name": "main_favorites_active_button",
+    "location": "day_mode/main_favorites_active_button.png"
+  },
+  {
+    "name": "audio_previous_button",
+    "location": "day_mode/audio_previous_button.png"
+  },
+  {
+    "name": "panel_vehicle_inactive_up_tab",
+    "location": "day_mode/panel_vehicle_inactive_up_tab.png"
+  },
+  {
+    "name": "climate_A_C_button",
+    "location": "day_mode/climate_A_C_button.png"
+  },
+  {
+    "name": "panel_eco_inactive_down_tab",
+    "location": "day_mode/panel_eco_inactive_down_tab.png"
+  },
+  {
+    "name": "panel_eco_inactive_up_tab",
+    "location": "day_mode/panel_eco_inactive_up_tab.png"
+  },
+  {
+    "name": "settings_display_background#2",
+    "location": "day_mode/settings_display_background#2.png"
+  },
+  {
+    "name": "apps_mobile_apps_help_button",
+    "location": "day_mode/apps_mobile_apps_help_button.png"
+  },
+  {
+    "name": "apps_cancel_search_button",
+    "location": "day_mode/apps_cancel_search_button.png"
+  },
+  {
+    "name": "panel_phone_inactive_up_tab",
+    "location": "day_mode/panel_phone_inactive_up_tab.png"
+  },
+  {
+    "name": "settings_voice_help_sirius_button",
+    "location": "day_mode/settings_voice_help_sirius_button.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_seven_button",
+    "location": "day_mode/audio_direct_tune_inactive_seven_button.png"
+  },
+  {
+    "name": "climate_menu_button",
+    "location": "day_mode/climate_menu_button.png"
+  },
+  {
+    "name": "settings_close_button",
+    "location": "day_mode/settings_close_button.png"
+  },
+  {
+    "name": "climate_black_arrow_down_button",
+    "location": "day_mode/climate_black_arrow_down_button.png"
+  },
+  {
+    "name": "settings_general_schedule_save_button",
+    "location": "day_mode/settings_general_schedule_save_button.png"
+  },
+  {
+    "name": "climate_dual_button",
+    "location": "day_mode/climate_dual_button.png"
+  },
+  {
+    "name": "audio_direct_tune_eight_button",
+    "location": "day_mode/audio_direct_tune_eight_button.png"
+  },
+  {
+    "name": "audio_am_first_pack_selected",
+    "location": "day_mode/audio_am_first_pack_selected.png"
+  },
+  {
+    "name": "settings_phone_list_phone_icon",
+    "location": "day_mode/settings_phone_list_phone_icon.png"
+  },
+  {
+    "name": "settings_display_mode_radio_button_on",
+    "location": "day_mode/settings_display_mode_radio_button_on.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_six_button",
+    "location": "day_mode/audio_direct_tune_inactive_six_button.png"
+  },
+  {
+    "name": "panel_acceleration_icon",
+    "location": "day_mode/panel_acceleration_icon.png"
+  },
+  {
+    "name": "settings_sync_navigation_more_settings_button",
+    "location": "day_mode/settings_sync_navigation_more_settings_button.png"
+  },
+  {
+    "name": "settings_general_temperature_image",
+    "location": "day_mode/settings_general_temperature_image.png"
+  },
+  {
+    "name": "settings_general_button",
+    "location": "day_mode/settings_general_button.png"
+  },
+  {
+    "name": "phone_discover_other_bluetooth_devices_button",
+    "location": "day_mode/phone_discover_other_bluetooth_devices_button.png"
+  },
+  {
+    "name": "panel_phone_inactive_down_tab",
+    "location": "day_mode/panel_phone_inactive_down_tab.png"
+  },
+  {
+    "name": "nav_normal_screen_map_button",
+    "location": "day_mode/nav_normal_screen_map_button.png"
+  },
+  {
+    "name": "settings_sync_navigation_trailer_routing",
+    "location": "day_mode/settings_sync_navigation_trailer_routing.png"
+  },
+  {
+    "name": "audio_direct_tune_inactive_one_button",
+    "location": "day_mode/audio_direct_tune_inactive_one_button.png"
+  },
+  {
+    "name": "audio_pause_button",
+    "location": "day_mode/audio_pause_button.png"
+  },
+  {
+    "name": "on_off_active_button",
+    "location": "day_mode/on_off_active_button.png"
+  },
+  {
+    "name": "nav_full_screen_map_button",
+    "location": "day_mode/nav_full_screen_map_button.png"
+  },
+  {
+    "name": "audio_back_button",
+    "location": "day_mode/audio_back_button.png"
+  },
+  {
+    "name": "main_nav_inactive_button",
+    "location": "day_mode/main_nav_inactive_button.png"
+  },
+  {
+    "name": "settings_sound_button",
+    "location": "day_mode/settings_sound_button.png"
+  },
+  {
+    "name": "settings_display_display_off_icon",
+    "location": "day_mode/settings_display_display_off_icon.png"
+  },
+  {
+    "name": "apps_visual_search_button",
+    "location": "day_mode/apps_visual_search_button.png"
+  },
+  {
+    "name": "audio_direct_tune_button",
+    "location": "day_mode/audio_direct_tune_button.png"
+  },
+  {
+    "name": "audio_am_sources_button",
+    "location": "day_mode/audio_am_sources_button.png"
+  },
+  {
+    "name": "settings_general_schedule_yes_button",
+    "location": "day_mode/settings_general_schedule_yes_button.png"
+  },
+  {
+    "name": "phone_cancel_button",
+    "location": "day_mode/phone_cancel_button.png"
+  },
+  {
+    "name": "main_phone_active_button",
+    "location": "day_mode/main_phone_active_button.png"
+  },
+  {
+    "name": "audio_selected_tab_button",
+    "location": "day_mode/audio_selected_tab_button.png"
+  },
+  {
+    "name": "settings_connection_wi_fi_icon",
+    "location": "day_mode/settings_connection_wi_fi_icon.png"
+  },
+  {
+    "name": "settings_general_down_arrow_combobox",
+    "location": "day_mode/settings_general_down_arrow_combobox.png"
+  },
+  {
+    "name": "del_active",
+    "location": "day_mode/keyboard/del_active.png"
+  },
+  {
+    "name": "key_t_low_active",
+    "location": "day_mode/keyboard/key_t_low_active.png"
+  },
+  {
+    "name": "key_c_low_active",
+    "location": "day_mode/keyboard/key_c_low_active.png"
+  },
+  {
+    "name": "key_k_low_active",
+    "location": "day_mode/keyboard/key_k_low_active.png"
+  },
+  {
+    "name": "key_4_active",
+    "location": "day_mode/keyboard/key_4_active.png"
+  },
+  {
+    "name": "key_enter_active",
+    "location": "day_mode/keyboard/key_enter_active.png"
+  },
+  {
+    "name": "key_x_low_active",
+    "location": "day_mode/keyboard/key_x_low_active.png"
+  },
+  {
+    "name": "key_0_active",
+    "location": "day_mode/keyboard/key_0_active.png"
+  },
+  {
+    "name": "key_q_low_active",
+    "location": "day_mode/keyboard/key_q_low_active.png"
+  },
+  {
+    "name": "additional symbols",
+    "location": "day_mode/keyboard/additional symbols.png"
+  },
+  {
+    "name": "key_space_active",
+    "location": "day_mode/keyboard/key_space_active.png"
+  },
+  {
+    "name": "key_j_low_active",
+    "location": "day_mode/keyboard/key_j_low_active.png"
+  },
+  {
+    "name": "key_3_active",
+    "location": "day_mode/keyboard/key_3_active.png"
+  },
+  {
+    "name": "key_5_active",
+    "location": "day_mode/keyboard/key_5_active.png"
+  },
+  {
+    "name": "key_b_low_active",
+    "location": "day_mode/keyboard/key_b_low_active.png"
+  },
+  {
+    "name": "del_string_active",
+    "location": "day_mode/keyboard/del_string_active.png"
+  },
+  {
+    "name": "key_1_active",
+    "location": "day_mode/keyboard/key_1_active.png"
+  },
+  {
+    "name": "key_caption_off",
+    "location": "day_mode/keyboard/key_caption_off.png"
+  },
+  {
+    "name": "back_from_keyboard",
+    "location": "day_mode/keyboard/back_from_keyboard.png"
+  },
+  {
+    "name": "key_h_low_active",
+    "location": "day_mode/keyboard/key_h_low_active.png"
+  },
+  {
+    "name": "key_n_low_active",
+    "location": "day_mode/keyboard/key_n_low_active.png"
+  },
+  {
+    "name": "key_p_low_active",
+    "location": "day_mode/keyboard/key_p_low_active.png"
+  },
+  {
+    "name": "key_i_low_active",
+    "location": "day_mode/keyboard/key_i_low_active.png"
+  },
+  {
+    "name": "key_9_active",
+    "location": "day_mode/keyboard/key_9_active.png"
+  },
+  {
+    "name": "key_a_low_active",
+    "location": "day_mode/keyboard/key_a_low_active.png"
+  },
+  {
+    "name": "key_r_low_active",
+    "location": "day_mode/keyboard/key_r_low_active.png"
+  },
+  {
+    "name": "key_8_active",
+    "location": "day_mode/keyboard/key_8_active.png"
+  },
+  {
+    "name": "key_point_active",
+    "location": "day_mode/keyboard/key_point_active.png"
+  },
+  {
+    "name": "key_y_low_active",
+    "location": "day_mode/keyboard/key_y_low_active.png"
+  },
+  {
+    "name": "key_f_low_active",
+    "location": "day_mode/keyboard/key_f_low_active.png"
+  },
+  {
+    "name": "key_d_low_active",
+    "location": "day_mode/keyboard/key_d_low_active.png"
+  },
+  {
+    "name": "key_7_active",
+    "location": "day_mode/keyboard/key_7_active.png"
+  },
+  {
+    "name": "key_w_low_active",
+    "location": "day_mode/keyboard/key_w_low_active.png"
+  },
+  {
+    "name": "key_l_low_active",
+    "location": "day_mode/keyboard/key_l_low_active.png"
+  },
+  {
+    "name": "key_o_low_active",
+    "location": "day_mode/keyboard/key_o_low_active.png"
+  },
+  {
+    "name": "key_v_low_active",
+    "location": "day_mode/keyboard/key_v_low_active.png"
+  },
+  {
+    "name": "emoticons",
+    "location": "day_mode/keyboard/emoticons.png"
+  },
+  {
+    "name": "key_u_low_active",
+    "location": "day_mode/keyboard/key_u_low_active.png"
+  },
+  {
+    "name": "key_6_active",
+    "location": "day_mode/keyboard/key_6_active.png"
+  },
+  {
+    "name": "key_g_low_active",
+    "location": "day_mode/keyboard/key_g_low_active.png"
+  },
+  {
+    "name": "key_e_low_active",
+    "location": "day_mode/keyboard/key_e_low_active.png"
+  },
+  {
+    "name": "change languages",
+    "location": "day_mode/keyboard/change languages.png"
+  },
+  {
+    "name": "key_z_low_active",
+    "location": "day_mode/keyboard/key_z_low_active.png"
+  },
+  {
+    "name": "key_m_low_active",
+    "location": "day_mode/keyboard/key_m_low_active.png"
+  },
+  {
+    "name": "key_2_active",
+    "location": "day_mode/keyboard/key_2_active.png"
+  },
+  {
+    "name": "app_link_ford_alexa_button",
+    "location": "day_mode/app_link/app_link_ford_alexa_button.png"
+  },
+  {
+    "name": "app_link_ford_alexa_sources_button",
+    "location": "day_mode/app_link/app_link_ford_alexa_sources_button.png"
+  },
+  {
+    "name": "app_link_audio_connection_icone",
+    "location": "day_mode/app_link/app_link_audio_connection_icon.png"
+  },
+  {
+    "name": "app_link_ford_alexa_menu_button",
+    "location": "day_mode/app_link/app_link_ford_alexa_menu_button.png"
+  },
+  {
+    "name": "app_link_audio_bluetooth_iphone_button",
+    "location": "day_mode/app_link/app_link_audio_bluetooth_iphone_button.png"
+  }
 ]
