@@ -4,6 +4,7 @@
 #include <iterator>
 #include <stdexcept>
 #include <vector>
+#include <utility>
 
 #include "json/json.h"
 
@@ -26,19 +27,13 @@ fs::path storage::JsonStorage::ItemPath(const std::string& icon_name) const {
   }
 }
 
-bool storage::JsonStorage::LoadCollection(const std::string& new_collection_type,
-                                          const std::string& new_collection_build,
-                                          const std::string& new_collection_name) {
-  if (new_collection_type == collection_type_ && new_collection_build == collection_build_ &&
-      new_collection_name == collection_name_) {
-    logger::warn("[storage] Trying to load already-loaded collection: {}/{}", new_collection_type, new_collection_name);
-    return false;
-  }
+bool storage::JsonStorage::DoLoadCollection() {
+  logger::info("[storage] Loading collection: {}", storage_path_ / collection_type_ / collection_build_ / collection_name_);
 
   const fs::path collection_json_file =
-      (storage_path_ / new_collection_type / new_collection_build / new_collection_name)
-          .replace_extension(kJsonExtension);
+      (storage_path_ / collection_type_ / collection_build_ / collection_name_).replace_extension(kJsonExtension);
   std::ifstream file{collection_json_file};
+  logger::trace("[storage] Parsing json file {}...", collection_json_file);
 
   if (!file) {
     logger::error("[storage] File {} can't be open.", collection_json_file);
@@ -58,8 +53,11 @@ bool storage::JsonStorage::LoadCollection(const std::string& new_collection_type
   try {
     new_collection.reserve(jsonobj.size());
     for (const auto& it : jsonobj) {
-      new_collection.emplace_back(it[kIconName].asString(), storage_path_ / new_collection_type / collection_build_ /
-                                                                it[kIconLocation].asCString());
+      std::string icon_name{it[kIconName].asString()};
+      fs::path icon_path{storage_path_ / collection_type_ / collection_build_ / it[kIconLocation].asCString()};
+
+      logger::trace("[storage] Adding icon \"{}\". Icon path: {}", icon_name, icon_path);
+      new_collection.emplace_back(std::move(icon_name), std::move(icon_path));
     }
   } catch (const Json::LogicError& err) {
     logger::error("[storage] Failed to parse of {} at element: {} ({})", collection_json_file, new_collection.size(),
@@ -71,9 +69,21 @@ bool storage::JsonStorage::LoadCollection(const std::string& new_collection_type
   collection_.reserve(new_collection.size());
   collection_.insert(std::make_move_iterator(new_collection.begin()), std::make_move_iterator(new_collection.end()));
 
+  return true;
+}
+
+bool storage::JsonStorage::LoadCollection(const std::string& new_collection_type,
+                                          const std::string& new_collection_build,
+                                          const std::string& new_collection_name) {
+  if (new_collection_type == collection_type_ && new_collection_build == collection_build_ &&
+      new_collection_name == collection_name_) {
+    logger::warn("[storage] Trying to load already-loaded collection: {}/{}", new_collection_type, new_collection_name);
+    return false;
+  }
+
   collection_type_ = new_collection_type;
   collection_build_ = new_collection_build;
   collection_name_ = new_collection_name;
 
-  return true;
+  return DoLoadCollection();
 }

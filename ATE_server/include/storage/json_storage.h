@@ -39,6 +39,8 @@ class JsonStorage : public Storage {
   ~JsonStorage() override = default;
 
  private:
+  bool DoLoadCollection();
+
   fs::path storage_path_;
   std::string collection_type_;
   std::string collection_build_;
