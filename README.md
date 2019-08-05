@@ -1,41 +1,41 @@
-# VHAT 2.0
-Virtual HMI Automation Toolset.
+# ATE
+Automated Test Environment.
 
 ## Prerequisites
 
 ### PC
 Supported OS:
 * Ubuntu 18.04 LTS
-* Windows 10 (VHAT client only) - **TBD**
+* Windows 10 (ATE client only) - **TBD**
 
 ### LVDS board
 1. LVDS board rev 0.9 or higher (aka _Luxoft baseboard v.1.0 ("green")_ or _Luxoft baseboard v.1.1 ("black")_ )
 
 1. Board set up with latest Jetson TX1 update package from: https://github.ford.com/LVDS2Eth/Jetson_TX1_Update_Package
 
-1. OpenCV installed from JetPack 3.3: https://github.ford.com/IVIToolsTeam/VHAT_2.0/wiki/Set-up-LVDS-board-for-the-ATE-Server
+1. OpenCV installed from JetPack 3.3: https://github.ford.com/VHAT/ATE/wiki/Set-up-LVDS-board-for-the-ATE-Server
 
 ## Build and install
 
 1. Clone the repository:
 
     ```
-    git clone git@github.ford.com:IVIToolsTeam/VHAT_2.0.git
+    git clone git@github.ford.com:VHAT/ATE.git
     ```
 
 1. Run setup environment script:
 
     ```
-    VHAT_2.0/infrastructure/setup-environment.sh
+    ATE/infrastructure/setup-environment.sh
     ```
 
 1. Run build script:
 
     ```
-    cmake -P VHAT_2.0/infrastructure/build.cmake
+    cmake -P ATE/infrastructure/build.cmake
     ```
 
-By default, build root is set to _build-VHAT_2.0-Release_ and installation is done into _build-VHAT_2.0-Release/install_.
+By default, build root is set to _build-ATE_2.0-Release_ and installation is done into _build-ATE_2.0-Release/install_.
 
 ### Configure build
 
@@ -50,7 +50,7 @@ By default, build root is set to _build-VHAT_2.0-Release_ and installation is do
       ```
       CMAKE_BUILD_TYPE:STRING=[Debug|Release|RelWithDebInfo|MinSizeRel|…]
       ```
-    - Directory to place build files (default: _VHAT_2.0/../build-VHAT_2.0-\<build type\>_):
+    - Directory to place build files (default: _ATE/../build-ATE-\<build type\>_):
       ```
       VHAT_BUILD_ROOT:PATH
       ```
@@ -82,7 +82,7 @@ By default, build root is set to _build-VHAT_2.0-Release_ and installation is do
       ```
       VHAT_WITH_TESTS:BOOL
       ```
-    - Tweak toolchain (default: _VHAT_2.0/infrastructure/cmake/toolchains/desktop.cmake_):
+    - Tweak toolchain (default: _ATE/infrastructure/cmake/toolchains/desktop.cmake_):
       ```
       CMAKE_TOOLCHAIN_FILE:FILEPATH
       ```
@@ -106,7 +106,7 @@ By default, build root is set to _build-VHAT_2.0-Release_ and installation is do
     ```
     sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DVHAT_INSTALL_SERVER_SERVICE=ON -P infrastructure/build.cmake
     ```
-1. The deploy package is _VHAT-X.Y.Z.deb_ located in _build-VHAT_2.0-Release_ build root folder.
+1. The deploy package is _VHAT-X.Y.Z.deb_ located in _build-ATE-Release_ build root folder.
 1. You can use _dpkg_ package manager to install this package. This command will also replace the previous installation of VHAT:
     ```
     sudo dpkg -i VHAT-X.Y.Z.deb
@@ -116,13 +116,13 @@ By default, build root is set to _build-VHAT_2.0-Release_ and installation is do
 
 1. Run all tests:
     ```
-    cd build-VHAT_2.0-Release
+    cd build-ATE-Release
     ctest
     ```
 1. Run tests manually:
     ```
-    build-VHAT_2.0-Release/ATE_server/src/vhat_server_test
-    build-VHAT_2.0-Release/ATE_common/src/vhat_common_test
+    build-ATE-Release/ATE_server/src/vhat_server_test
+    build-ATE-Release/ATE_common/src/vhat_common_test
     ```
 
 ## Run VHAT server on LVDS board
