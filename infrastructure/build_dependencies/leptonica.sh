@@ -1,8 +1,10 @@
 # Go to the source root directory
 cd "$(dirname "$0")/../.."
 
+readonly ROOT_DIR=$(pwd -P)
+
 # Toolchain from the VHAT
-readonly TOOLCHAIN_ABSOLUTE_PATH="$(pwd -P)/infrastructure/cmake/toolchains/desktop.cmake"
+readonly TOOLCHAIN_ABSOLUTE_PATH="$ROOT_DIR/infrastructure/cmake/toolchains/desktop.cmake"
 
 # Leptonica version number is saved in the file
 . infrastructure/build_dependencies/version.sh
@@ -33,3 +35,17 @@ cmake ../$LEPTONICA_SOURCE_DIR_NAME -GNinja \
 
 cmake --build .
 sudo cmake --build . --target install
+
+m4 \
+  -DSOURCE_DIR="../${LEPTONICA_SOURCE_DIR_NAME}" \
+  -DNAME="libleptonica" \
+  -DPACKAGING_PREFIX=${LEPTONICA_INSTALL_PREFIX} \
+  -DARCH=$(dpkg-architecture -q DEB_HOST_ARCH) \
+  -DDEPENDS="libjpeg8, libopenjp2-7, libpng12-0 | libpng16-16, libtiff5, libwebp5 | libwebp6, zlib1g" \
+  -DCONFLICTS="liblept5, libleptonica-dev" \
+  -DDESCRIPTION="Leptonica lib for VHAT needs" \
+  -DVERSION="${VHAT_LEPTONICA_VERSION}" \
+  "$ROOT_DIR/infrastructure/build_dependencies/CPackConfig.m4" > CPackConfig.cmake
+
+sudo cpack .
+mv -vf libleptonica*.deb ../
