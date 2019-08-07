@@ -16,6 +16,7 @@ add_library(vhat_server_lib
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp
     video_streaming/matching/matcher.cpp
+    video_streaming/matching/multiscale_template_detector.cpp
     video_streaming/matching/template_detector.cpp
     video_streaming/matching/text_detector.cpp
     video_streaming/matching/text_detector_exceptions.cpp
