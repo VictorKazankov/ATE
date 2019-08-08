@@ -1,8 +1,10 @@
 # Go to the source root directory
 cd "$(dirname "$0")/../.."
 
+readonly ROOT_DIR=$(pwd -P)
+
 # Toolchain from the VHAT
-readonly TOOLCHAIN_ABSOLUTE_PATH="$(pwd -P)/infrastructure/cmake/toolchains/desktop.cmake"
+readonly TOOLCHAIN_ABSOLUTE_PATH="$ROOT_DIR/infrastructure/cmake/toolchains/desktop.cmake"
 
 # OpenCV version number is saved in the file
 . infrastructure/build_dependencies/version.sh
@@ -60,3 +62,27 @@ cmake ../$OPENCV_SOURCE_DIR_NAME -GNinja \
 
 cmake --build .
 sudo cmake --build . --target install
+
+# This is approximate dependency list for the enabled OpenCV modules. This is actual only for Ubuntu18:
+UBUNTU18_DEPENDS="libtbb2, zlib1g"  # core
+UBUNTU18_DEPENDS+=", libavcodec57 | libavcodec-extra57, libavformat57, libavutil55, libswscale4, libopenexr22, libgphoto2-6, libgphoto2-port12" # videio
+UBUNTU18_DEPENDS+=", libgdal20, libgdcm2.8, libilmbase12, libjpeg8, libpng16-16, libtiff5, libwebp6" # imgcodecs and imgproc
+UBUNTU18_DEPENDS+=", libgdk-pixbuf2.0-0, libglib2.0-0, libgtk-3-0, libcairo2" # highgui
+
+UBUNTU18_CONFLICTS="libopencv-calib3d3.2, libopencv-contrib3.2, libopencv-core3.2, libopencv-features2d3.2, libopencv-flann3.2, libopencv-highgui3.2"
+UBUNTU18_CONFLICTS+=", libopencv-imgcodecs3.2, libopencv-imgproc3.2, libopencv-ml3.2, libopencv-objdetect3.2, libopencv-photo3.2"
+UBUNTU18_CONFLICTS+=", libopencv-shape3.2, libopencv-stitching3.2, libopencv-superres3.2, libopencv-video3.2, libopencv-videoio3.2"
+
+m4 \
+  -DSOURCE_DIR="../${OPENCV_SOURCE_DIR_NAME}" \
+  -DNAME="libopencv" \
+  -DPACKAGING_PREFIX="/usr/local" \
+  -DARCH=$(dpkg-architecture -q DEB_HOST_ARCH) \
+  -DDEPENDS="$UBUNTU18_DEPENDS" \
+  -DCONFLICTS="$UBUNTU18_CONFLICTS" \
+  -DDESCRIPTION="OpenCV libs for VHAT needs" \
+  -DVERSION="${VHAT_OPENCV_VERSION}" \
+  "$ROOT_DIR/infrastructure/build_dependencies/CPackConfig.m4" > CPackConfig.cmake
+
+sudo cpack .
+mv -vf libopencv*.deb ../
