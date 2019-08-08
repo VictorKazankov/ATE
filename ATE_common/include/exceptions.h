@@ -54,4 +54,11 @@ class StreamOpenFailure : public std::runtime_error {
 };
 }  // namespace streamer
 
+namespace detector {
+class ImageDetectorTypeError : public std::runtime_error {
+ public:
+  explicit ImageDetectorTypeError() : std::runtime_error{"Undefined type of image matching"} {}
+};
+}  // namespace detector
+
 #endif  // ATE_COMMON_EXCEPTIONS_H_

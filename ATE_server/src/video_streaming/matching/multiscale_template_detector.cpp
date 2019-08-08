@@ -33,19 +33,10 @@ void Rescale(const cv::Mat& src, cv::Mat& resized, int width) {
 detector::MultiscaleTemplateDetector::MultiscaleTemplateDetector(double confidence) : confidence_(confidence) {}
 
 cv::Rect detector::MultiscaleTemplateDetector::Detect(const cv::Mat& frame, const cv::Mat& pattern) {
-  // verification of size compatibility (pattern should be less than frame)
-  assert(frame.rows > pattern.rows);
-  assert(frame.cols > pattern.cols);
-
   // Perform the size of result matrix
   // Magic number 1 needs for ability to matching all possible locations for it.
   const auto rows = frame.rows - pattern.rows + 1;
   const auto cols = frame.cols - pattern.cols + 1;
-
-  // Threshold value for TM_CCORR_NORMED
-  double max_threshold{};
-  double min_val;
-  double max_val;
 
   cv::Point min_loc;
   cv::Point match_loc;
@@ -70,6 +61,11 @@ cv::Rect detector::MultiscaleTemplateDetector::Detect(const cv::Mat& frame, cons
 
   // get linearly spaced vector
   const auto linrange = linspace(0.1, 1.5, 15);
+
+  // Threshold value for TM_CCORR_NORMED
+  double max_threshold{};
+  double min_val;
+  double max_val;
 
   for (const auto& scale : linrange) {
     // do rescale

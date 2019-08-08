@@ -31,7 +31,7 @@ constexpr auto kScreenshotDirectoryOption = "ScreenshotDirectory";
 
 constexpr auto kImageDetectorSection = "IMAGE_DETECTOR";
 constexpr auto kImageDetectorConfidenceOption = "Confidence";
-constexpr double kDefaultImageDetectorConfidence = 0.98;
+constexpr auto kImageDetectorMatchingType = "MatchingType";
 
 constexpr auto kTextDetectorSection = "TEXT_DETECTOR";
 constexpr auto kTextDetectorConfidenceOption = "Confidence";
@@ -42,6 +42,12 @@ constexpr auto kTextDetectorPreprocessingList = "PreprocessingList";
 constexpr auto kVdp = "VDP";
 constexpr auto kSpi = "SPI";
 constexpr auto kDummy = "Dummy";
+
+constexpr auto kTemplateMathcing = "TemplateMatching";
+constexpr double kDefaultImageDetectorConfidence = 0.9;
+
+constexpr auto kMultiscaleTemplateMatchng = "MultiscaleTemplateMatchng";
+constexpr double kDefaultMultiscaleImageDetectorConfidence = 0.5;
 
 const std::string kVideoStreamSection = "VIDEO_STREAM";
 

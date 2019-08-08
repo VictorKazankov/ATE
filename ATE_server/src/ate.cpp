@@ -11,7 +11,7 @@
 #include "logger/logger.h"
 #include "storage/json_storage.h"
 #include "utils/defines.h"
-#include "video_streaming/matching/template_detector.h"
+#include "video_streaming/matching/matching_factory.h"
 #include "video_streaming/matching/text_detector.h"
 #include "video_streaming/matching/text_detector_decorator.h"
 #include "video_streaming/streamer_factory.h"
@@ -84,8 +84,9 @@ ATE::ATE(boost::asio::io_context& io_context)
     : storage_{std::make_unique<storage::JsonStorage>(VHAT_SERVER_STORAGE_DIR "/icon_storage")},
       interaction_{InteractionFactory(common::Config().GetString(kInteraction, kInteractionType, {}), io_context)},
       matcher_{streamer::MakeStreamer(),
-               std::make_unique<detector::TemplateDetector>(common::Config().GetDouble(
-                   kImageDetectorSection, kImageDetectorConfidenceOption, kDefaultImageDetectorConfidence)),
+               detector::MakeImageDetector(
+                   common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType, kTemplateMathcing),
+                   common::Config().GetDouble(kImageDetectorSection, kImageDetectorConfidenceOption, {})),
                MakeTextDetector(), MakeScreenshotRecorder()} {
   if (!storage_->LoadCollection(common::Config().GetString(kDBSection, kTargetOption, {}),
                                 common::Config().GetString(kDBSection, kBuildOption, {}),
