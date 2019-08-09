@@ -1,0 +1,10 @@
+Package: NAME
+Version: VERSION
+Section: unknown
+Priority: optional
+Architecture: ARCH
+Depends: DEPENDS
+Conflicts: CONFLICTS
+Installed-Size: SIZE
+Maintainer: Luxoft
+Description: DESCRIPTION
