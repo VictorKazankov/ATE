@@ -124,3 +124,65 @@ execute_process(
 if(NOT 0 EQUAL ${INSTALLING_RETURN})
   message(FATAL_ERROR "Tesseract installing terminated with failure. Return code: " ${INSTALLING_RETURN})
 endif()
+
+# Get deb package architecture, assuming the host is equal to target one
+execute_process(
+  COMMAND dpkg-architecture -q DEB_HOST_ARCH
+  OUTPUT_VARIABLE DEB_ARCH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+message(STATUS "deb package architecture: " ${DEB_ARCH})
+
+# Use temporarily directory to create deb package
+set(PACK_NAME "libtesseract")
+set(PACK_DIR "${TESSERACT_ROOT}/${PACK_NAME}-${VHAT_TESSERACT_VERSION}_${DEB_ARCH}")
+message(STATUS "Temporary directory to create deb package: " ${PACK_DIR})
+
+file(REMOVE_RECURSE "${PACK_DIR}")
+file(MAKE_DIRECTORY "${PACK_DIR}")
+file(MAKE_DIRECTORY "${PACK_DIR}/DEBIAN")
+file(MAKE_DIRECTORY "${PACK_DIR}/${TESSERACT_INSTALL_PREFIX}")
+
+# Do one more install into packaging temporarily directory
+execute_process(
+  COMMAND
+    make install DESTDIR="${PACK_DIR}"
+  WORKING_DIRECTORY
+    ${TESSERACT_SOURCE_PATH}
+)
+
+# Trace contents and calculate size
+message(STATUS "Package contents:")
+execute_process(COMMAND tree "${PACK_DIR}/${TESSERACT_INSTALL_PREFIX}")
+
+execute_process(
+  COMMAND bash -c "du -c \"${PACK_DIR}/${TESSERACT_INSTALL_PREFIX}\" | grep total$ | sed 's/total//'"
+  OUTPUT_VARIABLE INSTALL_SIZE
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+message(STATUS "Package size: " ${INSTALL_SIZE})
+
+# Use m4 macro processor to generate DEBIAN control
+execute_process(
+  COMMAND
+    m4
+    -DNAME=${PACK_NAME}
+    -DVERSION=${VHAT_TESSERACT_VERSION}
+    -DARCH=${DEB_ARCH}
+    -DDEPENDS=libleptonica
+    -DCONFLICTS=libtesseract4
+    -DSIZE=${INSTALL_SIZE}
+    -DDESCRIPTION=Tesseract\ lib\ for\ VHAT\ needs
+    "${CMAKE_CURRENT_SOURCE_DIR}/debian-control.m4"
+
+  OUTPUT_FILE
+    "${PACK_DIR}/DEBIAN/control"
+)
+message(STATUS "Package control:")
+execute_process(COMMAND cat "${PACK_DIR}/DEBIAN/control")
+
+# Build deb package
+execute_process(
+  COMMAND
+    fakeroot dpkg-deb --build ${PACK_DIR}
+)
