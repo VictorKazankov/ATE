@@ -66,7 +66,7 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
       ```
       CMAKE_INSTALL_PREFIX:PATH
       ```
-    - Toggle VHAT deb package generation from install (default: _ON_):
+    - Toggle VHAT deb package generation from install (default: _OFF_):
       ```
       VHAT_CREATE_DEBIAN_PACKAGE:BOOL
       ```
