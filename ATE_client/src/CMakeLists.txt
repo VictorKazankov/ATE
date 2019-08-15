@@ -10,6 +10,7 @@ add_library(vhat_client
     vhat_client.cpp
     squish/application_context.cpp
     squish/squish_API.cpp
+    squish/squish_types.cpp
 )
 
 set_target_properties(vhat_client PROPERTIES
