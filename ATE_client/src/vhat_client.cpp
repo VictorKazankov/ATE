@@ -35,6 +35,8 @@ PYBIND11_MODULE(vhat_client, m) {
 
   py::class_<squish::Object>(m, "Object")
       .def(py::init())
+      .def(py::init<int, int>(), "", py::arg("x"), py::arg("y"))
+      .def(py::init<int, int, int, int>(), "", py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"))
       .def_readwrite("x", &squish::Object::x)
       .def_readwrite("y", &squish::Object::y)
       .def_readwrite("width", &squish::Object::width)
