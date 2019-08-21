@@ -6,6 +6,10 @@ namespace interaction {
 
 void DummyInteraction::Tap(const int x, const int y) const { logger::trace("[dummy_interaction] Tap({}, {})", x, y); }
 
+void DummyInteraction::TouchAndDrag(const int x, const int y, const int dx, const int dy) const {
+  logger::trace("[dummy_interaction] TouchAndDrag({}, {}, {}, {})", x, y, dx, dy);
+}
+
 void DummyInteraction::Press(const int x, const int y) const {
   logger::trace("[dummy_interaction] Press({}, {})", x, y);
 }

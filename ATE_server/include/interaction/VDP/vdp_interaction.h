@@ -33,6 +33,16 @@ class VDPInteraction : public Interaction {
   void Tap(const int x, const int y) const override;
 
   /**
+   * @brief performs a touch-based drag operation It initiates a touch drag
+   * starting at position x, y and drag by dx pixels horizontally and by dy pixels vertically.
+   * @param x starting horizontal coordinate
+   * @param y starting vertical coordinate
+   * @param dx pixels to be dragged vertically
+   * @param dy pixels to be dragged horizontally
+   **/
+  void TouchAndDrag(const int x, const int y, const int dx, const int dy) const override;
+
+  /**
    * @brief Presses screen at x,y coordinates
    * @param x x coordinate
    * @param y y coordinate

@@ -43,6 +43,11 @@ void VDPInteraction::Tap(const int x, const int y) const {
   client.Send(PrepareCommand(x, y, EventType::RELEASE));
 }
 
+void VDPInteraction::TouchAndDrag(const int, const int, const int, const int) const {
+  // Dummy drag for VDP interaction
+  assert(false);
+}
+
 void VDPInteraction::Press(const int x, const int y) const {
   HttpsClient client(context_, host_, port_);
   client.Send(PrepareCommand(x, y, EventType::PRESS));

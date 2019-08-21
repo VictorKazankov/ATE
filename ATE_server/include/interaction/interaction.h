@@ -17,6 +17,16 @@ class Interaction {
   virtual void Tap(const int x, const int y) const = 0;
 
   /**
+   * @brief performs a touch-based drag operation It initiates a touch drag
+   * starting at position x, y and drag by dx pixels horizontally and by dy pixels vertically.
+   * @param x starting horizontal coordinate
+   * @param y starting vertical coordinate
+   * @param dx pixels to be dragged vertically
+   * @param dy pixels to be dragged horizontally
+   **/
+  virtual void TouchAndDrag(const int x, const int y, const int dx, const int dy) const = 0;
+
+  /**
    * @brief Presses screen at x,y coordinates
    * @param x x coordinate
    * @param y y coordinate

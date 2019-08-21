@@ -52,6 +52,12 @@ void SpiInteraction::Tap(const int x, const int y) const {
   Release(x, y);
 }
 
+void SpiInteraction::TouchAndDrag(const int x, const int y, const int dx, const int dy) const {
+  Press(x, y);
+  Drag(x + dx, y + dy);
+  Release(x + dx, y + dy);
+}
+
 void SpiInteraction::Press(const int x, const int y) const { SendEvent(MouseEvent::MouseEvent_Press, x, y); }
 
 void SpiInteraction::Release(const int x, const int y) const { SendEvent(MouseEvent::MouseEvent_Release, x, y); }
