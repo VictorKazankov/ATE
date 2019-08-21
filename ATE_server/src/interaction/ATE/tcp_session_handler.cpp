@@ -19,7 +19,8 @@ namespace interaction {
 TcpSessionHandler::TcpSessionHandler(boost::asio::io_context& io_ctx)
     : ate_{io_ctx},
       handler_map_{{common::jmsg::kWaitForObject, &TcpSessionHandler::HandleWaitForObject},
-                   {common::jmsg::kTapObject, &TcpSessionHandler::HandleTapObject}} {}
+                   {common::jmsg::kTapObject, &TcpSessionHandler::HandleTapObject},
+                   {common::jmsg::kTouchAndDrag, &TcpSessionHandler::HandleTouchAndDrag}} {}
 
 void TcpSessionHandler::OnOpen(TcpConnection& session) { session.Start(); }
 
@@ -98,6 +99,25 @@ std::pair<Json::Value, bool> TcpSessionHandler::HandleTapObject(const Json::Valu
   ate_.TapObject(point);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateTapObjectResultObject(), true);
+}
+
+std::pair<Json::Value, bool> TcpSessionHandler::HandleTouchAndDrag(const Json::Value& params) {
+  std::string object_or_name;
+  cv::Point start_point;
+  cv::Point delta_point;
+  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE;
+  Json::Value extract_error;
+
+  common::jmsg::ExtractTouchAndDragRequestParams(params, object_or_name, start_point.x, start_point.y, delta_point.x,
+                                                 delta_point.y, modifier_state, extract_error);
+
+  if (!extract_error.empty()) {
+    return std::make_pair(std::move(extract_error), false);
+  }
+
+  ate_.TouchAndDrag(object_or_name, start_point, delta_point);
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateTouchAndDragResultObject(), true);
 }
 
 std::pair<Json::Value, bool> TcpSessionHandler::HandleUnknownMethod(const Json::Value& params) {

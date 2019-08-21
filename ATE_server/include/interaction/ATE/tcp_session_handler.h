@@ -62,6 +62,12 @@ class TcpSessionHandler : public SessionHandler {
   std::pair<Json::Value, bool> HandleTapObject(const Json::Value& params);
 
   /**
+   * @brief Handler for TouchAndDrag
+   * @param params - TouchAndDrag params
+   */
+  std::pair<Json::Value, bool> HandleTouchAndDrag(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */
