@@ -101,6 +101,23 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
                                    squish::MouseButton& mouse_button, Json::Value& error);
 
 /**
+ * @brief Extract params for 'TouchAndDrag' method
+ *
+ * @param[in] params - structured value that holds the parameter values to be used
+ * during the invocation of the 'TouchAndDrag' method
+ *
+ * @param[out] object_or_name
+ * @param[out] x - x start coordinate
+ * @param[out] y - y start coordinate
+ * @param[out] dx - pixels to drag widget horizontally
+ * @param[out] dy - pixels to drag widget vertically
+ * @param[out] modifier_state - Modifier state
+ * @param[out] error - error object, null on successs
+ */
+void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& object_or_name, int& x, int& y, int& dx,
+                                      int& dy, squish::ModifierState& modifier_state, Json::Value& error);
+
+/**
  * @brief Check response scheme of message 'attachToApplication'
  *
  * @param value reference to 'Json::Value' for verification of json schema

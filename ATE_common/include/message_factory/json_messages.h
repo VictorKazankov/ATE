@@ -7,6 +7,7 @@ namespace jmsg {
 constexpr auto kAttachToApplication = "AttachToApplication";
 constexpr auto kWaitForObject = "WaitForObject";
 constexpr auto kTapObject = "TapObject";
+constexpr auto kTouchAndDrag = "TouchAndDrag";
 
 }  // namespace jmsg
 }  // namespace common

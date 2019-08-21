@@ -67,6 +67,27 @@ std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t 
   return writer.write(message);
 }
 
+std::string MessageFactory::Client::CreateTouchAndDragRequest(const std::string& object_or_name, uint16_t x, uint16_t y,
+                                                              int16_t dx, int16_t dy,
+                                                              squish::ModifierState modifier_state, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kObjectName] = object_or_name;
+  params[kAbscissa] = x;
+  params[kOrdinate] = y;
+  params[kAbscissaDrag] = dx;
+  params[kOrdinateDrag] = dy;
+  params[kModifierState] = static_cast<int>(modifier_state);
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kTouchAndDrag, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 
@@ -85,6 +106,8 @@ std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value
 }
 
 Json::Value MessageFactory::Server::CreateTapObjectResultObject() { return Json::Value{true}; }
+
+Json::Value MessageFactory::Server::CreateTouchAndDragResultObject() { return Json::Value{true}; }
 
 Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y, int width, int height) {
   Json::Value result{Json::objectValue};

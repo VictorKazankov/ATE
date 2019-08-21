@@ -156,6 +156,24 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
   }
 }
 
+void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& object_or_name, int& x, int& y, int& dx,
+                                      int& dy, squish::ModifierState& modifier_state, Json::Value& error) {
+  error = Json::Value{};
+
+  try {
+    object_or_name = params[kObjectName].asCString();
+    x = params[kAbscissa].asInt();
+    y = params[kOrdinate].asInt();
+    dx = params[kAbscissaDrag].asInt();
+    dy = params[kOrdinateDrag].asInt();
+    modifier_state = static_cast<squish::ModifierState>(params[kModifierState].asInt());
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid TouchAndDrag params");
+    logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
 bool CheckAttachToApplicationResponse(const Json::Value& schema) {
   auto& result = schema[kResult];
   bool res = result.isMember(kVdpHost) && result.isMember(kVdpPort) && result.isMember(kIsRunning);
