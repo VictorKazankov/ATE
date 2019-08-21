@@ -99,6 +99,13 @@ ATE::~ATE() = default;
 
 void ATE::TapObject(const cv::Point& point) { interaction_->Tap(point.x, point.y); }
 
+void ATE::TouchAndDrag(const std::string& object_or_name, const cv::Point& start_point, const cv::Point& delta_point) {
+  logger::trace("objectOrName '{}' has been draged from x: {} y: {} by dx: {} dy: {}", object_or_name, start_point.x,
+                start_point.y, delta_point.x, delta_point.y);
+
+  interaction_->TouchAndDrag(start_point.x, start_point.y, delta_point.x, delta_point.y);
+}
+
 cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout) {
   const auto timeout_point = std::chrono::steady_clock::now() + timeout;
   const auto item_path = storage_->ItemPath(object_or_name);
