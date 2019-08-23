@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <cmath>
+
 #include "exceptions.h"
 #include "logger/logger.h"
 
@@ -16,6 +18,8 @@ const size_t kWidth = 1920;
 const size_t kHeight = 1200;
 const size_t kPackageSize = 8;
 const uint32_t kDefaultSpeed = 1000000;
+const uint32_t kMinimalDragRange = 10;
+constexpr auto kMillisecondsSendDelay = 25;
 
 bool CheckResolution(size_t x, size_t y) { return !(x > kWidth || y > kHeight); }
 
@@ -53,9 +57,32 @@ void SpiInteraction::Tap(const int x, const int y) const {
 }
 
 void SpiInteraction::TouchAndDrag(const int x, const int y, const int dx, const int dy) const {
+  int x2 = x + dx;
+  int y2 = y + dy;
+
+  auto distance = std::sqrt(dx * dx + dy * dy);
+  int steps = static_cast<int>(std::ceil(distance) / kMinimalDragRange);
+
+  // Coefficient of aspect ratio between points
+  double k = 1.0;
+
+  double x_tmp{};
+  double y_tmp{};
+
   Press(x, y);
-  Drag(x + dx, y + dy);
-  Release(x + dx, y + dy);
+
+  for (int i = steps; i > 0; --i) {
+    x_tmp = ((x + (k / i) * x2) / (1 + k / i));
+    y_tmp = ((y + (k / i) * y2) / (1 + k / i));
+
+    k += 1;
+    Drag(static_cast<int>(x_tmp), static_cast<int>(y_tmp));
+    std::this_thread::sleep_for(std::chrono::milliseconds(kMillisecondsSendDelay));
+    logger::debug("[spiinteraction] Drag on x: {} y:{}", static_cast<int>(x_tmp), static_cast<int>(y_tmp));
+  }
+
+  Drag(x2, y2);
+  Release(x2, y2);
 }
 
 void SpiInteraction::Press(const int x, const int y) const { SendEvent(MouseEvent::MouseEvent_Press, x, y); }

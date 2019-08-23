@@ -64,6 +64,8 @@ class TcpSessionHandler : public SessionHandler {
   /**
    * @brief Handler for TouchAndDrag
    * @param params - TouchAndDrag params
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleTouchAndDrag(const Json::Value& params);
 
