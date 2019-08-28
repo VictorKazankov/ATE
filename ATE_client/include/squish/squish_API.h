@@ -7,9 +7,9 @@
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
+#include "error_defines.h"
 #include "squish/application_context.h"
 #include "squish/squish_types.h"
-#include "error_defines.h"
 
 namespace squish {
 
@@ -68,6 +68,24 @@ struct API {
   static void TapObject(const Object& screen_rectangle,
                         common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                         common::squish::MouseButton button = common::squish::MouseButton::NONE);
+
+  /**
+   * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
+   *  widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widge is dragged by
+   *  dx pixels horizontally and by dy pixels vertically.
+   * @param object_or_name - desirable object or name
+   * @param x - start x coordinate of drag event
+   * @param y - start y coordinate of drag event
+   * @param dx - dragged by pixels horizontally
+   * @param dy - dragged by pixels vertically
+   * @param modifier_state - modifier state NONE asd default. [NONE, ALT, CONTROL, SHIFT]
+   **/
+  static void TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy);
+  static void TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy);
+  static void TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy,
+                           common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE);
+  static void TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
+                           common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE);
 };
 }  // namespace squish
 

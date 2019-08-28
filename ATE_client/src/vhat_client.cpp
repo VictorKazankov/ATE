@@ -112,4 +112,28 @@ PYBIND11_MODULE(vhat_client, m) {
         "tapObject performs a touch tap at the center of the rectangle specified by screenRectangle. Position are in "
         "screen global coordinates",
         py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));
+
+  m.def("touchAndDrag",
+        py::overload_cast<const squish::Object&, int, int, int, int, common::squish::ModifierState>(
+            &squish::API::TouchAndDrag),
+        "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
+        "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically.",
+        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"), py::arg("modifier"));
+
+  m.def("touchAndDrag",
+        py::overload_cast<const std::string&, int, int, int, int, common::squish::ModifierState>(
+            &squish::API::TouchAndDrag),
+        "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
+        "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically.",
+        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"), py::arg("modifier"));
+
+  m.def("touchAndDrag", py::overload_cast<const squish::Object&, int, int, int, int>(&squish::API::TouchAndDrag),
+        "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
+        "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically.",
+        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"));
+
+  m.def("touchAndDrag", py::overload_cast<const std::string&, int, int, int, int>(&squish::API::TouchAndDrag),
+        "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
+        "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically.",
+        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"));
 }

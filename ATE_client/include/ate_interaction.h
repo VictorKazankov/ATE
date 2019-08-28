@@ -13,6 +13,7 @@ enum class Method {
   kAttachToApplication,
   kWaitForObject,
   kTapObject,
+  kTouchAndDrag,
 };
 
 class ATEInteraction {

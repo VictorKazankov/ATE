@@ -87,6 +87,10 @@ squish::Object ParseMessage(Method method, const Json::Value& schema) {
       // TODO: prepare handling logic
       break;
 
+    case Method::kTouchAndDrag:
+      logger::info("[parse message] touchAndDrag response");
+      break;
+      
     default:
       throw std::logic_error("Unhandled method: " + std::to_string(static_cast<int>(method)));
   }

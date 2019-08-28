@@ -86,3 +86,23 @@ void API::TapObject(const common::Point& screen_point, common::squish::ModifierS
       screen_point.x, screen_point.y, modifier_state, button, GetCorrelationId());
   applicationContext.SendCommand(interaction::Method::kTapObject, message);
 }
+
+void API::TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy) {
+  TouchAndDrag(object_or_name.name, x, y, dx, dy, common::squish::ModifierState::NONE);
+}
+
+void API::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy) {
+  TouchAndDrag(object_or_name, x, y, dx, dy, common::squish::ModifierState::NONE);
+}
+
+void API::TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy,
+                       common::squish::ModifierState modifier_state) {
+  TouchAndDrag(object_or_name.name, x, y, dx, dy, modifier_state);
+}
+
+void API::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
+                       common::squish::ModifierState modifier_state) {
+  auto message = common::jmsg::MessageFactory::Client::CreateTouchAndDragRequest(object_or_name, x, y, dx, dy,
+                                                                                 modifier_state, GetCorrelationId());
+  applicationContext.SendCommand(interaction::Method::kTouchAndDrag, message);
+}
