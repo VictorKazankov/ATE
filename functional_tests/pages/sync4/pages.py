@@ -158,7 +158,7 @@ def tap_if_visible(name):
 
 
 def tap_on_coordinates(x, y):
-    obj = Object()
+    obj = object()
     obj.x = x
     obj.y = y
     if not obj:

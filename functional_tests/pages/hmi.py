@@ -1,5 +1,5 @@
-from vhat_client import (ModifierState, MouseButton, object,
-                         attachToApplication, tapObject, waitForObject)
+from vhat_client import (ModifierState, MouseButton, attachToApplication,
+                         object, tapObject, touchAndDrag, waitForObject)
 
 
 def attach_to_application():
@@ -16,3 +16,10 @@ def tap_object(object):
 
 def obj_exists(name):
     return object().exists(name)
+
+
+def touch_and_drag(object, x, y, dx, dy, modifier=None):
+    if modifier:
+        touchAndDrag(object, x, y, dx, dy, modifier)
+    else:
+        touchAndDrag(object, x, y, dx, dy)

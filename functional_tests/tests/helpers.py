@@ -1,4 +1,5 @@
 import logging
+import time
 
 import allure
 from functional_tests.pages import hmi
@@ -38,6 +39,12 @@ def get_result_recognition(name, dict_attempts):
 
 def get_exist_result(name):
     return hmi.obj_exists(name)
+
+
+def touch_and_drag_page(object, x, y, dx, dy, modifier=None):
+    hmi.touch_and_drag(object, x, y, dx, dy, modifier)
+    time.sleep(3)
+    logging.info('Drag is completed')
 
 
 @allure.step('"{state}" to recognize "{name}" object')
