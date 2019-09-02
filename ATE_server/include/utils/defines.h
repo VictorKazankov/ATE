@@ -46,7 +46,7 @@ constexpr auto kDummy = "Dummy";
 constexpr auto kTemplateMathcing = "TemplateMatching";
 constexpr double kDefaultImageDetectorConfidence = 0.9;
 
-constexpr auto kMultiscaleTemplateMatchng = "MultiscaleTemplateMatchng";
+constexpr auto kMultiscaleTemplateMatching = "MultiscaleTemplateMatching";
 constexpr double kDefaultMultiscaleImageDetectorConfidence = 0.5;
 
 const std::string kVideoStreamSection = "VIDEO_STREAM";

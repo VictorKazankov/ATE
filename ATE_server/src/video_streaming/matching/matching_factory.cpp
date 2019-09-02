@@ -15,7 +15,7 @@ std::unique_ptr<detector::Detector<cv::Mat>> MakeImageDetector(const std::string
                       : std::make_unique<detector::TemplateDetector>(kDefaultImageDetectorConfidence);
   }
 
-  if (detector_type == kMultiscaleTemplateMatchng) {
+  if (detector_type == kMultiscaleTemplateMatching) {
     return confidence
                ? std::make_unique<detector::MultiscaleTemplateDetector>(confidence)
                : std::make_unique<detector::MultiscaleTemplateDetector>(kDefaultMultiscaleImageDetectorConfidence);
