@@ -45,6 +45,7 @@ include(${PROJECT_SOURCE_DIR}/infrastructure/cmake/functions/functions.cmake)
 option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
+option(VHAT_COVERAGE "Enable test coverage" OFF)
 
 message(STATUS ${PROJECT_NAME} " v" ${PROJECT_VERSION_FULL})
 message(STATUS "VHAT_BUILD_CLIENT: " ${VHAT_BUILD_CLIENT})
@@ -67,6 +68,29 @@ if(VHAT_BUILD_CLIENT)
   add_subdirectory(ATE_client/src)
 endif(VHAT_BUILD_CLIENT)
 
+#######################################################
+#                   Test coverage
+#######################################################
+find_program(GCOVR_EXECUTABLE gcovr)
+
+if (VHAT_COVERAGE AND GCOVR_EXECUTABLE)
+  add_custom_target(coverage
+    COMMAND
+      ${GCOVR_EXECUTABLE}
+      --root=${PROJECT_SOURCE_DIR}/
+      --filter=${PROJECT_SOURCE_DIR}/ATE_common/include
+      --filter=${PROJECT_SOURCE_DIR}/ATE_common/src
+      --filter=${PROJECT_SOURCE_DIR}/ATE_server/include
+      --filter=${PROJECT_SOURCE_DIR}/ATE_server/src
+      --object-directory=${PROJECT_BINARY_DIR}
+    DEPENDS
+      check
+  )
+elseif (MYLIB_COVERAGE AND NOT GCOVR_EXECUTABLE)
+  set(VHAT_COVERAGE OFF)
+  message(WARNING "For test coverage need gcovr")
+endif ()
+
 #------------------------------------------ unit tests ------------------------------------------#
 if(VHAT_WITH_TESTS)
   # Enable testing via CTest
@@ -80,6 +104,9 @@ if(VHAT_WITH_TESTS)
   if(VHAT_BUILD_SERVER)
     add_subdirectory(ATE_server/test)
   endif(VHAT_BUILD_SERVER)
+
+  # run all tests
+  add_custom_target(check COMMAND ctest)
 endif(VHAT_WITH_TESTS)
 
 if(VHAT_CREATE_DEBIAN_PACKAGE)

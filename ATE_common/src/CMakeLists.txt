@@ -21,10 +21,11 @@ target_include_directories(vhat_common
 )
 
 target_link_libraries(vhat_common
-  Boost::asio
-  inihcpp
-  jsoncpp_lib_static
-  spdlog::spdlog
+  PUBLIC
+    Boost::asio
+    inihcpp
+    jsoncpp_lib_static
+    spdlog::spdlog
 )
 
 if(UNIX)
@@ -56,3 +57,11 @@ elseif(MSVC)
     RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
 endif()
+
+#######################################################
+#                   Test coverage
+#######################################################
+if (VHAT_COVERAGE)
+  target_compile_options(vhat_common PRIVATE --coverage)
+  target_link_libraries(vhat_common PRIVATE gcov)
+endif (VHAT_COVERAGE)

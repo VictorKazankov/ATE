@@ -144,3 +144,11 @@ if(VHAT_INSTALL_SERVER_SERVICE)
     DESTINATION "/lib/systemd/system/"
   )
 endif(VHAT_INSTALL_SERVER_SERVICE)
+
+#######################################################
+#                   Test coverage
+#######################################################
+if (VHAT_COVERAGE)
+  target_compile_options(vhat_server_lib PRIVATE --coverage)
+  target_link_libraries(vhat_server_lib PRIVATE gcov)
+endif (VHAT_COVERAGE)
