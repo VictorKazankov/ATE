@@ -42,14 +42,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
 # cmake functions
 include(${PROJECT_SOURCE_DIR}/infrastructure/cmake/functions/functions.cmake)
 
-#------------------------------------------ compiler flags ------------------------------------------#
-if(UNIX)
-  add_cxx_compiler_flag(-Wall)
-  add_cxx_compiler_flag(-Wextra)
-  add_cxx_compiler_flag(-pedantic)
-  add_cxx_compiler_flag(-Werror)
-endif(UNIX)
-
 option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)

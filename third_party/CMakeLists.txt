@@ -138,13 +138,6 @@ set(JSONCPP_WITH_POST_BUILD_UNITTEST OFF CACHE BOOL "Disable run jsoncpp unit te
 set(JSONCPP_WITH_PKGCONFIG_SUPPORT OFF CACHE BOOL "Disable cmake configure json cmake")
 add_subdirectory(jsoncpp EXCLUDE_FROM_ALL)
 set_property(TARGET jsoncpp_lib_static PROPERTY POSITION_INDEPENDENT_CODE ON)
-if(UNIX)
-  # disable implicit-fallthrough warning
-  target_compile_options(jsoncpp_lib_static
-    PUBLIC
-      -Wno-implicit-fallthrough
-  )
-endif(UNIX)
 
 ### spdlog
 ### https://github.com/gabime/spdlog
