@@ -86,7 +86,23 @@ if (VHAT_COVERAGE AND GCOVR_EXECUTABLE)
     DEPENDS
       check
   )
-elseif (MYLIB_COVERAGE AND NOT GCOVR_EXECUTABLE)
+
+  add_custom_target(coverage_html
+    COMMAND
+      ${GCOVR_EXECUTABLE}
+      --root=${PROJECT_SOURCE_DIR}/
+      --filter=${PROJECT_SOURCE_DIR}/ATE_common/include
+      --filter=${PROJECT_SOURCE_DIR}/ATE_common/src
+      --filter=${PROJECT_SOURCE_DIR}/ATE_server/include
+      --filter=${PROJECT_SOURCE_DIR}/ATE_server/src
+      --object-directory=${PROJECT_BINARY_DIR}
+      --html
+      --sort-percentage
+      --output=${PROJECT_BINARY_DIR}/index.html
+    DEPENDS
+      check
+  )
+elseif (VHAT_COVERAGE AND NOT GCOVR_EXECUTABLE)
   set(VHAT_COVERAGE OFF)
   message(WARNING "For test coverage need gcovr")
 endif ()
