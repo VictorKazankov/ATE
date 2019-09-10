@@ -5,7 +5,8 @@
 
 #include <opencv2/core/mat.hpp>
 
-#include "detector.h"
+#include <recognition/detector.h>
+
 #include "utils/screenshot_recorder.h"
 
 namespace streamer {

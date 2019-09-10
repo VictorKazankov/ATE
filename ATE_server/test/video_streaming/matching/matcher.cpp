@@ -11,7 +11,8 @@
 #include <opencv2/core/types.hpp>
 #include <opencv2/imgcodecs.hpp>
 
-#include "video_streaming/matching/detector.h"
+#include <recognition/detector.h>
+
 #include "video_streaming/streamer.h"
 
 namespace {

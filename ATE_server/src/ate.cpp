@@ -4,6 +4,8 @@
 #include <utility>
 
 #include <db_manager/factory.h>
+#include <recognition/factory.h>
+
 #include <opencv2/imgcodecs.hpp>
 
 #include "common.h"
@@ -13,9 +15,6 @@
 #include "interaction/dummy/dummy_interaction.h"
 #include "logger/logger.h"
 #include "utils/defines.h"
-#include "video_streaming/matching/matching_factory.h"
-#include "video_streaming/matching/text_detector.h"
-#include "video_streaming/matching/text_detector_decorator.h"
 #include "video_streaming/streamer_factory.h"
 
 using namespace defines;
@@ -29,6 +28,18 @@ DisplayType StrToDisplayType(const std::string& display_type_str) {
   if ("G2_10LINCH_DISP" == display_type_str) return DisplayType::G2_10LINCH_DISP;
   if ("G2_10PINCH_DISP" == display_type_str) return DisplayType::G2_10PINCH_DISP;
   return DisplayType::UNDEFINED_DISP;
+}
+
+detector::DetectorTypes StrToDetectorType(const std::string& detector_type) {
+  if (kTemplateMathcing == detector_type) {
+    return detector::DetectorTypes::kTemplateDetector;
+  }
+  if (kMultiscaleTemplateMatching == detector_type) {
+    return detector::DetectorTypes::kMultiscaleTemplateDetector;
+  }
+  logger::error("Undefined type of Detector \'{}\'.", detector_type);
+  logger::info("Use default detector type \'{}\'", kTemplateMathcing);
+  return detector::DetectorTypes::kTemplateDetector;
 }
 
 std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& interaction_type,
@@ -55,20 +66,6 @@ std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& 
   throw interaction::InteractionTypeError{};
 }
 
-std::unique_ptr<detector::Detector<std::string>> MakeTextDetector() {
-  const std::string tessdata_prefix = common::Config().GetString(kTextDetectorSection, kTessDataOption, {});
-  if (tessdata_prefix.empty()) {
-    logger::warn("[ATE] TESSDATA_PREFIX isn't present in config. Possible problems with text detection");
-  }
-
-  return std::make_unique<detector::TextDetectorDecorator>(
-      std::make_unique<detector::TextDetector>(
-          common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
-                                     kDefaultTextDetectorConfidence),
-          tessdata_prefix.c_str()),
-      common::Config().GetString(kTextDetectorSection, kTextDetectorPreprocessingList, {}));
-}
-
 std::unique_ptr<utils::ScreenshotRecorder> MakeScreenshotRecorder() {
   std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder;
   try {
@@ -80,15 +77,22 @@ std::unique_ptr<utils::ScreenshotRecorder> MakeScreenshotRecorder() {
   }
   return screenshot_recorder;
 }
+
 }  // namespace
 
 ATE::ATE(boost::asio::io_context& io_context)
     : interaction_{InteractionFactory(common::Config().GetString(kInteraction, kInteractionType, {}), io_context)},
       matcher_{streamer::MakeStreamer(),
                detector::MakeImageDetector(
-                   common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType, kTemplateMathcing),
+                   StrToDetectorType(common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType,
+                                                                kTemplateMathcing)),
                    common::Config().GetDouble(kImageDetectorSection, kImageDetectorConfidenceOption, {})),
-               MakeTextDetector(), MakeScreenshotRecorder()} {
+               detector::MakeTextDetector(
+                   common::Config().GetString(kTextDetectorSection, kTessDataOption, {}),
+                   common::Config().GetString(kTextDetectorSection, kTextDetectorPreprocessingList, {}),
+                   common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
+                                              kDefaultTextDetectorConfidence)),
+               MakeScreenshotRecorder()} {
   // create storage manager
   std::error_code error;
   storage_ = db_manager::CreateFileStorageManager(VHAT_SERVER_STORAGE_DIR "/icon_storage", error);

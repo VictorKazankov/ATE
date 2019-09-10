@@ -15,12 +15,6 @@ add_library(vhat_server_lib
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp
     video_streaming/matching/matcher.cpp
-    video_streaming/matching/matching_factory.cpp
-    video_streaming/matching/multiscale_template_detector.cpp
-    video_streaming/matching/template_detector.cpp
-    video_streaming/matching/text_detector.cpp
-    video_streaming/matching/text_detector_exceptions.cpp
-    video_streaming/matching/text_detector_decorator.cpp
     video_streaming/v4l_streamer.cpp
     video_streaming/framebuf_to_mat.cpp
     video_streaming/gst_streamer.cpp
@@ -54,37 +48,19 @@ find_package(OpenCV 3.3.1 REQUIRED
     videoio
 )
 
-# Leptonica by Dan Bloomberg
-# http://www.leptonica.org
-find_package(Leptonica 1.74 REQUIRED)
-
-# Tesseract
-# https://github.com/tesseract-ocr/tesseract
-set(MINIMUM_TESSERACT_VERSION 4)
-find_package(Tesseract ${MINIMUM_TESSERACT_VERSION} QUIET)
-if(Tesseract_FOUND)
-  message(STATUS "Using CMake find_package for finding Tesseract")
-else(Tesseract_FOUND)
-  message(STATUS "Using pkg-config for finding Tesseract")
-  pkg_check_modules(Tesseract REQUIRED
-    tesseract>=${MINIMUM_TESSERACT_VERSION}
-  )
-endif(Tesseract_FOUND)
+find_package(Recognition 1.0 REQUIRED)
 
 # Workaround for build project while some packages found with pkg-config
 # TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6
 link_directories(
   "${GStreamer_LIBRARY_DIRS}"
-  "${Tesseract_LIBRARY_DIRS}"
 )
 
 target_include_directories(vhat_server_lib
   PUBLIC
     ../include
     "${GStreamer_INCLUDE_DIRS}"
-    "${Leptonica_INCLUDE_DIRS}"
     "${OpenCV_INCLUDE_DIRS}"
-    "${Tesseract_INCLUDE_DIRS}"
 )
 
 target_link_libraries(vhat_server_lib
@@ -96,9 +72,8 @@ target_link_libraries(vhat_server_lib
     opencv_imgcodecs
     opencv_imgproc
     opencv_videoio
+    VHAT::recognition
     ${GStreamer_LIBRARIES}
-    ${Leptonica_LIBRARIES}
-    ${Tesseract_LIBRARIES}
     VHAT::dbmanager
 )
 

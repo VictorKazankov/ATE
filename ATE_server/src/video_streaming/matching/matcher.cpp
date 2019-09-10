@@ -49,19 +49,14 @@ cv::Rect Matcher::MatchImage(const std::string& object, const cv::Mat& pattern) 
     return cv::Rect{};
   }
 
-  // TODO: Implement all image preprocessing in Detect worker
-  cv::Mat grey_pattern;
-  cv::cvtColor(pattern, grey_pattern, CV_BGR2GRAY);
-
-  if (grey_pattern.rows > gray_screen_.rows || grey_pattern.cols > gray_screen_.cols) {
-    logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", grey_pattern.size,
-                  gray_screen_.size);
+  if (pattern.rows > screen_.rows || pattern.cols > screen_.cols) {
+    logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
+                  screen_.size);
 
     return cv::Rect{};
   }
 
-  // TODO: Implement all image preprocessing in Detect worker
-  const cv::Rect detected_object = image_detector_->Detect(gray_screen_, grey_pattern);
+  const cv::Rect detected_object = image_detector_->Detect(screen_, pattern);
 
   if (screenshot_recorder_) {
     screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_object, object);

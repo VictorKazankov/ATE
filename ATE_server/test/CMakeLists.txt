@@ -7,7 +7,6 @@ set(TEST_NAME vhat_server_test)
 # TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6
 link_directories(
   "${GStreamer_LIBRARY_DIRS}"
-  "${Tesseract_LIBRARY_DIRS}"
 )
 
 add_executable_from_dir_recursive(${TEST_NAME})
