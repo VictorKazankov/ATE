@@ -109,6 +109,9 @@ endif ()
 
 #------------------------------------------ unit tests ------------------------------------------#
 if(VHAT_WITH_TESTS)
+  find_package(GTest REQUIRED)
+  FindGmock()
+
   # Enable testing via CTest
   # https://cmake.org/cmake/help/latest/manual/ctest.1.html
   include(CTest)

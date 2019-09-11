@@ -143,22 +143,6 @@ set_property(TARGET jsoncpp_lib_static PROPERTY POSITION_INDEPENDENT_CODE ON)
 ### https://github.com/gabime/spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 
-if(VHAT_WITH_TESTS)
-  ### Google Test
-  ### https://github.com/google/googletest
-
-  set(BUILD_GMOCK ON CACHE BOOL
-    "Builds the Google Mock subproject")
-
-  set(INSTALL_GTEST OFF CACHE BOOL
-    "Enable installation of googletest. Projects embedding googletest may want to turn this OFF")
-
-  # BUILD_SHARED_LIBS=ON necessary for building shared gtest library
-  set(BUILD_SHARED_LIBS ON)
-  add_subdirectory(googletest)
-
-endif(VHAT_WITH_TESTS)
-
 if(UNIX)
   install(TARGETS
     boost_asio
