@@ -2,6 +2,8 @@ include(CheckCXXCompilerFlag)
 
 # cmake GTests (included only from 3.9.1)
 include(${CMAKE_CURRENT_LIST_DIR}/GoogleTest.cmake)
+# Find gmock
+include(${CMAKE_CURRENT_LIST_DIR}/FindGmock.cmake)
 
 # Add cxx compiler flag
 # FLAG flag
