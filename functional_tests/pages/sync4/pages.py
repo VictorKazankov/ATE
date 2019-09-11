@@ -3,7 +3,7 @@ from time import sleep
 
 from functional_tests.pages import hmi
 from functional_tests.utils.sync4 import constants
-from vhat_client import LookupError, Object
+from vhat_client import LookupError, object
 
 
 class SettingsPage:

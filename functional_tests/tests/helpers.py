@@ -36,6 +36,10 @@ def get_result_recognition(name, dict_attempts):
         logging.warning('{} object not recognized'.format(name))
 
 
+def get_exist_result(name):
+    return hmi.obj_exists(name)
+
+
 @allure.step('"{state}" to recognize "{name}" object')
 def mark_state(state, name):
     pass

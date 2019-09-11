@@ -1,5 +1,5 @@
-from vhat_client import (ModifierState, MouseButton, attachToApplication,
-                         tapObject, waitForObject)
+from vhat_client import (ModifierState, MouseButton, object,
+                         attachToApplication, tapObject, waitForObject)
 
 
 def attach_to_application():
@@ -12,3 +12,7 @@ def wait_for_object(object, timeout=5000):
 
 def tap_object(object):
     tapObject(object, ModifierState.NONE, MouseButton.LEFT_BUTTON)
+
+
+def obj_exists(name):
+    return object().exists(name)

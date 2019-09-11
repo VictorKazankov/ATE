@@ -2,7 +2,7 @@ import logging
 
 import allure
 import pytest
-from functional_tests.tests.test_recognition import helpers
+from functional_tests.tests import helpers
 from functional_tests.utils.sync4 import constants
 
 PERCENT = 98

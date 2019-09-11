@@ -201,6 +201,7 @@ def tap(name):
 def check_visibility(name):
     """ Checks if the object or text is visible. """
     try:
+        sleep(2)
         return hmi.wait_for_object(name)
     except LookupError:
         return False
