@@ -1,93 +1,374 @@
-[{"name":"contacts","location":"day_mode/contacts.png"},
-{"name":"android_auto_lightstyle","location":"day_mode/android_auto_lightstyles/android_auto_lightstyle.png"},
-{"name":"apps","location":"day_mode/apps.png"},
-{"name":"apps_active","location":"day_mode/apps_active.png"},
-{"name":"audio","location":"day_mode/audio.png"},
-{"name":"audio_active","location":"day_mode/audio_active.png"},
-{"name":"audio_frequency","location":"day_mode/audio_frequency.png"},
-{"name":"auto_main_menu","location":"day_mode/android_auto_lightstyles/auto_main_menu.png"},
-{"name":"auto_main_menu_inactive","location":"day_mode/android_auto_lightstyles/auto_main_menu_inactive.png"},
-{"name":"auto_music_menu","location":"day_mode/android_auto_lightstyles/auto_music_menu.png"},
-{"name":"back","location":"day_mode/back.png"},
-{"name":"checkbox_checked","location":"day_mode/checkbox_checked.png"},
-{"name":"checkbox_unchecked","location":"day_mode/checkbox_unchecked.png"},
-{"name":"climate","location":"day_mode/climate.png"},
-{"name":"climate_active","location":"day_mode/climate_active.png"},
-{"name":"climate_down","location":"day_mode/climate_down.png"},
-{"name":"climate_dual","location":"day_mode/climate_dual.png"},
-{"name":"climate_up","location":"day_mode/climate_up.png"},
-{"name":"climate_on_off","location":"day_mode/climate_on_off.png"},
-{"name":"presets","location":"day_mode/presets.png"},
-{"name":"close","location":"day_mode/close.png"},
-{"name":"clock","location":"day_mode/clock.png"},
-{"name":"contact_search","location":"day_mode/contact_search.png"},
-{"name":"del_active","location":"day_mode/keyboard/del_active.png"},
-{"name":"down_active","location":"day_mode/down_active.png"},
-{"name":"down_inactive","location":"day_mode/down_inactive.png"},
-{"name":"enter_active","location":"day_mode/keyboard/enter_active.png"},
-{"name":"gplay_music_app","location":"day_mode/android_auto_lightstyles/gplay_music_app.png"},
-{"name":"gplay_pause_button","location":"day_mode/android_auto_lightstyles/gplay_pause_button.png"},
-{"name":"gplay_pause_button_main_screen","location":"day_mode/android_auto_lightstyles/gplay_pause_button_main_screen.png"},
-{"name":"gplay_play_button","location":"day_mode/android_auto_lightstyles/gplay_play_button.png"},
-{"name":"home","location":"day_mode/home.png"},
-{"name":"information","location":"day_mode/information.png"},
-{"name":"key_0_active","location":"day_mode/keyboard/key_0_active.png"},
-{"name":"key_1_active","location":"day_mode/keyboard/key_1_active.png"},
-{"name":"key_2_active","location":"day_mode/keyboard/key_2_active.png"},
-{"name":"key_3_active","location":"day_mode/keyboard/key_3_active.png"},
-{"name":"key_4_active","location":"day_mode/keyboard/key_4_active.png"},
-{"name":"key_5_active","location":"day_mode/keyboard/key_5_active.png"},
-{"name":"key_6_active","location":"day_mode/keyboard/key_6_active.png"},
-{"name":"key_7_active","location":"day_mode/keyboard/key_7_active.png"},
-{"name":"key_8_active","location":"day_mode/keyboard/key_8_active.png"},
-{"name":"key_9_active","location":"day_mode/keyboard/key_9_active.png"},
-{"name":"key_m_active","location":"day_mode/keyboard/key_m_active.png"},
-{"name":"nav","location":"day_mode/nav.png"},
-{"name":"nav_active","location":"day_mode/nav_active.png"},
-{"name":"phone","location":"day_mode/phone.png"},
-{"name":"phone_active","location":"day_mode/phone_active.png"},
-{"name":"scrollbar_handle","location":"day_mode/scrollbar_handle.png"},
-{"name":"scroll","location":"day_mode/scroll.png"},
-{"name":"slider","location":"day_mode/slider.png"},
-{"name":"back_property_field","location":"day_mode/back_property_field.png"},
-{"name":"balance_fade","location":"day_mode/balance_fade.png"},
-{"name":"settings","location":"day_mode/settings.png"},
-{"name":"settings_active","location":"day_mode/settings_active.png"},
-{"name":"settings_navigation","location":"day_mode/settings_navigation.png"},
-{"name":"settings_phone","location":"day_mode/settings_phone.png"},
-{"name":"switch_off","location":"day_mode/switch_off.png"},
-{"name":"switch_on","location":"day_mode/switch_on.png"},
-{"name":"time_12h_format","location":"day_mode/time_12h_format.png"},
-{"name":"time_24h_format","location":"day_mode/time_24h_format.png"},
-{"name":"time_am_period","location":"day_mode/time_am_period.png"},
-{"name":"time_pm_period","location":"day_mode/time_pm_period.png"},
-{"name":"up_active","location":"day_mode/up_active.png"},
-{"name":"guidance_prompts_voice","location":"day_mode/guidance_prompts_voice.png"},
-{"name":"guidance_prompts_voice_active","location":"day_mode/guidance_prompts_voice_active.png"},
-{"name":"guidance_prompts_plus","location":"day_mode/guidance_prompts_plus.png"},
-{"name":"guidance_prompts_plus_active","location":"day_mode/guidance_prompts_plus_active.png"},
-{"name":"guidance_prompts_chimes_active","location":"day_mode/guidance_prompts_chimes_active.png"},
-{"name":"exclamation_icon","location":"day_mode/exclamation_icon.png"},
-{"name":"down_airflow","location":"day_mode/down_airflow.png"},
-{"name":"down_airflow_active","location":"day_mode/down_airflow_active.png"},
-{"name":"defrost","location":"day_mode/defrost.png"},
-{"name":"max_front_heating_inactive","location":"day_mode/max_front_heating_inactive.png"},
-{"name":"front_heating","location":"day_mode/front_heating.png"},
-{"name":"rear_heating","location":"day_mode/rear_heating.png"},
-{"name":"connect_to","location":"day_mode/connect_to.png"},
-{"name":"bluetooth","location":"day_mode/bluetooth.png"},
-{"name":"find_mobile_apps","location":"day_mode/find_mobile_apps.png"},
-{"name":"siriusxm","location":"day_mode/siriusxm.png"},
-{"name":"mobile_apps","location":"day_mode/mobile_apps.png"},
-{"name":"sync_connect","location":"day_mode/sync_connect.png"},
-{"name":"reset_all","location":"day_mode/reset_all.png"},
-{"name":"switch_off","location":"day_mode/switch_off.png"},
-{"name":"switch_on","location":"day_mode/switch_on.png"},
-{"name":"down_arrow_small","location":"day_mode/down_arrow_small.png"},
-{"name":"radio","location":"day_mode/radio.png"},
-{"name":"top_airflow","location":"day_mode/top_airflow.png"},
-{"name":"top_airflow_active","location":"day_mode/top_airflow_active.png"},
-{"name":"settings_sound","location":"day_mode/settings_sound.png"},
-{"name":"up_inactive","location":"day_mode/up_inactive.png"},
-{"name":"a_c_active","location":"day_mode/a_c_active.png"},
-{"name":"medium","location":"day_mode/medium.png"}]
+[
+  {
+    "name": "contacts",
+    "extension": "png"
+  },
+  {
+    "name": "android_auto_lightstyle",
+    "extension": "png"
+  },
+  {
+    "name": "apps",
+    "extension": "png"
+  },
+  {
+    "name": "apps_active",
+    "extension": "png"
+  },
+  {
+    "name": "audio",
+    "extension": "png"
+  },
+  {
+    "name": "audio_active",
+    "extension": "png"
+  },
+  {
+    "name": "audio_frequency",
+    "extension": "png"
+  },
+  {
+    "name": "auto_main_menu",
+    "extension": "png"
+  },
+  {
+    "name": "auto_main_menu_inactive",
+    "extension": "png"
+  },
+  {
+    "name": "auto_music_menu",
+    "extension": "png"
+  },
+  {
+    "name": "back",
+    "extension": "png"
+  },
+  {
+    "name": "checkbox_checked",
+    "extension": "png"
+  },
+  {
+    "name": "checkbox_unchecked",
+    "extension": "png"
+  },
+  {
+    "name": "climate",
+    "extension": "png"
+  },
+  {
+    "name": "climate_active",
+    "extension": "png"
+  },
+  {
+    "name": "climate_down",
+    "extension": "png"
+  },
+  {
+    "name": "climate_dual",
+    "extension": "png"
+  },
+  {
+    "name": "climate_up",
+    "extension": "png"
+  },
+  {
+    "name": "climate_on_off",
+    "extension": "png"
+  },
+  {
+    "name": "presets",
+    "extension": "png"
+  },
+  {
+    "name": "close",
+    "extension": "png"
+  },
+  {
+    "name": "clock",
+    "extension": "png"
+  },
+  {
+    "name": "contact_search",
+    "extension": "png"
+  },
+  {
+    "name": "del_active",
+    "extension": "png"
+  },
+  {
+    "name": "down_active",
+    "extension": "png"
+  },
+  {
+    "name": "down_inactive",
+    "extension": "png"
+  },
+  {
+    "name": "enter_active",
+    "extension": "png"
+  },
+  {
+    "name": "gplay_music_app",
+    "extension": "png"
+  },
+  {
+    "name": "gplay_pause_button",
+    "extension": "png"
+  },
+  {
+    "name": "gplay_pause_button_main_screen",
+    "extension": "png"
+  },
+  {
+    "name": "gplay_play_button",
+    "extension": "png"
+  },
+  {
+    "name": "home",
+    "extension": "png"
+  },
+  {
+    "name": "information",
+    "extension": "png"
+  },
+  {
+    "name": "key_0_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_1_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_2_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_3_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_4_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_5_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_6_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_7_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_8_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_9_active",
+    "extension": "png"
+  },
+  {
+    "name": "key_m_active",
+    "extension": "png"
+  },
+  {
+    "name": "nav",
+    "extension": "png"
+  },
+  {
+    "name": "nav_active",
+    "extension": "png"
+  },
+  {
+    "name": "phone",
+    "extension": "png"
+  },
+  {
+    "name": "phone_active",
+    "extension": "png"
+  },
+  {
+    "name": "scrollbar_handle",
+    "extension": "png"
+  },
+  {
+    "name": "scroll",
+    "extension": "png"
+  },
+  {
+    "name": "slider",
+    "extension": "png"
+  },
+  {
+    "name": "back_property_field",
+    "extension": "png"
+  },
+  {
+    "name": "balance_fade",
+    "extension": "png"
+  },
+  {
+    "name": "settings",
+    "extension": "png"
+  },
+  {
+    "name": "settings_active",
+    "extension": "png"
+  },
+  {
+    "name": "settings_navigation",
+    "extension": "png"
+  },
+  {
+    "name": "settings_phone",
+    "extension": "png"
+  },
+  {
+    "name": "switch_off",
+    "extension": "png"
+  },
+  {
+    "name": "switch_on",
+    "extension": "png"
+  },
+  {
+    "name": "time_12h_format",
+    "extension": "png"
+  },
+  {
+    "name": "time_24h_format",
+    "extension": "png"
+  },
+  {
+    "name": "time_am_period",
+    "extension": "png"
+  },
+  {
+    "name": "time_pm_period",
+    "extension": "png"
+  },
+  {
+    "name": "up_active",
+    "extension": "png"
+  },
+  {
+    "name": "guidance_prompts_voice",
+    "extension": "png"
+  },
+  {
+    "name": "guidance_prompts_voice_active",
+    "extension": "png"
+  },
+  {
+    "name": "guidance_prompts_plus",
+    "extension": "png"
+  },
+  {
+    "name": "guidance_prompts_plus_active",
+    "extension": "png"
+  },
+  {
+    "name": "guidance_prompts_chimes_active",
+    "extension": "png"
+  },
+  {
+    "name": "exclamation_icon",
+    "extension": "png"
+  },
+  {
+    "name": "down_airflow",
+    "extension": "png"
+  },
+  {
+    "name": "down_airflow_active",
+    "extension": "png"
+  },
+  {
+    "name": "defrost",
+    "extension": "png"
+  },
+  {
+    "name": "max_front_heating_inactive",
+    "extension": "png"
+  },
+  {
+    "name": "front_heating",
+    "extension": "png"
+  },
+  {
+    "name": "rear_heating",
+    "extension": "png"
+  },
+  {
+    "name": "connect_to",
+    "extension": "png"
+  },
+  {
+    "name": "bluetooth",
+    "extension": "png"
+  },
+  {
+    "name": "find_mobile_apps",
+    "extension": "png"
+  },
+  {
+    "name": "siriusxm",
+    "extension": "png"
+  },
+  {
+    "name": "mobile_apps",
+    "extension": "png"
+  },
+  {
+    "name": "sync_connect",
+    "extension": "png"
+  },
+  {
+    "name": "reset_all",
+    "extension": "png"
+  },
+  {
+    "name": "switch_off",
+    "extension": "png"
+  },
+  {
+    "name": "switch_on",
+    "extension": "png"
+  },
+  {
+    "name": "down_arrow_small",
+    "extension": "png"
+  },
+  {
+    "name": "radio",
+    "extension": "png"
+  },
+  {
+    "name": "top_airflow",
+    "extension": "png"
+  },
+  {
+    "name": "top_airflow_active",
+    "extension": "png"
+  },
+  {
+    "name": "settings_sound",
+    "extension": "png"
+  },
+  {
+    "name": "up_inactive",
+    "extension": "png"
+  },
+  {
+    "name": "a_c_active",
+    "extension": "png"
+  },
+  {
+    "name": "medium",
+    "extension": "png"
+  }
+]
