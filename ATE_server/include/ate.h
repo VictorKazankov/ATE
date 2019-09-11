@@ -4,9 +4,10 @@
 #include <chrono>
 #include <memory>
 
+#include <db_manager/db_manager.h>
+
 #include <boost/asio/io_context.hpp>
 #include "interaction/interaction.h"
-#include "storage/storage.h"
 #include "video_streaming/matching/matcher.h"
 #include "video_streaming/streamer.h"
 
@@ -15,12 +16,12 @@
  **/
 class ATE {
  private:
-  std::unique_ptr<storage::Storage> storage_;
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;
+  std::unique_ptr<db_manager::IDbManager> storage_;
 
  public:
-  ATE(boost::asio::io_context& io_context);
+  explicit ATE(boost::asio::io_context& io_context);
   ~ATE();
 
   /**

@@ -3,13 +3,15 @@
 #include <stdexcept>
 #include <utility>
 
+#include <db_manager/factory.h>
+#include <opencv2/imgcodecs.hpp>
+
 #include "common.h"
 #include "exceptions.h"
 #include "interaction/SPI/spi_interaction.h"
 #include "interaction/VDP/vdp_interaction.h"
 #include "interaction/dummy/dummy_interaction.h"
 #include "logger/logger.h"
-#include "storage/json_storage.h"
 #include "utils/defines.h"
 #include "video_streaming/matching/matching_factory.h"
 #include "video_streaming/matching/text_detector.h"
@@ -81,16 +83,24 @@ std::unique_ptr<utils::ScreenshotRecorder> MakeScreenshotRecorder() {
 }  // namespace
 
 ATE::ATE(boost::asio::io_context& io_context)
-    : storage_{std::make_unique<storage::JsonStorage>(VHAT_SERVER_STORAGE_DIR "/icon_storage")},
-      interaction_{InteractionFactory(common::Config().GetString(kInteraction, kInteractionType, {}), io_context)},
+    : interaction_{InteractionFactory(common::Config().GetString(kInteraction, kInteractionType, {}), io_context)},
       matcher_{streamer::MakeStreamer(),
                detector::MakeImageDetector(
                    common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType, kTemplateMathcing),
                    common::Config().GetDouble(kImageDetectorSection, kImageDetectorConfidenceOption, {})),
                MakeTextDetector(), MakeScreenshotRecorder()} {
-  if (!storage_->LoadCollection(common::Config().GetString(kDBSection, kTargetOption, {}),
-                                common::Config().GetString(kDBSection, kBuildOption, {}),
-                                common::Config().GetString(kDBSection, kCollectionModeOption, {}))) {
+  // create storage manager
+  std::error_code error;
+  storage_ = db_manager::CreateFileStorageManager(VHAT_SERVER_STORAGE_DIR "/icon_storage", error);
+  if (error || storage_ == nullptr) {
+    logger::error("[ATE] Can't create storage manager: {}.", error.message());
+    throw storage::ConnectionFailure{};
+  }
+  error = storage_->InitCollectionsSettings(common::Config().GetString(kDBSection, kTargetOption, {}),
+                                            common::Config().GetString(kDBSection, kBuildOption, {}),
+                                            common::Config().GetString(kDBSection, kCollectionModeOption, {}));
+  if (error) {
+    logger::error("[ATE] Can't init storage manager: {}.", error.message());
     throw storage::ConnectionFailure{};
   }
 }
@@ -108,12 +118,17 @@ void ATE::TouchAndDrag(const std::string& object_or_name, const cv::Point& start
 
 cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout) {
   const auto timeout_point = std::chrono::steady_clock::now() + timeout;
-  const auto item_path = storage_->ItemPath(object_or_name);
-  const bool is_image = !item_path.empty();
+  const auto item_info = storage_->GetItem(object_or_name, db_manager::kDefaultSyncVersion,
+                                           db_manager::kDefaultSyncBuildVersion, db_manager::kDefaultCollectionMode);
+  cv::Mat pattern{};
+  if (!item_info.item.data.empty()) {
+    pattern = cv::imdecode(cv::Mat(item_info.item.data), cv::IMREAD_COLOR);
+  }
+  const bool is_image = !item_info.error;
   cv::Rect match_result;
 
   do {
-    match_result = is_image ? matcher_.MatchImage(object_or_name, item_path) : matcher_.MatchText(object_or_name);
+    match_result = is_image ? matcher_.MatchImage(object_or_name, pattern) : matcher_.MatchText(object_or_name);
   } while (match_result.empty() && std::chrono::steady_clock::now() <= timeout_point);
 
   return match_result;

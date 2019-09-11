@@ -101,14 +101,14 @@ TEST_F(MatcherTest, MatchImage_Success) {
   const cv::Rect result_rect{cv::Point{32, 32}, cv::Size{32, 32}};
 
   constexpr auto object = "matcher_tests_small_image";
-  constexpr auto object_path = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png";
+  const auto pattern = cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
 
   EXPECT_CALL(*streamer_, Frame(_)).Times(frame_count).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(frame_count).WillRepeatedly(Return(result_rect));
   EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
 
   for (unsigned i = 0; i < frame_count; ++i) {
-    EXPECT_EQ(matcher_->MatchImage(object, object_path), result_rect);
+    EXPECT_EQ(matcher_->MatchImage(object, pattern), result_rect);
   }
 }
 
@@ -124,27 +124,27 @@ TEST_F(MatcherTest, MatchImage_TooBigPattern_Failure) {
   const unsigned frame_count = 2;
 
   constexpr auto object = "matcher_tests_big_image";
-  constexpr auto object_path = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png";
+  const auto pattern = cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png");
 
   EXPECT_CALL(*streamer_, Frame(_)).Times(frame_count).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
   EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
 
   for (unsigned i = 0; i < frame_count; ++i) {
-    EXPECT_TRUE(matcher_->MatchImage(object, object_path).empty());
+    EXPECT_TRUE(matcher_->MatchImage(object, pattern).empty());
   }
 }
 
 TEST_F(MatcherTest, InvalidStream_Failure) {
   constexpr auto object = "matcher_tests_small_image";
-  constexpr auto object_path = VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png";
   constexpr auto text_for_matching = "Any text";
+  const auto pattern = cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
 
   EXPECT_CALL(*streamer_, Frame(_)).WillRepeatedly(Return(false));
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
   EXPECT_CALL(*text_detector_, Detect(_, text_for_matching)).Times(0);
 
-  EXPECT_TRUE(matcher_->MatchImage(object, object_path).empty());
+  EXPECT_TRUE(matcher_->MatchImage(object, pattern).empty());
   EXPECT_TRUE(matcher_->MatchText(text_for_matching).empty());
 }
 

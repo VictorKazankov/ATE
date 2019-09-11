@@ -52,11 +52,11 @@ class Matcher {
   /**
    * @brief MatchImage provide image detection of the pattern on TDK screen
    * @params object object name
-   * @params object_path path to pattern image
+   * @params pattern pattern image
    * @return rectangle with x, y, width, height of the detected object on succeed,
    * on failure x, y, width, height will equal 0
    */
-  cv::Rect MatchImage(const std::string& object, const std::string& object_path);
+  cv::Rect MatchImage(const std::string& object, const cv::Mat& pattern);
 
   /**
    * @brief MatchText provide text detection of the pattern on TDK screen

@@ -12,7 +12,6 @@ add_library(vhat_server_lib
     interaction/ATE/tcp_server.cpp
     interaction/ATE/tcp_session_handler.cpp
     interaction/SPI/spi_interaction.cpp
-    storage/json_storage.cpp
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp
     video_streaming/matching/matcher.cpp
@@ -29,6 +28,9 @@ add_library(vhat_server_lib
     video_streaming/streamer_factory.cpp
     ate.cpp
 )
+
+# DBManager (https://github.ford.com/VHAT/DBManagerLib)
+find_package(DBManager 1.0 REQUIRED)
 
 # pkg-config
 # https://cmake.org/cmake/help/latest/module/FindPkgConfig.html
@@ -97,6 +99,7 @@ target_link_libraries(vhat_server_lib
     ${GStreamer_LIBRARIES}
     ${Leptonica_LIBRARIES}
     ${Tesseract_LIBRARIES}
+    VHAT::dbmanager
 )
 
 add_executable(vhat_server

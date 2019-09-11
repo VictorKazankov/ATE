@@ -14,11 +14,11 @@ add_executable_from_dir_recursive(${TEST_NAME})
 
 target_link_libraries(${TEST_NAME}
   PRIVATE
-    vhat_server_lib
     gtest
     gtest_main
     gmock
     gmock_main
+    vhat_server_lib
 )
 
 target_compile_definitions(${TEST_NAME}

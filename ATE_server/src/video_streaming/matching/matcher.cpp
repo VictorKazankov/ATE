@@ -39,26 +39,29 @@ bool Matcher::GrabNewFrame() {
   return result;
 }
 
-cv::Rect Matcher::MatchImage(const std::string& object, const std::string& object_path) {
+cv::Rect Matcher::MatchImage(const std::string& object, const cv::Mat& pattern) {
   if (!GrabNewFrame()) {
     return cv::Rect{};
   }
 
-  const cv::Mat pattern = cv::imread(object_path, cv::IMREAD_GRAYSCALE);
-
   if (pattern.empty()) {
-    logger::error("[matcher] The image cannot be read: {}", object_path);
+    logger::error("[matcher] Find pattern is empty");
     return cv::Rect{};
   }
 
-  if (pattern.rows > gray_screen_.rows || pattern.cols > gray_screen_.cols) {
-    logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
+  // TODO: Implement all image preprocessing in Detect worker
+  cv::Mat grey_pattern;
+  cv::cvtColor(pattern, grey_pattern, CV_BGR2GRAY);
+
+  if (grey_pattern.rows > gray_screen_.rows || grey_pattern.cols > gray_screen_.cols) {
+    logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", grey_pattern.size,
                   gray_screen_.size);
 
     return cv::Rect{};
   }
 
-  const cv::Rect detected_object = image_detector_->Detect(gray_screen_, pattern);
+  // TODO: Implement all image preprocessing in Detect worker
+  const cv::Rect detected_object = image_detector_->Detect(gray_screen_, grey_pattern);
 
   if (screenshot_recorder_) {
     screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_object, object);
