@@ -24,6 +24,7 @@ namespace detector {
 constexpr auto kDefaultLanguage = "eng";
 constexpr auto kTessdataPrefixEnvVarName = "TESSDATA_PREFIX";
 constexpr tesseract::PageIteratorLevel kDefaultComponentLevel = tesseract::RIL_BLOCK;
+constexpr tesseract::PageSegMode kDefaulPageSegMode = tesseract::PSM_AUTO_ONLY;
 
 /**
  * @brief Represent text object on the image

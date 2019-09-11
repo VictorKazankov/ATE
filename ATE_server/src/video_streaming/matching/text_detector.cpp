@@ -117,6 +117,7 @@ TextDetector::TextDetector(double text_detector_min_confidence, const char* tess
   if (tess_->Init(tessdata_prefix, lang) != 0) {
     throw TextDetectorInitializationError{"Couldn't initialize text detector"};
   }
+  tess_->SetPageSegMode(kDefaulPageSegMode);
 }
 
 void TextDetector::SetImage(const cv::Mat& frame) {

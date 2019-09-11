@@ -98,33 +98,27 @@ TEST_F(TextDetectorTest, Detect_TextClimateDual_Success) {
 }
 
 TEST_F(TextDetectorTest, Detect_TextKeyActiveZero_Success) {
-  const TestTextObject expected_object = {{cv::Point{30, 15}, cv::Size{13, 19}}, "0"};
+  const TestTextObject expected_object = {{cv::Point{200, 258}, cv::Size{10, 15}}, "0"};
   RecognizeImageBaseTest(std::move(text_detector_),
-                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/key_0_active.png", expected_object);
+                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/numpad.png", expected_object);
 }
 
 TEST_F(TextDetectorTest, Detect_TextKeyActiveOne_Success) {
-  const TestTextObject expected_object = {{cv::Point{32, 17}, cv::Size{8, 18}}, "1"};
+  const TestTextObject expected_object = {{cv::Point{150, 95}, cv::Size{6, 15}}, "1"};
   RecognizeImageBaseTest(std::move(text_detector_),
-                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/key_1_active.png", expected_object);
-}
-
-TEST_F(TextDetectorTest, Detect_TextKeyActiveM_Success) {
-  const TestTextObject expected_object = {{cv::Point{25, 17}, cv::Size{19, 19}}, "M"};
-  RecognizeImageBaseTest(std::move(text_detector_),
-                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/key_m_active.png", expected_object);
+                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/numpad.png", expected_object);
 }
 
 TEST_F(TextDetectorTest, Detect_TextTimeAMPeriod_Success) {
-  const TestTextObject expected_object = {{cv::Point{14, 18}, cv::Size{38, 19}}, "AM"};
+  const TestTextObject expected_object = {{cv::Point{1012, 134}, cv::Size{37, 22}}, "AM"};
   RecognizeImageBaseTest(std::move(text_detector_),
-                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/time_am_period.png", expected_object);
+                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/clock_setting.png", expected_object);
 }
 
 TEST_F(TextDetectorTest, Detect_TextTimePMPeriod_Success) {
-  const TestTextObject expected_object = {{cv::Point{16, 19}, cv::Size{36, 19}}, "PM"};
+  const TestTextObject expected_object = {{cv::Point{1014, 209}, cv::Size{36, 22}}, "PM"};
   RecognizeImageBaseTest(std::move(text_detector_),
-                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/time_pm_period.png", expected_object);
+                         VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/clock_setting.png", expected_object);
 }
 
 TEST_F(TextDetectorTest, Detect_PhraseMobileApp_Success) {
@@ -149,7 +143,8 @@ TEST_F(TextDetectorTest, Detect_WordsOnFrame_Success) {
   using textOnScreenshot = std::pair<std::string, std::string>;
   auto list_text_screen = {textOnScreenshot{"Mobile App", "few_words.png"},
                            textOnScreenshot{"Find Mobi", "few_words.png"},
-                           textOnScreenshot{"Sources", "audio_screen.png"}};
+                           textOnScreenshot{"Sources", "radio_fm_screen.png"},
+                           textOnScreenshot{"space", "keyboard_screen.png"},};
 
   for (const auto it : list_text_screen) {
     std::string text = it.first, screenshot_name = it.second;
