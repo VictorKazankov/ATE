@@ -1,4 +1,3 @@
-import configparser
 import logging
 
 import pytest
@@ -9,16 +8,9 @@ from functional_tests.pages.sync4 import page_supervisor_sync4
 pytest_plugins = "functional_tests.utils.logger"
 
 
-@pytest.fixture(scope='session')
-def config():
-    configuration = configparser.ConfigParser()
-    configuration.read('test_config.ini')
-    return configuration
-
-
-@pytest.fixture(scope='session', autouse=True)
-def app_connector(config):
-    sync = hmi.attach_to_applicatio()
+@pytest.fixture(scope='module')
+def app_connector():
+    sync = hmi.attach_to_application()
     try:
         yield sync
     finally:
@@ -26,7 +18,7 @@ def app_connector(config):
 
 
 @pytest.fixture(scope='module')
-def driver_sync3():
+def driver_sync3(app_connector):
     api = page_supervisor_sync3.PageSupervisor()
 
     if not api.home_page.home_page_is_active():
@@ -36,7 +28,7 @@ def driver_sync3():
 
 
 @pytest.fixture(scope='module')
-def driver_sync4():
+def driver_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     yield api
     if not api.phone_page.phone_page_is_active():

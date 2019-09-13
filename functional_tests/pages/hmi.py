@@ -2,7 +2,7 @@ from vhat_client import (ModifierState, MouseButton, attachToApplication,
                          tapObject, waitForObject)
 
 
-def attach_to_applicatio():
+def attach_to_application():
     return attachToApplication('')
 
 
