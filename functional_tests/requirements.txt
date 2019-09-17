@@ -2,3 +2,4 @@ pytest>=4.4.0
 tox>=3.9.0
 allure-pytest
 paramiko
+pytest-timeout

@@ -1,45 +1,46 @@
 import logging
 from time import sleep
 
-from functional_tests.pages import hmi
-from functional_tests.utils.sync4 import constants
 from vhat_client import LookupError, object
+
+from functional_tests.pages import hmi
+from functional_tests.utils.sync4.constants import Icons, Text
 
 
 class SettingsPage:
     def open_settings_page(self):
-        tap(constants.INACTIVE_SETTINGS_PAGE_BUTTON)
+        tap(Icons.INACTIVE_SETTINGS_PAGE_BUTTON)
 
     def settings_page_is_active(self):
-        return check_visibility(constants.SOUND_SETTINGS_BUTTON)
+        return check_visibility(Icons.SOUND_SETTINGS_BUTTON)
 
     def open_setting_audio_page(self):
-        tap(constants.SOUND_SETTINGS_BUTTON)
+        tap(Icons.SOUND_SETTINGS_BUTTON)
 
     def open_setting_clock_page(self):
-        tap(constants.CLOCK_SETTINGS_BUTTON)
+        tap(Icons.CLOCK_SETTINGS_BUTTON)
 
     def tap_on_back_button(self):
-        tap(constants.BACK_BUTTON)
+        tap(Icons.BACK_BUTTON)
 
     def open_connection_settings(self):
-        tap(constants.CONNECTION_SETTINGS_BUTTON_TEXT)
+        tap(Text.CONNECTION_SETTINGS_BUTTON_TEXT)
 
     def open_radio_settings(self):
-        tap(constants.RADIO_SETTINGS_ICON)
+        tap(Icons.RADIO_SETTINGS_ICON)
 
     def open_general_settings(self):
-        tap(constants.GENERAL_SETTINGS_BUTTON)
+        tap(Icons.GENERAL_SETTINGS_BUTTON)
 
 
 class FeaturesPage:
     def open_features_page(self):
-        return check_visibility(constants.FEATURES_PAGE_BUTTON)
+        return check_visibility(Icons.FEATURES_PAGE_BUTTON)
 
 
 class ClimatePage:
     def climate_page_is_active(self):
-        return check_visibility(constants.CLIMATE_CONTROLS_TEXT)
+        return check_visibility(Text.CLIMATE_CONTROLS_TEXT)
 
     def open_climate_page(self):
         # coordinates for click on Climate panel button
@@ -48,20 +49,20 @@ class ClimatePage:
         tap_on_coordinates(x, y)
 
     def open_climate_menu(self):
-        tap(constants.MENU_BUTTON)
+        tap(Icons.MENU_BUTTON)
 
     def tap_on_close_button(self):
-        tap(constants.CLOSE_TEXT)
+        tap(Text.CLOSE_TEXT)
 
 
 class PhonePage:
     def phone_page_is_active(self):
-        return check_visibility(constants.CONNECT_PHONE_TITLE_TEXT)
+        return check_visibility(Text.CONNECT_PHONE_TITLE_TEXT)
 
     def open_phone_page(self):
-        if tap_if_visible(constants.PHONE_PAGE_PANEL_BUTTON):
+        if tap_if_visible(Icons.PHONE_PAGE_PANEL_BUTTON):
             return
-        elif tap_if_visible(constants.CLOSE_TEXT):
+        elif tap_if_visible(Text.CLOSE_TEXT):
             self.open_phone_page()
         else:
             raise Exception('Can`t open phone page')
@@ -69,38 +70,38 @@ class PhonePage:
 
 class SettingsAudioPage:
     def settings_audio_page_is_active(self):
-        return check_visibility(constants.TONE_SETTINGS_TEXT)
+        return check_visibility(Text.TONE_SETTINGS_TEXT)
 
     def open_tone_settings_page(self):
-        tap(constants.ARROW_RIGHT_BUTTON)
+        tap(Icons.ARROW_RIGHT_BUTTON)
 
     def open_occupancy_mode_page(self):
-        tap(constants.SOUND_SETTINGS_OCCUPANCY_MODE_TEXT)
+        tap(Text.SOUND_SETTINGS_OCCUPANCY_MODE_TEXT)
 
     def open_balance_fade_page(self):
-        tap(constants.SOUND_SETTINGS_BALANCE_FADE_TEXT)
+        tap(Text.SOUND_SETTINGS_BALANCE_FADE_TEXT)
 
 
 class SettingsClockPage:
     def setting_clock_page_is_active(self):
-        return check_visibility(constants.UP_ARROW_THIN)
+        return check_visibility(Icons.UP_ARROW_THIN)
 
     def clock_12h_button_is_active(self):
-        return check_visibility(constants.MODE_BUTTON_INACTIVITY)
+        return check_visibility(Icons.MODE_BUTTON_INACTIVITY)
 
     def clock_24h_button_is_active(self):
-        return check_visibility(constants.MODE_BUTTON_ACTIVITY)
+        return check_visibility(Icons.MODE_BUTTON_ACTIVITY)
 
     def tap_on_24h_button(self):
-        tap(constants.MODE_BUTTON_ACTIVITY)
+        tap(Icons.MODE_BUTTON_ACTIVITY)
 
     def tap_on_12h_button(self):
-        tap(constants.MODE_BUTTON_INACTIVITY)
+        tap(Icons.MODE_BUTTON_INACTIVITY)
 
 
 class AudioPage:
     def audio_page_is_active(self):
-        return check_visibility(constants.SOURCES_TEXT)
+        return check_visibility(Text.SOURCES_TEXT)
 
     def open_audio_page(self):
         # coordinates for click on Audio panel button
@@ -109,21 +110,21 @@ class AudioPage:
         tap_on_coordinates(x, y)
 
     def tap_on_direct_tune_button(self):
-        tap(constants.DIRECT_TEXT)
+        tap(Text.DIRECT_TEXT)
 
     def tap_on_cancel_button(self):
-        tap(constants.CANCEL_TEXT)
+        tap(Text.CANCEL_TEXT)
 
     def tap_on_sources_page(self):
-        tap(constants.RADIO_SETTINGS_ICON)
+        tap(Icons.RADIO_SETTINGS_ICON)
 
 
 class AppsPage:
     def apps_page_is_active(self):
-        return check_visibility(constants.HELP_TEXT)
+        return check_visibility(Text.HELP_TEXT)
 
     def open_apps_page(self):
-        tap(constants.APPS_BUTTON_PANEL_INACTIVE)
+        tap(Icons.APPS_BUTTON_PANEL_INACTIVE)
 
 
 def tap(name):

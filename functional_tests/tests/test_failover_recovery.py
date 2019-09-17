@@ -4,7 +4,7 @@ import allure
 import pytest
 from functional_tests.pages.hmi import attach_to_application
 from functional_tests.utils import ssh_connect
-from functional_tests.utils.sync3 import constants
+from functional_tests.utils.sync3.constants import TASK_LINK
 
 KILLALL = 'sudo killall -9 vhat_server'
 RESTART = 'sudo systemctl restart vhat_server'
@@ -21,7 +21,7 @@ CURRENT_DATE = 'date'
 SLEEP = 5
 
 
-@allure.testcase(constants.TASK_LINK.format("VHAT-559"), "VHAT-559")
+@allure.testcase(TASK_LINK.format("VHAT-559"), "VHAT-559")
 @pytest.mark.failover
 def test_check_exception_after_stop_vhat():
     client = ssh_connect.start()
@@ -31,7 +31,7 @@ def test_check_exception_after_stop_vhat():
     ssh_connect.execute_command(client, RESTART, passwd_required=True)
 
 
-@allure.testcase(constants.TASK_LINK.format("VHAT-559"), "VHAT-559")
+@allure.testcase(TASK_LINK.format("VHAT-559"), "VHAT-559")
 @pytest.mark.failover
 def test_recovery():
     client = ssh_connect.start()
@@ -39,7 +39,7 @@ def test_recovery():
     attach_to_application()
 
 
-@allure.testcase(constants.TASK_LINK.format("VHAT-559"), "VHAT-559")
+@allure.testcase(TASK_LINK.format("VHAT-559"), "VHAT-559")
 @pytest.mark.failover
 def test_port_busy_another_process():
     client = ssh_connect.start()
@@ -60,8 +60,8 @@ def test_port_busy_another_process():
 
 
 @pytest.mark.skip(reason="vhat is stuck when there is no mediaserver")
-@allure.testcase(constants.TASK_LINK.format("VHAT-559"), "VHAT-559")
-@pytest.mark.failover
+@allure.testcase(TASK_LINK.format("VHAT-559"), "VHAT-559")
+@pytest.mark.timeout(60)
 def test_stop_media_server(driver_sync3):
     client = ssh_connect.start()
     ssh_connect.execute_command(client, STOP_MEDIASERVER, passwd_required=True)
