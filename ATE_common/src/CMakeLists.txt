@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 include(GNUInstallDirs)
 
+# JsonCpp
+# http://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html
+# Debian/Ubuntu package name: libjsoncpp-dev
+find_package(jsoncpp REQUIRED)
+
 add_library(vhat_common
   SHARED
     config/config.cpp

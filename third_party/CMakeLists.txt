@@ -130,15 +130,6 @@ if(VHAT_BUILD_CLIENT)
   add_subdirectory(pybind11)
 endif(VHAT_BUILD_CLIENT)
 
-# JsonCpp
-# https://github.com/open-source-parsers/jsoncpp
-#Disable build and running unit test for jsoncpp
-set(JSONCPP_WITH_TESTS OFF CACHE BOOL "Disable unit test build")
-set(JSONCPP_WITH_POST_BUILD_UNITTEST OFF CACHE BOOL "Disable run jsoncpp unit test")
-set(JSONCPP_WITH_PKGCONFIG_SUPPORT OFF CACHE BOOL "Disable cmake configure json cmake")
-add_subdirectory(jsoncpp EXCLUDE_FROM_ALL)
-set_property(TARGET jsoncpp_lib_static PROPERTY POSITION_INDEPENDENT_CODE ON)
-
 ### spdlog
 ### https://github.com/gabime/spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
