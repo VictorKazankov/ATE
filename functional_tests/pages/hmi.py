@@ -1,9 +1,8 @@
 import time
 
+from functional_tests.utils import wait_for_obj_benchmark
 from vhat_client import (ModifierState, MouseButton, attachToApplication,
                          object, tapObject, touchAndDrag, waitForObject)
-
-from functional_tests.utils import wait_for_obj_benchmark
 
 
 def attach_to_application():

@@ -1,10 +1,9 @@
 import logging
 from time import sleep
 
-from vhat_client import LookupError, object
-
 from functional_tests.pages import hmi
 from functional_tests.utils.sync4.constants import Icons, Text
+from vhat_client import LookupError, object
 
 
 class SettingsPage:

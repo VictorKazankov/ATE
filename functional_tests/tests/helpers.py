@@ -1,10 +1,9 @@
 import logging
 import time
 
-from vhat_client import LookupError
-
 import allure
 from functional_tests.pages import hmi
+from vhat_client import LookupError
 
 
 def get_result_recognition_in_loop(n, name, dict_attempts):
