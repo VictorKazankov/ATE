@@ -7,7 +7,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
-#include "client_manager.h"
+#include "interaction/connection_manager.h"
 #include "tcp_connection.h"
 #include "tcp_session_handler.h"
 
@@ -21,7 +21,7 @@ namespace interaction {
  * This class is accepting clients and creates tcp sessions.
  *
  */
-class TcpServer : public std::enable_shared_from_this<TcpServer>, public ClientManager {
+class TcpServer : public std::enable_shared_from_this<TcpServer>, public ConnectionManager {
  public:
   /**
    * @brief Creates server instance.
