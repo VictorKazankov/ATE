@@ -7,10 +7,9 @@
 #include "common.h"
 #include "exceptions.h"
 #include "logger/logger.h"
+#include "transport_adapters_collection.h"
 #include "utils/defines.h"
 #include "version/version_defines.h"
-
-#include "interaction/ATE/tcp_server.h"
 
 namespace {
 
@@ -39,9 +38,11 @@ int main() try {
 
   boost::asio::io_context io_context;
 
-  auto server = interaction::TcpServer::Create(
-      io_context, common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
-  server->Start();
+  TransportAdaptersCollection transport_adapters;
+
+  transport_adapters.InitTcpConnectionManager(io_context,
+                                    common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
+  transport_adapters.Run();
 
   boost::asio::signal_set sig_set{io_context};
   SetupSignalHandling(io_context, sig_set);

@@ -20,6 +20,7 @@ add_library(vhat_server_lib
     video_streaming/gst_streamer.cpp
     video_streaming/stream_reader.cpp
     video_streaming/streamer_factory.cpp
+    transport_adapters_collection.cpp
     ate.cpp
 )
 
