@@ -4,6 +4,8 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/signal_set.hpp>
 
+#include "ate.h"
+#include "ate_message_adapter.h"
 #include "common.h"
 #include "exceptions.h"
 #include "logger/logger.h"
@@ -38,6 +40,8 @@ int main() try {
 
   boost::asio::io_context io_context;
 
+  ATE ate(io_context);
+  AteMessageAdapter ate_message_adapter(ate);
   TransportAdaptersCollection transport_adapters;
 
   transport_adapters.InitTcpConnectionManager(io_context,
