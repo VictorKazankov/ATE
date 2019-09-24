@@ -33,17 +33,17 @@ class TcpSessionHandler : public SessionHandler {
    * @brief Start interaction between client and server calls TcpConnectionPtr->Start()
    * @param session - Handle for the accepted connection
    */
-  void OnOpen(TcpConnection& session) override;
+  void OnOpen(std::shared_ptr<Connection> session) override;
 
   /**
    * @brief Gets messages from client, prepare and send response
    * @param session - Connection with client
    * @param message - Received message from client connection
    */
-  void OnMessage(TcpConnection& session, const std::string& message) override;
+  void OnMessage(std::shared_ptr<Connection> session, const std::string& message) override;
 
  private:
-  void SendResponse(TcpConnection& session, std::uint64_t id, Json::Value result_or_error, bool is_result);
+  void SendResponse(std::shared_ptr<Connection> session, std::uint64_t id, Json::Value result_or_error, bool is_result);
 
   typedef std::pair<Json::Value, bool> (TcpSessionHandler::*MessageHandlerFunction)(const Json::Value& params);
 

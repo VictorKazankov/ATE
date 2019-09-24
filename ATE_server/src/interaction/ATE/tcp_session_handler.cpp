@@ -22,9 +22,9 @@ TcpSessionHandler::TcpSessionHandler(boost::asio::io_context& io_ctx)
                    {common::jmsg::kTapObject, &TcpSessionHandler::HandleTapObject},
                    {common::jmsg::kTouchAndDrag, &TcpSessionHandler::HandleTouchAndDrag}} {}
 
-void TcpSessionHandler::OnOpen(TcpConnection& session) { session.Start(); }
+void TcpSessionHandler::OnOpen(std::shared_ptr<Connection> session) { session->Start(); }
 
-void TcpSessionHandler::OnMessage(TcpConnection& session, const std::string& message) {
+void TcpSessionHandler::OnMessage(std::shared_ptr<Connection> session, const std::string& message) {
   std::uint64_t id = 0;
   std::string method;
   Json::Value params;
@@ -42,11 +42,11 @@ void TcpSessionHandler::OnMessage(TcpConnection& session, const std::string& mes
   SendResponse(session, id, std::move(result_or_error.first), result_or_error.second);
 }
 
-void TcpSessionHandler::SendResponse(TcpConnection& session, std::uint64_t id, Json::Value result_or_error,
+void TcpSessionHandler::SendResponse(std::shared_ptr<Connection> session, std::uint64_t id, Json::Value result_or_error,
                                      bool is_result) {
   std::string response =
       common::jmsg::MessageFactory::Server::CreateResponse(id, std::move(result_or_error), is_result);
-  session.Send(response);
+  session->Send(response);
 }
 
 TcpSessionHandler::MessageHandlerFunction TcpSessionHandler::GetHandler(const std::string& method) const noexcept {

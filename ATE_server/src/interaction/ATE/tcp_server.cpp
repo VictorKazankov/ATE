@@ -57,7 +57,7 @@ void TcpServer::OnAccept(const TcpConnection::TcpConnectionPtr& connection, cons
     }
   }
   connection->SetHandler(handler_);
-  handler_->OnOpen(*connection);
+  handler_->OnOpen(connection);
   Accept();
 }
 
