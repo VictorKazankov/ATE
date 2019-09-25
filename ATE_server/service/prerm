@@ -1,5 +1,0 @@
-#!/bin/bash
-
-systemctl stop vhat_server
-systemctl disable vhat_server
-

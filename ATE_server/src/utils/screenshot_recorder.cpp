@@ -25,7 +25,7 @@ ScreenshotRecorder::ScreenshotRecorder(bool enable_saving_screenshots, const std
     throw std::runtime_error("Screenshot recorder is disabled");
   }
 
-  screenshots_store_dir_ = VHAT_SERVER_STORAGE_DIR;
+  screenshots_store_dir_ = VHAT_WRITABLE_DATA_PREFIX;
   screenshots_store_dir_ /= screenshots_store_dir;
 
   ProcessStorageDirectory();

@@ -95,7 +95,7 @@ ATE::ATE(boost::asio::io_context& io_context)
                MakeScreenshotRecorder()} {
   // create storage manager
   std::error_code error;
-  storage_ = db_manager::CreateFileStorageManager(VHAT_SERVER_STORAGE_DIR "/icon_storage", error);
+  storage_ = db_manager::CreateFileStorageManager(VHAT_ICON_STORAGE_PREFIX, error);
   if (error || storage_ == nullptr) {
     logger::error("[ATE] Can't create storage manager: {}.", error.message());
     throw storage::ConnectionFailure{};
