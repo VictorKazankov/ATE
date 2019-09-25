@@ -62,6 +62,10 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
       ```
       VHAT_INSTALL_SERVER_SERVICE:BOOL
       ```
+    - Toggle VHAT icon storage service install (default: _OFF_):
+      ```
+      VHAT_INSTALL_ICON_STORAGE:BOOL
+      ```
     - Install directory aka _\<install prefix>_ (default: _<build root\>/install_):
       ```
       CMAKE_INSTALL_PREFIX:PATH
@@ -102,9 +106,9 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
         ```
 ### System install and deploy package
 
-1. Set the install prefix to system dir and enable server service install. _sudo_ permissions are required to modify system dirs:
+1. Set the install prefix to system dir, enable server service install, install icon storage and create Debian package. _sudo_ permissions are required to modify system dirs:
     ```
-    sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DVHAT_INSTALL_SERVER_SERVICE=ON -P infrastructure/build.cmake
+    sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DVHAT_INSTALL_SERVER_SERVICE=ON -DVHAT_INSTALL_ICON_STORAGE=ON -DVHAT_CREATE_DEBIAN_PACKAGE=ON -P infrastructure/build.cmake
     ```
 1. The deploy package is _VHAT-X.Y.Z.deb_ located in _build-ATE-Release_ build root folder.
 1. You can use _dpkg_ package manager to install this package. This command will also replace the previous installation of VHAT:
