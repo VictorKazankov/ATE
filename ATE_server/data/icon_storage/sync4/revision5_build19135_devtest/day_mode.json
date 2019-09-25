@@ -136,6 +136,10 @@
     "extension": "png"
   },
   {
+    "name": "radio_fm_icon",
+    "extension": "png"
+  },
+  {
     "name": "audio_fm_button",
     "extension": "png"
   },
@@ -396,6 +400,10 @@
     "extension": "png"
   },
   {
+    "name": "audio_source_button",
+    "extension": "png"
+  },
+  {
     "name": "audio_sirius_sources_button",
     "extension": "png"
   },
@@ -608,7 +616,7 @@
     "extension": "png"
   },
   {
-    "name": " settings_connection_refresh_button",
+    "name": "settings_connection_refresh_button",
     "extension": "png"
   },
   {
@@ -848,7 +856,7 @@
     "extension": "png"
   },
   {
-    "name": "additional symbols",
+    "name": "additional_symbols",
     "extension": "png"
   },
   {
@@ -976,7 +984,7 @@
     "extension": "png"
   },
   {
-    "name": "change languages",
+    "name": "change_languages",
     "extension": "png"
   },
   {
