@@ -12,6 +12,7 @@ add_library(vhat_server_lib
     interaction/ATE/tcp_connection_manager.cpp
     interaction/ATE/tcp_transport_adapter.cpp
     interaction/SPI/spi_interaction.cpp
+    interaction/DBUS/dbus_connection_manager.cpp
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp
     video_streaming/matching/matcher.cpp
@@ -40,6 +41,13 @@ pkg_check_modules(GStreamer REQUIRED
   gstreamer-app-1.0
 )
 
+pkg_check_modules(DBus REQUIRED
+  dbus-glib-1
+  dbus-1
+  gobject-2.0
+  glib-2.0
+)
+
 # OpenCV
 # https://opencv.org
 find_package(OpenCV 3.3.1 REQUIRED
@@ -62,6 +70,7 @@ target_include_directories(vhat_server_lib
   PUBLIC
     ../include
     "${GStreamer_INCLUDE_DIRS}"
+    "${DBus_INCLUDE_DIRS}"
     "${OpenCV_INCLUDE_DIRS}"
 )
 
@@ -77,6 +86,7 @@ target_link_libraries(vhat_server_lib
     VHAT::recognition
     ${GStreamer_LIBRARIES}
     VHAT::dbmanager
+    ${DBus_LIBRARIES}
 )
 
 add_executable(vhat_server

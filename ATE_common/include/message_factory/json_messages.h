@@ -8,6 +8,7 @@ constexpr auto kAttachToApplication = "AttachToApplication";
 constexpr auto kWaitForObject = "WaitForObject";
 constexpr auto kTapObject = "TapObject";
 constexpr auto kTouchAndDrag = "TouchAndDrag";
+constexpr auto kDisplayTypeChanged = "displayTypeChanged";
 
 }  // namespace jmsg
 }  // namespace common
