@@ -145,7 +145,7 @@ if(VHAT_CREATE_DEBIAN_PACKAGE)
   set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
   set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}${VERSION_COMMIT}")
 
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, libopencv (=3.3.1), libtesseract (=4.0.0), tesseract-trained-data (=4.0.0)")
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, libdbmanager, librecognition")
   set(CPACK_DEBIAN_PACKAGE_SUGGESTS "python2.7")
   set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
   set(CPACK_DEBIAN_PACKAGE_SECTION "unknown")
