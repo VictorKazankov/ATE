@@ -2,6 +2,9 @@
 
 #include "interaction/ATE/tcp_server.h"
 
+TransportAdaptersCollection::TransportAdaptersCollection(AteMessageAdapter& ate_message_adapter)
+    : ate_message_adapter_(ate_message_adapter) {}
+
 TransportAdaptersCollection::~TransportAdaptersCollection() {
   if (tcp_server_) {
     tcp_server_->Stop();
@@ -15,5 +18,5 @@ void TransportAdaptersCollection::Run() {
 }
 
 void TransportAdaptersCollection::InitTcpConnectionManager(boost::asio::io_context& io_context, uint16_t port) {
-  tcp_server_ = interaction::TcpServer::Create(io_context, port);
+  tcp_server_ = interaction::TcpServer::Create(io_context, port, ate_message_adapter_);
 }

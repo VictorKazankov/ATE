@@ -7,6 +7,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
+#include "ate_message_adapter.h"
 #include "interaction/connection_manager.h"
 #include "tcp_connection.h"
 #include "tcp_session_handler.h"
@@ -29,9 +30,11 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public Connect
    * @param service - an instannce of io_context provides the core I/O functionality for users of the asynchronous I/O
    * objects.
    * @param port - value of tcp accepting port
+   * @param ate_message_adapter - reference to AteMessageAdapter
    * @return pointer to created server instance
    */
-  static std::shared_ptr<TcpServer> Create(boost::asio::io_context& service, uint16_t port);
+  static std::shared_ptr<TcpServer> Create(boost::asio::io_context& service, uint16_t port,
+                                           AteMessageAdapter& ate_message_adapter);
 
   /**
    * @brief Start running of the TCP server
@@ -49,9 +52,9 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public Connect
    * @param service - an instance of io_context provides the core I/O functionality for users of the asynchronous I/O
    * objects.
    * @param port - value of tcp accepting port
-   * @return pointer to created server instance
+   * @param ate_message_adapter - reference to AteMessageAdapter
    */
-  TcpServer(boost::asio::io_context& service, uint16_t port);
+  TcpServer(boost::asio::io_context& service, uint16_t port, AteMessageAdapter& ate_message_adapter);
 
   /**
    * @brief Accept new client connections

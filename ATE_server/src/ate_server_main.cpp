@@ -42,7 +42,7 @@ int main() try {
 
   ATE ate(io_context);
   AteMessageAdapter ate_message_adapter(ate);
-  TransportAdaptersCollection transport_adapters;
+  TransportAdaptersCollection transport_adapters(ate_message_adapter);
 
   transport_adapters.InitTcpConnectionManager(io_context,
                                     common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));

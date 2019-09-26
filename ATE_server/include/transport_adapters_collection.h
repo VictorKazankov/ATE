@@ -5,6 +5,7 @@
 
 #include <boost/asio/io_context.hpp>
 
+#include "ate_message_adapter.h"
 #include "interaction/connection_manager.h"
 
 /**
@@ -14,7 +15,7 @@
  **/
 class TransportAdaptersCollection {
  public:
-  TransportAdaptersCollection() = default;
+  TransportAdaptersCollection(AteMessageAdapter& ate_message_adapter);
   ~TransportAdaptersCollection();
 
   TransportAdaptersCollection(const TransportAdaptersCollection&) = delete;
@@ -34,6 +35,7 @@ class TransportAdaptersCollection {
   void InitTcpConnectionManager(boost::asio::io_context& io_context, uint16_t port);
 
  private:
+  AteMessageAdapter& ate_message_adapter_;
   std::shared_ptr<interaction::ConnectionManager> tcp_server_;
 };
 
