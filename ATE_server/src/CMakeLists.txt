@@ -9,8 +9,8 @@ add_library(vhat_server_lib
     interaction/VDP/vdp_interaction.cpp
     interaction/VDP/https_client.cpp
     interaction/ATE/tcp_connection.cpp
-    interaction/ATE/tcp_server.cpp
-    interaction/ATE/tcp_session_handler.cpp
+    interaction/ATE/tcp_connection_manager.cpp
+    interaction/ATE/tcp_transport_adapter.cpp
     interaction/SPI/spi_interaction.cpp
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp

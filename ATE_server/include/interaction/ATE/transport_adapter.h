@@ -1,5 +1,5 @@
-#ifndef ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_
-#define ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_
+#ifndef ATE_SERVER_INTERACTION_ATE_TRANSPORT_ADAPTER_H_
+#define ATE_SERVER_INTERACTION_ATE_TRANSPORT_ADAPTER_H_
 
 #include <memory>
 #include <string>
@@ -9,19 +9,19 @@
 namespace interaction {
 
 /**
- * @class SessionHandler
+ * @class TransportAdapter
  *
- * @brief Interface class for session handling (interaction between client/server)
+ * @brief Interface class adapter between application and external components
  *
  * Class receives request and send responses via method 'OnMessage'
  *
  */
-class SessionHandler {
+class TransportAdapter {
  public:
-  virtual ~SessionHandler() = default;
+  virtual ~TransportAdapter() = default;
 
   /**
-   * @brief Start interaction between client and server calls TcpConnectionPtr->Start()
+   * @brief Start interaction between client and server calls Connection->Start()
    * @param session - Handle for the accepted connection
    */
   virtual void OnOpen(std::shared_ptr<Connection> session) = 0;
@@ -36,4 +36,4 @@ class SessionHandler {
 
 }  // namespace interaction
 
-#endif  // ATE_SERVER_INTERACTION_ATE_SESSION_HANDLER_H_
+#endif  // ATE_SERVER_INTERACTION_ATE_TRANSPORT_ADAPTER_H_

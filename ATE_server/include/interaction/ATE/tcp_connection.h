@@ -11,14 +11,12 @@
 #include <boost/asio/streambuf.hpp>
 
 #include "interaction/connection.h"
-#include "session_handler.h"
+#include "transport_adapter.h"
 
 namespace interaction {
 
-class SessionHandler;
 /**
  * @class TcpConnection
- *
  * @brief session class provide interaction between client and server (send/recv) messages
  */
 class TcpConnection : public std::enable_shared_from_this<TcpConnection>, public Connection {
@@ -68,7 +66,7 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection>, public
    * @brief Set connection listener
    * @param message - string representation of message
    */
-  void SetHandler(std::shared_ptr<SessionHandler> handler) { handler_ = std::move(handler); }
+  void SetHandler(std::shared_ptr<TransportAdapter> handler) { handler_ = std::move(handler); }
 
  private:
   /**
@@ -113,7 +111,7 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection>, public
   boost::asio::streambuf read_buffer_;
   std::istream read_stream_;
   std::queue<std::string> message_queue_;
-  std::shared_ptr<SessionHandler> handler_;
+  std::shared_ptr<TransportAdapter> handler_;
   std::string address_;
   volatile bool running_{false};
 };

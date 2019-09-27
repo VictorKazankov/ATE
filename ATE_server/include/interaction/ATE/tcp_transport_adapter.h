@@ -4,22 +4,22 @@
 #include <string>
 
 #include "ate_message_adapter.h"
-#include "interaction/ATE/session_handler.h"
+#include "interaction/ATE/transport_adapter.h"
 
 namespace interaction {
 
 /**
- * @class TcpSessionHandler
+ * @class TcpTransportAdapter
  *
- * @brief Class for handlinc tcp connections
+ * @brief Class receives messages and provide them for AteMessageAdapter
  *
  * Class receives request and send responses via method 'OnMessage' over TCP protocol
  *
  */
-class TcpSessionHandler : public SessionHandler {
+class TcpTransportAdapter : public TransportAdapter {
  public:
-  TcpSessionHandler(AteMessageAdapter& ate_adapter);
-  ~TcpSessionHandler() override = default;
+  TcpTransportAdapter(AteMessageAdapter& ate_adapter);
+  ~TcpTransportAdapter() override = default;
 
   /**
    * @brief Start interaction between client and server calls TcpConnectionPtr->Start()
@@ -28,7 +28,7 @@ class TcpSessionHandler : public SessionHandler {
   void OnOpen(std::shared_ptr<Connection> session) override;
 
   /**
-   * @brief Gets messages from client, prepare and send response
+   * @brief Gets requests from client and send response
    * @param session - Connection with client
    * @param message - Received message from client connection
    */

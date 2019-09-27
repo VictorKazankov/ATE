@@ -1,6 +1,6 @@
 #include "transport_adapters_collection.h"
 
-#include "interaction/ATE/tcp_server.h"
+#include "interaction/ATE/tcp_connection_manager.h"
 
 TransportAdaptersCollection::TransportAdaptersCollection(AteMessageAdapter& ate_message_adapter)
     : ate_message_adapter_(ate_message_adapter) {}
@@ -18,5 +18,5 @@ void TransportAdaptersCollection::Run() {
 }
 
 void TransportAdaptersCollection::InitTcpConnectionManager(boost::asio::io_context& io_context, uint16_t port) {
-  tcp_server_ = interaction::TcpServer::Create(io_context, port, ate_message_adapter_);
+  tcp_server_ = interaction::TcpConnectionManager::Create(io_context, port, ate_message_adapter_);
 }

@@ -1,5 +1,5 @@
-#ifndef ATE_SERVER_INTERACTION_ATE_TCP_SERVER_H_
-#define ATE_SERVER_INTERACTION_ATE_TCP_SERVER_H_
+#ifndef ATE_SERVER_INTERACTION_ATE_TCP_CONNECTION_MANAGER_H_
+#define ATE_SERVER_INTERACTION_ATE_TCP_CONNECTION_MANAGER_H_
 
 #include <functional>
 #include <memory>
@@ -10,51 +10,47 @@
 #include "ate_message_adapter.h"
 #include "interaction/connection_manager.h"
 #include "tcp_connection.h"
-#include "tcp_session_handler.h"
+#include "transport_adapter.h"
 
 namespace interaction {
 
 /**
- * @class TcpServer
- *
+ * @class TcpConnectionManager
  * @brief Asynchronous TCP server
- *
  * This class is accepting clients and creates tcp sessions.
- *
  */
-class TcpServer : public std::enable_shared_from_this<TcpServer>, public ConnectionManager {
+class TcpConnectionManager : public std::enable_shared_from_this<TcpConnectionManager>, public ConnectionManager {
  public:
   /**
-   * @brief Creates server instance.
-   *
+   * @brief Creates tcp connection manager (server) instance.
    * @param service - an instannce of io_context provides the core I/O functionality for users of the asynchronous I/O
    * objects.
    * @param port - value of tcp accepting port
    * @param ate_message_adapter - reference to AteMessageAdapter
-   * @return pointer to created server instance
+   * @return pointer to created connection manager instance
    */
-  static std::shared_ptr<TcpServer> Create(boost::asio::io_context& service, uint16_t port,
-                                           AteMessageAdapter& ate_message_adapter);
+  static std::shared_ptr<TcpConnectionManager> Create(boost::asio::io_context& service, uint16_t port,
+                                                      AteMessageAdapter& ate_message_adapter);
 
   /**
-   * @brief Start running of the TCP server
+   * @brief Start running of the TCP connection manager
    */
   void Start() override;
 
   /**
-   * @brief Stop running of the TCP server
+   * @brief Stop running of the TCP connection manager
    */
   void Stop() override;
 
  private:
   /**
-   * @brief constructor of TcpServer
+   * @brief constructor of TcpConnectionManager
    * @param service - an instance of io_context provides the core I/O functionality for users of the asynchronous I/O
    * objects.
    * @param port - value of tcp accepting port
    * @param ate_message_adapter - reference to AteMessageAdapter
    */
-  TcpServer(boost::asio::io_context& service, uint16_t port, AteMessageAdapter& ate_message_adapter);
+  TcpConnectionManager(boost::asio::io_context& service, uint16_t port, AteMessageAdapter& ate_message_adapter);
 
   /**
    * @brief Accept new client connections
@@ -67,10 +63,10 @@ class TcpServer : public std::enable_shared_from_this<TcpServer>, public Connect
 
   boost::asio::io_context& context_;
   boost::asio::ip::tcp::acceptor acceptor_;
-  std::shared_ptr<SessionHandler> handler_;
+  std::shared_ptr<TransportAdapter> transport_adapter_;
   volatile bool running_{false};
 };  // namespace interaction
 
 }  // namespace interaction
 
-#endif  // ATE_SERVER_INTERACTION_ATE_TCP_SERVER_H_
+#endif  // ATE_SERVER_INTERACTION_ATE_TCP_CONNECTION_MANAGER_H_
