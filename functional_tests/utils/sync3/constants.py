@@ -96,7 +96,7 @@ class Text:
     CLOCK_RESET_GPS_TEXT = 'Reset clock to GPS time'
     CLOCK_SETTINGS_TITLE_TEXT = 'Clock settings'
     CONNECT_A_DEVICE_TEXT = 'Connect a device'
-    CONNECT_A_PHONE_TEXT = 'Connect a phone'
+    CONNECT_A_PHONE_TEXT = 'Add device'
     DEFROST_CONTROLS_TEXT = 'Defrost controls'
     DSP_OCCUPANCY_TEXT = 'DSP occupancy'
     DUAL_TEXT = 'DUAL'
@@ -126,6 +126,14 @@ class Text:
     SOURCES_TEXT = 'Sources'
     VOICE_CHIMES_TEXT = 'Voice & chimes'
     VOICE_ONLY_TEXT = 'Voice only'
+
+
+"""DATA FOR PARAMETERIZATION"""
+
+# home page
+home_page_text = [Text.CONNECT_A_PHONE_TEXT, Text.NAVIGATION_FAULT_TEXT, Text.AUDIO_BUTTON_PANEL_TEXT,
+                   Text.CLIMATE_BUTTON_PANEL_TEXT, Text.PHONE_BUTTON_PANEL_TEXT, Text.NAVIGATION_BUTTON_PANEL_TEXT,
+                   Text.MOBILE_APPS_BUTTON_PANEL_TEXT, Text.SETTINGS_BUTTON_PANEL_TEXT]
 
 
 """JIRA"""
