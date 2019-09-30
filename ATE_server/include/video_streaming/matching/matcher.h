@@ -66,6 +66,8 @@ class Matcher {
    * on failure x, y, width, height will equal 0
    */
   cv::Rect MatchText(const std::string& text);
+
+  void ChangeResolution(int x, int y);
 };
 
 }  // namespace detector

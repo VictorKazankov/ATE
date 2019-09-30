@@ -6,13 +6,18 @@
 #include "logger/logger.h"
 #include "message_factory/json_defines.h"
 #include "message_factory/json_messages.h"
+#include "message_factory/message_factory.h"
+
+namespace {
+uint64_t kCorrelationId = 1;
+static uint64_t GetCorrelationId() { return kCorrelationId++; }
+}  // namespace
 
 namespace interaction {
 bool DBusConnectionManager::notified_{};
 std::atomic_bool DBusConnectionManager::running_{};
 std::mutex DBusConnectionManager::request_guard_;
 std::condition_variable DBusConnectionManager::condition_;
-
 std::string DBusConnectionManager::interface_ = "";
 std::string DBusConnectionManager::request_ = "";
 
@@ -141,7 +146,7 @@ DBusHandlerResult DBusConnectionManager::DisplayTypeChangedFilter(DBusConnection
     }
 
     std::unique_lock<std::mutex> lock(request_guard_);
-    // TODO: set json rpc 2.0 message
+    request_ = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(x, y, GetCorrelationId());
     notified_ = true;
     condition_.notify_all();
     return DBUS_HANDLER_RESULT_HANDLED;

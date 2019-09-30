@@ -3,3 +3,6 @@
 streamer::StreamReader::StreamReader(const std::string& source) : capture_(source) {}
 
 bool streamer::StreamReader::Frame(cv::Mat& frame) { return capture_.read(frame); }
+
+void streamer::StreamReader::ChangeResolution(int, int) { /* no need for this implementation*/
+}

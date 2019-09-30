@@ -2,6 +2,7 @@
 #define ATE_SERVER_TRANSPORT_ADAPTERS_COLLECTION_H_
 
 #include <memory>
+#include <vector>
 
 #include <boost/asio/io_context.hpp>
 
@@ -33,10 +34,12 @@ class TransportAdaptersCollection {
    * @param port - value of tcp accepting port
    */
   void InitTcpConnectionManager(boost::asio::io_context& io_context, uint16_t port);
+  void InitDbusConnectionManager(const std::string& interface);
 
  private:
   AteMessageAdapter& ate_message_adapter_;
-  std::shared_ptr<interaction::ConnectionManager> tcp_server_;
+  
+  std::vector<std::shared_ptr<interaction::ConnectionManager>> connection_managers_;
 };
 
 #endif  // ATE_SERVER_TRANSPORT_ADAPTERS_COLLECTION_H_

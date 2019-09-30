@@ -79,4 +79,7 @@ cv::Rect Matcher::MatchText(const std::string& text) {
 
   return detected_area;
 }
+
+void Matcher::ChangeResolution(int x, int y) { streamer_->ChangeResolution(x, y); }
+
 }  // namespace detector

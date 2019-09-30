@@ -137,3 +137,5 @@ cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono
 
   return match_result;
 }
+
+void ATE::ChangeResolution(int x, int y) { matcher_.ChangeResolution(x, y); }

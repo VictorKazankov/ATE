@@ -20,6 +20,8 @@ class Video4Linux : public Streamer {
 
   bool Frame(cv::Mat& frame) override;
 
+  void ChangeResolution(int x, int y) override;
+
  private:
   using DevBufferPtr = std::unique_ptr<void, std::function<void(void*)>>;
   using FrameBufferPtr = std::unique_ptr<std::uint8_t[]>;

@@ -37,6 +37,8 @@ class StreamReader : public Streamer {
    * @return 'true' in case of the frame has been read successfully otherwise false.
    */
   bool Frame(cv::Mat& frame) override;
+
+  void ChangeResolution(int x, int y) override;
 };
 
 }  // namespace streamer

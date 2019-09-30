@@ -44,6 +44,8 @@ class ATE {
    * @return rectangle with specified coordinates of the object if successful, otherwise empty rectangle
    */
   cv::Rect WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout);
+
+  void ChangeResolution(int x, int y);
 };
 
 #endif  // ATE_SERVER_ATE_H_

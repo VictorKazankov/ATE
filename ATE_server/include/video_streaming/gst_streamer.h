@@ -23,6 +23,13 @@ class GstStreamer : public Streamer {
    */
   bool Frame(cv::Mat& frame) override;
 
+  /**
+   * @brief The method change resolution of video stream
+   * @params x width of the frame
+   * @params y height of the ftame
+   **/
+  void ChangeResolution(int x, int y) override;
+
  private:
   struct GstElementDeleter {
     void operator()(GstElement* pipeline) const noexcept;

@@ -157,6 +157,11 @@ bool Video4Linux::Frame(cv::Mat& frame) {
   }
 }
 
+void Video4Linux::ChangeResolution(int x, int y) {
+  frame_width_ = x;
+  frame_height_ = y;
+}
+
 Video4Linux::~Video4Linux() {
   is_capturing_ = false;
   capture_thread_.join();

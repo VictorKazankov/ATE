@@ -99,6 +99,8 @@ bool GstStreamer::Frame(cv::Mat& frame) {
   return WriteGstBufferToCvMat(buffer, frame);
 }
 
+void GstStreamer::ChangeResolution(int x, int y) { matrix_size_ = cv::Size{x, y}; }
+
 bool GstStreamer::WriteGstBufferToCvMat(GstBuffer* buffer, cv::Mat& result) const {
   GstMapInfo map_info = {};
   if (!gst_buffer_map(buffer, &map_info, GST_MAP_READ)) {

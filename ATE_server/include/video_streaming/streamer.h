@@ -18,6 +18,13 @@ class Streamer {
    * @return 'true' in case of the frame has been read successfully otherwise false.
    **/
   virtual bool Frame(cv::Mat&) = 0;
+
+  /**
+   * @brief The method change resolution of video stream
+   * @params x width of the frame
+   * @params y height of the ftame
+   **/
+  virtual void ChangeResolution(int x, int y) = 0;
 };
 
 }  // namespace streamer

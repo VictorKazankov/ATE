@@ -37,8 +37,10 @@ class MockStreamer : public streamer::Streamer {
   ~MockStreamer() override = default;
 
   MOCK_METHOD1(Frame, bool(cv::Mat& frame));
+  MOCK_METHOD2(ChangeResolution, void(int x, int y));
 
   static bool FrameImpl(cv::Mat& Rect);
+  static void ChangeResolutionImpl(int x, int y);
 };
 
 bool MockStreamer::FrameImpl(cv::Mat& frame) {
@@ -47,6 +49,10 @@ bool MockStreamer::FrameImpl(cv::Mat& frame) {
     frame = cv::Mat{size, CV_8UC3};
   }
   return true;
+}
+
+void MockStreamer::ChangeResolutionImpl(int, int) {
+// Dummy now
 }
 
 class MatcherTest : public Test {
