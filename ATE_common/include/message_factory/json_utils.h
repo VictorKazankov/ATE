@@ -117,6 +117,8 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
 void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& object_or_name, int& x, int& y, int& dx,
                                       int& dy, squish::ModifierState& modifier_state, Json::Value& error);
 
+void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
+
 /**
  * @brief Check response scheme of message 'attachToApplication'
  *

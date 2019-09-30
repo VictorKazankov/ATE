@@ -120,5 +120,21 @@ Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y
   return std::move(result);
 }
 
+std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kAbscissa] = x;
+  params[kOrdinate] = y;
+
+  Json::Value message;
+  CreatePackageStructure(message, kDisplayTypeChanged, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
+Json::Value MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse() { return Json::Value{true}; }
+
 }  // namespace jmsg
 }  // namespace common

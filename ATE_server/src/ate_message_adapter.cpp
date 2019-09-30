@@ -17,7 +17,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
     : ate_(ate),
       handler_map_{{common::jmsg::kWaitForObject, &AteMessageAdapter::HandleWaitForObject},
                    {common::jmsg::kTapObject, &AteMessageAdapter::HandleTapObject},
-                   {common::jmsg::kTouchAndDrag, &AteMessageAdapter::HandleTouchAndDrag}} {}
+                   {common::jmsg::kTouchAndDrag, &AteMessageAdapter::HandleTouchAndDrag},
+                   {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::uint64_t id = 0;
@@ -106,6 +107,15 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleTouchAndDrag(const Json::V
   ate_.TouchAndDrag(object_or_name, start_point, delta_point);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateTouchAndDragResultObject(), true);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleDisplayTypeChanged(const Json::Value& params) {
+  int x;
+  int y;
+  Json::Value extract_error;
+
+  common::jmsg::ExtractDisplayTypeChangedRequestParams(params, x, y, extract_error);
+  return std::make_pair(common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse(), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {

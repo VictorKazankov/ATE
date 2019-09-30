@@ -30,6 +30,16 @@ class MessageFactory {
   };
 
   /**
+   * @struct DBusConnection
+   * @brief Struct 'DBusConnection' stores factory methods which uses for creating json messages request
+   * (dbus adapter -> ATE)
+   */
+  struct DBusConnection {
+    static std::string CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id);
+    static Json::Value CreateDisplayTypeChangedResponse();
+  };
+
+  /**
    * @struct Server
    * @brief Struct 'Server' stores factory methods which uses for creating json messages response (server -> client)
    */

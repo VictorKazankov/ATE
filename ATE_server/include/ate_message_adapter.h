@@ -60,6 +60,12 @@ class AteMessageAdapter {
   std::pair<Json::Value, bool> HandleTouchAndDrag(const Json::Value& params);
 
   /**
+   * @brief Handler for DisplayTypeChanged
+   * @param params - DisplayTypeChanged params
+   */
+  std::pair<Json::Value, bool> HandleDisplayTypeChanged(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */
