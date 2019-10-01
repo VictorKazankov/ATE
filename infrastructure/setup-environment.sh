@@ -28,11 +28,12 @@ readonly VHAT_USE_LIBS="libssl-dev python2.7-dev"
 if [ $TARGET != $LVDS_TARGET ]
 then
   readonly GSTREAMER_LIBS="libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev"
+  readonly DBUS_LIBS="libdbus-glib-1-dev libglib2.0-dev"
 fi
 
 
 # List of the all necessary packages
-readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $GSTREAMER_LIBS"
+readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $GSTREAMER_LIBS $DBUS_LIBS"
 
 sudo apt install -y $INSTALL_PACKAGES
 
