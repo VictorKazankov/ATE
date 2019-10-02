@@ -158,8 +158,10 @@ bool Video4Linux::Frame(cv::Mat& frame) {
 }
 
 void Video4Linux::ChangeResolution(int x, int y) {
+  assert(!"ChangeResolution feature not been tested for Video4Linux");
   frame_width_ = x;
   frame_height_ = y;
+  SetFormat();
 }
 
 Video4Linux::~Video4Linux() {
