@@ -115,8 +115,14 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleDisplayTypeChanged(const J
   Json::Value extract_error;
 
   common::jmsg::ExtractDisplayTypeChangedRequestParams(params, x, y, extract_error);
+
+  if (!extract_error.empty()) {
+    return std::make_pair(std::move(extract_error), false);
+  }
+
   ate_.ChangeResolution(x, y);
   logger::info("[ate message adapter] Change resolution x:{} y:{}", x, y);
+
   return std::make_pair(common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse(), true);
 }
 

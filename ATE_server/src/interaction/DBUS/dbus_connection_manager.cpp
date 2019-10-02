@@ -60,6 +60,10 @@ void DBusConnectionManager::Start() {
 void DBusConnectionManager::Stop() {
   running_ = false;
   loop_.reset();
+
+  notified_ = true;
+  condition_.notify_all();
+
   if (change_resolution_thread_.joinable()) {
     change_resolution_thread_.join();
   }
@@ -73,10 +77,13 @@ void DBusConnectionManager::ChangeResolution() {
 
   while (running_) {
     condition_.wait(lock, [&] { return notified_; });
+
+    if (!running_) break;  // in case as we were waiting for signal app was stopped
+
     if (!request_.empty()) {
       ate_message_adapter_.OnMessage(request_);
       notified_ = false;
-      request_ = "";
+      request_.clear();
     }
   }
 }
