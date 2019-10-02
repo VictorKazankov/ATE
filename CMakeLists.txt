@@ -29,9 +29,6 @@ project(VHAT
 
 set(PROJECT_VERSION_FULL "${PROJECT_VERSION}${VERSION_COMMIT}")
 
-file(WRITE "${CMAKE_BINARY_DIR}/vhat_version" "${PROJECT_VERSION_FULL}\n")
-install(FILES "${CMAKE_BINARY_DIR}/vhat_version" DESTINATION ${CMAKE_INSTALL_SYSCONFDIR})
-
 set(CMAKE_CXX_STANDARD 14 CACHE STRING
   "Default value for CXX_STANDARD property of targets")
 
@@ -50,6 +47,12 @@ option(VHAT_COVERAGE "Enable test coverage" OFF)
 # The icon storage path is universal for whole VDP project and must never change
 set(VHAT_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for VHAT writable data directories" )
 set(VHAT_ICON_STORAGE_PREFIX "${VHAT_WRITABLE_DATA_PREFIX}/icon_storage" CACHE STRING "Prefix for VHAT icon storage")
+
+# All configs must be placed into <install prefix>/etc/vdp
+set(VHAT_INSTALL_SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR}/vdp)
+
+file(WRITE "${CMAKE_BINARY_DIR}/vhat_version" "${PROJECT_VERSION_FULL}\n")
+install(FILES "${CMAKE_BINARY_DIR}/vhat_version" DESTINATION ${VHAT_INSTALL_SYSCONFDIR})
 
 message(STATUS ${PROJECT_NAME} " v" ${PROJECT_VERSION_FULL})
 message(STATUS "VHAT_BUILD_CLIENT: " ${VHAT_BUILD_CLIENT})

@@ -30,14 +30,14 @@ target_link_libraries(vhat_client
 
 target_compile_definitions(vhat_client
   PUBLIC
-    VHAT_CLIENT_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}"
+    VHAT_CLIENT_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${VHAT_INSTALL_SYSCONFDIR}"
 )
 set_target_properties(vhat_client PROPERTIES
   INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
 )
 install(FILES
   ../data/vhat_client.ini
-  DESTINATION "${CMAKE_INSTALL_SYSCONFDIR}"
+  DESTINATION ${VHAT_INSTALL_SYSCONFDIR}
 )
 
 if(UNIX)
