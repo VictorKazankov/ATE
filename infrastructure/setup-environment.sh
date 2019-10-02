@@ -24,13 +24,12 @@ sudo apt update
 ## Install packages
 readonly VHAT_DEV_TOOLS="wget g++-5 ninja-build cmake clang-format autoconf automake libtool pkg-config"
 readonly VHAT_USE_LIBS="libssl-dev python2.7-dev"
+readonly DBUS_LIBS="libdbus-glib-1-dev libglib2.0-dev"
 
 if [ $TARGET != $LVDS_TARGET ]
 then
   readonly GSTREAMER_LIBS="libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev"
-  readonly DBUS_LIBS="libdbus-glib-1-dev libglib2.0-dev"
 fi
-
 
 # List of the all necessary packages
 readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $GSTREAMER_LIBS $DBUS_LIBS"
