@@ -62,6 +62,8 @@ constexpr auto kFrameWidthOption = "FrameWidth";
 constexpr auto kFrameHeightOption = "FrameHeight";
 
 const std::string kRtspAddressOption = "RtspStream";
+
+constexpr auto kDBusInterface = "com.luxoft.vdp.prime.interface";
 }  // namespace defines
 
 #endif  // ATE_SERVER_UTILS_DEFINES_H_

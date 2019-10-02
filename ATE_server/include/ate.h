@@ -45,6 +45,11 @@ class ATE {
    */
   cv::Rect WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout);
 
+  /**
+   * @brief The function changes resolution for video stream
+   * @param x - a new high value
+   * @param y - a new width value
+   */
   void ChangeResolution(int x, int y);
 };
 

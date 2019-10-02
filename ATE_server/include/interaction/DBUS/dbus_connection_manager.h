@@ -38,8 +38,10 @@ class DBusConnectionManager : public ConnectionManager {
  private:
   /**
    * @brief Filter for signal type 'displayTupeChanged' extract payload, create request and notify 'ChangeResolution'
-   * @params DBusConnection is not use
+   * @params DBusConnection for DBus connection (not use)
    * @params message pointer to DBusMessage structure
+   * @params void* user data (not use)
+   * @return processing message result code
    */
   static DBusHandlerResult DisplayTypeChangedFilter(DBusConnection*, DBusMessage* message, void*);
 
@@ -48,6 +50,7 @@ class DBusConnectionManager : public ConnectionManager {
    * @params message pointer to DBusMessage structure with payload of signal
    * @params x reference to int (width of the frame)
    * @params y reference to int (height of the frame)
+   * @return true in case of success, otherwise - false
    */
   static bool ExtractDisplayTypeChangePayload(DBusMessage* message, int& x, int& y);
 

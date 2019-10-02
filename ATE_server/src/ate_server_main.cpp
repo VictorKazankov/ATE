@@ -46,7 +46,7 @@ int main() try {
 
   transport_adapters.InitTcpConnectionManager(
       io_context, common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
-  transport_adapters.InitDbusConnectionManager("com.luxoft.vdp.prime.interface");
+  transport_adapters.InitDbusConnectionManager(defines::kDBusInterface);
   transport_adapters.Run();
 
   boost::asio::signal_set sig_set{io_context};
