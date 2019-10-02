@@ -184,7 +184,7 @@ if(VHAT_CREATE_DEBIAN_PACKAGE)
     file(APPEND ${POSTINST_FILE} "
       USER=$(logname)
       GROUP=$(logname)
-      PERMISSIONS=\"ug+rw\"
+      PERMISSIONS=\"a+rw\"
       echo \"Changing owner of ${VHAT_ICON_STORAGE_PREFIX} to \${USER}:\${GROUP}...\"
       if chown --recursive \${USER}:\${GROUP} ${VHAT_ICON_STORAGE_PREFIX}
       then
