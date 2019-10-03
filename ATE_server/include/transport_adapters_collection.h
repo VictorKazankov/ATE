@@ -28,17 +28,27 @@ class TransportAdaptersCollection {
   void Run();
 
   /**
+   * @brief Stopping all communication managers
+   */
+  void Stop();
+
+  /**
    * @brief Init tcp connection manager for communication via TCP protocol
    * @param io_context - an instannce of io_context provides the core I/O functionality for users of the asynchronous
    * I/O objects.
    * @param port - value of tcp accepting port
    */
   void InitTcpConnectionManager(boost::asio::io_context& io_context, uint16_t port);
+
+  /**
+   * @brief Init dbus connection manager for communication via DBUS
+   * @param interface - name of interface for receiving signal
+   */
   void InitDbusConnectionManager(const std::string& interface);
 
  private:
   AteMessageAdapter& ate_message_adapter_;
-  
+
   std::vector<std::shared_ptr<interaction::ConnectionManager>> connection_managers_;
 };
 

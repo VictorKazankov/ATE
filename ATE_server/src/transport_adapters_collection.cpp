@@ -6,15 +6,17 @@
 TransportAdaptersCollection::TransportAdaptersCollection(AteMessageAdapter& ate_message_adapter)
     : ate_message_adapter_(ate_message_adapter) {}
 
-TransportAdaptersCollection::~TransportAdaptersCollection() {
-  for (auto manager : connection_managers_) {
-    manager->Stop();
-  }
-}
+TransportAdaptersCollection::~TransportAdaptersCollection() { Stop(); }
 
 void TransportAdaptersCollection::Run() {
   for (auto manager : connection_managers_) {
     manager->Start();
+  }
+}
+
+void TransportAdaptersCollection::Stop() {
+  for (auto manager : connection_managers_) {
+    manager->Stop();
   }
 }
 

@@ -54,6 +54,8 @@ int main() try {
 
   io_context.run();
 
+  transport_adapters.Stop();
+
   return EXIT_SUCCESS;
 } catch (const boost::system::system_error& boost_error) {
   logger::critical("boost system error: {} ({})", boost_error.what(), boost_error.code());
