@@ -47,14 +47,15 @@ elseif(MSVC)
       -DNOMINMAX
   )
   set_target_properties(vhat_common 
-      PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
-
-  endif()
+    PROPERTIES
+      WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+  )
+endif()
 
 if(UNIX)
   install(TARGETS
     vhat_common
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${VHAT_INSTALL_LIBDIR}
   )
 elseif(MSVC)
   install(TARGETS

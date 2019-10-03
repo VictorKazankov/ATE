@@ -137,7 +137,7 @@ add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 if(UNIX)
   install(TARGETS
     boost_asio
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${VHAT_INSTALL_LIBDIR}
   )
 elseif(MSVC)
   install(TARGETS
@@ -149,6 +149,6 @@ endif()
 if(VHAT_BUILD_SERVER)
   install(TARGETS
     boost_asio_ssl
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${VHAT_INSTALL_LIBDIR}
   )
 endif()

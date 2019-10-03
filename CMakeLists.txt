@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-include(GNUInstallDirs)
-
 include(${CMAKE_SOURCE_DIR}/infrastructure/cmake/functions/git.cmake)
 
 git_get_commit_hash(GIT_COMMIT_HASH)
@@ -39,6 +37,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
 # cmake functions
 include(${PROJECT_SOURCE_DIR}/infrastructure/cmake/functions/functions.cmake)
 
+# Install into GNU standard dirs
+# Must be included after project() to set up all the variables correctly
+include(GNUInstallDirs)
+
 option(VHAT_BUILD_CLIENT "Build VHAT client" ON)
 option(VHAT_BUILD_SERVER "Build VHAT server" ON)
 option(VHAT_WITH_TESTS "Build VHAT with tests" ON)
@@ -50,6 +52,11 @@ set(VHAT_ICON_STORAGE_PREFIX "${VHAT_WRITABLE_DATA_PREFIX}/icon_storage" CACHE S
 
 # All configs must be placed into <install prefix>/etc/vdp
 set(VHAT_INSTALL_SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR}/vdp)
+
+# All libs must ignore Debian specific /lib/<multi-arch> policy and simply install into <install prefix>/lib
+# Since there are several libraries installed, group them into <install prefix>/lib/ate
+set(VHAT_INSTALL_LIBPREFIX lib)
+set(VHAT_INSTALL_LIBDIR ${VHAT_INSTALL_LIBPREFIX}/ate)
 
 file(WRITE "${CMAKE_BINARY_DIR}/vhat_version" "${PROJECT_VERSION_FULL}\n")
 install(FILES "${CMAKE_BINARY_DIR}/vhat_version" DESTINATION ${VHAT_INSTALL_SYSCONFDIR})
