@@ -105,9 +105,15 @@ target_link_libraries(vhat_server
     vhat_server_lib
 )
 
+# TODO: remove INSTALL_RPATH_USE_LINK_PATH TRUE as soon as disposed of custom GStreamer dependency
 set_target_properties(vhat_server PROPERTIES
-  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
+  INSTALL_RPATH "\$ORIGIN/../${VHAT_INSTALL_LIBDIR}"
   INSTALL_RPATH_USE_LINK_PATH TRUE
+)
+
+install(TARGETS
+  vhat_server
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(FILES
@@ -121,11 +127,6 @@ if(VHAT_INSTALL_ICON_STORAGE)
     DESTINATION "${VHAT_ICON_STORAGE_PREFIX}"
   )
 endif(VHAT_INSTALL_ICON_STORAGE)
-
-install(TARGETS
-  vhat_server
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
 
 if(VHAT_INSTALL_SERVER_SERVICE)
   configure_file("../service/vhat_server.service.in" "../service/vhat_server.service")
