@@ -1,5 +1,7 @@
 #include "squish/application_context.h"
 
+#include "logger/logger.h"
+
 using namespace squish;
 
 ApplicationContext::ApplicationContext(const squish::ApplicationContext& rhs) : host(rhs.host), port(rhs.port) {}
@@ -9,7 +11,7 @@ void ApplicationContext::Attach(boost::asio::io_context& io_context) {
 }
 
 bool ApplicationContext::IsRunning() const {
-  if (ate_interaction) return true;
+  if (ate_interaction && ate_interaction->IsConnectionOpened()) return true;
 
   return false;
 }
@@ -17,5 +19,10 @@ bool ApplicationContext::IsRunning() const {
 void ApplicationContext::Detach() {}
 
 Object ApplicationContext::SendCommand(interaction::Method method, const std::string& command) {
+  if (!IsRunning()) {
+    logger::critical(
+        "[application context] VHAT server wasn't connected. Please perform 'attachToApplication()' first");
+    return Object{};
+  }
   return ate_interaction->SendCommand(method, command);
 }

@@ -36,6 +36,12 @@ class ATEInteraction {
 
   void Connect();
 
+  /**
+   * @brief Function determine whether the socket is open.
+   * @return return true if socket is open otherwise false.
+   **/
+  bool IsConnectionOpened() const { return socket_.is_open(); }
+
   squish::Object SendCommand(Method method, const std::string& command);
 
  private:
