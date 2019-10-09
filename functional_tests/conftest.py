@@ -26,6 +26,7 @@ def driver_sync3(app_connector):
         api.home_page.open_home_page()
     yield api
     api.home_page.open_home_page()
+    api.home_page.switch_to_fm_sources_on_home_page()
 
 
 @pytest.fixture(scope='module')

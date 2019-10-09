@@ -1,7 +1,6 @@
-import vhat_client
-
 import allure
 import pytest
+import vhat_client
 from functional_tests.tests import helpers
 from functional_tests.utils.sync4.constants import TASK_LINK, Icons, Text
 

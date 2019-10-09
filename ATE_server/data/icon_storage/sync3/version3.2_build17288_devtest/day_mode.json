@@ -24,7 +24,15 @@
     "extension": "png"
   },
   {
+    "name": "audio_fm_sources_button",
+    "extension": "png"
+  },
+  {
     "name": "audio_frequency",
+    "extension": "png"
+  },
+  {
+    "name": "audio_sirius_sources_button",
     "extension": "png"
   },
   {
@@ -125,6 +133,10 @@
   },
   {
     "name": "home",
+    "extension": "png"
+  },
+  {
+    "name": "home_sirius_icon",
     "extension": "png"
   },
   {
@@ -365,6 +377,14 @@
   },
   {
     "name": "a_c_active",
+    "extension": "png"
+  },
+  {
+    "name": "phone_pair_discover_button",
+    "extension": "png"
+  },
+  {
+    "name": "phone_pair_phone_button",
     "extension": "png"
   },
   {

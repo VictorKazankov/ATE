@@ -15,6 +15,8 @@ class Icons:
     ACTIVE_SETTINGS_PAGE_BUTTON = 'settings_active'
     ADAPTIVE_VOLUME_MEDIUM_OPTION = 'medium'
     AUDIO_FREQUENCY_BUTTON = 'audio_frequency'
+    AUDIO_FM_SOURCE_BUTTON = 'audio_fm_sources_button'
+    AUDIO_SIRIUS_SOURCES_BUTTON = 'audio_sirius_sources_button'
     BACK_BUTTON = 'back'
     BACK_PROPERTY = 'back_property_field'
     BALANCE_FADE_BUTTON = 'balance_fade'
@@ -41,6 +43,7 @@ class Icons:
     FIND_MOBILE_APPS_BUTTON = 'find_mobile_apps'
     FRONT_HEATING = 'front_heating'
     HOME_PAGE_ICON = 'home'
+    HOME_SIRIUS_ICON = 'home_sirius_icon'
     INACTIVE_AUDIO_PAGE_BUTTON = 'audio'
     INACTIVE_CLIMATE_PAGE_ICON = 'climate'
     INACTIVE_MOBILE_APPS_PAGE_BUTTON = 'apps'
@@ -79,7 +82,36 @@ class Text:
     ADD_BLUETOOTH_DEVICE_TEXT = 'Add a Bluetooth device'
     ALL_SEATS_TEXT = 'All seats'
     ALWAYS_USE_FASTEST_ROUTE_TEXT = 'Always use Fastest route'
+    AUDIO_ALERT_TEXT = 'Alert'
+    AUDIO_BLUETOOTH_AUDIO_TEXT = 'Bluetooth audio'
     AUDIO_BUTTON_PANEL_TEXT = 'Audio'
+    AUDIO_CD_TEXT = 'CD'
+    AUDIO_CHANNEL_GUIDE_TEXT = 'Channel guide'
+    AUDIO_CLASSIC_VINYL_TEXT = 'Classic Vinyl'
+    AUDIO_CLSVINYL_TEXT = 'ClsVinyl'
+    AUDIO_DIRECT_TUNE_1 = '1'
+    AUDIO_DIRECT_TUNE_2 = '2'
+    AUDIO_DIRECT_TUNE_3 = '3'
+    AUDIO_DIRECT_TUNE_4 = '4'
+    AUDIO_DIRECT_TUNE_5 = '5'
+    AUDIO_DIRECT_TUNE_6 = '6'
+    AUDIO_DIRECT_TUNE_7 = '7'
+    AUDIO_DIRECT_TUNE_8 = '8'
+    AUDIO_DIRECT_TUNE_9 = '9'
+    AUDIO_DIRECT_TUNE_0 = '0'
+    AUDIO_DIRECT_TUNE_CANCEL = 'Cancel'
+    AUDIO_DIRECT_TUNE_ENTER = 'Enter'
+    AUDIO_DIRECT_TUNE_TEXT = 'Direct tune'
+    AUDIO_FM_TEXT = 'FM'
+    AUDIO_AM_TEXT = 'AM'
+    AUDIO_FREQUENCY_107_9_Mhz = '107.9 MHz'
+    AUDIO_FREQUENCY_1710 = '1710'
+    AUDIO_FREQUENCY_TEXT = 'Frequency'
+    AUDIO_HIGHWAY_TEXT = 'Highway'
+    AUDIO_PRESETS_TEXT = 'Presets'
+    AUDIO_REPLAY_TEXT = 'Replay'
+    AUDIO_ROCK_TEXT = 'Rock'
+    AUDIO_SIRIUSXM_TEXT = 'SiriusXM'
     AUTO_TEXT = 'AUTO'
     AVOID_FERRIES_CAR_TRAINS_TEXT = 'Avoid ferries/car trains'
     AVOID_MOTORWAYS_TEXT = 'Avoid motorways'
@@ -87,6 +119,7 @@ class Text:
     BLUETOOTH_SETTINGS_TEXT = 'Bluetooth settings'
     BLUETOOTH_VIEW_DEVICES_TEXT = 'View devices'
     BREADCRUMBS = 'Breadcrumbs'
+    CANCEL = 'Cancel'
     CHIMES_ONLY_TEXT = 'Chimes only'
     CITY_MODEL_TEXT = '3D city model'
     CLIMATE_BUTTON_PANEL_TEXT = 'Climate'
@@ -102,6 +135,8 @@ class Text:
     DUAL_TEXT = 'DUAL'
     DYNAMIC_ROUTE_GUIDANCE_TEXT = 'Dynamic route guidance'
     ECO_TIME_PENALTY_TEXT = 'Eco time penalty'
+    HOME_FM_TEXT = 'FM'
+    HOME_SIRIUS_TEXT = 'SIRIUS'
     FIND_MOBILE_APPS_TEXT = 'Find'
     FIND_PARKING_AUTOMATICALLY_TEXT = 'Find parking automatically'
     GUIDANCE_PROMPTS_TEXT = 'Guidance prompts'
@@ -132,9 +167,22 @@ class Text:
 
 # home page
 home_page_text = [Text.CONNECT_A_PHONE_TEXT, Text.NAVIGATION_FAULT_TEXT, Text.AUDIO_BUTTON_PANEL_TEXT,
-                   Text.CLIMATE_BUTTON_PANEL_TEXT, Text.PHONE_BUTTON_PANEL_TEXT, Text.NAVIGATION_BUTTON_PANEL_TEXT,
-                   Text.MOBILE_APPS_BUTTON_PANEL_TEXT, Text.SETTINGS_BUTTON_PANEL_TEXT]
+                  Text.CLIMATE_BUTTON_PANEL_TEXT, Text.PHONE_BUTTON_PANEL_TEXT, Text.NAVIGATION_BUTTON_PANEL_TEXT,
+                  Text.MOBILE_APPS_BUTTON_PANEL_TEXT, Text.SETTINGS_BUTTON_PANEL_TEXT]
 
+audio_page_text = [Text.SOURCES_TEXT, Text.AUDIO_FREQUENCY_TEXT, Text.AUDIO_PRESETS_TEXT,
+                   Text.AUDIO_FREQUENCY_107_9_Mhz, ]
+
+audio_sources_page_text = [Text.AUDIO_AM_TEXT, Text.AUDIO_FM_TEXT, Text.AUDIO_SIRIUSXM_TEXT,
+                           Text.AUDIO_CD_TEXT, Text.AUDIO_BLUETOOTH_AUDIO_TEXT]
+
+audio_sirius_page_text = [Text.AUDIO_CLSVINYL_TEXT, Text.AUDIO_CLASSIC_VINYL_TEXT, Text.AUDIO_ROCK_TEXT,
+                          Text.AUDIO_CHANNEL_GUIDE_TEXT, Text.AUDIO_DIRECT_TUNE_TEXT, Text.AUDIO_REPLAY_TEXT,
+                          Text.AUDIO_ALERT_TEXT]
+audio_direct_tune_text = [Text.AUDIO_DIRECT_TUNE_1, Text.AUDIO_DIRECT_TUNE_2, Text.AUDIO_DIRECT_TUNE_3,
+                          Text.AUDIO_DIRECT_TUNE_4, Text.AUDIO_DIRECT_TUNE_5, Text.AUDIO_DIRECT_TUNE_6,
+                          Text.AUDIO_DIRECT_TUNE_7, Text.AUDIO_DIRECT_TUNE_8, Text.AUDIO_DIRECT_TUNE_9,
+                          Text.AUDIO_DIRECT_TUNE_0, Text.AUDIO_DIRECT_TUNE_CANCEL, Text.AUDIO_DIRECT_TUNE_ENTER]
 
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'

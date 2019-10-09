@@ -17,6 +17,8 @@ class HomePage:
             self.open_home_page()
         elif tap_if_visible(Icons.CLOSE_BUTTON):
             self.open_home_page()
+        elif tap_if_visible(Text.CANCEL):
+            self.open_home_page()
         else:
             raise Exception('Can`t open home page')
 
@@ -24,6 +26,13 @@ class HomePage:
         if check_visibility(Text.NAVIGATION_FAULT_TEXT):
             return True
         return False
+
+    def switch_to_fm_sources_on_home_page(self):
+        if tap_if_visible(Icons.HOME_SIRIUS_ICON):
+            tap(Text.AUDIO_HIGHWAY_TEXT)
+            tap(Text.SOURCES_TEXT)
+            tap(Icons.AUDIO_FM_SOURCE_BUTTON)
+            tap(Icons.HOME_PAGE_ICON)
 
 
 class ClimatePage:
@@ -71,8 +80,26 @@ class AudioPage:
                 hmi.tap_object(frequency_buttons[int(n)])
         tap(Icons.ENTER_BUTTON_IN_SET_FREQUENCY)
 
-    def verify_frequency_value(self, frequency):
-        return check_visibility(frequency)
+    def open_audio_sources(self):
+        tap(Text.SOURCES_TEXT)
+
+    def tap_siriusxm_button(self):
+        tap(Icons.AUDIO_SIRIUS_SOURCES_BUTTON)
+
+    def open_fm_type(self):
+        tap_if_visible(Text.AUDIO_FM_TEXT)
+
+    def tap_clsvinyl_direction(self):
+        tap(Text.AUDIO_CLSVINYL_TEXT)
+
+    def open_direct_tune(self):
+        tap(Icons.AUDIO_FREQUENCY_BUTTON)
+
+    def tap_cancel_text(self):
+        tap(Text.AUDIO_DIRECT_TUNE_CANCEL)
+
+    def tap_on_back_button(self):
+        tap(Icons.BACK_BUTTON)
 
 
 class PhonePage:
@@ -195,6 +222,7 @@ def tap(name):
     if not obj:
         raise Exception("Can`t tap on {}".format(name))
     hmi.tap_object(obj)
+    sleep(2)
     logging.info("Tap on x:{}, y:{}".format(obj.x, obj.y))
 
 
