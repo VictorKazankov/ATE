@@ -1,5 +1,7 @@
 #include "interaction/DBUS/dbus_connection_manager.h"
 
+#include <functional>
+
 #include <dbus-1.0/dbus/dbus-glib-lowlevel.h>
 #include <dbus-1.0/dbus/dbus-glib.h>
 
@@ -8,22 +10,30 @@
 #include "message_factory/json_messages.h"
 #include "message_factory/message_factory.h"
 
-namespace {
-uint64_t kCorrelationId = 1;
-static uint64_t GetCorrelationId() { return kCorrelationId++; }
-}  // namespace
-
 namespace interaction {
-bool DBusConnectionManager::notified_{};
-std::atomic_bool DBusConnectionManager::running_{};
-std::mutex DBusConnectionManager::request_guard_;
-std::condition_variable DBusConnectionManager::condition_;
-std::string DBusConnectionManager::interface_ = "";
-std::string DBusConnectionManager::request_ = "";
+
+/*---------------DBus callback function---------------*/
+template <typename T>
+struct Callback;
+
+template <typename Ret, typename... Params>
+struct Callback<Ret(Params...)> {
+  template <typename... Args>
+  static Ret callback(Args... args) {
+    return callback_method(args...);
+  }
+  static std::function<Ret(Params...)> callback_method;
+};
+
+template <typename Ret, typename... Params>
+std::function<Ret(Params...)> Callback<Ret(Params...)>::callback_method;
+
+/*---------------DBus callback function---------------*/
 
 DBusConnectionManager::DBusConnectionManager(const std::string& interface, AteMessageAdapter& ate_message_adapter)
-    : ate_message_adapter_(ate_message_adapter), loop_(g_main_loop_new(NULL, FALSE), g_main_loop_unref) {
-  interface_ = interface;
+    : interface_(interface),
+      ate_message_adapter_(ate_message_adapter),
+      loop_(g_main_loop_new(nullptr, FALSE), g_main_loop_quit) {
   DBusError error;
   dbus_error_init(&error);
 
@@ -35,7 +45,8 @@ DBusConnectionManager::DBusConnectionManager(const std::string& interface, AteMe
     return;
   }
 
-  dbus_connection_setup_with_g_main(connection_, NULL);
+  // Bind g_main_loop and DBus connection
+  dbus_connection_setup_with_g_main(connection_, nullptr);
   std::string rule = "interface='" + interface + "'";
   logger::info("[dbus connection manager] Signal match rule: {}", rule);
   dbus_bus_add_match(connection_, rule.c_str(), &error);
@@ -46,46 +57,52 @@ DBusConnectionManager::DBusConnectionManager(const std::string& interface, AteMe
     return;
   }
 
-  dbus_connection_add_filter(connection_, &DBusConnectionManager::DisplayTypeChangedFilter, NULL, NULL);
+  // Register DBus callback
+  Callback<DBusHandlerResult(DBusConnection*, DBusMessage*, void*)>::callback_method =
+      [this](DBusConnection* connection, DBusMessage* message, void* user_data) {
+        return DisplayTypeChangedFilter(connection, message, user_data);
+      };
+  auto callback_method = static_cast<DBusHandleMessageFunction>(
+      Callback<DBusHandlerResult(DBusConnection*, DBusMessage*, void*)>::callback);
+
+  dbus_connection_add_filter(connection_, callback_method, nullptr, nullptr);
 }
 
-DBusConnectionManager::~DBusConnectionManager() { Stop(); }
-
-void DBusConnectionManager::Start() {
-  running_ = true;
-  dbus_thread_ = std::thread(g_main_loop_run, loop_.get());
-  change_resolution_thread_ = std::thread(&DBusConnectionManager::ChangeResolution, this);
-}
+void DBusConnectionManager::Start() { dbus_thread_ = std::thread(g_main_loop_run, loop_.get()); }
 
 void DBusConnectionManager::Stop() {
-  running_ = false;
   loop_.reset();
 
-  notified_ = true;
-  condition_.notify_all();
-
-  if (change_resolution_thread_.joinable()) {
-    change_resolution_thread_.join();
-  }
   if (dbus_thread_.joinable()) {
     dbus_thread_.join();
   }
 }
 
-void DBusConnectionManager::ChangeResolution() {
-  std::unique_lock<std::mutex> lock(request_guard_);
+DBusHandlerResult DBusConnectionManager::DisplayTypeChangedFilter(DBusConnection*, DBusMessage* message, void*) {
+  bool result{};
+  int x{};
+  int y{};
 
-  while (running_) {
-    condition_.wait(lock, [&] { return notified_; });
+  if (dbus_message_is_signal(message, interface_.c_str(), common::jmsg::kDisplayTypeChanged)) {
+    // read the parameters
+    result = ExtractDisplayTypeChangePayload(message, x, y);
 
-    if (!running_) break;  // in case as we were waiting for signal app was stopped
+    if (!result || !x || !y) {
+      logger::error("[dbus connection manager] Failed to extract arguments for change resolution");
+      return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+    }
 
+    request_ = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(x, y, GenCorrelationId());
+
+    // Send message
     if (!request_.empty()) {
       ate_message_adapter_.OnMessage(request_);
-      notified_ = false;
       request_.clear();
+      return DBUS_HANDLER_RESULT_HANDLED;
     }
   }
+
+  return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 }
 
 bool DBusConnectionManager::ExtractDisplayTypeChangePayload(DBusMessage* message, int& x, int& y) {
@@ -138,28 +155,9 @@ bool DBusConnectionManager::ExtractDisplayTypeChangePayload(DBusMessage* message
   return true;
 }
 
-DBusHandlerResult DBusConnectionManager::DisplayTypeChangedFilter(DBusConnection*, DBusMessage* message, void*) {
-  bool result{};
-  int x{};
-  int y{};
-
-  if (dbus_message_is_signal(message, interface_.c_str(), common::jmsg::kDisplayTypeChanged)) {
-    // read the parameters
-    result = ExtractDisplayTypeChangePayload(message, x, y);
-
-    if (!result || !x || !y) {
-      logger::error("[dbus connection manager] Failed to extract arguments for change resolution");
-      return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-    }
-
-    std::unique_lock<std::mutex> lock(request_guard_);
-    request_ = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(x, y, GetCorrelationId());
-    notified_ = true;
-    condition_.notify_all();
-    return DBUS_HANDLER_RESULT_HANDLED;
-  }
-
-  return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+uint64_t DBusConnectionManager::GenCorrelationId() {
+  static uint64_t kCorrelationId = 1;
+  return kCorrelationId++;
 }
 
 }  // namespace interaction

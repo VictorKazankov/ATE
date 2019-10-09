@@ -23,7 +23,6 @@ namespace interaction {
 class DBusConnectionManager : public ConnectionManager {
  public:
   DBusConnectionManager(const std::string& interface, AteMessageAdapter& ate_message_adapter);
-  ~DBusConnectionManager() override;
 
   /**
    * @brief Start running of the DBus connection manager
@@ -37,13 +36,19 @@ class DBusConnectionManager : public ConnectionManager {
 
  private:
   /**
+   * @brief Generate correlation id for json rpc
+   * @return Correlation id
+   */
+  uint64_t GenCorrelationId();
+
+  /**
    * @brief Filter for signal type 'displayTupeChanged' extract payload, create request and notify 'ChangeResolution'
    * @params DBusConnection for DBus connection (not use)
    * @params message pointer to DBusMessage structure
    * @params void* user data (not use)
    * @return processing message result code
    */
-  static DBusHandlerResult DisplayTypeChangedFilter(DBusConnection*, DBusMessage* message, void*);
+  DBusHandlerResult DisplayTypeChangedFilter(DBusConnection*, DBusMessage* message, void*);
 
   /**
    * @brief Extract payload from message
@@ -52,23 +57,14 @@ class DBusConnectionManager : public ConnectionManager {
    * @params y reference to int (height of the frame)
    * @return true in case of success, otherwise - false
    */
-  static bool ExtractDisplayTypeChangePayload(DBusMessage* message, int& x, int& y);
+  bool ExtractDisplayTypeChangePayload(DBusMessage* message, int& x, int& y);
 
-  /**
-   * @brief Wait for notification signal of 'DisplayTypeChangedFilter' and pass request_ to ATE message adapter
-   */
-  void ChangeResolution();
-
-  static bool notified_;
-  static std::atomic_bool running_;
-  static std::mutex request_guard_;
-  static std::condition_variable condition_;
-  static std::string interface_;
-  static std::string request_;
+ private:
+  std::string interface_;
+  std::string request_;
 
   AteMessageAdapter& ate_message_adapter_;
   std::thread dbus_thread_;
-  std::thread change_resolution_thread_;
   std::unique_ptr<GMainLoop, void (*)(GMainLoop*)> loop_;
 };
 
