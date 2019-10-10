@@ -83,13 +83,11 @@ bool GstStreamer::Frame(cv::Mat& frame) {
     return false;
   }
 
-  if (!gst_app_sink_is_eos(GST_APP_SINK(testsink.get()))) {
-    logger::error("[gstreamer] gst_app_sink is EOS, can't read frame from the sink");
-    return false;
-  }
-
-  const std::unique_ptr<GstSample, void (*)(GstSample*)> sample{gst_app_sink_pull_sample(GST_APP_SINK(testsink.get())),
-                                                                gst_sample_unref};
+  // Timeout 1 seconds
+  auto get_sample_timeout = std::chrono::nanoseconds(std::chrono::seconds(1)).count();
+  // Trying to get gstreamer sample. If sample not ready after time out - finishing trying getting sample
+  const std::unique_ptr<GstSample, void (*)(GstSample*)> sample{
+      gst_app_sink_try_pull_sample(GST_APP_SINK(testsink.get()), get_sample_timeout), gst_sample_unref};
   if (!sample) {
     logger::error("[gstreamer] gst_app_sink_pull_sample return null");
     return false;
