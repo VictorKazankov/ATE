@@ -43,8 +43,8 @@ class ClimatePage:
     def climate_page_is_active(self):
         return check_visibility(Icons.ACTIVE_CLIMATE_PAGE_ICON)
 
-    def ac_control_button_is_active(self):
-        return check_visibility(Icons.ACTIVE_CLIMATE_PAGE_ICON)
+    def tap_on_climate_a_c_button(self):
+        tap(Icons.A_C_ACTIVE)
 
     def tap_on_climate_auto_button(self):
         tap(Icons.CLIMATE_AUTO_BUTTON)

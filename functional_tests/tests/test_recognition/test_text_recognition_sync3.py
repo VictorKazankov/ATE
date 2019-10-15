@@ -2,10 +2,13 @@ import allure
 import pytest
 from functional_tests.tests import helpers
 from functional_tests.utils.sync3.constants import (TASK_LINK,
+                                                    a_c_controls_page_text,
                                                     audio_direct_tune_text,
                                                     audio_page_text,
                                                     audio_sirius_page_text,
                                                     audio_sources_page_text,
+                                                    climate_page_text,
+                                                    defrost_controls_page_text,
                                                     home_page_text)
 
 
@@ -43,4 +46,26 @@ def test_audio_sources_page_texts(audio_sources_sync3, testdata):
 @pytest.mark.parametrize('testdata', audio_sirius_page_text)
 @pytest.mark.smoke_text_recognition
 def test_audio_sirius_page_texts(audio_sirius_sync3, testdata):
+    assert helpers.get_exist_result(testdata)
+
+
+# Climate page
+@allure.testcase(TASK_LINK.format("VHAT-585"), "VHAT-585")
+@pytest.mark.parametrize('testdata', climate_page_text)
+@pytest.mark.smoke_text_recognition
+def test_climate_page_text(climate_sync3, testdata):
+    assert helpers.get_exist_result(testdata)
+
+
+@allure.testcase(TASK_LINK.format("VHAT-585"), "VHAT-585")
+@pytest.mark.parametrize('testdata', defrost_controls_page_text)
+@pytest.mark.smoke_text_recognition
+def test_defrost_controls_page_text(climate_defrost_sync3, testdata):
+    assert helpers.get_exist_result(testdata)
+
+
+@allure.testcase(TASK_LINK.format("VHAT-585"), "VHAT-585")
+@pytest.mark.parametrize('testdata', a_c_controls_page_text)
+@pytest.mark.smoke_text_recognition
+def test_a_c_controls_page_text(climate_a_c_sync3, testdata):
     assert helpers.get_exist_result(testdata)

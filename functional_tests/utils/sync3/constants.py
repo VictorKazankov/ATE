@@ -122,12 +122,17 @@ class Text:
     CANCEL = 'Cancel'
     CHIMES_ONLY_TEXT = 'Chimes only'
     CITY_MODEL_TEXT = '3D city model'
+    CLIMATE_A_C_CONTROLS_TEXT = 'A/C controls'
+    CLIMATE_A_C_TEXT = 'A/C'
     CLIMATE_BUTTON_PANEL_TEXT = 'Climate'
+    CLIMATE_DEFROST_TEXT = 'Defrost'
+    CLIMATE_MAX_TEXT = 'MAX'
     CLOCK_AUTO_TIME_ZONE_TEXT = 'Auto time zone update'
     CLOCK_FORMAT_TEXT = 'Clock format'
     CLOCK_PM_PERIOD_TEXT = 'PM'
     CLOCK_RESET_GPS_TEXT = 'Reset clock to GPS time'
     CLOCK_SETTINGS_TITLE_TEXT = 'Clock settings'
+    CLOSE_TEXT = 'Close'
     CONNECT_A_DEVICE_TEXT = 'Connect a device'
     CONNECT_A_PHONE_TEXT = 'Add device'
     DEFROST_CONTROLS_TEXT = 'Defrost controls'
@@ -183,6 +188,11 @@ audio_direct_tune_text = [Text.AUDIO_DIRECT_TUNE_1, Text.AUDIO_DIRECT_TUNE_2, Te
                           Text.AUDIO_DIRECT_TUNE_4, Text.AUDIO_DIRECT_TUNE_5, Text.AUDIO_DIRECT_TUNE_6,
                           Text.AUDIO_DIRECT_TUNE_7, Text.AUDIO_DIRECT_TUNE_8, Text.AUDIO_DIRECT_TUNE_9,
                           Text.AUDIO_DIRECT_TUNE_0, Text.AUDIO_DIRECT_TUNE_CANCEL, Text.AUDIO_DIRECT_TUNE_ENTER]
+
+# climate page
+climate_page_text = [Text.AUTO_TEXT, Text.DUAL_TEXT, Text.CLIMATE_DEFROST_TEXT, Text.CLIMATE_A_C_TEXT]
+defrost_controls_page_text = [Text.DEFROST_CONTROLS_TEXT, Text.CLOSE_TEXT]
+a_c_controls_page_text = [Text.CLIMATE_A_C_CONTROLS_TEXT, Text.CLIMATE_MAX_TEXT, Text.CLIMATE_A_C_TEXT]
 
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'

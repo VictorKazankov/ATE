@@ -30,3 +30,26 @@ def audio_direct_tune_sync3(audio_sync3):
     api.audio_page.open_direct_tune()
     yield api.audio_page
     api.audio_page.tap_cancel_text()
+
+
+@pytest.fixture(scope='module')
+def climate_sync3(driver_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.climate_page.open_climate_page()
+    return api.climate_page
+
+
+@pytest.fixture(scope='function')
+def climate_defrost_sync3(climate_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.climate_page.tap_on_climate_defrost_button()
+    yield api.climate_page
+    api.climate_page.close_information_dialog()
+
+
+@pytest.fixture(scope='function')
+def climate_a_c_sync3(climate_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.climate_page.tap_on_climate_a_c_button()
+    yield api.climate_page
+    api.climate_page.close_information_dialog()
