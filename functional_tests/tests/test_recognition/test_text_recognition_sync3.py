@@ -9,7 +9,8 @@ from functional_tests.utils.sync3.constants import (TASK_LINK, Text,
                                                     audio_sources_page_text,
                                                     climate_page_text,
                                                     defrost_controls_page_text,
-                                                    home_page_text)
+                                                    home_page_text,
+                                                    pair_bluetooth_device_page)
 
 
 # Home page
@@ -71,6 +72,7 @@ def test_a_c_controls_page_text(climate_a_c_sync3, testdata):
     assert helpers.get_exist_result(testdata)
 
 
+# Navigation page
 @allure.testcase(TASK_LINK.format("VHAT-587"), "VHAT-587")
 @pytest.mark.parametrize('testdata', [Text.NAVIGATION_FAULT_TEXT, Text.NAVIGATION_FAULT_DESCRIPTION_TEXT])
 @pytest.mark.smoke_text_recognition
@@ -79,3 +81,17 @@ def test_navigation_dialog_text(driver_sync3, testdata):
     result = helpers.get_exist_result(testdata)
     driver_sync3.navigation_page.close_information_dialog()
     assert result
+
+
+# Phone page
+@allure.testcase(TASK_LINK.format("VHAT-586"), "VHAT-586")
+@pytest.mark.smoke_text_recognition
+def test_phone_page_text(phone_sync3):
+    assert helpers.get_exist_result(Text.PAIR_PHONE_TEXT)
+
+
+@allure.testcase(TASK_LINK.format("VHAT-586"), "VHAT-586")
+@pytest.mark.parametrize('testdata', pair_bluetooth_device_page)
+@pytest.mark.smoke_text_recognition
+def test_phone_pair_page_text(phone_pair_sync3, testdata):
+    assert helpers.get_exist_result(testdata)

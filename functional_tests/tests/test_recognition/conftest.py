@@ -53,3 +53,17 @@ def climate_a_c_sync3(climate_sync3):
     api.climate_page.tap_on_climate_a_c_button()
     yield api.climate_page
     api.climate_page.close_information_dialog()
+
+
+@pytest.fixture(scope='module')
+def phone_sync3(driver_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.phone_page.open_phone_page()
+    return api.phone_page
+
+
+@pytest.fixture(scope='module')
+def phone_pair_sync3(phone_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.phone_page.tap_pair_phone_button()
+    return api.phone_page

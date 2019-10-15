@@ -55,6 +55,8 @@ class Icons:
     MOBILE_APPS_BUTTON = 'mobile_apps'
     MOBILE_BLUETOOTH_BUTTON = 'bluetooth'
     PHONE_CONNECT_TO = 'connect_to'
+    PHONE_PAIR_DISCOVER_BUTTON = 'phone_pair_discover_button'
+    PHONE_PAIR_PHONE_BUTTON = 'phone_pair_phone_button'
     PLUS_ICON = 'guidance_prompts_plus'
     PLUS_ICON_ACTIVE = 'guidance_prompts_plus_active'
     PRESETS_BUTTON = 'presets'
@@ -154,6 +156,12 @@ class Text:
     NAVIGATION_SETTINGS_TEXT = 'Navigation settings'
     PAIR_PHONE_TEXT = 'Pair phone'
     PHONE_BUTTON_PANEL_TEXT = 'Phone'
+    PHONE_BEGIN_THE_PAIRING_TEXT = 'Begin the pairing process from'
+    PHONE_DISCOVER_OTHER_BLUETOOTH = 'Discover other Bluetooth devices'
+    PHONE_HELP_TEXT = 'Help'
+    PHONE_PAIR_A_BLUETOOTH_DEVICE_TEXT = 'Pair a Bluetooth devices'
+    PHONE_SEARCH_FOR_SYNC_TEXT = 'Search for SYNC'
+    PHONE_YOUR_DEVICE_AND_A_PIN = 'your device and a PIN option will appear.'
     PREFERRED_ROUTE_TEXT = 'Preferred route'
     RADIO_AUTOSTORE_PRESETS_TEXT = 'Autostore presets (AST)'
     RADIO_REFRESH_TEXT = 'Refresh'
@@ -194,6 +202,11 @@ audio_direct_tune_text = [Text.AUDIO_DIRECT_TUNE_1, Text.AUDIO_DIRECT_TUNE_2, Te
 climate_page_text = [Text.AUTO_TEXT, Text.DUAL_TEXT, Text.CLIMATE_DEFROST_TEXT, Text.CLIMATE_A_C_TEXT]
 defrost_controls_page_text = [Text.DEFROST_CONTROLS_TEXT, Text.CLOSE_TEXT]
 a_c_controls_page_text = [Text.CLIMATE_A_C_CONTROLS_TEXT, Text.CLIMATE_MAX_TEXT, Text.CLIMATE_A_C_TEXT]
+
+# phone page
+pair_bluetooth_device_page = [Text.PHONE_PAIR_A_BLUETOOTH_DEVICE_TEXT, Text.PHONE_HELP_TEXT,
+                              Text.PHONE_SEARCH_FOR_SYNC_TEXT, Text.PHONE_BEGIN_THE_PAIRING_TEXT,
+                              Text.PHONE_YOUR_DEVICE_AND_A_PIN, Text.PHONE_DISCOVER_OTHER_BLUETOOTH]
 
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'

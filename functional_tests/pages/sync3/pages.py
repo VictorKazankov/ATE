@@ -110,6 +110,12 @@ class PhonePage:
     def phone_page_is_active(self):
         return check_visibility(Icons.ACTIVE_PHONE_PAGE_BUTTON)
 
+    def tap_pair_phone_button(self):
+        tap(Icons.PHONE_PAIR_PHONE_BUTTON)
+
+    def phone_pair_phone_page_is_active(self):
+        return hmi.obj_exists(Icons.PHONE_PAIR_DISCOVER_BUTTON)
+
 
 class MobileApppsPage:
 
