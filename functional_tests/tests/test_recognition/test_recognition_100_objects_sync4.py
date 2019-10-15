@@ -1,7 +1,6 @@
 import logging
 
 import allure
-import pytest
 from functional_tests.tests import helpers
 from functional_tests.utils.sync4.constants import TASK_LINK, Icons, Text
 
@@ -9,7 +8,6 @@ PERCENT = 98
 
 
 @allure.testcase(TASK_LINK.format("VHAT-342"), "VHAT-342")
-@pytest.mark.text_recognition
 def test_recognition_100_different_objects_1_time(driver_sync4):
     if not driver_sync4.phone_page.phone_page_is_active():
         driver_sync4.phone_page.open_phone_page()
@@ -25,17 +23,15 @@ def test_recognition_100_different_objects_1_time(driver_sync4):
 
 
 def button_panel(counter, driver_sync4):
-    if not driver_sync4.phone_page.phone_page_is_active():
-        driver_sync4.phone_page.open_phone_page()
+    driver_sync4.phone_page.open_phone_page()
     helpers.get_result_recognition(Icons.FAVORITES_PAGE_PANEL_BUTTON, counter)
     helpers.get_result_recognition(Icons.APPS_BUTTON_PANEL_INACTIVE, counter)
-    helpers.get_result_recognition(Icons.SETTINGS_BUTTON_PANEL, counter)
+    helpers.get_result_recognition(Icons.MAIN_PANEL_SETTINGS_BUTTON_ACTIVE, counter)
     helpers.get_result_recognition(Icons.FEATURES_PAGE_BUTTON, counter)
 
 
 def phone_page(counter, driver_sync4):
-    if not driver_sync4.phone_page.phone_page_is_active():
-        driver_sync4.phone_page.open_phone_page()
+    driver_sync4.phone_page.open_phone_page()
     helpers.get_result_recognition(Icons.PHONE_BUTTON, counter)
     helpers.get_result_recognition(Text.CONNECT_PHONE_TITLE_TEXT, counter)
     helpers.get_result_recognition(Text.PHONE_BUTTON_TEXT, counter)
@@ -44,20 +40,20 @@ def phone_page(counter, driver_sync4):
 def climate_page(counter, driver_sync4):
     if not driver_sync4.climate_page.climate_page_is_active():
         driver_sync4.climate_page.open_climate_page()
-    helpers.get_result_recognition(Text.AUTO_BUTTON_TEXT, counter)
-    helpers.get_result_recognition(Text.DUAL_BUTTON_TEXT, counter)
-    helpers.get_result_recognition(Text.CLIMATE_CONTROLS_TEXT, counter)
+    helpers.get_result_recognition(Text.CLIMATE_PAGE_AUTO_BUTTON_TEXT, counter)
+    helpers.get_result_recognition(Text.CLIMATE_PAGE_DUAL_BUTTON_TEXT, counter)
+    helpers.get_result_recognition(Text.CLIMATE_PAGE_CONTROLS_TITLE_TEXT, counter)
     helpers.get_result_recognition(Icons.SWITCH_ON_OFF_BUTTON, counter)
     helpers.get_result_recognition(Icons.UP_ARROW_RED, counter)
     helpers.get_result_recognition(Icons.DOWN_ARROW_BLUE, counter)
     helpers.get_result_recognition(Icons.AIR_CONDITION_INSIDE, counter)
-    helpers.get_result_recognition(Icons.MENU_BUTTON, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_PAGE_MENU_BUTTON, counter)
     helpers.get_result_recognition(Icons.GLASS_HEATING, counter)
     helpers.get_result_recognition(Icons.UP_AIRFLOW, counter)
     helpers.get_result_recognition(Icons.DOWN_AIRFLOW, counter)
     helpers.get_result_recognition(Icons.GLASS_HEATING_BACK, counter)
     driver_sync4.climate_page.open_climate_menu()
-    helpers.get_result_recognition(Text.ADDITIONAL_TEXT, counter)
+    helpers.get_result_recognition(Text.CLIMATE_MENU_PAGE_POPUP_TITLE_TEXT, counter)
     helpers.get_result_recognition(Icons.MAX_GLASS_HEATING_INACTIVE, counter)
     helpers.get_result_recognition(Icons.MAX_A_C_INACTIVE, counter)
     helpers.get_result_recognition(Text.CLOSE_TEXT, counter)
@@ -68,13 +64,13 @@ def audio_page(counter, driver_sync4):
     if not driver_sync4.audio_page.audio_page_is_active():
         driver_sync4.audio_page.open_audio_page()
     helpers.get_result_recognition(Text.HD_TEXT, counter)
-    helpers.get_result_recognition(Text.SOURCES_TEXT, counter)
-    helpers.get_result_recognition(Text.DIRECT_TEXT, counter)
+    helpers.get_result_recognition(Text.AUDIO_PAGE_SOURCES_TEXT, counter)
+    helpers.get_result_recognition(Text.AUDIO_PAGE_DIRECT_TUNE_TEXT, counter)
     helpers.get_result_recognition(Icons.RADIO_SETTINGS_ICON, counter)
 
     # audio page - sources page
     driver_sync4.audio_page.tap_on_sources_page()
-    helpers.get_result_recognition(Text.ENTERTAINMENT_SOURCES_TEXT, counter)
+    helpers.get_result_recognition(Text.ENTERTAINMENT_SOURCES_TITLE_TEXT, counter)
     helpers.get_result_recognition(Text.AM_TEXT, counter)
     helpers.get_result_recognition(Text.FM_TEXT, counter)
     helpers.get_result_recognition(Text.BLUETOOTH_STEREO_TEXT, counter)
@@ -102,9 +98,8 @@ def audio_page(counter, driver_sync4):
 
 
 def settings_page(counter, driver_sync4):
-    if not driver_sync4.settings_page.settings_page_is_active():
-        driver_sync4.settings_page.open_settings_page()
-    helpers.get_result_recognition(Text.SOUND_SETTINGS_BUTTON_AND_TITLE_TEXT, counter)
+    driver_sync4.settings_page.open_settings_page()
+    helpers.get_result_recognition(Text.SOUND_SETTINGS_BUTTON_TEXT, counter)
     helpers.get_result_recognition(Text.CLOCK_SETTINGS_TEXT, counter)
     helpers.get_result_recognition(Text.CONNECTION_SETTINGS_BUTTON_TEXT, counter)
     helpers.get_result_recognition(Text.PHONE_BUTTON_TEXT, counter)
@@ -117,8 +112,8 @@ def settings_page(counter, driver_sync4):
     helpers.get_result_recognition(Icons.GENERAL_SETTINGS_BUTTON, counter)
 
     # setting audio page
-    driver_sync4.settings_page.open_setting_audio_page()
-    helpers.get_result_recognition(Text.SOUND_SETTINGS_BUTTON_AND_TITLE_TEXT, counter)
+    driver_sync4.settings_page.open_sound_settings_page()
+    helpers.get_result_recognition(Text.SOUND_SETTINGS_BUTTON_TEXT, counter)
     helpers.get_result_recognition(Text.TONE_SETTINGS_TEXT, counter)
     helpers.get_result_recognition(Text.SOUND_SETTINGS_BALANCE_FADE_TEXT, counter)
     helpers.get_result_recognition(Text.SOUND_SETTINGS_SPEED_COMPENSATED_TEXT, counter)
@@ -185,7 +180,7 @@ def settings_page(counter, driver_sync4):
 
     # settings general
     driver_sync4.settings_page.open_general_settings()
-    helpers.get_result_recognition(Text.TEMPERATURE_UNITS_TEXT, counter)
+    helpers.get_result_recognition(Text.GENERAL_SETTINGS_TEMPERATURE_UNITS_TEXT, counter)
     helpers.get_result_recognition(Text.TEMPERATURE_FAHRENHEIT_TEXT, counter)
     helpers.get_result_recognition(Text.LANGUAGE_TEXT, counter)
     driver_sync4.settings_page.tap_on_back_button()

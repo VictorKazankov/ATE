@@ -9,7 +9,9 @@ from vhat_client import LookupError
 class HomePage:
 
     def open_home_page(self):
-        if tap_if_visible(Icons.HOME_PAGE_ICON):
+        if self.home_page_is_active():
+            logging.info('Home page is already open')
+        elif tap_if_visible(Icons.HOME_PAGE_ICON):
             return
         elif tap_if_visible(Icons.BACK_BUTTON):
             self.open_home_page()

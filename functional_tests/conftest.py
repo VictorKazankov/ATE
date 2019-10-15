@@ -32,11 +32,9 @@ def driver_sync3(app_connector):
 @pytest.fixture(scope='module')
 def driver_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
-    if not api.phone_page.phone_page_is_active():
-        api.phone_page.open_phone_page()
+    api.phone_page.open_phone_page()
     yield api
-    if not api.phone_page.phone_page_is_active():
-        api.phone_page.open_phone_page()
+    api.phone_page.open_phone_page()
 
 
 @pytest.fixture(autouse=True)

@@ -13,9 +13,7 @@ PERCENT = 98
 
 @allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
 @pytest.mark.image_recognition
-def test_recognition_add_phone_settings_button(driver_sync4):
-    if not driver_sync4.settings_page.settings_page_is_active():
-        driver_sync4.settings_page.open_settings_page()
+def test_recognition_add_phone_settings_button(settings_sync4):
     counter = {'success': 0, 'fail': 0}
     counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.ADD_PHONE_SETTINGS_BUTTON, counter)
     check_recognition(counter)
@@ -25,9 +23,7 @@ def test_recognition_add_phone_settings_button(driver_sync4):
 
 @allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
 @pytest.mark.image_recognition
-def test_recognition_phone_button_panel(driver_sync4):
-    if not driver_sync4.settings_page.settings_page_is_active():
-        driver_sync4.settings_page.open_settings_page()
+def test_recognition_phone_button_panel(settings_sync4):
     counter = {'success': 0, 'fail': 0}
     counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.PHONE_PAGE_PANEL_BUTTON, counter)
     check_recognition(counter)
@@ -37,12 +33,9 @@ def test_recognition_phone_button_panel(driver_sync4):
 
 @allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
 @pytest.mark.image_recognition
-def test_recognition_12_hour_mode_button(driver_sync4):
-    if not driver_sync4.settings_page.settings_page_is_active():
-        driver_sync4.settings_page.open_settings_page()
-    driver_sync4.settings_page.open_setting_clock_page()
-    if not driver_sync4.settings_clock_page.clock_12h_button_is_active():
-        driver_sync4.settings_clock_page.tap_on_24h_button()
+def test_recognition_12_hour_mode_button(clock_settings_sync4):
+    if not clock_settings_sync4.clock_12h_button_is_active():
+        clock_settings_sync4.tap_on_24h_button()
     counter = {'success': 0, 'fail': 0}
     counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.MODE_BUTTON_INACTIVITY, counter)
     check_recognition(counter)
@@ -52,13 +45,9 @@ def test_recognition_12_hour_mode_button(driver_sync4):
 
 @allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
 @pytest.mark.image_recognition
-def test_recognition_24_hour_mode_button(driver_sync4):
-    driver_sync4.phone_page.open_phone_page()
-    if not driver_sync4.settings_page.settings_page_is_active():
-        driver_sync4.settings_page.open_settings_page()
-    driver_sync4.settings_page.open_setting_clock_page()
-    if not driver_sync4.settings_clock_page.clock_24h_button_is_active():
-        driver_sync4.settings_clock_page.tap_on_12h_button()
+def test_recognition_24_hour_mode_button(clock_settings_sync4):
+    if not clock_settings_sync4.clock_24h_button_is_active():
+        clock_settings_sync4.tap_on_12h_button()
     counter = {'success': 0, 'fail': 0}
     counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.MODE_BUTTON_ACTIVITY, counter)
     check_recognition(counter)
@@ -68,13 +57,9 @@ def test_recognition_24_hour_mode_button(driver_sync4):
 
 @allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
 @pytest.mark.image_recognition
-def test_recognition_pm_button_clock(driver_sync4):
-    driver_sync4.phone_page.open_phone_page()
-    if not driver_sync4.settings_page.settings_page_is_active():
-        driver_sync4.settings_page.open_settings_page()
-    driver_sync4.settings_page.open_setting_clock_page()
-    if not driver_sync4.settings_clock_page.clock_12h_button_is_active():
-        driver_sync4.settings_clock_page.tap_on_24h_button()
+def test_recognition_pm_button_clock(clock_settings_sync4):
+    if not clock_settings_sync4.clock_12h_button_is_active():
+        clock_settings_sync4.tap_on_24h_button()
     counter = {'success': 0, 'fail': 0}
     counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.PM_BUTTON_ACTIVE, counter)
     check_recognition(counter)
@@ -85,8 +70,7 @@ def test_recognition_pm_button_clock(driver_sync4):
 @allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
 @pytest.mark.text_recognition
 def test_recognition_text_on_button_in_phone_page(driver_sync4):
-    if not driver_sync4.phone_page.phone_page_is_active():
-        driver_sync4.phone_page.open_phone_page()
+    driver_sync4.phone_page.open_phone_page()
     counter = {'success': 0, 'fail': 0}
     counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Text.ADD_PHONE_TEXT, counter)
     check_recognition(counter)

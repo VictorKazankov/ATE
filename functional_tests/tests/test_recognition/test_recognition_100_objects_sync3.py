@@ -1,7 +1,6 @@
 import logging
 
 import allure
-import pytest
 from functional_tests.tests import helpers
 from functional_tests.utils.sync3.constants import TASK_LINK, Icons, Text
 
@@ -9,10 +8,8 @@ PERCENT = 98
 
 
 @allure.testcase(TASK_LINK.format("VHAT-284"), "VHAT-284")
-@pytest.mark.text_recognition
 def test_recognition_100_different_objects_1_time(driver_sync3):
-    if not driver_sync3.home_page.home_page_is_active():
-        driver_sync3.home_page.open_home_page()
+    driver_sync3.home_page.open_home_page()
     counter = {'success': 0, 'fail': 0}
 
     home_page(counter)
