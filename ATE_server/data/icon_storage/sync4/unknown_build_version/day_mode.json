@@ -1,194 +1,472 @@
 [
-  {
-    "name": "add_phone_settings",
-    "extension": "png"
-  },
-  {
-    "name": "air_condition_inside",
-    "extension": "png"
-  },
-  {
-    "name": "am_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "apps_button",
-    "extension": "png"
-  },
-  {
-    "name": "arrow_right",
-    "extension": "png"
-  },
-  {
-    "name": "assist911",
-    "extension": "png"
-  },
-  {
-    "name": "back_button",
-    "extension": "png"
-  },
-  {
-    "name": "bluetooth",
-    "extension": "png"
-  },
-  {
-    "name": "clock_settings",
-    "extension": "png"
-  },
-  {
-    "name": "delete",
-    "extension": "png"
-  },
-  {
-    "name": "down_airflow",
-    "extension": "png"
-  },
-  {
-    "name": "down_arrow_blue",
-    "extension": "png"
-  },
-  {
-    "name": "down_arrow",
-    "extension": "png"
-  },
-  {
-    "name": "down_arrow_thin",
-    "extension": ""
-  },
-  {
-    "name": "up_arrow",
-    "extension": "png"
-  },
-  {
-    "name": "up_arrow_red",
-    "extension": "png"
-  },
-  {
-    "name": "general_settings",
-    "extension": "png"
-  },
-  {
-    "name": "glass_heating",
-    "extension": "png"
-  },
-  {
-    "name": "glass_heating_back",
-    "extension": "png"
-  },
-  {
-    "name": "info",
-    "extension": "png"
-  },
-  {
-    "name": "left_arrow",
-    "extension": "png"
-  },
-  {
-    "name": "max_a_c_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "max_glass_heating_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "menu_button",
-    "extension": "png"
-  },
-  {
-    "name": "mobile_apps_settings",
-    "extension": "png"
-  },
-  {
-    "name": "mode_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "mode_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "pm_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "phone_button",
-    "extension": "png"
-  },
-  {
-    "name": "radio_am",
-    "extension": "png"
-  },
-  {
-    "name": "radio_fm",
-    "extension": "png"
-  },
-  {
-    "name": "radio_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "radio_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "radio_settings",
-    "extension": "png"
-  },
-  {
-    "name": "right_arrow",
-    "extension": "png"
-  },
-  {
-    "name": "slider",
-    "extension": "png"
-  },
-  {
-    "name": "sound_settings",
-    "extension": "png"
-  },
-  {
-    "name": "switch_on_off",
-    "extension": "png"
-  },
-  {
-    "name": "up_airflow",
-    "extension": "png"
-  },
-  {
-    "name": "wifi",
-    "extension": "png"
-  },
-  {
-    "name": "up_arrow_thin",
-    "extension": "png"
-  },
-  {
-    "name": "apps_button_panel_active",
-    "extension": "png"
-  },
-  {
-    "name": "favorites_button_panel",
-    "extension": "png"
-  },
-  {
-    "name": "features_button_panel",
-    "extension": "png"
-  },
-  {
-    "name": "phone_button_panel",
-    "extension": "png"
-  },
-  {
-    "name": "settings_button_panel",
-    "extension": "png"
-  },
-  {
-    "name": "enter",
-    "extension": "png"
-  },
-  {
-    "name": "apps_button_panel_inactive",
-    "extension": "png"
-  }
+   {
+      "extension" : "png",
+      "name" : "add_phone_settings"
+   },
+   {
+      "extension" : "png",
+      "name" : "air_condition_inside"
+   },
+   {
+      "extension" : "png",
+      "name" : "am_button_inactive"
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "arrow_right"
+   },
+   {
+      "extension" : "png",
+      "name" : "assist911"
+   },
+   {
+      "extension" : "png",
+      "name" : "back_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "bluetooth"
+   },
+   {
+      "extension" : "png",
+      "name" : "clock_settings"
+   },
+   {
+      "extension" : "png",
+      "name" : "delete"
+   },
+   {
+      "extension" : "png",
+      "name" : "down_airflow"
+   },
+   {
+      "extension" : "png",
+      "name" : "down_arrow_blue"
+   },
+   {
+      "extension" : "png",
+      "name" : "down_arrow"
+   },
+   {
+      "extension" : "",
+      "name" : "down_arrow_thin"
+   },
+   {
+      "extension" : "png",
+      "name" : "up_arrow"
+   },
+   {
+      "extension" : "png",
+      "name" : "up_arrow_red"
+   },
+   {
+      "extension" : "png",
+      "name" : "general_settings"
+   },
+   {
+      "extension" : "png",
+      "name" : "glass_heating"
+   },
+   {
+      "extension" : "png",
+      "name" : "glass_heating_back"
+   },
+   {
+      "extension" : "png",
+      "name" : "info"
+   },
+   {
+      "extension" : "png",
+      "name" : "left_arrow"
+   },
+   {
+      "extension" : "png",
+      "name" : "max_a_c_inactive"
+   },
+   {
+      "extension" : "png",
+      "name" : "max_glass_heating_inactive"
+   },
+   {
+      "extension" : "png",
+      "name" : "menu_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "mobile_apps_settings"
+   },
+   {
+      "extension" : "png",
+      "name" : "mode_button_inactive"
+   },
+   {
+      "extension" : "png",
+      "name" : "mode_button_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "pm_button_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_am"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_fm"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_button_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_button_inactive"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_settings"
+   },
+   {
+      "extension" : "png",
+      "name" : "right_arrow"
+   },
+   {
+      "extension" : "png",
+      "name" : "slider"
+   },
+   {
+      "extension" : "png",
+      "name" : "sound_settings"
+   },
+   {
+      "extension" : "png",
+      "name" : "switch_on_off"
+   },
+   {
+      "extension" : "png",
+      "name" : "up_airflow"
+   },
+   {
+      "extension" : "png",
+      "name" : "wifi"
+   },
+   {
+      "extension" : "png",
+      "name" : "up_arrow_thin"
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_button_panel_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "favorites_button_panel"
+   },
+   {
+      "extension" : "png",
+      "name" : "features_button_panel"
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_button_panel"
+   },
+   {
+      "extension" : "png",
+      "name" : "enter"
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_button_panel_inactive"
+   },
+   {
+      "extension" : "png",
+      "name" : "settings_button_panel",
+      "parent_screen" : "home",
+      "x" : 1080,
+      "y" : 1154
+   },
+   {
+      "extension" : "png",
+      "name" : "climate_close_button",
+      "parent_screen" : "home",
+      "x" : 960,
+      "y" : 776
+   },
+   {
+      "extension" : "png",
+      "name" : "main_settings_button_active",
+      "parent_screen" : "home",
+      "x" : 1076,
+      "y" : 1130
+   },
+   {
+      "extension" : "png",
+      "name" : "settings_general_button",
+      "parent_screen" : "home",
+      "x" : 524,
+      "y" : 763
+   },
+   {
+      "extension" : "png",
+      "name" : "settings_connection_settings_button",
+      "parent_screen" : "home",
+      "x" : 848,
+      "y" : 459
+   },
+   {
+      "extension" : "png",
+      "name" : "settings_software_updates_button",
+      "parent_screen" : "home",
+      "x" : 1182,
+      "y" : 775
+   },
+   {
+      "extension" : "png",
+      "name" : "am_radio_title",
+      "parent_screen" : "home",
+      "x" : 686,
+      "y" : 168
+   },
+   {
+      "extension" : "png",
+      "name" : "audio_sources_with_am_button",
+      "parent_screen" : "home",
+      "x" : 195,
+      "y" : 292
+   },
+   {
+      "extension" : "png",
+      "name" : "audio_direct_tune_button",
+      "parent_screen" : "home",
+      "x" : 1195,
+      "y" : 294
+   },
+   {
+      "extension" : "png",
+      "name" : "additional_climate_controls_title",
+      "parent_screen" : "home",
+      "x" : 965,
+      "y" : 398
+   },
+   {
+      "extension" : "png",
+      "name" : "audio_fm_hd_title",
+      "parent_screen" : "home",
+      "x" : 689,
+      "y" : 167
+   },
+   {
+      "extension" : "png",
+      "name" : "audio_sources_button_with_fm",
+      "parent_screen" : "home",
+      "x" : 200,
+      "y" : 296
+   },
+   {
+      "extension" : "png",
+      "name" : "audio_direct_tune_button_with_fm",
+      "parent_screen" : "home",
+      "x" : 208,
+      "y" : 404
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_connect_phone_title",
+      "parent_screen" : "home",
+      "x" : 692,
+      "y" : 166
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_add_phone_button",
+      "parent_screen" : "home",
+      "x" : 179,
+      "y" : 455
+   },
+   {
+      "extension" : "png",
+      "name" : "pair_bluetooth_device_title",
+      "parent_screen" : "home",
+      "x" : 688,
+      "y" : 170
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_title",
+      "parent_screen" : "home",
+      "x" : 693,
+      "y" : 173
+   },
+
+   {
+      "extension" : "png",
+      "name" : "connection_settings_system_wifi_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "sound_settings_occupancy_mode_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "bluetooth_settings_bluetooth_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "occupancy_mode_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "connection_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "speed_compensated_volume_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "connection_settings_bluetooth_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "tone_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "on_off_button_inactive",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "settings_vehicle_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "on_off_button_active",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "general_settings_language_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "clock_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "bluetooth_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "bluetooth_settings_change_vehicle_name_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "general_settings_temperature_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "temperature_units_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "general_settings_distance_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "bluetooth_settings_add_device_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "sound_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "line",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "general_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "mobile_apps_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "language_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "distance_settings_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "sound_settings_balance_fade_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "sound_settings_speed_compensated_volume_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "balance_fade_title",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "sound_settings_tone_settings_button",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "down_arrow2",
+      "parent_screen" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "settings_title",
+      "parent_screen" : "home"
+   }
+
 ]
+
