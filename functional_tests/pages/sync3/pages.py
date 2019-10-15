@@ -117,6 +117,15 @@ class MobileApppsPage:
         tap(Icons.INACTIVE_MOBILE_APPS_PAGE_BUTTON)
 
 
+class NavigationPage:
+
+    def open_navigation_page(self):
+        tap(Icons.INACTIVE_NAVIGATION_PAGE_BUTTON)
+
+    def close_information_dialog(self):
+        tap(Icons.CLOSE_BUTTON)
+
+
 class SettingsPage:
 
     def open_settings_page(self):

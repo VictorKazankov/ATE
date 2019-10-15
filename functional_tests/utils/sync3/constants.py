@@ -148,6 +148,7 @@ class Text:
     MAP_PREFERENCES_TEXT = 'Map preferences'
     MOBILE_APPS_BUTTON_PANEL_TEXT = 'Mobile apps'
     NAVIGATION_BUTTON_PANEL_TEXT = 'Navigation'
+    NAVIGATION_FAULT_DESCRIPTION_TEXT = 'Navigation is not functioning properly.'
     NAVIGATION_FAULT_TEXT = 'Navigation fault'
     NAVIGATION_PREFERENCES_TEXT = 'Navigation preferences'
     NAVIGATION_SETTINGS_TEXT = 'Navigation settings'
