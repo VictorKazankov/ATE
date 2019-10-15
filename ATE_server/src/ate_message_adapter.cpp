@@ -21,6 +21,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
+  std::lock_guard<std::mutex> lock(on_message_guard_);
+
   std::uint64_t id = 0;
   std::string method;
   Json::Value params;

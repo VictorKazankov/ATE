@@ -2,6 +2,7 @@
 #define ATE_SERVER_ATE_MESSAGE_ADAPTER_H_
 
 #include <cstdint>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 
@@ -71,6 +72,8 @@ class AteMessageAdapter {
    */
   std::pair<Json::Value, bool> HandleUnknownMethod(const Json::Value& params);
 
+ private:
+  std::mutex on_message_guard_;
   ATE& ate_;
   const std::unordered_map<std::string, MessageHandlerFunction> handler_map_;
 };
