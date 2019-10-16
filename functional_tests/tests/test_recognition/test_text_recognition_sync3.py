@@ -10,7 +10,10 @@ from functional_tests.utils.sync3.constants import (TASK_LINK, Text,
                                                     climate_page_text,
                                                     defrost_controls_page_text,
                                                     home_page_text,
-                                                    pair_bluetooth_device_page)
+                                                    mobile_apps_page_texts,
+                                                    pair_bluetooth_device_page,
+                                                    siriusxm_travel_link_texts,
+                                                    subscription_info_texts)
 
 
 # Home page
@@ -94,4 +97,26 @@ def test_phone_page_text(phone_sync3):
 @pytest.mark.parametrize('testdata', pair_bluetooth_device_page)
 @pytest.mark.smoke_text_recognition
 def test_phone_pair_page_text(phone_pair_sync3, testdata):
+    assert helpers.get_exist_result(testdata)
+
+
+# Mobile Apps
+@allure.testcase(TASK_LINK.format("VHAT-588"), "VHAT-588")
+@pytest.mark.parametrize('testdata', mobile_apps_page_texts)
+@pytest.mark.smoke_text_recognition
+def test_text_on_mobile_apps_page(mobile_apps_sync3, testdata):
+    assert helpers.get_exist_result(testdata)
+
+
+@allure.testcase(TASK_LINK.format("VHAT-588"), "VHAT-588")
+@pytest.mark.parametrize('testdata', siriusxm_travel_link_texts)
+@pytest.mark.smoke_text_recognition
+def test_text_siriusxm_travel_link_page(mobile_apps_siriusxm_travel_link_sync3, testdata):
+    assert helpers.get_exist_result(testdata)
+
+
+@allure.testcase(TASK_LINK.format("VHAT-588"), "VHAT-588")
+@pytest.mark.parametrize('testdata', subscription_info_texts)
+@pytest.mark.smoke_text_recognition
+def test_text_subscription_info_page(mobile_apps_subscription_info_sync3, testdata):
     assert helpers.get_exist_result(testdata)

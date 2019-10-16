@@ -124,6 +124,12 @@ class MobileApppsPage:
     def open_mobile_apps_page(self):
         tap(Icons.INACTIVE_MOBILE_APPS_PAGE_BUTTON)
 
+    def open_siriusxm_travel_link(self):
+        tap(Icons.SIRIUSXM_BUTTON)
+
+    def open_subscription_info(self):
+        tap(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TEXT)
+
 
 class NavigationPage:
 

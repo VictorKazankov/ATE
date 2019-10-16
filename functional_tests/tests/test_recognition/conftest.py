@@ -140,3 +140,24 @@ def phone_pair_sync3(phone_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.phone_page.tap_pair_phone_button()
     return api.phone_page
+
+
+@pytest.fixture(scope='module')
+def mobile_apps_sync3(driver_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.mobile_apps_page.open_mobile_apps_page()
+    return api.mobile_apps_page
+
+
+@pytest.fixture(scope='module')
+def mobile_apps_siriusxm_travel_link_sync3(mobile_apps_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.mobile_apps_page.open_siriusxm_travel_link()
+    return api.mobile_apps_page
+
+
+@pytest.fixture(scope='module')
+def mobile_apps_subscription_info_sync3(mobile_apps_siriusxm_travel_link_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.mobile_apps_page.open_subscription_info()
+    return api.mobile_apps_page
