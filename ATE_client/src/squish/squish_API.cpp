@@ -25,6 +25,11 @@ uint64_t kCorrelationId = 1;
 ApplicationContext applicationContext;
 
 static uint64_t GetCorrelationId() { return kCorrelationId++; }
+
+auto& GetMainIoContext() {
+  static boost::asio::io_context io_context;
+  return io_context;
+}
 }  // namespace
 
 ApplicationContext API::AttachToApplication(const std::string&) {
@@ -33,8 +38,6 @@ ApplicationContext API::AttachToApplication(const std::string&) {
     logger::warn("ate_interaction already exist");
     return applicationContext;
   }
-
-  boost::asio::io_context io_context;
 
   const char* const config_from_env = std::getenv(kConfigEnvVar);
   const std::string config_file = config_from_env ? config_from_env : VHAT_CLIENT_CONFIG_DIR "/vhat_client.ini";
@@ -45,7 +48,7 @@ ApplicationContext API::AttachToApplication(const std::string&) {
   applicationContext.host = common::Config().GetString(kBoardSection, kAddressOption, "");
   applicationContext.port = common::Config().GetString(kBoardSection, kPortOption, "");
 
-  applicationContext.Attach(io_context);
+  applicationContext.Attach(GetMainIoContext());
 
   return applicationContext;
 }
