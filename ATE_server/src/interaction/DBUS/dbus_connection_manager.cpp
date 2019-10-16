@@ -68,13 +68,26 @@ DBusConnectionManager::DBusConnectionManager(const std::string& interface, AteMe
   dbus_connection_add_filter(connection_, callback_method, nullptr, nullptr);
 }
 
-void DBusConnectionManager::Start() { dbus_thread_ = std::thread(g_main_loop_run, loop_.get()); }
+DBusConnectionManager::~DBusConnectionManager() { Stop(); }
+
+void DBusConnectionManager::Start() {
+  if (!dbus_loop_is_running_) {
+    dbus_thread_ = std::thread(g_main_loop_run, loop_.get());
+    dbus_loop_is_running_ = true;
+    logger::info("[dbus connection manager] Start DBus loop");
+  }
+}
 
 void DBusConnectionManager::Stop() {
-  loop_.reset();
+  if (dbus_loop_is_running_) {
+    loop_.reset();
 
-  if (dbus_thread_.joinable()) {
-    dbus_thread_.join();
+    if (dbus_thread_.joinable()) {
+      dbus_thread_.join();
+    }
+
+    dbus_loop_is_running_ = false;
+    logger::info("[dbus connection manager] Stop DBus loop");
   }
 }
 

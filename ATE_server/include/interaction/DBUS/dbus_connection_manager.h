@@ -23,6 +23,7 @@ namespace interaction {
 class DBusConnectionManager : public ConnectionManager {
  public:
   DBusConnectionManager(const std::string& interface, AteMessageAdapter& ate_message_adapter);
+  ~DBusConnectionManager() override;
 
   /**
    * @brief Start running of the DBus connection manager
@@ -62,7 +63,7 @@ class DBusConnectionManager : public ConnectionManager {
  private:
   std::string interface_;
   std::string request_;
-
+  bool dbus_loop_is_running_{false};
   AteMessageAdapter& ate_message_adapter_;
   std::thread dbus_thread_;
   std::unique_ptr<GMainLoop, void (*)(GMainLoop*)> loop_;
