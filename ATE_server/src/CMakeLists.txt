@@ -34,12 +34,44 @@ find_package(DBManager 1.0 REQUIRED)
 # https://www.freedesktop.org/wiki/Software/pkg-config
 find_package(PkgConfig REQUIRED)
 
-# GStreamer
-# https://gstreamer.freedesktop.org
-pkg_check_modules(GStreamer REQUIRED
-  gstreamer-1.0
-  gstreamer-app-1.0
-)
+# TODO: use pkg-config on LVDS board as well as soon as it will be fixed in vdp-gstreamer package
+if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL aarch64)
+  # GStreamer custom build for VDP
+  # It comes preinstalled on LVDS board
+  # https://github.ford.com/LVDS2Eth/Jetson_Gstreamer14
+
+  if (EXISTS "/usr/lib/aarch64-linux-gnu/vdp-gstreamer")
+    # Paths installed by vdp-gstreamer package
+    set(GStreamer_INCLUDE_DIRS "/usr/include/aarch64-linux-gnu/vdp-gstreamer/gstreamer-1.0")
+    set(GStreamer_LIBRARY_DIRS "/usr/lib/aarch64-linux-gnu/vdp-gstreamer")
+  elseif(EXISTS "/home/nvidia/gstreamer114_build")
+    # gstreamer 1.14 pacakge sewed into Jetson Update package in earlier VDP releases
+    set(GStreamer_INCLUDE_DIRS "/home/nvidia/gstreamer114_build/include/gstreamer-1.0")
+    set(GStreamer_LIBRARY_DIRS "/home/nvidia/gstreamer114_build/lib")
+  else()
+    message(FATAL_ERROR "GStreamer is expected to be installed into predefined location on LVDS board")
+  endif()
+
+  find_library(gstapp NAMES gstapp-1.0 PATHS ${GStreamer_LIBRARY_DIRS} NO_DEFAULT_PATH)
+  find_library(gstbase NAMES gstbase-1.0 PATHS ${GStreamer_LIBRARY_DIRS} NO_DEFAULT_PATH)
+  find_library(gstreamer NAMES gstreamer-1.0 PATHS ${GStreamer_LIBRARY_DIRS} NO_DEFAULT_PATH)
+
+  if(gstapp AND gstbase AND gstreamer)
+    set(GStreamer_LIBRARIES ${gstapp} ${gstbase} ${gstreamer})
+    set(GStreamer_FOUND 1)
+  endif()
+else()
+  # GStreamer
+  # https://gstreamer.freedesktop.org
+  pkg_check_modules(GStreamer REQUIRED
+    gstreamer-1.0
+    gstreamer-app-1.0
+  )
+endif()
+
+message(STATUS "Will look for GStreamer headers in: " "${GStreamer_INCLUDE_DIRS}")
+message(STATUS "Will look for GStreamer libraries in: " "${GStreamer_LIBRARY_DIRS}")
+message(STATUS "Will link to GStreamer libs: " "${GStreamer_LIBRARIES}")
 
 pkg_check_modules(DBus REQUIRED
   dbus-glib-1
