@@ -1,6 +1,7 @@
 from functional_tests.pages.sync3.pages import (AudioPage, ClimatePage,
                                                 HomePage, MobileApppsPage,
-                                                PhonePage, SettingsAudioPage,
+                                                NavigationPage, PhonePage,
+                                                SettingsAudioPage,
                                                 SettingsBluetoothPage,
                                                 SettingsClockPage,
                                                 SettingsNavigationPage,
@@ -14,6 +15,7 @@ class PageSupervisor:
         self.climate_page = ClimatePage()
         self.audio_page = AudioPage()
         self.phone_page = PhonePage()
+        self.navigation_page = NavigationPage()
         self.mobile_apps_page = MobileApppsPage()
         self.settings_page = SettingsPage()
         self.settings_clock_page = SettingsClockPage()
