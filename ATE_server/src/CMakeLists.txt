@@ -48,6 +48,9 @@ if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL aarch64)
     # gstreamer 1.14 pacakge sewed into Jetson Update package in earlier VDP releases
     set(GStreamer_INCLUDE_DIRS "/home/nvidia/gstreamer114_build/include/gstreamer-1.0")
     set(GStreamer_LIBRARY_DIRS "/home/nvidia/gstreamer114_build/lib")
+
+    # kludge to install legacy systemd file
+    set(USE_LEGACY_SYSTEMD_FILE TRUE)
   else()
     message(FATAL_ERROR "GStreamer is expected to be installed into predefined location on LVDS board")
   endif()
@@ -161,7 +164,11 @@ if(VHAT_INSTALL_ICON_STORAGE)
 endif(VHAT_INSTALL_ICON_STORAGE)
 
 if(VHAT_INSTALL_SERVER_SERVICE)
-  configure_file("../service/vhat_server.service.in" "../service/vhat_server.service")
+  if(USE_LEGACY_SYSTEMD_FILE)
+    configure_file("../service/vhat_server.service.legacy.in" "../service/vhat_server.service")
+  else()
+    configure_file("../service/vhat_server.service.in" "../service/vhat_server.service")
+  endif()
 
   install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/../service/vhat_server.service"
