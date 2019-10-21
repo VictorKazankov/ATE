@@ -3,7 +3,7 @@
 #include "interaction/ATE/tcp_connection_manager.h"
 #include "interaction/DBUS/dbus_connection_manager.h"
 
-TransportAdaptersCollection::TransportAdaptersCollection(AteMessageAdapter& ate_message_adapter)
+TransportAdaptersCollection::TransportAdaptersCollection(IMessageAdapter& ate_message_adapter)
     : ate_message_adapter_(ate_message_adapter) {}
 
 TransportAdaptersCollection::~TransportAdaptersCollection() { Stop(); }

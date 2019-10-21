@@ -30,10 +30,9 @@ std::function<Ret(Params...)> Callback<Ret(Params...)>::callback_method;
 
 /*---------------DBus callback function---------------*/
 
-DBusConnectionManager::DBusConnectionManager(const std::string& interface, AteMessageAdapter& ate_message_adapter)
-    : interface_(interface),
-      ate_message_adapter_(ate_message_adapter),
-      loop_(g_main_loop_new(nullptr, FALSE), g_main_loop_quit) {
+DBusConnectionManager::DBusConnectionManager(const std::string& interface, IMessageAdapter& ate_message_adapter)
+    : ate_message_adapter_(ate_message_adapter), loop_(g_main_loop_new(nullptr, FALSE), g_main_loop_quit) {
+  interface_ = interface;
   DBusError error;
   dbus_error_init(&error);
 

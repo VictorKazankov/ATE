@@ -18,7 +18,7 @@ namespace interaction {
  */
 class TcpTransportAdapter : public TransportAdapter {
  public:
-  TcpTransportAdapter(AteMessageAdapter& ate_adapter);
+  explicit TcpTransportAdapter(IMessageAdapter& ate_adapter);
   ~TcpTransportAdapter() override = default;
 
   /**
@@ -35,7 +35,7 @@ class TcpTransportAdapter : public TransportAdapter {
   void OnMessage(std::shared_ptr<Connection> session, const std::string& message) override;
 
  private:
-  AteMessageAdapter& ate_message_adapter_;
+  IMessageAdapter& ate_message_adapter_;
 };
 
 }  // namespace interaction

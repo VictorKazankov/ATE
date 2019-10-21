@@ -16,7 +16,7 @@
  **/
 class TransportAdaptersCollection {
  public:
-  TransportAdaptersCollection(AteMessageAdapter& ate_message_adapter);
+  explicit TransportAdaptersCollection(IMessageAdapter& ate_message_adapter);
   ~TransportAdaptersCollection();
 
   TransportAdaptersCollection(const TransportAdaptersCollection&) = delete;
@@ -47,7 +47,7 @@ class TransportAdaptersCollection {
   void InitDbusConnectionManager(const std::string& interface);
 
  private:
-  AteMessageAdapter& ate_message_adapter_;
+  IMessageAdapter& ate_message_adapter_;
 
   std::vector<std::shared_ptr<interaction::ConnectionManager>> connection_managers_;
 };

@@ -15,11 +15,20 @@ class Value;
 }  // namespace Json
 
 /**
+ * @brief Interface for message adapter
+ */
+class IMessageAdapter {
+ public:
+  virtual std::string OnMessage(const std::string& message) = 0;
+  virtual ~IMessageAdapter() = default;
+};
+
+/**
  * @class AteMessageAdapter
  * @brief Deserialize of messages with json rpc 2.0 representation and calls handler methods of ATE accordance with
  *  method type
  **/
-class AteMessageAdapter {
+class AteMessageAdapter : public IMessageAdapter {
  public:
   /**
    * @brief Default constructor
@@ -33,7 +42,7 @@ class AteMessageAdapter {
    * @param message string request with json rpc 2.0 representation
    * @return response accordance with handler in json rpc 2.0
    */
-  std::string OnMessage(const std::string& message);
+  std::string OnMessage(const std::string& message) override;
 
  private:
   typedef std::pair<Json::Value, bool> (AteMessageAdapter::*MessageHandlerFunction)(const Json::Value& params);

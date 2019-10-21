@@ -6,7 +6,8 @@
 
 namespace interaction {
 
-TcpConnectionManager::TcpConnectionManager(boost::asio::io_context& context, uint16_t port, AteMessageAdapter& ate_message_adapter)
+TcpConnectionManager::TcpConnectionManager(boost::asio::io_context& context, uint16_t port,
+                                           IMessageAdapter& ate_message_adapter)
     : context_(context),
       acceptor_(context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
       transport_adapter_(std::make_shared<TcpTransportAdapter>(ate_message_adapter)) {
@@ -18,7 +19,7 @@ TcpConnectionManager::TcpConnectionManager(boost::asio::io_context& context, uin
 }
 
 std::shared_ptr<TcpConnectionManager> TcpConnectionManager::Create(boost::asio::io_context& service, uint16_t port,
-                                             AteMessageAdapter& ate_message_adapter) {
+                                                                   IMessageAdapter& ate_message_adapter) {
   return std::shared_ptr<TcpConnectionManager>{new TcpConnectionManager{service, port, ate_message_adapter}};
 }
 
@@ -53,7 +54,8 @@ void TcpConnectionManager::Accept() {
   acceptor_.async_accept(connection->Socket(), std::move(handler));
 }
 
-void TcpConnectionManager::OnAccept(const TcpConnection::TcpConnectionPtr& connection, const boost::system::error_code& error) {
+void TcpConnectionManager::OnAccept(const TcpConnection::TcpConnectionPtr& connection,
+                                    const boost::system::error_code& error) {
   if (error) {
     if (error != boost::system::errc::operation_canceled) {
       logger::error("[tcpconnectionmanager] Error on accepting connection: {}", error.message());

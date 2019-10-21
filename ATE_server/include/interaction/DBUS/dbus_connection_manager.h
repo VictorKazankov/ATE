@@ -22,7 +22,7 @@ namespace interaction {
  */
 class DBusConnectionManager : public ConnectionManager {
  public:
-  DBusConnectionManager(const std::string& interface, AteMessageAdapter& ate_message_adapter);
+  explicit DBusConnectionManager(const std::string& interface, IMessageAdapter& ate_message_adapter);
   ~DBusConnectionManager() override;
 
   /**
@@ -64,7 +64,7 @@ class DBusConnectionManager : public ConnectionManager {
   std::string interface_;
   std::string request_;
   bool dbus_loop_is_running_{false};
-  AteMessageAdapter& ate_message_adapter_;
+  IMessageAdapter& ate_message_adapter_;
   std::thread dbus_thread_;
   std::unique_ptr<GMainLoop, void (*)(GMainLoop*)> loop_;
 };

@@ -4,7 +4,7 @@
 
 namespace interaction {
 
-TcpTransportAdapter::TcpTransportAdapter(AteMessageAdapter& ate_adapter) : ate_message_adapter_(ate_adapter) {}
+TcpTransportAdapter::TcpTransportAdapter(IMessageAdapter& ate_adapter) : ate_message_adapter_(ate_adapter) {}
 
 void TcpTransportAdapter::OnOpen(std::shared_ptr<Connection> session) { session->Start(); }
 

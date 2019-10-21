@@ -30,7 +30,7 @@ class TcpConnectionManager : public std::enable_shared_from_this<TcpConnectionMa
    * @return pointer to created connection manager instance
    */
   static std::shared_ptr<TcpConnectionManager> Create(boost::asio::io_context& service, uint16_t port,
-                                                      AteMessageAdapter& ate_message_adapter);
+                                                      IMessageAdapter& ate_message_adapter);
 
   /**
    * @brief Start running of the TCP connection manager
@@ -50,7 +50,7 @@ class TcpConnectionManager : public std::enable_shared_from_this<TcpConnectionMa
    * @param port - value of tcp accepting port
    * @param ate_message_adapter - reference to AteMessageAdapter
    */
-  TcpConnectionManager(boost::asio::io_context& service, uint16_t port, AteMessageAdapter& ate_message_adapter);
+  TcpConnectionManager(boost::asio::io_context& service, uint16_t port, IMessageAdapter& ate_message_adapter);
 
   /**
    * @brief Accept new client connections
