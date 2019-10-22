@@ -388,6 +388,26 @@
     "extension": "png"
   },
   {
+    "name": "settings_automatic_updates_button",
+    "extension": "png"
+  },
+  {
+    "name": "settings_vehicle_button",
+    "extension": "png"
+  },
+  {
+    "name": "settings_display_button",
+    "extension": "png"
+  },
+  {
+    "name": "settings_voice_control_button",
+    "extension": "png"
+  },
+  {
+    "name": "settings_general_button",
+    "extension": "png"
+  },
+  {
     "name": "medium",
     "extension": "png"
   }
