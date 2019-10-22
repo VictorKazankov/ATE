@@ -1,6 +1,8 @@
 import pytest
 from functional_tests.pages.sync3 import page_supervisor_sync3
 from functional_tests.pages.sync4 import page_supervisor_sync4
+from functional_tests.tests import helpers
+from functional_tests.utils.sync3.constants import Icons
 
 
 @pytest.fixture(scope='module')
@@ -28,6 +30,37 @@ def clock_settings_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.settings_page.open_setting_clock_page()
     yield api.settings_clock_page
+
+
+@pytest.fixture(scope='module')
+def settings_first_screen_sync3(driver_sync3):
+    touch_drag_left = ['settings_page', 50, 200, 400, 0]
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_page()
+    if not helpers.get_exist_result(Icons.SETTINGS_SOUND_BUTTON):
+        helpers.touch_and_drag_page(*touch_drag_left)
+
+
+@pytest.fixture(scope='module')
+def settings_second_screen_sync3(driver_sync3):
+    touch_drag_right = ['settings_page', 400, 300, -300, 0]
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_page()
+    if not helpers.get_exist_result(Icons.SETTINGS_GENERAL_BUTTON):
+        helpers.touch_and_drag_page(*touch_drag_right)
+
+
+@pytest.fixture(scope='module')
+def settings_sound_sync3(settings_first_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_setting_audio_page()
+
+
+@pytest.fixture(scope='module')
+def settings_clock_sync3(settings_first_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_setting_clock_page()
+    return api.settings_clock_page
 
 
 @pytest.fixture(scope='module')
@@ -79,14 +112,12 @@ def apps_sync4(app_connector):
 def audio_sync3(driver_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.audio_page.open_audio_page()
-    return api.audio_page
 
 
 @pytest.fixture(scope='module')
 def audio_sources_sync3(audio_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.audio_page.open_audio_sources()
-    return api.audio_page
 
 
 @pytest.fixture(scope='module')
@@ -94,7 +125,6 @@ def audio_sirius_sync3(audio_sources_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.audio_page.tap_siriusxm_button()
     api.audio_page.tap_clsvinyl_direction()
-    return api.audio_page
 
 
 @pytest.fixture(scope='function')
@@ -109,7 +139,6 @@ def audio_direct_tune_sync3(audio_sync3):
 def climate_sync3(driver_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.climate_page.open_climate_page()
-    return api.climate_page
 
 
 @pytest.fixture(scope='function')
@@ -132,32 +161,99 @@ def climate_a_c_sync3(climate_sync3):
 def phone_sync3(driver_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.phone_page.open_phone_page()
-    return api.phone_page
 
 
 @pytest.fixture(scope='module')
 def phone_pair_sync3(phone_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.phone_page.tap_pair_phone_button()
-    return api.phone_page
 
 
 @pytest.fixture(scope='module')
 def mobile_apps_sync3(driver_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.mobile_apps_page.open_mobile_apps_page()
-    return api.mobile_apps_page
 
 
 @pytest.fixture(scope='module')
 def mobile_apps_siriusxm_travel_link_sync3(mobile_apps_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.mobile_apps_page.open_siriusxm_travel_link()
-    return api.mobile_apps_page
 
 
 @pytest.fixture(scope='module')
 def mobile_apps_subscription_info_sync3(mobile_apps_siriusxm_travel_link_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.mobile_apps_page.open_subscription_info()
-    return api.mobile_apps_page
+
+
+@pytest.fixture(scope='module')
+def settings_bluetooth_sync3(settings_first_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_bluetooth_page()
+
+
+@pytest.fixture(scope='module')
+def settings_radio_sync3(settings_first_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_radio_page()
+
+
+@pytest.fixture(scope='module')
+def settings_navigation_sync3(settings_first_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_setting_navigation_page()
+
+
+@pytest.fixture(scope='module')
+def settings_mobile_apps_sync3(settings_first_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_setting_mobile_apps_page()
+
+
+@pytest.fixture(scope='module')
+def settings_sync_connect_sync3(settings_first_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_setting_sync_connect_page()
+
+
+@pytest.fixture(scope='module')
+def settings_navigation_map_sync3(settings_navigation_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_navigation_page.open_map_preferences_page()
+
+
+@pytest.fixture(scope='module')
+def settings_navigation_route_sync3(settings_navigation_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_navigation_page.open_route_preferences_page()
+
+
+@pytest.fixture(scope='module')
+def settings_general_sync3(settings_second_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_general_page()
+
+
+@pytest.fixture(scope='module')
+def settings_automatic_updates_sync3(settings_second_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_automatic_updates_page()
+
+
+@pytest.fixture(scope='module')
+def settings_vehicle_sync3(settings_second_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_vehicle_page()
+
+
+@pytest.fixture(scope='module')
+def settings_display_sync3(settings_second_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_display_page()
+
+
+@pytest.fixture(scope='module')
+def settings_voice_control_sync3(settings_second_screen_sync3):
+    api = page_supervisor_sync3.PageSupervisor()
+    api.settings_page.open_settings_voice_control_page()

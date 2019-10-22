@@ -67,6 +67,10 @@ class Icons:
     SETTINGS_NAVIGATION_BUTTON = 'settings_navigation'
     SETTINGS_RADIO_BUTTON = 'radio'
     SETTINGS_SOUND_BUTTON = 'settings_sound'
+    SETTINGS_AUTOMATIC_UPDATES_BUTTON = 'settings_automatic_updates_button'
+    SETTINGS_VEHICLE_BUTTON = 'settings_vehicle_button'
+    SETTINGS_DISPLAY_BUTTON = 'settings_display_button'
+    SETTINGS_VOICE_CONTROL_BUTTON = 'settings_voice_control_button'
     SIRIUSXM_BUTTON = 'siriusxm'
     SLIDER = 'slider'
     SOUND_RESET_ALL_BUTTON = 'reset_all'
@@ -193,6 +197,71 @@ class Text:
     RADIO_TEXT = 'RadioText'
     ROUTE_PREFERENCES_TEXT = 'Route preferences'
     SETTINGS_BUTTON_PANEL_TEXT = 'Settings'
+    SETTINGS_BLUETOOTH_ADD_DEVICE_TEXT = 'Add a Bluetooth device'
+    SETTINGS_BLUETOOTH_VIEW_DEVICES = 'View devices'
+    SETTINGS_SOUND_TEXT = 'Sound'
+    SETTINGS_CLOCK_TEXT = 'Clock'
+    SETTINGS_CLOCK_AM_TEXT = 'AM'
+    SETTINGS_CLOCK_PM_TEXT = 'PM'
+    SETTINGS_CLOCK_FORMAT_TEXT = 'Clock format'
+    SETTINGS_CLOCK_12H_TEXT = '12h'
+    SETTINGS_CLOCK_24H_TEXT = '24h'
+    SETTINGS_CLOCK_AUTO_TIME_ZONE_TEXT = 'Auto time zone update'
+    SETTINGS_CLOCK_RESET_CLOCK_TEXT = 'Reset clock to GPS time'
+    SETTINGS_BLUETOOTH_TEXT = 'Bluetooth'
+    SETTINGS_PHONE_TEXT = 'Phone'
+    SETTINGS_RADIO_TEXT = 'Radio'
+    SETTINGS_NAVIGATION_TEXT = 'Navigation'
+    SETTINGS_NAVIGATION_POI_ICONS_TEXT = 'POI icons'
+    SETTINGS_NAVIGATION_INCEDENT_MAP_TEXT = 'Incident map icons'
+    SETTINGS_NAVIGATION_ROUTE_AVOID_TUNNELS_TEXT = 'Avoid tunnels'
+    SETTINGS_MOBILE_APPS_TEXT = 'Mobile apps'
+    SETTINGS_SYNC_CONNECT_TEXT = 'SYNC Connect'
+    SETTINGS_GENERAL_TEXT = 'General'
+    SETTINGS_SOUND_RESET_ALL_TEXT = 'Reset all'
+    SETTINGS_SOUND_MID_RANGE_TEXT = 'Mid-range'
+    SETTINGS_SOUND_BASS_TEXT = 'Bass'
+    SETTINGS_SOUND_BALANCE_FADE_TEXT = 'Balance/Fade'
+    SETTINGS_SOUND_ADAPTIVE_VOLUME_TEXT = 'Adaptive volume'
+    SETTINGS_MEDIUM_TEXT = 'Medium'
+    SETTINGS_AUTOMATIC_UPDATES_TEXT = 'Automatic updates'
+    SETTINGS_ANDROID_AUTO_PREFERENCES_TEXT = 'Android Auto'
+    SETTINGS_APPLE_CARPLAY_PREFERENCES_TEXT = 'Apple CarPlay'
+    SETTINGS_VEHICLE_TEXT = 'Vehicle'
+    SETTINGS_DISPLAY_TEXT = 'Display'
+    SETTINGS_VOICE_CONTROL_TEXT = 'Voice control'
+    SETTINGS_VALET_MODE_TEXT = 'Valet mode'
+    SETTINGS_GENERAL_SETTINGS_LABEL_TEXT = 'General settings'
+    SETTINGS_GENERAL_LANGUAGE_TEXT = 'Language'
+    SETTINGS_GENERAL_MEASURE_UNIT_TEXT = 'Measure unit'
+    SETTINGS_GENERAL_TEMPERATURE_UNIT_TEXT = 'Temperature unit'
+    SETTINGS_GENERAL_TOUCHSCREEN_BEEP_TEXT = 'Touchscreen beep'
+    SETTINGS_GENERAL_ABOUT_SYNC_TEXT = 'About SYNC'
+    SETTINGS_GENERAL_SOFTWARE_LICENCES_TEXT = 'Software licences'
+    SETTINGS_GENERAL_MASTER_RESET_TEXT = 'Master reset'
+    SETTINGS_AUTOMATIC_SYSTEM_UPDATES_TEXT = 'Automatic system updates'
+    SETTINGS_VIEW_CURRENT_SOFTWARE_VERSIONS_TEXT = 'View current software versions'
+    SETTINGS_VEHICLE_TITLE_TEXT = 'Vehicle settings'
+    SETTINGS_VEHICLE_ON_BOARD_MODEM_NUMBER = 'On-board modem serial number (ESN)'
+    SETTINGS_VEHICLE_WARNING_CHIMES = 'Warning chimes'
+    SETTINGS_VEHICLE_INFORMATION_CHIMES = 'Information chimes'
+    SETTINGS_VEHICLE_RESET_TYRE_PRESSURE = 'Reset tyre pressure'
+    SETTINGS_VEHICLE_RESET = 'Reset'
+    SETTINGS_DISPLAY_SETTINGS_TITLE_TEXT = 'Display settings'
+    SETTINGS_DISPLAY_OFF_TEXT = 'Display off'
+    SETTINGS_DISPLAY_BACKGROUND_TEXT = 'Background'
+    SETTINGS_DISPLAY_BRIGHTNESS_TEXT = 'Brightness'
+    SETTINGS_DISPLAY_MODE_TEXT = 'Mode'
+    SETTINGS_DISPLAY_AUTO_DIM_TEXT = 'Auto dim'
+    SETTINGS_VOICE_CONTROL_SETTINGS_TITLE_TEXT = 'Voice control settings'
+    SETTINGS_VOICE_CONTROL_ADVANCED_MODE_TEXT = 'Advanced mode'
+    SETTINGS_VOICE_CONTROL_CALL_CONFIRMATION = 'Call confirmation'
+    SETTINGS_VOICE_CONTROL_VOICE_COMMAND_LIST = 'Voice command lists'
+    SETTINGS_MOBILE_APPS_SETTINGS_TITLE_TEXT = 'Mobile apps settings'
+    SETTINGS_ENABLE_MOBILE_APPS_VIA_USB_TEXT = 'Enable Mobile apps via USB'
+    SETTING_SYNC_CONNECT_TITLE_TEXT = 'SYNC Connect'
+    SETTINGS_VEHICLE_HOTSPOT_TEXT = 'Vehicle Hotspot'
+    SETTING_CONNECTIVITY_SETTINGS_TEXT = 'Connectivity settings'
     SIRIUS_XM_TRAVEL_LINK_TEXT = 'SiriusXM Travel'
     SOUND_SETTINGS_TITLE_TEXT = 'Sound settings'
     SOUND_TREBLE_TEXT = 'Treble'
@@ -233,27 +302,94 @@ pair_bluetooth_device_page = [Text.PHONE_PAIR_A_BLUETOOTH_DEVICE_TEXT, Text.PHON
                               Text.PHONE_YOUR_DEVICE_AND_A_PIN, Text.PHONE_DISCOVER_OTHER_BLUETOOTH]
 
 # mobile apps page
-mobile_apps_page_texts = [Text.MOBILE_APPS_ADD_A_DEVICE_TEXT, Text.MOBILE_APPS_FIND_MOBILE_APPS_TEXT,
-                          Text.MOBILE_APPS_SIRIUSXM_TRAVEL_LINK_TEXT]
-siriusxm_travel_link_texts = [Text.MOBILE_APPS_SIRIUSXM_TRAFFIC_LIST_TEXT, Text.MOBILE_APPS_SIRIUSXM_FILM_LISTINGS_TEXT,
-                              Text.MOBILE_APPS_SIRIUSXM_SPORTS_INFO_TEXT,
-                              Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TEXT,
-                              Text.MOBILE_APPS_SIRIUSXM_FUEL_PRICES_TEXT, Text.MOBILE_APPS_SIRIUSXM_WEATHER_TEXT,
-                              Text.MOBILE_APPS_SIRIUSXM_SKI_CONDITIONS_TEXT]
-subscription_info_texts = [Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TITLE_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_AUDIO_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TRAFFIC_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_WEATHER_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_FUEL_PRICES_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_FILM_TIMES_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_SPORTS_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_WEATHER_MAP_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_SKI_CONDITIONS_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_CHARGE_STATIONS_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_QUESTIONS_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_CALL_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_DIAL_TEXT,
-                           Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_NOT_AVAILABLE_TEXT]
+mobile_apps_page_text = [Text.MOBILE_APPS_ADD_A_DEVICE_TEXT, Text.MOBILE_APPS_FIND_MOBILE_APPS_TEXT,
+                         Text.MOBILE_APPS_SIRIUSXM_TRAVEL_LINK_TEXT]
+siriusxm_travel_link_text = [Text.MOBILE_APPS_SIRIUSXM_TRAFFIC_LIST_TEXT, Text.MOBILE_APPS_SIRIUSXM_FILM_LISTINGS_TEXT,
+                             Text.MOBILE_APPS_SIRIUSXM_SPORTS_INFO_TEXT,
+                             Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TEXT,
+                             Text.MOBILE_APPS_SIRIUSXM_FUEL_PRICES_TEXT, Text.MOBILE_APPS_SIRIUSXM_WEATHER_TEXT,
+                             Text.MOBILE_APPS_SIRIUSXM_SKI_CONDITIONS_TEXT]
+subscription_info_text = [Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TITLE_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_AUDIO_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TRAFFIC_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_WEATHER_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_FUEL_PRICES_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_FILM_TIMES_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_SPORTS_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_WEATHER_MAP_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_SKI_CONDITIONS_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_CHARGE_STATIONS_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_QUESTIONS_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_CALL_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_DIAL_TEXT,
+                          Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_NOT_AVAILABLE_TEXT]
+
+# settings page
+settings_first_screen_page_text = [Text.SETTINGS_SOUND_TEXT, Text.SETTINGS_CLOCK_TEXT,
+                                   Text.SETTINGS_BLUETOOTH_TEXT, Text.SETTINGS_PHONE_TEXT,
+                                   Text.SETTINGS_RADIO_TEXT, Text.SETTINGS_NAVIGATION_TEXT,
+                                   Text.SETTINGS_MOBILE_APPS_TEXT, Text.SETTINGS_SYNC_CONNECT_TEXT]
+
+settings_second_screen_page_text = [Text.SETTINGS_GENERAL_TEXT, Text.SETTINGS_AUTOMATIC_UPDATES_TEXT,
+                                    Text.SETTINGS_ANDROID_AUTO_PREFERENCES_TEXT,
+                                    Text.SETTINGS_APPLE_CARPLAY_PREFERENCES_TEXT,
+                                    Text.SETTINGS_VEHICLE_TEXT, Text.SETTINGS_DISPLAY_TEXT,
+                                    Text.SETTINGS_VOICE_CONTROL_TEXT, Text.SETTINGS_VALET_MODE_TEXT]
+
+sound_settings_page_text = [Text.SOUND_SETTINGS_TITLE_TEXT, Text.SETTINGS_SOUND_RESET_ALL_TEXT,
+                            Text.SOUND_TREBLE_TEXT, Text.SETTINGS_SOUND_MID_RANGE_TEXT, Text.SETTINGS_SOUND_BASS_TEXT,
+                            Text.SETTINGS_SOUND_BALANCE_FADE_TEXT, Text.SETTINGS_MEDIUM_TEXT,
+                            Text.SETTINGS_SOUND_ADAPTIVE_VOLUME_TEXT, Text.DSP_OCCUPANCY_TEXT, Text.ALL_SEATS_TEXT]
+
+clock_settings_page_text = [Text.CLOCK_SETTINGS_TITLE_TEXT, Text.SETTINGS_CLOCK_AM_TEXT, Text.SETTINGS_CLOCK_PM_TEXT,
+                            Text.SETTINGS_CLOCK_FORMAT_TEXT, Text.SETTINGS_CLOCK_12H_TEXT,
+                            Text.SETTINGS_CLOCK_AUTO_TIME_ZONE_TEXT, Text.SETTINGS_CLOCK_RESET_CLOCK_TEXT,
+                            Text.SETTINGS_CLOCK_24H_TEXT]
+
+bluetooth_settings_page_text = [Text.BLUETOOTH_SETTINGS_TEXT, Text.SETTINGS_BLUETOOTH_TEXT,
+                                Text.SETTINGS_BLUETOOTH_ADD_DEVICE_TEXT]
+
+radio_settings_page_text = [Text.RADIO_SETTINGS_TEXT, Text.RADIO_AUTOSTORE_PRESETS_TEXT, Text.RADIO_REFRESH_TEXT]
+
+navigation_settings_page_text = [Text.NAVIGATION_SETTINGS_TEXT, Text.MAP_PREFERENCES_TEXT, Text.ROUTE_PREFERENCES_TEXT,
+                                 Text.NAVIGATION_PREFERENCES_TEXT]
+
+navigation_map_settings_page_text = [Text.MAP_PREFERENCES_TEXT, Text.CITY_MODEL_TEXT, Text.BREADCRUMBS,
+                                     Text.SETTINGS_NAVIGATION_POI_ICONS_TEXT,
+                                     Text.SETTINGS_NAVIGATION_INCEDENT_MAP_TEXT]
+
+navigation_route_settings_page_text = [Text.ROUTE_PREFERENCES_TEXT, Text.PREFERRED_ROUTE_TEXT,
+                                       Text.ALWAYS_USE_FASTEST_ROUTE_TEXT, Text.FIND_PARKING_AUTOMATICALLY_TEXT,
+                                       Text.ECO_TIME_PENALTY_TEXT, Text.DYNAMIC_ROUTE_GUIDANCE_TEXT,
+                                       Text.AVOID_MOTORWAYS_TEXT, Text.AVOID_TOLL_ROADS_TEXT,
+                                       Text.AVOID_FERRIES_CAR_TRAINS_TEXT]
+
+mobile_apps_settings_page_text = [Text.SETTINGS_MOBILE_APPS_SETTINGS_TITLE_TEXT,
+                                  Text.SETTINGS_ENABLE_MOBILE_APPS_VIA_USB_TEXT]
+
+sync_connect_settings_page_text = [Text.SETTING_SYNC_CONNECT_TITLE_TEXT, Text.SETTINGS_VEHICLE_HOTSPOT_TEXT,
+                                   Text.SETTING_CONNECTIVITY_SETTINGS_TEXT]
+
+general_settings_page_text = [Text.SETTINGS_GENERAL_SETTINGS_LABEL_TEXT, Text.SETTINGS_GENERAL_LANGUAGE_TEXT,
+                              Text.SETTINGS_GENERAL_MEASURE_UNIT_TEXT, Text.SETTINGS_GENERAL_TEMPERATURE_UNIT_TEXT,
+                              Text.SETTINGS_GENERAL_TOUCHSCREEN_BEEP_TEXT, Text.SETTINGS_GENERAL_ABOUT_SYNC_TEXT,
+                              Text.SETTINGS_GENERAL_SOFTWARE_LICENCES_TEXT, Text.SETTINGS_GENERAL_MASTER_RESET_TEXT]
+
+automatic_system_updates_settings_page_text = [Text.SETTINGS_AUTOMATIC_SYSTEM_UPDATES_TEXT,
+                                               Text.SETTINGS_VIEW_CURRENT_SOFTWARE_VERSIONS_TEXT]
+
+vehicle_settings_page_text = [Text.SETTINGS_VEHICLE_TITLE_TEXT, Text.SETTINGS_VEHICLE_ON_BOARD_MODEM_NUMBER,
+                              Text.SETTINGS_VEHICLE_WARNING_CHIMES, Text.SETTINGS_VEHICLE_INFORMATION_CHIMES,
+                              Text.SETTINGS_VEHICLE_RESET_TYRE_PRESSURE, Text.SETTINGS_VEHICLE_RESET]
+
+display_settings_page_text = [Text.SETTINGS_DISPLAY_SETTINGS_TITLE_TEXT, Text.SETTINGS_DISPLAY_OFF_TEXT,
+                              Text.SETTINGS_DISPLAY_BACKGROUND_TEXT, Text.SETTINGS_DISPLAY_BRIGHTNESS_TEXT,
+                              Text.SETTINGS_DISPLAY_MODE_TEXT, Text.SETTINGS_DISPLAY_AUTO_DIM_TEXT]
+
+voice_control_settings_page_text = [Text.SETTINGS_VOICE_CONTROL_SETTINGS_TITLE_TEXT,
+                                    Text.SETTINGS_VOICE_CONTROL_ADVANCED_MODE_TEXT,
+                                    Text.SETTINGS_VOICE_CONTROL_CALL_CONFIRMATION,
+                                    Text.SETTINGS_VOICE_CONTROL_VOICE_COMMAND_LIST]
 
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'

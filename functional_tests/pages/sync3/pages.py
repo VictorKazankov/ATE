@@ -143,25 +143,123 @@ class NavigationPage:
 class SettingsPage:
 
     def open_settings_page(self):
-        tap(Icons.INACTIVE_SETTINGS_PAGE_BUTTON)
+        if check_visibility(Icons.SETTINGS_SOUND_BUTTON) or check_visibility(Icons.SETTINGS_GENERAL_BUTTON):
+            logging.info("Settings page is already open")
+        elif tap_if_visible(Icons.ACTIVE_SETTINGS_PAGE_BUTTON):
+            logging.info('Open settings page')
+        else:
+            tap(Icons.INACTIVE_SETTINGS_PAGE_BUTTON)
 
     def setting_page_is_active(self):
         return check_visibility(Icons.SETTINGS_SOUND_BUTTON)
 
     def open_setting_clock_page(self):
-        tap(Icons.SETTINGS_CLOCK_BUTTON)
+        if check_visibility(Text.CLOCK_SETTINGS_TITLE_TEXT):
+            logging.info("Clock settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_CLOCK_BUTTON):
+            logging.info('Open clock settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_CLOCK_BUTTON)
 
     def open_setting_audio_page(self):
-        tap(Icons.SETTINGS_SOUND_BUTTON)
+        if check_visibility(Text.SOUND_SETTINGS_TITLE_TEXT):
+            logging.info("Sound settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_SOUND_BUTTON):
+            logging.info('Open sound settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_SOUND_BUTTON)
 
     def open_setting_navigation_page(self):
-        tap(Icons.SETTINGS_NAVIGATION_BUTTON)
+        if check_visibility(Text.NAVIGATION_SETTINGS_TEXT):
+            logging.info("Navigation settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_NAVIGATION_BUTTON):
+            logging.info('Open navigation settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_NAVIGATION_BUTTON)
 
     def open_settings_bluetooth_page(self):
-        tap(Icons.MOBILE_BLUETOOTH_BUTTON)
+        if check_visibility(Text.BLUETOOTH_SETTINGS_TEXT):
+            logging.info("Bluetooth settings page is already open")
+        elif tap_if_visible(Icons.MOBILE_BLUETOOTH_BUTTON):
+            logging.info('Open bluetooth settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.MOBILE_BLUETOOTH_BUTTON)
 
     def open_settings_radio_page(self):
-        tap(Icons.SETTINGS_RADIO_BUTTON)
+        if check_visibility(Text.RADIO_SETTINGS_TEXT):
+            logging.info("Radio settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_RADIO_BUTTON):
+            logging.info('Open radio settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_RADIO_BUTTON)
+
+    def open_setting_mobile_apps_page(self):
+        if check_visibility(Text.SETTINGS_MOBILE_APPS_SETTINGS_TITLE_TEXT):
+            logging.info("Mobile apps settings page is already open")
+        elif tap_if_visible(Icons.MOBILE_APPS_BUTTON):
+            logging.info('Open mobile apps settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.MOBILE_APPS_BUTTON)
+
+    def open_setting_sync_connect_page(self):
+        if check_visibility(Text.SETTING_CONNECTIVITY_SETTINGS_TEXT):
+            logging.info("SYNC connect settings page is already open")
+        elif tap_if_visible(Icons.SYNC_CONNECT_BUTTON):
+            logging.info('Open SYNC connect settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SYNC_CONNECT_BUTTON)
+
+    def open_settings_general_page(self):
+        if check_visibility(Text.SETTINGS_GENERAL_SETTINGS_LABEL_TEXT):
+            logging.info("General settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_GENERAL_BUTTON):
+            logging.info('Open general settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_GENERAL_BUTTON)
+
+    def open_settings_automatic_updates_page(self):
+        if check_visibility(Text.SETTINGS_AUTOMATIC_SYSTEM_UPDATES_TEXT):
+            logging.info("Automatic system settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_AUTOMATIC_UPDATES_BUTTON):
+            logging.info('Open automatic system settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_AUTOMATIC_UPDATES_BUTTON)
+
+    def open_settings_vehicle_page(self):
+        if check_visibility(Text.SETTINGS_VEHICLE_TITLE_TEXT):
+            logging.info("Vehicle settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_VEHICLE_BUTTON):
+            logging.info('Open vehicle settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_VEHICLE_BUTTON)
+
+    def open_settings_display_page(self):
+        if check_visibility(Text.SETTINGS_DISPLAY_SETTINGS_TITLE_TEXT):
+            logging.info("Display settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_DISPLAY_BUTTON):
+            logging.info('Open display settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_DISPLAY_BUTTON)
+
+    def open_settings_voice_control_page(self):
+        if check_visibility(Text.SETTINGS_VOICE_CONTROL_SETTINGS_TITLE_TEXT):
+            logging.info("Voice control settings page is already open")
+        elif tap_if_visible(Icons.SETTINGS_VOICE_CONTROL_BUTTON):
+            logging.info('Open voice control settings page')
+        else:
+            self.open_settings_page()
+            tap(Icons.SETTINGS_VOICE_CONTROL_BUTTON)
 
 
 class SettingsClockPage:
@@ -174,6 +272,9 @@ class SettingsClockPage:
 
     def tap_on_24h_button(self):
         tap(Icons.CLOCK_SETTINGS_24H)
+
+    def tap_on_12h_button(self):
+        tap(Icons.CLOCK_SETTINGS_12H)
 
     def open_information_dialog(self):
         tap(Icons.INFORMATION_DIALOG_BUTTON)
@@ -212,16 +313,28 @@ class SettingsRadioPage:
         tap(Icons.BACK_BUTTON)
 
 
-class SettingsNavigationPage:
+class SettingsNavigationPage(SettingsPage):
 
     def settings_navigation_page_is_active(self):
         return check_visibility(Text.NAVIGATION_SETTINGS_TEXT)
 
     def open_map_preferences_page(self):
-        tap(Text.MAP_PREFERENCES_TEXT)
+        if check_visibility(Text.CITY_MODEL_TEXT):
+            logging.info('Map preferences page is already open')
+        elif tap_if_visible(Text.MAP_PREFERENCES_TEXT):
+            logging.info('Open map preferences settings page')
+        else:
+            self.open_setting_navigation_page()
+            tap(Text.MAP_PREFERENCES_TEXT)
 
     def open_route_preferences_page(self):
-        tap(Text.ROUTE_PREFERENCES_TEXT)
+        if check_visibility(Text.PREFERRED_ROUTE_TEXT):
+            logging.info('Route preferences page is already open')
+        elif tap_if_visible(Text.ROUTE_PREFERENCES_TEXT):
+            logging.info('Open route preferences settings page')
+        else:
+            self.open_setting_navigation_page()
+            tap(Text.ROUTE_PREFERENCES_TEXT)
 
     def open_navigation_preferences_page(self):
         tap(Text.NAVIGATION_PREFERENCES_TEXT)
