@@ -27,6 +27,8 @@ class MessageFactory {
                                               squish::MouseButton mouse_button, int id);
     static std::string CreateTouchAndDragRequest(const std::string& object_or_name, uint16_t x, uint16_t y, int16_t dx,
                                                  int16_t dy, squish::ModifierState modifier_state, int id);
+    static std::string CreateChangeSyncIconDBRequest(const std::string& sync_version,
+                                                      const std::string& sync_build_version, int id);
   };
 
   /**
@@ -48,6 +50,7 @@ class MessageFactory {
     static Json::Value CreateTapObjectResultObject();
     static Json::Value CreateTouchAndDragResultObject();
     static Json::Value CreateWaitForObjectResultObject(int x, int y, int width, int height);
+    static Json::Value CreateChangeSyncIconDBResultObject();
   };
 };
 

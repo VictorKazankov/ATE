@@ -232,5 +232,19 @@ bool CheckWaitForObjectResponse(const Json::Value& schema) {
   return res;
 }
 
+void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string& sync_version,
+                                          std::string& sync_build_version, Json::Value& error) {
+  error = Json::Value{};
+
+  try {
+    sync_version = params[kSyncVersion].asString();
+    sync_build_version = params[kSyncBuildVersion].asString();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid ChangeSyncIconDB params");
+    logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
 }  // namespace jmsg
 }  // namespace common

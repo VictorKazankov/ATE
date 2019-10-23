@@ -4,9 +4,8 @@
 #include <chrono>
 #include <memory>
 
-#include <db_manager/db_manager.h>
-
 #include <boost/asio/io_context.hpp>
+#include "adapters/db_manager_adapter.h"
 #include "interaction/interaction.h"
 #include "video_streaming/matching/matcher.h"
 #include "video_streaming/streamer.h"
@@ -15,11 +14,6 @@
  * Automated Test Environment class for communication with LVDS board
  **/
 class ATE {
- private:
-  std::unique_ptr<interaction::Interaction> interaction_;
-  detector::Matcher matcher_;
-  std::unique_ptr<db_manager::IDbManager> storage_;
-
  public:
   explicit ATE(boost::asio::io_context& io_context);
   ~ATE();
@@ -51,6 +45,19 @@ class ATE {
    * @param y - a new width value
    */
   void ChangeResolution(int x, int y);
+
+  /**
+   * @brief Change sync configuration
+   * @param sync_version Sync version
+   * @param sync_build_version Sync build version
+   * @return Error code if incorrect  sync_version or sync_build_version, otherwise success
+   */
+  adapter::DBManagerError ChangeSyncVersion(const std::string& sync_version, const std::string& sync_build_version);
+
+ private:
+  std::unique_ptr<interaction::Interaction> interaction_;
+  detector::Matcher matcher_;
+  adapter::DBManagerAdapter storage_;
 };
 
 #endif  // ATE_SERVER_ATE_H_

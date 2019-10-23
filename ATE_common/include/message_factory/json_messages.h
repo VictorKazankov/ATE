@@ -9,6 +9,7 @@ constexpr auto kWaitForObject = "WaitForObject";
 constexpr auto kTapObject = "TapObject";
 constexpr auto kTouchAndDrag = "TouchAndDrag";
 constexpr auto kDisplayTypeChanged = "displayTypeChanged";
+constexpr auto kChangeSyncIconDB = "ChangeSyncIconDB";
 
 }  // namespace jmsg
 }  // namespace common

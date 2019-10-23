@@ -3,10 +3,7 @@
 #include <stdexcept>
 #include <utility>
 
-#include <db_manager/factory.h>
 #include <recognition/factory.h>
-
-#include <opencv2/imgcodecs.hpp>
 
 #include "common.h"
 #include "exceptions.h"
@@ -93,18 +90,11 @@ ATE::ATE(boost::asio::io_context& io_context)
                    common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
                                               kDefaultTextDetectorConfidence)),
                MakeScreenshotRecorder()} {
-  // create storage manager
-  std::error_code error;
-  storage_ = db_manager::CreateFileStorageManager(VHAT_ICON_STORAGE_PREFIX, error);
-  if (error || storage_ == nullptr) {
-    logger::error("[ATE] Can't create storage manager: {}.", error.message());
-    throw storage::ConnectionFailure{};
-  }
-  error = storage_->InitCollectionsSettings(common::Config().GetString(kDBSection, kTargetOption, {}),
-                                            common::Config().GetString(kDBSection, kBuildOption, {}),
-                                            common::Config().GetString(kDBSection, kCollectionModeOption, {}));
-  if (error) {
-    logger::error("[ATE] Can't init storage manager: {}.", error.message());
+  // Init storage
+  auto is_init = storage_.Init(VHAT_ICON_STORAGE_PREFIX, common::Config().GetString(kDBSection, kTargetOption, {}),
+                               common::Config().GetString(kDBSection, kBuildOption, {}),
+                               common::Config().GetString(kDBSection, kCollectionModeOption, {}));
+  if (!is_init) {
     throw storage::ConnectionFailure{};
   }
 }
@@ -122,13 +112,8 @@ void ATE::TouchAndDrag(const std::string& object_or_name, const cv::Point& start
 
 cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout) {
   const auto timeout_point = std::chrono::steady_clock::now() + timeout;
-  const auto item_info = storage_->GetItem(object_or_name, db_manager::kDefaultSyncVersion,
-                                           db_manager::kDefaultSyncBuildVersion, db_manager::kDefaultCollectionMode);
-  cv::Mat pattern{};
-  if (!item_info.item.data.empty()) {
-    pattern = cv::imdecode(cv::Mat(item_info.item.data), cv::IMREAD_COLOR);
-  }
-  const bool is_image = !item_info.error;
+  auto pattern = storage_.GetItem(object_or_name);
+  const bool is_image = !pattern.empty();
   cv::Rect match_result;
 
   do {
@@ -139,3 +124,7 @@ cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono
 }
 
 void ATE::ChangeResolution(int x, int y) { matcher_.ChangeResolution(x, y); }
+
+adapter::DBManagerError ATE::ChangeSyncVersion(const std::string& sync_version, const std::string& sync_build_version) {
+  return storage_.ChangeSyncVersion(sync_version, sync_build_version);
+}

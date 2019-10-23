@@ -18,7 +18,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
       handler_map_{{common::jmsg::kWaitForObject, &AteMessageAdapter::HandleWaitForObject},
                    {common::jmsg::kTapObject, &AteMessageAdapter::HandleTapObject},
                    {common::jmsg::kTouchAndDrag, &AteMessageAdapter::HandleTouchAndDrag},
-                   {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged}} {}
+                   {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged},
+                   {common::jmsg::kChangeSyncIconDB, &AteMessageAdapter::HandleChangeSyncIconDB}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -126,6 +127,31 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleDisplayTypeChanged(const J
   logger::info("[ate message adapter] Change resolution x:{} y:{}", x, y);
 
   return std::make_pair(common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse(), true);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleChangeSyncIconDB(const Json::Value& params) {
+  std::string sync_version;
+  std::string sync_build_version;
+  Json::Value error;
+
+  common::jmsg::ExtractChangeSyncIconDBRequestParams(params, sync_version, sync_build_version, error);
+  if (!error.empty()) {
+    return std::make_pair(std::move(error), false);
+  }
+
+  // Change configuration
+  auto change_sync_info_error = ate_.ChangeSyncVersion(sync_version, sync_build_version);
+  if (change_sync_info_error == adapter::DBManagerError::kInvalidSyncVersion) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncVersion, "Invalid sync version");
+  } else if (change_sync_info_error == adapter::DBManagerError::kInvalidSyncBuildVersion) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncBuildVersion, "Invalid sync build version");
+  }
+
+  if (!error.empty()) {
+    return std::make_pair(std::move(error), false);
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateChangeSyncIconDBResultObject(), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {

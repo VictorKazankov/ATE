@@ -76,6 +76,14 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleDisplayTypeChanged(const Json::Value& params);
 
   /**
+   * @brief Change sync version
+   * @param params Params from client message
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandleChangeSyncIconDB(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */

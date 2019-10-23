@@ -12,7 +12,10 @@ enum class Error {
 
   // Values from -32000 to -32099 reserved for implementation-defined server-errors
 
-  kObjectNotFound = -32000
+  // Sync configuration changed error
+  kInvalidSyncBuildVersion = -32003,
+  kInvalidSyncVersion = -32002,
+  kObjectNotFound = -32000,
 };
 
 }  // namespace rpc

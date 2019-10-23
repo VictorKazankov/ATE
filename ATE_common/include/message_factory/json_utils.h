@@ -135,6 +135,17 @@ bool CheckAttachToApplicationResponse(const Json::Value& schema);
  */
 bool CheckWaitForObjectResponse(const Json::Value& schema);
 
+/**
+ * @brief Extract parameters for ChangeSyncIconDB
+ * @param params structured value that holds the parameter values to be used
+ * during the invocation of the 'ChangeSyncIconDB' method
+ * @param sync_version Sync version
+ * @param sync_build_version Sync build version
+ * @param error Error object, null on success
+ */
+void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string& sync_version,
+                                          std::string& sync_build_version, Json::Value& error);
+
 }  // namespace jmsg
 }  // namespace common
 

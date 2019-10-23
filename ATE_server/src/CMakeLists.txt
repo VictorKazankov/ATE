@@ -5,6 +5,7 @@ include(GNUInstallDirs)
 # A separate static library is necessary to support unit tests
 add_library(vhat_server_lib
   STATIC
+    adapters/db_manager_adapter.cpp
     interaction/dummy/dummy_interaction.cpp
     interaction/VDP/vdp_interaction.cpp
     interaction/VDP/https_client.cpp

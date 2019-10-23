@@ -32,6 +32,8 @@ constexpr auto kVdpPort = "port";
 constexpr auto kWidth = "width";
 constexpr auto kHeight = "height";
 constexpr auto kIsRunning = "is_running";
+constexpr auto kSyncVersion = "sync_version";
+constexpr auto kSyncBuildVersion = "sync_build_version";
 
 }  // namespace jmsg
 }  // namespace common
