@@ -49,6 +49,8 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readwrite("type", &squish::Object::type);
 
   py::register_exception<squish::LookupError>(m, "LookupError");
+  py::register_exception<squish::InvalidSyncVersion>(m, "InvalidSyncVersion");
+  py::register_exception<squish::InvalidSyncBuildVersion>(m, "InvalidSyncBuildVersion");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
@@ -136,4 +138,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
         "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically.",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"));
+
+  m.def("changeSyncIconDB", &squish::API::ChangeSyncIconDB,
+        "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a specific"
+        "collection.",
+        py::arg("sync_version"), py::arg("sync_build_version"));
 }

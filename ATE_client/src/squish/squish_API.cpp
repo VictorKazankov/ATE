@@ -109,3 +109,10 @@ void API::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, 
                                                                                  modifier_state, GetCorrelationId());
   applicationContext.SendCommand(interaction::Method::kTouchAndDrag, message);
 }
+
+void API::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
+  auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,
+                                                                                     GetCorrelationId());
+
+  applicationContext.SendCommand(interaction::Method::kChangeSyncIconDB, message);
+}

@@ -47,6 +47,12 @@ bool CheckJsonStructure(const std::string& message, Json::Value& value) {
     case rpc::Error::kInvalidParams:
       throw std::invalid_argument(error[common::jmsg::kErrorMessage].asString());
 
+    case rpc::Error::kInvalidSyncVersion:
+      throw squish::InvalidSyncVersion{};
+
+    case rpc::Error::kInvalidSyncBuildVersion:
+      throw squish::InvalidSyncBuildVersion{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }
@@ -90,7 +96,11 @@ squish::Object ParseMessage(Method method, const Json::Value& schema) {
     case Method::kTouchAndDrag:
       logger::info("[parse message] touchAndDrag response");
       break;
-      
+
+    case Method::kChangeSyncIconDB:
+      logger::info("[parse message] kChangeSyncIconDB response");
+      break;
+
     default:
       throw std::logic_error("Unhandled method: " + std::to_string(static_cast<int>(method)));
   }
