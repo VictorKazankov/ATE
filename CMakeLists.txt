@@ -173,10 +173,10 @@ if(VHAT_CREATE_DEBIAN_PACKAGE)
   endif(VHAT_INSTALL_SERVER_SERVICE)
 
   if (VHAT_INSTALL_ICON_STORAGE)
-
+    #TODO: change the user and group names according to VDP policies
     file(APPEND ${POSTINST_FILE} "
-      USER=$(logname)
-      GROUP=$(logname)
+      USER=nvidia
+      GROUP=nvidia
       PERMISSIONS=\"a+rw\"
       echo \"Changing owner of ${VHAT_ICON_STORAGE_PREFIX} to \${USER}:\${GROUP}...\"
       if chown --recursive \${USER}:\${GROUP} ${VHAT_ICON_STORAGE_PREFIX}
