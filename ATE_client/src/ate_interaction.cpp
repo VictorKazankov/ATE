@@ -53,6 +53,9 @@ bool CheckJsonStructure(const std::string& message, Json::Value& value) {
     case rpc::Error::kInvalidSyncBuildVersion:
       throw squish::InvalidSyncBuildVersion{};
 
+    case rpc::Error::kInvalidSyncCollectionMode:
+      throw squish::InvalidSyncCollectionMode{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }
@@ -99,6 +102,10 @@ squish::Object ParseMessage(Method method, const Json::Value& schema) {
 
     case Method::kChangeSyncIconDB:
       logger::info("[parse message] kChangeSyncIconDB response");
+      break;
+
+    case Method::kChangeSyncMode:
+      logger::info("parse message changeSyncMode response" );
       break;
 
     default:

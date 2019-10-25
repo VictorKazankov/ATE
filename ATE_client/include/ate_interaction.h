@@ -15,6 +15,7 @@ enum class Method {
   kTapObject,
   kTouchAndDrag,
   kChangeSyncIconDB,
+  kChangeSyncMode
 };
 
 class ATEInteraction {

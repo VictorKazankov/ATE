@@ -47,6 +47,13 @@ class DBManagerAdapter {
   DBManagerError ChangeSyncVersion(const std::string& sync_version, const std::string& sync_build_version);
 
   /**
+   * @brief Changes sync collection mode
+   * @param collection_mode Collection mode
+   * @return Error if incorrect collection_mode, otherwise success
+   */
+  adapter::DBManagerError ChangeCollectionMode(const std::string& collection_mode);
+
+  /**
    * @brief Get item from collection
    * @param name Item name (key)
    * @return OpenCv Mat or empty Mat if item doesn't exist

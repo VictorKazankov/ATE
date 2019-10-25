@@ -51,6 +51,7 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::LookupError>(m, "LookupError");
   py::register_exception<squish::InvalidSyncVersion>(m, "InvalidSyncVersion");
   py::register_exception<squish::InvalidSyncBuildVersion>(m, "InvalidSyncBuildVersion");
+  py::register_exception<squish::InvalidSyncCollectionMode>(m, "InvalidSyncCollectionMode");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
@@ -143,4 +144,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a specific"
         "collection.",
         py::arg("sync_version"), py::arg("sync_build_version"));
+
+  py::enum_<common::squish::CollectionMode>(m, "CollectionMode")
+      .value("DAY", common::squish::CollectionMode::DAY)
+      .value("NIGHT", common::squish::CollectionMode::NIGHT);
+
+  m.def("changeSyncMode", &squish::API::ChangeSyncMode, "This function changes active collection mode in DBManager ",
+        py::arg("collection_mode"));
 }

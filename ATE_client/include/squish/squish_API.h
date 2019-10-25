@@ -93,6 +93,12 @@ struct API {
    * @param sync_build_version Sync build version
    */
   static void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version);
+
+  /**
+   * @brief ChangeSyncMode provides changing collection mode API for active sync
+   * @param collection_mode Collection mode
+   */
+  static void ChangeSyncMode(common::squish::CollectionMode collection_mode);
 };
 }  // namespace squish
 

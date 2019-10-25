@@ -8,6 +8,7 @@
 #include "logger/logger.h"
 #include "message_factory/message_factory.h"
 #include "squish/application_context.h"
+#include "utils/squish_types_converter.h"
 
 using namespace squish;
 
@@ -115,4 +116,10 @@ void API::ChangeSyncIconDB(const std::string& sync_version, const std::string& s
                                                                                      GetCorrelationId());
 
   applicationContext.SendCommand(interaction::Method::kChangeSyncIconDB, message);
+}
+
+void API::ChangeSyncMode(common::squish::CollectionMode collection_mode) {
+  auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncModeRequest(CollectionModeToStr(collection_mode),
+                                                                                   GetCorrelationId());
+  applicationContext.SendCommand(interaction::Method::kChangeSyncMode, message);
 }

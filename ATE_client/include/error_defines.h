@@ -19,6 +19,11 @@ class InvalidSyncBuildVersion : public std::runtime_error {
   explicit InvalidSyncBuildVersion() : std::runtime_error{"Invalid sync build version"} {}
 };
 
+class InvalidSyncCollectionMode : public std::runtime_error {
+ public:
+  explicit InvalidSyncCollectionMode() : std::runtime_error{"Invalid sync collection mode"} {}
+};
+
 }  // namespace squish
 
 #endif  // ATE_ERROR_DEFINES_H_
