@@ -128,3 +128,7 @@ void ATE::ChangeResolution(int x, int y) { matcher_.ChangeResolution(x, y); }
 adapter::DBManagerError ATE::ChangeSyncVersion(const std::string& sync_version, const std::string& sync_build_version) {
   return storage_.ChangeSyncVersion(sync_version, sync_build_version);
 }
+
+adapter::DBManagerError ATE::ChangeSyncMode(const std::string& collection_mode) {
+  return storage_.ChangeCollectionMode(collection_mode);
+}

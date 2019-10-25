@@ -34,6 +34,7 @@ constexpr auto kHeight = "height";
 constexpr auto kIsRunning = "is_running";
 constexpr auto kSyncVersion = "sync_version";
 constexpr auto kSyncBuildVersion = "sync_build_version";
+constexpr auto kSyncCollectionMode = "sync_collection_mode";
 
 }  // namespace jmsg
 }  // namespace common

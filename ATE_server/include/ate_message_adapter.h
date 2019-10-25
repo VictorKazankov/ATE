@@ -84,10 +84,25 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleChangeSyncIconDB(const Json::Value& params);
 
   /**
+   * @brief Handler for ChangeSyncMode
+   * @param params - ChangeSyncMode params
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandleChangeSyncMode(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */
   std::pair<Json::Value, bool> HandleUnknownMethod(const Json::Value& params);
+
+  /**
+   * @brief Checking result after change sync configuration parameters
+   * @param error Error code after changing sync configuration parameters
+   * @return Error if exist error after change sync configuration parameters, empty value otherwise
+   */
+  Json::Value CheckChangeSyncConfigurationResult(const adapter::DBManagerError& error);
 
  private:
   std::mutex on_message_guard_;

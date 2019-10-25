@@ -14,6 +14,7 @@ add_library(vhat_common
     message_factory/json_utils.cpp
     message_factory/message_factory.cpp
     utils/geometry_types.cpp
+    utils/squish_types_converter.cpp
     common.cpp
 )
 

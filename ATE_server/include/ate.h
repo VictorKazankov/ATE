@@ -54,6 +54,13 @@ class ATE {
    */
   adapter::DBManagerError ChangeSyncVersion(const std::string& sync_version, const std::string& sync_build_version);
 
+  /**
+   * @brief Changes sync collection mode
+   * @param collection_mode Collection mode
+   * @return Error if incorrect collection_mode, otherwise success
+   */
+  adapter::DBManagerError ChangeSyncMode(const std::string& collection_mode);
+
  private:
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;

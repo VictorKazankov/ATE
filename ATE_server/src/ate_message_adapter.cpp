@@ -19,7 +19,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kTapObject, &AteMessageAdapter::HandleTapObject},
                    {common::jmsg::kTouchAndDrag, &AteMessageAdapter::HandleTouchAndDrag},
                    {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged},
-                   {common::jmsg::kChangeSyncIconDB, &AteMessageAdapter::HandleChangeSyncIconDB}} {}
+                   {common::jmsg::kChangeSyncIconDB, &AteMessageAdapter::HandleChangeSyncIconDB},
+                   {common::jmsg::kChangeSyncMode, &AteMessageAdapter::HandleChangeSyncMode}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -154,8 +155,48 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleChangeSyncIconDB(const Jso
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateChangeSyncIconDBResultObject(), true);
 }
 
+std::pair<Json::Value, bool> AteMessageAdapter::HandleChangeSyncMode(const Json::Value& params) {
+  Json::Value error;
+  std::string collection_mode;
+
+  common::jmsg::ExtractChangeSyncModeRequestParams(params, collection_mode, error);
+
+  if (!error.empty()) {
+    return std::make_pair(std::move(error), false);
+  }
+
+  // Change Collection mode
+  auto change_mode_error = ate_.ChangeSyncMode(collection_mode);
+  error = CheckChangeSyncConfigurationResult(change_mode_error);
+
+  if (!error.empty()) {
+    return std::make_pair(std::move(error), false);
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateChangeSyncModeResultObject(), true);
+}
+
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {
   Json::Value error = common::jmsg::CreateErrorObject(rpc::Error::kMethodNotFound, "Method not found");
   logger::error("[ate message adadpter] {}\nparams: {}", error.toStyledString(), params.toStyledString());
   return std::make_pair(std::move(error), false);
+}
+
+Json::Value AteMessageAdapter::CheckChangeSyncConfigurationResult(const adapter::DBManagerError& error) {
+  switch (error) {
+    case adapter::DBManagerError::kInvalidCollectionMode: {
+      return common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncCollectionMode, "Invalid collection mode");
+    }
+    case adapter::DBManagerError::kInvalidSyncVersion: {
+      return common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncVersion, "Invalid sync version");
+    }
+    case adapter::DBManagerError::kInvalidSyncBuildVersion: {
+      return common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncBuildVersion, "Invalid sync build version");
+    }
+    case adapter::DBManagerError::kSuccess: {
+      break;
+    }
+  }
+
+  return {};
 }

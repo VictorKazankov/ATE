@@ -29,6 +29,7 @@ class MessageFactory {
                                                  int16_t dy, squish::ModifierState modifier_state, int id);
     static std::string CreateChangeSyncIconDBRequest(const std::string& sync_version,
                                                       const std::string& sync_build_version, int id);
+    static std::string CreateChangeSyncModeRequest(const std::string& collection_mode, int id);
   };
 
   /**
@@ -51,6 +52,7 @@ class MessageFactory {
     static Json::Value CreateTouchAndDragResultObject();
     static Json::Value CreateWaitForObjectResultObject(int x, int y, int width, int height);
     static Json::Value CreateChangeSyncIconDBResultObject();
+    static Json::Value CreateChangeSyncModeResultObject();
   };
 };
 

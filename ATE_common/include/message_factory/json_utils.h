@@ -146,6 +146,15 @@ bool CheckWaitForObjectResponse(const Json::Value& schema);
 void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string& sync_version,
                                           std::string& sync_build_version, Json::Value& error);
 
+/**
+ * @brief Extracts params for 'ChangeSyncMode' method
+ * @param params - structured value that holds the parameter values to be used
+ * during the invocation of the 'ChangeSyncMode' method
+ * @param collection_mode - Collection mode
+ * @param error - error object, null on success
+ */
+void ExtractChangeSyncModeRequestParams(const Json::Value& params, std::string& collection_mode, Json::Value& error);
+
 }  // namespace jmsg
 }  // namespace common
 

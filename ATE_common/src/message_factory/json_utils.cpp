@@ -246,5 +246,22 @@ void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string
   }
 }
 
+void ExtractChangeSyncModeRequestParams(const Json::Value& params, std::string& collection_mode, Json::Value& error) {
+  error = Json::Value{};
+
+  try {
+    collection_mode = params[kSyncCollectionMode].asString();
+    if (collection_mode.empty()) {
+      error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid SyncChangeMode params");
+      logger::error("[json msg parser] {}params: {}(empty collection mode)", error.toStyledString(),
+                    params.toStyledString());
+    }
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid SyncChangeMode params");
+    logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
 }  // namespace jmsg
 }  // namespace common

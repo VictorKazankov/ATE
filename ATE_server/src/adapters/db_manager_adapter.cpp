@@ -55,6 +55,29 @@ DBManagerError DBManagerAdapter::ChangeSyncVersion(const std::string& sync_versi
   return result;
 }
 
+DBManagerError DBManagerAdapter::ChangeCollectionMode(const std::string& collection_mode) {
+  auto error = db_manager_->CheckConfiguration(sync_version_, sync_build_version_, collection_mode);
+
+  DBManagerError result{DBManagerError::kSuccess};
+  if (!error) {
+    // save new configuration
+    collection_mode_ = collection_mode;
+  } else {
+    if (error == db_manager::DBManagerError::kDontExistSyncVersion) {
+      result = DBManagerError::kInvalidSyncVersion;
+    } else if (error == db_manager::DBManagerError::kDontExistSyncBuildVersion) {
+      result = DBManagerError::kInvalidSyncBuildVersion;
+    } else if (error == db_manager::DBManagerError::kDontExistCollectionMode) {
+      result = DBManagerError::kInvalidCollectionMode;
+    } else {
+      logger::critical("[DBManagerAdapter::ChangeSyncVersion] Unhandled error.");
+      assert(!"[DBManagerAdapter::ChangeSyncVersion] Unhandled error.");
+    }
+  }
+
+  return result;
+}
+
 cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
   const auto item_info = db_manager_->GetItem(name, sync_version_, sync_build_version_, collection_mode_);
   if (!item_info.item.data.empty()) {

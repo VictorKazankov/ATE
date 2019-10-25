@@ -10,6 +10,7 @@ constexpr auto kTapObject = "TapObject";
 constexpr auto kTouchAndDrag = "TouchAndDrag";
 constexpr auto kDisplayTypeChanged = "displayTypeChanged";
 constexpr auto kChangeSyncIconDB = "ChangeSyncIconDB";
+constexpr auto kChangeSyncMode = "ChangeSyncMode";
 
 }  // namespace jmsg
 }  // namespace common

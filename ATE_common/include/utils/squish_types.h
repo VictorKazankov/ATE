@@ -15,6 +15,11 @@ enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
  **/
 enum class MouseButton { NONE, LEFT_BUTTON, MIDDLE_BUTTON, RIGHT_BUTTON };
 
+/**
+ * @brief CollectionMode represents collection mode
+ **/
+enum class CollectionMode { DAY, NIGHT };
+
 }  // namespace squish
 }  // namespace common
 

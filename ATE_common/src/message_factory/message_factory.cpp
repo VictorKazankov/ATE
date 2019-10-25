@@ -89,7 +89,7 @@ std::string MessageFactory::Client::CreateTouchAndDragRequest(const std::string&
 }
 
 std::string MessageFactory::Client::CreateChangeSyncIconDBRequest(const std::string& sync_version,
-                                                                   const std::string& sync_build_version, int id) {
+                                                                  const std::string& sync_build_version, int id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -98,6 +98,20 @@ std::string MessageFactory::Client::CreateChangeSyncIconDBRequest(const std::str
 
   Json::Value message;
   CreatePackageStructure(message, kChangeSyncIconDB, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
+std::string MessageFactory::Client::CreateChangeSyncModeRequest(const std::string& collection_mode, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kSyncCollectionMode] = collection_mode;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kChangeSyncMode, id);
   message[kParams] = params;
 
   return writer.write(message);
@@ -136,6 +150,8 @@ Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y
 }
 
 Json::Value MessageFactory::Server::CreateChangeSyncIconDBResultObject() { return Json::Value{true}; }
+
+Json::Value MessageFactory::Server::CreateChangeSyncModeResultObject() { return Json::Value{true}; }
 
 std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id) {
   Json::Value params;
