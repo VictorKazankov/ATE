@@ -35,9 +35,11 @@ class ATE {
    * @brief Waits until the object is accessible (i.e., it exists and is visible and enabled)
    * @param object_or_name object or name of the component
    * @param timeout timeout for detection of the object
-   * @return rectangle with specified coordinates of the object if successful, otherwise empty rectangle
+   * @return: a pair of possition and error code which indicate the result of function, rectangle with specified
+   * coordinates of the object if successful, otherwise return error code and empty rectangle
    */
-  cv::Rect WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout);
+  std::pair<cv::Rect, std::error_code> WaitForObject(const std::string& object_or_name,
+                                                     const std::chrono::milliseconds& timeout);
 
   /**
    * @brief The function changes resolution for video stream

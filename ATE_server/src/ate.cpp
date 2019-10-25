@@ -5,6 +5,7 @@
 
 #include <recognition/factory.h>
 
+#include "ate_error.h"
 #include "common.h"
 #include "exceptions.h"
 #include "interaction/SPI/spi_interaction.h"
@@ -111,17 +112,20 @@ void ATE::TouchAndDrag(const std::string& object_or_name, const cv::Point& start
   interaction_->TouchAndDrag(start_point.x, start_point.y, delta_point.x, delta_point.y);
 }
 
-cv::Rect ATE::WaitForObject(const std::string& object_or_name, const std::chrono::milliseconds& timeout) {
+std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const std::string& object_or_name,
+                                                        const std::chrono::milliseconds& timeout) {
   const auto timeout_point = std::chrono::steady_clock::now() + timeout;
   auto pattern = storage_.GetItem(object_or_name);
   const bool is_image = !pattern.empty();
-  cv::Rect match_result;
+  cv::Rect match_area;
+  std::error_code match_error;
 
   do {
-    match_result = is_image ? matcher_.MatchImage(object_or_name, pattern) : matcher_.MatchText(object_or_name);
-  } while (match_result.empty() && std::chrono::steady_clock::now() <= timeout_point);
+    std::tie(match_area, match_error) =
+        is_image ? matcher_.MatchImage(object_or_name, pattern) : matcher_.MatchText(object_or_name);
+  } while (match_error == common::AteError::kPatternNotFound && std::chrono::steady_clock::now() <= timeout_point);
 
-  return match_result;
+  return {match_area, match_error};
 }
 
 void ATE::ChangeResolution(int x, int y) { matcher_.ChangeResolution(x, y); }

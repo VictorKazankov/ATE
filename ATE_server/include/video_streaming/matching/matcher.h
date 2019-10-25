@@ -31,6 +31,13 @@ class Matcher {
 
   bool GrabNewFrame();
 
+  /**
+   * @brief The function to check the video stream status, if video status is on then return true
+   * otherwise return false
+   * @return true - if video stream is available, false - otherwise
+   */
+  bool IsVideoStreamAvailable();
+
  public:
   /**
    * @params streamer - Streamer. Must be not null
@@ -52,20 +59,20 @@ class Matcher {
 
   /**
    * @brief MatchImage provide image detection of the pattern on TDK screen
-   * @params object object name
-   * @params pattern pattern image
+   * @param object - object name
+   * @param pattern - pattern image
    * @return rectangle with x, y, width, height of the detected object on succeed,
-   * on failure x, y, width, height will equal 0
+   * on failure return error code and empty rectangle
    */
-  cv::Rect MatchImage(const std::string& object, const cv::Mat& pattern);
+  std::pair<cv::Rect, std::error_code> MatchImage(const std::string& object, const cv::Mat& pattern);
 
   /**
    * @brief MatchText provide text detection of the pattern on TDK screen
-   * @params text text which need to find on TDK screen
+   * @param text - text which need to find on TDK screen
    * @return rectangle with x, y, width, height of the detected object on succeed,
-   * on failure x, y, width, height will equal 0
+   * on failure return error code and empty rectangle
    */
-  cv::Rect MatchText(const std::string& text);
+  std::pair<cv::Rect, std::error_code> MatchText(const std::string& text);
 
   /**
    * @brief The function changes resolution for video stream

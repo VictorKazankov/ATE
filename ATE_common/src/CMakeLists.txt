@@ -15,6 +15,7 @@ add_library(vhat_common
     message_factory/message_factory.cpp
     utils/geometry_types.cpp
     utils/squish_types_converter.cpp
+    ate_error.cpp
     common.cpp
 )
 

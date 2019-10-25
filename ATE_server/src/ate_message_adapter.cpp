@@ -5,6 +5,7 @@
 
 #include "json/value.h"
 
+#include "ate_error.h"
 #include "logger/logger.h"
 #include "message_factory/json_defines.h"
 #include "message_factory/json_messages.h"
@@ -62,10 +63,20 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
     return std::make_pair(std::move(error), false);
   }
 
-  const cv::Rect position = ate_.WaitForObject(object_or_name, timeout);
+  cv::Rect position;
+  std::error_code error_code;
+  std::tie(position, error_code) = ate_.WaitForObject(object_or_name, timeout);
 
-  if (position.empty()) {
-    error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, "Object not found");
+  if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
+  } else if (error_code == common::AteError::kPatternInvalid || error_code == common::AteError::kPatternNotFound) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
+  } else {
+    logger::warn("[ate message adapter] unhandled error: {}, treated as object not found error");
+    error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
+  }
+
+  if (!error.empty()) {
     logger::info("[ate message adapter] object_or_name: {}, timeout: {}ms error: {}", object_or_name, timeout.count(),
                  error.toStyledString());
     return std::make_pair(std::move(error), false);

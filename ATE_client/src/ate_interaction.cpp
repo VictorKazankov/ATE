@@ -37,6 +37,7 @@ bool CheckJsonStructure(const std::string& message, Json::Value& value) {
   switch (static_cast<rpc::Error>(error[common::jmsg::kErrorCode].asInt())) {
     case rpc::Error::kObjectNotFound:
       throw squish::LookupError{};
+
     case rpc::Error::kVideoStreamNotFound:
       throw VideoStreamingError{};
 
