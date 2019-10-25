@@ -27,8 +27,8 @@ struct API {
    *enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many
    *milliseconds
    * @param _objectOrName - desirable object or name
-   * @returns the object if successful or raises a (catchable) LookupError exception on failure, i.e., if
-   * the function times out
+   * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
+   *i.e., if the function times out, the video stream is not found.
    **/
   static Object WaitForObject(const std::string& object_or_name);
   static Object WaitForObject(const Object& object_or_name);
@@ -39,8 +39,8 @@ struct API {
    *milliseconds. This function is useful if you want to synchronize your script execution.
    * @param _objectOrName - desirable object or name
    * @param timeoutMSec - timeout in miliseconds
-   * @returns the object if successful or raises a (catchable) LookupError exception on failure, i.e., if
-   * the function times out.
+   * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
+   *i.e., if the function times out, the video stream is not found.
    **/
   static Object WaitForObject(const std::string& object_or_name, int timeout_msec);
   static Object WaitForObject(const Object& object_or_name, int timeout_msec);

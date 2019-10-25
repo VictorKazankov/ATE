@@ -26,4 +26,11 @@ class InvalidSyncCollectionMode : public std::runtime_error {
 
 }  // namespace squish
 
+namespace interaction {
+class VideoStreamingError : public std::runtime_error {
+ public:
+  explicit VideoStreamingError() : std::runtime_error{"Video stream not found"} {}
+};
+}  // namespace interaction
+
 #endif  // ATE_ERROR_DEFINES_H_

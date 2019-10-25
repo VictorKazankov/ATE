@@ -16,6 +16,8 @@ enum class Error {
   kInvalidSyncCollectionMode = -32004,
   kInvalidSyncBuildVersion = -32003,
   kInvalidSyncVersion = -32002,
+  // Object recognition error
+  kVideoStreamNotFound = -32001,
   kObjectNotFound = -32000,
 };
 

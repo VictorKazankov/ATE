@@ -52,6 +52,7 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::InvalidSyncVersion>(m, "InvalidSyncVersion");
   py::register_exception<squish::InvalidSyncBuildVersion>(m, "InvalidSyncBuildVersion");
   py::register_exception<squish::InvalidSyncCollectionMode>(m, "InvalidSyncCollectionMode");
+  py::register_exception<interaction::VideoStreamingError>(m, "VideoStreamingError");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
