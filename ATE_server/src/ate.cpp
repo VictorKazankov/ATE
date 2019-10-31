@@ -85,7 +85,7 @@ ATE::ATE(boost::asio::io_context& io_context)
       matcher_{streamer::MakeStreamer(),
                detector::MakeImageDetector(
                    StrToDetectorType(common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType,
-                                                                kTemplateMathcing)),
+                                                                kMultiscaleTemplateMatching)),
                    common::Config().GetDouble(kImageDetectorSection, kImageDetectorConfidenceOption, {})),
                detector::MakeTextDetector(
                    common::Config().GetString(kTextDetectorSection, kTessDataOption, {}),
