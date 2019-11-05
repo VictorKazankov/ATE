@@ -3,6 +3,8 @@ import pytest
 from functional_tests.tests.helpers import get_exist_result
 from functional_tests.utils.sync4.constants import TASK_LINK, Text
 
+pytestmark = pytest.mark.regression_sync4
+
 
 # Main panel
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
@@ -83,28 +85,28 @@ def test_balance_fade_settings_page_reset_text(sound_settings_sync4):
     sound_settings_sync4.tap_on_back_button()
 
 
-@allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
+@allure.testcase(TASK_LINK.format("VHAT-863"), "VHAT-863")
 @pytest.mark.text_recognition
 def test_speed_comp_volume_settings_page_off_text(sound_settings_sync4):
     sound_settings_sync4.open_speed_compensated_volume()
     assert get_exist_result(Text.SPEED_COMPENSATED_VOLUME_PAGE_OFF_TEXT)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
+@allure.testcase(TASK_LINK.format("VHAT-841"), "VHAT-841")
 @pytest.mark.text_recognition
 def test_speed_comp_volume_settings_page_low_text(sound_settings_sync4):
     sound_settings_sync4.open_speed_compensated_volume()
     assert get_exist_result(Text.SPEED_COMPENSATED_VOLUME_PAGE_LOW_TEXT)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
+@allure.testcase(TASK_LINK.format("VHAT-842"), "VHAT-842")
 @pytest.mark.text_recognition
 def test_speed_comp_volume_settings_page_medium_text(sound_settings_sync4):
     sound_settings_sync4.open_speed_compensated_volume()
     assert get_exist_result(Text.SPEED_COMPENSATED_VOLUME_PAGE_MEDIUM_TEXT)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
+@allure.testcase(TASK_LINK.format("VHAT-843"), "VHAT-843")
 @pytest.mark.text_recognition
 def test_speed_comp_volume_settings_page_high_text(sound_settings_sync4):
     sound_settings_sync4.open_speed_compensated_volume()
@@ -138,7 +140,7 @@ def test_clock_settings_page_12h_text(clock_settings_sync4, name):
     assert get_exist_result(name)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
+@allure.testcase(TASK_LINK.format("VHAT-854"), "VHAT-854")
 @pytest.mark.text_recognition
 def test_clock_settings_page_reset_clock_text(clock_settings_sync4):
     assert get_exist_result(Text.RESET_CLOCK_GPS_TEXT)
@@ -230,8 +232,9 @@ def test_climate_page_text(driver_sync4, name):
                                   Text.CLIMATE_PAGE_MAX_GLASS_HEATING_TEXT, Text.CLOSE_TEXT])
 def test_climate_menu_page_text(driver_sync4, name):
     driver_sync4.climate_page.open_climate_menu()
-    assert get_exist_result(name)
+    result = get_exist_result(name)
     driver_sync4.climate_page.tap_on_close_button()
+    assert result
 
 
 # Audio page

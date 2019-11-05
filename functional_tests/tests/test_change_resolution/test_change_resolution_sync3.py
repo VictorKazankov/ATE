@@ -9,7 +9,8 @@ RESOLUTION_10 = {'type': 3, 'height': 800, 'width': 1280}
 
 
 @pytest.mark.filterwarnings('ignore::urllib3.exceptions.InsecureRequestWarning')
-@allure.testcase(TASK_LINK.format("VHAT-535"), "VHAT-535")
+@allure.testcase(TASK_LINK.format("VHAT-955"), "VHAT-955")
+@pytest.mark.skip(reason='Waiting for API for sync reboot')
 def test_change_resolution_sync3(driver_sync3):
     driver_sync3.settings_page.open_settings_page()
     assert driver_sync3.settings_page.setting_page_is_active()

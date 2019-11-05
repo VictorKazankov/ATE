@@ -19,6 +19,8 @@ from functional_tests.utils.sync3.constants import (
 # coordinates for drag down
 touch_drag_coordinates_down = ['page', 400, 300, 0, -200]
 
+pytestmark = pytest.mark.regression_sync3
+
 
 # Home page
 @allure.testcase(TASK_LINK.format("VHAT-546"), "VHAT-546")

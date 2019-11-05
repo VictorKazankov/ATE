@@ -8,10 +8,10 @@ from functional_tests.utils.sync4.constants import TASK_LINK, Icons, Text
 ATTEMPTS = 100
 PERCENT = 98
 
+pytestmark = pytest.mark.regression_sync4
 
-# image on button
 
-@allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
+@allure.testcase(TASK_LINK.format("VHAT-276"), "VHAT-276")
 @pytest.mark.image_recognition
 def test_recognition_add_phone_settings_button(settings_sync4):
     counter = {'success': 0, 'fail': 0}
@@ -19,9 +19,7 @@ def test_recognition_add_phone_settings_button(settings_sync4):
     check_recognition(counter)
 
 
-# image on panel
-
-@allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
+@allure.testcase(TASK_LINK.format("VHAT-274"), "VHAT-274")
 @pytest.mark.image_recognition
 def test_recognition_phone_button_panel(settings_sync4):
     counter = {'success': 0, 'fail': 0}
@@ -29,9 +27,7 @@ def test_recognition_phone_button_panel(settings_sync4):
     check_recognition(counter)
 
 
-# inactivity mode object image
-
-@allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
+@allure.testcase(TASK_LINK.format("VHAT-273"), "VHAT-273")
 @pytest.mark.image_recognition
 def test_recognition_12_hour_mode_button(clock_settings_sync4):
     if not clock_settings_sync4.clock_12h_button_is_active():
@@ -41,9 +37,7 @@ def test_recognition_12_hour_mode_button(clock_settings_sync4):
     check_recognition(counter)
 
 
-# activity mode object image
-
-@allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
+@allure.testcase(TASK_LINK.format("VHAT-272"), "VHAT-272")
 @pytest.mark.image_recognition
 def test_recognition_24_hour_mode_button(clock_settings_sync4):
     if not clock_settings_sync4.clock_24h_button_is_active():
@@ -53,9 +47,7 @@ def test_recognition_24_hour_mode_button(clock_settings_sync4):
     check_recognition(counter)
 
 
-# text on button
-
-@allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
+@allure.testcase(TASK_LINK.format("VHAT-271"), "VHAT-271")
 @pytest.mark.image_recognition
 def test_recognition_pm_button_clock(clock_settings_sync4):
     if not clock_settings_sync4.clock_12h_button_is_active():
@@ -64,8 +56,6 @@ def test_recognition_pm_button_clock(clock_settings_sync4):
     counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.PM_BUTTON_ACTIVE, counter)
     check_recognition(counter)
 
-
-# text on button
 
 @allure.testcase(TASK_LINK.format("VHAT-363"), "VHAT-363")
 @pytest.mark.text_recognition

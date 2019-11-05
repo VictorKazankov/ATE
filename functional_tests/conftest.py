@@ -9,7 +9,7 @@ from functional_tests.utils import wait_for_obj_benchmark
 pytest_plugins = "functional_tests.utils.logger"
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='session')
 def app_connector():
     sync = hmi.attach_to_application()
     try:

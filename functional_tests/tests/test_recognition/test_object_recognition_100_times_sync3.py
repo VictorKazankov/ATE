@@ -8,12 +8,10 @@ from functional_tests.utils.sync3.constants import TASK_LINK, Icons, Text
 ATTEMPTS = 100
 PERCENT = 98
 
-'''
-    Home page
-'''
+pytestmark = pytest.mark.regression_sync3
 
 
-@allure.testcase(TASK_LINK.format("VHAT-254"), "VHAT-254")
+@allure.testcase(TASK_LINK.format("VHAT-767"), "VHAT-767")
 @pytest.mark.image_recognition
 def test_recognition_home_icon(driver_sync3):
     if not driver_sync3.home_page.home_page_is_active():
@@ -23,7 +21,7 @@ def test_recognition_home_icon(driver_sync3):
     check_recognition(counter)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-255"), "VHAT-255")
+@allure.testcase(TASK_LINK.format("VHAT-770"), "VHAT-770")
 @pytest.mark.text_recognition
 def test_recognition_navigation_text(driver_sync3):
     if not driver_sync3.home_page.home_page_is_active():
@@ -33,12 +31,7 @@ def test_recognition_navigation_text(driver_sync3):
     check_recognition(counter)
 
 
-'''
-    Climate page
-'''
-
-
-@allure.testcase(TASK_LINK.format("VHAT-259"), "VHAT-259")
+@allure.testcase(TASK_LINK.format("VHAT-772"), "VHAT-772")
 @pytest.mark.image_recognition
 def test_recognition_climate_up_arrow_temperature(driver_sync3):
     if not driver_sync3.climat_page.climate_page_is_active():
@@ -48,7 +41,7 @@ def test_recognition_climate_up_arrow_temperature(driver_sync3):
     check_recognition(counter)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-259"), "VHAT-259")
+@allure.testcase(TASK_LINK.format("VHAT-775"), "VHAT-775")
 @pytest.mark.image_recognition
 def test_recognition_climate_down_arrow_temperature(driver_sync3):
     if not driver_sync3.climat_page.climate_page_is_active():
@@ -58,7 +51,7 @@ def test_recognition_climate_down_arrow_temperature(driver_sync3):
     check_recognition(counter)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-260"), "VHAT-260")
+@allure.testcase(TASK_LINK.format("VHAT-777"), "VHAT-777")
 @pytest.mark.image_recognition
 def test_recognition_climate_switch_on_off_button(driver_sync3):
     if not driver_sync3.climat_page.climate_page_is_active():
@@ -68,7 +61,7 @@ def test_recognition_climate_switch_on_off_button(driver_sync3):
     check_recognition(counter)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-261"), "VHAT-261")
+@allure.testcase(TASK_LINK.format("VHAT-780"), "VHAT-780")
 @pytest.mark.image_recognition
 def test_recognition_climate_top_airflow_button(driver_sync3):
     if not driver_sync3.climat_page.climate_page_is_active():
@@ -78,7 +71,7 @@ def test_recognition_climate_top_airflow_button(driver_sync3):
     check_recognition(counter)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-269"), "VHAT-269")
+@allure.testcase(TASK_LINK.format("VHAT-781"), "VHAT-781")
 @pytest.mark.text_recognition
 def test_recognition_auto_text_on_climate_page(driver_sync3):
     if not driver_sync3.climat_page.climate_page_is_active():
@@ -88,12 +81,7 @@ def test_recognition_auto_text_on_climate_page(driver_sync3):
     check_recognition(counter)
 
 
-'''
-Audio page
-'''
-
-
-@allure.testcase(TASK_LINK.format("VHAT-257"), "VHAT-257")
+@allure.testcase(TASK_LINK.format("VHAT-782"), "VHAT-782")
 @pytest.mark.image_recognition
 def test_recognition_frequency_button(driver_sync3):
     if not driver_sync3.audio_page.audio_page_is_active():
@@ -103,7 +91,7 @@ def test_recognition_frequency_button(driver_sync3):
     check_recognition(counter)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-258"), "VHAT-258")
+@allure.testcase(TASK_LINK.format("VHAT-783"), "VHAT-783")
 @pytest.mark.image_recognition
 def test_recognition_presets_button(driver_sync3):
     if not driver_sync3.audio_page.audio_page_is_active():

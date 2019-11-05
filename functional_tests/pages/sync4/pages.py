@@ -3,7 +3,8 @@ from time import sleep
 
 from functional_tests.pages import hmi
 from functional_tests.utils.sync4.constants import Icons, Text
-from vhat_client import LookupError, object
+from vhat_client import LookupError as ObjectNotFoundError
+from vhat_client import object
 
 
 class SettingsPage:
@@ -16,7 +17,8 @@ class SettingsPage:
             tap(Icons.MAIN_PANEL_SETTINGS_BUTTON_INACTIVE)
 
     def open_sound_settings_page(self):
-        if check_visibility(Icons.SOUND_SETTINGS_TITLE_ICON):
+        if check_visibility(Icons.SOUND_SETTINGS_TITLE_ICON) and check_visibility(
+                Icons.SOUND_SETTINGS_BALANCE_FADE_BUTTON):
             logging.info("Sound settings page is already open")
         elif tap_if_visible(Icons.SOUND_SETTINGS_BUTTON):
             logging.info('Open sound settings page')
@@ -286,7 +288,7 @@ def check_visibility(name):
     """ Checks if the object or text is visible. """
     try:
         return hmi.wait_for_object(name)
-    except LookupError:
+    except ObjectNotFoundError:
         return False
 
 

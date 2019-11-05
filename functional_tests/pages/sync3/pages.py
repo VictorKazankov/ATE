@@ -3,7 +3,7 @@ from time import sleep
 
 from functional_tests.pages import hmi
 from functional_tests.utils.sync3.constants import Icons, Text
-from vhat_client import LookupError
+from vhat_client import LookupError as ObjectNotFoundError
 
 
 class HomePage:
@@ -367,7 +367,7 @@ def check_visibility(name):
     try:
         sleep(2)
         return hmi.wait_for_object(name)
-    except LookupError:
+    except ObjectNotFoundError:
         return False
 
 

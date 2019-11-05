@@ -93,6 +93,7 @@ def general_settings_sync4(app_connector):
 def audio_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.audio_page.open_audio_page()
+    return api.audio_page
 
 
 @pytest.fixture(scope='module')

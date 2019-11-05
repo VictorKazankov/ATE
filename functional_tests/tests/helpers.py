@@ -3,7 +3,7 @@ import time
 
 import allure
 from functional_tests.pages import hmi
-from vhat_client import LookupError
+from vhat_client import LookupError as ObjectNotFoundError
 
 
 def get_result_recognition_in_loop(n, name, dict_attempts):
@@ -19,7 +19,7 @@ def _try_to_recognize(dict_attempts, name, n, t):
         hmi.wait_for_object(name)
         dict_attempts['success'] += 1
         logging.info('{} object recognized {} times'.format(name, dict_attempts['success']))
-    except LookupError:
+    except ObjectNotFoundError:
         dict_attempts['fail'] += 1
         logging.warning('{} object not recognized {} times'.format(name, dict_attempts['fail']))
 
@@ -31,7 +31,7 @@ def get_result_recognition(name, dict_attempts):
         dict_attempts['success'] += 1
         mark_state('PASS', name)
         logging.info('{} object recognized'.format(name))
-    except LookupError:
+    except ObjectNotFoundError:
         dict_attempts['fail'] += 1
         mark_state('FAIL', name)
         logging.warning('{} object not recognized'.format(name))

@@ -4,9 +4,10 @@ import vhat_client
 from functional_tests.tests import helpers
 from functional_tests.utils.sync3.constants import TASK_LINK, Icons
 
+pytestmark = pytest.mark.regression_sync3
 
-@allure.testcase(TASK_LINK.format("VHAT-475"), "VHAT-475")
-@pytest.mark.image_drag_api
+
+@allure.testcase(TASK_LINK.format("VHAT-956"), "VHAT-956")
 def test_drag_api_horizontally(driver_sync3):
     if not driver_sync3.settings_page.setting_page_is_active():
         driver_sync3.settings_page.open_settings_page()
@@ -17,8 +18,7 @@ def test_drag_api_horizontally(driver_sync3):
     assert helpers.get_exist_result(Icons.SETTINGS_SOUND_BUTTON)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-475"), "VHAT-475")
-@pytest.mark.text_drag_api
+@allure.testcase(TASK_LINK.format("VHAT-957"), "VHAT-957")
 def test_drag_api_vertically(driver_sync3):
     if not driver_sync3.settings_page.setting_page_is_active():
         driver_sync3.settings_page.open_settings_page()
@@ -28,8 +28,7 @@ def test_drag_api_vertically(driver_sync3):
     driver_sync3.settings_audio_page.tap_on_back_button()
 
 
-@allure.testcase(TASK_LINK.format("VHAT-475"), "VHAT-475")
-@pytest.mark.drag_api_modifier
+@allure.testcase(TASK_LINK.format("VHAT-958"), "VHAT-958")
 def test_drag_api_horizontally_with_modifier_state_argument(driver_sync3):
     modifier_value = vhat_client.ModifierState.ALT
     if not driver_sync3.settings_page.setting_page_is_active():
