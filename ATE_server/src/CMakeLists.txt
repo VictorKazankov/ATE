@@ -173,13 +173,13 @@ endif(VHAT_INSTALL_ICON_STORAGE)
 
 if(VHAT_INSTALL_SERVER_SERVICE)
   if(USE_LEGACY_SYSTEMD_FILE)
-    configure_file("../service/vhat_server.service.legacy.in" "../service/vhat_server.service")
+    configure_file("../service/vdp_vhat_server.service.legacy.in" "../service/vdp_vhat_server.service")
   else()
-    configure_file("../service/vhat_server.service.in" "../service/vhat_server.service")
+    configure_file("../service/vdp_vhat_server.service.in" "../service/vdp_vhat_server.service")
   endif()
 
   install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/../service/vhat_server.service"
+    "${CMAKE_CURRENT_BINARY_DIR}/../service/vdp_vhat_server.service"
     DESTINATION "/lib/systemd/system/"
   )
 endif(VHAT_INSTALL_SERVER_SERVICE)

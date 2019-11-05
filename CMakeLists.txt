@@ -34,7 +34,11 @@ set(VHAT_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for VHAT 
 set(VHAT_ICON_STORAGE_PREFIX "${VHAT_WRITABLE_DATA_PREFIX}/icon_storage" CACHE STRING "Prefix for VHAT icon storage")
 
 # All configs must be placed into <install prefix>/etc/vdp
-set(VHAT_INSTALL_SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR}/vdp)
+if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
+  set(VHAT_INSTALL_SYSCONFDIR /${CMAKE_INSTALL_SYSCONFDIR}/vdp)
+else()
+  set(VHAT_INSTALL_SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR}/vdp)
+endif()
 
 # All libs must ignore Debian specific /lib/<multi-arch> policy and simply install into <install prefix>/lib
 # Since there are several libraries installed, group them into <install prefix>/lib/ate
@@ -152,7 +156,8 @@ if(VHAT_CREATE_DEBIAN_PACKAGE)
     message(SEND_ERROR "Unsupported architecture for Debian package")
   endif()
 
-  set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION_FULL}_${CPACK_DEBIAN_ARCHITECTURE}")
+  set(CPACK_PACKAGE_NAME "vdp-vhat")
+  set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${PROJECT_VERSION_FULL}_${CPACK_DEBIAN_ARCHITECTURE}")
 
   set(POSTINST_FILE "${CMAKE_CURRENT_BINARY_DIR}/postinst")
   set(PRERM_FILE "${CMAKE_CURRENT_BINARY_DIR}/prerm")
