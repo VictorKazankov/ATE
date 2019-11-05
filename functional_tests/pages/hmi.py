@@ -2,8 +2,8 @@ import time
 
 from functional_tests.utils import wait_for_obj_benchmark
 from vhat_client import (ModifierState, MouseButton, attachToApplication,
-                         changeSyncIconDB, object, tapObject, touchAndDrag,
-                         waitForObject)
+                         changeSyncIconDB, changeSyncMode, object, tapObject,
+                         touchAndDrag, waitForObject)
 
 
 def attach_to_application():
@@ -35,3 +35,7 @@ def touch_and_drag(object, x, y, dx, dy, modifier=None):
 
 def change_sync_icon_db(sync, build):
     changeSyncIconDB(sync, build)
+
+
+def change_sync_mode(collection_mode):
+    changeSyncMode(collection_mode)
