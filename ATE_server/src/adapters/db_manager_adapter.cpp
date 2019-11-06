@@ -24,6 +24,19 @@ bool DBManagerAdapter::Init(const std::string& path_to_storage, const std::strin
   sync_build_version_ = sync_build_version;
   collection_mode_ = collection_mode;
 
+  // Check sync configuration and inform about incorrect value
+  error = db_manager_->CheckConfiguration(sync_version_, sync_build_version_, collection_mode_);
+  if (error) {
+    if (error == db_manager::DBManagerError::kDontExistSyncVersion) {
+      logger::warn(
+          "Undefined sync version. Also invalid sync build version and collection mode for this sync version.");
+    } else if (error == db_manager::DBManagerError::kDontExistSyncBuildVersion) {
+      logger::warn("Undefined sync build version. Also invalid collection mode for this sync build version.");
+    } else if (error == db_manager::DBManagerError::kDontExistCollectionMode) {
+      logger::warn("Undefined collection mode.");
+    }
+  }
+
   return true;
 }
 

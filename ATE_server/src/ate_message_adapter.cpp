@@ -142,11 +142,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleChangeSyncIconDB(const Jso
 
   // Change configuration
   auto change_sync_info_error = ate_.ChangeSyncVersion(sync_version, sync_build_version);
-  if (change_sync_info_error == adapter::DBManagerError::kInvalidSyncVersion) {
-    error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncVersion, "Invalid sync version");
-  } else if (change_sync_info_error == adapter::DBManagerError::kInvalidSyncBuildVersion) {
-    error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncBuildVersion, "Invalid sync build version");
-  }
+  error = CheckChangeSyncConfigurationResult(change_sync_info_error);
 
   if (!error.empty()) {
     return std::make_pair(std::move(error), false);

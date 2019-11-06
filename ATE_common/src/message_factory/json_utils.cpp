@@ -239,6 +239,11 @@ void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string
   try {
     sync_version = params[kSyncVersion].asString();
     sync_build_version = params[kSyncBuildVersion].asString();
+    if (sync_version.empty() || sync_build_version.empty()) {
+      error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid ChangeSyncIconDB params");
+      logger::error("[json msg parser] {}params: {}(empty sync_version or sync_build_version)", error.toStyledString(),
+                    params.toStyledString());
+    }
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid ChangeSyncIconDB params");
     logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),
