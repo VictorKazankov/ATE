@@ -27,7 +27,10 @@ add_library(vhat_server_lib
 )
 
 # DBManager (https://github.ford.com/VHAT/DBManagerLib)
-find_package(DBManager 1.0 REQUIRED)
+find_package(DBManager ${PROJECT_VERSION} REQUIRED)
+if(DBManager_FOUND)
+  message(STATUS "Found DBManager library version " ${DBManager_VERSION})
+endif()
 
 # pkg-config
 # https://cmake.org/cmake/help/latest/module/FindPkgConfig.html
@@ -93,7 +96,11 @@ find_package(OpenCV 3.3.1 REQUIRED
     videoio
 )
 
-find_package(Recognition 1.0 REQUIRED)
+# Recognition libraries
+find_package(Recognition ${PROJECT_VERSION} REQUIRED)
+if(Recognition_FOUND)
+  message(STATUS "Found Recognition library version " ${Recognition_VERSION})
+endif()
 
 # Workaround for build project while some packages found with pkg-config
 # TODO: Use IMPORTED_TARGET for pkg_check_modules since CMake 3.6
