@@ -56,14 +56,10 @@ def test_a_c_controls_page_text(climate_a_c_sync3, testdata):
 @allure.testcase(TASK_LINK.format("VHAT-587"), "VHAT-587")
 @pytest.mark.parametrize('testdata', [Text.NAVIGATION_FAULT_TEXT, Text.NAVIGATION_FAULT_DESCRIPTION_TEXT])
 @pytest.mark.smoke_text_recognition
-def test_navigation_dialog_text(driver_sync3, testdata):
-    driver_sync3.navigation_page.open_navigation_page()
-    result = helpers.get_exist_result(testdata)
-    driver_sync3.navigation_page.close_information_dialog()
-    assert result
+def test_navigation_dialog_text(navigation_sync3, testdata):
+    helpers.get_exist_result(testdata)
 
 
-# Phone page
 @allure.testcase(TASK_LINK.format("VHAT-586"), "VHAT-586")
 @pytest.mark.smoke_text_recognition
 def test_phone_page_text(phone_sync3):

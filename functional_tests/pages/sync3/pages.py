@@ -30,6 +30,7 @@ class HomePage:
         return False
 
     def switch_to_fm_sources_on_home_page(self):
+        # setup FM mode
         if tap_if_visible(Icons.HOME_SIRIUS_ICON):
             tap(Text.AUDIO_HIGHWAY_TEXT)
             tap(Text.SOURCES_TEXT)
@@ -38,33 +39,59 @@ class HomePage:
 
 
 class ClimatePage:
-
     def open_climate_page(self):
-        tap(Icons.INACTIVE_CLIMATE_PAGE_ICON)
+        if self.climate_page_is_active():
+            logging.info("Climate page is already open")
+        elif tap_if_visible(Icons.INACTIVE_CLIMATE_PAGE_ICON):
+            logging.info('Open Climate page')
+        else:
+            raise Exception('Can`t open Climate page')
 
     def climate_page_is_active(self):
-        return check_visibility(Icons.ACTIVE_CLIMATE_PAGE_ICON)
+        return check_visibility(Icons.CLIMATE_AUTO_BUTTON)
 
     def tap_on_climate_a_c_button(self):
-        tap(Icons.A_C_ACTIVE)
-
-    def tap_on_climate_auto_button(self):
-        tap(Icons.CLIMATE_AUTO_BUTTON)
+        if check_visibility(Text.CLIMATE_A_C_CONTROLS_TEXT):
+            logging.info("A/C dialog is already open")
+        elif tap_if_visible(Icons.A_C_ACTIVE):
+            logging.info('Open A/C dialog')
+        elif check_visibility(Icons.CLOSE_BUTTON):
+            self.close_information_dialog()
+            tap(Icons.A_C_ACTIVE)
+            logging.info('Open A/C dialog')
+        else:
+            self.open_climate_page()
+            tap(Icons.A_C_ACTIVE)
 
     def tap_on_climate_defrost_button(self):
-        tap(Icons.CLIMATE_DEFROST_BUTTON)
+        if check_visibility(Text.DEFROST_CONTROLS_TEXT):
+            logging.info("Defrost dialog is already open")
+        elif tap_if_visible(Icons.CLIMATE_DEFROST_BUTTON):
+            logging.info('Open defrost dialog')
+        elif check_visibility(Icons.CLOSE_BUTTON):
+            self.close_information_dialog()
+            tap(Icons.CLIMATE_DEFROST_BUTTON)
+            logging.info('Open Defrost dialog')
+        else:
+            self.open_climate_page()
+            tap(Icons.CLIMATE_DEFROST_BUTTON)
 
     def close_information_dialog(self):
         tap(Icons.CLOSE_BUTTON)
+        logging.info('Close popup window on climate page')
 
 
 class AudioPage:
-
     def open_audio_page(self):
-        tap(Icons.INACTIVE_AUDIO_PAGE_BUTTON)
+        if self.audio_page_is_active():
+            logging.info("Audio page is already open")
+        elif tap_if_visible(Icons.INACTIVE_AUDIO_PAGE_BUTTON):
+            logging.info('Open audio page')
+        else:
+            raise Exception('Can`t open Audio page')
 
     def audio_page_is_active(self):
-        return check_visibility(Icons.ACTIVE_AUDIO_BUTTON)
+        return check_visibility(Text.AUDIO_FREQUENCY_TEXT)
 
     def set_frequency(self, frequency):
         frequency_buttons = {0: "key_0_active", 1: "key_1_active", 2: "key_2_active",
@@ -83,19 +110,37 @@ class AudioPage:
         tap(Icons.ENTER_BUTTON_IN_SET_FREQUENCY)
 
     def open_audio_sources(self):
-        tap(Text.SOURCES_TEXT)
+        if check_visibility(Text.AUDIO_SOURCES_TITLE_TEXT):
+            logging.info("Audio sources page is already open")
+        elif tap_if_visible(Text.SOURCES_TEXT):
+            logging.info('Open Audio sources page')
+        elif tap_if_visible(Text.AUDIO_DIRECT_TUNE_CANCEL):
+            logging.info('Closing popup window')
+            tap(Text.SOURCES_TEXT)
+        else:
+            self.open_audio_page()
+            tap(Text.SOURCES_TEXT)
 
     def tap_siriusxm_button(self):
-        tap(Icons.AUDIO_SIRIUS_SOURCES_BUTTON)
-
-    def open_fm_type(self):
-        tap_if_visible(Text.AUDIO_FM_TEXT)
-
-    def tap_clsvinyl_direction(self):
-        tap(Text.AUDIO_CLSVINYL_TEXT)
+        if check_visibility(Text.AUDIO_CHANNEL_GUIDE_TEXT):
+            logging.info("Sirius XM page is already open")
+        elif tap_if_visible(Icons.AUDIO_SIRIUS_SOURCES_BUTTON):
+            logging.info('Open Sirius XM page')
+            tap(Text.AUDIO_CLSVINYL_TEXT)
+            logging.info('Set ClsVinyl tone')
+        else:
+            self.open_audio_sources()
+            tap(Icons.AUDIO_SIRIUS_SOURCES_BUTTON)
 
     def open_direct_tune(self):
-        tap(Icons.AUDIO_FREQUENCY_BUTTON)
+        if check_visibility(Text.AUDIO_DIRECT_TUNE_CANCEL):
+            logging.info("Direct tune dialog is already open")
+        elif tap_if_visible(Icons.AUDIO_FREQUENCY_BUTTON):
+            logging.info('Open Direct tune dialog')
+        else:
+            self.open_audio_page()
+            tap(Icons.AUDIO_FREQUENCY_BUTTON)
+            logging.info('Open tune dialog page')
 
     def tap_cancel_text(self):
         tap(Text.AUDIO_DIRECT_TUNE_CANCEL)
@@ -107,13 +152,25 @@ class AudioPage:
 class PhonePage:
 
     def open_phone_page(self):
-        tap(Icons.INACTIVE_PHONE_PAGE_BUTTON)
-
-    def phone_page_is_active(self):
-        return check_visibility(Icons.ACTIVE_PHONE_PAGE_BUTTON)
+        if check_visibility(Icons.PHONE_PAIR_PHONE_BUTTON):
+            logging.info("Phone page is already open")
+        elif tap_if_visible(Icons.INACTIVE_PHONE_PAGE_BUTTON):
+            logging.info('Open Phone page')
+        elif tap_if_visible(Icons.CLOSE_BUTTON):
+            logging.info('Closing popup window')
+            tap_if_visible(Icons.INACTIVE_PHONE_PAGE_BUTTON)
+            logging.info('Open Navigation fault dialog')
+        else:
+            raise Exception('Can`t open phone page')
 
     def tap_pair_phone_button(self):
-        tap(Icons.PHONE_PAIR_PHONE_BUTTON)
+        if check_visibility(Icons.PHONE_PAIR_DISCOVER_BUTTON):
+            logging.info("Phone pair page is already open")
+        elif tap_if_visible(Icons.PHONE_PAIR_PHONE_BUTTON):
+            logging.info('Open Phone page')
+        else:
+            self.open_phone_page()
+            tap(Icons.PHONE_PAIR_PHONE_BUTTON)
 
     def phone_pair_phone_page_is_active(self):
         return hmi.obj_exists(Icons.PHONE_PAIR_DISCOVER_BUTTON)
@@ -122,22 +179,44 @@ class PhonePage:
 class MobileApppsPage:
 
     def open_mobile_apps_page(self):
-        tap(Icons.INACTIVE_MOBILE_APPS_PAGE_BUTTON)
+        if check_visibility(Text.MOBILE_APPS_ADD_A_DEVICE_TEXT):
+            logging.info("Mobile apps page is already open")
+        elif tap_if_visible(Icons.INACTIVE_MOBILE_APPS_PAGE_BUTTON):
+            logging.info('Open Mobile apps page')
+        else:
+            raise Exception('Can`t open Mobile apps page')
 
     def open_siriusxm_travel_link(self):
-        tap(Icons.SIRIUSXM_BUTTON)
+        if check_visibility(Text.MOBILE_APPS_SIRIUSXM_TRAFFIC_LIST_TEXT):
+            logging.info("Travel link page is already open")
+        elif tap_if_visible(Icons.SIRIUSXM_BUTTON):
+            logging.info('Open Travel link page')
+        else:
+            self.open_mobile_apps_page()
+            tap(Icons.SIRIUSXM_BUTTON)
 
     def open_subscription_info(self):
-        tap(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TEXT)
+        if check_visibility(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TITLE_TEXT):
+            logging.info("Subscription_info page is already open")
+        elif tap_if_visible(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TEXT):
+            logging.info('Open Subscription info page')
+        else:
+            self.open_siriusxm_travel_link()
+            tap(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TEXT)
 
 
 class NavigationPage:
-
-    def open_navigation_page(self):
-        tap(Icons.INACTIVE_NAVIGATION_PAGE_BUTTON)
-
-    def close_information_dialog(self):
-        tap(Icons.CLOSE_BUTTON)
+    def open_navigation_dialog_page(self):
+        if check_visibility(Text.NAVIGATION_FAULT_DESCRIPTION_TEXT):
+            logging.info("Navigation fault dialog is already open")
+        elif tap_if_visible(Icons.INACTIVE_NAVIGATION_PAGE_BUTTON):
+            logging.info('Open Navigation fault dialog')
+        elif tap_if_visible(Icons.CLOSE_BUTTON):
+            logging.info('Closing popup window')
+            tap_if_visible(Icons.INACTIVE_NAVIGATION_PAGE_BUTTON)
+            logging.info('Open Navigation fault dialog')
+        else:
+            raise Exception('Can`t open Navigation dialog page')
 
 
 class SettingsPage:
@@ -377,7 +456,7 @@ def tap_if_visible(name):
     obj = check_visibility(name)
     if obj:
         hmi.tap_object(obj)
-        sleep(1)
+        sleep(2)
         logging.info("Tap on x:{}, y:{}".format(obj.x, obj.y))
         return True
     return False

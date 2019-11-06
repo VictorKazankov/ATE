@@ -158,7 +158,7 @@ def phone_page(counter, driver):
 
 def climate_page(counter, driver):
     # Go to Climate page
-    driver.climat_page.open_climate_page()
+    driver.climate_page.open_climate_page()
     helpers.get_result_recognition(Text.AUTO_TEXT, counter)
     helpers.get_result_recognition(Icons.CLIMATE_ON_OFF_BUTTON, counter)
     helpers.get_result_recognition(Text.DUAL_TEXT, counter)
@@ -169,12 +169,12 @@ def climate_page(counter, driver):
     helpers.get_result_recognition(Icons.DOWN_AIRFLOW_ACTIVE_BUTTON, counter)
     helpers.get_result_recognition(Icons.A_C_ACTIVE, counter)
     # Go to Defrost controls panel
-    driver.climat_page.tap_on_climate_defrost_button()
+    driver.climate_page.tap_on_climate_defrost_button()
     helpers.get_result_recognition(Text.DEFROST_CONTROLS_TEXT, counter)
     helpers.get_result_recognition(Icons.MAX_FRONT_HEATING_INACTIVE, counter)
     helpers.get_result_recognition(Icons.FRONT_HEATING, counter)
     helpers.get_result_recognition(Icons.REAR_HEATING, counter)
-    driver.climat_page.close_information_dialog()
+    driver.climate_page.close_information_dialog()
     helpers.get_result_recognition(Icons.ACTIVE_CLIMATE_PAGE_ICON, counter)
 
 
