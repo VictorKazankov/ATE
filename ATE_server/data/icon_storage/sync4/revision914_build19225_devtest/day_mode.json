@@ -1,0 +1,576 @@
+[
+   {
+      "extension": "png",
+      "name": "main_audio_inactive_button",
+      "parent_screen": "home",
+      "x": 88,
+      "y": 1131
+   },
+   {
+      "extension": "png",
+      "name": "main_audio_active_button",
+      "parent_screen": "home",
+      "x": 89,
+      "y": 1100
+   },
+   {
+      "extension": "png",
+      "name": "audio_direct_tune_cancel_button",
+      "parent_screen": "home",
+      "x": 875,
+      "y": 970
+   },
+   {
+      "extension": "png",
+      "name": "audio_direct_tune_enter_button",
+      "parent_screen": "home",
+      "x": 504,
+      "y": 970
+   },
+   {
+      "extension": "png",
+      "name": "key_1_active",
+      "parent_screen": "home",
+      "x": 548,
+      "y": 388
+   },
+   {
+      "extension": "png",
+      "name": "key_2_active",
+      "parent_screen": "home",
+      "x": 687,
+      "y": 389
+   },
+   {
+      "extension": "png",
+      "name": "key_3_active",
+      "parent_screen": "home",
+      "x": 825,
+      "y": 389
+   },
+   {
+      "extension": "png",
+      "name": "key_4_active",
+      "parent_screen": "home",
+      "x": 549,
+      "y": 533
+   },
+   {
+      "extension": "png",
+      "name": "key_5_active",
+      "parent_screen": "home",
+      "x": 686,
+      "y": 534
+   },
+   {
+      "extension": "png",
+      "name": "key_6_active",
+      "parent_screen": "home",
+      "x": 825,
+      "y": 534
+   },
+   {
+      "extension": "png",
+      "name": "key_7_active",
+      "parent_screen": "home",
+      "x": 551,
+      "y": 676
+   },
+   {
+      "extension": "png",
+      "name": "key_8_active",
+      "parent_screen": "home",
+      "x": 688,
+      "y": 678
+   },
+   {
+      "extension": "png",
+      "name": "key_9_active",
+      "parent_screen": "home",
+      "x": 824,
+      "y": 676
+   },
+   {
+      "extension": "png",
+      "name": "key_0_active",
+      "parent_screen": "home",
+      "x": 686,
+      "y": 817
+   },
+   {
+      "extension": "png",
+      "name": "audio_direct_tune_delete_button",
+      "parent_screen": "home",
+      "x": 865,
+      "y": 244
+   },
+   {
+      "extension": "png",
+      "name": "main_phone_inactive_button",
+      "parent_screen": "home",
+      "x": 431,
+      "y": 1128
+   },
+   {
+      "extension": "png",
+      "name": "main_phone_active_button",
+      "parent_screen": "home",
+      "x": 430,
+      "y": 1104
+   },
+   {
+      "extension": "png",
+      "name": "phone_contacts_button",
+      "parent_screen": "home",
+      "x": 524,
+      "y": 455
+   },
+   {
+      "extension": "png",
+      "name": "key_caption_on",
+      "parent_screen": "home",
+      "x": 117,
+      "y": 1038
+   },
+   {
+      "extension": "png",
+      "name": "key_space_active",
+      "parent_screen": "home",
+      "x": 719,
+      "y": 1133
+   },
+   {
+      "extension": "png",
+      "name": "key_enter_active",
+      "parent_screen": "home",
+      "x": 1253,
+      "y": 1133
+   },
+   {
+      "extension": "png",
+      "name": "key_del_active",
+      "parent_screen": "home",
+      "x": 1257,
+      "y": 1037
+   },
+   {
+      "extension": "png",
+      "name": "key_q_low_active",
+      "parent_screen": "home",
+      "x": 82,
+      "y": 841
+   },
+   {
+      "extension": "png",
+      "name": "key_w_low_active",
+      "parent_screen": "home",
+      "x": 217,
+      "y": 839
+   },
+   {
+      "extension": "png",
+      "name": "key_e_low_active",
+      "parent_screen": "home",
+      "x": 353,
+      "y": 839
+   },
+   {
+      "extension": "png",
+      "name": "key_r_low_active",
+      "parent_screen": "home",
+      "x": 486,
+      "y": 840
+   },
+   {
+      "extension": "png",
+      "name": "key_t_low_active",
+      "parent_screen": "home",
+      "x": 620,
+      "y": 840
+   },
+   {
+      "extension": "png",
+      "name": "key_y_low_active",
+      "parent_screen": "home",
+      "x": 752,
+      "y": 841
+   },
+   {
+      "extension": "png",
+      "name": "key_u_low_active",
+      "parent_screen": "home",
+      "x": 889,
+      "y": 841
+   },
+   {
+      "extension": "png",
+      "name": "key_i_low_active",
+      "parent_screen": "home",
+      "x": 1021,
+      "y": 839
+   },
+   {
+      "extension": "png",
+      "name": "key_o_low_active",
+      "parent_screen": "home",
+      "x": 1155,
+      "y": 841
+   },
+   {
+      "extension": "png",
+      "name": "key_p_low_active",
+      "parent_screen": "home",
+      "x": 1290,
+      "y": 843
+   },
+   {
+      "extension": "png",
+      "name": "key_l_low_active",
+      "parent_screen": "home",
+      "x": 1280,
+      "y": 937
+   },
+   {
+      "extension": "png",
+      "name": "key_k_low_active",
+      "parent_screen": "home",
+      "x": 1131,
+      "y": 939
+   },
+   {
+      "extension": "png",
+      "name": "key_j_low_active",
+      "parent_screen": "home",
+      "x": 984,
+      "y": 939
+   },
+   {
+      "extension": "png",
+      "name": "key_h_low_active",
+      "parent_screen": "home",
+      "x": 834,
+      "y": 938
+   },
+   {
+      "extension": "png",
+      "name": "key_m_low_active",
+      "parent_screen": "home",
+      "x": 1085,
+      "y": 1039
+   },
+   {
+      "extension": "png",
+      "name": "key_n_low_active",
+      "parent_screen": "home",
+      "x": 954,
+      "y": 1036
+   },
+   {
+      "extension": "png",
+      "name": "key_b_low_active",
+      "parent_screen": "home",
+      "x": 820,
+      "y": 1039
+   },
+   {
+      "extension": "png",
+      "name": "key_g_low_active",
+      "parent_screen": "home",
+      "x": 686,
+      "y": 942
+   },
+   {
+      "extension": "png",
+      "name": "key_v_low_active",
+      "parent_screen": "home",
+      "x": 686,
+      "y": 1041
+   },
+   {
+      "extension": "png",
+      "name": "key_f_low_active",
+      "parent_screen": "home",
+      "x": 537,
+      "y": 938
+   },
+   {
+      "extension": "png",
+      "name": "key_c_low_active",
+      "parent_screen": "home",
+      "x": 553,
+      "y": 1038
+   },
+   {
+      "extension": "png",
+      "name": "key_d_low_active",
+      "parent_screen": "home",
+      "x": 390,
+      "y": 938
+   },
+   {
+      "extension": "png",
+      "name": "key_x_low_active",
+      "parent_screen": "home",
+      "x": 419,
+      "y": 1038
+   },
+   {
+      "extension": "png",
+      "name": "key_s_low_active",
+      "parent_screen": "home",
+      "x": 239,
+      "y": 939
+   },
+   {
+      "extension": "png",
+      "name": "key_a_low_active",
+      "parent_screen": "home",
+      "x": 90,
+      "y": 939
+   },
+   {
+      "extension": "png",
+      "name": "key_caption_off",
+      "parent_screen": "home",
+      "x": 119,
+      "y": 1036
+   },
+   {
+      "extension": "png",
+      "name": "back_from_keyboard",
+      "parent_screen": "home",
+      "x": 65,
+      "y": 30
+   },
+   {
+      "extension": "png",
+      "name": "back_previous_menu",
+      "parent_screen": "settings",
+      "x": 53,
+      "y": 174
+   },
+   {
+      "extension": "png",
+      "name": "other_contact_icon",
+      "parent_screen": "home",
+      "x": 121,
+      "y": 345
+   },
+   {
+      "extension": "png",
+      "name": "mobile_contact_icon",
+      "parent_screen": "home",
+      "x": 121,
+      "y": 346
+   },
+   {
+      "extension": "png",
+      "name": "home_contact_icon",
+      "parent_screen": "home",
+      "x": 121,
+      "y": 346
+   },
+   {
+      "extension": "png",
+      "name": "main_settings_inactive_button",
+      "parent_screen": "home",
+      "x": 1113,
+      "y": 1129
+   },
+   {
+      "extension": "png",
+      "name": "audio_sources_button",
+      "parent_screen": "home",
+      "x": 250,
+      "y": 308
+   },
+   {
+      "extension": "png",
+      "name": "audio_direct_tune_button",
+      "parent_screen": "home",
+      "x": 218,
+      "y": 418
+   },
+   {
+      "extension": "png",
+      "name": "audio_fm_button",
+      "parent_screen": "home",
+      "x": 523,
+      "y": 459
+   },
+   {
+      "extension": "png",
+      "name": "audio_direct_tune_delete_button",
+      "parent_screen": "home",
+      "x": 867,
+      "y": 243
+   },
+   {
+      "extension": "png",
+      "name": "audio_direct_tune_enter_button",
+      "parent_screen": "home",
+      "x": 517,
+      "y": 970
+   },
+   {
+      "extension": "png",
+      "name": "audio_direct_tune_cancel_button",
+      "parent_screen": "home",
+      "x": 890,
+      "y": 968
+   },
+   {
+      "extension": "png",
+      "name": "phone_contacts_button",
+      "parent_screen": "home",
+      "x": 524,
+      "y": 407
+   },
+   {
+      "extension": "png",
+      "name": "radio_fm_icon",
+      "parent_screen": "home",
+      "x": 105,
+      "y": 306
+   },
+   {
+      "extension": "png",
+      "name": "main_settings_active_button",
+      "parent_screen": "home",
+      "x": 1277,
+      "y": 1093
+   },
+   {
+      "extension": "png",
+      "name": "settings_add_phone",
+      "parent_screen": "home",
+      "x": 1172,
+      "y": 456
+   },
+   {
+      "extension": "png",
+      "name": "settings_clock_button",
+      "parent_screen": "home",
+      "x": 522,
+      "y": 458
+   },
+   {
+      "extension": "png",
+      "name": "settings_clock_24h_disable",
+      "parent_screen": "home",
+      "x": 553,
+      "y": 577
+   },
+   {
+      "extension": "png",
+      "name": "settings_clock_24_enable",
+      "parent_screen": "home",
+      "x": 549,
+      "y": 580
+   },
+   {
+      "extension": "png",
+      "name": "on_off_active_button",
+      "parent_screen": "home",
+      "x": 998,
+      "y": 579
+   },
+   {
+      "extension": "png",
+      "name": "on_off_inactive_button",
+      "parent_screen": "home",
+      "x": 996,
+      "y": 579
+   },
+   {
+      "extension": "png",
+      "name": "settings_clock_24h_enable",
+      "parent_screen": "home",
+      "x": 544,
+      "y": 578
+   },
+   {
+      "extension": "png",
+      "name": "settings_clock_pm_active",
+      "parent_screen": "home",
+      "x": 1085,
+      "y": 465
+   },
+   {
+      "extension": "png",
+      "name": "main_apps_active_button",
+      "parent_screen": "main",
+      "x": 1079,
+      "y": 1095
+   },
+   {
+      "extension": "png",
+      "name": "main_apps_inactive_button",
+      "parent_screen": "main",
+      "x": 1078,
+      "y": 1125
+   },
+   {
+      "extension": "png",
+      "name": "app_link_accuweather_button",
+      "parent_screen": "apps",
+      "x": 195,
+      "y": 675
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_alert_button",
+      "parent_screen": "accuweather",
+      "x": 304,
+      "y": 975
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_mincast_button",
+      "parent_screen": "accuweather",
+      "x": 487,
+      "y": 973
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_menu_button",
+      "parent_screen": "accuweather",
+      "x": 119,
+      "y": 1008
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_menu_alert_icon",
+      "parent_screen": "accuweather",
+      "x": 64,
+      "y": 301
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_menu_mincast_icon",
+      "parent_screen": "accuweather",
+      "x": 63,
+      "y": 459
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_menu_lookingahead_icon",
+      "parent_screen": "accuweather",
+      "x": 64,
+      "y": 765
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_menu_exit_button",
+      "parent_screen": "accuweather",
+      "x": 200,
+      "y": 922
+   },
+   {
+      "extension": "png",
+      "name": "accuwx_menu_todayforecast_icon",
+      "parent_screen": "accuweather",
+      "x": 65,
+      "y": 612
+   }
+]
