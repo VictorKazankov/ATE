@@ -1,254 +1,340 @@
 [
-  {
-    "name": "home",
-    "extension": "png"
-  },
-  {
-    "name": "audio_active",
-    "extension": "png"
-  },
-  {
-    "name": "audio",
-    "extension": "png"
-  },
-  {
-    "name": "phone_button",
-    "extension": "png"
-  },
-  {
-    "name": "phone_button_panel",
-    "extension": "png"
-  },
-  {
-    "name": "phone_contacts_button",
-    "extension": "png"
-  },
-  {
-    "name": "key_6_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_z_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_k_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_c_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_j_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_0_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_m_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_y_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_h_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "enter_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_e_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_u_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_5_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_l_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_t_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_2_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_4_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_q_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_v_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_o_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_r_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_1_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_9_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_m_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_n_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_w_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_p_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "del_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_8_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_b_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_a_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_i_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_d_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_7_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_3_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_f_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_g_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_s_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "key_x_upper_activate",
-    "extension": "png"
-  },
-  {
-    "name": "auto_exit_menu",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_pause_button_main_screen",
-    "extension": "png"
-  },
-  {
-    "name": "all_car_apps",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_music_app",
-    "extension": "png"
-  },
-  {
-    "name": "auto_music_menu",
-    "extension": "png"
-  },
-  {
-    "name": "auto_main_menu_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "auto_main_menu",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_play_button",
-    "extension": "png"
-  },
-  {
-    "name": "android_auto_icon",
-    "extension": "png"
-  },
-  {
-    "name": "return_sync",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_pause_button",
-    "extension": "png"
-  },
-  {
-    "name": "audio_source_button",
-    "extension": "png"
-  },
-  {
-    "name": "radio_enter_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "radio_tune_button",
-    "extension": "png"
-  },
-  {
-    "name": "radio_fm",
-    "extension": "png"
-  },
-  {
-    "name": "radio_fm_active",
-    "extension": "png"
-  },
-  {
-    "name": "radio_am_active",
-    "extension": "png"
-  },
-  {
-    "name": "radio_am",
-    "extension": "png"
-  }
+   {
+      "extension" : "png",
+      "name" : "home"
+   },
+   {
+      "extension" : "png",
+      "name" : "audio_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "audio"
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_button_panel"
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_contacts_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_6_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_z_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_k_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_c_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_j_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_0_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_m_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_y_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_h_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "enter_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_e_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_u_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_5_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_l_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_t_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_2_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_4_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_q_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_v_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_o_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_r_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_1_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_9_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_m_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_n_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_w_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_p_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "del_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_8_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_b_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_a_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_i_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_d_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_7_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_3_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_f_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_g_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_s_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "key_x_upper_activate"
+   },
+   {
+      "extension" : "png",
+      "name" : "auto_exit_menu"
+   },
+   {
+      "extension" : "png",
+      "name" : "gplay_pause_button_main_screen"
+   },
+   {
+      "extension" : "png",
+      "name" : "all_car_apps"
+   },
+   {
+      "extension" : "png",
+      "name" : "gplay_music_app"
+   },
+   {
+      "extension" : "png",
+      "name" : "auto_music_menu"
+   },
+   {
+      "extension" : "png",
+      "name" : "auto_main_menu_inactive"
+   },
+   {
+      "extension" : "png",
+      "name" : "auto_main_menu"
+   },
+   {
+      "extension" : "png",
+      "name" : "gplay_play_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "android_auto_icon"
+   },
+   {
+      "extension" : "png",
+      "name" : "return_sync"
+   },
+   {
+      "extension" : "png",
+      "name" : "gplay_pause_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "audio_source_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_enter_button_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_tune_button"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_fm"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_fm_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_am_active"
+   },
+   {
+      "extension" : "png",
+      "name" : "radio_am",
+      "parent_screen" : "audio_sources"
+   },
+   {
+      "extension" : "png",
+      "name" : "main_apps_inactive_button",
+      "parent_screen" : "main",
+      "x" : 600,
+      "y" : 437
+   },
+   {
+      "extension" : "png",
+      "name" : "main_apps_active_button",
+      "parent_screen" : "main",
+      "x" : 599,
+      "y" : 439
+   },
+   {
+      "extension" : "png",
+      "name" : "app_link_accuweather_button",
+      "parent_screen" : "main",
+      "x" : 496,
+      "y" : 113
+   },
+   {
+      "extension" : "png",
+      "name" : "accuwx_alert_button",
+      "parent_screen" : "accuweather",
+      "x" : 289,
+      "y" : 282
+   },
+   {
+      "extension" : "png",
+      "name" : "accuwx_mincast_button",
+      "parent_screen" : "accuweather",
+      "x" : 474,
+      "y" : 283
+   },
+   {
+      "extension" : "png",
+      "name" : "accuwx_menu_button",
+      "parent_screen" : "accuweather",
+      "x" : 102,
+      "y" : 312
+   },
+   {
+      "extension" : "png",
+      "name" : "accuwx_menu_alert_icon",
+      "parent_screen" : "accuweather",
+      "x" : 67,
+      "y" : 96
+   },
+   {
+      "extension" : "png",
+      "name" : "accuwx_menu_mincast_icon",
+      "parent_screen" : "accuweather",
+      "x" : 67,
+      "y" : 163
+   },
+   {
+      "extension" : "png",
+      "name" : "accuwx_menu_lookingahead_icon",
+      "parent_screen" : "accuweather",
+      "x" : 67,
+      "y" : 302
+   },
+   {
+      "extension" : "png",
+      "name" : "accuwx_menu_todayforecast_icon",
+      "parent_screen" : "accuweather",
+      "x" : 67,
+      "y" : 232
+   },
+   {
+      "extension" : "png",
+      "name" : "app_link_popup_yes",
+      "parent_screen" : "yes_no_popup",
+      "x" : 233,
+      "y" : 415
+   },
+   {
+      "extension" : "png",
+      "name" : "app_link_popup_no",
+      "parent_screen" : "yes_no_popup",
+      "x" : 569,
+      "y" : 414
+   }
 ]
+
