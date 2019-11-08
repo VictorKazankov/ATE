@@ -9,7 +9,7 @@ def attach_to_application():
     return attachToApplication('')
 
 
-def wait_for_object(object_name, timeout=5000):
+def wait_for_object(object_name, timeout=7000):
     start = time.time()
     obj = waitForObject(object_name, timeout)
     wait_for_obj_benchmark.set_time(time.time() - start, object_name)

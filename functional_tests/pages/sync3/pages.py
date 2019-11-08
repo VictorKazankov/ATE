@@ -1,9 +1,8 @@
 import logging
-from time import sleep
 
 from functional_tests.pages import hmi
+from functional_tests.pages.interaction import tap, tap_if_visible
 from functional_tests.utils.sync3.constants import Icons, Text
-from vhat_client import LookupError as ObjectNotFoundError
 
 
 class HomePage:
@@ -25,7 +24,7 @@ class HomePage:
             raise Exception('Can`t open home page')
 
     def home_page_is_active(self):
-        if check_visibility(Text.NAVIGATION_FAULT_TEXT):
+        if hmi.obj_exists(Text.NAVIGATION_FAULT_TEXT):
             return True
         return False
 
@@ -48,14 +47,14 @@ class ClimatePage:
             raise Exception('Can`t open Climate page')
 
     def climate_page_is_active(self):
-        return check_visibility(Icons.CLIMATE_AUTO_BUTTON)
+        return hmi.obj_exists(Icons.CLIMATE_AUTO_BUTTON)
 
     def tap_on_climate_a_c_button(self):
-        if check_visibility(Text.CLIMATE_A_C_CONTROLS_TEXT):
+        if hmi.obj_exists(Text.CLIMATE_A_C_CONTROLS_TEXT):
             logging.info("A/C dialog is already open")
         elif tap_if_visible(Icons.A_C_ACTIVE):
             logging.info('Open A/C dialog')
-        elif check_visibility(Icons.CLOSE_BUTTON):
+        elif hmi.obj_exists(Icons.CLOSE_BUTTON):
             self.close_information_dialog()
             tap(Icons.A_C_ACTIVE)
             logging.info('Open A/C dialog')
@@ -64,11 +63,11 @@ class ClimatePage:
             tap(Icons.A_C_ACTIVE)
 
     def tap_on_climate_defrost_button(self):
-        if check_visibility(Text.DEFROST_CONTROLS_TEXT):
+        if hmi.obj_exists(Text.DEFROST_CONTROLS_TEXT):
             logging.info("Defrost dialog is already open")
         elif tap_if_visible(Icons.CLIMATE_DEFROST_BUTTON):
             logging.info('Open defrost dialog')
-        elif check_visibility(Icons.CLOSE_BUTTON):
+        elif hmi.obj_exists(Icons.CLOSE_BUTTON):
             self.close_information_dialog()
             tap(Icons.CLIMATE_DEFROST_BUTTON)
             logging.info('Open Defrost dialog')
@@ -91,7 +90,7 @@ class AudioPage:
             raise Exception('Can`t open Audio page')
 
     def audio_page_is_active(self):
-        return check_visibility(Text.AUDIO_FREQUENCY_TEXT)
+        return hmi.obj_exists(Text.AUDIO_FREQUENCY_TEXT)
 
     def set_frequency(self, frequency):
         frequency_buttons = {0: "key_0_active", 1: "key_1_active", 2: "key_2_active",
@@ -110,7 +109,7 @@ class AudioPage:
         tap(Icons.ENTER_BUTTON_IN_SET_FREQUENCY)
 
     def open_audio_sources(self):
-        if check_visibility(Text.AUDIO_SOURCES_TITLE_TEXT):
+        if hmi.obj_exists(Text.AUDIO_SOURCES_TITLE_TEXT):
             logging.info("Audio sources page is already open")
         elif tap_if_visible(Text.SOURCES_TEXT):
             logging.info('Open Audio sources page')
@@ -122,7 +121,7 @@ class AudioPage:
             tap(Text.SOURCES_TEXT)
 
     def tap_siriusxm_button(self):
-        if check_visibility(Text.AUDIO_CHANNEL_GUIDE_TEXT):
+        if hmi.obj_exists(Text.AUDIO_CHANNEL_GUIDE_TEXT):
             logging.info("Sirius XM page is already open")
         elif tap_if_visible(Icons.AUDIO_SIRIUS_SOURCES_BUTTON):
             logging.info('Open Sirius XM page')
@@ -133,7 +132,7 @@ class AudioPage:
             tap(Icons.AUDIO_SIRIUS_SOURCES_BUTTON)
 
     def open_direct_tune(self):
-        if check_visibility(Text.AUDIO_DIRECT_TUNE_CANCEL):
+        if hmi.obj_exists(Text.AUDIO_DIRECT_TUNE_CANCEL):
             logging.info("Direct tune dialog is already open")
         elif tap_if_visible(Icons.AUDIO_FREQUENCY_BUTTON):
             logging.info('Open Direct tune dialog')
@@ -152,7 +151,7 @@ class AudioPage:
 class PhonePage:
 
     def open_phone_page(self):
-        if check_visibility(Icons.PHONE_PAIR_PHONE_BUTTON):
+        if hmi.obj_exists(Icons.PHONE_PAIR_PHONE_BUTTON):
             logging.info("Phone page is already open")
         elif tap_if_visible(Icons.INACTIVE_PHONE_PAGE_BUTTON):
             logging.info('Open Phone page')
@@ -163,8 +162,11 @@ class PhonePage:
         else:
             raise Exception('Can`t open phone page')
 
+    def phone_page_is_active(self):
+        return hmi.obj_exists(Icons.ACTIVE_PHONE_PAGE_BUTTON)
+
     def tap_pair_phone_button(self):
-        if check_visibility(Icons.PHONE_PAIR_DISCOVER_BUTTON):
+        if hmi.obj_exists(Icons.PHONE_PAIR_DISCOVER_BUTTON):
             logging.info("Phone pair page is already open")
         elif tap_if_visible(Icons.PHONE_PAIR_PHONE_BUTTON):
             logging.info('Open Phone page')
@@ -179,7 +181,7 @@ class PhonePage:
 class MobileApppsPage:
 
     def open_mobile_apps_page(self):
-        if check_visibility(Text.MOBILE_APPS_ADD_A_DEVICE_TEXT):
+        if hmi.obj_exists(Text.MOBILE_APPS_ADD_A_DEVICE_TEXT):
             logging.info("Mobile apps page is already open")
         elif tap_if_visible(Icons.INACTIVE_MOBILE_APPS_PAGE_BUTTON):
             logging.info('Open Mobile apps page')
@@ -187,7 +189,7 @@ class MobileApppsPage:
             raise Exception('Can`t open Mobile apps page')
 
     def open_siriusxm_travel_link(self):
-        if check_visibility(Text.MOBILE_APPS_SIRIUSXM_TRAFFIC_LIST_TEXT):
+        if hmi.obj_exists(Text.MOBILE_APPS_SIRIUSXM_TRAFFIC_LIST_TEXT):
             logging.info("Travel link page is already open")
         elif tap_if_visible(Icons.SIRIUSXM_BUTTON):
             logging.info('Open Travel link page')
@@ -196,7 +198,7 @@ class MobileApppsPage:
             tap(Icons.SIRIUSXM_BUTTON)
 
     def open_subscription_info(self):
-        if check_visibility(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TITLE_TEXT):
+        if hmi.obj_exists(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TITLE_TEXT):
             logging.info("Subscription_info page is already open")
         elif tap_if_visible(Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_TEXT):
             logging.info('Open Subscription info page')
@@ -207,7 +209,7 @@ class MobileApppsPage:
 
 class NavigationPage:
     def open_navigation_dialog_page(self):
-        if check_visibility(Text.NAVIGATION_FAULT_DESCRIPTION_TEXT):
+        if hmi.obj_exists(Text.NAVIGATION_FAULT_DESCRIPTION_TEXT):
             logging.info("Navigation fault dialog is already open")
         elif tap_if_visible(Icons.INACTIVE_NAVIGATION_PAGE_BUTTON):
             logging.info('Open Navigation fault dialog')
@@ -222,7 +224,7 @@ class NavigationPage:
 class SettingsPage:
 
     def open_settings_page(self):
-        if check_visibility(Icons.SETTINGS_SOUND_BUTTON) or check_visibility(Icons.SETTINGS_GENERAL_BUTTON):
+        if hmi.obj_exists(Icons.SETTINGS_SOUND_BUTTON) or hmi.obj_exists(Icons.SETTINGS_GENERAL_BUTTON):
             logging.info("Settings page is already open")
         elif tap_if_visible(Icons.ACTIVE_SETTINGS_PAGE_BUTTON):
             logging.info('Open settings page')
@@ -230,10 +232,10 @@ class SettingsPage:
             tap(Icons.INACTIVE_SETTINGS_PAGE_BUTTON)
 
     def setting_page_is_active(self):
-        return check_visibility(Icons.SETTINGS_SOUND_BUTTON)
+        return hmi.obj_exists(Icons.SETTINGS_SOUND_BUTTON)
 
     def open_setting_clock_page(self):
-        if check_visibility(Text.CLOCK_SETTINGS_TITLE_TEXT):
+        if hmi.obj_exists(Text.CLOCK_SETTINGS_TITLE_TEXT):
             logging.info("Clock settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_CLOCK_BUTTON):
             logging.info('Open clock settings page')
@@ -242,7 +244,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_CLOCK_BUTTON)
 
     def open_setting_audio_page(self):
-        if check_visibility(Text.SOUND_SETTINGS_TITLE_TEXT):
+        if hmi.obj_exists(Text.SOUND_SETTINGS_TITLE_TEXT):
             logging.info("Sound settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_SOUND_BUTTON):
             logging.info('Open sound settings page')
@@ -251,7 +253,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_SOUND_BUTTON)
 
     def open_setting_navigation_page(self):
-        if check_visibility(Text.NAVIGATION_SETTINGS_TEXT):
+        if hmi.obj_exists(Text.NAVIGATION_SETTINGS_TEXT):
             logging.info("Navigation settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_NAVIGATION_BUTTON):
             logging.info('Open navigation settings page')
@@ -260,7 +262,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_NAVIGATION_BUTTON)
 
     def open_settings_bluetooth_page(self):
-        if check_visibility(Text.BLUETOOTH_SETTINGS_TEXT):
+        if hmi.obj_exists(Text.BLUETOOTH_SETTINGS_TEXT):
             logging.info("Bluetooth settings page is already open")
         elif tap_if_visible(Icons.MOBILE_BLUETOOTH_BUTTON):
             logging.info('Open bluetooth settings page')
@@ -269,7 +271,7 @@ class SettingsPage:
             tap(Icons.MOBILE_BLUETOOTH_BUTTON)
 
     def open_settings_radio_page(self):
-        if check_visibility(Text.RADIO_SETTINGS_TEXT):
+        if hmi.obj_exists(Text.RADIO_SETTINGS_TEXT):
             logging.info("Radio settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_RADIO_BUTTON):
             logging.info('Open radio settings page')
@@ -278,7 +280,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_RADIO_BUTTON)
 
     def open_setting_mobile_apps_page(self):
-        if check_visibility(Text.SETTINGS_MOBILE_APPS_SETTINGS_TITLE_TEXT):
+        if hmi.obj_exists(Text.SETTINGS_MOBILE_APPS_SETTINGS_TITLE_TEXT):
             logging.info("Mobile apps settings page is already open")
         elif tap_if_visible(Icons.MOBILE_APPS_BUTTON):
             logging.info('Open mobile apps settings page')
@@ -287,7 +289,7 @@ class SettingsPage:
             tap(Icons.MOBILE_APPS_BUTTON)
 
     def open_setting_sync_connect_page(self):
-        if check_visibility(Text.SETTING_CONNECTIVITY_SETTINGS_TEXT):
+        if hmi.obj_exists(Text.SETTING_CONNECTIVITY_SETTINGS_TEXT):
             logging.info("SYNC connect settings page is already open")
         elif tap_if_visible(Icons.SYNC_CONNECT_BUTTON):
             logging.info('Open SYNC connect settings page')
@@ -296,7 +298,7 @@ class SettingsPage:
             tap(Icons.SYNC_CONNECT_BUTTON)
 
     def open_settings_general_page(self):
-        if check_visibility(Text.SETTINGS_GENERAL_SETTINGS_LABEL_TEXT):
+        if hmi.obj_exists(Text.SETTINGS_GENERAL_SETTINGS_LABEL_TEXT):
             logging.info("General settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_GENERAL_BUTTON):
             logging.info('Open general settings page')
@@ -305,7 +307,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_GENERAL_BUTTON)
 
     def open_settings_automatic_updates_page(self):
-        if check_visibility(Text.SETTINGS_AUTOMATIC_SYSTEM_UPDATES_TEXT):
+        if hmi.obj_exists(Text.SETTINGS_AUTOMATIC_SYSTEM_UPDATES_TEXT):
             logging.info("Automatic system settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_AUTOMATIC_UPDATES_BUTTON):
             logging.info('Open automatic system settings page')
@@ -314,7 +316,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_AUTOMATIC_UPDATES_BUTTON)
 
     def open_settings_vehicle_page(self):
-        if check_visibility(Text.SETTINGS_VEHICLE_TITLE_TEXT):
+        if hmi.obj_exists(Text.SETTINGS_VEHICLE_TITLE_TEXT):
             logging.info("Vehicle settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_VEHICLE_BUTTON):
             logging.info('Open vehicle settings page')
@@ -323,7 +325,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_VEHICLE_BUTTON)
 
     def open_settings_display_page(self):
-        if check_visibility(Text.SETTINGS_DISPLAY_SETTINGS_TITLE_TEXT):
+        if hmi.obj_exists(Text.SETTINGS_DISPLAY_SETTINGS_TITLE_TEXT):
             logging.info("Display settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_DISPLAY_BUTTON):
             logging.info('Open display settings page')
@@ -332,7 +334,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_DISPLAY_BUTTON)
 
     def open_settings_voice_control_page(self):
-        if check_visibility(Text.SETTINGS_VOICE_CONTROL_SETTINGS_TITLE_TEXT):
+        if hmi.obj_exists(Text.SETTINGS_VOICE_CONTROL_SETTINGS_TITLE_TEXT):
             logging.info("Voice control settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_VOICE_CONTROL_BUTTON):
             logging.info('Open voice control settings page')
@@ -344,10 +346,10 @@ class SettingsPage:
 class SettingsClockPage:
 
     def setting_clock_page_is_active(self):
-        return check_visibility(Text.CLOCK_SETTINGS_TITLE_TEXT)
+        return hmi.obj_exists(Text.CLOCK_SETTINGS_TITLE_TEXT)
 
     def clock_12h_button_is_active(self):
-        return check_visibility(Icons.CLOCK_SETTINGS_12H)
+        return hmi.obj_exists(Icons.CLOCK_SETTINGS_12H)
 
     def tap_on_24h_button(self):
         tap(Icons.CLOCK_SETTINGS_24H)
@@ -368,7 +370,7 @@ class SettingsClockPage:
 class SettingsAudioPage:
 
     def setting_audio_page_is_active(self):
-        return check_visibility(Text.SOUND_SETTINGS_TITLE_TEXT)
+        return hmi.obj_exists(Text.SOUND_SETTINGS_TITLE_TEXT)
 
     def open_settings_audio_property_field_page(self):
         tap(Icons.ADAPTIVE_VOLUME_MEDIUM_OPTION)
@@ -395,10 +397,10 @@ class SettingsRadioPage:
 class SettingsNavigationPage(SettingsPage):
 
     def settings_navigation_page_is_active(self):
-        return check_visibility(Text.NAVIGATION_SETTINGS_TEXT)
+        return hmi.obj_exists(Text.NAVIGATION_SETTINGS_TEXT)
 
     def open_map_preferences_page(self):
-        if check_visibility(Text.CITY_MODEL_TEXT):
+        if hmi.obj_exists(Text.CITY_MODEL_TEXT):
             logging.info('Map preferences page is already open')
         elif tap_if_visible(Text.MAP_PREFERENCES_TEXT):
             logging.info('Open map preferences settings page')
@@ -407,7 +409,7 @@ class SettingsNavigationPage(SettingsPage):
             tap(Text.MAP_PREFERENCES_TEXT)
 
     def open_route_preferences_page(self):
-        if check_visibility(Text.PREFERRED_ROUTE_TEXT):
+        if hmi.obj_exists(Text.PREFERRED_ROUTE_TEXT):
             logging.info('Route preferences page is already open')
         elif tap_if_visible(Text.ROUTE_PREFERENCES_TEXT):
             logging.info('Open route preferences settings page')
@@ -429,34 +431,3 @@ class SettingsNavigationPage(SettingsPage):
 
     def tap_on_back_button(self):
         tap(Icons.BACK_BUTTON)
-
-
-def tap(name):
-    """ Tap on object if it visible. """
-    obj = check_visibility(name)
-    if not obj:
-        raise Exception("Can`t tap on {}".format(name))
-    hmi.tap_object(obj)
-    sleep(2)
-    logging.info("Tap on x:{}, y:{}".format(obj.x, obj.y))
-
-
-def check_visibility(name):
-    """ Checks if the object or text is visible. """
-    try:
-        sleep(2)
-        return hmi.wait_for_object(name)
-    except ObjectNotFoundError:
-        return False
-
-
-def tap_if_visible(name):
-    """ Tap on object if it visible else return false.
-     Used to return to home page """
-    obj = check_visibility(name)
-    if obj:
-        hmi.tap_object(obj)
-        sleep(2)
-        logging.info("Tap on x:{}, y:{}".format(obj.x, obj.y))
-        return True
-    return False
