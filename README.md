@@ -52,15 +52,15 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
       ```
     - Directory to place build files (default: _ATE/../build-ATE-\<build type\>_):
       ```
-      VHAT_BUILD_ROOT:PATH
+      ATE_BUILD_ROOT:PATH
       ```
-    - Toggle VHAT install (default: _ON_):
+    - Toggle ATE install (default: _ON_):
       ```
-      VHAT_INSTALL:BOOL
+      ATE_INSTALL:BOOL
       ```
-    - Toggle VHAT server service install (default: _OFF_):
+    - Toggle ATE server service install (default: _OFF_):
       ```
-      VHAT_INSTALL_SERVER_SERVICE:BOOL
+      ATE_INSTALL_SERVER_SERVICE:BOOL
       ```
     - Toggle VHAT icon storage service install (default: _OFF_):
       ```
@@ -70,21 +70,21 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
       ```
       CMAKE_INSTALL_PREFIX:PATH
       ```
-    - Toggle VHAT deb package generation from install (default: _OFF_):
+    - Toggle ATE deb package generation from install (default: _OFF_):
       ```
-      VHAT_CREATE_DEBIAN_PACKAGE:BOOL
+      ATE_CREATE_DEBIAN_PACKAGE:BOOL
       ```
     - Toggle ATE client build (default: _ON_):
       ```
-      VHAT_BUILD_CLIENT:BOOL
+      ATE_BUILD_CLIENT:BOOL
       ```
     - Toggle ATE server build (default: _ON_):
       ```
-      VHAT_BUILD_SERVER:BOOL
+      ATE_BUILD_SERVER:BOOL
       ```
     - Toggle build of unit-tests (default: _ON_):
       ```
-      VHAT_WITH_TESTS:BOOL
+      ATE_WITH_TESTS:BOOL
       ```
     - Tweak toolchain (default: _ATE/infrastructure/cmake/toolchains/desktop.cmake_):
       ```
@@ -98,7 +98,7 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
         ```
     1. Build only client and disable unit tests:
         ```
-        cmake -DVHAT_BUILD_SERVER:BOOL=OFF -DVHAT_WITH_TESTS:BOOL=OFF -P build.cmake
+        cmake -DATE_BUILD_SERVER:BOOL=OFF -DATE_WITH_TESTS:BOOL=OFF -P build.cmake
         ```
     1. Build and install into _/usr/local_:
         ```
@@ -108,12 +108,12 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
 
 1. Set the install prefix to system dir, enable server service install, install icon storage and create Debian package. _sudo_ permissions are required to modify system dirs:
     ```
-    sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DVHAT_INSTALL_SERVER_SERVICE=ON -DVHAT_INSTALL_ICON_STORAGE=ON -DVHAT_CREATE_DEBIAN_PACKAGE=ON -P infrastructure/build.cmake
+    sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DATE_INSTALL_SERVER_SERVICE=ON -DVHAT_INSTALL_ICON_STORAGE=ON -DATE_CREATE_DEBIAN_PACKAGE=ON -P infrastructure/build.cmake
     ```
-1. The deploy package is _VHAT-X.Y.Z.deb_ located in _build-ATE-Release_ build root folder.
-1. You can use _dpkg_ package manager to install this package. This command will also replace the previous installation of VHAT:
+1. The deploy package is _ate-X.Y.Z.deb_ located in _build-ATE-Release_ build root folder.
+1. You can use _dpkg_ package manager to install this package. This command will also replace the previous installation of ATE:
     ```
-    sudo dpkg -i VHAT-X.Y.Z.deb
+    sudo dpkg -i ate-X.Y.Z.deb
     ```
 
 ## Running the unit tests
@@ -125,15 +125,15 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
     ```
 1. Run tests manually:
     ```
-    build-ATE-Release/ATE_server/src/vhat_server_test
-    build-ATE-Release/ATE_common/src/vhat_common_test
+    build-ATE-Release/ATE_server/src/ate_server_test
+    build-ATE-Release/ATE_common/src/ate_common_test
     ```
 
-## Run VHAT server on LVDS board
+## Run ATE server on LVDS board
 
 1. Open server config for edit:
     ```
-    <install prefix>/etc/vhat_server.ini
+    <install prefix>/etc/ate_server.ini
     ```
 
 1. Set up video stream:
@@ -151,18 +151,18 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
     CollectionMode = <Current Sync display theme(day_mode | night_mode)>
     ```
 
-1. Save the _vhat_server.ini_ and run VHAT server:
+1. Save the _ate_server.ini_ and run ATE server:
     ```
-    <install prefix>/bin/vhat_server
+    <install prefix>/bin/ate_server
     ```
 
-VHAT server need to be restarted in order to apply any config or icon storage changes.
+ATE server need to be restarted in order to apply any config or icon storage changes.
 
 ## Run ATE server outside the LVDS board (debug purpose only)
 
 1. Open server config for edit:
     ```
-    <install prefix>/etc/vhat_server.ini
+    <install prefix>/etc/ate_server.ini
     ```
 
 1. Set up video stream source:
@@ -195,14 +195,14 @@ VHAT server need to be restarted in order to apply any config or icon storage ch
     CollectionMode = <Current Sync display theme(day_mode | night_mode)>
     ```
 
-1. Save the _vhat_server.ini_ and run VHAT server:
+1. Save the _ate_server.ini_ and run ATE server:
     ```
-   <install prefix>/bin/vhat_server
+   <install prefix>/bin/ate_server
     ```
 
 For full video stream support you will also need to set up webrtc client which is not covered by this project.
 
-## Use VHAT client on LVDS board
+## Use ATE client on LVDS board
 
 Import _vhat_client.so_ from _<install prefix\>/lib/python2.7/dist-packages_ into your Python 2.7 code.
 
@@ -212,13 +212,13 @@ Otherwise you'd like to add module location to _PYTHONPATH_ or look it up manual
 
 No additional configuration is needed.
 
-## Use VHAT client outside LVDS board
+## Use ATE client outside LVDS board
 
 1. Open client config for edit:
     ```
-    <install prefix>/etc/vhat_client.ini
+    <install prefix>/etc/ate_client.ini
     ```
-1. Set IP address of LVDS board running VHAT server:
+1. Set IP address of LVDS board running ATE server:
     ```
     [BOARD]
     Address = <IP address>

@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
   {
-    "label": "VHAT desktop build",
+    "label": "ATE desktop build",
     "type": "shell",
     "command": "clear; cmake -P '${workspaceRoot}/infrastructure/build.cmake';",
     "problemMatcher": [
