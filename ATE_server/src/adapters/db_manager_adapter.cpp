@@ -100,4 +100,6 @@ cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
   return {};
 }
 
+std::error_code DBManagerAdapter::ReloadStorage() noexcept { return db_manager_->ReloadStorage(); }
+
 }  // namespace adapter

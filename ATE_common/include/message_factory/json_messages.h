@@ -11,6 +11,7 @@ constexpr auto kTouchAndDrag = "TouchAndDrag";
 constexpr auto kDisplayTypeChanged = "displayTypeChanged";
 constexpr auto kChangeSyncIconDB = "ChangeSyncIconDB";
 constexpr auto kChangeSyncMode = "ChangeSyncMode";
+constexpr auto kReloadIconStorage = "ReloadIconStorage";
 
 }  // namespace jmsg
 }  // namespace common

@@ -63,6 +63,12 @@ class ATE {
    */
   adapter::DBManagerError ChangeSyncMode(const std::string& collection_mode);
 
+  /**
+   * @brief The function reloads storage
+   * @return Empty error if successed, otherwise error
+   */
+  std::error_code ReloadStorageItems() noexcept;
+
  private:
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;

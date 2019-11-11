@@ -12,6 +12,7 @@ enum class Error {
 
   // Values from -32000 to -32099 reserved for implementation-defined server-errors
 
+  kReloadStorageError = -32005,
   // Sync configuration changed error
   kInvalidSyncCollectionMode = -32004,
   kInvalidSyncBuildVersion = -32003,

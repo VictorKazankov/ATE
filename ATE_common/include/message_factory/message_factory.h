@@ -43,6 +43,15 @@ class MessageFactory {
   };
 
   /**
+   * @struct SignalConnection
+   * @brief Struct SignalConnection stores factory methods which use for creating json messages request
+   */
+  struct SignalConnection {
+    static std::string CreateIconReloadRequest(int id);
+    static Json::Value CreateIconReloadResponse();
+  };
+
+  /**
    * @struct Server
    * @brief Struct 'Server' stores factory methods which uses for creating json messages response (server -> client)
    */

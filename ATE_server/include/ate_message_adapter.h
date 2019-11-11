@@ -92,6 +92,12 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleChangeSyncMode(const Json::Value& params);
 
   /**
+   * @brief Handler for ReloadIconStorage
+   * @param params ReloadIconStorage params
+   */
+  std::pair<Json::Value, bool> HandleReloadIconStorage(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */

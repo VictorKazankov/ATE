@@ -60,6 +60,12 @@ class DBManagerAdapter {
    */
   cv::Mat GetItem(const std::string& name);
 
+  /**
+  * @brief Reload items from icon storage
+  * @return Empty error on success, error code otherwise
+  */
+  std::error_code ReloadStorage() noexcept;
+
  private:
   db_manager::SyncVersion sync_version_;
   db_manager::SyncBuildVersion sync_build_version_;
