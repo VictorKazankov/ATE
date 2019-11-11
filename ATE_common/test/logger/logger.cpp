@@ -15,7 +15,7 @@ namespace {
 
 namespace fs = std::experimental::filesystem;
 
-const std::string kConfigFilename = VHAT_COMMON_TEST_DATA_PATH "/logger/rotating_files_good_config.ini";
+const std::string kConfigFilename = ATE_COMMON_TEST_DATA_PATH "/logger/rotating_files_good_config.ini";
 constexpr std::size_t kNumberOfFiles = 3;
 constexpr std::size_t kKibi = 1024;
 constexpr std::size_t kMebi = kKibi * kKibi;
@@ -47,7 +47,7 @@ void LoggerSetupTest::TearDownTestCase() {
   clean_up_log_files();
 
   // Leave the world with default logger
-  const config::Reader default_config{VHAT_COMMON_TEST_DATA_PATH "/test_config.ini"};
+  const config::Reader default_config{ATE_COMMON_TEST_DATA_PATH "/test_config.ini"};
   ASSERT_NO_THROW(logger::SetUp(default_config));
 }
 
@@ -64,10 +64,10 @@ void LoggerSetupTest::SetUp() {
 }
 
 TEST_F(LoggerSetupTest, BadConstruction) {
-  const config::Reader config_invalid_size{VHAT_COMMON_TEST_DATA_PATH "/logger/invalid_size_bad_config.ini"};
+  const config::Reader config_invalid_size{ATE_COMMON_TEST_DATA_PATH "/logger/invalid_size_bad_config.ini"};
   EXPECT_THROW(logger::SetUp(config_invalid_size), logger::ConfigFormatError);
 
-  const config::Reader config_invalid_level{VHAT_COMMON_TEST_DATA_PATH "/logger/invalid_level_bad_config.ini"};
+  const config::Reader config_invalid_level{ATE_COMMON_TEST_DATA_PATH "/logger/invalid_level_bad_config.ini"};
   EXPECT_THROW(logger::SetUp(config_invalid_level), logger::ConfigFormatError);
 }
 

@@ -18,7 +18,7 @@ const std::string kAddressOption = "Address";
 const std::string kPortOption = "Port";
 const std::string kTestSettingSection = "TEST_SETTINGS";
 const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
-constexpr auto kConfigEnvVar = "VHAT_CLIENT_CONFIG";
+constexpr auto kConfigEnvVar = "ATE_CLIENT_CONFIG";
 
 int kDefaultWaitForObjectTimeoutInMs = 0;
 uint64_t kCorrelationId = 1;
@@ -41,7 +41,7 @@ ApplicationContext API::AttachToApplication(const std::string&) {
   }
 
   const char* const config_from_env = std::getenv(kConfigEnvVar);
-  const std::string config_file = config_from_env ? config_from_env : VHAT_CLIENT_CONFIG_DIR "/vhat_client.ini";
+  const std::string config_file = config_from_env ? config_from_env : ATE_CLIENT_CONFIG_DIR "/ate_client.ini";
   common::SetUp(config_file);
   logger::info("Config file: {}", config_file);
   kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);

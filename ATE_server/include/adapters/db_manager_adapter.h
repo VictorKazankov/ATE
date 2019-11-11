@@ -1,5 +1,5 @@
-#ifndef VHAT_DB_MANAGER_ADAPTER_H_
-#define VHAT_DB_MANAGER_ADAPTER_H_
+#ifndef ATE_DB_MANAGER_ADAPTER_H_
+#define ATE_DB_MANAGER_ADAPTER_H_
 
 #include <memory>
 #include <string>
@@ -75,4 +75,4 @@ class DBManagerAdapter {
 
 }  // namespace adapter
 
-#endif  // VHAT_DB_MANAGER_ADAPTER_H_
+#endif  // ATE_DB_MANAGER_ADAPTER_H_

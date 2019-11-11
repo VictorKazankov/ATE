@@ -1,12 +1,12 @@
 [Unit]
-Description=VDP VHAT ATE server
+Description=VDP Virtual HMI Automated Toolset server
 After=vdp_tshmi_server.service
 
 [Service]
 Type=simple
 EnvironmentFile=/etc/default/board_profile
 EnvironmentFile=/etc/default/lxft_gst_profile
-ExecStart=@CMAKE_INSTALL_PREFIX@/bin/vhat_server
+ExecStart=@CMAKE_INSTALL_PREFIX@/bin/ate_server
 Restart=on-failure
 
 [Install]

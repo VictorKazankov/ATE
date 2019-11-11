@@ -21,7 +21,7 @@ void ApplicationContext::Detach() {}
 Object ApplicationContext::SendCommand(interaction::Method method, const std::string& command) {
   if (!IsRunning()) {
     logger::critical(
-        "[application context] VHAT server wasn't connected. Please perform 'attachToApplication()' first");
+        "[application context] ATE server wasn't connected. Please perform 'attachToApplication()' first");
     return Object{};
   }
   return ate_interaction->SendCommand(method, command);

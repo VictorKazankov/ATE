@@ -1,10 +1,10 @@
 [Unit]
-Description=VHAT server service
+Description=VDP Virtual HMI Automated Toolset server
 After=run_media_srv.service
 
 [Service]
 Type=simple
-ExecStart=@CMAKE_INSTALL_PREFIX@/bin/vhat_server
+ExecStart=@CMAKE_INSTALL_PREFIX@/bin/ate_server
 Restart=on-failure
 
 [Install]

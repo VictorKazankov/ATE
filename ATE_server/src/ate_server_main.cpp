@@ -21,10 +21,10 @@ auto& GetMainIoContext() {
 }  // namespace
 
 int main() try {
-  constexpr auto config_file = VHAT_SERVER_CONFIG_DIR "/vhat_server.ini";
+  constexpr auto config_file = ATE_SERVER_CONFIG_DIR "/ate_server.ini";
   common::SetUp(config_file);
 
-  logger::info("[initialization] VHAT server version: {}", version::kStringFull);
+  logger::info("[initialization] ATE server version: {}", version::kStringFull);
   logger::info("[initialization] Config file: {}", config_file);
 
   ATE ate(GetMainIoContext());

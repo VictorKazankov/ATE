@@ -7,7 +7,7 @@ include(GNUInstallDirs)
 # Debian/Ubuntu package name: libjsoncpp-dev
 find_package(jsoncpp REQUIRED)
 
-add_library(vhat_common
+add_library(ate_common
   SHARED
     config/config.cpp
     logger/logger_setup.cpp
@@ -21,13 +21,13 @@ add_library(vhat_common
 
 configure_file(../include/version/version_defines.h.in ../include/version/version_defines.h)
 
-target_include_directories(vhat_common
+target_include_directories(ate_common
   PUBLIC
     ../include
     "${CMAKE_CURRENT_BINARY_DIR}/../include"
 )
 
-target_link_libraries(vhat_common
+target_link_libraries(ate_common
   PUBLIC
     Boost::asio
     inihcpp
@@ -36,7 +36,7 @@ target_link_libraries(vhat_common
 )
 
 if(UNIX)
-  target_compile_options(vhat_common
+  target_compile_options(ate_common
     PUBLIC
       -pedantic
       -Wall
@@ -44,11 +44,11 @@ if(UNIX)
       -Wextra
   )
 elseif(MSVC)
-  target_compile_options(vhat_common
+  target_compile_options(ate_common
     PUBLIC
       -DNOMINMAX
   )
-  set_target_properties(vhat_common 
+  set_target_properties(ate_common 
     PROPERTIES
       WINDOWS_EXPORT_ALL_SYMBOLS TRUE
   )
@@ -56,12 +56,12 @@ endif()
 
 if(UNIX)
   install(TARGETS
-    vhat_common
-    LIBRARY DESTINATION ${VHAT_INSTALL_LIBDIR}
+    ate_common
+    LIBRARY DESTINATION ${ATE_INSTALL_LIBDIR}
   )
 elseif(MSVC)
   install(TARGETS
-    vhat_common
+    ate_common
     RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
 endif()
@@ -69,7 +69,7 @@ endif()
 #######################################################
 #                   Test coverage
 #######################################################
-if (VHAT_COVERAGE)
-  target_compile_options(vhat_common PRIVATE --coverage)
-  target_link_libraries(vhat_common PRIVATE gcov)
-endif (VHAT_COVERAGE)
+if (ATE_COVERAGE)
+  target_compile_options(ate_common PRIVATE --coverage)
+  target_link_libraries(ate_common PRIVATE gcov)
+endif (ATE_COVERAGE)

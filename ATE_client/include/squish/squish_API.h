@@ -88,7 +88,7 @@ struct API {
                            common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE);
 
   /**
-   * @brief This API allows changing sync version and sync build version without restart vhat server.
+   * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param sync_version Sync version
    * @param sync_build_version Sync build version
    */

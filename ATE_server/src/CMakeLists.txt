@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 include(GNUInstallDirs)
 
 # A separate static library is necessary to support unit tests
-add_library(vhat_server_lib
+add_library(ate_server_lib
   STATIC
     adapters/db_manager_adapter.cpp
     interaction/dummy/dummy_interaction.cpp
@@ -111,7 +111,7 @@ link_directories(
   "${GStreamer_LIBRARY_DIRS}"
 )
 
-target_include_directories(vhat_server_lib
+target_include_directories(ate_server_lib
   PUBLIC
     ../include
     "${GStreamer_INCLUDE_DIRS}"
@@ -119,9 +119,9 @@ target_include_directories(vhat_server_lib
     "${OpenCV_INCLUDE_DIRS}"
 )
 
-target_link_libraries(vhat_server_lib
+target_link_libraries(ate_server_lib
   PUBLIC
-    vhat_common
+    ate_common
     boost_asio_ssl
     stdc++fs
     opencv_core
@@ -134,36 +134,36 @@ target_link_libraries(vhat_server_lib
     ${DBus_LIBRARIES}
 )
 
-add_executable(vhat_server
+add_executable(ate_server
   ate_server_main.cpp
 )
 
-target_compile_definitions(vhat_server_lib
+target_compile_definitions(ate_server_lib
   PUBLIC
-    VHAT_SERVER_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${VHAT_INSTALL_SYSCONFDIR}"
+    ATE_SERVER_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_SYSCONFDIR}"
     VHAT_ICON_STORAGE_PREFIX="${VHAT_ICON_STORAGE_PREFIX}"
-    VHAT_WRITABLE_DATA_PREFIX="${VHAT_WRITABLE_DATA_PREFIX}"
+    ATE_WRITABLE_DATA_PREFIX="${ATE_WRITABLE_DATA_PREFIX}"
 )
 
-target_link_libraries(vhat_server
+target_link_libraries(ate_server
   PRIVATE
-    vhat_server_lib
+    ate_server_lib
 )
 
 # TODO: remove INSTALL_RPATH_USE_LINK_PATH TRUE as soon as disposed of custom GStreamer dependency
-set_target_properties(vhat_server PROPERTIES
-  INSTALL_RPATH "\$ORIGIN/../${VHAT_INSTALL_LIBDIR}"
+set_target_properties(ate_server PROPERTIES
+  INSTALL_RPATH "\$ORIGIN/../${ATE_INSTALL_LIBDIR}"
   INSTALL_RPATH_USE_LINK_PATH TRUE
 )
 
 install(TARGETS
-  vhat_server
+  ate_server
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(FILES
-  ../data/vhat_server.ini
-  DESTINATION ${VHAT_INSTALL_SYSCONFDIR}
+  ../data/ate_server.ini
+  DESTINATION ${ATE_INSTALL_SYSCONFDIR}
 )
 
 if(VHAT_INSTALL_ICON_STORAGE)
@@ -173,23 +173,22 @@ if(VHAT_INSTALL_ICON_STORAGE)
   )
 endif(VHAT_INSTALL_ICON_STORAGE)
 
-if(VHAT_INSTALL_SERVER_SERVICE)
+if(ATE_INSTALL_SERVER_SERVICE)
   if(USE_LEGACY_SYSTEMD_FILE)
-    configure_file("../service/vdp_vhat_server.service.legacy.in" "../service/vdp_vhat_server.service")
+    configure_file("../service/vdp_ate_server.service.legacy.in" "../service/vdp_ate_server.service")
   else()
-    configure_file("../service/vdp_vhat_server.service.in" "../service/vdp_vhat_server.service")
+    configure_file("../service/vdp_ate_server.service.in" "../service/vdp_ate_server.service")
   endif()
-
   install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/../service/vdp_vhat_server.service"
+    "${CMAKE_CURRENT_BINARY_DIR}/../service/vdp_ate_server.service"
     DESTINATION "/lib/systemd/system/"
   )
-endif(VHAT_INSTALL_SERVER_SERVICE)
+endif(ATE_INSTALL_SERVER_SERVICE)
 
 #######################################################
 #                   Test coverage
 #######################################################
-if (VHAT_COVERAGE)
-  target_compile_options(vhat_server_lib PRIVATE --coverage)
-  target_link_libraries(vhat_server_lib PRIVATE gcov)
-endif (VHAT_COVERAGE)
+if (ATE_COVERAGE)
+  target_compile_options(ate_server_lib PRIVATE --coverage)
+  target_link_libraries(ate_server_lib PRIVATE gcov)
+endif (ATE_COVERAGE)

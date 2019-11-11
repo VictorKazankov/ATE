@@ -10,7 +10,7 @@
 
 namespace {
 
-constexpr auto kConfigFilename = VHAT_COMMON_TEST_DATA_PATH "/config/test_config.ini";
+constexpr auto kConfigFilename = ATE_COMMON_TEST_DATA_PATH "/config/test_config.ini";
 
 class ConfigReaderTest : public ::testing::Test {
  protected:
@@ -26,7 +26,7 @@ void ConfigReaderTest::TearDown() { reader_.reset(); }
 
 TEST_F(ConfigReaderTest, BadConstruction) {
   EXPECT_THROW(config::Reader{"there_is_no_file"}, config::FileReadFailure);
-  EXPECT_THROW(config::Reader{VHAT_COMMON_TEST_DATA_PATH "/config/bad_comment.ini"}, config::FileReadFailure);
+  EXPECT_THROW(config::Reader{ATE_COMMON_TEST_DATA_PATH "/config/bad_comment.ini"}, config::FileReadFailure);
 }
 
 TEST_F(ConfigReaderTest, SecondaryConstruction) { EXPECT_NO_THROW(config::Reader{kConfigFilename}); }
@@ -126,8 +126,8 @@ TEST_F(ConfigReaderTest, ParseString) {
 
   EXPECT_EQ(reader_->GetString(section, "Empty", "NonEmpty"), empty_str);
   EXPECT_EQ(reader_->GetString(section, "WithWhitespaces", empty_str), "WithWhitespaces");
-  EXPECT_EQ(reader_->GetString(section, "LowerCase", empty_str), "vhat");
-  EXPECT_EQ(reader_->GetString(section, "UpperCase", empty_str), "VHAT");
+  EXPECT_EQ(reader_->GetString(section, "LowerCase", empty_str), "ate");
+  EXPECT_EQ(reader_->GetString(section, "UpperCase", empty_str), "ATE");
 }
 
 }  // namespace

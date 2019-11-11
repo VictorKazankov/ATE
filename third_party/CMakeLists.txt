@@ -80,7 +80,7 @@ target_link_libraries(boost_asio
     Threads::Threads
 )
 
-if(VHAT_BUILD_SERVER)
+if(ATE_BUILD_SERVER)
   # Find the OpenSSL encryption library.
   # https://cmake.org/cmake/help/latest/module/FindOpenSSL.html
   # https://www.openssl.org
@@ -123,12 +123,12 @@ target_include_directories(inihcpp
     inih
 )
 
-if(VHAT_BUILD_CLIENT)
+if(ATE_BUILD_CLIENT)
   ### Pybind11
   ### https://pybind11.readthedocs.io/en/stable/index.html
   set(PYBIND11_PYTHON_VERSION 2.7 CACHE STRING "Pybind11 Python version")
   add_subdirectory(pybind11)
-endif(VHAT_BUILD_CLIENT)
+endif(ATE_BUILD_CLIENT)
 
 ### spdlog
 ### https://github.com/gabime/spdlog
@@ -137,7 +137,7 @@ add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 if(UNIX)
   install(TARGETS
     boost_asio
-    LIBRARY DESTINATION ${VHAT_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${ATE_INSTALL_LIBDIR}
   )
 elseif(MSVC)
   install(TARGETS
@@ -146,9 +146,9 @@ elseif(MSVC)
   )
 endif()
 
-if(VHAT_BUILD_SERVER)
+if(ATE_BUILD_SERVER)
   install(TARGETS
     boost_asio_ssl
-    LIBRARY DESTINATION ${VHAT_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${ATE_INSTALL_LIBDIR}
   )
 endif()

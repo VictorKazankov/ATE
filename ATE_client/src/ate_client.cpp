@@ -10,7 +10,7 @@
 namespace py = pybind11;
 
 PYBIND11_MODULE(vhat_client, m) {
-  m.doc() = "VHAT plugin for communication with SYNC";
+  m.doc() = "ATE plugin for communication with SYNC";
 
   py::class_<squish::ApplicationContext>(m, "ApplicationContext")
       .def(py::init())

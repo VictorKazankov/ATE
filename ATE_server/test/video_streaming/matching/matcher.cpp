@@ -110,7 +110,7 @@ TEST_F(MatcherTest, MatchImage_Success) {
   const std::pair<cv::Rect, std::error_code> match_result = {{cv::Point{32, 32}, cv::Size{32, 32}}, std::error_code{}};
 
   constexpr auto object = "matcher_tests_small_image";
-  const auto pattern = cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
 
   EXPECT_CALL(*streamer_, Frame(_)).Times(frame_count).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(frame_count).WillRepeatedly(Return(match_result.first));
@@ -136,7 +136,7 @@ TEST_F(MatcherTest, MatchImage_TooBigPattern_PatternInvalid) {
   const unsigned frame_count = 2;
 
   constexpr auto object = "matcher_tests_big_image";
-  const auto pattern = cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png");
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png");
 
   EXPECT_CALL(*streamer_, Frame(_)).Times(frame_count).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
@@ -166,7 +166,7 @@ TEST_F(MatcherTest, MatchText_TextNotRecognized_PatternNotFound) {
 TEST_F(MatcherTest, StreamingServiceOff_VideoUnavailable) {
   constexpr auto object = "matcher_tests_small_image";
   constexpr auto text_for_matching = "Any text";
-  const auto pattern = cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
 
   EXPECT_CALL(*streamer_, Frame(_)).WillRepeatedly(Return(false));
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
@@ -183,7 +183,7 @@ TEST_F(MatcherTest, StreamingServiceOff_VideoUnavailable) {
 TEST_F(MatcherTest, DISABLED_GpioVideoStatusOff_VideoUnavailable) {
   constexpr auto object = "matcher_tests_small_image";
   constexpr auto text_for_matching = "Any text";
-  const auto pattern = cv::imread(VHAT_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
 
   EXPECT_CALL(*streamer_, Frame(_)).Times(0);
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);

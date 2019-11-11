@@ -7,7 +7,7 @@ project(vhat_client)
 add_library(vhat_client
   MODULE
     ate_interaction.cpp
-    vhat_client.cpp
+    ate_client.cpp
     squish/application_context.cpp
     squish/squish_API.cpp
     squish/squish_types.cpp
@@ -24,22 +24,22 @@ target_include_directories(vhat_client
 )
 
 target_link_libraries(vhat_client
-  vhat_common
+  ate_common
   pybind11::module
 )
 
 target_compile_definitions(vhat_client
   PUBLIC
-    VHAT_CLIENT_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${VHAT_INSTALL_SYSCONFDIR}"
+    ATE_CLIENT_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_SYSCONFDIR}"
 )
 
 set_target_properties(vhat_client PROPERTIES
-  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${VHAT_INSTALL_LIBDIR}"
+  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_LIBDIR}"
 )
 
 install(FILES
-  ../data/vhat_client.ini
-  DESTINATION ${VHAT_INSTALL_SYSCONFDIR}
+  ../data/ate_client.ini
+  DESTINATION ${ATE_INSTALL_SYSCONFDIR}
 )
 
 if(UNIX)
@@ -48,7 +48,7 @@ if(UNIX)
 
   install(TARGETS
     vhat_client
-    LIBRARY DESTINATION "${VHAT_INSTALL_LIBPREFIX}/python2.7/dist-packages"
+    LIBRARY DESTINATION "${ATE_INSTALL_LIBPREFIX}/python2.7/dist-packages"
   )
 elseif(MSVC)
   install(TARGETS
