@@ -4,7 +4,12 @@ import pytest
 from functional_tests.pages import hmi
 from functional_tests.pages.sync3 import page_supervisor_sync3
 from functional_tests.pages.sync4 import page_supervisor_sync4
-from functional_tests.utils import wait_for_obj_benchmark
+from functional_tests.utils import ssh_connect, wait_for_obj_benchmark
+
+CURRENT_SYNC_VERSION = r"sed -n -e '/Target/ s/.*\= *//p' /usr/etc/vdp/vhat_server.ini"
+CURRENT_BUILD_VERSION = r"sed -n -e '/Build/ s/.*\= *//p' /usr/etc/vdp/vhat_server.ini"
+START = 'sudo systemctl start vhat_server'
+STOP = 'sudo systemctl stop vhat_server'
 
 pytest_plugins = "functional_tests.utils.logger"
 
@@ -35,6 +40,19 @@ def driver_sync4(app_connector):
     api.phone_page.open_phone_page()
     yield api
     api.phone_page.open_phone_page()
+
+
+@pytest.fixture(scope='module')
+def get_current_sync_build_version(app_connector):
+    # get version sync from config file
+    client = ssh_connect.start()
+    stdin, stdout, stderr = client.exec_command(CURRENT_SYNC_VERSION)
+    sync = stdout.read()[:-1]
+    stdin, stdout, stderr = client.exec_command(CURRENT_BUILD_VERSION)
+    build = stdout.read()[:-1]
+    yield sync, build
+    ssh_connect.execute_command(client, STOP, passwd_required=True)
+    ssh_connect.execute_command(client, START, passwd_required=True)
 
 
 @pytest.fixture(autouse=True)
