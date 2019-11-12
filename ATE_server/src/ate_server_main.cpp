@@ -14,20 +14,9 @@
 #include "version/version_defines.h"
 
 namespace {
-
-void SetupSignalHandling(boost::asio::io_context& io_context, boost::asio::signal_set& sig_set) {
-  sig_set.add(SIGINT);
-  sig_set.add(SIGTERM);
-
-  sig_set.async_wait([&io_context](const boost::system::error_code& ec, int signo) {
-    io_context.stop();
-    if (ec) {
-      logger::critical("[signal] Unexpected call of the asio::signal_set::async_wait handler with error code: {} ({})",
-                       ec.message(), ec);
-    } else {
-      logger::info("[signal] Signal {} has been caught", signo);
-    }
-  });
+auto& GetMainIoContext() {
+  static boost::asio::io_context io_context;
+  return io_context;
 }
 }  // namespace
 
@@ -38,21 +27,17 @@ int main() try {
   logger::info("[initialization] VHAT server version: {}", version::kStringFull);
   logger::info("[initialization] Config file: {}", config_file);
 
-  boost::asio::io_context io_context;
-
-  ATE ate(io_context);
+  ATE ate(GetMainIoContext());
   AteMessageAdapter ate_message_adapter(ate);
-  TransportAdaptersCollection transport_adapters(ate_message_adapter);
+  TransportAdaptersCollection transport_adapters(ate_message_adapter, GetMainIoContext());
 
   transport_adapters.InitTcpConnectionManager(
-      io_context, common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
+      common::Config().GetInt(defines::kInteraction, defines::kAteListenerPort, 0));
   transport_adapters.InitDbusConnectionManager(defines::kDBusInterface);
+  transport_adapters.InitSigConnectionManager();
   transport_adapters.Run();
 
-  boost::asio::signal_set sig_set{io_context};
-  SetupSignalHandling(io_context, sig_set);
-
-  io_context.run();
+  GetMainIoContext().run();
 
   transport_adapters.Stop();
 

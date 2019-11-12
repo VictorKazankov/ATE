@@ -14,6 +14,7 @@ add_library(vhat_server_lib
     interaction/ATE/tcp_transport_adapter.cpp
     interaction/SPI/spi_interaction.cpp
     interaction/DBUS/dbus_connection_manager.cpp
+    interaction/ATE/sig_connection_manager.cpp
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp
     utils/env_config.cpp

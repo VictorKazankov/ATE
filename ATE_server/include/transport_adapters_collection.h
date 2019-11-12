@@ -16,7 +16,7 @@
  **/
 class TransportAdaptersCollection {
  public:
-  explicit TransportAdaptersCollection(IMessageAdapter& ate_message_adapter);
+  explicit TransportAdaptersCollection(IMessageAdapter& ate_message_adapter, boost::asio::io_context& io_context);
   ~TransportAdaptersCollection();
 
   TransportAdaptersCollection(const TransportAdaptersCollection&) = delete;
@@ -38,7 +38,7 @@ class TransportAdaptersCollection {
    * I/O objects.
    * @param port - value of tcp accepting port
    */
-  void InitTcpConnectionManager(boost::asio::io_context& io_context, uint16_t port);
+  void InitTcpConnectionManager(uint16_t port);
 
   /**
    * @brief Init dbus connection manager for communication via DBUS
@@ -46,8 +46,16 @@ class TransportAdaptersCollection {
    */
   void InitDbusConnectionManager(const std::string& interface);
 
+  /**
+   * @brief Init signal connection manager for communication via signals
+   * @param io_context - an instannce of io_context provides the core I/O functionality for users of the asynchronous
+   * I/O objects.
+   */
+  void InitSigConnectionManager();
+
  private:
   IMessageAdapter& ate_message_adapter_;
+  boost::asio::io_context& io_context_;
 
   std::vector<std::shared_ptr<interaction::ConnectionManager>> connection_managers_;
 };
