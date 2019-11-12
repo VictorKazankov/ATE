@@ -16,6 +16,7 @@ add_library(vhat_server_lib
     interaction/DBUS/dbus_connection_manager.cpp
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp
+    utils/env_config.cpp
     video_streaming/matching/matcher.cpp
     video_streaming/v4l_streamer.cpp
     video_streaming/framebuf_to_mat.cpp

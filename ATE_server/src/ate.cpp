@@ -12,6 +12,7 @@
 #include "interaction/dummy/dummy_interaction.h"
 #include "logger/logger.h"
 #include "utils/defines.h"
+#include "utils/env_config.h"
 #include "video_streaming/streamer_factory.h"
 
 using namespace defines;
@@ -43,7 +44,7 @@ std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& 
                                                              boost::asio::io_context& io_context) {
   if (interaction_type == kSpi) {
     return std::make_unique<interaction::SpiInteraction>(
-        common::Config().GetString(kInteraction, kDeviceAddress, {}),
+        utils::GetEnvSettings(utils::EnvSettings::kSpiDeviceAddress),
         StrToDisplayType(common::Config().GetString(kInteraction, kDisplayTypeOption, {})));
   }
 
