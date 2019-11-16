@@ -18,6 +18,7 @@ add_library(ate_server_lib
     utils/file_descriptor.cpp
     utils/screenshot_recorder.cpp
     utils/env_config.cpp
+    utils/video_status.cpp
     video_streaming/matching/matcher.cpp
     video_streaming/v4l_streamer.cpp
     video_streaming/framebuf_to_mat.cpp

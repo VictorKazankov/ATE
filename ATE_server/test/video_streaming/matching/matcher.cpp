@@ -14,6 +14,7 @@
 #include <recognition/detector.h>
 
 #include "ate_error.h"
+#include "utils/video_status.h"
 #include "video_streaming/streamer.h"
 
 namespace {
@@ -24,7 +25,7 @@ using ::testing::Return;
 using ::testing::Test;
 
 using namespace detector;
-
+using namespace utils;
 template <typename T>
 class MockDetector : public Detector<T> {
  public:
@@ -56,6 +57,12 @@ void MockStreamer::ChangeResolutionImpl(int, int) {
   // Dummy now
 }
 
+class MockVideoStatus : public VideoStatus {
+ public:
+  MockVideoStatus(){};
+  MOCK_METHOD0(GetVideoStatus, bool());
+};
+
 class MatcherTest : public Test {
  protected:
   void SetUp() override;
@@ -64,6 +71,7 @@ class MatcherTest : public Test {
   MockStreamer* streamer_ = nullptr;
   MockDetector<cv::Mat>* image_detector_ = nullptr;
   MockDetector<std::string>* text_detector_ = nullptr;
+  MockVideoStatus* video_status_ = nullptr;
 
   std::unique_ptr<Matcher> matcher_;
 };
@@ -72,13 +80,17 @@ void MatcherTest::SetUp() {
   std::unique_ptr<MockStreamer> streamer = std::make_unique<MockStreamer>();
   std::unique_ptr<MockDetector<cv::Mat>> image_detector = std::make_unique<MockDetector<cv::Mat>>();
   std::unique_ptr<MockDetector<std::string>> text_detector = std::make_unique<MockDetector<std::string>>();
+  std::unique_ptr<MockVideoStatus> video_status = std::make_unique<MockVideoStatus>();
 
   streamer_ = streamer.get();
   image_detector_ = image_detector.get();
   text_detector_ = text_detector.get();
+  video_status_ = video_status.get();
 
-  matcher_ =
-      std::make_unique<Matcher>(std::move(streamer), std::move(image_detector), std::move(text_detector), nullptr);
+  matcher_ = std::make_unique<Matcher>(std::move(streamer), std::move(image_detector), std::move(text_detector),
+                                       nullptr, std::move(video_status));
+
+  ON_CALL(*video_status_, GetVideoStatus).WillByDefault(Return(true));
 }
 
 void MatcherTest::TearDown() {
@@ -179,12 +191,12 @@ TEST_F(MatcherTest, StreamingServiceOff_VideoUnavailable) {
   EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
 }
 
-// TODO: Enable unit test in next PR as gpio is implemented
-TEST_F(MatcherTest, DISABLED_GpioVideoStatusOff_VideoUnavailable) {
+TEST_F(MatcherTest, VideoStatusOff_VideoUnavailable) {
   constexpr auto object = "matcher_tests_small_image";
   constexpr auto text_for_matching = "Any text";
   const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
 
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(false));
   EXPECT_CALL(*streamer_, Frame(_)).Times(0);
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
   EXPECT_CALL(*text_detector_, Detect(_, text_for_matching)).Times(0);

@@ -13,6 +13,10 @@ namespace streamer {
 class Streamer;
 }  // namespace streamer
 
+namespace utils {
+class VideoStatus;
+}  // namespace utils
+
 namespace detector {
 
 /**
@@ -24,19 +28,13 @@ class Matcher {
   std::unique_ptr<Detector<cv::Mat>> image_detector_;
   std::unique_ptr<Detector<std::string>> text_detector_;
   std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder_;
+  std::unique_ptr<utils::VideoStatus> video_status_;
 
   // Cache images
   cv::Mat screen_;
   cv::Mat gray_screen_;
 
   bool GrabNewFrame();
-
-  /**
-   * @brief The function to check the video stream status, if video status is on then return true
-   * otherwise return false
-   * @return true - if video stream is available, false - otherwise
-   */
-  bool IsVideoStreamAvailable();
 
  public:
   /**
@@ -47,7 +45,8 @@ class Matcher {
    */
   Matcher(std::unique_ptr<streamer::Streamer> streamer, std::unique_ptr<Detector<cv::Mat>> image_detector,
           std::unique_ptr<Detector<std::string>> text_detector,
-          std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder);
+          std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder,
+          std::unique_ptr<utils::VideoStatus> video_status);
 
   ~Matcher();
 

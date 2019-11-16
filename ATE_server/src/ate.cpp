@@ -14,6 +14,7 @@
 #include "logger/logger.h"
 #include "utils/defines.h"
 #include "utils/env_config.h"
+#include "utils/video_status.h"
 #include "video_streaming/streamer_factory.h"
 
 using namespace defines;
@@ -91,7 +92,7 @@ ATE::ATE(boost::asio::io_context& io_context)
                    common::Config().GetString(kTextDetectorSection, kTextDetectorPreprocessingList, {}),
                    common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
                                               kDefaultTextDetectorConfidence)),
-               MakeScreenshotRecorder()} {
+               MakeScreenshotRecorder(), std::make_unique<utils::GpioVideoStatus>()} {
   // Init storage
   auto is_init = storage_.Init(VHAT_ICON_STORAGE_PREFIX, common::Config().GetString(kDBSection, kTargetOption, {}),
                                common::Config().GetString(kDBSection, kBuildOption, {}),

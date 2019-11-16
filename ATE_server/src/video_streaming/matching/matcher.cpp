@@ -8,17 +8,20 @@
 
 #include "ate_error.h"
 #include "logger/logger.h"
+#include "utils/video_status.h"
 #include "video_streaming/streamer.h"
 
 namespace detector {
 
 Matcher::Matcher(std::unique_ptr<streamer::Streamer> streamer, std::unique_ptr<Detector<cv::Mat>> image_detector,
                  std::unique_ptr<Detector<std::string>> text_detector,
-                 std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder)
+                 std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder,
+                 std::unique_ptr<utils::VideoStatus> video_status)
     : streamer_{std::move(streamer)},
       image_detector_{std::move(image_detector)},
       text_detector_{std::move(text_detector)},
-      screenshot_recorder_{std::move(screenshot_recorder)} {
+      screenshot_recorder_{std::move(screenshot_recorder)},
+      video_status_{std::move(video_status)} {
   assert(streamer_);
   assert(image_detector_);
   assert(text_detector_);
@@ -41,7 +44,7 @@ bool Matcher::GrabNewFrame() {
 }
 
 std::pair<cv::Rect, std::error_code> Matcher::MatchImage(const std::string& object, const cv::Mat& pattern) {
-  if (!IsVideoStreamAvailable() || !GrabNewFrame()) {
+  if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     logger::error("[matcher] Video stream unavailable");
     return {cv::Rect{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
   }
@@ -75,7 +78,7 @@ std::pair<cv::Rect, std::error_code> Matcher::MatchText(const std::string& text)
     return {cv::Rect{}, common::make_error_code(common::AteError::kPatternInvalid)};
   }
 
-  if (!IsVideoStreamAvailable() || !GrabNewFrame()) {
+  if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     logger::error("[matcher] Video stream unavailable");
     return {cv::Rect{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
   }
@@ -94,11 +97,5 @@ std::pair<cv::Rect, std::error_code> Matcher::MatchText(const std::string& text)
 }
 
 void Matcher::ChangeResolution(int x, int y) { streamer_->ChangeResolution(x, y); }
-
-bool Matcher::IsVideoStreamAvailable() {
-  // TODO (nttu): Implement video status checking function via gpio
-  // Dummy implementation
-  return true;
-}
 
 }  // namespace detector
