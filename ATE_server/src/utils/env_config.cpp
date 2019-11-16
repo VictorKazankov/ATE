@@ -27,18 +27,51 @@ std::string GetSpiConfig() {
   std::string device_address;
   if (!spi_bus.empty() && !spi_dev.empty()) {
     device_address += std::string("/dev/spidev") + spi_bus + "." + spi_dev;
-    logger::info("[Parse Environment] SPI device address is: {}", device_address);
+    logger::info("[parse environment] SPI device address is: {}", device_address);
   } else {
-    logger::critical("[Parse Environment] Can't read spi settings from environment variables");
+    logger::critical("[parse environment] Can't read spi settings from environment variables");
   }
 
   return device_address;
+}
+
+std::string GetVideoStatusGpioPin() {
+  auto gpio_enable = GetEnvVarValue("BOARD_GPIO_ENABLE");
+  auto gpio_pin = GetEnvVarValue("BOARD_GPIO");
+
+  if (!gpio_enable.empty() && !gpio_pin.empty()) {
+    if (gpio_enable == "1") {
+      logger::info("[parse environment] gpio pin of video status is {}", gpio_pin);
+      return gpio_pin;
+    } else {
+      logger::warn("[parse environment] GPIO is disable, value from gpio is void");
+    }
+  } else {
+    logger::error("[parse environment] Can't read gpio settings from environment variables");
+  }
+
+  return {};
+}
+
+/**
+ * @brief Get GPIO file system path which derived by environment variables
+ * @return GPIO file system path if configured and enable otherwise return empty string
+ */
+std::string GetVideoStatusGpioPath(const std::string& gpio_pin) {
+  if (gpio_pin.empty()) {
+    return {};
+  }
+
+  return std::string("/sys/class/gpio/gpio" + gpio_pin);
 }
 
 std::string GetEnvSettings(const EnvSettings& setting) {
   switch (setting) {
     case EnvSettings::kSpiDeviceAddress: {
       return GetSpiConfig();
+    }
+    case EnvSettings::kGpioVideoStatusPath: {
+      return GetVideoStatusGpioPath(GetVideoStatusGpioPin());
     }
   }
   return {};

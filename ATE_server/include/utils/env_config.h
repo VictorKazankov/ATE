@@ -10,6 +10,7 @@ namespace utils {
  */
 enum class EnvSettings {
   kSpiDeviceAddress,
+  kGpioVideoStatusPath,
 };
 
 /**

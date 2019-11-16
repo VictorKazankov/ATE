@@ -7,12 +7,8 @@ namespace utils {
 
 GpioVideoStatus::GpioVideoStatus() : video_gpio_(GetEnvSettings(EnvSettings::kGpioVideoStatusPath)) {}
 
-bool GpioVideoStatus::GetVideoStatus() {
-  bool status = false;
-  if (video_gpio_.GetStatus(status) && !status) {
-    return false;
-  }
-  return true;
-}
+GpioVideoStatus::~GpioVideoStatus() {}
+
+bool GpioVideoStatus::GetVideoStatus() { return video_gpio_.GetStatus(); }
 
 }  // namespace utils

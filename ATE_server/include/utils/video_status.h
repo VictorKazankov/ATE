@@ -23,12 +23,9 @@ class VideoStatus {
  * @brief Class implement video status via reading Gpio
  */
 class GpioVideoStatus : public VideoStatus {
- private:
-  GpioReader video_gpio_;
-
  public:
   explicit GpioVideoStatus();
-  ~GpioVideoStatus() = default;
+  ~GpioVideoStatus() final;
 
   GpioVideoStatus(const GpioVideoStatus&) = delete;
   GpioVideoStatus& operator=(const GpioVideoStatus&) = delete;
@@ -40,6 +37,9 @@ class GpioVideoStatus : public VideoStatus {
    * @return true - if video link is on, false - off
    */
   bool GetVideoStatus() override;
+
+ private:
+  GpioReader video_gpio_;
 };
 
 }  // namespace utils

@@ -175,7 +175,7 @@ TEST_F(MatcherTest, MatchText_TextNotRecognized_PatternNotFound) {
   EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
 }
 
-TEST_F(MatcherTest, StreamingServiceOff_VideoUnavailable) {
+TEST_F(MatcherTest, Matching_StreamingServiceOff_VideoUnavailable) {
   constexpr auto object = "matcher_tests_small_image";
   constexpr auto text_for_matching = "Any text";
   const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
@@ -191,7 +191,7 @@ TEST_F(MatcherTest, StreamingServiceOff_VideoUnavailable) {
   EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
 }
 
-TEST_F(MatcherTest, VideoStatusOff_VideoUnavailable) {
+TEST_F(MatcherTest, Matching_VideoStatusOff_VideoUnavailable) {
   constexpr auto object = "matcher_tests_small_image";
   constexpr auto text_for_matching = "Any text";
   const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
