@@ -1,8 +1,10 @@
-#include "message_factory/json_defines.h"
-#include "message_factory/json_utils.h"
-#include "rpc_error.h"
-
 #include <gtest/gtest.h>
+
+#include "message_factory/json_defines.h"
+#include "message_factory/json_messages.h"
+#include "message_factory/json_utils.h"
+#include "message_factory/message_factory.h"
+#include "rpc_error.h"
 
 namespace {
 
@@ -82,7 +84,7 @@ TEST(RpcRequestTest, WrongId) {
   // Zero int
   WrongRequestTest("{\"jsonrpc\":\"2.0\",\"id\":0,\"method\":\"m\"}", rpc::Error::kInvalidRequest);
 
-  //TODO: FIXME Test is fail in Window. Too big is not Too big for Window
+  // TODO: FIXME Test is fail in Window. Too big is not Too big for Window
   // Too big int
   WrongRequestTest("{\"jsonrpc\":\"2.0\",\"id\":18446744073709551616,\"method\":\"m\"}", rpc::Error::kInvalidRequest);
 
@@ -148,5 +150,20 @@ TEST(RpcRequestTest, WrongTapObjectRequest) {
 
   // Without y
   WrongTapObjectParamsTest("{\"x\":1}");
+}
+
+TEST(RpcRequestTest, CreateIconReloadRequest_ValidId_ValidRequest) {
+  uint64_t id = 42;
+  auto message = common::jmsg::MessageFactory::SignalConnection::CreateIconReloadRequest(id);
+
+  Json::Value params;
+  Json::Value error;
+  std::string method;
+  common::jmsg::ParseJsonRpcRequest(message, id, method, params, error);
+
+  EXPECT_EQ(id, 42) << "Id must be equal";
+  EXPECT_STREQ(method.c_str(), common::jmsg::kReloadIconStorage) << "Method must be equal";
+  EXPECT_TRUE(params.empty()) << "No parameters are assumed";
+  EXPECT_FALSE(error) << "Error must be empty";
 }
 }  // namespace
