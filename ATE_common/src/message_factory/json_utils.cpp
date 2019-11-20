@@ -106,26 +106,6 @@ bool CheckHeaderType(const Json::Value& value) {
   return res;
 }
 
-bool CheckAttachToApplicationRequest(const Json::Value& schema) {
-  auto& params = schema[kParams];
-  bool res = params.isMember(kTimeoutMsec);
-
-  if (!res) {
-    logger::error(
-        "[json msg parser][check app launch] Argument error: wrong arguments for calling "
-        "'WaitForappLaunch");
-    return res;
-  }
-
-  auto& timeout = params[kTimeoutMsec];
-
-  res = timeout.isUInt();
-  if (!res) {
-    logger::error("[json msg parser][check app launch] Argument error: wrong type of params");
-  }
-  return res;
-}
-
 void ExtractWaitForObjectRequestParams(const Json::Value& params, std::string& object_or_name,
                                        std::chrono::milliseconds& timeout, Json::Value& error) {
   error = Json::Value{};
@@ -199,30 +179,6 @@ void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, i
     logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),
                   wrong_params.what());
   }
-}
-
-bool CheckAttachToApplicationResponse(const Json::Value& schema) {
-  auto& result = schema[kResult];
-  bool res = result.isMember(kVdpHost) && result.isMember(kVdpPort) && result.isMember(kIsRunning);
-
-  if (!res) {
-    logger::error(
-        "[json msg parser][check app launch] Argument error: wrong type of response "
-        "'attachToApplication'");
-    return res;
-  }
-
-  auto& host = result[kVdpHost];
-  auto& port = result[kVdpPort];
-  auto& is_running = result[kIsRunning];
-
-  res = host.isString() && port.isUInt() && is_running.isBool();
-  if (!res) {
-    logger::error(
-        "[json msg parser][check app launch] Argument error: wrong type of params 'attachToApplication' "
-        "response");
-  }
-  return res;
 }
 
 bool CheckWaitForObjectResponse(const Json::Value& schema) {

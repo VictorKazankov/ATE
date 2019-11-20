@@ -65,14 +65,6 @@ bool CheckHeader(const Json::Value& value);
 bool CheckHeaderType(const Json::Value& value);
 
 /**
- * @brief Check scheme of message 'attachToApplication'
- *
- * @param value reference to 'Json::Value' for verification of json schema
- * @return true schema is correct otherwise false
- */
-bool CheckAttachToApplicationRequest(const Json::Value& schema);
-
-/**
  * @brief Extract params fot 'WaitForObject' method
  *
  * @param[in] params - structured value that holds the parameter values to be used
@@ -130,14 +122,6 @@ void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& ob
                                       int& dy, squish::ModifierState& modifier_state, Json::Value& error);
 
 void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
-
-/**
- * @brief Check response scheme of message 'attachToApplication'
- *
- * @param value reference to 'Json::Value' for verification of json schema
- * @return true schema is correct otherwise false
- */
-bool CheckAttachToApplicationResponse(const Json::Value& schema);
 
 /**
  * @brief Check response scheme of message 'WaitForObject'
