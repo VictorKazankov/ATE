@@ -103,6 +103,12 @@ TEST(FacilitiesTest, TestRect) {
   EXPECT_EQ(tr.y, 10) << kConversion;
   EXPECT_EQ(tr.width, 11) << kConversion;
   EXPECT_EQ(tr.height, 12) << kConversion;
+
+  common::Rect rect{10, 20, 10, 10};
+  common::Point point{15, 25};
+
+  EXPECT_EQ(rect.Center().x, point.x);
+  EXPECT_EQ(rect.Center().y, point.y);
 }
 
 }  // namespace
