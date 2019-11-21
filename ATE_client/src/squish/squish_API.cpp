@@ -21,6 +21,7 @@ const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
 constexpr auto kConfigEnvVar = "ATE_CLIENT_CONFIG";
 
 int kDefaultWaitForObjectTimeoutInMs = 0;
+const int kDefaultLongPressTimeoutInMs = 2000;
 uint64_t kCorrelationId = 1;
 
 ApplicationContext applicationContext;
@@ -89,6 +90,34 @@ void API::TapObject(const common::Point& screen_point, common::squish::ModifierS
   auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
       screen_point.x, screen_point.y, modifier_state, button, GetCorrelationId());
   applicationContext.SendCommand(interaction::Method::kTapObject, message);
+}
+
+void API::LongPress(const Object& screen_rectangle, int timeout_msec) {
+  LongPress(screen_rectangle, 0, 0, timeout_msec);
+}
+
+void API::LongPress(const Object& screen_rectangle, int x, int y, int timeout_msec) {
+  // Check validation of relative coordinates (should be less Object size)
+  if (x > screen_rectangle.width || y > screen_rectangle.height || x < 0 || y < 0) {
+    logger::error("LongPress: invalid coordinates [{},{}], must be less than [{},{}]", x, y, screen_rectangle.width,
+                  screen_rectangle.height);
+    return;
+  }
+  if (timeout_msec <= 0) {
+    logger::warn("LongPress: invalid timeout {} milliseconds, use default {} milliseconds", timeout_msec,
+                 kDefaultLongPressTimeoutInMs);
+    timeout_msec = kDefaultLongPressTimeoutInMs;
+  }
+
+  std::string message;
+  (!x && !y)
+      ? message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
+            screen_rectangle.Center().x, screen_rectangle.Center().y, static_cast<unsigned>(timeout_msec),
+            GetCorrelationId())
+      : message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
+            screen_rectangle.x + x, screen_rectangle.y + y, static_cast<unsigned>(timeout_msec), GetCorrelationId());
+
+  applicationContext.SendCommand(interaction::Method::kLongPress, message);
 }
 
 void API::TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy) {

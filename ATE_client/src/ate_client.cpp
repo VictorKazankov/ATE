@@ -9,6 +9,10 @@
 
 namespace py = pybind11;
 
+namespace {
+const uint32_t kDefaultLongPressTimeout = 2000;
+} // namespace
+
 PYBIND11_MODULE(vhat_client, m) {
   m.doc() = "ATE plugin for communication with SYNC";
 
@@ -52,6 +56,7 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::InvalidSyncVersion>(m, "InvalidSyncVersion");
   py::register_exception<squish::InvalidSyncBuildVersion>(m, "InvalidSyncBuildVersion");
   py::register_exception<squish::InvalidSyncCollectionMode>(m, "InvalidSyncCollectionMode");
+  py::register_exception<squish::InvalidDurationLongPress>(m, "InvalidDurationLongPress");
   py::register_exception<interaction::VideoStreamingError>(m, "VideoStreamingError");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
@@ -152,4 +157,19 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("changeSyncMode", &squish::API::ChangeSyncMode, "This function changes active collection mode in DBManager ",
         py::arg("collection_mode"));
+
+  m.def(
+      "longPress", py::overload_cast<const squish::Object&, int>(&squish::API::LongPress),
+      "This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout not "
+      "specified. Throws 'InvalidDurationLongPress' in case if timeout_msec longer than 60 seconds.",
+      py::arg("object_or_name"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
+
+  m.def("longPress", py::overload_cast<const squish::Object&, int, int, int>(&squish::API::LongPress),
+        "This function is taps by pressing with specified timeout in milliseconds on the specified object. "
+        "The x, y coordinates and timeout_msec are optional. If they are"
+        "not specified the tap is made in the center of the widget. On the other hand, if the additional parameters are"
+        "given, the tap is made at position x and y (in the object coordinates). Throws 'InvalidDurationLongPress' in "
+        "case if timeout_msec longer than 60 seconds.",
+        py::arg("object_or_name"), py::arg("x"), py::arg("y"),
+        py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
 }

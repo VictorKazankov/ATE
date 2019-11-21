@@ -59,6 +59,9 @@ bool CheckJsonStructure(const std::string& message, Json::Value& value) {
     case rpc::Error::kInvalidSyncCollectionMode:
       throw squish::InvalidSyncCollectionMode{};
 
+    case rpc::Error::kInvalidDurationLongPress:
+      throw squish::InvalidDurationLongPress{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }
@@ -109,6 +112,10 @@ squish::Object ParseMessage(Method method, const Json::Value& schema) {
 
     case Method::kChangeSyncMode:
       logger::info("parse message changeSyncMode response");
+      break;
+
+    case Method::kLongPress:
+      logger::info("[parse message] LongPress response");
       break;
 
     default:

@@ -70,6 +70,20 @@ struct API {
                         common::squish::MouseButton button = common::squish::MouseButton::NONE);
 
   /**
+   * @brief This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout
+   * not specified. The x and y coordinates are optional. If they are not specified the tap is made in the center of the
+   * widget. On the other hand, if the additional parameters are given, the tap is made at position x and y (in the
+   * object coordinates).
+   * @param screen_rectangle - position are in screen global coordinates
+   * @param x - relative coordinates in the object, optional
+   * @param y - relative coordinates in the object, optional
+   * @param timeout_msec - timeout in miliseconds between press event and release event, optional
+   * @exception Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
+   **/
+  static void LongPress(const Object& screen_rectangle, int timeout_msec);
+  static void LongPress(const Object& screen_rectangle, int x, int y, int timeout_msec);
+
+  /**
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
    *  widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widge is dragged by
    *  dx pixels horizontally and by dy pixels vertically.

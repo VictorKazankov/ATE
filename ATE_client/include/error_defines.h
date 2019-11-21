@@ -24,6 +24,11 @@ class InvalidSyncCollectionMode : public std::runtime_error {
   explicit InvalidSyncCollectionMode() : std::runtime_error{"Invalid sync collection mode"} {}
 };
 
+class InvalidDurationLongPress : public std::runtime_error {
+ public:
+  explicit InvalidDurationLongPress() : std::runtime_error{"Too long press action duration"} {}
+};
+
 }  // namespace squish
 
 namespace interaction {
