@@ -43,8 +43,10 @@ set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type: [Debug|Release|RelWithDeb
 
 if(UNIX)
   set(CMAKE_TOOLCHAIN_FILE "${ATE_SOURCE_ROOT}/infrastructure/cmake/toolchains/desktop.cmake" CACHE FILEPATH "CMake toolchain")
+  set(CMAKE_GENERATOR_DEFAULT "Ninja")
 elseif(WIN32)
   set(CMAKE_TOOLCHAIN_FILE "${ATE_SOURCE_ROOT}/infrastructure/cmake/toolchains/desktop_win32.cmake" CACHE FILEPATH "Cmake toolchain for Win32")
+  set(CMAKE_GENERATOR_DEFAULT "NMake Makefiles")
 endif()
 
 get_filename_component(ATE_SOURCE_ROOT_DIR_NAME "${ATE_SOURCE_ROOT}" NAME)
@@ -61,13 +63,16 @@ else()
   file(MAKE_DIRECTORY "${ATE_BUILD_ROOT}")
 endif()
 
+message(STATUS "CMAKE_GENERATOR: " ${CMAKE_GENERATOR})
+
 execute_process(
   COMMAND
     "${CMAKE_COMMAND}" -E chdir "${ATE_BUILD_ROOT}"
     "${CMAKE_COMMAND}" "${ATE_SOURCE_ROOT}"
-      -GNinja
+      -G${CMAKE_GENERATOR_DEFAULT}
       -DCMAKE_BUILD_TYPE:STRING='${CMAKE_BUILD_TYPE}'
       -DCMAKE_INSTALL_PREFIX:PATH='${CMAKE_INSTALL_PREFIX}'
+      -DCMAKE_PREFIX_PATH:PATH='${CMAKE_PREFIX_PATH}'
       -DCMAKE_TOOLCHAIN_FILE:FILEPATH='${CMAKE_TOOLCHAIN_FILE}'
       -DATE_BUILD_CLIENT:BOOL=${ATE_BUILD_CLIENT}
       -DATE_BUILD_SERVER:BOOL=${ATE_BUILD_SERVER}
