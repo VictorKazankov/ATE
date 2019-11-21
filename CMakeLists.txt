@@ -144,7 +144,9 @@ if(ATE_CREATE_DEBIAN_PACKAGE)
 
   #TODO: Remove after R3 (needs to resolve conflicts with deb package names)
   set(CPACK_DEBIAN_PACKAGE_CONFLICTS "vdp-vhat, vhat")
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, vdp-libdbmanager (>= ${PROJECT_VERSION}), vdp-librecognition (>= ${PROJECT_VERSION})")
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, vdp-libdbmanager (>= ${PROJECT_VERSION}),\
+                                    vdp-librecognition (>= ${PROJECT_VERSION}), vdp-mcu-utils,\
+                                    vdp-gstreamer, vdp-media-server")
   set(CPACK_DEBIAN_PACKAGE_SUGGESTS "python2.7")
   set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
   set(CPACK_DEBIAN_PACKAGE_SECTION "unknown")
