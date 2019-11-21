@@ -20,6 +20,8 @@ enum class Error {
   // Object recognition error
   kVideoStreamNotFound = -32001,
   kObjectNotFound = -32000,
+  // Long press error
+  kInvalidDurationLongPress = -32006,
 };
 
 }  // namespace rpc

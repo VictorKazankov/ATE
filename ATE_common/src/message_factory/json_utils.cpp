@@ -156,6 +156,21 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
   }
 }
 
+void ExtractLongPressRequestParams(const Json::Value& params, uint16_t& x, uint16_t& y, std::chrono::milliseconds& timeout,
+                                   Json::Value& error) {
+  error = Json::Value{};
+
+  try {
+    x = params[kAbscissa].asUInt();
+    y = params[kOrdinate].asUInt();
+    timeout = std::chrono::milliseconds{params[kTimeoutMsec].asUInt()};
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid LongPress params");
+    logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
 void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& object_or_name, int& x, int& y, int& dx,
                                       int& dy, squish::ModifierState& modifier_state, Json::Value& error) {
   error = Json::Value{};

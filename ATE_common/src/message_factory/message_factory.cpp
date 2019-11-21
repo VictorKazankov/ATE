@@ -117,6 +117,22 @@ std::string MessageFactory::Client::CreateChangeSyncModeRequest(const std::strin
   return writer.write(message);
 }
 
+std::string MessageFactory::Client::CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kAbscissa] = x;
+  params[kOrdinate] = y;
+  params[kTimeoutMsec] = timeout_msec;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kLongPress, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 
@@ -152,6 +168,8 @@ Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y
 Json::Value MessageFactory::Server::CreateChangeSyncIconDBResultObject() { return Json::Value{true}; }
 
 Json::Value MessageFactory::Server::CreateChangeSyncModeResultObject() { return Json::Value{true}; }
+
+Json::Value MessageFactory::Server::CreateLongPressResultObject() { return Json::Value{true}; }
 
 std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id) {
   Json::Value params;

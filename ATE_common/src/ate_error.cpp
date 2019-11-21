@@ -27,6 +27,9 @@ std::string AteErrorCategoryImpl::message(int code) const {
     case common::AteError::kPatternNotFound:
       return "Pattern is not found";
 
+    case common::AteError::kInvalidDurationLongPress:
+      return "Too long press action duration";
+
       /*Do not add default case, every error code should have correspoding message*/
   }
 

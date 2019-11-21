@@ -62,6 +62,14 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleTapObject(const Json::Value& params);
 
   /**
+   * @brief Handler for LongPress
+   * @param params - LongPress params
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandleLongPress(const Json::Value& params);
+
+  /**
    * @brief Handler for TouchAndDrag
    * @param params - TouchAndDrag params
    * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool

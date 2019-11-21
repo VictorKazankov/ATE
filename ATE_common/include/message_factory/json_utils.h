@@ -101,6 +101,18 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
                                    squish::MouseButton& mouse_button, Json::Value& error);
 
 /**
+ * @brief Extracts params for 'LongPress' method
+ * @param params - structured value that holds the parameter values to be used
+ * during the invocation of the 'LongPress' method
+ * @param x - x coordinate
+ * @param y - y coordinate
+ * @param timeout - delay between press and release on coordinate
+ * @param error - error object, null on successs
+ * */
+void ExtractLongPressRequestParams(const Json::Value& params, uint16_t& x, uint16_t& y, std::chrono::milliseconds& timeout,
+                                   Json::Value& error);
+
+/**
  * @brief Extract params for 'TouchAndDrag' method
  *
  * @param[in] params - structured value that holds the parameter values to be used

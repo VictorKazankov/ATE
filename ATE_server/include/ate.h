@@ -24,6 +24,16 @@ class ATE {
   void TapObject(const cv::Point& point);
 
   /**
+   * @brief The LongPress function performs a touch and release event with delay in (timeout) milliseconds (2000
+   * milliseconds by default)
+   * @param x - distance from left screen edge to point horizontally that will be pressed in pixels.
+   * @param y - distance from top screen edge to the point vertically that will be pressed in pixels.
+   * @param timeout - delay between press end release on point
+   * @return error_code - that holds error code number in case if timeout bigger than 60 seconds, otherwise empty error
+   */
+  std::error_code LongPress(uint16_t x, uint16_t y, const std::chrono::milliseconds& timeout);
+
+  /**
    * @brief performs a touch-based drag operation
    * @param object_or_name object or name of the component
    * @param start_point start coordinates

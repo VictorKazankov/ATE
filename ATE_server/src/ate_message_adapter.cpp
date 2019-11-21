@@ -22,7 +22,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged},
                    {common::jmsg::kChangeSyncIconDB, &AteMessageAdapter::HandleChangeSyncIconDB},
                    {common::jmsg::kChangeSyncMode, &AteMessageAdapter::HandleChangeSyncMode},
-                   {common::jmsg::kReloadIconStorage, &AteMessageAdapter::HandleReloadIconStorage}} {}
+                   {common::jmsg::kReloadIconStorage, &AteMessageAdapter::HandleReloadIconStorage},
+                   {common::jmsg::kLongPress, &AteMessageAdapter::HandleLongPress}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -104,6 +105,33 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleTapObject(const Json::Valu
   ate_.TapObject(point);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateTapObjectResultObject(), true);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleLongPress(const Json::Value& params) {
+  uint16_t x;
+  uint16_t y;
+  std::chrono::milliseconds timeout;
+  Json::Value error;
+
+  common::jmsg::ExtractLongPressRequestParams(params, x, y, timeout, error);
+
+  if (!error.empty()) {
+    return std::make_pair(std::move(error), false);
+  }
+
+  std::error_code error_code;
+  error_code = ate_.LongPress(x, y, timeout);
+
+  if (error_code == common::AteError::kInvalidDurationLongPress) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidDurationLongPress, error_code.message().c_str());
+  }
+
+  if (!error.empty()) {
+    logger::info("[ate message adapter] Press is too long {}ms error: {}", timeout.count(), error.toStyledString());
+    return std::make_pair(std::move(error), false);
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateLongPressResultObject(), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleTouchAndDrag(const Json::Value& params) {

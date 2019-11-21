@@ -30,6 +30,7 @@ class MessageFactory {
     static std::string CreateChangeSyncIconDBRequest(const std::string& sync_version,
                                                       const std::string& sync_build_version, int id);
     static std::string CreateChangeSyncModeRequest(const std::string& collection_mode, int id);
+    static std::string CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id);
   };
 
   /**
@@ -62,6 +63,7 @@ class MessageFactory {
     static Json::Value CreateWaitForObjectResultObject(int x, int y, int width, int height);
     static Json::Value CreateChangeSyncIconDBResultObject();
     static Json::Value CreateChangeSyncModeResultObject();
+    static Json::Value CreateLongPressResultObject();
   };
 };
 

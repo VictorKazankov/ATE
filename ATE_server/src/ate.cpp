@@ -105,6 +105,19 @@ ATE::~ATE() = default;
 
 void ATE::TapObject(const cv::Point& point) { interaction_->Tap(point.x, point.y); }
 
+std::error_code ATE::LongPress(uint16_t x, uint16_t y, const std::chrono::milliseconds& timeout) {
+  const std::chrono::seconds kMaxLongPressDelay(60);
+  std::error_code long_press_error;
+
+  if (timeout > kMaxLongPressDelay) {
+    return common::make_error_code(common::AteError::kInvalidDurationLongPress);
+  }
+  interaction_->Press(x, y);
+  std::this_thread::sleep_for(timeout);
+  interaction_->Release(x, y);
+  return std::error_code{};
+}
+
 void ATE::TouchAndDrag(const std::string& object_or_name, const cv::Point& start_point, const cv::Point& delta_point) {
   logger::trace("objectOrName '{}' has been draged from x: {} y: {} by dx: {} dy: {}", object_or_name, start_point.x,
                 start_point.y, delta_point.x, delta_point.y);
