@@ -142,8 +142,10 @@ if(ATE_CREATE_DEBIAN_PACKAGE)
   set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
   set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}${VERSION_SUFFIX}")
 
-  #TODO: Remove after R3 (needs to resolve conflicts with deb package names)
   set(CPACK_DEBIAN_PACKAGE_CONFLICTS "vdp-vhat, vhat")
+  set(CPACK_DEBIAN_PACKAGE_REPLACES "vdp-vhat, vhat")
+  set(CPACK_DEBIAN_PACKAGE_PROVIDES "vdp-vhat (=${PROJECT_VERSION_FULL}), vhat (=${PROJECT_VERSION_FULL})")
+
   set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, vdp-libdbmanager (>= ${PROJECT_VERSION}),\
                                     vdp-librecognition (>= ${PROJECT_VERSION}), vdp-mcu-utils,\
                                     vdp-gstreamer, vdp-media-server")
