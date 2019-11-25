@@ -20,7 +20,7 @@ struct API {
    *attachable AUT
    * @return A handle to its application context
    **/
-  static ApplicationContext AttachToApplication(const std::string& aut_name = "");
+  static ApplicationContext& AttachToApplication(const std::string& aut_name = "");
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and

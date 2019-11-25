@@ -4,6 +4,7 @@
 
 #include <boost/asio/io_context.hpp>
 
+#include "ate_interaction.h"
 #include "common.h"
 #include "logger/logger.h"
 #include "message_factory/message_factory.h"
@@ -24,7 +25,10 @@ int kDefaultWaitForObjectTimeoutInMs = 0;
 const int kDefaultLongPressTimeoutInMs = 2000;
 uint64_t kCorrelationId = 1;
 
-ApplicationContext applicationContext;
+static ApplicationContext& ApplicationContextInstance() {
+  static ApplicationContext applicationContext;
+  return applicationContext;
+}
 
 static uint64_t GetCorrelationId() { return kCorrelationId++; }
 
@@ -34,11 +38,11 @@ auto& GetMainIoContext() {
 }
 }  // namespace
 
-ApplicationContext API::AttachToApplication(const std::string&) {
+ApplicationContext& API::AttachToApplication(const std::string&) {
   logger::debug("ApplicationContext AttachToApplication()");
-  if (applicationContext.IsRunning()) {
+  if (ApplicationContextInstance().IsRunning()) {
     logger::warn("ate_interaction already exist");
-    return applicationContext;
+    return ApplicationContextInstance();
   }
 
   const char* const config_from_env = std::getenv(kConfigEnvVar);
@@ -47,12 +51,13 @@ ApplicationContext API::AttachToApplication(const std::string&) {
   logger::info("Config file: {}", config_file);
   kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
 
-  applicationContext.host = common::Config().GetString(kBoardSection, kAddressOption, "");
-  applicationContext.port = common::Config().GetString(kBoardSection, kPortOption, "");
+  auto host = common::Config().GetString(kBoardSection, kAddressOption, "");
+  auto port = common::Config().GetString(kBoardSection, kPortOption, "");
 
-  applicationContext.Attach(GetMainIoContext());
+  auto ate_interaction = std::make_unique<interaction::ATEInteraction>(GetMainIoContext(), host, port);
+  ApplicationContextInstance().Attach(std::move(ate_interaction));
 
-  return applicationContext;
+  return ApplicationContextInstance();
 }
 
 Object API::WaitForObject(const Object& object_or_name) {
@@ -71,7 +76,7 @@ Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
   logger::debug("Object waitForObject()");
   auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec,
                                                                                   GetCorrelationId());
-  return applicationContext.SendCommand(interaction::Method::kWaitForObject, message);
+  return ApplicationContextInstance().SendCommand(interaction::Method::kWaitForObject, message);
 }
 
 void API::TapObject(const Object& screen_rectangle, common::squish::ModifierState modifier_state,
@@ -89,7 +94,7 @@ void API::TapObject(const common::Point& screen_point, common::squish::ModifierS
   logger::debug("Object tapObject");
   auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
       screen_point.x, screen_point.y, modifier_state, button, GetCorrelationId());
-  applicationContext.SendCommand(interaction::Method::kTapObject, message);
+  ApplicationContextInstance().SendCommand(interaction::Method::kTapObject, message);
 }
 
 void API::LongPress(const Object& screen_rectangle, int timeout_msec) {
@@ -117,7 +122,7 @@ void API::LongPress(const Object& screen_rectangle, int x, int y, int timeout_ms
       : message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
             screen_rectangle.x + x, screen_rectangle.y + y, static_cast<unsigned>(timeout_msec), GetCorrelationId());
 
-  applicationContext.SendCommand(interaction::Method::kLongPress, message);
+  ApplicationContextInstance().SendCommand(interaction::Method::kLongPress, message);
 }
 
 void API::TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy) {
@@ -137,18 +142,18 @@ void API::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, 
                        common::squish::ModifierState modifier_state) {
   auto message = common::jmsg::MessageFactory::Client::CreateTouchAndDragRequest(object_or_name, x, y, dx, dy,
                                                                                  modifier_state, GetCorrelationId());
-  applicationContext.SendCommand(interaction::Method::kTouchAndDrag, message);
+  ApplicationContextInstance().SendCommand(interaction::Method::kTouchAndDrag, message);
 }
 
 void API::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,
                                                                                      GetCorrelationId());
 
-  applicationContext.SendCommand(interaction::Method::kChangeSyncIconDB, message);
+  ApplicationContextInstance().SendCommand(interaction::Method::kChangeSyncIconDB, message);
 }
 
 void API::ChangeSyncMode(common::squish::CollectionMode collection_mode) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncModeRequest(CollectionModeToStr(collection_mode),
                                                                                    GetCorrelationId());
-  applicationContext.SendCommand(interaction::Method::kChangeSyncMode, message);
+  ApplicationContextInstance().SendCommand(interaction::Method::kChangeSyncMode, message);
 }

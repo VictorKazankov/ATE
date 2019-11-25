@@ -6,28 +6,23 @@
 
 #include <boost/asio/io_context.hpp>
 
-#include "ate_interaction.h"
+#include "interaction.h"
 #include "squish/squish_types.h"
 
 namespace squish {
 
 struct ApplicationContext {
-  std::string host{};
-  std::string port{};
-
- private:
-  std::unique_ptr<interaction::ATEInteraction> ate_interaction;
-
  public:
   ApplicationContext() = default;
   ~ApplicationContext() = default;
-  ApplicationContext(const squish::ApplicationContext& rhs);
+  ApplicationContext(const ApplicationContext&) = delete;
+  ApplicationContext& operator=(const ApplicationContext&) = delete;
 
   /**
    * @brief Function establishes connection to ATE server
-   * @param io_context context for communications
+   * @param ate_interaction for communication
    **/
-  void Attach(boost::asio::io_context& io_context);
+  void Attach(std::unique_ptr<interaction::Interaction>&& ate_interaction);
 
   /**
    * @brief The function sends commands to the target
@@ -55,6 +50,21 @@ struct ApplicationContext {
    * by using object references which had been retrieved before detaching.)
    **/
   void Detach();
+
+  /**
+   * @brief Function provides host
+   * @return host
+   **/
+  std::string host() const;
+
+  /**
+   * @brief Function provides port
+   * @return port
+   **/
+  std::string port() const;
+
+ private:
+  std::unique_ptr<interaction::Interaction> ate_interaction;
 };
 
 }  // namespace squish
