@@ -4,13 +4,17 @@ include(GNUInstallDirs)
 
 project(vhat_client)
 
+set(SOURCE_LIST 
+  ate_interaction.cpp
+  ate_client.cpp
+  squish/application_context.cpp
+  squish/squish_API.cpp
+  squish/squish_types.cpp
+)
+
 add_library(vhat_client
   MODULE
-    ate_interaction.cpp
-    ate_client.cpp
-    squish/application_context.cpp
-    squish/squish_API.cpp
-    squish/squish_types.cpp
+    ${SOURCE_LIST}
 )
 
 set_target_properties(vhat_client PROPERTIES
@@ -23,6 +27,26 @@ target_include_directories(vhat_client
     ../include
 )
 
+add_library(vhat_client_library STATIC
+  ${SOURCE_LIST}
+)
+
+target_include_directories(vhat_client_library
+  PUBLIC
+    ../include
+)
+
+target_link_libraries(vhat_client_library
+  PUBLIC
+    pybind11::module
+    ate_common
+)
+
+target_compile_definitions(vhat_client_library
+  PUBLIC
+    ATE_CLIENT_CONFIG_DIR="${ATE_INSTALL_SYSCONFDIR}"
+)
+
 target_link_libraries(vhat_client
   ate_common
   pybind11::module
@@ -33,7 +57,6 @@ target_compile_definitions(vhat_client
     ATE_CLIENT_CONFIG_DIR="${ATE_INSTALL_SYSCONFDIR}"
 )
 message(STATUS "ATE_CLIENT_CONFIG_DIR: " ${ATE_INSTALL_SYSCONFDIR})
-
 
 set_target_properties(vhat_client PROPERTIES
   INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_LIBDIR}"
@@ -58,3 +81,14 @@ elseif(MSVC)
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   )
 endif()
+
+#######################################################
+#                   Test coverage
+#######################################################
+if (ATE_COVERAGE)
+  target_compile_options(vhat_client_library PRIVATE --coverage)
+  target_link_libraries(vhat_client_library PRIVATE 
+                        pybind11::module
+                        ate_common
+                        gcov)
+endif(ATE_COVERAGE)

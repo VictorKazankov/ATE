@@ -87,6 +87,8 @@ if (ATE_COVERAGE AND GCOVR_EXECUTABLE)
       --filter=${PROJECT_SOURCE_DIR}/ATE_common/src
       --filter=${PROJECT_SOURCE_DIR}/ATE_server/include
       --filter=${PROJECT_SOURCE_DIR}/ATE_server/src
+      --filter=${PROJECT_SOURCE_DIR}/ATE_client/include
+      --filter=${PROJECT_SOURCE_DIR}/ATE_client/src
       --object-directory=${PROJECT_BINARY_DIR}
     DEPENDS
       check
@@ -100,6 +102,8 @@ if (ATE_COVERAGE AND GCOVR_EXECUTABLE)
       --filter=${PROJECT_SOURCE_DIR}/ATE_common/src
       --filter=${PROJECT_SOURCE_DIR}/ATE_server/include
       --filter=${PROJECT_SOURCE_DIR}/ATE_server/src
+      --filter=${PROJECT_SOURCE_DIR}/ATE_client/include
+      --filter=${PROJECT_SOURCE_DIR}/ATE_client/src
       --object-directory=${PROJECT_BINARY_DIR}
       --html
       --sort-percentage
@@ -128,6 +132,10 @@ if(ATE_WITH_TESTS)
   if(ATE_BUILD_SERVER)
     add_subdirectory(ATE_server/test)
   endif(ATE_BUILD_SERVER)
+  
+  if(ATE_BUILD_CLIENT)
+    add_subdirectory(ATE_client/test)
+  endif(ATE_BUILD_CLIENT)
 
   # run all tests
   add_custom_target(check COMMAND ctest)
