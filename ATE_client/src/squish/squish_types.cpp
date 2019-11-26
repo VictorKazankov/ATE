@@ -7,7 +7,7 @@ bool Object::Exists(const std::string& object_name) const {
   try {
     API::WaitForObject(object_name);
     return true;
-  } catch (const LookupError&) {
+  } catch (const std::runtime_error&) {
     return false;
   }
 }
