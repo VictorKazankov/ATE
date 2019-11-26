@@ -120,6 +120,19 @@ TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedRequest_ValidJson
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
+TEST(MessageFactoryClientTest, CreateLongPressRequest_ValidJsonMessage_Success) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(1, 2, 2000, 1);
+  auto expected_message =
+      R"({"id":1,"jsonrpc":"2.0","method":"LongPress","params":{"timeout_msec":2000,"x":1,"y":2}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
+TEST(MessageFactoryServerTest, CreateLongPressResultObject_ValidResponse_Success) {
+  auto response = common::jmsg::MessageFactory::Server::CreateLongPressResultObject();
+  EXPECT_EQ(Json::Value{true}, response);
+}
+
 TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedResponse_ValidResponse_Success) {
   auto response = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse();
   EXPECT_EQ(Json::Value{true}, response);

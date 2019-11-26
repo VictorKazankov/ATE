@@ -23,11 +23,18 @@ TEST(AteErrorTest, MakeErrorCode_VideoTemporarilyUnavailable_Success) {
   EXPECT_STREQ(code.message().c_str(), "Video output is temporary unavailable");
 }
 
+TEST(AteErrorTest, MakeErrorCode_InvalidDurationLongPress_Success) {
+  auto code = common::make_error_code(common::AteError::kInvalidDurationLongPress);
+  EXPECT_EQ(code, common::AteError::kInvalidDurationLongPress) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "Too long press action duration");
+}
+
 TEST(AteErrorTest, MakeErrorrCode_WrongErrorType_Failure) {
   auto code = common::make_error_code(static_cast<common::AteError>(-1));
   EXPECT_NE(code, common::AteError::kPatternInvalid) << "Error code: " << code.message() << "\n";
   EXPECT_NE(code, common::AteError::kPatternNotFound) << "Error code: " << code.message() << "\n";
   EXPECT_NE(code, common::AteError::kVideoTemporarilyUnavailable) << "Error code: " << code.message() << "\n";
+  EXPECT_NE(code, common::AteError::kInvalidDurationLongPress) << "Error code: " << code.message() << "\n";
   EXPECT_STREQ(code.message().c_str(), "Unrecognized Error");
 }
 
