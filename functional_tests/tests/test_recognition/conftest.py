@@ -1,7 +1,9 @@
 import pytest
+from functional_tests.pages import hmi
 from functional_tests.pages.sync3 import page_supervisor_sync3
 from functional_tests.pages.sync4 import page_supervisor_sync4
 from functional_tests.tests import helpers
+from functional_tests.utils import ssh_connect
 from functional_tests.utils.sync3.constants import Icons
 
 
@@ -257,3 +259,28 @@ def settings_display_sync3(settings_second_screen_sync3):
 def settings_voice_control_sync3(settings_second_screen_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.settings_page.open_settings_voice_control_page()
+
+
+@pytest.fixture()
+def settings_change_icon_storage(get_current_sync_build_version):
+    # getting sync and build versions from ini file
+    current_sync, current_build = get_current_sync_build_version
+    name_json_file = 'day_mode.json'
+    path_icon_storage = '/var/lib/vdp/vhat/icon_storage/{}/{}/'.format(current_sync, current_build)
+    old_image_name = 'phone_add_phone_button'
+    new_image_name = 'test_phone_add_phone'
+
+    client = ssh_connect.start()
+    # change image name in json file
+    client.exec_command(
+        r"sed -i 's/{}/{}/g' {}".format(old_image_name, new_image_name, path_icon_storage + name_json_file))
+    # change image name file in icon_storage
+    client.exec_command(r"mv {} {}".format(path_icon_storage + 'day_mode/' + old_image_name + '.png',
+                                           path_icon_storage + 'day_mode/' + new_image_name + '.png'))
+    hmi.attach_to_application()
+    yield
+    # restore name icon in json file and icon_storage
+    client.exec_command(
+        r"sed -i 's/{}/{}/g' {}".format(new_image_name, old_image_name, path_icon_storage + name_json_file))
+    client.exec_command(r"mv {} {}".format(path_icon_storage + 'day_mode/' + new_image_name + '.png',
+                                           path_icon_storage + 'day_mode/' + old_image_name + '.png'))

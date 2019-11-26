@@ -15,7 +15,7 @@ RESTART = 'sudo systemctl restart vdp_ate_server'
 pytest_plugins = "functional_tests.utils.logger"
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='module')
 def app_connector():
     sync = hmi.attach_to_application()
     try:
@@ -44,7 +44,7 @@ def driver_sync4(app_connector):
 
 
 @pytest.fixture(scope='module')
-def get_current_sync_build_version():
+def get_current_sync_build_version(app_connector):
     # get version sync from config file
     client = ssh_connect.start()
     stdin, stdout, stderr = client.exec_command(CURRENT_SYNC_VERSION)
@@ -52,19 +52,8 @@ def get_current_sync_build_version():
     stdin, stdout, stderr = client.exec_command(CURRENT_BUILD_VERSION)
     build = stdout.read()[:-1]
     yield sync, build
-    ssh_connect.execute_command(client, RESTART, passwd_required=True)
-
-
-@pytest.fixture()
-def add_night_mode(get_current_sync_build_version):
-    client = ssh_connect.start()
-    current_sync, current_build = get_current_sync_build_version
-    path_icon_storage = '/var/lib/vdp/vhat/icon_storage/{}/{}'.format(current_sync, current_build)
-    client.exec_command("mkdir {}/night_mode/ && touch {}/night_mode/test.png && touch {}/night_mode.json"
-                        .format(path_icon_storage, path_icon_storage, path_icon_storage))
-    yield
-    client.exec_command("rm -r {}/night_mode && rm {}/night_mode.json".format(path_icon_storage, path_icon_storage))
-    ssh_connect.execute_command(client, RESTART, passwd_required=True)
+    ssh_connect.execute_command(client, STOP, passwd_required=True)
+    ssh_connect.execute_command(client, START, passwd_required=True)
 
 
 @pytest.fixture(autouse=True)
