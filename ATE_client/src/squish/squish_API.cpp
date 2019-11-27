@@ -47,8 +47,8 @@ ApplicationContext& API::AttachToApplication(const std::string&) {
 
   const char* const config_from_env = std::getenv(kConfigEnvVar);
   const std::string config_file = config_from_env ? config_from_env : ATE_CLIENT_CONFIG_DIR "/ate_client.ini";
-  common::SetUp(config_file);
   logger::info("Config file: {}", config_file);
+  common::SetUp(config_file);
   kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
 
   auto host = common::Config().GetString(kBoardSection, kAddressOption, "");
@@ -123,14 +123,6 @@ void API::LongPress(const Object& screen_rectangle, int x, int y, int timeout_ms
             screen_rectangle.x + x, screen_rectangle.y + y, static_cast<unsigned>(timeout_msec), GetCorrelationId());
 
   ApplicationContextInstance().SendCommand(interaction::Method::kLongPress, message);
-}
-
-void API::TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy) {
-  TouchAndDrag(object_or_name.name, x, y, dx, dy, common::squish::ModifierState::NONE);
-}
-
-void API::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy) {
-  TouchAndDrag(object_or_name, x, y, dx, dy, common::squish::ModifierState::NONE);
 }
 
 void API::TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy,

@@ -136,30 +136,21 @@ PYBIND11_MODULE(vhat_client, m) {
         "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
         "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically. "
         "The function may throw an exception 'runtime_error'.",
-        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"), py::arg("modifier"));
+        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
+        py::arg("modifier") = common::squish::ModifierState::NONE);
 
   m.def("touchAndDrag",
         py::overload_cast<const std::string&, int, int, int, int, common::squish::ModifierState>(
             &squish::API::TouchAndDrag),
         "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
-        "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically.",
-        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"), py::arg("modifier"));
-
-  m.def("touchAndDrag", py::overload_cast<const squish::Object&, int, int, int, int>(&squish::API::TouchAndDrag),
-        "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
-        "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically.",
-        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"));
-
-  m.def("touchAndDrag", py::overload_cast<const std::string&, int, int, int, int>(&squish::API::TouchAndDrag),
-        "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
         "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically. "
         "The function may throw an exception 'runtime_error'.",
-        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"));
+        py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
+        py::arg("modifier") = common::squish::ModifierState::NONE);
 
   m.def("changeSyncIconDB", &squish::API::ChangeSyncIconDB,
         "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a "
-        "specific"
-        "collection. "
+        "specific collection. "
         "The function may throw an exception 'runtime_error'.",
         py::arg("sync_version"), py::arg("sync_build_version"));
 

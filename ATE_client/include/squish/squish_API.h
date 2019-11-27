@@ -92,14 +92,12 @@ struct API {
    * @param y - start y coordinate of drag event
    * @param dx - dragged by pixels horizontally
    * @param dy - dragged by pixels vertically
-   * @param modifier_state - modifier state NONE asd default. [NONE, ALT, CONTROL, SHIFT]
+   * @param modifier_state - modifier state [NONE, ALT, CONTROL, SHIFT]
    **/
-  static void TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy);
-  static void TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy);
   static void TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy,
-                           common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE);
+                           common::squish::ModifierState modifier_state);
   static void TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
-                           common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE);
+                           common::squish::ModifierState modifier_state);
 
   /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
