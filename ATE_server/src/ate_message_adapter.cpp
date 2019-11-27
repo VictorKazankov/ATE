@@ -69,16 +69,16 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
   std::error_code error_code;
   std::tie(position, error_code) = ate_.WaitForObject(object_or_name, timeout);
 
-  if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
-    error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
-  } else if (error_code == common::AteError::kPatternInvalid || error_code == common::AteError::kPatternNotFound) {
-    error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
-  } else {
-    logger::warn("[ate message adapter] unhandled error: {}, treated as object not found error");
-    error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
-  }
-
-  if (!error.empty()) {
+  // TODO: replace by switch! Hint: return from waitForObject enum
+  if (error_code) {
+    if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
+      error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
+    } else if (error_code == common::AteError::kPatternInvalid || error_code == common::AteError::kPatternNotFound) {
+      error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
+    } else {
+      logger::warn("[ate message adapter] unhandled error: {}, treated as object not found error");
+      error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
+    }
     logger::info("[ate message adapter] object_or_name: {}, timeout: {}ms error: {}", object_or_name, timeout.count(),
                  error.toStyledString());
     return std::make_pair(std::move(error), false);
