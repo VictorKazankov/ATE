@@ -30,8 +30,10 @@ target_link_libraries(vhat_client
 
 target_compile_definitions(vhat_client
   PUBLIC
-    ATE_CLIENT_CONFIG_DIR="${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_SYSCONFDIR}"
+    ATE_CLIENT_CONFIG_DIR="${ATE_INSTALL_SYSCONFDIR}"
 )
+message(STATUS "ATE_CLIENT_CONFIG_DIR: " ${ATE_INSTALL_SYSCONFDIR})
+
 
 set_target_properties(vhat_client PROPERTIES
   INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_LIBDIR}"
