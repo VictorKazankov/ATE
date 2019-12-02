@@ -124,6 +124,7 @@ class Text:
     CLOSE_TEXT = 'Close'
     CONNECT_PHONE_TITLE_TEXT = 'Connect Phone'
     CONNECTION_SETTINGS_BUTTON_TEXT = 'Connection'
+    CONNECTION_SETTINGS_TITLE_TEXT = 'Connection Settings'
     DIRECT_TEXT = 'Direct'
     DUAL_BUTTON_TEXT = 'DUAL'
     ENGLISH_LANGUAGE_TEXT = 'English'

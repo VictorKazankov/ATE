@@ -16,7 +16,7 @@ class SettingsPage:
             tap(Icons.MAIN_PANEL_SETTINGS_BUTTON_INACTIVE)
 
     def open_sound_settings_page(self):
-        if hmi.obj_exists(Icons.SOUND_SETTINGS_TITLE_ICON):
+        if hmi.obj_exists(Text.SOUND_SETTINGS_TITLE_TEXT):
             logging.info("Sound settings page is already open")
         elif tap_if_visible(Icons.SOUND_SETTINGS_BUTTON):
             logging.info('Open sound settings page')
@@ -25,17 +25,17 @@ class SettingsPage:
             tap(Icons.SOUND_SETTINGS_BUTTON)
 
     def open_setting_clock_page(self):
-        if hmi.obj_exists(Icons.CLOCK_SETTINGS_TITLE_ICON):
+        if hmi.obj_exists(Icons.CLOCK_SETTINGS_TITLE_ICON) and hmi.obj_exists(Text.RESET_CLOCK_GPS_TEXT):
             logging.info('Clock settings page is already open')
 
         elif tap_if_visible(Icons.CLOCK_SETTINGS_BUTTON):
-            logging.info('Open change vehicle name page')
+            logging.info('Open clock settings page')
         else:
             self.open_settings_page()
             tap(Icons.CLOCK_SETTINGS_BUTTON)
 
     def open_connection_settings(self):
-        if hmi.obj_exists(Icons.CONNECTION_SETTINGS_TITLE_ICON):
+        if hmi.obj_exists(Icons.CONNECTION_SETTINGS_TITLE_ICON) and hmi.obj_exists(Icons.BLUETOOTH_ICON):
             logging.info("Connection settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_CONNECTION_SETTINGS_BUTTON):
             logging.info('Open connection settings page')
@@ -44,7 +44,7 @@ class SettingsPage:
             tap(Icons.SETTINGS_CONNECTION_SETTINGS_BUTTON)
 
     def open_radio_settings(self):
-        if hmi.obj_exists(Icons.RADIO_SETTINGS_TITLE_ICON):
+        if hmi.obj_exists(Icons.RADIO_SETTINGS_TITLE_ICON) and hmi.obj_exists(Text.RADIO_SETTINGS_TITLE_TEXT):
             logging.info("Radio settings page is already open")
         elif tap_if_visible(Icons.RADIO_SETTINGS_ICON):
             logging.info('Open Radio settings')
@@ -62,7 +62,7 @@ class SettingsPage:
             tap(Icons.MOBILE_APPS_SETTINGS_BUTTON)
 
     def open_general_settings(self):
-        if hmi.obj_exists(Icons.GENERAL_SETTINGS_TITLE_ICON):
+        if hmi.obj_exists(Icons.GENERAL_SETTINGS_TITLE_ICON) and hmi.obj_exists(Icons.GENERAL_SETTINGS_LANGUAGE_BUTTON):
             logging.info("General settings page is already open")
         elif tap_if_visible(Icons.SETTINGS_GENERAL_SETTINGS_BUTTON):
             logging.info('Open general settings page')
@@ -118,7 +118,7 @@ class ClimatePage:
 
 class PhonePage:
     def phone_page_is_active(self):
-        return hmi.obj_exists(Icons.PHONE_PAGE_TITLE_ICON)
+        return hmi.obj_exists(Icons.ADD_PHONE_SETTINGS_BUTTON)
 
     def open_phone_page(self):
         if self.phone_page_is_active():
@@ -149,7 +149,7 @@ class SettingsAudioPage(SettingsPage):
         return hmi.obj_exists(Icons.SOUND_SETTINGS_TITLE_ICON)
 
     def open_tone_settings_page(self):
-        if hmi.obj_exists(Icons.TONE_SETTINGS_TITLE_ICON):
+        if hmi.obj_exists(Icons.TONE_SETTINGS_TITLE_ICON) and hmi.obj_exists(Text.SOUND_SETTINGS_TREBLE_TEXT):
             logging.info('Tone settings page is already open')
         elif tap_if_visible(Icons.SOUND_SETTINGS_TONE_SETTINGS_BUTTON):
             logging.info('Open tone settings page')
@@ -158,7 +158,7 @@ class SettingsAudioPage(SettingsPage):
             tap(Icons.SOUND_SETTINGS_TONE_SETTINGS_BUTTON)
 
     def open_occupancy_mode_page(self):
-        if hmi.obj_exists(Icons.OCCUPANCY_MODE_TITLE_ICON):
+        if hmi.obj_exists(Icons.OCCUPANCY_MODE_TITLE_ICON) and hmi.obj_exists(Text.SOUND_SETTINGS_ALL_SEATS_TEXT):
             logging.info("Occupancy mode page is already open")
         elif tap_if_visible(Icons.SOUND_SETTINGS_OCCUPANCY_MODE_BUTTON):
             logging.info("Open speed compensated volume page")
@@ -187,7 +187,7 @@ class SettingsAudioPage(SettingsPage):
 
 class ConnectionSettingsPage(SettingsPage):
     def open_bluetooth_page(self):
-        if hmi.obj_exists(Icons.BLUETOOTH_SETTINGS_TITLE_ICON):
+        if hmi.obj_exists(Text.BLUETOOTH_SETTINGS_TITLE_TEXT):
             logging.info('Bluetooth page is already open')
         elif tap_if_visible(Icons.CONNECTION_SETTINGS_BLUETOOTH_BUTTON):
             logging.info('Open bluetooth page')
@@ -213,7 +213,7 @@ class SettingsClockPage:
         return hmi.obj_exists(Icons.UP_ARROW_THIN)
 
     def clock_12h_button_is_active(self):
-        return hmi.obj_exists(Icons.CLOCK_SETTINGS_24H_DISABLE)
+        return hmi.obj_exists(Text.HOUR_MODE_12_TEXT)
 
     def clock_24h_button_is_active(self):
         return hmi.obj_exists(Icons.CLOCK_SETTINGS_24H_ENABLE)

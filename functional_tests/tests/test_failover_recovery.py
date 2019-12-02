@@ -5,17 +5,17 @@ import pytest
 from functional_tests.pages.hmi import attach_to_application
 from functional_tests.utils import ssh_connect
 from functional_tests.utils.sync3.constants import TASK_LINK
-from vhat_client import LookupError as ObjectNotFoundError
-from vhat_client import waitForObject
+from vhat_client import VideoStreamingError, waitForObject
 
-KILLALL = 'sudo killall -9 vhat_server'
-RESTART = 'sudo systemctl restart vhat_server'
-START = 'sudo systemctl start vhat_server'
-STOP = 'sudo systemctl stop vhat_server'
+KILLALL = 'sudo killall -9 ate_server'
+RESTART = 'sudo systemctl restart vdp_ate_server'
+START = 'sudo systemctl start vdp_ate_server'
+STOP = 'sudo systemctl stop vdp_ate_server'
+
 STOP_MEDIASERVER = 'sudo systemctl stop vdp_media_server.service'
 START_MEDIASERVER = 'sudo systemctl start vdp_media_server.service'
 START_TCP = 'nc -l localhost 5000'
-RETRIEVE_LOG = "journalctl | grep 'Failed to start VDP VHAT ATE'"
+RETRIEVE_LOG = "journalctl | grep 'Failed to start VDP Virtual HMI Automated Toolset server'"
 FIND_PORT = 'lsof -i :5000'
 KILL_PID = 'sudo kill {}'
 CURRENT_DATE = "date '+%b %d %H:%M'"
@@ -61,13 +61,13 @@ def test_port_busy_another_process():
     attach_to_application()
     assert curr_time == process_time
 
-# TODO: Change exception to VideoStreamingError after implementation
+
 @allure.testcase(TASK_LINK.format("VHAT-559"), "VHAT-559")
 def test_stop_media_server():
     attach_to_application()
     client = ssh_connect.start()
     ssh_connect.execute_command(client, STOP_MEDIASERVER, passwd_required=True)
-    with pytest.raises(ObjectNotFoundError):
+    with pytest.raises(VideoStreamingError):
         waitForObject('Settings')
     ssh_connect.execute_command(client, START_MEDIASERVER, passwd_required=True)
     time.sleep(10)

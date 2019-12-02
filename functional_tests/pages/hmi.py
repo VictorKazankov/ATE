@@ -23,6 +23,7 @@ def tap_object(object):
 
 
 def obj_exists(name):
+    time.sleep(0.5)
     return object().exists(name)
 
 
