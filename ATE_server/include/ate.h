@@ -42,6 +42,17 @@ class ATE {
   void TouchAndDrag(const std::string& object_or_name, const cv::Point& start_point, const cv::Point& delta_point);
 
   /**
+   * @brief This function performs a press operation in a specified point and holds the press infinitely until the
+   * release operation is called.
+   *
+   * If any other press based operation is followed before the release (TapObject, TouchAndDrag, LongPress or etc.)
+   * the behaviour is undefined.
+   *
+   * @param point Point in absolute coordinates where to perform the press operation
+   */
+  void PressAndHold(const cv::Point& point);
+
+  /**
    * @brief Waits until the object is accessible (i.e., it exists and is visible and enabled)
    * @param object_or_name object or name of the component
    * @param timeout timeout for detection of the object
