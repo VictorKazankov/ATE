@@ -137,6 +137,16 @@ void API::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, 
   ApplicationContextInstance().SendCommand(interaction::Method::kTouchAndDrag, message);
 }
 
+void API::PressAndHold(const common::Point& screen_point) {
+  auto message = common::jmsg::MessageFactory::Client::CreatePressAndHoldRequest(screen_point.x, screen_point.y,
+                                                                                 GetCorrelationId());
+  ApplicationContextInstance().SendCommand(interaction::Method::kPressAndHold, message);
+}
+
+void API::PressAndHold(const common::Rect& screen_rectangle) { PressAndHold(screen_rectangle.Center()); }
+
+void API::PressAndHold(const Object& object) { PressAndHold(object.Center()); }
+
 void API::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,
                                                                                      GetCorrelationId());

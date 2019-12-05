@@ -100,6 +100,39 @@ struct API {
                            common::squish::ModifierState modifier_state);
 
   /**
+   * @brief This function performs a press and hold operation specified by a screen_point. Position is in screen global
+   * coordinates. Press and hold operation doesn't have a timeout for execution and can be interrupted by pressRelease()
+   * API only.
+   *
+   * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
+   *
+   * @param screen_point Point in absolute coordinates where to perform the press operation
+   **/
+  static void PressAndHold(const common::Point& screen_point);
+
+  /**
+   * @brief This function performs a press and hold operation specified by the center of a screen_rectangle. Position
+   * is in screen global coordinates. Press and hold operation doesn't have a timeout for execution and can be
+   * interrupted by pressRelease() API only.
+   *
+   * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
+   *
+   * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
+   **/
+  static void PressAndHold(const common::Rect& screen_rectangle);
+
+  /**
+   * @brief This function performs a press and hold operation specified by the center of the object obtained by
+   * waitForObject(). Press and hold operation doesn't have a timeout for execution and can be interrupted by
+   * pressRelease() API only.
+   *
+   * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
+   *
+   * @param object Object obtained by waitForObject() in the center of which to perform press operation
+   **/
+  static void PressAndHold(const Object& object);
+
+  /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param sync_version Sync version
    * @param sync_build_version Sync build version

@@ -10,6 +10,7 @@ enum class Method {
   kWaitForObject,
   kTapObject,
   kTouchAndDrag,
+  kPressAndHold,
   kChangeSyncIconDB,
   kChangeSyncMode,
   kLongPress

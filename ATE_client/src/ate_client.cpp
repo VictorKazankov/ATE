@@ -148,6 +148,27 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
         py::arg("modifier") = common::squish::ModifierState::NONE);
 
+  m.def("pressAndHold", py::overload_cast<const common::Point&>(&squish::API::PressAndHold),
+        "pressAndHold performs a press and hold operation specified by a screen_point. Position is in screen global "
+        "coordinates. Press and hold operation doesn't have a timeout for execution and can be interrupted by "
+        "pressRelease() API only. Any subsequent call of any other touch based operation prior calling pressRelease() "
+        "will cause undefined behaviour",
+        py::arg("screen_point"));
+
+  m.def("pressAndHold", py::overload_cast<const common::Rect&>(&squish::API::PressAndHold),
+        "pressAndHold performs a press and hold operation specified by the center of a screen_rectangle. Position is "
+        "in screen global coordinates. Press and hold operation doesn't have a timeout for execution and can be "
+        "interrupted by pressRelease() API only. Any subsequent call of any other touch based operation prior calling "
+        "pressRelease() will cause undefined behaviour",
+        py::arg("screen_rectangle"));
+
+  m.def("pressAndHold", py::overload_cast<const squish::Object&>(&squish::API::PressAndHold),
+        "pressAndHold performs a press and hold operation specified by the center of the object obtained by "
+        "waitForObject(). Press and hold operation doesn't have a timeout for execution and can be interrupted by "
+        "pressRelease() API only. Any subsequent call of any other touch based operation prior calling pressRelease() "
+        "will cause undefined behaviour",
+        py::arg("object"));
+
   m.def("changeSyncIconDB", &squish::API::ChangeSyncIconDB,
         "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a "
         "specific collection. "

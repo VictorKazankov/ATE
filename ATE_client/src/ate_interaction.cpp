@@ -106,6 +106,10 @@ squish::Object ParseMessage(Method method, const Json::Value& schema) {
       logger::info("[parse message] touchAndDrag response");
       break;
 
+    case Method::kPressAndHold:
+      logger::info("[parse message] pressAndHold response");
+      break;
+
     case Method::kChangeSyncIconDB:
       logger::info("[parse message] kChangeSyncIconDB response");
       break;
