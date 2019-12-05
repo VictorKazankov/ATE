@@ -169,6 +169,19 @@ void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& ob
   }
 }
 
+void ExtractPressAndHoldRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error) {
+  error = Json::Value{};
+
+  try {
+    x = params[kAbscissa].asInt();
+    y = params[kOrdinate].asInt();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid PressAndHold params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
 void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error) {
   error = Json::Value{};
   try {

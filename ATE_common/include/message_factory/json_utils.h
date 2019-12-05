@@ -121,6 +121,15 @@ void ExtractLongPressRequestParams(const Json::Value& params, uint16_t& x, uint1
 void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& object_or_name, int& x, int& y, int& dx,
                                       int& dy, squish::ModifierState& modifier_state, Json::Value& error);
 
+/**
+ * @brief Extract params for 'PressAndHold' method
+ * @param[in] params - parameter pack
+ * @param[out] x - absolute x coordinate
+ * @param[out] y - absolute y coordinate
+ * @param[out] error - error object, null on successs
+ */
+void ExtractPressAndHoldRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
+
 void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
 
 /**

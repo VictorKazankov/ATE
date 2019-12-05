@@ -88,6 +88,21 @@ std::string MessageFactory::Client::CreateTouchAndDragRequest(const std::string&
   return writer.write(message);
 }
 
+std::string MessageFactory::Client::CreatePressAndHoldRequest(uint16_t x, uint16_t y, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kAbscissa] = x;
+  params[kOrdinate] = y;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kPressAndHold, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Client::CreateChangeSyncIconDBRequest(const std::string& sync_version,
                                                                   const std::string& sync_build_version, int id) {
   Json::Value params;
@@ -153,6 +168,8 @@ std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value
 Json::Value MessageFactory::Server::CreateTapObjectResultObject() { return Json::Value{true}; }
 
 Json::Value MessageFactory::Server::CreateTouchAndDragResultObject() { return Json::Value{true}; }
+
+Json::Value MessageFactory::Server::CreatePressAndHoldResultObject() { return Json::Value{true}; }
 
 Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y, int width, int height) {
   Json::Value result{Json::objectValue};
