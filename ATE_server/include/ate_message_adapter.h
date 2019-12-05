@@ -78,6 +78,14 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleTouchAndDrag(const Json::Value& params);
 
   /**
+   * @brief Handler for PressAndHold
+   * @param params - PressAndHold params
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandlePressAndHold(const Json::Value& params);
+
+  /**
    * @brief Handler for DisplayTypeChanged
    * @param params - DisplayTypeChanged params
    */
