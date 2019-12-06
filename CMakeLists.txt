@@ -37,8 +37,9 @@ set(VHAT_ICON_STORAGE_PREFIX "${ATE_WRITABLE_DATA_PREFIX}/icon_storage" CACHE ST
 if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
   set(ATE_INSTALL_SYSCONFDIR /${CMAKE_INSTALL_SYSCONFDIR}/vdp)
 else()
-  set(ATE_INSTALL_SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR}/vdp)
+  set(ATE_INSTALL_SYSCONFDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/vdp)
 endif()
+message(STATUS "ATE_INSTALL_SYSCONFDIR: " ${ATE_INSTALL_SYSCONFDIR})
 
 # All libs must ignore Debian specific /lib/<multi-arch> policy and simply install into <install prefix>/lib
 # Since there are several libraries installed, group them into <install prefix>/lib/ate

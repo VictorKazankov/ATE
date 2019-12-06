@@ -9,7 +9,7 @@ namespace config {
 using std::string;
 
 Reader::Reader(const string& from_file) : reader_(from_file) {
-  if (reader_.ParseError()) throw FileReadFailure();
+  if (reader_.ParseError()) throw FileReadFailure(from_file);
 }
 
 string Reader::GetString(const string& section, const string& option, const string& default_value) const {

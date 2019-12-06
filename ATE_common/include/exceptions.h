@@ -8,6 +8,8 @@ namespace config {
 class FileReadFailure : public std::runtime_error {
  public:
   explicit FileReadFailure() : std::runtime_error{"Failed to read config file"} {}
+  explicit FileReadFailure(const std::string& message)
+      : std::runtime_error{std::string("Failed to read config file: ") + message} {}
 };
 }  // namespace config
 
