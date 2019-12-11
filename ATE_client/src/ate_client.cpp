@@ -169,6 +169,24 @@ PYBIND11_MODULE(vhat_client, m) {
         "will cause undefined behaviour",
         py::arg("object"));
 
+  m.def("pressRelease", py::overload_cast<const common::Point&>(&squish::API::PressRelease),
+        "This function performs a release operation to interrupt running pressAndHold() API at the position specified "
+        "by screen_point in screen global coordinates. Passing argument other than in preceding pressAndHold() call "
+        "will cause undefined behaviour.",
+        py::arg("screen_point"));
+
+  m.def("pressRelease", py::overload_cast<const common::Rect&>(&squish::API::PressRelease),
+        "This function performs a release operation to interrupt running pressAndHold() API at the position specified "
+        "by the center of the screen_rectangle in screen global coordinates. Passing argument other than in preceding "
+        "pressAndHold() call will cause undefined behaviour.",
+        py::arg("screen_rectangle"));
+
+  m.def("pressRelease", py::overload_cast<const squish::Object&>(&squish::API::PressRelease),
+        "This function performs a release operation to interrupt running pressAndHold() API at the position specified "
+        "by object provided as a result of waitFordObject() API. Passing argument other than in preceding "
+        "pressAndHold() call will cause undefined behaviour.",
+        py::arg("object"));
+
   m.def("changeSyncIconDB", &squish::API::ChangeSyncIconDB,
         "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a "
         "specific collection. "

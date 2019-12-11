@@ -133,6 +133,36 @@ struct API {
   static void PressAndHold(const Object& object);
 
   /**
+   * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
+   * by screen_point in screen global coordinates.
+   *
+   * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
+   *
+   * @param screen_point Point in absolute coordinates where to perform the release operation
+   **/
+  static void PressRelease(const common::Point& screen_point);
+
+  /**
+   * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
+   * by the center of the screen_rectangle in screen global coordinates.
+   *
+   * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
+   *
+   * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform release operation
+   **/
+  static void PressRelease(const common::Rect& screen_rectangle);
+
+  /**
+   * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
+   * by object provided as a result of waitFordObject() API.
+   *
+   * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
+   *
+   * @param object Object obtained by waitForObject() in the center of which to perform release operation
+   **/
+  static void PressRelease(const Object& object);
+
+  /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param sync_version Sync version
    * @param sync_build_version Sync build version

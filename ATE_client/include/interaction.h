@@ -11,6 +11,7 @@ enum class Method {
   kTapObject,
   kTouchAndDrag,
   kPressAndHold,
+  kPressRelease,
   kChangeSyncIconDB,
   kChangeSyncMode,
   kLongPress

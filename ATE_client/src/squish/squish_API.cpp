@@ -147,6 +147,16 @@ void API::PressAndHold(const common::Rect& screen_rectangle) { PressAndHold(scre
 
 void API::PressAndHold(const Object& object) { PressAndHold(object.Center()); }
 
+void API::PressRelease(const common::Point& screen_point) {
+  auto message = common::jmsg::MessageFactory::Client::CreatePressReleaseRequest(screen_point.x, screen_point.y,
+                                                                                 GetCorrelationId());
+  ApplicationContextInstance().SendCommand(interaction::Method::kPressRelease, message);
+}
+
+void API::PressRelease(const common::Rect& screen_rectangle) { PressRelease(screen_rectangle.Center()); }
+
+void API::PressRelease(const Object& object) { PressRelease(object.Center()); }
+
 void API::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,
                                                                                      GetCorrelationId());
