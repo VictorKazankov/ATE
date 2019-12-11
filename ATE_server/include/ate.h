@@ -53,6 +53,15 @@ class ATE {
   void PressAndHold(const cv::Point& point);
 
   /**
+   * @brief This function performs a release for a previosuly executed PressAndHold operation.
+   *
+   * Release must be performed in the same point as a preceding PressAndHold. The behaviour is undefined otherwise.
+   *
+   * @param point Point in absolute coordinates where to perform the release operation
+   */
+  void PressRelease(const cv::Point& point);
+
+  /**
    * @brief Waits until the object is accessible (i.e., it exists and is visible and enabled)
    * @param object_or_name object or name of the component
    * @param timeout timeout for detection of the object

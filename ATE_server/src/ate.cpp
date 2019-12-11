@@ -127,6 +127,8 @@ void ATE::TouchAndDrag(const std::string& object_or_name, const cv::Point& start
 
 void ATE::PressAndHold(const cv::Point& point) { interaction_->Press(point.x, point.y); }
 
+void ATE::PressRelease(const cv::Point& point) { interaction_->Release(point.x, point.y); }
+
 std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const std::string& object_or_name,
                                                         const std::chrono::milliseconds& timeout) {
   const auto timeout_point = std::chrono::steady_clock::now() + timeout;
