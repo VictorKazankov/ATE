@@ -86,6 +86,14 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandlePressAndHold(const Json::Value& params);
 
   /**
+   * @brief Handler for PressRelease
+   * @param params - PressRelease params
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandlePressRelease(const Json::Value& params);
+
+  /**
    * @brief Handler for DisplayTypeChanged
    * @param params - DisplayTypeChanged params
    */

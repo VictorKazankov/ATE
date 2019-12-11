@@ -20,6 +20,7 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kTapObject, &AteMessageAdapter::HandleTapObject},
                    {common::jmsg::kTouchAndDrag, &AteMessageAdapter::HandleTouchAndDrag},
                    {common::jmsg::kPressAndHold, &AteMessageAdapter::HandlePressAndHold},
+                   {common::jmsg::kPressRelease, &AteMessageAdapter::HandlePressRelease},
                    {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged},
                    {common::jmsg::kChangeSyncIconDB, &AteMessageAdapter::HandleChangeSyncIconDB},
                    {common::jmsg::kChangeSyncMode, &AteMessageAdapter::HandleChangeSyncMode},
@@ -167,6 +168,21 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandlePressAndHold(const Json::V
   ate_.PressAndHold(point);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreatePressAndHoldResultObject(), true);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandlePressRelease(const Json::Value& params) {
+  cv::Point point;
+  Json::Value extract_error;
+
+  common::jmsg::ExtractPressReleaseRequestParams(params, point.x, point.y, extract_error);
+
+  if (!extract_error.empty()) {
+    return std::make_pair(std::move(extract_error), false);
+  }
+
+  ate_.PressRelease(point);
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreatePressReleaseResultObject(), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleDisplayTypeChanged(const Json::Value& params) {
