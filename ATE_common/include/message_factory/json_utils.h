@@ -130,6 +130,15 @@ void ExtractTouchAndDragRequestParams(const Json::Value& params, std::string& ob
  */
 void ExtractPressAndHoldRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
 
+/**
+ * @brief Extract params for 'PressRelease' method
+ * @param[in] params - parameter pack
+ * @param[out] x - absolute x coordinate
+ * @param[out] y - absolute y coordinate
+ * @param[out] error - error object, null on successs
+ */
+void ExtractPressReleaseRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
+
 void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
 
 /**

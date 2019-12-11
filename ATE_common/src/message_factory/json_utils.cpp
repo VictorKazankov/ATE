@@ -136,8 +136,8 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
   }
 }
 
-void ExtractLongPressRequestParams(const Json::Value& params, uint16_t& x, uint16_t& y, std::chrono::milliseconds& timeout,
-                                   Json::Value& error) {
+void ExtractLongPressRequestParams(const Json::Value& params, uint16_t& x, uint16_t& y,
+                                   std::chrono::milliseconds& timeout, Json::Value& error) {
   error = Json::Value{};
 
   try {
@@ -177,6 +177,19 @@ void ExtractPressAndHoldRequestParams(const Json::Value& params, int& x, int& y,
     y = params[kOrdinate].asInt();
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid PressAndHold params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
+void ExtractPressReleaseRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error) {
+  error = Json::Value{};
+
+  try {
+    x = params[kAbscissa].asInt();
+    y = params[kOrdinate].asInt();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid PressRelease params");
     logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
                   wrong_params.what());
   }

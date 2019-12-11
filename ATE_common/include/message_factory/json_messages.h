@@ -9,6 +9,7 @@ constexpr auto kWaitForObject = "WaitForObject";
 constexpr auto kTapObject = "TapObject";
 constexpr auto kTouchAndDrag = "TouchAndDrag";
 constexpr auto kPressAndHold = "PressAndHold";
+constexpr auto kPressRelease = "PressRelease";
 constexpr auto kDisplayTypeChanged = "displayTypeChanged";
 constexpr auto kChangeSyncIconDB = "ChangeSyncIconDB";
 constexpr auto kChangeSyncMode = "ChangeSyncMode";
