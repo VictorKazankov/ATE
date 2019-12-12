@@ -38,6 +38,7 @@ def get_result_recognition(name, dict_attempts):
 
 
 def get_exist_result(name):
+    time.sleep(1)
     return hmi.obj_exists(name)
 
 

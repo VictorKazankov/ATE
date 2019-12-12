@@ -22,6 +22,13 @@ def sound_settings_sync4(app_connector):
 
 
 @pytest.fixture(scope='module')
+def speed_compensated_volume_page(app_connector):
+    api = page_supervisor_sync4.PageSupervisor()
+    api.settings_audio_page.open_speed_compensated_volume()
+    return api.settings_audio_page
+
+
+@pytest.fixture(scope='module')
 def occupancy_mode_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.settings_audio_page.open_occupancy_mode_page()
@@ -81,7 +88,7 @@ def bluetooth_settings_sync4(app_connector):
 def change_vehicle_name_page_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.bluetooth_page.open_change_vehicle_name_page()
-    return api
+    return api.bluetooth_page
 
 
 @pytest.fixture(scope='module')

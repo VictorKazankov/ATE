@@ -33,7 +33,7 @@ def button_panel(counter, driver_sync4):
 def phone_page(counter, driver_sync4):
     driver_sync4.phone_page.open_phone_page()
     helpers.get_result_recognition(Icons.MAIN_PHONE_BUTTON_ACTIVE, counter)
-    helpers.get_result_recognition(Text.CONNECT_PHONE_TITLE_TEXT, counter)
+    helpers.get_result_recognition(Text.PHONE_CONNECT_PHONE_TITLE_TEXT, counter)
     helpers.get_result_recognition(Text.PHONE_BUTTON_TEXT, counter)
 
 
@@ -167,7 +167,7 @@ def settings_page(counter, driver_sync4):
     # settings connection
     driver_sync4.settings_page.open_connection_settings()
     helpers.get_result_recognition(Icons.WIFI, counter)
-    helpers.get_result_recognition(Text.SYSTEM_WIFI_TEXT, counter)
+    helpers.get_result_recognition(Text.CONNECTION_SETTINGS_MANAGE_WIFI, counter)
     helpers.get_result_recognition(Text.BLUETOOTH_TEXT, counter)
     driver_sync4.settings_page.tap_on_back_button()
 
