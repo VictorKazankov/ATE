@@ -84,6 +84,20 @@ TEST(MessageFactoryClientTest, CreateTouchAndDragRequest_ValidJsonMessage_Succes
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
+TEST(MessageFactoryClientTest, CreatePressAndHoldRequest_ValidJsonMessage_Success) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreatePressAndHoldRequest(1, 2, 1);
+  auto expected_message = R"({"id": 1,"jsonrpc": "2.0", "method": "PressAndHold", "params" :{"x": 1, "y": 2}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
+TEST(MessageFactoryClientTest, CreatePressReleaseRequest_ValidJsonMessage_Success) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreatePressReleaseRequest(1, 2, 1);
+  auto expected_message = R"({"id": 1,"jsonrpc": "2.0", "method": "PressRelease", "params" :{"x": 1, "y": 2}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
 TEST(MessageFactoryClientTest, CreateWaitForObjectRequest_ValidJsonMessage_Success) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest("object_name", 1, 1);
   auto expected_message =
@@ -118,6 +132,16 @@ TEST(MessageFactoryServerTest, CreateTapObjectResultObject_ValidResponse_Success
 
 TEST(MessageFactoryServerTest, CreateTouchAndDragResultObject_ValidResponse_Success) {
   auto response = common::jmsg::MessageFactory::Server::CreateTouchAndDragResultObject();
+  EXPECT_EQ(Json::Value{true}, response);
+}
+
+TEST(MessageFactoryServerTest, CreatePressAndHoldResultObject_ValidResponse_Success) {
+  auto response = common::jmsg::MessageFactory::Server::CreatePressAndHoldResultObject();
+  EXPECT_EQ(Json::Value{true}, response);
+}
+
+TEST(MessageFactoryServerTest, CreatePressReleaseResultObject_ValidResponse_Success) {
+  auto response = common::jmsg::MessageFactory::Server::CreatePressReleaseResultObject();
   EXPECT_EQ(Json::Value{true}, response);
 }
 

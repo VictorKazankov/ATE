@@ -320,6 +320,62 @@ TEST(ExtractTouchAndDragRequestParamsTest, ExtractTouchAndDragRequestParams_Wron
   EXPECT_FALSE(error.empty());
 }
 
+TEST(ExtractPressAndHoldRequestParamsTest, ExtractPressAndHoldRequestParams_ValidParam_Success) {
+  constexpr auto kX = 1, kY = 2;
+
+  Json::Value params{};
+  params["x"] = kX;
+  params["y"] = kY;
+
+  int x{}, y{};
+  Json::Value error{};
+  common::jmsg::ExtractPressAndHoldRequestParams(params, x, y, error);
+
+  EXPECT_EQ(x, kX);
+  EXPECT_EQ(y, kY);
+  EXPECT_TRUE(error.empty());
+}
+
+TEST(ExtractPressAndHoldRequestParamsTest, ExtractPressAndHoldRequestParams_InvalidParam_NoThrow) {
+  Json::Value params{};
+  params["x"] = "invalid";
+  params["y"] = "invalid";
+
+  int x{}, y{};
+  Json::Value error{};
+
+  EXPECT_NO_THROW(common::jmsg::ExtractPressAndHoldRequestParams(params, x, y, error));
+  EXPECT_FALSE(error.empty());
+}
+
+TEST(ExtractPressReleaseRequestParamsTest, ExtractPressReleaseRequestParams_ValidParam_Success) {
+  constexpr auto kX = 1, kY = 2;
+
+  Json::Value params{};
+  params["x"] = kX;
+  params["y"] = kY;
+
+  int x{}, y{};
+  Json::Value error{};
+  common::jmsg::ExtractPressReleaseRequestParams(params, x, y, error);
+
+  EXPECT_EQ(x, kX);
+  EXPECT_EQ(y, kY);
+  EXPECT_TRUE(error.empty());
+}
+
+TEST(ExtractPressReleaseRequestParamsTest, ExtractPressReleaseRequestParams_InvalidParam_NoThrow) {
+  Json::Value params{};
+  params["x"] = "invalid";
+  params["y"] = "invalid";
+
+  int x{}, y{};
+  Json::Value error{};
+
+  EXPECT_NO_THROW(common::jmsg::ExtractPressReleaseRequestParams(params, x, y, error));
+  EXPECT_FALSE(error.empty());
+}
+
 TEST(ExtractDisplayTypeChangedRequestParamsTest, ExtractDisplayTypeChangedRequestParams_ValidParam_Success) {
   Json::Value params;
   params["x"] = 1;
