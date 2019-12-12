@@ -26,13 +26,13 @@ def test_change_sync_and_build_version(get_current_sync_build_version):
         hmi.change_sync_icon_db(SYNC4_VERSION, SYNC4_BUILD_NAME)
         logging.info("Change mode is successfully done")
         # check that sync3 image isn't recognized
-        assert not helpers.get_exist_result(sync3_icon.ACTIVE_PHONE_PAGE_BUTTON)
+        assert not helpers.get_exist_result(sync3_icon.MAIN_PHONE_BUTTON_ACTIVE)
     elif SYNC4_VERSION in current_sync:
         # change sync4->sync3 and sync_build4->sync_build3
         hmi.change_sync_icon_db(SYNC3_VERSION, SYNC3_BUILD_NAME)
         logging.info("Change mode is successfully done")
         # check that sync4 image isn't recognized
-        assert not helpers.get_exist_result(sync4_icon.PHONE_PAGE_PANEL_BUTTON)
+        assert not helpers.get_exist_result(sync4_icon.MAIN_PHONE_BUTTON_INACTIVE)
     else:
         raise Exception('Can`t get value of sync and build version from config file')
 

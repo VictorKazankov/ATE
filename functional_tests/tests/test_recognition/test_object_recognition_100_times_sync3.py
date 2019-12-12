@@ -34,7 +34,7 @@ def test_recognition_navigation_text(driver_sync3):
 def test_recognition_climate_up_arrow_temperature(driver_sync3):
     driver_sync3.climate_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.CLIMATE_ARROW_UP, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.CLIMATE_ARROW_UP_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -43,7 +43,7 @@ def test_recognition_climate_up_arrow_temperature(driver_sync3):
 def test_recognition_climate_down_arrow_temperature(driver_sync3):
     driver_sync3.climate_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.CLIMATE_ARROW_DOWN, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.CLIMATE_ARROW_DOWN_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -52,7 +52,7 @@ def test_recognition_climate_down_arrow_temperature(driver_sync3):
 def test_recognition_climate_switch_on_off_button(driver_sync3):
     driver_sync3.climate_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.CLIMATE_ON_OFF_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.CLIMATE_ON_OFF_BUTTON_ACTIVE, counter)
     check_recognition(counter)
 
 
@@ -61,7 +61,7 @@ def test_recognition_climate_switch_on_off_button(driver_sync3):
 def test_recognition_climate_top_airflow_button(driver_sync3):
     driver_sync3.climate_page.open_climate_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.TOP_AIRFLOW_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.CLIMATE_TOP_AIRFLOW_BUTTON_INACTIVE, counter)
     check_recognition(counter)
 
 
@@ -88,7 +88,7 @@ def test_recognition_frequency_button(driver_sync3):
 def test_recognition_presets_button(driver_sync3):
     driver_sync3.audio_page.open_audio_page()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.PRESETS_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.AUDIO_PRESETS_BUTTON, counter)
     check_recognition(counter)
 
 

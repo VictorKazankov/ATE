@@ -15,7 +15,7 @@ pytestmark = pytest.mark.regression_sync4
 @pytest.mark.image_recognition
 def test_recognition_add_phone_settings_button(settings_sync4):
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.ADD_PHONE_SETTINGS_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.SETTINGS_ADD_PHONE_BUTTON, counter)
     check_recognition(counter)
 
 
@@ -23,7 +23,7 @@ def test_recognition_add_phone_settings_button(settings_sync4):
 @pytest.mark.image_recognition
 def test_recognition_phone_button_panel(settings_sync4):
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.PHONE_PAGE_PANEL_BUTTON, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.MAIN_PHONE_BUTTON_INACTIVE, counter)
     check_recognition(counter)
 
 
@@ -53,7 +53,7 @@ def test_recognition_pm_button_clock(clock_settings_sync4):
     if not clock_settings_sync4.clock_12h_button_is_active():
         clock_settings_sync4.tap_on_24h_button()
     counter = {'success': 0, 'fail': 0}
-    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.PM_BUTTON_ACTIVE, counter)
+    counter = helpers.get_result_recognition_in_loop(ATTEMPTS, Icons.SETTINGS_CLOCK_PM_BUTTON_ACTIVE, counter)
     check_recognition(counter)
 
 

@@ -24,15 +24,15 @@ def test_recognition_100_different_objects_1_time(driver_sync4):
 
 def button_panel(counter, driver_sync4):
     driver_sync4.phone_page.open_phone_page()
-    helpers.get_result_recognition(Icons.FAVORITES_PAGE_PANEL_BUTTON, counter)
-    helpers.get_result_recognition(Icons.APPS_BUTTON_PANEL_INACTIVE, counter)
+    helpers.get_result_recognition(Icons.MAIN_FAVORITES_BUTTON_INACTIVE, counter)
+    helpers.get_result_recognition(Icons.MAIN_APPS_BUTTON_INACTIVE, counter)
     helpers.get_result_recognition(Icons.MAIN_PANEL_SETTINGS_BUTTON_ACTIVE, counter)
-    helpers.get_result_recognition(Icons.FEATURES_PAGE_BUTTON, counter)
+    helpers.get_result_recognition(Icons.MAIN_FEATURES_BUTTON_INACTIVE, counter)
 
 
 def phone_page(counter, driver_sync4):
     driver_sync4.phone_page.open_phone_page()
-    helpers.get_result_recognition(Icons.PHONE_BUTTON, counter)
+    helpers.get_result_recognition(Icons.MAIN_PHONE_BUTTON_ACTIVE, counter)
     helpers.get_result_recognition(Text.CONNECT_PHONE_TITLE_TEXT, counter)
     helpers.get_result_recognition(Text.PHONE_BUTTON_TEXT, counter)
 
@@ -43,19 +43,19 @@ def climate_page(counter, driver_sync4):
     helpers.get_result_recognition(Text.CLIMATE_PAGE_AUTO_BUTTON_TEXT, counter)
     helpers.get_result_recognition(Text.CLIMATE_PAGE_DUAL_BUTTON_TEXT, counter)
     helpers.get_result_recognition(Text.CLIMATE_PAGE_CONTROLS_TITLE_TEXT, counter)
-    helpers.get_result_recognition(Icons.SWITCH_ON_OFF_BUTTON, counter)
-    helpers.get_result_recognition(Icons.UP_ARROW_RED, counter)
-    helpers.get_result_recognition(Icons.DOWN_ARROW_BLUE, counter)
-    helpers.get_result_recognition(Icons.AIR_CONDITION_INSIDE, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_SWITCH_ON_OFF_BUTTON_ACTIVE, counter)
+    helpers.get_result_recognition(Icons.ARROW_UP_THIN_BUTTON, counter)
+    helpers.get_result_recognition(Icons.ARROW_DOWN_THIN_BUTTON, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_AIR_CONDITION_INSIDE, counter)
     helpers.get_result_recognition(Icons.CLIMATE_PAGE_MENU_BUTTON, counter)
-    helpers.get_result_recognition(Icons.GLASS_HEATING, counter)
-    helpers.get_result_recognition(Icons.UP_AIRFLOW, counter)
-    helpers.get_result_recognition(Icons.DOWN_AIRFLOW, counter)
-    helpers.get_result_recognition(Icons.GLASS_HEATING_BACK, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_FRONT_HEATING_BUTTON, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_UP_AIRFLOW_BUTTON, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_DOWN_AIRFLOW_BUTTON, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_REAR_HEATING_BUTTON, counter)
     driver_sync4.climate_page.open_climate_menu()
     helpers.get_result_recognition(Text.CLIMATE_MENU_PAGE_POPUP_TITLE_TEXT, counter)
-    helpers.get_result_recognition(Icons.MAX_GLASS_HEATING_INACTIVE, counter)
-    helpers.get_result_recognition(Icons.MAX_A_C_INACTIVE, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_MENU_MAX_FRONT_HEATINGBUTTON_INACTIVE, counter)
+    helpers.get_result_recognition(Icons.CLIMATE_MENU_MAX_A_C_BUTTON_INACTIVE, counter)
     helpers.get_result_recognition(Text.CLOSE_TEXT, counter)
     driver_sync4.climate_page.tap_on_close_button()
 
@@ -66,7 +66,7 @@ def audio_page(counter, driver_sync4):
     helpers.get_result_recognition(Text.HD_TEXT, counter)
     helpers.get_result_recognition(Text.AUDIO_PAGE_SOURCES_TEXT, counter)
     helpers.get_result_recognition(Text.AUDIO_PAGE_DIRECT_TUNE_TEXT, counter)
-    helpers.get_result_recognition(Icons.RADIO_SETTINGS_ICON, counter)
+    helpers.get_result_recognition(Icons.SETTINGS_RADIO_BUTTON, counter)
 
     # audio page - sources page
     driver_sync4.audio_page.tap_on_sources_page()
@@ -74,9 +74,9 @@ def audio_page(counter, driver_sync4):
     helpers.get_result_recognition(Text.AM_TEXT, counter)
     helpers.get_result_recognition(Text.FM_TEXT, counter)
     helpers.get_result_recognition(Text.BLUETOOTH_STEREO_TEXT, counter)
-    helpers.get_result_recognition(Icons.RADIO_AM_ICON, counter)
-    helpers.get_result_recognition(Icons.RADIO_FM_ICON, counter)
-    helpers.get_result_recognition(Icons.BLUETOOTH_ICON, counter)
+    helpers.get_result_recognition(Icons.AUDIO_AM_ICON, counter)
+    helpers.get_result_recognition(Icons.AUDIO_FM_ICON, counter)
+    helpers.get_result_recognition(Icons.AUDIO_SOURCES_BLUETOOTH_BUTTON, counter)
     driver_sync4.settings_page.tap_on_back_button()
 
     # audio - direct tune page
@@ -91,8 +91,8 @@ def audio_page(counter, driver_sync4):
     helpers.get_result_recognition(Text.TEXT_BUTTON_8, counter)
     helpers.get_result_recognition(Text.TEXT_BUTTON_9, counter)
     helpers.get_result_recognition(Text.TEXT_BUTTON_0, counter)
-    helpers.get_result_recognition(Icons.DELETE_BUTTON, counter)
-    helpers.get_result_recognition(Icons.ENTER, counter)
+    helpers.get_result_recognition(Icons.AUDIO_DELETE_ICON, counter)
+    helpers.get_result_recognition(Icons.AUDIO_DIRECT_ENTER_BUTTON_INACTIVE, counter)
     helpers.get_result_recognition(Text.CANCEL_TEXT, counter)
     driver_sync4.audio_page.tap_on_cancel_button()
 
@@ -105,10 +105,10 @@ def settings_page(counter, driver_sync4):
     helpers.get_result_recognition(Text.PHONE_BUTTON_TEXT, counter)
     helpers.get_result_recognition(Text.GENERAL_SETTINGS_BUTTON_TEXT, counter)
     helpers.get_result_recognition(Icons.SOUND_SETTINGS_BUTTON, counter)
-    helpers.get_result_recognition(Icons.CLOCK_SETTINGS_BUTTON, counter)
-    helpers.get_result_recognition(Icons.ADD_PHONE_SETTINGS_BUTTON, counter)
-    helpers.get_result_recognition(Icons.RADIO_SETTINGS_ICON, counter)
-    helpers.get_result_recognition(Icons.MOBILE_APPS_SETTINGS_BUTTON, counter)
+    helpers.get_result_recognition(Icons.SETTINGS_CLOCK_BUTTON, counter)
+    helpers.get_result_recognition(Icons.SETTINGS_ADD_PHONE_BUTTON, counter)
+    helpers.get_result_recognition(Icons.SETTINGS_RADIO_BUTTON, counter)
+    helpers.get_result_recognition(Icons.SETTINGS_MOBILE_APPS_BUTTON, counter)
     helpers.get_result_recognition(Icons.GENERAL_SETTINGS_BUTTON, counter)
 
     # setting audio page
@@ -127,7 +127,7 @@ def settings_page(counter, driver_sync4):
     helpers.get_result_recognition(Text.SOUND_SETTINGS_MIDRANGE_TEXT, counter)
     helpers.get_result_recognition(Text.SOUND_SETTINGS_BASS_TEXT, counter)
     helpers.get_result_recognition(Text.SOUND_SETTINGS_RESET_ALL_TEXT, counter)
-    helpers.get_result_recognition(Icons.LEFT_ARROW_SLIDER, counter)
+    helpers.get_result_recognition(Icons.LEFT_ARROW_BUTTON, counter)
     helpers.get_result_recognition(Icons.RIGHT_ARROW_SLIDER, counter)
     helpers.get_result_recognition(Icons.SLIDER, counter)
     driver_sync4.settings_page.tap_on_back_button()
@@ -137,8 +137,8 @@ def settings_page(counter, driver_sync4):
     helpers.get_result_recognition(Text.FADE_TEXT, counter)
     helpers.get_result_recognition(Text.BALANCE_TEXT, counter)
     helpers.get_result_recognition(Text.RESET_BALANCE_FADE_TEXT, counter)
-    helpers.get_result_recognition(Icons.BALANCE_FADE_UP_ARROW, counter)
-    helpers.get_result_recognition(Icons.BALANCE_FADE_DOWN_ARROW, counter)
+    helpers.get_result_recognition(Icons.ARROW_DOWN_BUTTON, counter)
+    helpers.get_result_recognition(Icons.ARROW_UP_BUTTON, counter)
     driver_sync4.settings_page.tap_on_back_button()
 
     # setting audio page - occupancy mode page
@@ -156,8 +156,8 @@ def settings_page(counter, driver_sync4):
 
     # setting clock page
     driver_sync4.settings_page.open_setting_clock_page()
-    helpers.get_result_recognition(Icons.AM_BUTTON_INACTIVE, counter)
-    helpers.get_result_recognition(Icons.PM_BUTTON_ACTIVE, counter)
+    helpers.get_result_recognition(Icons.SETTINGS_CLOCK_AM_BUTTON_INACTIVE, counter)
+    helpers.get_result_recognition(Icons.SETTINGS_CLOCK_PM_BUTTON_ACTIVE, counter)
     helpers.get_result_recognition(Icons.MODE_BUTTON_INACTIVITY, counter)
     helpers.get_result_recognition(Icons.INFO_ICON, counter)
     helpers.get_result_recognition(Text.HOUR_MODE_12_TEXT, counter)

@@ -9,10 +9,10 @@ pytestmark = pytest.mark.regression_sync4
 # Main panel
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
 @pytest.mark.text_recognition
-@pytest.mark.parametrize("name", [Text.MAIN_PANEL_PHONE_TEXT, Text.MAIN_PANEL_FAVORITES_TEXT,
+@pytest.mark.parametrize("name", [Text.MAIN_PANEL_PHONE_TEXT,
                                   Text.MAIN_PANEL_APPS_TEXT,
                                   Text.MAIN_PANEL_SETTINGS_TEXT,
-                                  Text.MAIN_PANEL_FEATURES_TEXT,
+                                  Text.MAIN_PANEL_NAV_TEXT,
                                   Text.MAIN_PANEL_AUDIO_TEXT,
                                   Text.MAIN_PANEL_CLIMATE_TEXT, ])
 def test_main_panel_text(driver_sync4, name):
