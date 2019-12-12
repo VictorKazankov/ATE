@@ -62,6 +62,18 @@ TEST(APITest, TouchAndDrag_NotConnected_Exception) {
                std::runtime_error);
 }
 
+TEST(APITest, PressAndHold_NotConnected_Exception) {
+  EXPECT_THROW(API::PressAndHold(common::Point{}), std::runtime_error);
+  EXPECT_THROW(API::PressAndHold(common::Rect{}), std::runtime_error);
+  EXPECT_THROW(API::PressAndHold(Object{}), std::runtime_error);
+}
+
+TEST(APITest, PressRelease_NotConnected_Exception) {
+  EXPECT_THROW(API::PressRelease(common::Point{}), std::runtime_error);
+  EXPECT_THROW(API::PressRelease(common::Rect{}), std::runtime_error);
+  EXPECT_THROW(API::PressRelease(Object{}), std::runtime_error);
+}
+
 TEST(APITest, ChangeSyncIconDB_NotConnected_Exception) {
   EXPECT_THROW(API::ChangeSyncIconDB("test_unknown_sync", "test_unknown_build"), std::runtime_error);
 }
