@@ -54,10 +54,6 @@ class ClimatePage:
             logging.info("A/C dialog is already open")
         elif tap_if_visible(Icons.CLIMATE_A_C_BUTTON_ACTIVE):
             logging.info('Open A/C dialog')
-        elif hmi.obj_exists(Icons.CLOSE_BUTTON):
-            self.close_information_dialog()
-            tap(Icons.CLIMATE_A_C_BUTTON_ACTIVE)
-            logging.info('Open A/C dialog')
         else:
             self.open_climate_page()
             tap(Icons.CLIMATE_A_C_BUTTON_ACTIVE)
@@ -67,10 +63,6 @@ class ClimatePage:
             logging.info("Defrost dialog is already open")
         elif tap_if_visible(Icons.CLIMATE_DEFROST_BUTTON):
             logging.info('Open defrost dialog')
-        elif hmi.obj_exists(Icons.CLOSE_BUTTON):
-            self.close_information_dialog()
-            tap(Icons.CLIMATE_DEFROST_BUTTON)
-            logging.info('Open Defrost dialog')
         else:
             self.open_climate_page()
             tap(Icons.CLIMATE_DEFROST_BUTTON)
@@ -113,9 +105,6 @@ class AudioPage:
             logging.info("Audio sources page is already open")
         elif tap_if_visible(Text.SOURCES_TEXT):
             logging.info('Open Audio sources page')
-        elif tap_if_visible(Text.AUDIO_DIRECT_TUNE_CANCEL):
-            logging.info('Closing popup window')
-            tap(Text.SOURCES_TEXT)
         else:
             self.open_audio_page()
             tap(Text.SOURCES_TEXT)
@@ -155,10 +144,6 @@ class PhonePage:
             logging.info("Phone page is already open")
         elif tap_if_visible(Icons.MAIN_PHONE_BUTTON_INACTIVE):
             logging.info('Open Phone page')
-        elif tap_if_visible(Icons.CLOSE_BUTTON):
-            logging.info('Closing popup window')
-            tap_if_visible(Icons.MAIN_PHONE_BUTTON_INACTIVE)
-            logging.info('Open Navigation fault dialog')
         else:
             raise Exception('Can`t open phone page')
 
@@ -212,10 +197,6 @@ class NavigationPage:
         if hmi.obj_exists(Text.NAVIGATION_FAULT_DESCRIPTION_TEXT):
             logging.info("Navigation fault dialog is already open")
         elif tap_if_visible(Icons.MAIN_NAVIGATION_BUTTON_INACTIVE):
-            logging.info('Open Navigation fault dialog')
-        elif tap_if_visible(Icons.CLOSE_BUTTON):
-            logging.info('Closing popup window')
-            tap_if_visible(Icons.MAIN_NAVIGATION_BUTTON_INACTIVE)
             logging.info('Open Navigation fault dialog')
         else:
             raise Exception('Can`t open Navigation dialog page')
