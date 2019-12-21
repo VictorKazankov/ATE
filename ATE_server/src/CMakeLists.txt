@@ -6,6 +6,7 @@ include(GNUInstallDirs)
 add_library(ate_server_lib
   STATIC
     adapters/db_manager_adapter.cpp
+    factory/recognition_factory.cpp
     interaction/dummy/dummy_interaction.cpp
     interaction/VDP/vdp_interaction.cpp
     interaction/VDP/https_client.cpp
