@@ -8,6 +8,7 @@
 #include "ate_error.h"
 #include "common.h"
 #include "exceptions.h"
+#include "factory/recognition_factory.h"
 #include "interaction/SPI/spi_interaction.h"
 #include "interaction/VDP/vdp_interaction.h"
 #include "interaction/dummy/dummy_interaction.h"
@@ -87,11 +88,7 @@ ATE::ATE(boost::asio::io_context& io_context)
                    StrToDetectorType(common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType,
                                                                 kMultiscaleTemplateMatching)),
                    common::Config().GetDouble(kImageDetectorSection, kImageDetectorConfidenceOption, {})),
-               detector::MakeTextDetector(
-                   common::Config().GetString(kTextDetectorSection, kTessDataOption, {}),
-                   common::Config().GetString(kTextDetectorSection, kTextDetectorPreprocessingList, {}),
-                   common::Config().GetDouble(kTextDetectorSection, kTextDetectorConfidenceOption,
-                                              kDefaultTextDetectorConfidence)),
+               factory::CreateTextDetector(common::Config().GetString(kDBSection, kTargetOption, {})),
                MakeScreenshotRecorder(), std::make_unique<utils::GpioVideoStatus>()} {
   // Init storage
   auto is_init = storage_.Init(VHAT_ICON_STORAGE_PREFIX, common::Config().GetString(kDBSection, kTargetOption, {}),
@@ -149,7 +146,13 @@ std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const std::string& objec
 void ATE::ChangeResolution(int x, int y) { matcher_.ChangeResolution(x, y); }
 
 adapter::DBManagerError ATE::ChangeSyncVersion(const std::string& sync_version, const std::string& sync_build_version) {
-  return storage_.ChangeSyncVersion(sync_version, sync_build_version);
+  auto result = storage_.ChangeSyncVersion(sync_version, sync_build_version);
+  // If sync exists - change preprocessing list
+  if (result == adapter::DBManagerError::kSuccess) {
+    logger::info("Sync version changed to: {}. Set default preprocessing list for new sync version", sync_version);
+    matcher_.ChangePreprocessingList(sync_version);
+  }
+  return result;
 }
 
 adapter::DBManagerError ATE::ChangeSyncMode(const std::string& collection_mode) {

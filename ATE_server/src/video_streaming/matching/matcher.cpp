@@ -7,6 +7,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include "ate_error.h"
+#include "factory/recognition_factory.h"
 #include "logger/logger.h"
 #include "utils/video_status.h"
 #include "video_streaming/streamer.h"
@@ -97,5 +98,14 @@ std::pair<cv::Rect, std::error_code> Matcher::MatchText(const std::string& text)
 }
 
 void Matcher::ChangeResolution(int x, int y) { streamer_->ChangeResolution(x, y); }
+
+void Matcher::ChangePreprocessingList(const std::string& sync_version) {
+  auto new_detector_instance = factory::CreateTextDetector(sync_version);
+  if (new_detector_instance != nullptr) {
+    text_detector_.swap(new_detector_instance);
+  } else {
+    logger::error("Can't create text detector for sync version: {}", sync_version);
+  };
+}
 
 }  // namespace detector

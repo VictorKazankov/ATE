@@ -79,6 +79,13 @@ class Matcher {
    * @param y - a new width value
    */
   void ChangeResolution(int x, int y);
+
+  /**
+   * @brief Change preprocessing list for text detector
+   * @param sync_version Sync version
+   */
+  void ChangePreprocessingList(const std::string& sync_version);
+
 };
 
 }  // namespace detector
