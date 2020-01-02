@@ -24,7 +24,7 @@ def test_drag_api_vertically(driver_sync3):
         driver_sync3.settings_page.open_settings_page()
     driver_sync3.settings_page.open_setting_audio_page()
     helpers.touch_and_drag_page('sound settings page', x=400, y=300, dx=0, dy=-200)
-    assert helpers.get_exist_result(Icons.INFORMATION_DIALOG_BUTTON)
+    assert helpers.get_exist_result(Icons.INFO_BUTTON)
     driver_sync3.settings_audio_page.tap_on_back_button()
 
 

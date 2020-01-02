@@ -4,23 +4,27 @@
     "extension": "png"
   },
   {
+    "name": "settings_radio_ast_refresh_button",
+    "extension": "png"
+  },
+  {
     "name": "android_auto_lightstyle",
     "extension": "png"
   },
   {
-    "name": "apps",
+    "name": "main_apps_button_inactive",
     "extension": "png"
   },
   {
-    "name": "apps_active",
+    "name": "main_apps_button_active",
     "extension": "png"
   },
   {
-    "name": "audio",
+    "name": "main_audio_button_inactive",
     "extension": "png"
   },
   {
-    "name": "audio_active",
+    "name": "main_audio_button_active",
     "extension": "png"
   },
   {
@@ -28,7 +32,7 @@
     "extension": "png"
   },
   {
-    "name": "audio_frequency",
+    "name": "audio_frequency_button",
     "extension": "png"
   },
   {
@@ -48,6 +52,14 @@
     "extension": "png"
   },
   {
+    "name": "climate_auto_button_active",
+    "extension": "png"
+  },
+  {
+    "name": "climate_auto_button_inactive",
+    "extension": "png"
+  },
+  {
     "name": "back",
     "extension": "png"
   },
@@ -60,31 +72,35 @@
     "extension": "png"
   },
   {
-    "name": "climate",
+    "name": "main_climate_button_inactive",
     "extension": "png"
   },
   {
-    "name": "climate_active",
+    "name": "main_climate_button_active",
     "extension": "png"
   },
   {
-    "name": "climate_down",
+    "name": "climate_arrow_down_button",
     "extension": "png"
   },
   {
-    "name": "climate_dual",
+    "name": "climate_dual_button_inactive",
     "extension": "png"
   },
   {
-    "name": "climate_up",
+    "name": "climate_dual_button_active",
     "extension": "png"
   },
   {
-    "name": "climate_on_off",
+    "name": "climate_arrow_up_button",
     "extension": "png"
   },
   {
-    "name": "presets",
+    "name": "climate_on_off_button_active",
+    "extension": "png"
+  },
+  {
+    "name": "audio_presets_button",
     "extension": "png"
   },
   {
@@ -92,7 +108,7 @@
     "extension": "png"
   },
   {
-    "name": "clock",
+    "name": "settings_clock_button",
     "extension": "png"
   },
   {
@@ -104,15 +120,15 @@
     "extension": "png"
   },
   {
-    "name": "down_active",
+    "name": "arrow_down_button_active",
     "extension": "png"
   },
   {
-    "name": "down_inactive",
+    "name": "arrow_down_button_inactive",
     "extension": "png"
   },
   {
-    "name": "enter_active",
+    "name": "audio_direct_enter_button_active",
     "extension": "png"
   },
   {
@@ -140,7 +156,7 @@
     "extension": "png"
   },
   {
-    "name": "information",
+    "name": "info_button",
     "extension": "png"
   },
   {
@@ -188,7 +204,7 @@
     "extension": "png"
   },
   {
-    "name": "nav",
+    "name": "main_navigation_button_inactive",
     "extension": "png"
   },
   {
@@ -196,11 +212,11 @@
     "extension": "png"
   },
   {
-    "name": "phone",
+    "name": "main_phone_button_inactive",
     "extension": "png"
   },
   {
-    "name": "phone_active",
+    "name": "main_phone_button_active",
     "extension": "png"
   },
   {
@@ -220,15 +236,15 @@
     "extension": "png"
   },
   {
-    "name": "balance_fade",
+    "name": "settings_sound_balance_fade_button",
     "extension": "png"
   },
   {
-    "name": "settings",
+    "name": "main_settings_button_inactive",
     "extension": "png"
   },
   {
-    "name": "settings_active",
+    "name": "main_settings_button_active",
     "extension": "png"
   },
   {
@@ -236,7 +252,7 @@
     "extension": "png"
   },
   {
-    "name": "settings_phone",
+    "name": "settings_phone_button",
     "extension": "png"
   },
   {
@@ -248,99 +264,99 @@
     "extension": "png"
   },
   {
-    "name": "time_12h_format",
+    "name": "settings_clock_12h_format",
     "extension": "png"
   },
   {
-    "name": "time_24h_format",
+    "name": "settings_clock_24h_format",
     "extension": "png"
   },
   {
-    "name": "time_am_period",
+    "name": "settings_clock_am_period_inactive",
     "extension": "png"
   },
   {
-    "name": "time_pm_period",
+    "name": "settings_clock_pm_period_inactive",
     "extension": "png"
   },
   {
-    "name": "up_active",
+    "name": "arrow_up_button_active",
     "extension": "png"
   },
   {
-    "name": "guidance_prompts_voice",
+    "name": "settings_navigation_guidance_prompts_voice_inactive",
     "extension": "png"
   },
   {
-    "name": "guidance_prompts_voice_active",
+    "name": "settings_navigation_guidance_prompts_voice_inactive",
     "extension": "png"
   },
   {
-    "name": "guidance_prompts_plus",
+    "name": "settings_navigation_guidance_prompts_plus",
     "extension": "png"
   },
   {
-    "name": "guidance_prompts_plus_active",
+    "name": "settings_navigation_guidance_prompts_chimes_inactive",
     "extension": "png"
   },
   {
-    "name": "guidance_prompts_chimes_active",
+    "name": "settings_navigation_guidance_prompts_chimes_active",
     "extension": "png"
   },
   {
-    "name": "exclamation_icon",
+    "name": "home_exclamation_icon",
     "extension": "png"
   },
   {
-    "name": "down_airflow",
+    "name": "climate_down_airflow_button_inactive",
     "extension": "png"
   },
   {
-    "name": "down_airflow_active",
+    "name": "climate_down_airflow_button_active",
     "extension": "png"
   },
   {
-    "name": "defrost",
+    "name": "climate_defrost_button",
     "extension": "png"
   },
   {
-    "name": "max_front_heating_inactive",
+    "name": "climate_defrost_max_front_heating_button_inactive",
     "extension": "png"
   },
   {
-    "name": "front_heating",
+    "name": "climate_defrost_front_heating_button_active",
     "extension": "png"
   },
   {
-    "name": "rear_heating",
+    "name": "climate_defrost_rear_heating_button_active",
     "extension": "png"
   },
   {
-    "name": "connect_to",
+    "name": "phone_connect_to_button",
     "extension": "png"
   },
   {
-    "name": "bluetooth",
+    "name": "settings_bluetooth_button",
     "extension": "png"
   },
   {
-    "name": "find_mobile_apps",
+    "name": "apps_find_mobile_apps_button",
     "extension": "png"
   },
   {
-    "name": "siriusxm",
+    "name": "apps_siriusxm_button",
     "extension": "png"
   },
   {
-    "name": "mobile_apps",
+    "name": "settings_mobile_apps_button",
     "extension": "png"
   },
   {
-    "name": "sync_connect",
+    "name": "settings_sync_connect_button",
     "extension": "png"
   },
   {
-    "name": "reset_all",
+    "name": "reset_all_button",
     "extension": "png"
   },
   {
@@ -352,31 +368,35 @@
     "extension": "png"
   },
   {
-    "name": "down_arrow_small",
+    "name": "arrow_down_small_button",
     "extension": "png"
   },
   {
-    "name": "radio",
+    "name": "settings_radio_button",
     "extension": "png"
   },
   {
-    "name": "top_airflow",
+    "name": "climate_top_airflow_button_inactive",
     "extension": "png"
   },
   {
-    "name": "top_airflow_active",
+    "name": "climate_top_airflow_button_active",
     "extension": "png"
   },
   {
-    "name": "settings_sound",
+    "name": "settings_sound_button",
     "extension": "png"
   },
   {
-    "name": "up_inactive",
+    "name": "arrow_up_button_inactive",
     "extension": "png"
   },
   {
-    "name": "a_c_active",
+    "name": "climate_a_c_button_active",
+    "extension": "png"
+  },
+  {
+    "name": "climate_a_c_button_inactive",
     "extension": "png"
   },
   {
@@ -408,7 +428,7 @@
     "extension": "png"
   },
   {
-    "name": "medium",
+    "name": "medium_button",
     "extension": "png"
   }
 ]

@@ -1,67 +1,51 @@
 [
    {
       "extension" : "png",
-      "name" : "add_phone_settings"
+      "name" : "settings_add_phone_button"
    },
    {
       "extension" : "png",
-      "name" : "air_condition_inside"
+      "name" : "climate_air_condition_inside"
    },
    {
       "extension" : "png",
-      "name" : "am_button_inactive"
+      "name" : "settings_clock_am_button_inactive"
    },
    {
       "extension" : "png",
-      "name" : "apps_button"
+      "name" : "arrow_right_thin_icon"
    },
    {
       "extension" : "png",
-      "name" : "arrow_right"
+      "name" : "settings_911_star_icon"
    },
    {
       "extension" : "png",
-      "name" : "assist911"
+      "name" : "back"
    },
    {
       "extension" : "png",
-      "name" : "back_button"
+      "name" : "audio_sources_bluetooth_button"
    },
    {
       "extension" : "png",
-      "name" : "bluetooth"
+      "name" : "settings_clock_button"
    },
    {
       "extension" : "png",
-      "name" : "clock_settings"
+      "name" : "audio_delete_icon"
    },
    {
       "extension" : "png",
-      "name" : "delete"
+      "name" : "climate_down_airflow_button"
    },
    {
       "extension" : "png",
-      "name" : "down_airflow"
-   },
-   {
-      "extension" : "png",
-      "name" : "down_arrow_blue"
-   },
-   {
-      "extension" : "png",
-      "name" : "down_arrow"
+      "name" : "arrow_up_button"
    },
    {
       "extension" : "",
-      "name" : "down_arrow_thin"
-   },
-   {
-      "extension" : "png",
-      "name" : "up_arrow"
-   },
-   {
-      "extension" : "png",
-      "name" : "up_arrow_red"
+      "name" : "arrow_down_thin_button"
    },
    {
       "extension" : "png",
@@ -69,35 +53,35 @@
    },
    {
       "extension" : "png",
-      "name" : "glass_heating"
+      "name" : "climate_front_heating_button"
    },
    {
       "extension" : "png",
-      "name" : "glass_heating_back"
+      "name" : "climate_rear_heating_button"
    },
    {
       "extension" : "png",
-      "name" : "info"
+      "name" : "info_icon"
    },
    {
       "extension" : "png",
-      "name" : "left_arrow"
+      "name" : "arrow_left_button"
    },
    {
       "extension" : "png",
-      "name" : "max_a_c_inactive"
+      "name" : "climate_menu_max_a_c_button_inactive"
    },
    {
       "extension" : "png",
-      "name" : "max_glass_heating_inactive"
+      "name" : "climate_menu_max_front_heating_button_inactive"
    },
    {
       "extension" : "png",
-      "name" : "menu_button"
+      "name" : "climate_menu_button"
    },
    {
       "extension" : "png",
-      "name" : "mobile_apps_settings"
+      "name" : "settings_mobile_apps_button"
    },
    {
       "extension" : "png",
@@ -109,19 +93,19 @@
    },
    {
       "extension" : "png",
-      "name" : "pm_button_active"
+      "name" : "settings_clock_pm_button_active"
    },
    {
       "extension" : "png",
-      "name" : "phone_button"
+      "name" : "main_phone_button_active"
    },
    {
       "extension" : "png",
-      "name" : "radio_am"
+      "name" : "audio_am_icon"
    },
    {
       "extension" : "png",
-      "name" : "radio_fm"
+      "name" : "audio_fm_icon"
    },
    {
       "extension" : "png",
@@ -133,7 +117,7 @@
    },
    {
       "extension" : "png",
-      "name" : "radio_settings"
+      "name" : "settings_radio_button"
    },
    {
       "extension" : "png",
@@ -145,15 +129,15 @@
    },
    {
       "extension" : "png",
-      "name" : "sound_settings"
+      "name" : "settings_sound_button"
    },
    {
       "extension" : "png",
-      "name" : "switch_on_off"
+      "name" : "climate_switch_on_off_button_active"
    },
    {
       "extension" : "png",
-      "name" : "up_airflow"
+      "name" : "climate_up_airflow_button"
    },
    {
       "extension" : "png",
@@ -161,31 +145,31 @@
    },
    {
       "extension" : "png",
-      "name" : "up_arrow_thin"
+      "name" : "arrow_up_thin_button"
    },
    {
       "extension" : "png",
-      "name" : "apps_button_panel_active"
+      "name" : "main_apps_button_active"
    },
    {
       "extension" : "png",
-      "name" : "favorites_button_panel"
+      "name" : "main_favorites_button_inactive"
    },
    {
       "extension" : "png",
-      "name" : "features_button_panel"
+      "name" : "main_features_button_inactive"
    },
    {
       "extension" : "png",
-      "name" : "phone_button_panel"
+      "name" : "main_phone_button_inactive"
    },
    {
       "extension" : "png",
-      "name" : "enter"
+      "name" : "audio_direct_enter_button_inactive"
    },
    {
       "extension" : "png",
-      "name" : "apps_button_panel_inactive"
+      "name" : "main_apps_button_inactive"
    },
    {
       "extension" : "png",
@@ -231,7 +215,7 @@
    },
    {
       "extension" : "png",
-      "name" : "am_radio_title",
+      "name" : "audio_am_radio_title",
       "parent_screen" : "home",
       "x" : 686,
       "y" : 168
@@ -252,8 +236,8 @@
    },
    {
       "extension" : "png",
-      "name" : "additional_climate_controls_title",
-      "parent_screen" : "home",
+      "name" : "climate_menu_additional_climate_controls_title",
+      "parent_screen" : "climate",
       "x" : 965,
       "y" : 398
    },
@@ -302,7 +286,7 @@
    {
       "extension" : "png",
       "name" : "apps_title",
-      "parent_screen" : "home",
+      "parent_screen" : "apps",
       "x" : 693,
       "y" : 173
    },
@@ -349,17 +333,7 @@
    },
    {
       "extension" : "png",
-      "name" : "on_off_button_inactive",
-      "parent_screen" : "home"
-   },
-   {
-      "extension" : "png",
       "name" : "settings_vehicle_button",
-      "parent_screen" : "home"
-   },
-   {
-      "extension" : "png",
-      "name" : "on_off_button_active",
       "parent_screen" : "home"
    },
    {
@@ -449,7 +423,7 @@
    },
    {
       "extension" : "png",
-      "name" : "balance_fade_title",
+      "name" : "settings_sound_balance_fade_title",
       "parent_screen" : "home"
    },
    {
@@ -459,7 +433,7 @@
    },
    {
       "extension" : "png",
-      "name" : "down_arrow2",
+      "name" : "arrow_down_button",
       "parent_screen" : "home"
    },
    {

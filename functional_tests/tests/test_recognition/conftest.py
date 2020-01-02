@@ -22,6 +22,13 @@ def sound_settings_sync4(app_connector):
 
 
 @pytest.fixture(scope='module')
+def speed_compensated_volume_page(app_connector):
+    api = page_supervisor_sync4.PageSupervisor()
+    api.settings_audio_page.open_speed_compensated_volume()
+    return api.settings_audio_page
+
+
+@pytest.fixture(scope='module')
 def occupancy_mode_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.settings_audio_page.open_occupancy_mode_page()
@@ -81,7 +88,7 @@ def bluetooth_settings_sync4(app_connector):
 def change_vehicle_name_page_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.bluetooth_page.open_change_vehicle_name_page()
-    return api
+    return api.bluetooth_page
 
 
 @pytest.fixture(scope='module')
@@ -129,10 +136,12 @@ def audio_sirius_sync3(audio_sources_sync3):
     api.audio_page.tap_siriusxm_button()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='function')
 def audio_direct_tune_sync3(audio_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.audio_page.open_direct_tune()
+    yield
+    api.audio_page.tap_cancel_text()
 
 
 @pytest.fixture(scope='module')
@@ -141,22 +150,28 @@ def climate_sync3(driver_sync3):
     api.climate_page.open_climate_page()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='function')
 def climate_defrost_sync3(climate_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.climate_page.tap_on_climate_defrost_button()
+    yield
+    api.climate_page.close_information_dialog()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='function')
 def climate_a_c_sync3(climate_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.climate_page.tap_on_climate_a_c_button()
+    yield
+    api.climate_page.close_information_dialog()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='function')
 def navigation_sync3(driver_sync3):
     api = page_supervisor_sync3.PageSupervisor()
     api.navigation_page.open_navigation_dialog_page()
+    yield
+    api.climate_page.close_information_dialog()
 
 
 @pytest.fixture(scope='module')
