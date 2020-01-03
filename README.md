@@ -116,6 +116,21 @@ By default, build root is set to _build-ATE_2.0-Release_ and installation is don
     sudo dpkg -i ate-X.Y.Z.deb
     ```
 
+### Build dependencies
+
+#### Linux
+
+1. Build tools and libs provided by Ubuntu dev packages are automatically installed by [setup-environment.sh](infrastructure/setup-environment.sh) script.
+1. [DBManagerLib](https://github.ford.com/VHAT/DBManagerLib)
+1. [RecognitionLib](https://github.ford.com/VHAT/RecognitionLib)
+1. [JsonCpp](https://github.ford.com/VHAT/ThirdParty)
+1. [GoogleTest](https://github.ford.com/VHAT/ThirdParty)
+1. (LVDS board only) [GStreamer](https://github.ford.com/LVDS2Eth/Jetson_Gstreamer14)
+
+#### Windows
+
+TBD
+
 ## Running the unit tests
 
 1. Run all tests:

@@ -22,7 +22,7 @@ echo "Setting up VHAT build environment for: $TARGET"
 sudo apt update
 
 ## Install packages
-readonly VHAT_DEV_TOOLS="wget g++-5 ninja-build cmake clang-format autoconf automake libtool pkg-config"
+readonly VHAT_DEV_TOOLS="wget g++-5 ninja-build cmake clang-format autoconf automake libtool pkg-config gcovr"
 readonly VHAT_USE_LIBS="libssl-dev python2.7-dev"
 readonly DBUS_LIBS="libdbus-glib-1-dev libglib2.0-dev"
 
