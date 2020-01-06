@@ -3,8 +3,8 @@
       "extension" : "png",
       "name" : "audio_sources_button",
       "parent_screen" : "audio",
-      "x" : 201,
-      "y" : 304
+      "x" : 103,
+      "y" : 301
    },
    {
       "extension" : "png",
@@ -115,36 +115,29 @@
       "extension" : "png",
       "name" : "audio_sources_am_button",
       "parent_screen" : "audio_sources",
-      "x" : 189,
-      "y" : 457
+      "x" : 187,
+      "y" : 415
    },
    {
       "extension" : "png",
       "name" : "audio_sources_fm_button",
       "parent_screen" : "audio_sources",
-      "x" : 515,
-      "y" : 458
+      "x" : 516,
+      "y" : 415
    },
    {
       "extension" : "png",
       "name" : "audio_sources_bluetooth_stereo_button",
       "parent_screen" : "audio_sources",
-      "x" : 846,
-      "y" : 453
+      "x" : 848,
+      "y" : 416
    },
    {
       "extension" : "png",
       "name" : "back",
-      "parent_screen" : "audio",
-      "x" : 53,
+      "parent_screen" : "differents",
+      "x" : 55,
       "y" : 172
-   },
-   {
-      "extension" : "png",
-      "name" : "audio_am_icon",
-      "parent_screen" : "audio",
-      "x" : 104,
-      "y" : 306
    },
    {
       "extension" : "png",
@@ -171,204 +164,183 @@
       "extension" : "png",
       "name" : "main_climate_button_inactive",
       "parent_screen" : "main_panel",
-      "x" : 344,
-      "y" : 1131
+      "x" : 343,
+      "y" : 1146
    },
    {
       "extension" : "png",
       "name" : "main_phone_button_inactive",
       "parent_screen" : "main_panel",
-      "x" : 573,
-      "y" : 1132
+      "x" : 571,
+      "y" : 1146
    },
    {
       "extension" : "png",
       "name" : "main_nav_button_inactive",
       "parent_screen" : "main_panel",
-      "x" : 799,
-      "y" : 1131
+      "x" : 800,
+      "y" : 1149
    },
    {
       "extension" : "png",
       "name" : "main_apps_button_inactive",
       "parent_screen" : "main_panel",
-      "x" : 1029,
-      "y" : 1130
+      "x" : 1028,
+      "y" : 1147
    },
    {
       "extension" : "png",
       "name" : "main_settings_button_inactive",
       "parent_screen" : "main_panel",
-      "x" : 1256,
-      "y" : 1129
+      "x" : 1258,
+      "y" : 1148
    },
    {
       "extension" : "png",
       "name" : "main_audio_button_active",
       "parent_screen" : "main_panel",
-      "x" : 117,
-      "y" : 1097
-   },
-   {
-      "extension" : "png",
-      "name" : "main_climate_button_active",
-      "parent_screen" : "main_panel",
-      "x" : 343,
-      "y" : 1128
-   },
-   {
-      "extension" : "png",
-      "name" : "main_phone_button_active",
-      "parent_screen" : "main_panel",
-      "x" : 573,
-      "y" : 1094
+      "x" : 116,
+      "y" : 1124
    },
    {
       "extension" : "png",
       "name" : "main_apps_button_active",
       "parent_screen" : "main_panel",
       "x" : 1026,
-      "y" : 1092
+      "y" : 1126
    },
    {
       "extension" : "png",
       "name" : "main_nav_button_active",
       "parent_screen" : "main_panel",
-      "x" : 798,
-      "y" : 1116
+      "x" : 799,
+      "y" : 1134
    },
    {
       "extension" : "png",
       "name" : "main_settings_button_active",
       "parent_screen" : "main_panel",
-      "x" : 1257,
-      "y" : 1094
+      "x" : 1258,
+      "y" : 1127
    },
    {
       "extension" : "png",
       "name" : "main_audio_button_inactive",
       "parent_screen" : "main_panel",
-      "x" : 116,
-      "y" : 1132
+      "x" : 117,
+      "y" : 1149
    },
    {
       "extension" : "png",
       "name" : "settings_sound_button",
       "parent_screen" : "settings",
       "x" : 189,
-      "y" : 453
+      "y" : 415
    },
    {
       "extension" : "png",
       "name" : "settings_clock_button",
       "parent_screen" : "settings",
       "x" : 516,
-      "y" : 456
+      "y" : 414
    },
    {
       "extension" : "png",
       "name" : "settings_connection_settings_button",
       "parent_screen" : "settings",
-      "x" : 844,
-      "y" : 481
+      "x" : 842,
+      "y" : 484
    },
    {
       "extension" : "png",
       "name" : "settings_add_phone_button",
       "parent_screen" : "settings",
-      "x" : 1167,
-      "y" : 462
+      "x" : 1172,
+      "y" : 412
    },
    {
       "extension" : "png",
       "name" : "settings_general_button",
       "parent_screen" : "settings",
-      "x" : 1168,
-      "y" : 735
+      "x" : 1173,
+      "y" : 693
    },
    {
       "extension" : "png",
       "name" : "settings_mobile_apps_button",
       "parent_screen" : "settings",
       "x" : 844,
-      "y" : 734
+      "y" : 692
    },
    {
       "extension" : "png",
       "name" : "settings_sync_navigation_button",
       "parent_screen" : "settings",
-      "x" : 512,
-      "y" : 740
+      "x" : 516,
+      "y" : 693
    },
    {
       "extension" : "png",
       "name" : "settings_radio_button",
       "parent_screen" : "settings",
-      "x" : 185,
-      "y" : 738
+      "x" : 187,
+      "y" : 692
    },
    {
       "extension" : "png",
       "name" : "settings_911_assist_button",
       "parent_screen" : "settings",
-      "x" : 187,
-      "y" : 457
+      "x" : 188,
+      "y" : 414
    },
    {
       "extension" : "png",
       "name" : "settings_software_updates_button",
       "parent_screen" : "settings",
-      "x" : 516,
-      "y" : 455
+      "x" : 515,
+      "y" : 415
    },
    {
       "extension" : "png",
       "name" : "settings_vehicle_button",
       "parent_screen" : "settings",
-      "x" : 837,
-      "y" : 454
+      "x" : 843,
+      "y" : 415
    },
    {
       "extension" : "png",
       "name" : "settings_voice_control_button",
       "parent_screen" : "settings",
       "x" : 189,
-      "y" : 731
+      "y" : 690
    },
    {
       "extension" : "png",
       "name" : "settings_valet_mode_button",
       "parent_screen" : "settings",
-      "x" : 515,
-      "y" : 732
+      "x" : 518,
+      "y" : 691
    },
    {
       "extension" : "png",
       "name" : "settings_towing_button",
       "parent_screen" : "settings",
-      "x" : 845,
-      "y" : 734
+      "x" : 846,
+      "y" : 693
    },
    {
       "extension" : "png",
       "name" : "settings_display_button",
       "parent_screen" : "settings",
-      "x" : 1171,
-      "y" : 455
+      "x" : 1170,
+      "y" : 415
    },
    {
       "extension" : "png",
       "name" : "arrow_right_thin_icon",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 1024,
       "y" : 312
-   },
-   {
-      "extension" : "png",
-      "name" : "info_icon",
-      "parent_screen" : "settings",
-      "x" : 1118,
-      "y" : 535
    },
    {
       "extension" : "png",
@@ -380,21 +352,21 @@
    {
       "extension" : "png",
       "name" : "arrow_left_button",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 364,
       "y" : 300
    },
    {
       "extension" : "png",
       "name" : "arrow_right_button",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 1256,
       "y" : 300
    },
    {
       "extension" : "png",
       "name" : "slider_point",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 810,
       "y" : 301
    },
@@ -415,49 +387,49 @@
    {
       "extension" : "png",
       "name" : "arrow_up_button",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 259,
       "y" : 636
    },
    {
       "extension" : "png",
       "name" : "arrow_down_button",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 260,
       "y" : 740
    },
    {
       "extension" : "png",
       "name" : "radio_button_active",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 1124,
       "y" : 310
    },
    {
       "extension" : "png",
       "name" : "radio_button_inactive",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 1126,
       "y" : 420
    },
    {
       "extension" : "png",
       "name" : "close_icon",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 243,
       "y" : 76
    },
    {
       "extension" : "png",
       "name" : "arrow_up_thin_button",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 115,
       "y" : 358
    },
    {
       "extension" : "png",
       "name" : "arrow_down_thin_button",
-      "parent_screen" : "settings",
+      "parent_screen" : "differents",
       "x" : 112,
       "y" : 463
    },
@@ -477,20 +449,6 @@
    },
    {
       "extension" : "png",
-      "name" : "mode_button_inactive",
-      "parent_screen" : "settings",
-      "x" : 1002,
-      "y" : 579
-   },
-   {
-      "extension" : "png",
-      "name" : "mode_button_active",
-      "parent_screen" : "settings",
-      "x" : 1000,
-      "y" : 689
-   },
-   {
-      "extension" : "png",
       "name" : "settings_clock_am_button_active",
       "parent_screen" : "settings_clock",
       "x" : 1088,
@@ -502,13 +460,6 @@
       "parent_screen" : "settings_clock",
       "x" : 1088,
       "y" : 465
-   },
-   {
-      "extension" : "png",
-      "name" : "settings_connection_settings_networks_wifi_icon",
-      "parent_screen" : "settings",
-      "x" : 150,
-      "y" : 419
    },
    {
       "extension" : "png",
@@ -757,38 +708,24 @@
    },
    {
       "extension" : "png",
-      "name" : "settings_911_star_icon",
-      "parent_screen" : "settings_911",
-      "x" : 82,
-      "y" : 313
-   },
-   {
-      "extension" : "png",
       "name" : "apps_find_mobile_apps_button",
       "parent_screen" : "apps",
       "x" : 189,
-      "y" : 457
+      "y" : 417
    },
    {
       "extension" : "png",
       "name" : "apps_mobile_apps_help_button",
       "parent_screen" : "apps",
       "x" : 515,
-      "y" : 457
+      "y" : 416
    },
    {
       "extension" : "png",
       "name" : "apps_owners_manual_button",
       "parent_screen" : "apps",
       "x" : 844,
-      "y" : 457
-   },
-   {
-      "extension" : "png",
-      "name" : "phone_add_phone_button_inactive",
-      "parent_screen" : "phone",
-      "x" : 188,
-      "y" : 459
+      "y" : 416
    },
    {
       "extension" : "png",
@@ -841,13 +778,6 @@
    },
    {
       "extension" : "png",
-      "name" : "settings_general_master_reset_button",
-      "parent_screen" : "settings_general",
-      "x" : 553,
-      "y" : 991
-   },
-   {
-      "extension" : "png",
       "name" : "settings_towing_plus_icon",
       "parent_screen" : "settings_towing",
       "x" : 80,
@@ -856,14 +786,14 @@
    {
       "extension" : "png",
       "name" : "carousel_arrow_down_icon",
-      "parent_screen" : "carousel",
+      "parent_screen" : "differents",
       "x" : 1461,
       "y" : 1131
    },
    {
       "extension" : "png",
       "name" : "carousel_arrow_up_icon",
-      "parent_screen" : "carousel",
+      "parent_screen" : "differents",
       "x" : 1644,
       "y" : 1133
    },
@@ -1143,6 +1073,209 @@
       "parent_screen" : "carousel",
       "x" : 1879,
       "y" : 628
+   },
+   {
+      "extension" : "png",
+      "name" : "main_phone_button_active",
+      "parent_screen" : "main_panel",
+      "x" : 570,
+      "y" : 1124
+   },
+   {
+      "extension" : "png",
+      "name" : "main_climate_button_active",
+      "parent_screen" : "main_panel",
+      "x" : 343,
+      "y" : 1125
+   },
+   {
+      "extension" : "png",
+      "name" : "climate_bad_configuration_description",
+      "parent_screen" : "climate",
+      "x" : 894,
+      "y" : 975
+   },
+   {
+      "extension" : "png",
+      "name" : "phone_add_phone_button_active",
+      "parent_screen" : "phone",
+      "x" : 188,
+      "y" : 415
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_button",
+      "parent_screen" : "nav",
+      "x" : 103,
+      "y" : 219
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_search_button",
+      "parent_screen" : "nav",
+      "x" : 104,
+      "y" : 379
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_recents_button",
+      "parent_screen" : "nav",
+      "x" : 106,
+      "y" : 541
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_saved_button",
+      "parent_screen" : "nav",
+      "x" : 104,
+      "y" : 702
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_map_orientation_button",
+      "parent_screen" : "nav",
+      "x" : 192,
+      "y" : 293
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_voice_button",
+      "parent_screen" : "nav",
+      "x" : 522,
+      "y" : 294
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_traffic_on_map_button",
+      "parent_screen" : "nav",
+      "x" : 852,
+      "y" : 294
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_avoid_on_route_button",
+      "parent_screen" : "nav",
+      "x" : 1182,
+      "y" : 291
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_show_on_map_button",
+      "parent_screen" : "nav",
+      "x" : 192,
+      "y" : 554
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_trailer_routing_button",
+      "parent_screen" : "nav",
+      "x" : 524,
+      "y" : 550
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_weather_button",
+      "parent_screen" : "nav",
+      "x" : 853,
+      "y" : 549
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_menu_more_settings_button",
+      "parent_screen" : "nav",
+      "x" : 1183,
+      "y" : 550
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_search_recents_button",
+      "parent_screen" : "nav",
+      "x" : 190,
+      "y" : 355
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_search_saved_button",
+      "parent_screen" : "nav",
+      "x" : 520,
+      "y" : 357
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_search_trips_button",
+      "parent_screen" : "nav",
+      "x" : 850,
+      "y" : 356
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_search_gas_stations_button",
+      "parent_screen" : "nav",
+      "x" : 1181,
+      "y" : 354
+   },
+   {
+      "extension" : "png",
+      "name" : "nav_saved_home_icon",
+      "parent_screen" : "nav",
+      "x" : 66,
+      "y" : 333
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_owner_manuel_search_icon",
+      "parent_screen" : "apps",
+      "x" : 95,
+      "y" : 284
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_owner_manuel_visual_search_button",
+      "parent_screen" : "apps",
+      "x" : 446,
+      "y" : 673
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_owner_manuel_bookmarks_button",
+      "parent_screen" : "apps",
+      "x" : 684,
+      "y" : 670
+   },
+   {
+      "extension" : "png",
+      "name" : "apps_owner_manuel_videos_button",
+      "parent_screen" : "apps",
+      "x" : 925,
+      "y" : 673
+   },
+   {
+      "extension" : "png",
+      "name" : "differents_info_icon",
+      "parent_screen" : "differents",
+      "x" : 1118,
+      "y" : 535
+   },
+   {
+      "extension" : "png",
+      "name" : "differents_mode_button_inactive",
+      "parent_screen" : "differents",
+      "x" : 1001,
+      "y" : 579
+   },
+   {
+      "extension" : "png",
+      "name" : "differents_mode_button_active",
+      "parent_screen" : "differents",
+      "x" : 999,
+      "y" : 578
+   },
+   {
+      "extension" : "png",
+      "name" : "settings_display_display_off_button",
+      "parent_screen" : "settings_display",
+      "x" : 230,
+      "y" : 296
    }
 ]
 

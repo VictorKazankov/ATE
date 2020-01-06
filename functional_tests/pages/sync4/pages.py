@@ -38,11 +38,11 @@ class SettingsPage:
     def open_connection_settings(self):
         if hmi.obj_exists(Text.CONNECTION_SETTINGS_TITLE_TEXT):
             logging.info("Connection settings page is already open")
-        elif tap_if_visible(Icons.SETTINGS_CONNECTION_SETTINGS_BUTTON):
+        elif tap_if_visible(Text.CONNECTION_SETTINGS_BUTTON_TEXT):
             logging.info('Open connection settings page')
         else:
             self.open_settings_page()
-            tap(Icons.SETTINGS_CONNECTION_SETTINGS_BUTTON)
+            tap(Text.CONNECTION_SETTINGS_BUTTON_TEXT)
 
     def open_radio_settings(self):
         if hmi.obj_exists(Text.RADIO_SETTINGS_TITLE_TEXT):
@@ -65,11 +65,11 @@ class SettingsPage:
     def open_general_settings(self):
         if hmi.obj_exists(Text.GENERAL_SETTINGS_TITLE_TEXT):
             logging.info("General settings page is already open")
-        elif tap_if_visible(Icons.SETTINGS_GENERAL_SETTINGS_BUTTON):
+        elif tap_if_visible(Text.GENERAL_SETTINGS_BUTTON_TEXT):
             logging.info('Open general settings page')
         else:
             self.open_settings_page()
-            tap(Icons.SETTINGS_GENERAL_SETTINGS_BUTTON)
+            tap(Text.GENERAL_SETTINGS_BUTTON_TEXT)
 
     def settings_page_is_active(self):
         return hmi.obj_exists(Icons.MAIN_PANEL_SETTINGS_BUTTON_ACTIVE)
