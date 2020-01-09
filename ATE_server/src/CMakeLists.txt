@@ -22,8 +22,6 @@ add_library(ate_server_lib
     utils/gpio_reader.cpp
     utils/video_status.cpp
     video_streaming/matching/matcher.cpp
-    video_streaming/v4l_streamer.cpp
-    video_streaming/framebuf_to_mat.cpp
     video_streaming/gst_streamer.cpp
     video_streaming/stream_reader.cpp
     video_streaming/streamer_factory.cpp

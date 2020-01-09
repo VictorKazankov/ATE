@@ -52,7 +52,6 @@ constexpr double kDefaultMultiscaleImageDetectorConfidence = 0.5;
 const std::string kVideoStreamSection = "VIDEO_STREAM";
 
 const std::string kVideoStreamSourceOption = "Source";
-constexpr auto kVideoStreamTypeV4l2 = "V4L2";
 constexpr auto kVideoStreamTypeRtsp = "RTSP";
 constexpr auto kVideoStreamTypeGstreamer = "GStreamer";
 
