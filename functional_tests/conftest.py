@@ -38,9 +38,9 @@ def driver_sync3(app_connector):
 @pytest.fixture(scope='module')
 def driver_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
-    api.phone_page.open_phone_page()
+    api.climate_page.open_climate_page()
     yield api
-    api.phone_page.open_phone_page()
+    api.climate_page.open_climate_page()
 
 
 @pytest.fixture(scope='module')

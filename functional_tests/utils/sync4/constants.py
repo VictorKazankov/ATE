@@ -15,11 +15,14 @@ class Icons:
     AUDIO_DELETE_ICON = 'audio_delete_icon'
     AUDIO_DIRECT_CANCEL_BUTTON_ACTIVE = 'audio_direct_cancel_button_active'
     AUDIO_DIRECT_ENTER_BUTTON_INACTIVE = 'audio_direct_enter_button_inactive'
-    AUDIO_DIRECT_TUNE_WITH_FM_BUTTON = 'audio_direct_tune_button_with_fm'
+    AUDIO_DIRECT_TUNE_BUTTON = 'audio_direct_tune_button'
     AUDIO_FM_ICON = 'audio_fm_icon'
-    AUDIO_SOURCES_AM_BUTTON = 'audio_sources_with_am_button'
-    AUDIO_SOURCES_BLUETOOTH_BUTTON = 'audio_sources_bluetooth_button'
-    AUDIO_SOURCES_FM_BUTTON = 'audio_sources_button'
+    AUDIO_PRESET_BUTTON = 'audio_preset_button'
+    AUDIO_SOURCES_AM_BUTTON = 'audio_sources_am_button'
+    AUDIO_SOURCES_BLUETOOTH_BUTTON = 'audio_sources_bluetooth_stereo_button'
+    AUDIO_SOURCES_FM_BUTTON = 'audio_sources_fm_button'
+    AUDIO_TUNE_TOGGLE_ACTIVE = 'audio_tune_toggle_active'
+    AUDIO_TUNE_TOGGLE_INACTIVE = 'audio_tune_toggle_inactive'
     BACK_BUTTON = 'back'
     BLUETOOTH_SETTINGS_CHANGE_VEHICLE_NAME_BUTTON = 'bluetooth_settings_change_vehicle_name_button'
     BLUETOOTH_SETTINGS_TITLE_ICON = 'bluetooth_settings_title'
@@ -45,12 +48,26 @@ class Icons:
     GENERAL_SETTINGS_LANGUAGE_BUTTON = 'general_settings_language_button'
     GENERAL_SETTINGS_TITLE_ICON = 'general_settings_title'
     INFO_ICON = 'info_icon'
+    KEY_0_INACTIVE = 'key_0_inactive'
+    KEY_1_ACTIVE = 'key_1_active'
+    KEY_2_INACTIVE = 'key_2_inactive'
+    KEY_3_INACTIVE = 'key_3_inactive'
+    KEY_4_INACTIVE = 'key_4_inactive'
+    KEY_5_INACTIVE = 'key_5_inactive'
+    KEY_6_INACTIVE = 'key_6_inactive'
+    KEY_7_INACTIVE = 'key_7_inactive'
+    KEY_8_ACTIVE = 'key_8_active'
+    KEY_9_ACTIVE = 'key_9_active'
     LANGUAGE_SETTINGS_TITLE_ICON = 'language_settings_title'
     LEFT_ARROW_BUTTON = 'arrow_left_button'
     MAIN_APPS_BUTTON_ACTIVE = 'main_apps_button_active'
     MAIN_APPS_BUTTON_INACTIVE = 'main_apps_button_inactive'
+    MAIN_AUDIO_BUTTON_INACTIVE = 'main_audio_button_inactive'
+    MAIN_AUDIO_BUTTON_ACTIVE = 'main_audio_button_active'
+    MAIN_CLIMATE_BUTTON_ACTIVE = 'main_climate_button_active'
     MAIN_FAVORITES_BUTTON_INACTIVE = 'main_favorites_button_inactive'
     MAIN_FEATURES_BUTTON_INACTIVE = 'main_features_button_inactive'
+    MAIN_NAV_BUTTON_INACTIVE = 'main_nav_button_inactive'
     MAIN_PANEL_SETTINGS_BUTTON_ACTIVE = 'main_settings_button_active'
     MAIN_PANEL_SETTINGS_BUTTON_INACTIVE = 'main_settings_button_inactive'
     MAIN_PHONE_BUTTON_ACTIVE = 'main_phone_button_active'
@@ -121,6 +138,7 @@ class Text:
     CLIMATE_PAGE_MAX_AC_TEXT = 'Max'
     CLIMATE_PAGE_MAX_GLASS_HEATING_TEXT = 'MAX'
     CLIMATE_PAGE_MENU_BUTTON_TEXT = 'Menu'
+    CLIMATE_PAGE_BAD_CONFIGURATION_TEXT = 'IF YOU'
     CLOCK_PAGE_TITLE_TEXT = 'Clock Settings'
     CLOCK_SETTINGS_AUTO_TIME_UPDATE_TEXT = 'Auto Time Update'
     CLOCK_SETTINGS_TEXT = 'Clock'
@@ -211,3 +229,21 @@ class Text:
 
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'
+
+
+"""DATA FOR PARAMETERIZATION"""
+
+main_panel_images = [Icons.MAIN_AUDIO_BUTTON_INACTIVE, Icons.MAIN_CLIMATE_BUTTON_ACTIVE,
+                     Icons.MAIN_PHONE_BUTTON_INACTIVE, Icons.MAIN_NAV_BUTTON_INACTIVE,
+                     Icons.MAIN_APPS_BUTTON_INACTIVE, Icons.MAIN_PANEL_SETTINGS_BUTTON_INACTIVE]
+
+audio_page_images = [Icons.AUDIO_SOURCES_FM_BUTTON, Icons.AUDIO_DIRECT_TUNE_BUTTON, Icons.AUDIO_PRESET_BUTTON,
+                     Icons.AUDIO_TUNE_TOGGLE_ACTIVE, Icons.AUDIO_TUNE_TOGGLE_INACTIVE]
+
+audio_sources_page_images = [Icons.AUDIO_SOURCES_AM_BUTTON, Icons.AUDIO_SOURCES_FM_BUTTON,
+                             Icons.AUDIO_SOURCES_BLUETOOTH_BUTTON]
+
+key_numbers_images = [Icons.KEY_0_INACTIVE, Icons.KEY_1_ACTIVE, Icons.KEY_2_INACTIVE, Icons.KEY_3_INACTIVE,
+                      Icons.KEY_4_INACTIVE, Icons.KEY_5_INACTIVE, Icons.KEY_6_INACTIVE, Icons.KEY_7_INACTIVE,
+                      Icons.KEY_8_ACTIVE, Icons.KEY_9_ACTIVE, Icons.AUDIO_DIRECT_ENTER_BUTTON_INACTIVE,
+                      Icons.AUDIO_DIRECT_CANCEL_BUTTON_ACTIVE]

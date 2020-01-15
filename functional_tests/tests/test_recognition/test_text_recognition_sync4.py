@@ -23,7 +23,7 @@ def test_main_panel_text(driver_sync4, name):
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
 @pytest.mark.text_recognition
 @pytest.mark.parametrize("name", [Text.PHONE_CONNECT_PHONE_TITLE_TEXT, Text.ADD_PHONE_TEXT])
-def test_phone_page_text(driver_sync4, name):
+def test_phone_page_text(phone_sync4, name):
     assert get_exist_result(name)
 
 

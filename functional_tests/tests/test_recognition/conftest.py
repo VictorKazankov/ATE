@@ -106,6 +106,13 @@ def audio_sync4(app_connector):
 
 
 @pytest.fixture(scope='module')
+def phone_sync4(app_connector):
+    api = page_supervisor_sync4.PageSupervisor()
+    api.phone_page.open_phone_page()
+    return api.phone_page
+
+
+@pytest.fixture(scope='module')
 def direct_tune_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.audio_page.tap_on_direct_tune_button()

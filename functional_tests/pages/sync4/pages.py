@@ -1,8 +1,7 @@
 import logging
 
 from functional_tests.pages import hmi
-from functional_tests.pages.interaction import (tap, tap_if_visible,
-                                                tap_on_coordinates)
+from functional_tests.pages.interaction import tap, tap_if_visible
 from functional_tests.utils.sync4.constants import Icons, Text
 
 
@@ -96,13 +95,20 @@ class FeaturesPage:
 
 class ClimatePage:
     def climate_page_is_active(self):
-        return hmi.obj_exists(Text.CLIMATE_PAGE_CONTROLS_TITLE_TEXT)
+        return hmi.obj_exists(Text.CLIMATE_PAGE_BAD_CONFIGURATION_TEXT)
 
     def open_climate_page(self):
-        # coordinates for click on Climate panel button
-        x = 250
-        y = 1146
-        tap_on_coordinates(x, y)
+        if self.climate_page_is_active():
+            logging.info('Climate page is already open')
+        elif tap_if_visible(Icons.MAIN_CLIMATE_BUTTON_ACTIVE):
+            logging.info('Open climate page')
+        elif tap_if_visible(Text.CANCEL_TEXT):
+            logging.info('Closing popup window on add climate page')
+            self.open_climate_page()
+        elif tap_if_visible(Icons.BACK_BUTTON):
+            self.open_climate_page()
+        else:
+            raise Exception('Can`t open climate page')
 
     def open_climate_menu(self):
         if hmi.obj_exists(Icons.CLIMATE_MENU_ADDITIONAL_CLIMATE_CONTROLS_TITLE):
@@ -134,7 +140,7 @@ class PhonePage:
         else:
             raise Exception('Can`t open phone page')
 
-    #     Pair bluetooth service page
+    # Pair bluetooth service page
     def open_add_phone_page(self):
         if hmi.obj_exists(Icons.ADD_PHONE_TITLE_ICON):
             logging.info('Add phone page is already open')
@@ -225,33 +231,35 @@ class SettingsClockPage:
 
 class AudioPage:
     def audio_page_is_active(self):
-        return hmi.obj_exists(Text.AUDIO_PAGE_SOURCES_TEXT)
+        return hmi.obj_exists(Text.AUDIO_PAGE_DIRECT_TUNE_TEXT)
 
     def open_audio_page(self):
-        # coordinates for click on Audio panel button
-        x = 140
-        y = 1146
-        tap_on_coordinates(x, y)
+        if self.audio_page_is_active():
+            logging.info('Audio page is already open')
+        elif tap_if_visible(Icons.MAIN_AUDIO_BUTTON_INACTIVE) or tap_if_visible(Icons.MAIN_AUDIO_BUTTON_ACTIVE):
+            logging.info('Open audio page')
+        else:
+            raise Exception('Can`t open audio page')
 
     def tap_on_direct_tune_button(self):
         if hmi.obj_exists(Text.ENTER_TEXT) and hmi.obj_exists(Icons.AUDIO_DIRECT_CANCEL_BUTTON_ACTIVE):
             logging.info('Direct tune page is already open')
-        elif tap_if_visible(Text.AUDIO_PAGE_DIRECT_TUNE_TEXT):
+        elif tap_if_visible(Icons.AUDIO_DIRECT_TUNE_BUTTON):
             logging.info('Open direct tune page')
         else:
             self.open_audio_page()
-            tap(Text.AUDIO_PAGE_DIRECT_TUNE_TEXT)
+            tap(Icons.AUDIO_DIRECT_TUNE_BUTTON)
 
     def tap_on_cancel_button(self):
         tap(Icons.AUDIO_DIRECT_CANCEL_BUTTON_ACTIVE)
 
     def tap_on_sources_page(self):
         if hmi.obj_exists(Text.ENTERTAINMENT_SOURCES_TITLE_TEXT):
-            logging.info('Sources page is already open')
+            logging.info('Audio sources page is already open')
         elif tap_if_visible(Icons.AUDIO_SOURCES_FM_BUTTON):
-            logging.info('Open sources page')
+            logging.info('Open audio sources page')
         elif tap_if_visible(Icons.AUDIO_SOURCES_AM_BUTTON):
-            logging.info('Open sources page')
+            logging.info('Open audio sources page')
         else:
             self.open_audio_page()
             tap(Text.AUDIO_PAGE_SOURCES_TEXT)
