@@ -5,11 +5,24 @@
 namespace {
 
 TEST(TestparseEnvironmentVariables, GetSpiDeviceName_ExistEnvVariable_Success) {
+  // Setup the spi enviroment variable.
+  setenv("BOARD_SPI_BUS", "3", true);
+  setenv("BOARD_SPI_DEV", "1", true);
+
   auto spi_device_address = utils::GetEnvSettings(utils::EnvSettings::kSpiDeviceAddress);
   EXPECT_FALSE(spi_device_address.empty()) << "SPI device address must be not empty.\n";
 
   auto contain_spi_keyword = spi_device_address.find("/dev/spidev") != std::string::npos;
   EXPECT_TRUE(contain_spi_keyword) << "SPI device address must contain '/dev/spidev'.\n";
+}
+
+TEST(TestparseEnvironmentVariables, GetSpiDeviceName_NonExistEnvVariable_EmptyPath) {
+  // Unset the spi enviroment variable.
+  unsetenv("BOARD_SPI_BUS");
+  unsetenv("BOARD_SPI_DEV");
+
+  auto spi_device_address = utils::GetEnvSettings(utils::EnvSettings::kSpiDeviceAddress);
+  EXPECT_TRUE(spi_device_address.empty()) << "SPI device address must empty.\n";
 }
 
 TEST(TestparseEnvironmentVariables, GetGpioVideoStatusPath_GpioEnable_Success) {
