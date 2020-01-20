@@ -25,6 +25,7 @@ add_library(ate_server_lib
     video_streaming/gst_streamer.cpp
     video_streaming/stream_reader.cpp
     video_streaming/streamer_factory.cpp
+    video_streaming/sync_video_streamer.cpp
     transport_adapters_collection.cpp
     ate_message_adapter.cpp
     ate.cpp
@@ -133,6 +134,7 @@ target_link_libraries(ate_server_lib
     ${GStreamer_LIBRARIES}
     VHAT::dbmanager
     ${DBus_LIBRARIES}
+    rt
 )
 
 add_executable(ate_server
