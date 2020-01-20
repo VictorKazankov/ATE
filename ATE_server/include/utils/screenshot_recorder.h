@@ -10,6 +10,18 @@ namespace utils {
 namespace fs = std::experimental::filesystem;
 
 /**
+ * @brief Screenshot error code. Used to determine the result of function GetScreenshot.
+ */
+enum class ScreenshotError {
+  kEmptyFileName,
+  kPermissionDenied,
+  kWrongExtension,
+  kSystemError,
+  kImageAssemblingFailed,
+  kSuccess
+};
+
+/**
  * @brief Class for recording screenshots
  **/
 class ScreenshotRecorder {
@@ -42,17 +54,29 @@ class ScreenshotRecorder {
 
   /**
    * @brief Saves screenshot to file with and without highlight area.
-   * It's a wrapper for SaveScreenshot(const cv::Mat&) and SaveScreenshot(const cv::Mat&, const cv::Rect&, const std::string&)
+   * It's a wrapper for SaveScreenshot(const cv::Mat&) and
+   * SaveScreenshot(const cv::Mat&, const cv::Rect&, const std::string&)
    * @param color_frame frame to save to file without highlight area
    * @param grey_frame frame to save to file with highlight area
    * @param highlight_area area to highlight at the frame
    * @param hint suffix for screenshot name
    * @return true if successful, otherwise - false
    **/
-  bool TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame, const cv::Rect& highlight_area, const std::string& hint = "") const;
+  bool TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame, const cv::Rect& highlight_area,
+                       const std::string& hint = "") const;
+
+  /**
+   * @brief Saves screenshot to file
+   * @param color_frame frame to save to file without highlight area
+   * @param path location for saving screenshot with prefix 'screenshots_store_dir_
+   * @param file_name name of screenshot file
+   * @return true if screenshot saved, otherwise - false
+   **/
+  static ScreenshotError GetScreenshot(const cv::Mat& color_frame, const std::string& path,
+                                        const std::string& file_name);
 
  private:
-  void ProcessStorageDirectory();
+  static std::error_code ProcessStorageDirectory(const fs::path& dir);
   fs::path GetFileName(const std::string& file_suffix = "") const;
 };
 }  // namespace utils

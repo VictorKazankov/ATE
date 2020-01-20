@@ -12,7 +12,12 @@ enum class AteError {
   kVideoTemporarilyUnavailable = 101,
   kPatternInvalid,
   kPatternNotFound,
-  kInvalidDurationLongPress
+  kInvalidDurationLongPress,
+  kEmptyFileName,
+  kPermissionDenied,
+  kWrongExtension,
+  kSystemError,
+  kImageAssemblingFailed,
 };
 
 /**

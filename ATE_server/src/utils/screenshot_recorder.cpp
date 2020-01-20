@@ -7,6 +7,10 @@
 
 #include "logger/logger.h"
 
+namespace {
+constexpr auto kExtension = ".png";
+}  // namespace
+
 namespace utils {
 
 std::string GetStringTimestamp() {
@@ -28,22 +32,43 @@ ScreenshotRecorder::ScreenshotRecorder(bool enable_saving_screenshots, const std
   screenshots_store_dir_ = ATE_WRITABLE_DATA_PREFIX;
   screenshots_store_dir_ /= screenshots_store_dir;
 
-  ProcessStorageDirectory();
+  std::error_code error = ProcessStorageDirectory(screenshots_store_dir_);
+
+  if (error) {
+    logger::warn("[screenshot_recorder] Can't create directory for storage screenshots at {}. {}",
+                 screenshots_store_dir_, error.message());
+    throw std::runtime_error(error.message());
+  }
 }
 
-void ScreenshotRecorder::ProcessStorageDirectory() {
+std::error_code ScreenshotRecorder::ProcessStorageDirectory(const fs::path& directory) {
   std::error_code ec;
 
-  if (fs::exists(screenshots_store_dir_, ec)) {
-  } else {
-    if (fs::create_directories(screenshots_store_dir_, ec)) {
-      logger::info("[screenshot_recorder] Directory for storage screenshots was created at {}", screenshots_store_dir_);
-    } else {
-      logger::warn("[screenshot_recorder] Can't create directory for storage screenshots at {}. {}",
-                   screenshots_store_dir_, ec.message());
-      throw std::runtime_error(ec.message());
+  if (!fs::exists(directory, ec)) {
+    if (ec != std::errc::no_such_file_or_directory) {
+      logger::error("[screenshot_recorder] Failed to check directory existence {}", ec.message());
+      return ec;
+    }
+
+    fs::create_directories(directory, ec);
+
+    if (ec) {
+      logger::error("[screenshot_recorder] Failed to create directory {}", ec.message());
+      return ec;
     }
   }
+
+  fs::permissions(directory,
+                  fs::perms::owner_read | fs::perms::owner_write | fs::perms::owner_exec | fs::perms::group_read |
+                      fs::perms::none | fs::perms::group_exec | fs::perms::others_read | fs::perms::others_exec,
+                  ec);
+
+  if (ec) {
+    logger::error("[screenshot_recorder] Failed to set permissions {}", ec.message());
+    return ec;
+  }
+
+  return std::error_code{};
 }
 
 fs::path ScreenshotRecorder::GetFileName(const std::string& file_suffix) const {
@@ -98,6 +123,45 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& hi
 bool ScreenshotRecorder::TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame,
                                          const cv::Rect& highlight_area, const std::string& hint) const {
   return SaveScreenshot(color_frame) && SaveScreenshot(grey_frame, highlight_area, hint);
+}
+
+ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, const std::string& path = "",
+                                                  const std::string& file_name = "") {
+  if (file_name.empty() || fs::path(file_name).stem().empty()) {
+    logger::error("[screenshot_recorder] Empty filename for screenshot");
+    return ScreenshotError::kEmptyFileName;
+  }
+
+  fs::path store_file = ATE_WRITABLE_DATA_PREFIX;
+  store_file /= path;
+  store_file /= file_name;
+
+  if (store_file.extension() != kExtension) {
+    logger::error("[screenshot_recorder] Wrong extension for screenshot, please use {}", kExtension);
+    return ScreenshotError::kWrongExtension;
+  }
+
+  fs::path parent_dir = store_file.parent_path();
+
+  std::error_code error = ProcessStorageDirectory(parent_dir);
+
+  if (error) {
+    if (error == std::errc::permission_denied || error == std::errc::operation_not_permitted) {
+      return ScreenshotError::kPermissionDenied;
+    } else {
+      return ScreenshotError::kSystemError;
+    }
+  }
+
+  try {
+    cv::imwrite(store_file.c_str(), color_frame);
+  } catch (const std::runtime_error& exception) {
+    logger::error("Exception converting image to PNG format: {}", exception.what());
+    return ScreenshotError::kImageAssemblingFailed;
+  }
+
+  logger::info("[screenshot_recorder] Screenshot was stored to {}", store_file.string());
+  return ScreenshotError::kSuccess;
 }
 
 }  // namespace utils

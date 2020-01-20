@@ -30,6 +30,21 @@ std::string AteErrorCategoryImpl::message(int code) const {
     case common::AteError::kInvalidDurationLongPress:
       return "Too long press action duration";
 
+    case common::AteError::kEmptyFileName:
+      return "The screenshot's filename is empty";
+
+    case common::AteError::kPermissionDenied:
+      return "Permission denied";
+
+    case common::AteError::kSystemError:
+      return "Internal error";
+
+    case common::AteError::kWrongExtension:
+      return "Wrong extension";
+
+    case common::AteError::kImageAssemblingFailed:
+      return "Failed to save screenshot";
+
       /*Do not add default case, every error code should have correspoding message*/
   }
 

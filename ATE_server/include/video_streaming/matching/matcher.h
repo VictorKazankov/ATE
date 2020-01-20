@@ -86,6 +86,13 @@ class Matcher {
    */
   void ChangePreprocessingList(const std::string& sync_version);
 
+  /**
+   * @brief The function gets screenshot from the current screen
+   * @param file_name name of screenshot file
+   * @param file_path location for saving screenshot with prefix 'screenshots_store_dir_'
+   * @return error code in case screenshot failed, otherwise empty error_code
+   */
+  std::error_code GetScreenshot(const std::string& file_name, const std::string& file_path);
 };
 
 }  // namespace detector

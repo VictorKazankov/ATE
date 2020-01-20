@@ -108,4 +108,34 @@ void Matcher::ChangePreprocessingList(const std::string& sync_version) {
   };
 }
 
+std::error_code Matcher::GetScreenshot(const std::string& file_name, const std::string& file_path) {
+  if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
+    logger::error("[matcher] Video stream unavailable");
+    return {common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
+  }
+
+  utils::ScreenshotError screenshot_error = utils::ScreenshotRecorder::GetScreenshot(screen_, file_name, file_path);
+
+  if (screenshot_error != utils::ScreenshotError::kSuccess) {
+    switch (screenshot_error) {
+      case utils::ScreenshotError::kEmptyFileName:
+        return {common::make_error_code(common::AteError::kEmptyFileName)};
+
+      case utils::ScreenshotError::kWrongExtension:
+        return {common::make_error_code(common::AteError::kWrongExtension)};
+
+      case utils::ScreenshotError::kPermissionDenied:
+        return {common::make_error_code(common::AteError::kPermissionDenied)};
+
+      case utils::ScreenshotError::kImageAssemblingFailed:
+        return {common::make_error_code(common::AteError::kImageAssemblingFailed)};
+
+      default:
+        return {common::make_error_code(common::AteError::kSystemError)};
+    }
+  }
+
+  return std::error_code{};
+}
+
 }  // namespace detector
