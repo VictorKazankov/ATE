@@ -99,6 +99,14 @@ class ATE {
    */
   std::error_code ReloadStorageItems() noexcept;
 
+  /**
+   * @brief The function gets current screenshot
+   * @param path location for saving a screenshot
+   * @param filename name of a file for saving a screenshot
+   * @return empty error if successed, otherwise error
+   */
+  std::error_code GetScreenshot(const std::string& path, const std::string& filename);
+
  private:
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;

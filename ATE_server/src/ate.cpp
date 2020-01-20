@@ -160,3 +160,7 @@ adapter::DBManagerError ATE::ChangeSyncMode(const std::string& collection_mode) 
 }
 
 std::error_code ATE::ReloadStorageItems() noexcept { return storage_.ReloadStorage(); }
+
+std::error_code ATE::GetScreenshot(const std::string& path, const std::string& filename) {
+  return matcher_.GetScreenshot(path, filename);
+}
