@@ -7,6 +7,7 @@ project(vhat_client)
 set(SOURCE_LIST 
   ate_interaction.cpp
   ate_client.cpp
+  json_rpc_parser.cpp
   squish/application_context.cpp
   squish/squish_API.cpp
   squish/squish_types.cpp
