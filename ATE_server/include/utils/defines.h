@@ -54,6 +54,7 @@ const std::string kVideoStreamSection = "VIDEO_STREAM";
 const std::string kVideoStreamSourceOption = "Source";
 constexpr auto kVideoStreamTypeRtsp = "RTSP";
 constexpr auto kVideoStreamTypeGstreamer = "GStreamer";
+constexpr auto kVideoStreamTypeSyncVideo = "SyncVideo";
 
 constexpr auto kVideoStreamPathOption = "Path";
 
