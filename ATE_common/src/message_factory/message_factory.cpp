@@ -163,6 +163,22 @@ std::string MessageFactory::Client::CreateLongPressRequest(uint16_t x, uint16_t 
   return writer.write(message);
 }
 
+std::string MessageFactory::Client::CreateGetScreenshotRequest(const std::string& filename, const std::string& location,
+                                                               int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kFileName] = filename;
+  params[kLocation] = location;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kGetScreenshot, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 
@@ -187,6 +203,8 @@ Json::Value MessageFactory::Server::CreateTouchAndDragResultObject() { return Js
 Json::Value MessageFactory::Server::CreatePressAndHoldResultObject() { return Json::Value{true}; }
 
 Json::Value MessageFactory::Server::CreatePressReleaseResultObject() { return Json::Value{true}; }
+
+Json::Value MessageFactory::Server::CreateGetScreenshotObject() { return Json::Value{true}; }
 
 Json::Value MessageFactory::Server::CreateWaitForObjectResultObject(int x, int y, int width, int height) {
   Json::Value result{Json::objectValue};

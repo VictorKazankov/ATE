@@ -195,6 +195,20 @@ void ExtractPressReleaseRequestParams(const Json::Value& params, int& x, int& y,
   }
 }
 
+void ExtractGetScreenshotParams(const Json::Value& params, std::string& filename, std::string& location,
+                                Json::Value& error) {
+  error = Json::Value{};
+
+  try {
+    filename = params[kFileName].asString();
+    location = params[kLocation].asString();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetScreenshot params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
 void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error) {
   error = Json::Value{};
   try {

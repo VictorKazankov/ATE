@@ -22,6 +22,11 @@ enum class Error {
   kObjectNotFound = -32000,
   // Long press error
   kInvalidDurationLongPress = -32006,
+  // Screenshot error
+  kEmptyFileName = -32007,
+  kPermissionDenied = -32008,
+  kWrongExtension = -32009,
+  kImageAssemblingFailed = -32010
 };
 
 }  // namespace rpc

@@ -33,6 +33,7 @@ class MessageFactory {
                                                       const std::string& sync_build_version, int id);
     static std::string CreateChangeSyncModeRequest(const std::string& collection_mode, int id);
     static std::string CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id);
+    static std::string CreateGetScreenshotRequest(const std::string& filename, const std::string& location, int id);
   };
 
   /**
@@ -68,6 +69,7 @@ class MessageFactory {
     static Json::Value CreateChangeSyncIconDBResultObject();
     static Json::Value CreateChangeSyncModeResultObject();
     static Json::Value CreateLongPressResultObject();
+    static Json::Value CreateGetScreenshotObject();
   };
 };
 

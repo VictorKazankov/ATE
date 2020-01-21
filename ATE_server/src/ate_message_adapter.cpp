@@ -25,7 +25,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kChangeSyncIconDB, &AteMessageAdapter::HandleChangeSyncIconDB},
                    {common::jmsg::kChangeSyncMode, &AteMessageAdapter::HandleChangeSyncMode},
                    {common::jmsg::kReloadIconStorage, &AteMessageAdapter::HandleReloadIconStorage},
-                   {common::jmsg::kLongPress, &AteMessageAdapter::HandleLongPress}} {}
+                   {common::jmsg::kLongPress, &AteMessageAdapter::HandleLongPress},
+                   {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -255,6 +256,41 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleReloadIconStorage([[gnu::u
 
   logger::info("[ate message adapter] Icon storage has been reloaded");
   return std::make_pair(result_error, !error);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleGetScreenshot(const Json::Value& params) {
+  Json::Value result_error;
+
+  std::string filename;
+  std::string location;
+
+  common::jmsg::ExtractGetScreenshotParams(params, filename, location, result_error);
+
+  if (!result_error.empty()) {
+    return std::make_pair(std::move(result_error), false);
+  }
+
+  std::error_code error_code = ate_.GetScreenshot(location, filename);
+
+  if (error_code) {
+    if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
+    } else if (error_code == common::AteError::kEmptyFileName) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kEmptyFileName, error_code.message().c_str());
+    } else if (error_code == common::AteError::kWrongExtension) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kWrongExtension, error_code.message().c_str());
+    } else if (error_code == common::AteError::kPermissionDenied) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kPermissionDenied, error_code.message().c_str());
+    } else if (error_code == common::AteError::kImageAssemblingFailed) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kImageAssemblingFailed, error_code.message().c_str());
+    } else {
+      logger::warn("[ate message adapter] unhandled error {}", error_code.message());
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
+    }
+    return std::make_pair(std::move(result_error), false);
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetScreenshotObject, true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {
