@@ -36,11 +36,10 @@ class ATEInteraction : public Interaction {
 
   /**
    * @brief Send command to server
-   * @param method - specifies method
    * @param command - specifies string command
-   * @return squish object
+   * @return response string
    */
-  squish::Object SendCommand(Method method, const std::string& command) override;
+  std::string SendCommand(const std::string& command) override;
 
  private:
   /**

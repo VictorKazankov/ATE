@@ -26,10 +26,10 @@ struct ApplicationContext {
 
   /**
    * @brief The function sends commands to the target
-   * @param requested command
-   * @returns result object
+   * @param command command to be send
+   * @returns response string
    **/
-  Object SendCommand(interaction::Method method, const std::string& command);
+  std::string SendCommand(const std::string& command);
 
   /**
    * @brief Function allows to know if connection was established

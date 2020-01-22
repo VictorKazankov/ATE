@@ -6,6 +6,7 @@
 
 #include "ate_interaction.h"
 #include "common.h"
+#include "json_rpc_parser.h"
 #include "logger/logger.h"
 #include "message_factory/message_factory.h"
 #include "squish/application_context.h"
@@ -14,6 +15,8 @@
 using namespace squish;
 
 namespace {
+#define NO_RESPONSE_FOR_PYTHON logger::debug("No response for Python from {}", __func__)
+
 const std::string kBoardSection = "BOARD";
 const std::string kAddressOption = "Address";
 const std::string kPortOption = "Port";
@@ -74,9 +77,10 @@ Object API::WaitForObject(const std::string& object_or_name) {
 
 Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
   logger::debug("Object waitForObject()");
-  auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec,
-                                                                                  GetCorrelationId());
-  return ApplicationContextInstance().SendCommand(interaction::Method::kWaitForObject, message);
+  const auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec,
+                                                                                        GetCorrelationId());
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  return interaction::JsonRpcParser::ParseWaitForObject(response);
 }
 
 void API::TapObject(const Object& screen_rectangle, common::squish::ModifierState modifier_state,
@@ -94,7 +98,9 @@ void API::TapObject(const common::Point& screen_point, common::squish::ModifierS
   logger::debug("Object tapObject");
   auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
       screen_point.x, screen_point.y, modifier_state, button, GetCorrelationId());
-  ApplicationContextInstance().SendCommand(interaction::Method::kTapObject, message);
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
+  NO_RESPONSE_FOR_PYTHON;
 }
 
 void API::LongPress(const Object& screen_rectangle, int timeout_msec) {
@@ -122,7 +128,9 @@ void API::LongPress(const Object& screen_rectangle, int x, int y, int timeout_ms
       : message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
             screen_rectangle.x + x, screen_rectangle.y + y, static_cast<unsigned>(timeout_msec), GetCorrelationId());
 
-  ApplicationContextInstance().SendCommand(interaction::Method::kLongPress, message);
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
+  NO_RESPONSE_FOR_PYTHON;
 }
 
 void API::TouchAndDrag(const Object& object_or_name, int x, int y, int dx, int dy,
@@ -134,13 +142,17 @@ void API::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, 
                        common::squish::ModifierState modifier_state) {
   auto message = common::jmsg::MessageFactory::Client::CreateTouchAndDragRequest(object_or_name, x, y, dx, dy,
                                                                                  modifier_state, GetCorrelationId());
-  ApplicationContextInstance().SendCommand(interaction::Method::kTouchAndDrag, message);
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
+  NO_RESPONSE_FOR_PYTHON;
 }
 
 void API::PressAndHold(const common::Point& screen_point) {
   auto message = common::jmsg::MessageFactory::Client::CreatePressAndHoldRequest(screen_point.x, screen_point.y,
                                                                                  GetCorrelationId());
-  ApplicationContextInstance().SendCommand(interaction::Method::kPressAndHold, message);
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
+  NO_RESPONSE_FOR_PYTHON;
 }
 
 void API::PressAndHold(const common::Rect& screen_rectangle) { PressAndHold(screen_rectangle.Center()); }
@@ -150,7 +162,9 @@ void API::PressAndHold(const Object& object) { PressAndHold(object.Center()); }
 void API::PressRelease(const common::Point& screen_point) {
   auto message = common::jmsg::MessageFactory::Client::CreatePressReleaseRequest(screen_point.x, screen_point.y,
                                                                                  GetCorrelationId());
-  ApplicationContextInstance().SendCommand(interaction::Method::kPressRelease, message);
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
+  NO_RESPONSE_FOR_PYTHON;
 }
 
 void API::PressRelease(const common::Rect& screen_rectangle) { PressRelease(screen_rectangle.Center()); }
@@ -161,11 +175,15 @@ void API::ChangeSyncIconDB(const std::string& sync_version, const std::string& s
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,
                                                                                      GetCorrelationId());
 
-  ApplicationContextInstance().SendCommand(interaction::Method::kChangeSyncIconDB, message);
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
+  NO_RESPONSE_FOR_PYTHON;
 }
 
 void API::ChangeSyncMode(common::squish::CollectionMode collection_mode) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncModeRequest(CollectionModeToStr(collection_mode),
                                                                                    GetCorrelationId());
-  ApplicationContextInstance().SendCommand(interaction::Method::kChangeSyncMode, message);
+  const auto response = ApplicationContextInstance().SendCommand(message);
+  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
+  NO_RESPONSE_FOR_PYTHON;
 }

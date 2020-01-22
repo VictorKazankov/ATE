@@ -16,12 +16,13 @@ bool ApplicationContext::IsRunning() const {
 
 void ApplicationContext::Detach() {}
 
-Object ApplicationContext::SendCommand(interaction::Method method, const std::string& command) {
+std::string ApplicationContext::SendCommand(const std::string& command) {
   if (!IsRunning()) {
     logger::error("[application context] ATE server wasn't connected. Please perform 'attachToApplication()' first");
     throw std::runtime_error("Connection to ATE server is not established");
   }
-  return ate_interaction->SendCommand(method, command);
+
+  return ate_interaction->SendCommand(command);
 }
 
 std::string ApplicationContext::host() const { return ate_interaction->host(); }
