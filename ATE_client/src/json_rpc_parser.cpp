@@ -12,12 +12,6 @@ using namespace interaction;
 namespace {
 
 /**
- * @brief The function verifies area
- * @return true in case of area equel zero, otherwise false
- **/
-bool IsAreaEmpty(const squish::Object& obj) { return ((0 == obj.height) && (0 == obj.width)); }
-
-/**
  * @brief The function verifies is message with JSON valid
  * @return true in case of valid JSON, otherwise false
  **/
@@ -95,10 +89,6 @@ squish::Object JsonRpcParser::ParseWaitForObject(const std::string& rpc) {
     object.y = result[common::jmsg::kOrdinate].asInt();
     object.width = result[common::jmsg::kWidth].asInt();
     object.height = result[common::jmsg::kHeight].asInt();
-
-    if (IsAreaEmpty(object)) {
-      throw squish::LookupError{};
-    }
   }
 
   return object;
