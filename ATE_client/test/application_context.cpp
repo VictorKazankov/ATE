@@ -18,7 +18,7 @@ class MockATEInteraction : public interaction::Interaction {
   MOCK_CONST_METHOD0(port, std::string());
   MOCK_METHOD0(Connect, void());
   MOCK_CONST_METHOD0(IsConnectionOpened, bool());
-  MOCK_METHOD2(SendCommand, squish::Object(interaction::Method, const std::string&));
+  MOCK_METHOD1(SendCommand, std::string(const std::string&));
 };
 
 class ApplicationContextTest : public ::testing::Test {
@@ -49,30 +49,22 @@ TEST_F(ApplicationContextTest, IsRunning_IsConnectionOpened_True) {
 }
 
 // TODO TEST_F(ApplicationContextTest, Detach_*)
-
-TEST_F(ApplicationContextTest, SendCommand_IsRunningTrue_Success) {
-  const auto kMethod = interaction::Method::kWaitForObject;
+TEST_F(ApplicationContextTest, SendCommand_IsRunningTrue_SendCommandCallsOnce) {
   const std::string kCommand = "command";
-
+  
   EXPECT_CALL(*mock_, IsConnectionOpened()).WillOnce(Return(true));
-  EXPECT_CALL(*mock_, SendCommand(kMethod, kCommand)).WillOnce(Return(squish::Object{10, 20, 100, 200}));
+  EXPECT_CALL(*mock_, SendCommand(kCommand)).Times(1);
 
-  auto object = application_context_->SendCommand(kMethod, kCommand);
-
-  EXPECT_EQ(object.x, 10);
-  EXPECT_EQ(object.y, 20);
-  EXPECT_EQ(object.width, 100);
-  EXPECT_EQ(object.height, 200);
+  application_context_->SendCommand(kCommand);
 }
 
 TEST_F(ApplicationContextTest, SendCommand_IsRunningFalse_Failure) {
   EXPECT_CALL(*mock_, IsConnectionOpened()).WillOnce(Return(false));
-  EXPECT_CALL(*mock_, SendCommand(_, _)).Times(0);
+  EXPECT_CALL(*mock_, SendCommand(_)).Times(0);
 
-  const auto kMethod = interaction::Method::kWaitForObject;
   const std::string kCommand = "command";
 
-  EXPECT_THROW(application_context_->SendCommand(kMethod, kCommand), std::runtime_error);
+  EXPECT_THROW(application_context_->SendCommand(kCommand), std::runtime_error);
 }
 
 TEST_F(ApplicationContextTest, Host_Predefined_Equal) {
