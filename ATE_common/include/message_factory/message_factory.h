@@ -5,6 +5,7 @@
 
 #include "json/value.h"
 
+#include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
 namespace common {
@@ -30,10 +31,11 @@ class MessageFactory {
     static std::string CreatePressAndHoldRequest(uint16_t x, uint16_t y, int id);
     static std::string CreatePressReleaseRequest(uint16_t x, uint16_t y, int id);
     static std::string CreateChangeSyncIconDBRequest(const std::string& sync_version,
-                                                      const std::string& sync_build_version, int id);
+                                                     const std::string& sync_build_version, int id);
     static std::string CreateChangeSyncModeRequest(const std::string& collection_mode, int id);
     static std::string CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id);
     static std::string CreateGetScreenshotRequest(const std::string& filename, const std::string& location, int id);
+    static std::string CreateGetTextRequest(const common::Point& top_left, const common::Point& bottom_right, int id);
   };
 
   /**
@@ -70,6 +72,7 @@ class MessageFactory {
     static Json::Value CreateChangeSyncModeResultObject();
     static Json::Value CreateLongPressResultObject();
     static Json::Value CreateGetScreenshotObject();
+    static Json::Value CreateGetTextResultObject(const std::string& text);
   };
 };
 

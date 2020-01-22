@@ -49,6 +49,11 @@ class ImageAssemblingFailed : public std::runtime_error {
   explicit ImageAssemblingFailed() : std::runtime_error{"Failed to assemble image"} {}
 };
 
+class InvalidRectangleCoordinates : public std::runtime_error {
+ public:
+  explicit InvalidRectangleCoordinates() : std::runtime_error("Invalid coordinates") {}
+};
+
 }  // namespace squish
 
 namespace interaction {

@@ -188,6 +188,15 @@ struct API {
    * @throw InternalError - in case of file system errors, bad alloc
    */
   static bool GetScreenshot(const std::string& filename, const std::string& location);
+
+  /**
+   * @brief GetText returns the text by specified coordinates
+   * @param x1 x axis of the topleft coordinate
+   * @param y1 y axis of the topleft coordinate
+   * @param x2 x axis of the bottom-right coordinate
+   * @param y2 y axis of the bottom-right coordinate
+   */
+  static std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 };
 }  // namespace squish
 

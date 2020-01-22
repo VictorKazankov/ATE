@@ -228,4 +228,12 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'PermissionDenied' in case of server does not have permission to make directory"
         " 'ImageAssemblingFailed' in case of server can't save the screenshot",
         py::arg("filename"), py::arg("location"));
+
+  m.def("getText", &squish::API::GetText,
+        "GetText returns the text by specified coordinates. "
+        "The x1, y1 - topleft coordinate. "
+        "The x2, y2 - bottom-right coordinate. "
+        "Throws 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
+        "produced rectangle has zero height/width or is out of frame boundaries.",
+        py::arg("x1"), py::arg("y1"), py::arg("x2"), py::arg("y2"), py::return_value_policy::copy);
 }

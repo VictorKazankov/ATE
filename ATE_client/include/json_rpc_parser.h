@@ -33,6 +33,14 @@ class JsonRpcParser {
    **/
   static bool ParseGetScreenshot(const std::string& rpc);
 
+  /**
+   * @brief The function parses GetText api
+   * @param rpc response string for checking
+   * @return recognized text on sucess, in other case throws an exception InvalidRectangleCoordinates if coordinates are
+   * invalid
+   */
+  static std::string ParseGetText(const std::string& rpc);
+
  private:
   /**
    * @brief RpcStringToJsonStruct performs transformation and validation for responses as RPC string, throws an

@@ -12,6 +12,15 @@ enum class Error {
 
   // Values from -32000 to -32099 reserved for implementation-defined server-errors
 
+  // GetText error
+  kInvalidRectangleCoordinates = -32011,
+  // Screenshot error
+  kImageAssemblingFailed = -32010,
+  kWrongExtension = -32009,
+  kPermissionDenied = -32008,
+  kEmptyFileName = -32007,
+  // Long press error
+  kInvalidDurationLongPress = -32006,
   kReloadStorageError = -32005,
   // Sync configuration changed error
   kInvalidSyncCollectionMode = -32004,
@@ -20,13 +29,6 @@ enum class Error {
   // Object recognition error
   kVideoStreamNotFound = -32001,
   kObjectNotFound = -32000,
-  // Long press error
-  kInvalidDurationLongPress = -32006,
-  // Screenshot error
-  kEmptyFileName = -32007,
-  kPermissionDenied = -32008,
-  kWrongExtension = -32009,
-  kImageAssemblingFailed = -32010
 };
 
 }  // namespace rpc

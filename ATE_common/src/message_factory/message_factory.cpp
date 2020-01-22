@@ -179,6 +179,24 @@ std::string MessageFactory::Client::CreateGetScreenshotRequest(const std::string
   return writer.write(message);
 }
 
+std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& top_left,
+                                                         const common::Point& bottom_right, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kAbscissa] = top_left.x;
+  params[kOrdinate] = top_left.y;
+  params[kAbscissaDrag] = bottom_right.x;
+  params[kOrdinateDrag] = bottom_right.y;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kGetText, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 
@@ -222,6 +240,13 @@ Json::Value MessageFactory::Server::CreateChangeSyncIconDBResultObject() { retur
 Json::Value MessageFactory::Server::CreateChangeSyncModeResultObject() { return Json::Value{true}; }
 
 Json::Value MessageFactory::Server::CreateLongPressResultObject() { return Json::Value{true}; }
+
+Json::Value MessageFactory::Server::CreateGetTextResultObject(const std::string& text) {
+  Json::Value result{Json::objectValue};
+  result[kText] = text;
+
+  return result;
+}
 
 std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id) {
   Json::Value params;

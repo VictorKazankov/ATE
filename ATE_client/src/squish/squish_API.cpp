@@ -195,3 +195,11 @@ bool API::GetScreenshot(const std::string& filename, const std::string& location
 
   return interaction::JsonRpcParser::ParseGetScreenshot(response);
 }
+
+std::string API::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
+  auto message = common::jmsg::MessageFactory::Client::CreateGetTextRequest(common::Point{x1, y1},
+                                                                            common::Point{x2, y2}, GetCorrelationId());
+
+  auto response = ApplicationContextInstance().SendCommand(message);
+  return interaction::JsonRpcParser::ParseGetText(response);
+}

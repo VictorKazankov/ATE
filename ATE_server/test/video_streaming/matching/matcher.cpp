@@ -34,6 +34,15 @@ class MockDetector : public Detector<T> {
   MOCK_METHOD2_T(Detect, cv::Rect(const cv::Mat& frame, const T& pattern));
 };
 
+template <>
+class MockDetector<std::string> : public Detector<std::string> {
+ public:
+  ~MockDetector() override = default;
+
+  MOCK_METHOD2_T(Detect, cv::Rect(const cv::Mat& frame, const std::string& pattern));
+  MOCK_METHOD1_T(ExtractText, std::string(const cv::Mat& frame));
+};
+
 class MockStreamer : public streamer::Streamer {
  public:
   ~MockStreamer() override = default;
@@ -42,7 +51,7 @@ class MockStreamer : public streamer::Streamer {
   MOCK_METHOD2(ChangeResolution, void(int x, int y));
 
   static bool FrameImpl(cv::Mat& Rect);
-  static void ChangeResolutionImpl(int x, int y);
+  //  static void ChangeResolutionImpl(int x, int y);
 };
 
 bool MockStreamer::FrameImpl(cv::Mat& frame) {
@@ -53,9 +62,9 @@ bool MockStreamer::FrameImpl(cv::Mat& frame) {
   return true;
 }
 
-void MockStreamer::ChangeResolutionImpl(int, int) {
-  // Dummy now
-}
+// void MockStreamer::ChangeResolutionImpl(int, int) {
+// Dummy now
+//}
 
 class MockVideoStatus : public VideoStatus {
  public:

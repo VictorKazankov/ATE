@@ -16,6 +16,7 @@ constexpr auto kChangeSyncMode = "ChangeSyncMode";
 constexpr auto kReloadIconStorage = "ReloadIconStorage";
 constexpr auto kLongPress = "LongPress";
 constexpr auto kGetScreenshot = "GetScreenshot";
+constexpr auto kGetText = "GetText";
 
 }  // namespace jmsg
 }  // namespace common

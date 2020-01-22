@@ -37,7 +37,7 @@ constexpr auto kSyncBuildVersion = "sync_build_version";
 constexpr auto kSyncCollectionMode = "sync_collection_mode";
 constexpr auto kLocation = "location";
 constexpr auto kFileName = "filename";
-
+constexpr auto kText = "text";
 }  // namespace jmsg
 }  // namespace common
 

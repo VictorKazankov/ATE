@@ -67,6 +67,9 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
     case rpc::Error::kImageAssemblingFailed:
       throw squish::ImageAssemblingFailed{};
 
+    case rpc::Error::kInvalidRectangleCoordinates:
+      throw squish::InvalidRectangleCoordinates{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }
@@ -114,4 +117,22 @@ bool JsonRpcParser::ParseGetScreenshot(const std::string& rpc) {
     return result.asBool();
   }
   return false;
+}
+
+std::string JsonRpcParser::ParseGetText(const std::string& rpc) {
+  Json::Value schema;
+
+  if (!IsJsonStructureValid(rpc, schema)) return {};
+
+  // check response parameters
+  if (schema.isMember(common::jmsg::kError)) {
+    ErrorHandler(schema[common::jmsg::kError]);
+  }
+  const auto& result = schema[common::jmsg::kResult];
+  if (!result.isMember(common::jmsg::kText)) {
+    logger::error("[json msg parser] Argument error: wrong type of response 'GetText'");
+    return {};
+  }
+
+  return result[common::jmsg::kText].asString();
 }
