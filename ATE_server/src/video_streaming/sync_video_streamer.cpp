@@ -38,7 +38,7 @@ bool SyncVideoStreamer::Frame(cv::Mat& frame) {
 
   try {
     const cv::Mat buffer_mat{matrix_size_, CV_8UC4, frame_ptr};
-    cv::cvtColor(buffer_mat, frame, cv::COLOR_BGRA2BGR);
+    cv::cvtColor(buffer_mat, frame, cv::COLOR_BGR2RGB);
   } catch (...) {
     logger::error("[SyncVideoStreamer] An unexpected error occurs while extracting data from the buffer");
     return false;
