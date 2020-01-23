@@ -164,3 +164,7 @@ std::error_code ATE::ReloadStorageItems() noexcept { return storage_.ReloadStora
 std::error_code ATE::GetScreenshot(const std::string& path, const std::string& filename) {
   return matcher_.GetScreenshot(path, filename);
 }
+
+std::pair<std::string, std::error_code> ATE::GetText(const cv::Point& point, const cv::Point& delta_point) {
+  return matcher_.GetText(point, delta_point);
+}

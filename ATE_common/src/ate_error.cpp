@@ -45,6 +45,9 @@ std::string AteErrorCategoryImpl::message(int code) const {
     case common::AteError::kImageAssemblingFailed:
       return "Image assembling failed";
 
+    case common::AteError::kOutOfBoundaries:
+      return "Out of boundaries";
+
       /*Do not add default case, every error code should have correspoding message*/
   }
 

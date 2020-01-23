@@ -284,5 +284,21 @@ void ExtractChangeSyncModeRequestParams(const Json::Value& params, std::string& 
   }
 }
 
+void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_left, common::Point& bottom_right,
+                                 Json::Value& error) {
+  error.clear();
+  try {
+    top_left.x = params[kAbscissa].asInt();
+    top_left.y = params[kOrdinate].asInt();
+    bottom_right.x = params[kAbscissaDrag].asInt();
+    bottom_right.y = params[kOrdinateDrag].asInt();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetText params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+    return;
+  }
+}
+
 }  // namespace jmsg
 }  // namespace common

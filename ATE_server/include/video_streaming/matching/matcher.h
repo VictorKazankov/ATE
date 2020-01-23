@@ -93,6 +93,15 @@ class Matcher {
    * @return error code in case screenshot failed, otherwise empty error_code
    */
   std::error_code GetScreenshot(const std::string& file_name, const std::string& file_path);
+
+  /**
+   * @brief The function extracts text from predefined area in accordance with coordinates
+   * @param point of start of predefined rectangle
+   * @param delta_point of end of predefined rectangle
+   * @return string representation of detected text on predefined area on succeed,
+   * on failure return error code and empty string
+   */
+  std::pair<std::string, std::error_code> GetText(const cv::Point& point, const cv::Point& delta_point);
 };
 
 }  // namespace detector

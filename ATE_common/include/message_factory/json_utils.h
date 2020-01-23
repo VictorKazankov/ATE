@@ -7,6 +7,7 @@
 #include "json/value.h"
 
 #include "rpc_error.h"
+#include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
 namespace common {
@@ -192,6 +193,17 @@ void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string
  * @param error - error object, null on success
  */
 void ExtractChangeSyncModeRequestParams(const Json::Value& params, std::string& collection_mode, Json::Value& error);
+
+/**
+ * @brief Extracts params for 'GetText' method
+ * @param params - structured value that holds the parameter values to be used
+ * during the invocation of the 'GetText' method
+ * @param top_left top left coordinate
+ * @param bottom_right bottom-right coordinate
+ * @param error - error object, null on success
+ */
+void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_left, common::Point& bottom_right,
+                                 Json::Value& error);
 
 }  // namespace jmsg
 }  // namespace common

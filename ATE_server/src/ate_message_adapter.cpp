@@ -26,7 +26,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kChangeSyncMode, &AteMessageAdapter::HandleChangeSyncMode},
                    {common::jmsg::kReloadIconStorage, &AteMessageAdapter::HandleReloadIconStorage},
                    {common::jmsg::kLongPress, &AteMessageAdapter::HandleLongPress},
-                   {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot}} {}
+                   {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot},
+                   {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -291,6 +292,46 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetScreenshot(const Json::
   }
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetScreenshotObject, true);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleGetText(const Json::Value& params) {
+  Json::Value result_error;
+
+  common::Point top_left{}, bottom_right{};
+
+  common::jmsg::ExtractGetTextRequestParams(params, top_left, bottom_right, result_error);
+  if (!result_error.empty()) {
+    return std::make_pair(std::move(result_error), false);
+  }
+
+  if (top_left.x == bottom_right.x || top_left.y == bottom_right.y) {
+    result_error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                                   "Invalid GetText coordinates: zero height or width");
+    return std::make_pair(std::move(result_error), false);
+  }
+
+  if (top_left.x > bottom_right.x || top_left.y > top_left.y) {
+    result_error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid GetText coordinates: mixed up topleft and bottom-right points");
+
+    return std::make_pair(std::move(result_error), false);
+  }
+
+  auto res = ate_.GetText(top_left, bottom_right);
+
+  if (res.second) {
+    if (common::AteError::kVideoTemporarilyUnavailable == res.second) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, res.second.message().data());
+      return std::make_pair(std::move(result_error), false);
+    } else if (common::AteError::kOutOfBoundaries == res.second) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                                     "Specified area is out of screen boundaries");
+      return std::make_pair(std::move(result_error), false);
+    }
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetTextResultObject(res.first), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {

@@ -107,6 +107,14 @@ class ATE {
    */
   std::error_code GetScreenshot(const std::string& path, const std::string& filename);
 
+  /**
+   * @brief The function extracts text from predefined area in accordance with coordinates
+   * @param point of start of predefined rectangle
+   * @param delta_point of end of predefined rectangle
+   * @return string representation of detected text on predefined area
+   */
+  std::pair<std::string, std::error_code> GetText(const cv::Point& point, const cv::Point& delta_point);
+
  private:
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;

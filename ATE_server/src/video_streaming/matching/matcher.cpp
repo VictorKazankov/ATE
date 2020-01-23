@@ -138,4 +138,22 @@ std::error_code Matcher::GetScreenshot(const std::string& file_name, const std::
   return std::error_code{};
 }
 
+std::pair<std::string, std::error_code> Matcher::GetText(const cv::Point& point, const cv::Point& delta_point) {
+  if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
+    logger::error("[matcher] Video stream unavailable");
+    return {{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
+  }
+
+  cv::Rect screen_rect{0, 0, screen_.size().width, screen_.size().height};
+  if (!screen_rect.contains(point) || !screen_rect.contains(delta_point)) {
+    logger::error("[matcher] Desired area is out of screen boundaries");
+    return {{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
+  }
+
+  cv::Rect crop_area(point, delta_point);
+  cv::Mat croped = screen_(crop_area);
+
+  return {text_detector_->ExtractText(croped), std::error_code{}};
+}
+
 }  // namespace detector
