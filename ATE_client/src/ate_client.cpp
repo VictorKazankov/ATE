@@ -215,4 +215,17 @@ PYBIND11_MODULE(vhat_client, m) {
         "given, the tap is made at position x and y (in the object coordinates). Throws 'InvalidDurationLongPress' in "
         "case if timeout_msec longer than 60 seconds.",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
+
+  m.def("getScreenshot", py::overload_cast<const std::string&, const std::string&>(&squish::API::GetScreenshot),
+        "This function captures screenshot from connected sync screen and save it inside declared directory."
+        "filename - the name of screenshot file must have 'png' extension"
+        "location - directory name for storing screenshot with prefix '/var/lib/vdp/vhat'"
+        "Returns: true in case of success"
+        "Throws:"
+        " 'VideoStreamNotFound' in case of the video stream is not available"
+        " 'EmptyScreenshotFileName' in case of passed name of the screenshot is empty"
+        " 'WrongScreenshotExtension' in case of screenshot extansion is not 'png'"
+        " 'PermissionDenied' in case of server does not have permission to make directory"
+        " 'ImageAssemblingFailed' in case of server can't save the screenshot",
+        py::arg("filename"), py::arg("location"));
 }

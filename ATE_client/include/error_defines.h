@@ -29,6 +29,26 @@ class InvalidDurationLongPress : public std::runtime_error {
   explicit InvalidDurationLongPress() : std::runtime_error{"Too long press action duration"} {}
 };
 
+class EmptyScreenshotFileName : public std::runtime_error {
+ public:
+  explicit EmptyScreenshotFileName() : std::runtime_error{"The screenshot's filename is empty"} {}
+};
+
+class WrongScreenshotExtension : public std::runtime_error {
+ public:
+  explicit WrongScreenshotExtension() : std::runtime_error{"The screenshot has a wrong extension"} {}
+};
+
+class PermissionDenied : public std::runtime_error {
+ public:
+  explicit PermissionDenied() : std::runtime_error{"Saving file has been failed, permission denied"} {}
+};
+
+class ImageAssemblingFailed : public std::runtime_error {
+ public:
+  explicit ImageAssemblingFailed() : std::runtime_error{"Failed to assemble image"} {}
+};
+
 }  // namespace squish
 
 namespace interaction {

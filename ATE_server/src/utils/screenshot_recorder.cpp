@@ -32,7 +32,7 @@ ScreenshotRecorder::ScreenshotRecorder(bool enable_saving_screenshots, const std
   screenshots_store_dir_ = ATE_WRITABLE_DATA_PREFIX;
   screenshots_store_dir_ /= screenshots_store_dir;
 
-  std::error_code error = ProcessStorageDirectory(screenshots_store_dir_);
+  std::error_code error = MakeDirectories(screenshots_store_dir_);
 
   if (error) {
     logger::warn("[screenshot_recorder] Can't create directory for storage screenshots at {}. {}",
@@ -41,7 +41,7 @@ ScreenshotRecorder::ScreenshotRecorder(bool enable_saving_screenshots, const std
   }
 }
 
-std::error_code ScreenshotRecorder::ProcessStorageDirectory(const fs::path& directory) {
+std::error_code ScreenshotRecorder::MakeDirectories(const fs::path& directory) {
   std::error_code ec;
 
   if (!fs::exists(directory, ec)) {
@@ -125,8 +125,8 @@ bool ScreenshotRecorder::TakeScreenshots(const cv::Mat& color_frame, const cv::M
   return SaveScreenshot(color_frame) && SaveScreenshot(grey_frame, highlight_area, hint);
 }
 
-ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, const std::string& path = "",
-                                                  const std::string& file_name = "") {
+ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, const std::string& path,
+                                                  const std::string& file_name) {
   if (file_name.empty() || fs::path(file_name).stem().empty()) {
     logger::error("[screenshot_recorder] Empty filename for screenshot");
     return ScreenshotError::kEmptyFileName;
@@ -143,7 +143,7 @@ ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, co
 
   fs::path parent_dir = store_file.parent_path();
 
-  std::error_code error = ProcessStorageDirectory(parent_dir);
+  std::error_code error = MakeDirectories(parent_dir);
 
   if (error) {
     if (error == std::errc::permission_denied || error == std::errc::operation_not_permitted) {

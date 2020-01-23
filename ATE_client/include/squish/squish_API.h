@@ -37,7 +37,7 @@ struct API {
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
    *milliseconds. This function is useful if you want to synchronize your script execution.
-   * @param _objectOrName - desirable object or name
+   * @param objectOrName - desirable object or name
    * @param timeoutMSec - timeout in miliseconds
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
@@ -174,6 +174,20 @@ struct API {
    * @param collection_mode Collection mode
    */
   static void ChangeSyncMode(common::squish::CollectionMode collection_mode);
+
+  /**
+   * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
+   * @param filename - name of the file (must contain .png extension for successfully saving)
+   * @param location - location for saving of screenshot
+   * @return true in case of screenshot saved
+   * @throw VideoStreamNotFound - in case of the video stream is not available
+   * @throw EmptyScreenshotFileName - in case of filename is empty"
+   * @throw WrongScreenshotExtension - in case of filename extansion is not 'png'
+   * @throw PermissionDenied - in case of server does not have permission to make directory
+   * @throw ImageAssemblingFailed - in case of server can't save the screenshot (only in case of cv::imwrite failed)
+   * @throw InternalError - in case of file system errors, bad alloc
+   */
+  static bool GetScreenshot(const std::string& filename, const std::string& location);
 };
 }  // namespace squish
 

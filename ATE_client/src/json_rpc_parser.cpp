@@ -55,6 +55,18 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
     case rpc::Error::kInvalidDurationLongPress:
       throw squish::InvalidDurationLongPress{};
 
+    case rpc::Error::kEmptyFileName:
+      throw squish::EmptyScreenshotFileName{};
+
+    case rpc::Error::kWrongExtension:
+      throw squish::WrongScreenshotExtension{};
+
+    case rpc::Error::kPermissionDenied:
+      throw squish::PermissionDenied{};
+
+    case rpc::Error::kImageAssemblingFailed:
+      throw squish::ImageAssemblingFailed{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }
@@ -92,4 +104,14 @@ squish::Object JsonRpcParser::ParseWaitForObject(const std::string& rpc) {
   }
 
   return object;
+}
+
+bool JsonRpcParser::ParseGetScreenshot(const std::string& rpc) {
+  auto schema = RpcStringToJsonStruct(rpc);
+
+  if (common::jmsg::CheckGetScreenshotResponse(schema)) {
+    auto& result = schema[common::jmsg::kResult];
+    return result.asBool();
+  }
+  return false;
 }

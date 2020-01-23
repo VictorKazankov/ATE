@@ -167,6 +167,12 @@ void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, i
 bool CheckWaitForObjectResponse(const Json::Value& schema);
 
 /**
+ * @brief Check response scheme of message 'GetScreenshot'
+ * @param value - reference to 'Json::Value' for verification of json schema
+ * @return true - schema is correct otherwise false
+ */
+bool CheckGetScreenshotResponse(const Json::Value& schema);
+/**
  * @brief Extract parameters for ChangeSyncIconDB
  * @param params structured value that holds the parameter values to be used
  * during the invocation of the 'ChangeSyncIconDB' method

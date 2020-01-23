@@ -37,13 +37,13 @@ std::string AteErrorCategoryImpl::message(int code) const {
       return "Permission denied";
 
     case common::AteError::kSystemError:
-      return "Internal error";
+      return "System error";
 
     case common::AteError::kWrongExtension:
       return "Wrong extension";
 
     case common::AteError::kImageAssemblingFailed:
-      return "Failed to save screenshot";
+      return "Image assembling failed";
 
       /*Do not add default case, every error code should have correspoding message*/
   }

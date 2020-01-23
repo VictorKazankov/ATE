@@ -187,3 +187,11 @@ void API::ChangeSyncMode(common::squish::CollectionMode collection_mode) {
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
   NO_RESPONSE_FOR_PYTHON;
 }
+
+bool API::GetScreenshot(const std::string& filename, const std::string& location) {
+  const auto message =
+      common::jmsg::MessageFactory::Client::CreateGetScreenshotRequest(filename, location, GetCorrelationId());
+  const auto response = ApplicationContextInstance().SendCommand(message);
+
+  return interaction::JsonRpcParser::ParseGetScreenshot(response);
+}

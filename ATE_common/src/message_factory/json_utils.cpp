@@ -243,6 +243,11 @@ bool CheckWaitForObjectResponse(const Json::Value& schema) {
   return res;
 }
 
+bool CheckGetScreenshotResponse(const Json::Value& schema) {
+  auto& result = schema[kResult];
+  return result.isBool();
+}
+
 void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string& sync_version,
                                           std::string& sync_build_version, Json::Value& error) {
   error = Json::Value{};

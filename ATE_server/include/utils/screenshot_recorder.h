@@ -76,7 +76,7 @@ class ScreenshotRecorder {
                                         const std::string& file_name);
 
  private:
-  static std::error_code ProcessStorageDirectory(const fs::path& dir);
+  static std::error_code MakeDirectories(const fs::path& dir);
   fs::path GetFileName(const std::string& file_suffix = "") const;
 };
 }  // namespace utils

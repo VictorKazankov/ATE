@@ -26,6 +26,13 @@ class JsonRpcParser {
    **/
   static squish::Object ParseWaitForObject(const std::string& rpc);
 
+  /**
+   * @brief ParseGetScreenshot performs parsing and validation for GetScreenshot response, throws an exception in
+   * case of any problem with the response
+   * @param rpc response string for checking
+   **/
+  static bool ParseGetScreenshot(const std::string& rpc);
+
  private:
   /**
    * @brief RpcStringToJsonStruct performs transformation and validation for responses as RPC string, throws an
