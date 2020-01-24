@@ -46,7 +46,7 @@ struct SyncStream {
   std::atomic<int> vhat_frame_req;
 };
 
-struct SyncVideoSharedMemory {
+struct SyncVideoContext {
   int shm_fd;
   int shmbuf_fd;
   sync_video::SyncStream* sync_video_stream;

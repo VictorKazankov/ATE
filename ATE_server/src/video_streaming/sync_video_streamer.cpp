@@ -11,6 +11,8 @@ using namespace streamer;
 
 namespace {
 constexpr auto kOwnerReadAndWrite = 0600;
+
+inline unsigned int ByteToPixel(unsigned int bytes) { return bytes / 4; }
 }
 
 void PrintErrorMsgWithErrno(const std::string& msg) {
@@ -37,7 +39,15 @@ bool SyncVideoStreamer::Frame(cv::Mat& frame) {
   }
 
   try {
-    const cv::Mat buffer_mat{matrix_size_, CV_8UC4, frame_ptr};
+    unsigned int stride = ByteToPixel(sync_video_shared_memory_.sync_video_stream->stride);
+    
+    logger::debug("[SyncVideoStreamer] Frame resolution [{},{}]; Real image [{},{}]", matrix_size_.width,
+                  matrix_size_.height, stride,
+                  sync_video_shared_memory_.sync_video_stream->height);
+
+    const cv::Mat buffer_mat{static_cast<int>(sync_video_shared_memory_.sync_video_stream->height),
+                             static_cast<int>(stride),
+                             CV_8UC4, frame_ptr};
     cv::cvtColor(buffer_mat, frame, cv::COLOR_BGR2RGB);
   } catch (...) {
     logger::error("[SyncVideoStreamer] An unexpected error occurs while extracting data from the buffer");

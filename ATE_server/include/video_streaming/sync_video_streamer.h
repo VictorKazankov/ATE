@@ -62,7 +62,7 @@ class SyncVideoStreamer : public Streamer {
    **/
   bool GetFrameFromSyncVideo(FrameBufferPtr* frame);
 
-  sync_video::SyncVideoSharedMemory sync_video_shared_memory_;
+  sync_video::SyncVideoContext sync_video_shared_memory_;
   bool sync_video_inited_{false};
   cv::Size matrix_size_;
 };
