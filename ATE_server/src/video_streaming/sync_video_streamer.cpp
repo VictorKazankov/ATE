@@ -39,13 +39,13 @@ bool SyncVideoStreamer::Frame(cv::Mat& frame) {
   }
 
   try {
-    unsigned int stride = ByteToPixel(sync_video_shared_memory_.sync_video_stream->stride);
+    unsigned int stride = ByteToPixel(sync_video_context_.sync_video_stream->stride);
     
     logger::debug("[SyncVideoStreamer] Frame resolution [{},{}]; Real image [{},{}]", matrix_size_.width,
                   matrix_size_.height, stride,
-                  sync_video_shared_memory_.sync_video_stream->height);
+                  sync_video_context_.sync_video_stream->height);
 
-    const cv::Mat buffer_mat{static_cast<int>(sync_video_shared_memory_.sync_video_stream->height),
+    const cv::Mat buffer_mat{static_cast<int>(sync_video_context_.sync_video_stream->height),
                              static_cast<int>(stride),
                              CV_8UC4, frame_ptr};
     cv::cvtColor(buffer_mat, frame, cv::COLOR_BGR2RGB);
@@ -71,31 +71,31 @@ void SyncVideoStreamer::ChangeResolution(int x, int y) {
 bool SyncVideoStreamer::InitSyncVideo() {
   bool result;
 
-  result = PrepareSharedMemory(reinterpret_cast<void**>(&sync_video_shared_memory_.sync_video_stream),
+  result = PrepareSharedMemory(reinterpret_cast<void**>(&sync_video_context_.sync_video_stream),
                                sizeof(sync_video::SyncStream), sync_video::kSharedMemoryName,
-                               &sync_video_shared_memory_.shm_fd, O_RDWR, kOwnerReadAndWrite, PROT_READ | PROT_WRITE);
+                               &sync_video_context_.shm_fd, O_RDWR, kOwnerReadAndWrite, PROT_READ | PROT_WRITE);
   if (!result) {
     logger::error("[SyncVideoStreamer] Sync stream's shared memory initialization has failed");
     return result;
   }
   logger::info("[SyncVideoStreamer] Sync stream's shared memory initialization was successful");
 
-  result = PrepareSharedMemory(reinterpret_cast<void**>(&sync_video_shared_memory_.shmbuf),
-                               sync_video_shared_memory_.sync_video_stream->size, sync_video::kSharedMemoryBufferName,
-                               &sync_video_shared_memory_.shmbuf_fd, O_RDWR, kOwnerReadAndWrite, PROT_READ);
+  result = PrepareSharedMemory(reinterpret_cast<void**>(&sync_video_context_.shmbuf),
+                               sync_video_context_.sync_video_stream->size, sync_video::kSharedMemoryBufferName,
+                               &sync_video_context_.shmbuf_fd, O_RDWR, kOwnerReadAndWrite, PROT_READ);
   if (!result) {
     logger::error("[SyncVideoStreamer] Buffer's shared memory initialization has failed");
     return result;
   }
   logger::info("[SyncVideoStreamer] Buffer's shared memory initialization was successful");
 
-  if ((sync_video_shared_memory_.lock_frame_request = sem_open(sync_video::kSemaphoreVHATRequest, 0)) == SEM_FAILED) {
+  if ((sync_video_context_.lock_frame_request = sem_open(sync_video::kSemaphoreVHATRequest, 0)) == SEM_FAILED) {
     logger::error("[SyncVideoStreamer] Shared memory semaphore initialization has failed");
     return false;
   }
   logger::info("[SyncVideoStreamer] Shared memory semaphore initialization was successful");
 
-  sync_video_shared_memory_.sync_video_stream->vhat_frame_req.store(0);
+  sync_video_context_.sync_video_stream->vhat_frame_req.store(0);
 
   logger::info("[SyncVideoStreamer] Initialization was successful");
   sync_video_inited_ = true;
@@ -105,21 +105,21 @@ bool SyncVideoStreamer::InitSyncVideo() {
 void SyncVideoStreamer::DestroySyncVideo() {
   sync_video_inited_ = false;
 
-  if (sem_close(sync_video_shared_memory_.lock_frame_request)) {
+  if (sem_close(sync_video_context_.lock_frame_request)) {
     PrintErrorMsgWithErrno("Semaphore closing error");
   }
 
-  if (munmap(sync_video_shared_memory_.shmbuf, sync_video_shared_memory_.sync_video_stream->size)) {
+  if (munmap(sync_video_context_.shmbuf, sync_video_context_.sync_video_stream->size)) {
     PrintErrorMsgWithErrno("Buffer's shared memory closing error");
   }
-  if (close(sync_video_shared_memory_.shmbuf_fd)) {
+  if (close(sync_video_context_.shmbuf_fd)) {
     PrintErrorMsgWithErrno("Buffer's descriptor closing error");
   }
 
-  if (munmap(sync_video_shared_memory_.sync_video_stream, sizeof(sync_video::SyncStream))) {
+  if (munmap(sync_video_context_.sync_video_stream, sizeof(sync_video::SyncStream))) {
     PrintErrorMsgWithErrno("Sync stream's shared memory closing error");
   }
-  if (close(sync_video_shared_memory_.shm_fd)) {
+  if (close(sync_video_context_.shm_fd)) {
     PrintErrorMsgWithErrno("Sync stream descriptor closing error");
   }
 }
@@ -158,9 +158,9 @@ bool SyncVideoStreamer::GetFrameFromSyncVideo(FrameBufferPtr* frame) {
     }
   }
 
-  sync_video::SyncStream* sync_video_stream = sync_video_shared_memory_.sync_video_stream;
+  sync_video::SyncStream* sync_video_stream = sync_video_context_.sync_video_stream;
   sync_video_stream->vhat_frame_req.store(1);
-  sem_wait(sync_video_shared_memory_.lock_frame_request);
+  sem_wait(sync_video_context_.lock_frame_request);
   int idx = sync_video_stream->vhat_own;
 
   if (idx < 0 || idx >= sync_video_stream->buf_number) {
@@ -168,6 +168,6 @@ bool SyncVideoStreamer::GetFrameFromSyncVideo(FrameBufferPtr* frame) {
     return false;
   }
 
-  *frame = sync_video_shared_memory_.shmbuf + sync_video_stream->buf[idx].alig_size * idx;
+  *frame = sync_video_context_.shmbuf + sync_video_stream->buf[idx].alig_size * idx;
   return true;
 }
