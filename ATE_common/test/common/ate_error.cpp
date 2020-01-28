@@ -38,4 +38,10 @@ TEST(AteErrorTest, MakeErrorrCode_WrongErrorType_Failure) {
   EXPECT_STREQ(code.message().c_str(), "Unrecognized Error");
 }
 
+TEST(AteErrorTest, MakeErrorCode_OutOfBoundaries_Success) {
+  auto code = common::make_error_code(common::AteError::kOutOfBoundaries);
+  EXPECT_EQ(code, common::AteError::kOutOfBoundaries) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "Out of boundaries");
+}
+
 }  // namespace

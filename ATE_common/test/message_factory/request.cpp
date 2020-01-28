@@ -541,4 +541,24 @@ TEST(ExtractLongPressRequestParamsTest, ExtractLongPressRequestParams_WrongParam
   EXPECT_FALSE(error.empty());
 }
 
+TEST(ExtractGetTextRequestParams, ExtractGetTextRequestParams_ValidParam_Success) {
+  Json::Value params;
+
+  params[common::jmsg::kAbscissa] = 10;
+  params[common::jmsg::kOrdinate] = 20;
+
+  params[common::jmsg::kAbscissaDrag] = 70;
+  params[common::jmsg::kOrdinateDrag] = 80;
+
+  common::Point top_left{}, bottom_right{};
+  Json::Value error;
+
+  common::jmsg::ExtractGetTextRequestParams(params, top_left, bottom_right, error);
+  EXPECT_TRUE(error.empty());
+  EXPECT_EQ(top_left.x, 10);
+  EXPECT_EQ(top_left.y, 20);
+  EXPECT_EQ(bottom_right.x, 70);
+  EXPECT_EQ(bottom_right.y, 80);
+}
+
 }  // namespace

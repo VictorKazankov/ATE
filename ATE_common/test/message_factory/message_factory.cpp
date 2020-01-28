@@ -4,6 +4,7 @@
 
 #include "json/reader.h"
 #include "json/value.h"
+#include "message_factory/json_defines.h"
 
 namespace {
 
@@ -128,14 +129,32 @@ TEST(MessageFactoryClientTest, CreateLongPressRequest_ValidJsonMessage_Success) 
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
-TEST(MessageFactoryServerTest, CreateLongPressResultObject_ValidResponse_Success) {
-  auto response = common::jmsg::MessageFactory::Server::CreateLongPressResultObject();
-  EXPECT_EQ(Json::Value{true}, response);
+TEST(MessageFactoryClientTest, CreateGetTextRequest_ValidJsonMessage_Success) {
+  auto request_message =
+      common::jmsg::MessageFactory::Client::CreateGetTextRequest(common::Point{10, 20}, common::Point{70, 80}, 1);
+  auto expected_message =
+      R"({"id":1,"jsonrpc":"2.0","method":"GetText","params":{"x":10,"y":20,"dx":70,"dy":80}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
 TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedResponse_ValidResponse_Success) {
   auto response = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse();
   EXPECT_EQ(Json::Value{true}, response);
+}
+
+TEST(MessageFactoryServerTest, CreateLongPressResultObject_ValidResponse_Success) {
+  auto response = common::jmsg::MessageFactory::Server::CreateLongPressResultObject();
+  EXPECT_EQ(Json::Value{true}, response);
+}
+
+TEST(MessageFactoryServerTest, CreateGetTextResultObject_ValidResponse_Success) {
+  const std::string kControlText = "test_text";
+  auto response = common::jmsg::MessageFactory::Server::CreateGetTextResultObject(kControlText);
+
+  Json::Value result{Json::objectValue};
+  result[common::jmsg::kText] = kControlText;
+  EXPECT_EQ(result, response);
 }
 
 TEST(MessageFactoryServerTest, CreateTapObjectResultObject_ValidResponse_Success) {
