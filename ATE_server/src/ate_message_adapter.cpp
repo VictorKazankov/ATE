@@ -310,7 +310,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetText(const Json::Value&
     return std::make_pair(std::move(result_error), false);
   }
 
-  if (top_left.x > bottom_right.x || top_left.y > top_left.y) {
+  if (top_left.x > bottom_right.x || top_left.y > bottom_right.y) {
     result_error =
         common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
                                         "Invalid GetText coordinates: mixed up topleft and bottom-right points");
