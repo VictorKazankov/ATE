@@ -262,4 +262,45 @@ TEST_F(MatcherTest, GetText_ValidCoordinates_RecognizedText) {
   EXPECT_EQ(kResult, recognized);
 }
 
+TEST_F(MatcherTest, GetScreenshot_WrongExtension_WrongExtensionError) {
+  constexpr auto wrong_extension_filename = "filename.wrong";
+  constexpr auto path = "path";
+
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(*streamer_, Frame(_)).WillOnce(Invoke(&MockStreamer::FrameImpl));
+
+  auto expected_error_code = common::make_error_code(common::AteError::kWrongExtension);
+  auto error_code = matcher_->GetScreenshot(wrong_extension_filename, path);
+
+  EXPECT_EQ(error_code, expected_error_code)
+      << "Expected error: " << expected_error_code.message() << " Returned error: " << error_code.message();
+}
+
+TEST_F(MatcherTest, GetScreenshot_EmptyFileNameErrorCode_Success) {
+  constexpr auto empty_filename = "";
+  constexpr auto empty_path = "";
+
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(*streamer_, Frame(_)).WillOnce(Invoke(&MockStreamer::FrameImpl));
+
+  auto expected_error_code = common::make_error_code(common::AteError::kEmptyFileName);
+  auto error_code = matcher_->GetScreenshot(empty_filename, empty_path);
+
+  EXPECT_EQ(error_code, expected_error_code)
+      << "Expected error: " << expected_error_code.message() << " Returned error: " << error_code.message();
+}
+
+TEST_F(MatcherTest, GetScreenshot_VideoTemporarilyUnavailableErrorCode_Success) {
+  constexpr auto filename = "file.png";
+  constexpr auto path = "screenshot";
+
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(false));
+
+  auto expected_error_code = common::make_error_code(common::AteError::kVideoTemporarilyUnavailable);
+  auto error_code = matcher_->GetScreenshot(filename, path);
+
+  EXPECT_EQ(error_code, expected_error_code)
+      << "Expected error: " << expected_error_code.message() << " Returned error: " << error_code.message();
+}
+
 }  // namespace
