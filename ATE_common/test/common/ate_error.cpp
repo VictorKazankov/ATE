@@ -29,6 +29,36 @@ TEST(AteErrorTest, MakeErrorCode_InvalidDurationLongPress_Success) {
   EXPECT_STREQ(code.message().c_str(), "Too long press action duration");
 }
 
+TEST(AteErrorTest, MakeErrorCode_EmptyFileName_Success) {
+  auto code = common::make_error_code(common::AteError::kEmptyFileName);
+  EXPECT_EQ(code, common::AteError::kEmptyFileName) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "The screenshot's filename is empty");
+}
+
+TEST(AteErrorTest, MakeErrorCode_PermissionDenied_Success) {
+  auto code = common::make_error_code(common::AteError::kPermissionDenied);
+  EXPECT_EQ(code, common::AteError::kPermissionDenied) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "Permission denied");
+}
+
+TEST(AteErrorTest, MakeErrorCode_SystemError_Success) {
+  auto code = common::make_error_code(common::AteError::kSystemError);
+  EXPECT_EQ(code, common::AteError::kSystemError) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "System error");
+}
+
+TEST(AteErrorTest, MakeErrorCode_WrongExtension_Success) {
+  auto code = common::make_error_code(common::AteError::kWrongExtension);
+  EXPECT_EQ(code, common::AteError::kWrongExtension) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "Wrong extension");
+}
+
+TEST(AteErrorTest, MakeErrorCode_ImageAssemblingFailed_Success) {
+  auto code = common::make_error_code(common::AteError::kImageAssemblingFailed);
+  EXPECT_EQ(code, common::AteError::kImageAssemblingFailed) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "Image assembling failed");
+}
+
 TEST(AteErrorTest, MakeErrorrCode_WrongErrorType_Failure) {
   auto code = common::make_error_code(static_cast<common::AteError>(-1));
   EXPECT_NE(code, common::AteError::kPatternInvalid) << "Error code: " << code.message() << "\n";

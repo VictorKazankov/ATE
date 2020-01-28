@@ -414,6 +414,20 @@ TEST(CheckWaitForObjectResponseTest, CheckWaitForObjectResponse_ValidResponse_Su
   EXPECT_TRUE(common::jmsg::CheckWaitForObjectResponse(value));
 }
 
+TEST(CheckGetScreenshotResponseTest, CheckGetScreenshotResponse_ValidResponse_Success) {
+  auto correct_response = R"({"id":1,"jsonrpc":"2.0","result":true})";
+  Json::Value value;
+  common::jmsg::ParseJson(correct_response, value);
+  EXPECT_TRUE(common::jmsg::CheckGetScreenshotResponse(value));
+}
+
+TEST(CheckGetScreenshotResponseTest, CheckGetScreenshotResponse_InvalidResponse_Failure) {
+  auto incorrect_response = R"({"id":1,"jsonrpc":"2.0","result":"qwe"})";
+  Json::Value value;
+  common::jmsg::ParseJson(incorrect_response, value);
+  EXPECT_FALSE(common::jmsg::CheckGetScreenshotResponse(value));
+}
+
 TEST(CheckWaitForObjectResponseTest, CheckWaitForObjectResponse_WrongParamsType_Failure) {
   constexpr auto wrong_param_type =
       R"({"id":1,"jsonrpc":"2.0","result":{"height":"wrong","width":"wrong","x":"wrong","y":"wrong"}})";
@@ -559,6 +573,33 @@ TEST(ExtractGetTextRequestParams, ExtractGetTextRequestParams_ValidParam_Success
   EXPECT_EQ(top_left.y, 20);
   EXPECT_EQ(bottom_right.x, 70);
   EXPECT_EQ(bottom_right.y, 80);
+}
+
+TEST(ExtractGetScreenshotRequestParamsTest, ExtractGetScreenshotRequestParams_ValidParam_Success) {
+  Json::Value params;
+  params["filename"] = "file.png";
+  params["location"] = "screenshots/location";
+
+  std::string screenshot_name;
+  std::string screenshot_location;
+  Json::Value error;
+
+  common::jmsg::ExtractGetScreenshotParams(params, screenshot_name, screenshot_location, error);
+
+  EXPECT_STREQ(screenshot_name.c_str(), "file.png");
+  EXPECT_STREQ(screenshot_location.c_str(), "screenshots/location");
+}
+
+TEST(ExtractGetScreenshotParamsTest, ExtractGetScreenshotRequestParams_WrongParamsType_ExpectNoThrowSuccess) {
+  Json::Value params;
+  params["filename"] = true;
+  params["location"] = false;
+
+  std::string screenshot_name;
+  std::string screenshot_location;
+  Json::Value error;
+
+  EXPECT_NO_THROW(common::jmsg::ExtractGetScreenshotParams(params, screenshot_name, screenshot_location, error));
 }
 
 }  // namespace

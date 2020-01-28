@@ -138,6 +138,15 @@ TEST(MessageFactoryClientTest, CreateGetTextRequest_ValidJsonMessage_Success) {
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
+TEST(MessageFactoryClientTest, CreateGetScreenshotRequest_ValidJsonMessage_Success) {
+  auto request_message =
+      common::jmsg::MessageFactory::Client::CreateGetScreenshotRequest("filename.png", "location", 1);
+  auto expected_message =
+      R"({"id":1,"jsonrpc":"2.0","method":"GetScreenshot","params":{"filename":"filename.png","location":"location"}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
 TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedResponse_ValidResponse_Success) {
   auto response = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse();
   EXPECT_EQ(Json::Value{true}, response);
@@ -196,6 +205,11 @@ TEST(MessageFactoryServerTest, CreateWaitForObjectResultObject_ValidResponse_Suc
   result["height"] = 4;
 
   EXPECT_EQ(response, result);
+}
+
+TEST(MessageFactoryServerTest, CreateGetScreenResultObject_ValidResponse_Success) {
+  auto response = common::jmsg::MessageFactory::Server::CreateGetScreenshotObject();
+  EXPECT_EQ(Json::Value{true}, response);
 }
 
 TEST(MessageFactoryServerTest, CreateResponse_ValidServerResponse_Success) {

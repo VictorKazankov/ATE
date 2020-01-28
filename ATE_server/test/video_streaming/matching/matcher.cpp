@@ -276,7 +276,7 @@ TEST_F(MatcherTest, GetScreenshot_WrongExtension_WrongExtensionError) {
       << "Expected error: " << expected_error_code.message() << " Returned error: " << error_code.message();
 }
 
-TEST_F(MatcherTest, GetScreenshot_EmptyFileNameErrorCode_Success) {
+TEST_F(MatcherTest, GetScreenshot_EmptyFileNameErrorCode_EmptyFileNameError) {
   constexpr auto empty_filename = "";
   constexpr auto empty_path = "";
 
@@ -290,7 +290,7 @@ TEST_F(MatcherTest, GetScreenshot_EmptyFileNameErrorCode_Success) {
       << "Expected error: " << expected_error_code.message() << " Returned error: " << error_code.message();
 }
 
-TEST_F(MatcherTest, GetScreenshot_VideoTemporarilyUnavailableErrorCode_Success) {
+TEST_F(MatcherTest, GetScreenshot_VideoTemporarilyUnavailableErrorCode_VideoTemporarilyUnavailableError) {
   constexpr auto filename = "file.png";
   constexpr auto path = "screenshot";
 
