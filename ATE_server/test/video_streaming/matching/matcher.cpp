@@ -217,4 +217,49 @@ TEST_F(MatcherTest, Matching_VideoStatusOff_VideoUnavailable) {
   EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
 }
 
+TEST_F(MatcherTest, GetText_VideoStatusOff_VideoUnvailable) {
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(false));
+  EXPECT_CALL(*streamer_, Frame(_)).Times(0);
+
+  const std::pair<std::string, std::error_code> kResult{
+      {}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
+
+  EXPECT_EQ(kResult, matcher_->GetText(cv::Point{10, 20}, cv::Point{70, 80}));
+}
+
+TEST_F(MatcherTest, GetText_GrabNewFrameFail_VideoUnvailable) {
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(*streamer_, Frame(_)).WillRepeatedly(Return(false));
+
+  const std::pair<std::string, std::error_code> kResult{
+      {}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
+
+  EXPECT_EQ(kResult, matcher_->GetText(cv::Point{10, 20}, cv::Point{70, 80}));
+}
+
+TEST_F(MatcherTest, GetText_IncorrectCoordinates_OutOfBoundaries) {
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+
+  const std::pair<std::string, std::error_code> kResult{{},
+                                                        common::make_error_code(common::AteError::kOutOfBoundaries)};
+
+  EXPECT_EQ(kResult, matcher_->GetText(cv::Point{100000, 2000000}, cv::Point{9999999, 99999999}));
+}
+
+TEST_F(MatcherTest, GetText_ValidCoordinates_RecognizedText) {
+  EXPECT_CALL(*video_status_, GetVideoStatus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke([](cv::Mat& frame) {
+    frame = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png");
+    return true;
+  }));
+
+  EXPECT_CALL(*text_detector_, ExtractText(_)).Times(1).WillRepeatedly(Return("Recognized text"));
+
+  const std::pair<std::string, std::error_code> kResult{"Recognized text", {}};
+  const auto recognized = matcher_->GetText(cv::Point{0, 0}, cv::Point{10, 20});
+
+  EXPECT_EQ(kResult, recognized);
+}
+
 }  // namespace
