@@ -11,7 +11,6 @@ set(SOURCE_LIST
   json_rpc_parser.cpp
   squish/application_context.cpp
   squish/squish_API.cpp
-  squish/squish_types.cpp
 )
 
 add_library(vhat_client

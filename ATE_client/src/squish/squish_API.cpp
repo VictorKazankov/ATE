@@ -174,6 +174,17 @@ void SquishApi::PressRelease(const std::shared_ptr<interaction::ATEInteraction>&
   PressRelease(ate_interaction, object.Center());
 }
 
+bool SquishApi::Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                       const std::string& object_name) {
+  try {
+    const int kOneSecondTimeout = 1;
+    WaitForObject(ate_interaction, object_name, kOneSecondTimeout);
+    return true;
+  } catch (const std::runtime_error&) {
+    return false;
+  }
+}
+
 void SquishApi::ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
                                  const std::string& sync_version, const std::string& sync_build_version) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,

@@ -111,6 +111,8 @@ void AteApi::PressRelease(const common::Rect& screen_rectangle) {
 
 void AteApi::PressRelease(const squish::Object& object) { SquishApi::PressRelease(ate_interaction_, object); }
 
+bool AteApi::Exists(const std::string& object_name) { return SquishApi::Exists(ate_interaction_, object_name); }
+
 void AteApi::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
   SquishApi::ChangeSyncIconDB(ate_interaction_, sync_version, sync_build_version);
 }

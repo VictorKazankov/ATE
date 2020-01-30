@@ -166,7 +166,16 @@ class AteApi {
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
    **/
   static void PressRelease(const squish::Object& object);
-  
+
+  /**
+   * @brief This function verifies the object with the symbolic
+   * or real (multi-property) name objectName exists on the screen.
+   * @param object_name - name of the object for verifying existence on the screen
+   * @return returns a true value if the object with the symbolic
+   * or real (multi-property) name objectName exists otherwise false
+   **/
+  static bool Exists(const std::string& object_name);
+
   /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param sync_version Sync version

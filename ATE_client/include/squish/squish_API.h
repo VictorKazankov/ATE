@@ -199,6 +199,17 @@ class SquishApi {
                            const squish::Object& object);
 
   /**
+   * @brief This function verifies the object with the symbolic
+   * or real (multi-property) name objectName exists on the screen.
+   * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param object_name - name of the object for verifying existence on the screen
+   * @return returns a true value if the object with the symbolic
+   * or real (multi-property) name objectName exists otherwise false
+   **/
+  static bool Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                     const std::string& object_name);
+
+  /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param ate_interaction structure provides the ability to communicate with ATE
    * @param sync_version Sync version
