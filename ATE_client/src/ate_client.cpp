@@ -1,8 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <boost/system/system_error.hpp>
 
+#include "ate_API.h"
 #include "error_defines.h"
-#include "squish/squish_API.h"
 
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
@@ -77,34 +77,34 @@ PYBIND11_MODULE(vhat_client, m) {
       .value("MIDDLE_BUTTON", common::squish::MouseButton::MIDDLE_BUTTON)
       .value("RIGHT_BUTTON", common::squish::MouseButton::RIGHT_BUTTON);
 
-  m.def("attachToApplication", &squish::API::AttachToApplication,
+  m.def("attachToApplication", &API::AteApi::AttachToApplication,
         "This function causes to attach to the application called aut_name and returns a handle to its application "
         "context. "
         "The function may throw an exception 'runtime_error'.",
         py::arg("aut_name"), py::return_value_policy::reference);
 
-  m.def("waitForObject", py::overload_cast<const std::string&>(&squish::API::WaitForObject),
+  m.def("waitForObject", py::overload_cast<const std::string&>(&API::AteApi::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
         "milliseconds. "
         "The function may throw an exception 'runtime_error'.",
         py::arg("object_or_name"));
 
-  m.def("waitForObject", py::overload_cast<const squish::Object&>(&squish::API::WaitForObject),
+  m.def("waitForObject", py::overload_cast<const squish::Object&>(&API::AteApi::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
         "milliseconds. "
         "The function may throw an exception 'runtime_error'.",
         py::arg("object_or_name"));
 
-  m.def("waitForObject", py::overload_cast<const std::string&, int>(&squish::API::WaitForObject),
+  m.def("waitForObject", py::overload_cast<const std::string&, int>(&API::AteApi::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
         "The function may throw an exception 'runtime_error'.",
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
-  m.def("waitForObject", py::overload_cast<const squish::Object&, int>(&squish::API::WaitForObject),
+  m.def("waitForObject", py::overload_cast<const squish::Object&, int>(&API::AteApi::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
@@ -113,7 +113,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("tapObject",
         py::overload_cast<const common::Point&, common::squish::ModifierState, common::squish::MouseButton>(
-            &squish::API::TapObject),
+            &API::AteApi::TapObject),
         "tapObject performs a touch tap at the position specified by screenPoint. Position are in screen global "
         "coordinates. "
         "The function may throw an exception 'runtime_error'.",
@@ -121,7 +121,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("tapObject",
         py::overload_cast<const common::Rect&, common::squish::ModifierState, common::squish::MouseButton>(
-            &squish::API::TapObject),
+            &API::AteApi::TapObject),
         "tapObject performs a touch tap at the center of the rectangle specified by screenRectangle. Position are in "
         "screen global coordinates. "
         "The function may throw an exception 'runtime_error'.",
@@ -129,7 +129,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("tapObject",
         py::overload_cast<const squish::Object&, common::squish::ModifierState, common::squish::MouseButton>(
-            &squish::API::TapObject),
+            &API::AteApi::TapObject),
         "tapObject performs a touch tap at the center of the rectangle specified by screenRectangle. Position are in "
         "screen global coordinates. "
         "The function may throw an exception 'runtime_error'.",
@@ -137,7 +137,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("touchAndDrag",
         py::overload_cast<const squish::Object&, int, int, int, int, common::squish::ModifierState>(
-            &squish::API::TouchAndDrag),
+            &API::AteApi::TouchAndDrag),
         "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
         "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically. "
         "The function may throw an exception 'runtime_error'.",
@@ -146,53 +146,53 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("touchAndDrag",
         py::overload_cast<const std::string&, int, int, int, int, common::squish::ModifierState>(
-            &squish::API::TouchAndDrag),
+            &API::AteApi::TouchAndDrag),
         "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
         "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically. "
         "The function may throw an exception 'runtime_error'.",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
         py::arg("modifier") = common::squish::ModifierState::NONE);
 
-  m.def("pressAndHold", py::overload_cast<const common::Point&>(&squish::API::PressAndHold),
+  m.def("pressAndHold", py::overload_cast<const common::Point&>(&API::AteApi::PressAndHold),
         "pressAndHold performs a press and hold operation specified by a screen_point. Position is in screen global "
         "coordinates. Press and hold operation doesn't have a timeout for execution and can be interrupted by "
         "pressRelease() API only. Any subsequent call of any other touch based operation prior calling pressRelease() "
         "will cause undefined behaviour",
         py::arg("screen_point"));
 
-  m.def("pressAndHold", py::overload_cast<const common::Rect&>(&squish::API::PressAndHold),
+  m.def("pressAndHold", py::overload_cast<const common::Rect&>(&API::AteApi::PressAndHold),
         "pressAndHold performs a press and hold operation specified by the center of a screen_rectangle. Position is "
         "in screen global coordinates. Press and hold operation doesn't have a timeout for execution and can be "
         "interrupted by pressRelease() API only. Any subsequent call of any other touch based operation prior calling "
         "pressRelease() will cause undefined behaviour",
         py::arg("screen_rectangle"));
 
-  m.def("pressAndHold", py::overload_cast<const squish::Object&>(&squish::API::PressAndHold),
+  m.def("pressAndHold", py::overload_cast<const squish::Object&>(&API::AteApi::PressAndHold),
         "pressAndHold performs a press and hold operation specified by the center of the object obtained by "
         "waitForObject(). Press and hold operation doesn't have a timeout for execution and can be interrupted by "
         "pressRelease() API only. Any subsequent call of any other touch based operation prior calling pressRelease() "
         "will cause undefined behaviour",
         py::arg("object"));
 
-  m.def("pressRelease", py::overload_cast<const common::Point&>(&squish::API::PressRelease),
+  m.def("pressRelease", py::overload_cast<const common::Point&>(&API::AteApi::PressRelease),
         "This function performs a release operation to interrupt running pressAndHold() API at the position specified "
         "by screen_point in screen global coordinates. Passing argument other than in preceding pressAndHold() call "
         "will cause undefined behaviour.",
         py::arg("screen_point"));
 
-  m.def("pressRelease", py::overload_cast<const common::Rect&>(&squish::API::PressRelease),
+  m.def("pressRelease", py::overload_cast<const common::Rect&>(&API::AteApi::PressRelease),
         "This function performs a release operation to interrupt running pressAndHold() API at the position specified "
         "by the center of the screen_rectangle in screen global coordinates. Passing argument other than in preceding "
         "pressAndHold() call will cause undefined behaviour.",
         py::arg("screen_rectangle"));
 
-  m.def("pressRelease", py::overload_cast<const squish::Object&>(&squish::API::PressRelease),
+  m.def("pressRelease", py::overload_cast<const squish::Object&>(&API::AteApi::PressRelease),
         "This function performs a release operation to interrupt running pressAndHold() API at the position specified "
         "by object provided as a result of waitFordObject() API. Passing argument other than in preceding "
         "pressAndHold() call will cause undefined behaviour.",
         py::arg("object"));
 
-  m.def("changeSyncIconDB", &squish::API::ChangeSyncIconDB,
+  m.def("changeSyncIconDB", &API::AteApi::ChangeSyncIconDB,
         "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a "
         "specific collection. "
         "The function may throw an exception 'runtime_error'.",
@@ -202,18 +202,18 @@ PYBIND11_MODULE(vhat_client, m) {
       .value("DAY", common::squish::CollectionMode::DAY)
       .value("NIGHT", common::squish::CollectionMode::NIGHT);
 
-  m.def("changeSyncMode", &squish::API::ChangeSyncMode,
+  m.def("changeSyncMode", &API::AteApi::ChangeSyncMode,
         "This function changes active collection mode in DBManager. "
         "The function may throw an exception 'runtime_error'.",
         py::arg("collection_mode"));
 
   m.def(
-      "longPress", py::overload_cast<const squish::Object&, int>(&squish::API::LongPress),
+      "longPress", py::overload_cast<const squish::Object&, int>(&API::AteApi::LongPress),
       "This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout not "
       "specified. Throws 'InvalidDurationLongPress' in case if timeout_msec longer than 60 seconds.",
       py::arg("object_or_name"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
 
-  m.def("longPress", py::overload_cast<const squish::Object&, int, int, int>(&squish::API::LongPress),
+  m.def("longPress", py::overload_cast<const squish::Object&, int, int, int>(&API::AteApi::LongPress),
         "This function is taps by pressing with specified timeout in milliseconds on the specified object. "
         "The x, y coordinates and timeout_msec are optional. If they are"
         "not specified the tap is made in the center of the widget. On the other hand, if the additional parameters are"
