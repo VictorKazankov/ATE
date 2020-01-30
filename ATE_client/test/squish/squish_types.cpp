@@ -38,9 +38,4 @@ TEST(ObjectTest, ObjectConstructor_XYWH_Success) {
   EXPECT_TRUE(obj.name.empty());
   EXPECT_TRUE(obj.type.empty());
 }
-
-TEST(ObjectTest, Exists_ConnectionNotEstablished_Failure) {
-  Object obj;
-  EXPECT_FALSE(obj.Exists("some_unknown_object"));
-}
 }  // namespace

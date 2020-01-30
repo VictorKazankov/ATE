@@ -13,7 +13,7 @@ using ::testing::ReturnRef;
 namespace {
 
 using namespace squish;
-
+/*
 class APITestPredefinedEnvVar : public ::testing::Test {
  public:
   void SetUp() override;
@@ -84,4 +84,5 @@ TEST(APITest, ChangeSyncMode_NotConnected_Exception) {
 
 TEST(APITest, GetText_NotConnected_Exception) { EXPECT_THROW(API::GetText(0, 1, 2, 3), std::runtime_error); }
 
+*/
 }  // namespace
