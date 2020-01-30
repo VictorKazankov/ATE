@@ -22,7 +22,7 @@ struct ApplicationContext {
    * @brief Function establishes connection to ATE server
    * @param ate_interaction for communication
    **/
-  void Attach(std::unique_ptr<interaction::Interaction>&& ate_interaction);
+  void Attach(const std::shared_ptr<interaction::Interaction>& ate_interaction);
 
   /**
    * @brief The function sends commands to the target
@@ -64,7 +64,7 @@ struct ApplicationContext {
   std::string port() const;
 
  private:
-  std::unique_ptr<interaction::Interaction> ate_interaction;
+  std::shared_ptr<interaction::Interaction> ate_interaction;
 };
 
 }  // namespace squish

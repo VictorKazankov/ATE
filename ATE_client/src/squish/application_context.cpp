@@ -4,8 +4,8 @@
 
 using namespace squish;
 
-void ApplicationContext::Attach(std::unique_ptr<interaction::Interaction>&& ate_interaction) {
-  this->ate_interaction = std::move(ate_interaction);
+void ApplicationContext::Attach(const std::shared_ptr<interaction::Interaction>& ate_interaction) {
+  this->ate_interaction = ate_interaction;
 }
 
 bool ApplicationContext::IsRunning() const {
