@@ -5,7 +5,7 @@
 #include "common.h"
 #include "logger/logger.h"
 
-//#include "squish/squish_API.h"
+#include "squish/squish_API.h"
 
 using namespace API;
 
@@ -29,7 +29,8 @@ AteApi::AteApi() {
   logger::info("Config file: {}", config_file);
   common::SetUp(config_file);
 
-  // kDefaultWaitForObjectTimeoutInMs = common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0);
+  SquishApi::SetDefaultWaitForObjectTimeout(
+      common::Config().GetInt(kTestSettingSection, kWaitForObjectTimeoutOption, 0));
 
   auto host = common::Config().GetString(kBoardSection, kAddressOption, "");
   auto port = common::Config().GetString(kBoardSection, kPortOption, "");
@@ -37,93 +38,83 @@ AteApi::AteApi() {
   ate_interaction_ = std::make_shared<interaction::ATEInteraction>(GetMainIoContext(), host, port);
 }
 
-squish::ApplicationContext& AteApi::AttachToApplication(const std::string& /*aut_name*/) {
-  // TODO
-  squish::ApplicationContext* a = new squish::ApplicationContext();
-  return *a;
+squish::ApplicationContext& AteApi::AttachToApplication(const std::string& aut_name) {
+  return SquishApi::AttachToApplication(ate_interaction_, aut_name);
 }
 
-squish::Object AteApi::WaitForObject(const std::string& /*object_or_name*/) {
-  // TODO
-  return squish::Object();
+squish::Object AteApi::WaitForObject(const std::string& object_or_name) {
+  return SquishApi::WaitForObject(ate_interaction_, object_or_name);
 }
 
-squish::Object AteApi::WaitForObject(const squish::Object& /*object_or_name*/) {
-  // TODO
-  return squish::Object();
+squish::Object AteApi::WaitForObject(const squish::Object& object_or_name) {
+  return SquishApi::WaitForObject(ate_interaction_, object_or_name);
 }
 
-squish::Object AteApi::WaitForObject(const std::string& /*object_or_name*/, int /*timeout_msec*/) {
-  // TODO
-  return squish::Object();
+squish::Object AteApi::WaitForObject(const std::string& object_or_name, int timeout_msec) {
+  return SquishApi::WaitForObject(ate_interaction_, object_or_name, timeout_msec);
 }
 
-squish::Object AteApi::WaitForObject(const squish::Object& /*object_or_name*/, int /*timeout_msec*/) {
-  // TODO
-  return squish::Object();
+squish::Object AteApi::WaitForObject(const squish::Object& object_or_name, int timeout_msec) {
+  return SquishApi::WaitForObject(ate_interaction_, object_or_name, timeout_msec);
 }
 
-void AteApi::TapObject(const common::Point& /*screen_point*/, common::squish::ModifierState /*modifier_state*/,
-                       common::squish::MouseButton /*button*/) {
-  // TODO
+void AteApi::TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
+                       common::squish::MouseButton button) {
+  SquishApi::TapObject(ate_interaction_, screen_point, modifier_state, button);
 }
 
-void AteApi::TapObject(const common::Rect& /*screen_rectangle*/, common::squish::ModifierState /*modifier_state*/,
-                       common::squish::MouseButton /*button*/) {
-  // TODO
+void AteApi::TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
+                       common::squish::MouseButton button) {
+  SquishApi::TapObject(ate_interaction_, screen_rectangle, modifier_state, button);
 }
 
-void AteApi::TapObject(const squish::Object& /*screen_rectangle*/, common::squish::ModifierState /*modifier_state*/,
-                       common::squish::MouseButton /*button*/) {
-  // TODO
+void AteApi::TapObject(const squish::Object& screen_rectangle, common::squish::ModifierState modifier_state,
+                       common::squish::MouseButton button) {
+  SquishApi::TapObject(ate_interaction_, screen_rectangle, modifier_state, button);
 }
 
-void AteApi::LongPress(const squish::Object& /*screen_rectangle*/, int /*timeout_msec*/) {
-  // TODO
+void AteApi::LongPress(const squish::Object& screen_rectangle, int timeout_msec) {
+  SquishApi::LongPress(ate_interaction_, screen_rectangle, timeout_msec);
 }
 
-void AteApi::LongPress(const squish::Object& /*screen_rectangle*/, int /*x*/, int /*y*/, int /*timeout_msec*/) {
-  // TODO
+void AteApi::LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec) {
+  SquishApi::LongPress(ate_interaction_, screen_rectangle, x, y, timeout_msec);
 }
 
-void AteApi::TouchAndDrag(const squish::Object& /*object_or_name*/, int /*x*/, int /*y*/, int /*dx*/, int /*dy*/,
-                          common::squish::ModifierState /*modifier_state*/) {
-  // TODO
+void AteApi::TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
+                          common::squish::ModifierState modifier_state) {
+  SquishApi::TouchAndDrag(ate_interaction_, object_or_name, x, y, dx, dy, modifier_state);
 }
 
-void AteApi::TouchAndDrag(const std::string& /*object_or_name*/, int /*x*/, int /*y*/, int /*dx*/, int /*dy*/,
-                          common::squish::ModifierState /*modifier_state*/) {
-  // TODO
+void AteApi::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
+                          common::squish::ModifierState modifier_state) {
+  SquishApi::TouchAndDrag(ate_interaction_, object_or_name, x, y, dx, dy, modifier_state);
 }
 
-void AteApi::PressAndHold(const common::Point& /*screen_point*/) {
-  // TODO
+void AteApi::PressAndHold(const common::Point& screen_point) {
+  SquishApi::PressAndHold(ate_interaction_, screen_point);
 }
 
-void AteApi::PressAndHold(const common::Rect& /*screen_rectangle*/) {
-  // TODO
+void AteApi::PressAndHold(const common::Rect& screen_rectangle) {
+  SquishApi::PressAndHold(ate_interaction_, screen_rectangle);
 }
 
-void AteApi::PressAndHold(const squish::Object& /*object*/) {
-  // TODO
+void AteApi::PressAndHold(const squish::Object& object) { SquishApi::PressAndHold(ate_interaction_, object); }
+
+void AteApi::PressRelease(const common::Point& screen_point) {
+  SquishApi::PressRelease(ate_interaction_, screen_point);
 }
 
-void AteApi::PressRelease(const common::Point& /*screen_point*/) {
-  // TODO
+void AteApi::PressRelease(const common::Rect& screen_rectangle) {
+  SquishApi::PressRelease(ate_interaction_, screen_rectangle);
 }
 
-void AteApi::PressRelease(const common::Rect& /*screen_rectangle*/) {
-  // TODO
+void AteApi::PressRelease(const squish::Object& object) { SquishApi::PressRelease(ate_interaction_, object); }
+
+void AteApi::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
+  SquishApi::ChangeSyncIconDB(ate_interaction_, sync_version, sync_build_version);
 }
 
-void AteApi::PressRelease(const squish::Object& /*object*/) {
-  // TODO
-}
-
-void AteApi::ChangeSyncIconDB(const std::string& /*sync_version*/, const std::string& /*sync_build_version*/) {
-  // TODO
-}
-
-void AteApi::ChangeSyncMode(common::squish::CollectionMode /*collection_mode*/) {
-  // TODO
+void AteApi::ChangeSyncMode(common::squish::CollectionMode collection_mode) {
+  SquishApi::ChangeSyncMode(ate_interaction_, collection_mode);
 }

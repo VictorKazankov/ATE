@@ -3,9 +3,9 @@
 
 using namespace squish;
 
-bool Object::Exists(const std::string& object_name) const {
+bool Object::Exists(const std::string& /*object_name*/) const {
   try {
-    API::WaitForObject(object_name);
+    //API::WaitForObject(object_name); //TODO
     return true;
   } catch (const std::runtime_error&) {
     return false;

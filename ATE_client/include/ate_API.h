@@ -13,6 +13,10 @@
 
 namespace API {
 
+/**
+ * @brief AteApi class represents APIs which can be processed by ATE.
+ * It incapsulates into itself squish's and ATE's APIs
+ **/
 class AteApi {
  public:
   AteApi();
@@ -162,7 +166,7 @@ class AteApi {
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
    **/
   static void PressRelease(const squish::Object& object);
-
+  
   /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param sync_version Sync version

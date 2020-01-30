@@ -12,9 +12,13 @@
 #include "squish/application_context.h"
 #include "squish/squish_types.h"
 
-namespace squish {
+namespace API {
 
-struct API {
+/**
+ * @brief SquishApi class represents squish-like APIs which can be processed by ATE.
+ **/
+class SquishApi {
+ public:
   /**
    * @brief This function causes to attach to the application called aut_name.
    * @param ate_interaction structure provides the ability to communicate with ATE
@@ -22,8 +26,8 @@ struct API {
    *attachable AUT
    * @return A handle to its application context
    **/
-  static ApplicationContext& AttachToApplication(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                                 const std::string& aut_name = "");
+  static squish::ApplicationContext& AttachToApplication(
+      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const std::string& aut_name = "");
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -34,10 +38,10 @@ struct API {
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
-  static Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                              const std::string& object_or_name);
-  static Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                              const Object& object_or_name);
+  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                                      const std::string& object_or_name);
+  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                                      const squish::Object& object_or_name);
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -49,10 +53,10 @@ struct API {
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
-  static Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                              const std::string& object_or_name, int timeout_msec);
-  static Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                              const Object& object_or_name, int timeout_msec);
+  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                                      const std::string& object_or_name, int timeout_msec);
+  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                                      const squish::Object& object_or_name, int timeout_msec);
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
@@ -79,7 +83,7 @@ struct API {
                         common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                         common::squish::MouseButton button = common::squish::MouseButton::NONE);
   static void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const Object& screen_rectangle,
+                        const squish::Object& screen_rectangle,
                         common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                         common::squish::MouseButton button = common::squish::MouseButton::NONE);
 
@@ -96,9 +100,9 @@ struct API {
    * @exception Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
    **/
   static void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const Object& screen_rectangle, int timeout_msec);
+                        const squish::Object& screen_rectangle, int timeout_msec);
   static void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const Object& screen_rectangle, int x, int y, int timeout_msec);
+                        const squish::Object& screen_rectangle, int x, int y, int timeout_msec);
 
   /**
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
@@ -113,7 +117,7 @@ struct API {
    * @param modifier_state - modifier state [NONE, ALT, CONTROL, SHIFT]
    **/
   static void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const Object& object_or_name, int x, int y, int dx, int dy,
+                           const squish::Object& object_or_name, int x, int y, int dx, int dy,
                            common::squish::ModifierState modifier_state);
   static void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
                            const std::string& object_or_name, int x, int y, int dx, int dy,
@@ -155,7 +159,8 @@ struct API {
    * @param ate_interaction structure provides the ability to communicate with ATE
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
    **/
-  static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const Object& object);
+  static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                           const squish::Object& object);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -190,7 +195,8 @@ struct API {
    * @param ate_interaction structure provides the ability to communicate with ATE
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
    **/
-  static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const Object& object);
+  static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                           const squish::Object& object);
 
   /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
@@ -235,7 +241,27 @@ struct API {
    */
   static std::string GetText(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, uint16_t x1,
                              uint16_t y1, uint16_t x2, uint16_t y2);
+
+  /**
+   * @brief The function sets default timeout for WaitForObject function
+   * @param timeout - timeout for WaitForObject function
+   **/
+  static void SetDefaultWaitForObjectTimeout(int timeout);
+
+  /**
+   * @brief The function gets next correlation id for RPC
+   * @return correlation id for RPC
+   **/
+  static uint64_t GetCorrelationId();
+
+ private:
+  static squish::ApplicationContext application_context_;
+
+ public:
+  static int default_wait_for_object_timeout_in_ms_;
+  static const int default_long_press_timeout_in_ms_ = 2000;
+  static uint64_t correlation_id_;
 };
-}  // namespace squish
+}  // namespace API
 
 #endif  // SQUISH_API_H_
