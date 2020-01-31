@@ -23,6 +23,10 @@ auto& GetMainIoContext() {
 }
 }  // namespace
 
+uint64_t ApiAggregator::correlation_id_ = 1;
+
+uint64_t ApiAggregator::GetCorrelationId() { return correlation_id_++; }
+
 ApiAggregator::ApiAggregator() {
   const char* const config_from_env = std::getenv(kConfigEnvVar);
   const std::string config_file = config_from_env ? config_from_env : ATE_CLIENT_CONFIG_DIR "/ate_client.ini";
@@ -43,80 +47,86 @@ squish::ApplicationContext& ApiAggregator::AttachToApplication(const std::string
 }
 
 squish::Object ApiAggregator::WaitForObject(const std::string& object_or_name) {
-  return SquishApi::WaitForObject(ate_interaction_, object_or_name);
+  return SquishApi::WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name);
 }
 
 squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name) {
-  return SquishApi::WaitForObject(ate_interaction_, object_or_name);
+  return SquishApi::WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name);
 }
 
 squish::Object ApiAggregator::WaitForObject(const std::string& object_or_name, int timeout_msec) {
-  return SquishApi::WaitForObject(ate_interaction_, object_or_name, timeout_msec);
+  return SquishApi::WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, timeout_msec);
 }
 
 squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name, int timeout_msec) {
-  return SquishApi::WaitForObject(ate_interaction_, object_or_name, timeout_msec);
+  return SquishApi::WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, timeout_msec);
 }
 
 void ApiAggregator::TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
-                       common::squish::MouseButton button) {
-  SquishApi::TapObject(ate_interaction_, screen_point, modifier_state, button);
+                              common::squish::MouseButton button) {
+  SquishApi::TapObject(ate_interaction_, GetCorrelationId(), screen_point, modifier_state, button);
 }
 
 void ApiAggregator::TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
-                       common::squish::MouseButton button) {
-  SquishApi::TapObject(ate_interaction_, screen_rectangle, modifier_state, button);
+                              common::squish::MouseButton button) {
+  SquishApi::TapObject(ate_interaction_, GetCorrelationId(), screen_rectangle, modifier_state, button);
 }
 
 void ApiAggregator::TapObject(const squish::Object& screen_rectangle, common::squish::ModifierState modifier_state,
-                       common::squish::MouseButton button) {
-  SquishApi::TapObject(ate_interaction_, screen_rectangle, modifier_state, button);
+                              common::squish::MouseButton button) {
+  SquishApi::TapObject(ate_interaction_, GetCorrelationId(), screen_rectangle, modifier_state, button);
 }
 
 void ApiAggregator::LongPress(const squish::Object& screen_rectangle, int timeout_msec) {
-  SquishApi::LongPress(ate_interaction_, screen_rectangle, timeout_msec);
+  SquishApi::LongPress(ate_interaction_, GetCorrelationId(), screen_rectangle, timeout_msec);
 }
 
 void ApiAggregator::LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec) {
-  SquishApi::LongPress(ate_interaction_, screen_rectangle, x, y, timeout_msec);
+  SquishApi::LongPress(ate_interaction_, GetCorrelationId(), screen_rectangle, x, y, timeout_msec);
 }
 
 void ApiAggregator::TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
-                          common::squish::ModifierState modifier_state) {
-  SquishApi::TouchAndDrag(ate_interaction_, object_or_name, x, y, dx, dy, modifier_state);
+                                 common::squish::ModifierState modifier_state) {
+  SquishApi::TouchAndDrag(ate_interaction_, GetCorrelationId(), object_or_name, x, y, dx, dy, modifier_state);
 }
 
 void ApiAggregator::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
-                          common::squish::ModifierState modifier_state) {
-  SquishApi::TouchAndDrag(ate_interaction_, object_or_name, x, y, dx, dy, modifier_state);
+                                 common::squish::ModifierState modifier_state) {
+  SquishApi::TouchAndDrag(ate_interaction_, GetCorrelationId(), object_or_name, x, y, dx, dy, modifier_state);
 }
 
 void ApiAggregator::PressAndHold(const common::Point& screen_point) {
-  SquishApi::PressAndHold(ate_interaction_, screen_point);
+  SquishApi::PressAndHold(ate_interaction_, GetCorrelationId(), screen_point);
 }
 
 void ApiAggregator::PressAndHold(const common::Rect& screen_rectangle) {
-  SquishApi::PressAndHold(ate_interaction_, screen_rectangle);
+  SquishApi::PressAndHold(ate_interaction_, GetCorrelationId(), screen_rectangle);
 }
 
-void ApiAggregator::PressAndHold(const squish::Object& object) { SquishApi::PressAndHold(ate_interaction_, object); }
+void ApiAggregator::PressAndHold(const squish::Object& object) {
+  SquishApi::PressAndHold(ate_interaction_, GetCorrelationId(), object);
+}
 
 void ApiAggregator::PressRelease(const common::Point& screen_point) {
-  SquishApi::PressRelease(ate_interaction_, screen_point);
+  SquishApi::PressRelease(ate_interaction_, GetCorrelationId(), screen_point);
 }
 
 void ApiAggregator::PressRelease(const common::Rect& screen_rectangle) {
-  SquishApi::PressRelease(ate_interaction_, screen_rectangle);
+  SquishApi::PressRelease(ate_interaction_, GetCorrelationId(), screen_rectangle);
 }
 
-void ApiAggregator::PressRelease(const squish::Object& object) { SquishApi::PressRelease(ate_interaction_, object); }
+void ApiAggregator::PressRelease(const squish::Object& object) {
+  SquishApi::PressRelease(ate_interaction_, GetCorrelationId(), object);
+}
 
-bool ApiAggregator::Exists(const std::string& object_name) { return SquishApi::Exists(ate_interaction_, object_name); }
+bool ApiAggregator::Exists(const std::string& object_name) {
+  return SquishApi::Exists(ate_interaction_, GetCorrelationId(), object_name);
+}
 
 void ApiAggregator::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
-  SquishApi::ChangeSyncIconDB(ate_interaction_, sync_version, sync_build_version);
+  SquishApi::ChangeSyncIconDB(ate_interaction_, GetCorrelationId(), sync_version, sync_build_version);
 }
 
 void ApiAggregator::ChangeSyncMode(common::squish::CollectionMode collection_mode) {
-  SquishApi::ChangeSyncMode(ate_interaction_, collection_mode);
+  SquishApi::ChangeSyncMode(ate_interaction_, GetCorrelationId(), collection_mode);
 }

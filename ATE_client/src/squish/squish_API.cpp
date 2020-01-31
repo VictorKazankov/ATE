@@ -15,9 +15,6 @@ namespace {
 }  // namespace
 
 int SquishApi::default_wait_for_object_timeout_in_ms_ = 0;
-uint64_t SquishApi::correlation_id_ = 1;
-
-uint64_t SquishApi::GetCorrelationId() { return correlation_id_++; }
 
 void SquishApi::SetDefaultWaitForObjectTimeout(int timeout) {
   // TODO DEBUG
@@ -42,59 +39,62 @@ squish::ApplicationContext& SquishApi::AttachToApplication(
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                        const squish::Object& object_or_name) {
-  return WaitForObject(ate_interaction, object_or_name, default_wait_for_object_timeout_in_ms_);
+                                        const uint64_t& correlation_id, const squish::Object& object_or_name) {
+  return WaitForObject(ate_interaction, correlation_id, object_or_name, default_wait_for_object_timeout_in_ms_);
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                        const squish::Object& object_or_name, int timeout_msec) {
-  return WaitForObject(ate_interaction, object_or_name.name, timeout_msec);
+                                        const uint64_t& correlation_id, const squish::Object& object_or_name,
+                                        int timeout_msec) {
+  return WaitForObject(ate_interaction, correlation_id, object_or_name.name, timeout_msec);
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                        const std::string& object_or_name) {
-  return WaitForObject(ate_interaction, object_or_name, default_wait_for_object_timeout_in_ms_);
+                                        const uint64_t& correlation_id, const std::string& object_or_name) {
+  return WaitForObject(ate_interaction, correlation_id, object_or_name, default_wait_for_object_timeout_in_ms_);
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                        const std::string& object_or_name, int timeout_msec) {
+                                        const uint64_t& correlation_id, const std::string& object_or_name,
+                                        int timeout_msec) {
   logger::debug("Object waitForObject()");
-  const auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec,
-                                                                                        GetCorrelationId());
+  const auto message =
+      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   return interaction::JsonRpcParser::ParseWaitForObject(response);
 }
 
 void SquishApi::TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                          const squish::Object& screen_rectangle, common::squish::ModifierState modifier_state,
-                          common::squish::MouseButton button) {
-  TapObject(ate_interaction, screen_rectangle.Center(), modifier_state, button);
+                          const uint64_t& correlation_id, const squish::Object& screen_rectangle,
+                          common::squish::ModifierState modifier_state, common::squish::MouseButton button) {
+  TapObject(ate_interaction, correlation_id, screen_rectangle.Center(), modifier_state, button);
 }
 
 void SquishApi::TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                          const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
-                          common::squish::MouseButton button) {
-  TapObject(ate_interaction, screen_rectangle.Center(), modifier_state, button);
+                          const uint64_t& correlation_id, const common::Rect& screen_rectangle,
+                          common::squish::ModifierState modifier_state, common::squish::MouseButton button) {
+  TapObject(ate_interaction, correlation_id, screen_rectangle.Center(), modifier_state, button);
 }
 
 void SquishApi::TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                          const common::Point& screen_point, common::squish::ModifierState modifier_state,
-                          common::squish::MouseButton button) {
+                          const uint64_t& correlation_id, const common::Point& screen_point,
+                          common::squish::ModifierState modifier_state, common::squish::MouseButton button) {
   logger::debug("Object tapObject");
-  auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
-      screen_point.x, screen_point.y, modifier_state, button, GetCorrelationId());
+  auto message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(screen_point.x, screen_point.y,
+                                                                              modifier_state, button, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
   NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                          const squish::Object& screen_rectangle, int timeout_msec) {
-  LongPress(ate_interaction, screen_rectangle, 0, 0, timeout_msec);
+                          const uint64_t& correlation_id, const squish::Object& screen_rectangle, int timeout_msec) {
+  LongPress(ate_interaction, correlation_id, screen_rectangle, 0, 0, timeout_msec);
 }
 
 void SquishApi::LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                          const squish::Object& screen_rectangle, int x, int y, int timeout_msec) {
+                          const uint64_t& correlation_id, const squish::Object& screen_rectangle, int x, int y,
+                          int timeout_msec) {
   // Check validation of relative coordinates (should be less Object size)
   if (x > screen_rectangle.width || y > screen_rectangle.height || x < 0 || y < 0) {
     logger::error("LongPress: invalid coordinates [{},{}], must be less than [{},{}]", x, y, screen_rectangle.width,
@@ -108,12 +108,11 @@ void SquishApi::LongPress(const std::shared_ptr<interaction::ATEInteraction>& at
   }
 
   std::string message;
-  (!x && !y)
-      ? message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
-            screen_rectangle.Center().x, screen_rectangle.Center().y, static_cast<unsigned>(timeout_msec),
-            GetCorrelationId())
-      : message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
-            screen_rectangle.x + x, screen_rectangle.y + y, static_cast<unsigned>(timeout_msec), GetCorrelationId());
+  (!x && !y) ? message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
+                   screen_rectangle.Center().x, screen_rectangle.Center().y, static_cast<unsigned>(timeout_msec),
+                   correlation_id)
+             : message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(
+                   screen_rectangle.x + x, screen_rectangle.y + y, static_cast<unsigned>(timeout_msec), correlation_id);
 
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
@@ -121,64 +120,64 @@ void SquishApi::LongPress(const std::shared_ptr<interaction::ATEInteraction>& at
 }
 
 void SquishApi::TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const squish::Object& object_or_name, int x, int y, int dx, int dy,
-                             common::squish::ModifierState modifier_state) {
-  TouchAndDrag(ate_interaction, object_or_name.name, x, y, dx, dy, modifier_state);
+                             const uint64_t& correlation_id, const squish::Object& object_or_name, int x, int y, int dx,
+                             int dy, common::squish::ModifierState modifier_state) {
+  TouchAndDrag(ate_interaction, correlation_id, object_or_name.name, x, y, dx, dy, modifier_state);
 }
 
 void SquishApi::TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const std::string& object_or_name, int x, int y, int dx, int dy,
-                             common::squish::ModifierState modifier_state) {
+                             const uint64_t& correlation_id, const std::string& object_or_name, int x, int y, int dx,
+                             int dy, common::squish::ModifierState modifier_state) {
   auto message = common::jmsg::MessageFactory::Client::CreateTouchAndDragRequest(object_or_name, x, y, dx, dy,
-                                                                                 modifier_state, GetCorrelationId());
+                                                                                 modifier_state, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
   NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const common::Point& screen_point) {
-  auto message = common::jmsg::MessageFactory::Client::CreatePressAndHoldRequest(screen_point.x, screen_point.y,
-                                                                                 GetCorrelationId());
+                             const uint64_t& correlation_id, const common::Point& screen_point) {
+  auto message =
+      common::jmsg::MessageFactory::Client::CreatePressAndHoldRequest(screen_point.x, screen_point.y, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
   NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const common::Rect& screen_rectangle) {
-  PressAndHold(ate_interaction, screen_rectangle.Center());
+                             const uint64_t& correlation_id, const common::Rect& screen_rectangle) {
+  PressAndHold(ate_interaction, correlation_id, screen_rectangle.Center());
 }
 
 void SquishApi::PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const squish::Object& object) {
-  PressAndHold(ate_interaction, object.Center());
+                             const uint64_t& correlation_id, const squish::Object& object) {
+  PressAndHold(ate_interaction, correlation_id, object.Center());
 }
 
 void SquishApi::PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const common::Point& screen_point) {
-  auto message = common::jmsg::MessageFactory::Client::CreatePressReleaseRequest(screen_point.x, screen_point.y,
-                                                                                 GetCorrelationId());
+                             const uint64_t& correlation_id, const common::Point& screen_point) {
+  auto message =
+      common::jmsg::MessageFactory::Client::CreatePressReleaseRequest(screen_point.x, screen_point.y, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
   NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const common::Rect& screen_rectangle) {
-  PressRelease(ate_interaction, screen_rectangle.Center());
+                             const uint64_t& correlation_id, const common::Rect& screen_rectangle) {
+  PressRelease(ate_interaction, correlation_id, screen_rectangle.Center());
 }
 
 void SquishApi::PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const squish::Object& object) {
-  PressRelease(ate_interaction, object.Center());
+                             const uint64_t& correlation_id, const squish::Object& object) {
+  PressRelease(ate_interaction, correlation_id, object.Center());
 }
 
 bool SquishApi::Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                       const std::string& object_name) {
+                       const uint64_t& correlation_id, const std::string& object_name) {
   try {
     const int kOneSecondTimeout = 1;
-    WaitForObject(ate_interaction, object_name, kOneSecondTimeout);
+    WaitForObject(ate_interaction, correlation_id, object_name, kOneSecondTimeout);
     return true;
   } catch (const std::runtime_error&) {
     return false;
@@ -186,9 +185,10 @@ bool SquishApi::Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_i
 }
 
 void SquishApi::ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                 const std::string& sync_version, const std::string& sync_build_version) {
+                                 const uint64_t& correlation_id, const std::string& sync_version,
+                                 const std::string& sync_build_version) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,
-                                                                                     GetCorrelationId());
+                                                                                     correlation_id);
 
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
@@ -196,9 +196,9 @@ void SquishApi::ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteracti
 }
 
 void SquishApi::ChangeSyncMode(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                               common::squish::CollectionMode collection_mode) {
+                               const uint64_t& correlation_id, common::squish::CollectionMode collection_mode) {
   auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncModeRequest(CollectionModeToStr(collection_mode),
-                                                                                   GetCorrelationId());
+                                                                                   correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
   NO_RESPONSE_FOR_PYTHON;

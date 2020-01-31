@@ -1,5 +1,5 @@
-#ifndef ATE_API_H_
-#define ATE_API_H_
+#ifndef API_AGGREGATOR_H_
+#define API_AGGREGATOR_H_
 
 #include "squish/application_context.h"
 
@@ -190,8 +190,16 @@ class ApiAggregator {
   static void ChangeSyncMode(common::squish::CollectionMode collection_mode);
 
  private:
+  /**
+   * @brief The function gets next correlation id for RPC
+   * @return correlation id for RPC
+   **/
+  static uint64_t GetCorrelationId();
+
+ private:
   static std::shared_ptr<interaction::ATEInteraction> ate_interaction_;
+  static uint64_t correlation_id_;
 };
 }  // namespace API
 
-#endif  // ATE_API_H_
+#endif  // API_AGGREGATOR_H_

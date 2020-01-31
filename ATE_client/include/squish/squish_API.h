@@ -27,63 +27,70 @@ class SquishApi {
    * @return A handle to its application context
    **/
   static squish::ApplicationContext& AttachToApplication(
-      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const std::string& aut_name = "");
+      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+      const std::string& aut_name = "");
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many
    *milliseconds
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param object_or_name - desirable object or name
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
   static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const std::string& object_or_name);
+                                      const uint64_t& correlation_id, const std::string& object_or_name);
   static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const squish::Object& object_or_name);
+                                      const uint64_t& correlation_id, const squish::Object& object_or_name);
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
    *milliseconds. This function is useful if you want to synchronize your script execution.
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param _objectOrName - desirable object or name
    * @param timeoutMSec - timeout in miliseconds
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
   static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const std::string& object_or_name, int timeout_msec);
+                                      const uint64_t& correlation_id, const std::string& object_or_name,
+                                      int timeout_msec);
   static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const squish::Object& object_or_name, int timeout_msec);
+                                      const uint64_t& correlation_id, const squish::Object& object_or_name,
+                                      int timeout_msec);
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param screen_point - position are in screen global coordinates
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
    **/
 
   static void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const common::Point& screen_point,
+                        const uint64_t& correlation_id, const common::Point& screen_point,
                         common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                         common::squish::MouseButton button = common::squish::MouseButton::NONE);
 
   /**
    * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param screen_rectangle - position are in screen global coordinates
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
    **/
   static void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const common::Rect& screen_rectangle,
+                        const uint64_t& correlation_id, const common::Rect& screen_rectangle,
                         common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                         common::squish::MouseButton button = common::squish::MouseButton::NONE);
   static void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const squish::Object& screen_rectangle,
+                        const uint64_t& correlation_id, const squish::Object& screen_rectangle,
                         common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                         common::squish::MouseButton button = common::squish::MouseButton::NONE);
 
@@ -93,6 +100,7 @@ class SquishApi {
    * widget. On the other hand, if the additional parameters are given, the tap is made at position x and y (in the
    * object coordinates).
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param screen_rectangle - position are in screen global coordinates
    * @param x - relative coordinates in the object, optional
    * @param y - relative coordinates in the object, optional
@@ -100,15 +108,17 @@ class SquishApi {
    * @exception Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
    **/
   static void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const squish::Object& screen_rectangle, int timeout_msec);
+                        const uint64_t& correlation_id, const squish::Object& screen_rectangle, int timeout_msec);
   static void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const squish::Object& screen_rectangle, int x, int y, int timeout_msec);
+                        const uint64_t& correlation_id, const squish::Object& screen_rectangle, int x, int y,
+                        int timeout_msec);
 
   /**
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
    *  widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widge is dragged by
    *  dx pixels horizontally and by dy pixels vertically.
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param object_or_name - desirable object or name
    * @param x - start x coordinate of drag event
    * @param y - start y coordinate of drag event
@@ -117,11 +127,11 @@ class SquishApi {
    * @param modifier_state - modifier state [NONE, ALT, CONTROL, SHIFT]
    **/
   static void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const squish::Object& object_or_name, int x, int y, int dx, int dy,
-                           common::squish::ModifierState modifier_state);
+                           const uint64_t& correlation_id, const squish::Object& object_or_name, int x, int y, int dx,
+                           int dy, common::squish::ModifierState modifier_state);
   static void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const std::string& object_or_name, int x, int y, int dx, int dy,
-                           common::squish::ModifierState modifier_state);
+                           const uint64_t& correlation_id, const std::string& object_or_name, int x, int y, int dx,
+                           int dy, common::squish::ModifierState modifier_state);
 
   /**
    * @brief This function performs a press and hold operation specified by a screen_point. Position is in screen global
@@ -131,10 +141,11 @@ class SquishApi {
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param screen_point Point in absolute coordinates where to perform the press operation
    **/
   static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const common::Point& screen_point);
+                           const uint64_t& correlation_id, const common::Point& screen_point);
 
   /**
    * @brief This function performs a press and hold operation specified by the center of a screen_rectangle. Position
@@ -144,10 +155,11 @@ class SquishApi {
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
    **/
   static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const common::Rect& screen_rectangle);
+                           const uint64_t& correlation_id, const common::Rect& screen_rectangle);
 
   /**
    * @brief This function performs a press and hold operation specified by the center of the object obtained by
@@ -157,10 +169,11 @@ class SquishApi {
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
    **/
   static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const squish::Object& object);
+                           const uint64_t& correlation_id, const squish::Object& object);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -169,10 +182,11 @@ class SquishApi {
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param screen_point Point in absolute coordinates where to perform the release operation
    **/
   static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const common::Point& screen_point);
+                           const uint64_t& correlation_id, const common::Point& screen_point);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -181,10 +195,11 @@ class SquishApi {
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform release operation
    **/
   static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const common::Rect& screen_rectangle);
+                           const uint64_t& correlation_id, const common::Rect& screen_rectangle);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -193,38 +208,43 @@ class SquishApi {
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
    **/
   static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const squish::Object& object);
+                           const uint64_t& correlation_id, const squish::Object& object);
 
   /**
    * @brief This function verifies the object with the symbolic
    * or real (multi-property) name objectName exists on the screen.
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param object_name - name of the object for verifying existence on the screen
    * @return returns a true value if the object with the symbolic
    * or real (multi-property) name objectName exists otherwise false
    **/
   static bool Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                     const std::string& object_name);
+                     const uint64_t& correlation_id, const std::string& object_name);
 
   /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param sync_version Sync version
    * @param sync_build_version Sync build version
    */
   static void ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                               const std::string& sync_version, const std::string& sync_build_version);
+                               const uint64_t& correlation_id, const std::string& sync_version,
+                               const std::string& sync_build_version);
 
   /**
    * @brief ChangeSyncMode provides changing collection mode API for active sync
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param collection_mode Collection mode
    */
   static void ChangeSyncMode(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             common::squish::CollectionMode collection_mode);
+                             const uint64_t& correlation_id, common::squish::CollectionMode collection_mode);
 
   /**
    * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
@@ -259,19 +279,12 @@ class SquishApi {
    **/
   static void SetDefaultWaitForObjectTimeout(int timeout);
 
-  /**
-   * @brief The function gets next correlation id for RPC
-   * @return correlation id for RPC
-   **/
-  static uint64_t GetCorrelationId();
-
  private:
   static squish::ApplicationContext application_context_;
 
  public:
   static int default_wait_for_object_timeout_in_ms_;
   static const int default_long_press_timeout_in_ms_ = 2000;
-  static uint64_t correlation_id_;
 };
 }  // namespace API
 
