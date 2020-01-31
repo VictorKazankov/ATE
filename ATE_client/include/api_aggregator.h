@@ -14,12 +14,12 @@
 namespace API {
 
 /**
- * @brief AteApi class represents APIs which can be processed by ATE.
+ * @brief ApiAggregator class represents APIs which can be processed by ATE.
  * It incapsulates into itself squish's and ATE's APIs
  **/
-class AteApi {
+class ApiAggregator {
  public:
-  AteApi();
+  ApiAggregator();
 
   /**
    * @brief This function causes to attach to the application called aut_name.
