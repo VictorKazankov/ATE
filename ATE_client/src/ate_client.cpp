@@ -220,7 +220,7 @@ PYBIND11_MODULE(vhat_client, m) {
         "case if timeout_msec longer than 60 seconds.",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
 
-  m.def("getScreenshot", py::overload_cast<const std::string&, const std::string&>(&squish::API::GetScreenshot),
+  m.def("getScreenshot", py::overload_cast<const std::string&, const std::string&>(&API::ApiAggregator::GetScreenshot),
         "This function captures screenshot from connected sync screen and save it inside declared directory."
         "filename - the name of screenshot file must have 'png' extension"
         "location - directory name for storing screenshot with prefix '/var/lib/vdp/vhat'"
@@ -233,7 +233,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'ImageAssemblingFailed' in case of server can't save the screenshot",
         py::arg("filename"), py::arg("location"));
 
-  m.def("getText", &squish::API::GetText,
+  m.def("getText", &API::ApiAggregator::GetText,
         "GetText returns the text by specified coordinates. "
         "The x1, y1 - topleft coordinate. "
         "The x2, y2 - bottom-right coordinate. "

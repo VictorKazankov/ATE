@@ -189,6 +189,29 @@ class ApiAggregator {
    */
   static void ChangeSyncMode(common::squish::CollectionMode collection_mode);
 
+  /**
+   * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
+   * @param filename - name of the file (must contain .png extension for successfully saving)
+   * @param location - location for saving of screenshot
+   * @return true in case of screenshot saved
+   * @throw VideoStreamNotFound - in case of the video stream is not available
+   * @throw EmptyScreenshotFileName - in case of filename is empty"
+   * @throw WrongScreenshotExtension - in case of filename extansion is not 'png'
+   * @throw PermissionDenied - in case of server does not have permission to make directory
+   * @throw ImageAssemblingFailed - in case of server can't save the screenshot (only in case of cv::imwrite failed)
+   * @throw InternalError - in case of file system errors, bad alloc
+   */
+  static bool GetScreenshot(const std::string& filename, const std::string& location);
+
+  /**
+   * @brief GetText returns the text by specified coordinates
+   * @param x1 x axis of the topleft coordinate
+   * @param y1 y axis of the topleft coordinate
+   * @param x2 x axis of the bottom-right coordinate
+   * @param y2 y axis of the bottom-right coordinate
+   */
+  static std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+
  private:
   /**
    * @brief The function gets next correlation id for RPC

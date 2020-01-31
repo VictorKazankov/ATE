@@ -148,3 +148,11 @@ void ApiAggregator::ChangeSyncMode(common::squish::CollectionMode collection_mod
   AteApi::ChangeSyncMode(ate_interaction_, GetCorrelationId(), collection_mode);
   NO_RESPONSE_FOR_PYTHON;
 }
+
+bool ApiAggregator::GetScreenshot(const std::string& filename, const std::string& location) {
+  return AteApi::GetScreenshot(ate_interaction_, GetCorrelationId(), filename, location);
+}
+
+std::string ApiAggregator::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
+  return AteApi::GetText(ate_interaction_, GetCorrelationId(), x1, y1, x2, y2);
+}

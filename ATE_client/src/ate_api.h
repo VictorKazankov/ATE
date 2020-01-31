@@ -35,6 +35,7 @@ class AteApi {
   /**
    * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param filename - name of the file (must contain .png extension for successfully saving)
    * @param location - location for saving of screenshot
    * @return true in case of screenshot saved
@@ -46,18 +47,19 @@ class AteApi {
    * @throw InternalError - in case of file system errors, bad alloc
    */
   static bool GetScreenshot(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                            const std::string& filename, const std::string& location);
+                            const uint64_t& correlation_id, const std::string& filename, const std::string& location);
 
   /**
    * @brief GetText returns the text by specified coordinates
    * @param ate_interaction structure provides the ability to communicate with ATE
+   * @param correlation_id - correlation id for RPC
    * @param x1 x axis of the topleft coordinate
    * @param y1 y axis of the topleft coordinate
    * @param x2 x axis of the bottom-right coordinate
    * @param y2 y axis of the bottom-right coordinate
    */
-  static std::string GetText(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, uint16_t x1,
-                             uint16_t y1, uint16_t x2, uint16_t y2);
+  static std::string GetText(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                             const uint64_t& correlation_id, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 };
 }  // namespace API
 
