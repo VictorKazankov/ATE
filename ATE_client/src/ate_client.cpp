@@ -57,6 +57,11 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::InvalidSyncBuildVersion>(m, "InvalidSyncBuildVersion");
   py::register_exception<squish::InvalidSyncCollectionMode>(m, "InvalidSyncCollectionMode");
   py::register_exception<squish::InvalidDurationLongPress>(m, "InvalidDurationLongPress");
+  py::register_exception<squish::EmptyScreenshotFileName>(m, "EmptyScreenshotFileName");
+  py::register_exception<squish::WrongScreenshotExtension>(m, "WrongScreenshotExtension");
+  py::register_exception<squish::PermissionDenied>(m, "PermissionDenied");
+  py::register_exception<squish::ImageAssemblingFailed>(m, "ImageAssemblingFailed");
+  py::register_exception<squish::InvalidRectangleCoordinates>(m, "InvalidRectangleCoordinates");
   py::register_exception<interaction::VideoStreamingError>(m, "VideoStreamingError");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
