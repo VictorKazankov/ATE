@@ -4,15 +4,10 @@
 
 #include "logger/logger.h"
 #include "message_factory/message_factory.h"
-#include "utils/squish_types_converter.h"
 
 #include "json_rpc_parser.h"
 
 using namespace API;
-
-namespace {
-#define NO_RESPONSE_FOR_PYTHON logger::debug("No response for Python from {}", __func__)
-}  // namespace
 
 int SquishApi::default_wait_for_object_timeout_in_ms_ = 0;
 
@@ -84,7 +79,6 @@ void SquishApi::TapObject(const std::shared_ptr<interaction::ATEInteraction>& at
                                                                               modifier_state, button, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
@@ -116,7 +110,6 @@ void SquishApi::LongPress(const std::shared_ptr<interaction::ATEInteraction>& at
 
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
@@ -132,7 +125,6 @@ void SquishApi::TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>&
                                                                                  modifier_state, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
@@ -141,7 +133,6 @@ void SquishApi::PressAndHold(const std::shared_ptr<interaction::ATEInteraction>&
       common::jmsg::MessageFactory::Client::CreatePressAndHoldRequest(screen_point.x, screen_point.y, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
@@ -160,7 +151,6 @@ void SquishApi::PressRelease(const std::shared_ptr<interaction::ATEInteraction>&
       common::jmsg::MessageFactory::Client::CreatePressReleaseRequest(screen_point.x, screen_point.y, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void SquishApi::PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
@@ -182,42 +172,4 @@ bool SquishApi::Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_i
   } catch (const std::runtime_error&) {
     return false;
   }
-}
-
-void SquishApi::ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                 const uint64_t& correlation_id, const std::string& sync_version,
-                                 const std::string& sync_build_version) {
-  auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncIconDBRequest(sync_version, sync_build_version,
-                                                                                     correlation_id);
-
-  const auto response = ate_interaction->SendCommand(message);
-  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
-  NO_RESPONSE_FOR_PYTHON;
-}
-
-void SquishApi::ChangeSyncMode(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                               const uint64_t& correlation_id, common::squish::CollectionMode collection_mode) {
-  auto message = common::jmsg::MessageFactory::Client::CreateChangeSyncModeRequest(CollectionModeToStr(collection_mode),
-                                                                                   correlation_id);
-  const auto response = ate_interaction->SendCommand(message);
-  interaction::JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(response);
-  NO_RESPONSE_FOR_PYTHON;
-}
-
-bool API::GetScreenshot(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const std::string& filename, const std::string& location) {
-  const auto message =
-      common::jmsg::MessageFactory::Client::CreateGetScreenshotRequest(filename, location, GetCorrelationId());
-  const auto response = ate_interaction->SendCommand(message);
-
-  return interaction::JsonRpcParser::ParseGetScreenshot(response);
-}
-
-std::string API::GetText(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, uint16_t x1, uint16_t y1,
-                         uint16_t x2, uint16_t y2) {
-  auto message = common::jmsg::MessageFactory::Client::CreateGetTextRequest(common::Point{x1, y1},
-                                                                            common::Point{x2, y2}, GetCorrelationId());
-
-  auto response = ate_interaction->SendCommand(message);
-  return interaction::JsonRpcParser::ParseGetText(response);
 }

@@ -27,8 +27,7 @@ class SquishApi {
    * @return A handle to its application context
    **/
   static squish::ApplicationContext& AttachToApplication(
-      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-      const std::string& aut_name = "");
+      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const std::string& aut_name = "");
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -225,53 +224,6 @@ class SquishApi {
    **/
   static bool Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
                      const uint64_t& correlation_id, const std::string& object_name);
-
-  /**
-   * @brief This API allows changing sync version and sync build version without restart ate server.
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param sync_version Sync version
-   * @param sync_build_version Sync build version
-   */
-  static void ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                               const uint64_t& correlation_id, const std::string& sync_version,
-                               const std::string& sync_build_version);
-
-  /**
-   * @brief ChangeSyncMode provides changing collection mode API for active sync
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param collection_mode Collection mode
-   */
-  static void ChangeSyncMode(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                             const uint64_t& correlation_id, common::squish::CollectionMode collection_mode);
-
-  /**
-   * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param filename - name of the file (must contain .png extension for successfully saving)
-   * @param location - location for saving of screenshot
-   * @return true in case of screenshot saved
-   * @throw VideoStreamNotFound - in case of the video stream is not available
-   * @throw EmptyScreenshotFileName - in case of filename is empty"
-   * @throw WrongScreenshotExtension - in case of filename extansion is not 'png'
-   * @throw PermissionDenied - in case of server does not have permission to make directory
-   * @throw ImageAssemblingFailed - in case of server can't save the screenshot (only in case of cv::imwrite failed)
-   * @throw InternalError - in case of file system errors, bad alloc
-   */
-  static bool GetScreenshot(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                            const std::string& filename, const std::string& location);
-
-  /**
-   * @brief GetText returns the text by specified coordinates
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param x1 x axis of the topleft coordinate
-   * @param y1 y axis of the topleft coordinate
-   * @param x2 x axis of the bottom-right coordinate
-   * @param y2 y axis of the bottom-right coordinate
-   */
-  static std::string GetText(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, uint16_t x1,
-                             uint16_t y1, uint16_t x2, uint16_t y2);
 
   /**
    * @brief The function sets default timeout for WaitForObject function

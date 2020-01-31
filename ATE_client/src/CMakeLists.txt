@@ -5,7 +5,8 @@ include(GNUInstallDirs)
 project(vhat_client)
 
 set(SOURCE_LIST
-  api_aggregator.cpp 
+  api_aggregator.cpp
+  ate_api.cpp 
   ate_interaction.cpp
   ate_client.cpp
   json_rpc_parser.cpp
