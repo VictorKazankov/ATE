@@ -46,6 +46,13 @@ class Interaction {
    * @param y y coordinate
    **/
   virtual void Drag(const int x, const int y) const = 0;
+
+  /**
+   * @brief ChangeResolution sets current resolution
+   * @param screen_width screen resolution over width
+   * @param screen_height screen resolution over height
+   */
+  virtual void ChangeResolution(int screen_width, int screen_height) = 0;
 };
 }  // namespace interaction
 

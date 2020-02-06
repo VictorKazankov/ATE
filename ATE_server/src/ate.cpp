@@ -46,9 +46,13 @@ detector::DetectorTypes StrToDetectorType(const std::string& detector_type) {
 std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& interaction_type,
                                                              boost::asio::io_context& io_context) {
   if (interaction_type == kSpi) {
+    cv::Size frame_size{common::Config().GetInt(kVideoStreamSection, kFrameWidthOption, {}),
+                        common::Config().GetInt(kVideoStreamSection, kFrameHeightOption, {})};
+
     return std::make_unique<interaction::SpiInteraction>(
         utils::GetEnvSettings(utils::EnvSettings::kSpiDeviceAddress),
-        StrToDisplayType(common::Config().GetString(kInteraction, kDisplayTypeOption, {})));
+        StrToDisplayType(common::Config().GetString(kInteraction, kDisplayTypeOption, {})), frame_size.width,
+        frame_size.height);
   }
 
   if (interaction_type == kVdp) {
@@ -143,7 +147,10 @@ std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const std::string& objec
   return {match_area, match_error};
 }
 
-void ATE::ChangeResolution(int x, int y) { matcher_.ChangeResolution(x, y); }
+void ATE::ChangeResolution(int x, int y) {
+  matcher_.ChangeResolution(x, y);
+  interaction_->ChangeResolution(x, y);
+}
 
 adapter::DBManagerError ATE::ChangeSyncVersion(const std::string& sync_version, const std::string& sync_build_version) {
   auto result = storage_.ChangeSyncVersion(sync_version, sync_build_version);

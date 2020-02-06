@@ -14,20 +14,18 @@
 
 namespace {
 
-const size_t kWidth = 1920;
-const size_t kHeight = 1200;
 const size_t kPackageSize = 8;
 const uint32_t kDefaultSpeed = 1000000;
 const uint32_t kMinimalDragRange = 10;
 constexpr auto kMillisecondsSendDelay = 25;
 
-bool CheckResolution(size_t x, size_t y) { return !(x > kWidth || y > kHeight); }
-
 }  // namespace
 
 namespace interaction {
 
-SpiInteraction::SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/) {
+SpiInteraction::SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/,
+                               int screen_width, int screen_height)
+    : screen_width_(screen_width), screen_height_(screen_height) {
   m_spi_ = open(device_address.c_str(), O_RDWR);
 
   if (m_spi_ < 0) {
@@ -91,8 +89,13 @@ void SpiInteraction::Release(const int x, const int y) const { SendEvent(MouseEv
 
 void SpiInteraction::Drag(const int x, const int y) const { SendEvent(MouseEvent::MouseEvent_Move, x, y); }
 
+void SpiInteraction::ChangeResolution(int screen_width, int screen_height) {
+  screen_width_ = screen_width;
+  screen_height_ = screen_height;
+}
+
 void SpiInteraction::SendEvent(SpiInteraction::MouseEvent evt, int x, int y) const {
-  if (!CheckResolution(x, y)) {
+  if (x > screen_width_ || y > screen_height_) {
     logger::error("[spiinteraction] Unavalible coordinates for resolution of screen: {}x{}", x, y);
     return;
   }

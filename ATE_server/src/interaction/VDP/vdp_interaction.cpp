@@ -1,6 +1,8 @@
 #include "interaction/VDP/vdp_interaction.h"
-#include "interaction/VDP/https_client.h"
+
 #include <sstream>
+
+#include "interaction/VDP/https_client.h"
 
 namespace interaction {
 
@@ -61,6 +63,10 @@ void VDPInteraction::Release(const int x, const int y) const {
 void VDPInteraction::Drag(const int x, const int y) const {
   HttpsClient client(context_, host_, port_);
   client.Send(PrepareCommand(x, y, EventType::MOVE));
+}
+
+void VDPInteraction::ChangeResolution(int /*screen_width*/, int /*screen_height*/) {
+  // Dummy drag for VDP interaction
 }
 
 }  // namespace interaction

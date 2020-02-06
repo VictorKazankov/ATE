@@ -15,7 +15,8 @@ namespace interaction {
  */
 class SpiInteraction : public Interaction {
  public:
-  SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/);
+  SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/, int screen_width,
+                 int screen_height);
   ~SpiInteraction();
 
   // Disable copy and move
@@ -62,9 +63,18 @@ class SpiInteraction : public Interaction {
    **/
   void Drag(const int x, const int y) const override;
 
+  /**
+   * @brief ChangeResolution sets current resolution
+   * @param screen_width screen resolution over width
+   * @param screen_height screen resolution over height
+   */
+  void ChangeResolution(int screen_width, int screen_height) override;
+
  private:
   enum MouseEvent { MouseEvent_Press = 'P', MouseEvent_Release = 'R', MouseEvent_Move = 'M' };
   int m_spi_;
+  int screen_width_;
+  int screen_height_;
   // dummy for unit_test
   const bool need_bus_configuring_ = true;
 

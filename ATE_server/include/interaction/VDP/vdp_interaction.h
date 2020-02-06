@@ -63,6 +63,13 @@ class VDPInteraction : public Interaction {
    **/
   void Drag(const int x, const int y) const override;
 
+  /**
+   * @brief ChangeResolution sets current resolution
+   * @param screen_width screen resolution over width
+   * @param screen_height screen resolution over height
+   */
+  void ChangeResolution(int screen_width, int screen_height) override;
+
  private:
   std::string PrepareCommand(const int x, const int y, const EventType event_type) const;
 };

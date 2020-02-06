@@ -46,6 +46,13 @@ class DummyInteraction : public Interaction {
    * @param y y coordinate
    */
   void Drag(const int x, const int y) const override;
+
+  /**
+   * @brief ChangeResolution sets current resolution
+   * @param screen_width screen resolution over width
+   * @param screen_height screen resolution over height
+   */
+  void ChangeResolution(int screen_width, int screen_height) override;
 };
 }  // namespace interaction
 

@@ -19,4 +19,8 @@ void DummyInteraction::Release(const int x, const int y) const {
 }
 
 void DummyInteraction::Drag(const int x, const int y) const { logger::trace("[dummy_interaction] Drag({}, {})", x, y); }
+
+void DummyInteraction::ChangeResolution(int screen_width, int screen_height) {
+  logger::trace("[dummy_interaction] ChangeResolution({}, {})", screen_width, screen_height);
+}
 }  // namespace interaction
