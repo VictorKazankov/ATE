@@ -3,6 +3,7 @@ Description=VDP Virtual HMI Automated Toolset server
 After=vdp_tshmi_server.service
 
 [Service]
+User=nvidia
 Type=simple
 EnvironmentFile=/etc/default/board_profile
 EnvironmentFile=/etc/default/lxft_gst_profile
