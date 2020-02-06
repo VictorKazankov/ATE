@@ -12,8 +12,8 @@ namespace factory {
 
 static constexpr auto kSync3{"SYNC3"};
 static constexpr auto kSync4{"SYNC4"};
-static constexpr auto kSync3DefaultPreprocessingList{"Binarized+BinarizedOTSU+None"};
-static constexpr auto kSync4DefaultPreprocessingList{"BinarizedCrop+Binarized+BinarizedRGB"};
+static constexpr auto kSync3DefaultPreprocessingList{"Binarized+BinarizedCrop+None"};
+static constexpr auto kSync4DefaultPreprocessingList{"BinarizedCrop+BinarizedInv+BinarizedRGB"};
 
 std::unique_ptr<detector::Detector<std::string>> CreateTextDetector(const std::string& sync_version) {
   // Get data from config
