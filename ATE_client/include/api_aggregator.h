@@ -23,7 +23,6 @@ class ApiAggregator {
 
   /**
    * @brief This function causes to attach to the application called aut_name.
-   * @param ate_interaction structure provides the ability to communicate with ATE
    * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an
    *attachable AUT
    * @return A handle to its application context
