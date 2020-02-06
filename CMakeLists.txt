@@ -198,20 +198,20 @@ if(ATE_CREATE_DEBIAN_PACKAGE)
       USER=nvidia
       GROUP=nvidia
       PERMISSIONS=\"a+rw\"
-      echo \"Changing owner of ${VHAT_ICON_STORAGE_PREFIX} to \${USER}:\${GROUP}...\"
-      if chown --recursive \${USER}:\${GROUP} ${VHAT_ICON_STORAGE_PREFIX}
+      echo \"Changing owner of ${ATE_WRITABLE_DATA_PREFIX} to \${USER}:\${GROUP}...\"
+      if chown --recursive \${USER}:\${GROUP} ${ATE_WRITABLE_DATA_PREFIX}
       then
         echo \"Ok\"
       else
-        echo \"error: failed to set owner of ${VHAT_ICON_STORAGE_PREFIX} to \${USER}:\${GROUP}\"
+        echo \"error: failed to set owner of ${ATE_WRITABLE_DATA_PREFIX} to \${USER}:\${GROUP}\"
       fi
 
-      echo \"Changing permissions of ${VHAT_ICON_STORAGE_PREFIX} to \${PERMISSIONS}...\"
-      if chmod --recursive \${PERMISSIONS} ${VHAT_ICON_STORAGE_PREFIX}
+      echo \"Changing permissions of ${ATE_WRITABLE_DATA_PREFIX} to \${PERMISSIONS}...\"
+      if chmod --recursive \${PERMISSIONS} ${ATE_WRITABLE_DATA_PREFIX}
       then
         echo \"Ok\"
       else
-        echo \"error: failed to set permissions of ${VHAT_ICON_STORAGE_PREFIX} to \${PERMISSIONS}\"
+        echo \"error: failed to set permissions of ${ATE_WRITABLE_DATA_PREFIX} to \${PERMISSIONS}\"
       fi
     ")
   endif(VHAT_INSTALL_ICON_STORAGE)
