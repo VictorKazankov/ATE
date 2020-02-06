@@ -19,6 +19,9 @@
 
 namespace {
 
+const int kWidthResolution = 2348;
+const int kHeightResolution = 1080;
+
 class SpiInteractionTest : public ::testing::Test {
  protected:
   void SetUp() override;
@@ -31,7 +34,8 @@ class SpiInteractionTest : public ::testing::Test {
 };
 
 void SpiInteractionTest::SetUp() {
-  // spi_ = std::make_unique<interaction::SpiInteraction>("/dev/null", defines::DisplayType::G1_8INCH_DISP);
+  spi_ = std::make_unique<interaction::SpiInteraction>("/dev/null", defines::DisplayType::G1_8INCH_DISP,
+                                                       kWidthResolution, kHeightResolution);
   EXPECT_FALSE(spi_ == nullptr);
 
   // open master pseudoterminal
@@ -53,6 +57,11 @@ void SpiInteractionTest::SetUp() {
 void SpiInteractionTest::TearDown() {
   close(pty_master_);
   close(pty_slave_);
+}
+
+TEST_F(SpiInteractionTest, SpiInteraction_CheckSpecifiedResolution_Equal) {
+  EXPECT_EQ(spi_->screen_width_, kWidthResolution);
+  EXPECT_EQ(spi_->screen_height_, kHeightResolution);
 }
 
 TEST_F(SpiInteractionTest, SendPacketSuccess) {
@@ -116,6 +125,15 @@ TEST_F(SpiInteractionTest, TapSuccess) {
   [[gnu::unused]] auto readed = read(pty_master_, test_read_.data(), test_read_.size());
 
   EXPECT_TRUE(test_read_ == etalon);
+}
+
+TEST_F(SpiInteractionTest, ChangeResolution_CheckOriginalWidthHeight_Correct) {
+  const int kNewWidth = 800;
+  const int kNewHeight = 600;
+  spi_->ChangeResolution(kNewWidth, kNewHeight);
+
+  EXPECT_EQ(spi_->screen_width_, kNewWidth);
+  EXPECT_EQ(spi_->screen_height_, kNewHeight);
 }
 
 }  // namespace
