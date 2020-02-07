@@ -8,6 +8,7 @@
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
+#include "ate_api.h"
 #include "ate_interaction.h"
 #include "squish/squish_types.h"
 
@@ -27,7 +28,7 @@ class ApiAggregator {
    *attachable AUT
    * @return A handle to its application context
    **/
-  static squish::ApplicationContext& AttachToApplication(const std::string& aut_name);
+  squish::ApplicationContext& AttachToApplication(const std::string& aut_name);
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -37,8 +38,8 @@ class ApiAggregator {
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
-  static squish::Object WaitForObject(const std::string& object_or_name);
-  static squish::Object WaitForObject(const squish::Object& object_or_name);
+  squish::Object WaitForObject(const std::string& object_or_name);
+  squish::Object WaitForObject(const squish::Object& object_or_name);
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -49,8 +50,8 @@ class ApiAggregator {
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
-  static squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec);
-  static squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec);
+  squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec);
+  squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec);
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
@@ -59,8 +60,8 @@ class ApiAggregator {
    * @param The optional button specify mouse button that held down during the click
    **/
 
-  static void TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
-                        common::squish::MouseButton button);
+  void TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
+                 common::squish::MouseButton button);
 
   /**
    * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
@@ -68,10 +69,10 @@ class ApiAggregator {
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
    **/
-  static void TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
-                        common::squish::MouseButton button);
-  static void TapObject(const squish::Object& screen_rectangle, common::squish::ModifierState modifier_state,
-                        common::squish::MouseButton button);
+  void TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
+                 common::squish::MouseButton button);
+  void TapObject(const squish::Object& screen_rectangle, common::squish::ModifierState modifier_state,
+                 common::squish::MouseButton button);
 
   /**
    * @brief This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout
@@ -84,8 +85,8 @@ class ApiAggregator {
    * @param timeout_msec - timeout in miliseconds between press event and release event, optional
    * @exception Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
    **/
-  static void LongPress(const squish::Object& screen_rectangle, int timeout_msec);
-  static void LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec);
+  void LongPress(const squish::Object& screen_rectangle, int timeout_msec);
+  void LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec);
 
   /**
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
@@ -98,10 +99,10 @@ class ApiAggregator {
    * @param dy - dragged by pixels vertically
    * @param modifier_state - modifier state [NONE, ALT, CONTROL, SHIFT]
    **/
-  static void TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
-                           common::squish::ModifierState modifier_state);
-  static void TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
-                           common::squish::ModifierState modifier_state);
+  void TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
+                    common::squish::ModifierState modifier_state);
+  void TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
+                    common::squish::ModifierState modifier_state);
 
   /**
    * @brief This function performs a press and hold operation specified by a screen_point. Position is in screen global
@@ -112,7 +113,7 @@ class ApiAggregator {
    *
    * @param screen_point Point in absolute coordinates where to perform the press operation
    **/
-  static void PressAndHold(const common::Point& screen_point);
+  void PressAndHold(const common::Point& screen_point);
 
   /**
    * @brief This function performs a press and hold operation specified by the center of a screen_rectangle. Position
@@ -123,7 +124,7 @@ class ApiAggregator {
    *
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
    **/
-  static void PressAndHold(const common::Rect& screen_rectangle);
+  void PressAndHold(const common::Rect& screen_rectangle);
 
   /**
    * @brief This function performs a press and hold operation specified by the center of the object obtained by
@@ -134,7 +135,7 @@ class ApiAggregator {
    *
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
    **/
-  static void PressAndHold(const squish::Object& object);
+  void PressAndHold(const squish::Object& object);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -144,7 +145,7 @@ class ApiAggregator {
    *
    * @param screen_point Point in absolute coordinates where to perform the release operation
    **/
-  static void PressRelease(const common::Point& screen_point);
+  void PressRelease(const common::Point& screen_point);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -154,7 +155,7 @@ class ApiAggregator {
    *
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform release operation
    **/
-  static void PressRelease(const common::Rect& screen_rectangle);
+  void PressRelease(const common::Rect& screen_rectangle);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -164,7 +165,7 @@ class ApiAggregator {
    *
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
    **/
-  static void PressRelease(const squish::Object& object);
+  void PressRelease(const squish::Object& object);
 
   /**
    * @brief This function verifies the object with the symbolic
@@ -173,20 +174,20 @@ class ApiAggregator {
    * @return returns a true value if the object with the symbolic
    * or real (multi-property) name objectName exists otherwise false
    **/
-  static bool Exists(const std::string& object_name);
+  bool Exists(const std::string& object_name);
 
   /**
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param sync_version Sync version
    * @param sync_build_version Sync build version
    */
-  static void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version);
+  void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version);
 
   /**
    * @brief ChangeSyncMode provides changing collection mode API for active sync
    * @param collection_mode Collection mode
    */
-  static void ChangeSyncMode(common::squish::CollectionMode collection_mode);
+  void ChangeSyncMode(common::squish::CollectionMode collection_mode);
 
   /**
    * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
@@ -200,7 +201,7 @@ class ApiAggregator {
    * @throw ImageAssemblingFailed - in case of server can't save the screenshot (only in case of cv::imwrite failed)
    * @throw InternalError - in case of file system errors, bad alloc
    */
-  static bool GetScreenshot(const std::string& filename, const std::string& location);
+  bool GetScreenshot(const std::string& filename, const std::string& location);
 
   /**
    * @brief GetText returns the text by specified coordinates
@@ -209,18 +210,20 @@ class ApiAggregator {
    * @param x2 x axis of the bottom-right coordinate
    * @param y2 y axis of the bottom-right coordinate
    */
-  static std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+  std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 
  private:
   /**
    * @brief The function gets next correlation id for RPC
    * @return correlation id for RPC
    **/
-  static uint64_t GetCorrelationId();
+  uint64_t GetCorrelationId();
 
  private:
-  static std::shared_ptr<interaction::ATEInteraction> ate_interaction_;
-  static uint64_t correlation_id_;
+  std::shared_ptr<interaction::ATEInteraction> ate_interaction_;
+  uint64_t correlation_id_ = 1;
+
+  AteApi ate_api_;
 };
 }  // namespace API
 

@@ -5,7 +5,6 @@
 #include "common.h"
 #include "logger/logger.h"
 
-#include "ate_api.h"
 #include "squish/squish_API.h"
 
 using namespace API;
@@ -22,11 +21,7 @@ auto& GetMainIoContext() {
   static boost::asio::io_context io_context;
   return io_context;
 }
-
-#define NO_RESPONSE_FOR_PYTHON logger::debug("No response for Python from {}", __func__)
 }  // namespace
-
-uint64_t ApiAggregator::correlation_id_ = 1;
 
 uint64_t ApiAggregator::GetCorrelationId() { return correlation_id_++; }
 
@@ -68,71 +63,58 @@ squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name
 void ApiAggregator::TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
                               common::squish::MouseButton button) {
   SquishApi::TapObject(ate_interaction_, GetCorrelationId(), screen_point, modifier_state, button);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
                               common::squish::MouseButton button) {
   SquishApi::TapObject(ate_interaction_, GetCorrelationId(), screen_rectangle, modifier_state, button);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::TapObject(const squish::Object& screen_rectangle, common::squish::ModifierState modifier_state,
                               common::squish::MouseButton button) {
   SquishApi::TapObject(ate_interaction_, GetCorrelationId(), screen_rectangle, modifier_state, button);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::LongPress(const squish::Object& screen_rectangle, int timeout_msec) {
   SquishApi::LongPress(ate_interaction_, GetCorrelationId(), screen_rectangle, timeout_msec);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec) {
   SquishApi::LongPress(ate_interaction_, GetCorrelationId(), screen_rectangle, x, y, timeout_msec);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
                                  common::squish::ModifierState modifier_state) {
   SquishApi::TouchAndDrag(ate_interaction_, GetCorrelationId(), object_or_name, x, y, dx, dy, modifier_state);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int dy,
                                  common::squish::ModifierState modifier_state) {
   SquishApi::TouchAndDrag(ate_interaction_, GetCorrelationId(), object_or_name, x, y, dx, dy, modifier_state);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::PressAndHold(const common::Point& screen_point) {
   SquishApi::PressAndHold(ate_interaction_, GetCorrelationId(), screen_point);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::PressAndHold(const common::Rect& screen_rectangle) {
   SquishApi::PressAndHold(ate_interaction_, GetCorrelationId(), screen_rectangle);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::PressAndHold(const squish::Object& object) {
   SquishApi::PressAndHold(ate_interaction_, GetCorrelationId(), object);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::PressRelease(const common::Point& screen_point) {
   SquishApi::PressRelease(ate_interaction_, GetCorrelationId(), screen_point);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::PressRelease(const common::Rect& screen_rectangle) {
   SquishApi::PressRelease(ate_interaction_, GetCorrelationId(), screen_rectangle);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 void ApiAggregator::PressRelease(const squish::Object& object) {
   SquishApi::PressRelease(ate_interaction_, GetCorrelationId(), object);
-  NO_RESPONSE_FOR_PYTHON;
 }
 
 bool ApiAggregator::Exists(const std::string& object_name) {
@@ -140,19 +122,17 @@ bool ApiAggregator::Exists(const std::string& object_name) {
 }
 
 void ApiAggregator::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
-  AteApi::ChangeSyncIconDB(ate_interaction_, GetCorrelationId(), sync_version, sync_build_version);
-  NO_RESPONSE_FOR_PYTHON;
+  ate_api_.ChangeSyncIconDB(ate_interaction_, GetCorrelationId(), sync_version, sync_build_version);
 }
 
 void ApiAggregator::ChangeSyncMode(common::squish::CollectionMode collection_mode) {
-  AteApi::ChangeSyncMode(ate_interaction_, GetCorrelationId(), collection_mode);
-  NO_RESPONSE_FOR_PYTHON;
+  ate_api_.ChangeSyncMode(ate_interaction_, GetCorrelationId(), collection_mode);
 }
 
 bool ApiAggregator::GetScreenshot(const std::string& filename, const std::string& location) {
-  return AteApi::GetScreenshot(ate_interaction_, GetCorrelationId(), filename, location);
+  return ate_api_.GetScreenshot(ate_interaction_, GetCorrelationId(), filename, location);
 }
 
 std::string ApiAggregator::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
-  return AteApi::GetText(ate_interaction_, GetCorrelationId(), x1, y1, x2, y2);
+  return ate_api_.GetText(ate_interaction_, GetCorrelationId(), x1, y1, x2, y2);
 }
