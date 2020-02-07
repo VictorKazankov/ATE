@@ -26,8 +26,8 @@ class SquishApi {
    *attachable AUT
    * @return A handle to its application context
    **/
-  static squish::ApplicationContext& AttachToApplication(
-      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const std::string& aut_name = "");
+  squish::ApplicationContext& AttachToApplication(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                                                  const std::string& aut_name = "");
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -39,10 +39,10 @@ class SquishApi {
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
-  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const uint64_t& correlation_id, const std::string& object_or_name);
-  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const uint64_t& correlation_id, const squish::Object& object_or_name);
+  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                               const uint64_t& correlation_id, const std::string& object_or_name) const;
+  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                               const uint64_t& correlation_id, const squish::Object& object_or_name) const;
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -55,12 +55,12 @@ class SquishApi {
    * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
    **/
-  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const uint64_t& correlation_id, const std::string& object_or_name,
-                                      int timeout_msec);
-  static squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                                      const uint64_t& correlation_id, const squish::Object& object_or_name,
-                                      int timeout_msec);
+  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                               const uint64_t& correlation_id, const std::string& object_or_name,
+                               int timeout_msec) const;
+  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+                               const uint64_t& correlation_id, const squish::Object& object_or_name,
+                               int timeout_msec) const;
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
@@ -71,10 +71,10 @@ class SquishApi {
    * @param The optional button specify mouse button that held down during the click
    **/
 
-  static void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const uint64_t& correlation_id, const common::Point& screen_point,
-                        common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
-                        common::squish::MouseButton button = common::squish::MouseButton::NONE);
+  void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                 const common::Point& screen_point,
+                 common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
+                 common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
 
   /**
    * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
@@ -84,14 +84,14 @@ class SquishApi {
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
    **/
-  static void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const uint64_t& correlation_id, const common::Rect& screen_rectangle,
-                        common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
-                        common::squish::MouseButton button = common::squish::MouseButton::NONE);
-  static void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const uint64_t& correlation_id, const squish::Object& screen_rectangle,
-                        common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
-                        common::squish::MouseButton button = common::squish::MouseButton::NONE);
+  void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                 const common::Rect& screen_rectangle,
+                 common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
+                 common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
+  void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                 const squish::Object& screen_rectangle,
+                 common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
+                 common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
 
   /**
    * @brief This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout
@@ -106,11 +106,10 @@ class SquishApi {
    * @param timeout_msec - timeout in miliseconds between press event and release event, optional
    * @exception Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
    **/
-  static void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const uint64_t& correlation_id, const squish::Object& screen_rectangle, int timeout_msec);
-  static void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                        const uint64_t& correlation_id, const squish::Object& screen_rectangle, int x, int y,
-                        int timeout_msec);
+  void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                 const squish::Object& screen_rectangle, int timeout_msec) const;
+  void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                 const squish::Object& screen_rectangle, int x, int y, int timeout_msec) const;
 
   /**
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
@@ -125,12 +124,12 @@ class SquishApi {
    * @param dy - dragged by pixels vertically
    * @param modifier_state - modifier state [NONE, ALT, CONTROL, SHIFT]
    **/
-  static void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const squish::Object& object_or_name, int x, int y, int dx,
-                           int dy, common::squish::ModifierState modifier_state);
-  static void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const std::string& object_or_name, int x, int y, int dx,
-                           int dy, common::squish::ModifierState modifier_state);
+  void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const squish::Object& object_or_name, int x, int y, int dx, int dy,
+                    common::squish::ModifierState modifier_state) const;
+  void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const std::string& object_or_name, int x, int y, int dx, int dy,
+                    common::squish::ModifierState modifier_state) const;
 
   /**
    * @brief This function performs a press and hold operation specified by a screen_point. Position is in screen global
@@ -143,8 +142,8 @@ class SquishApi {
    * @param correlation_id - correlation id for RPC
    * @param screen_point Point in absolute coordinates where to perform the press operation
    **/
-  static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const common::Point& screen_point);
+  void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const common::Point& screen_point) const;
 
   /**
    * @brief This function performs a press and hold operation specified by the center of a screen_rectangle. Position
@@ -157,8 +156,8 @@ class SquishApi {
    * @param correlation_id - correlation id for RPC
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
    **/
-  static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const common::Rect& screen_rectangle);
+  void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const common::Rect& screen_rectangle) const;
 
   /**
    * @brief This function performs a press and hold operation specified by the center of the object obtained by
@@ -171,8 +170,8 @@ class SquishApi {
    * @param correlation_id - correlation id for RPC
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
    **/
-  static void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const squish::Object& object);
+  void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const squish::Object& object) const;
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -184,8 +183,8 @@ class SquishApi {
    * @param correlation_id - correlation id for RPC
    * @param screen_point Point in absolute coordinates where to perform the release operation
    **/
-  static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const common::Point& screen_point);
+  void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const common::Point& screen_point) const;
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -197,8 +196,8 @@ class SquishApi {
    * @param correlation_id - correlation id for RPC
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform release operation
    **/
-  static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const common::Rect& screen_rectangle);
+  void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const common::Rect& screen_rectangle) const;
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
@@ -210,8 +209,8 @@ class SquishApi {
    * @param correlation_id - correlation id for RPC
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
    **/
-  static void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                           const uint64_t& correlation_id, const squish::Object& object);
+  void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+                    const squish::Object& object) const;
 
   /**
    * @brief This function verifies the object with the symbolic
@@ -222,21 +221,28 @@ class SquishApi {
    * @return returns a true value if the object with the symbolic
    * or real (multi-property) name objectName exists otherwise false
    **/
-  static bool Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                     const uint64_t& correlation_id, const std::string& object_name);
+  bool Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+              const std::string& object_name) const;
 
   /**
    * @brief The function sets default timeout for WaitForObject function
    * @param timeout - timeout for WaitForObject function
    **/
-  static void SetDefaultWaitForObjectTimeout(int timeout);
+  void SetDefaultWaitForObjectTimeout(int timeout);
+
+  /**
+   * @brief The function allows to check is ApplicationContext already exist, therefore whether a connection was
+   * performed
+   * @return true in case of ApplicationContext exist, false - otherwise
+   **/
+  bool IsApplicationContextExist() const;
 
  private:
-  static squish::ApplicationContext application_context_;
+  squish::ApplicationContext application_context_;
 
  public:
-  static int default_wait_for_object_timeout_in_ms_;
-  static const int default_long_press_timeout_in_ms_ = 2000;
+  int default_wait_for_object_timeout_in_ms_ = 0;
+  const int default_long_press_timeout_in_ms_ = 2000;
 };
 }  // namespace API
 

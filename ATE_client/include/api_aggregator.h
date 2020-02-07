@@ -10,6 +10,7 @@
 
 #include "ate_api.h"
 #include "ate_interaction.h"
+#include "squish/squish_API.h"
 #include "squish/squish_types.h"
 
 namespace API {
@@ -224,6 +225,7 @@ class ApiAggregator {
   uint64_t correlation_id_ = 1;
 
   AteApi ate_api_;
+  SquishApi squish_api_;
 };
 }  // namespace API
 
