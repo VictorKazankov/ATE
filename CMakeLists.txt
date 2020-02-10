@@ -33,7 +33,7 @@ option(ATE_WITH_TESTS "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
 option(ATE_CREATE_DEBIAN_PACKAGE "Create Debian package" OFF)
-option(VHAT_INSTALL_ICON_STORAGE "Install ATE icon storage" OFF)
+option(ATE_INSTALL_ICON_STORAGE "Install ATE icon storage" OFF)
 
 # The icon storage path is universal for whole VDP project and must never change
 set(ATE_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for ATE writable data directories" )
@@ -65,7 +65,7 @@ message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
 message(STATUS "ATE_CREATE_DEBIAN_PACKAGE: " ${ATE_CREATE_DEBIAN_PACKAGE})
 message(STATUS "ATE_INSTALL_SERVER_SERVICE: " ${ATE_INSTALL_SERVER_SERVICE})
 message(STATUS "ATE_WRITABLE_DATA_PREFIX: " ${ATE_WRITABLE_DATA_PREFIX})
-message(STATUS "VHAT_INSTALL_ICON_STORAGE: " ${VHAT_INSTALL_ICON_STORAGE})
+message(STATUS "ATE_INSTALL_ICON_STORAGE: " ${ATE_INSTALL_ICON_STORAGE})
 message(STATUS "VHAT_ICON_STORAGE_PREFIX: " ${VHAT_ICON_STORAGE_PREFIX})
 
 add_subdirectory(third_party)
@@ -198,7 +198,7 @@ if(ATE_CREATE_DEBIAN_PACKAGE)
     ")
   endif(ATE_INSTALL_SERVER_SERVICE)
 
-  if (VHAT_INSTALL_ICON_STORAGE)
+  if (ATE_INSTALL_ICON_STORAGE)
     #TODO: change the user and group names according to VDP policies
     file(APPEND ${POSTINST_FILE} "
       USER=nvidia
@@ -220,7 +220,7 @@ if(ATE_CREATE_DEBIAN_PACKAGE)
         echo \"error: failed to set permissions of ${ATE_WRITABLE_DATA_PREFIX} to \${PERMISSIONS}\"
       fi
     ")
-  endif(VHAT_INSTALL_ICON_STORAGE)
+  endif(ATE_INSTALL_ICON_STORAGE)
 
   set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA ${POSTINST_FILE} ${PRERM_FILE})
 
