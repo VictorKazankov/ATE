@@ -29,10 +29,10 @@ include(GNUInstallDirs)
 
 option(ATE_BUILD_CLIENT "Build ATE client" ON)
 option(ATE_BUILD_SERVER "Build ATE server" ON)
-option(ATE_WITH_TESTS "Build ATE with tests" ON)
+option(ATE_TESTING "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
-option(ATE_CREATE_DEBIAN_PACKAGE "Create Debian package" OFF)
+option(ATE_PACKAGE "Create Debian package" OFF)
 option(ATE_INSTALL_ICON_STORAGE "Install ATE icon storage" OFF)
 
 # The icon storage path is universal for whole VDP project and must never change
@@ -58,11 +58,11 @@ install(FILES "${CMAKE_BINARY_DIR}/ate_version" DESTINATION ${ATE_INSTALL_SYSCON
 message(STATUS ${PROJECT_NAME} " v" ${PROJECT_VERSION_FULL})
 message(STATUS "ATE_BUILD_CLIENT: " ${ATE_BUILD_CLIENT})
 message(STATUS "ATE_BUILD_SERVER: " ${ATE_BUILD_SERVER})
-message(STATUS "ATE_WITH_TESTS: " ${ATE_WITH_TESTS})
+message(STATUS "ATE_TESTING: " ${ATE_TESTING})
 message(STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
 message(STATUS "CMAKE_INSTALL_PREFIX: " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
-message(STATUS "ATE_CREATE_DEBIAN_PACKAGE: " ${ATE_CREATE_DEBIAN_PACKAGE})
+message(STATUS "ATE_PACKAGE: " ${ATE_PACKAGE})
 message(STATUS "ATE_INSTALL_SERVER_SERVICE: " ${ATE_INSTALL_SERVER_SERVICE})
 message(STATUS "ATE_WRITABLE_DATA_PREFIX: " ${ATE_WRITABLE_DATA_PREFIX})
 message(STATUS "ATE_INSTALL_ICON_STORAGE: " ${ATE_INSTALL_ICON_STORAGE})
@@ -123,7 +123,7 @@ elseif (ATE_COVERAGE AND NOT GCOVR_EXECUTABLE)
 endif ()
 
 #------------------------------------------ unit tests ------------------------------------------#
-if(ATE_WITH_TESTS)
+if(ATE_TESTING)
   find_package(GTest REQUIRED)
   FindGmock()
 
@@ -145,9 +145,9 @@ if(ATE_WITH_TESTS)
 
   # run all tests
   add_custom_target(check COMMAND ctest)
-endif(ATE_WITH_TESTS)
+endif(ATE_TESTING)
 
-if(ATE_CREATE_DEBIAN_PACKAGE)
+if(ATE_PACKAGE)
   # Unfortunately Debian package cannot be packed with an arbitrary install prefix.
   # As the binary depends on an absolute path stored in CMAKE_INSTALL_PREFIX var.
   set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
@@ -225,4 +225,4 @@ if(ATE_CREATE_DEBIAN_PACKAGE)
   set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA ${POSTINST_FILE} ${PRERM_FILE})
 
   include(CPack)
-endif(ATE_CREATE_DEBIAN_PACKAGE)
+endif(ATE_PACKAGE)
