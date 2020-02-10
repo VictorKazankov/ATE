@@ -16,6 +16,9 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING
 set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL
   "Default value for CXX_STANDARD_REQUIRED property of targets")
 
+# Default build type is release
+set(CMAKE_BUILD_TYPE Release)
+
 #------------------------------------------ cmake includes ------------------------------------------#
 # cmake functions
 include(${PROJECT_SOURCE_DIR}/infrastructure/cmake/functions/functions.cmake)
@@ -28,6 +31,9 @@ option(ATE_BUILD_CLIENT "Build ATE client" ON)
 option(ATE_BUILD_SERVER "Build ATE server" ON)
 option(ATE_WITH_TESTS "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
+option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
+option(ATE_CREATE_DEBIAN_PACKAGE "Create Debian package" OFF)
+option(VHAT_INSTALL_ICON_STORAGE "Install ATE icon storage" OFF)
 
 # The icon storage path is universal for whole VDP project and must never change
 set(ATE_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for ATE writable data directories" )
