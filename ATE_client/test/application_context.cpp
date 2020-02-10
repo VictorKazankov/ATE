@@ -34,7 +34,7 @@ void ApplicationContextTest::SetUp() {
   application_context_ = std::make_unique<squish::ApplicationContext>();
   auto mock = std::make_unique<MockATEInteraction>();
   application_context_->Attach(std::move(mock));
-  mock_ = static_cast<MockATEInteraction*>(application_context_->ate_interaction.get());
+  mock_ = static_cast<MockATEInteraction*>(application_context_->ate_interaction_.get());
   ASSERT_TRUE(mock_);
 }
 

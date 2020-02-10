@@ -240,7 +240,6 @@ class SquishApi {
  private:
   squish::ApplicationContext application_context_;
 
- public:
   int default_wait_for_object_timeout_in_ms_ = 0;
   const int default_long_press_timeout_in_ms_ = 2000;
 };

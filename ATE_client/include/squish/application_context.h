@@ -11,7 +11,7 @@
 
 namespace squish {
 
-struct ApplicationContext {
+class ApplicationContext {
  public:
   ApplicationContext() = default;
   ~ApplicationContext() = default;
@@ -64,7 +64,7 @@ struct ApplicationContext {
   std::string port() const;
 
  private:
-  std::shared_ptr<interaction::Interaction> ate_interaction;
+  std::shared_ptr<interaction::Interaction> ate_interaction_;
 };
 
 }  // namespace squish
