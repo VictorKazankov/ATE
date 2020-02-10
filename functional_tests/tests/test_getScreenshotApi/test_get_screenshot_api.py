@@ -1,6 +1,7 @@
 import time
 
 import pytest
+from vhat_client import WrongScreenshotExtension, EmptyScreenshotFileName, PermissionDenied
 from vhat_client import attachToApplication as attach_to_application
 from vhat_client import getScreenshot as get_screenshot
 
@@ -22,11 +23,11 @@ def attach_to_app():
 @pytest.fixture(scope='function')
 def client():
     client = start()
-    execute_command(client, 'cd {}; sudo rm -r "screenshots"'.format(default_folder),
+    execute_command(client, 'cd {}; sudo rm -r "{}"'.format(default_folder, folder_name),
                     True, True)
-    execute_command(client, 'cd {}; sudo mkdir screenshots'.format(default_folder), True)
+    execute_command(client, 'cd {}; sudo mkdir {}'.format(default_folder, folder_name), True)
     yield client
-    execute_command(client, 'cd {}; sudo rm -r screenshots'.format(default_folder),
+    execute_command(client, 'cd {}; sudo rm -r {}'.format(default_folder, folder_name),
                     True, True)
 
 
@@ -86,9 +87,16 @@ def test_replaced(client):
     modified_time_new = int(execute_command(client, modified_time_command).read().strip())
     assert modified_time_new > modified_time_old
 
+# TODO:: uncomment once VHAT-1416 is done
+# def test_permission_denied(client):
+#     execute_command(client, 'sudo chown root {}'.format('/'.join([default_folder, folder_name])),
+#                     True)
+#     with pytest.raises(PermissionDenied):
+#         get_screenshot(file_name, folder_name)
 
-@pytest.mark.parametrize('test_data', [('abc', RuntimeError),
-                                       ('', RuntimeError),
+
+@pytest.mark.parametrize('test_data', [('abc', WrongScreenshotExtension),
+                                       ('', EmptyScreenshotFileName),
                                        (1, TypeError),
                                        (None, TypeError),
                                        (True, TypeError)])
