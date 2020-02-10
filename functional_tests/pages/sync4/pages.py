@@ -7,7 +7,7 @@ from functional_tests.utils.sync4.constants import Icons, Text
 
 class SettingsPage:
     def open_settings_page(self):
-        if hmi.obj_exists(Icons.SOUND_SETTINGS_BUTTON) and hmi.obj_exists(Icons.GENERAL_SETTINGS_BUTTON):
+        if hmi.obj_exists(Icons.SOUND_SETTINGS_BUTTON):
             logging.info("Settings page is already open")
         elif tap_if_visible(Icons.MAIN_PANEL_SETTINGS_BUTTON_ACTIVE):
             logging.info('Open settings page')

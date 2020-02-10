@@ -1,9 +1,12 @@
+import logging
+import sys
 import time
 
 from functional_tests.utils import wait_for_obj_benchmark
-from vhat_client import (ModifierState, MouseButton, attachToApplication,
-                         changeSyncIconDB, changeSyncMode, object, tapObject,
-                         touchAndDrag, waitForObject)
+from vhat_client import (ModifierState, MouseButton, VideoStreamingError,
+                         attachToApplication, changeSyncIconDB, changeSyncMode,
+                         getText, object, tapObject, touchAndDrag,
+                         waitForObject)
 
 
 def attach_to_application():
@@ -11,11 +14,16 @@ def attach_to_application():
 
 
 def wait_for_object(object_name, timeout=7000):
-    start = time.time()
-    obj = waitForObject(object_name, timeout)
-    wait_for_obj_benchmark.set_time(time.time() - start, object_name)
-
-    return obj
+    try:
+        start = time.time()
+        obj = waitForObject(object_name, timeout)
+        wait_for_obj_benchmark.set_time(time.time() - start, object_name)
+        return obj
+    except VideoStreamingError:
+        logging.info("Can`t found video stream")
+        sys.exit(1)
+    except LookupError:
+        logging.info("Can`t found object")
 
 
 def tap_object(object):
@@ -40,3 +48,11 @@ def change_sync_icon_db(sync, build):
 
 def change_sync_mode(collection_mode):
     changeSyncMode(collection_mode)
+
+
+def get_text(x1, y1, x2, y2):
+    try:
+        return getText(x1, y1, x2, y2)
+    except VideoStreamingError:
+        logging.info("Can`t found video stream")
+        sys.exit(1)
