@@ -41,9 +41,10 @@ PYBIND11_MODULE(vhat_client, m) {
       .def(py::init())
       .def(py::init<int, int>(), "", py::arg("x"), py::arg("y"))
       .def(py::init<int, int, int, int>(), "", py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"))
-      .def("exists", &API::Exists,
+      .def("exists", [](const squish::Object&, std::string& object_name) { return API::Exists(object_name); },
            "This function returns a true value if the object with the symbolic or real (multi-property) "
-           "name objectName exists; otherwise it returns a false value.")
+           "name objectName exists; otherwise it returns a false value.",
+           py::arg("objectName"))
       .def_readwrite("x", &squish::Object::x)
       .def_readwrite("y", &squish::Object::y)
       .def_readwrite("width", &squish::Object::width)
