@@ -161,8 +161,8 @@ if(ATE_PACKAGE)
   set(CPACK_DEBIAN_PACKAGE_REPLACES "vdp-vhat, vhat")
   set(CPACK_DEBIAN_PACKAGE_PROVIDES "vdp-vhat (=${PROJECT_VERSION_FULL}), vhat (=${PROJECT_VERSION_FULL})")
 
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, vdp-libdbmanager (>= ${PROJECT_VERSION}),\
-                                    vdp-librecognition (>= ${PROJECT_VERSION}), vdp-mcu-utils,\
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libssl1.0.0, vdp-libdbmanager,\
+                                    vdp-librecognition, vdp-mcu-utils,\
                                     vdp-gstreamer, vdp-media-server")
   set(CPACK_DEBIAN_PACKAGE_SUGGESTS "python2.7")
   set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
