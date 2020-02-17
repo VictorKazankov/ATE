@@ -38,7 +38,6 @@ def occupancy_mode_sync4(app_connector):
 def clock_settings_sync4(app_connector):
     api = page_supervisor_sync4.PageSupervisor()
     api.settings_page.open_setting_clock_page()
-    yield api.settings_clock_page
 
 
 @pytest.fixture(scope='module')

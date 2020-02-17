@@ -4,7 +4,17 @@ Constants for icons and text
 
 
 class Icons:
+    SETTINGS_TOWING_BUTTON = 'settings_towing_button'
+    SETTINGS_VALET_MODE_BUTTON = 'settings_valet_mode_button'
+    SETTINGS_VOICE_CONTROL_BUTTON = 'settings_voice_control_button'
+    SETTINGS_DISPLAY_BUTTON = 'settings_display_button'
+    SETTINGS_VEHICLE_BUTTON = 'settings_vehicle_button'
+    SETTINGS_SOFTWARE_UPDATES_BUTTON = 'settings_software_updates_button'
+    SETIINGS_911_ASSIST_BUTTON = 'settings_911_assist_button'
     ADD_PHONE_TITLE_ICON = 'pair_bluetooth_device_title'
+    APPS_FIND_MOBILE_APPS_BUTTON = 'apps_find_mobile_apps_button'
+    APPS_OWNERS_MANUAL_BUTTON = 'apps_owners_manual_button'
+    APPS_MOBILE_APPS_HELP_BUTTON = 'apps_mobile_apps_help_button'
     APPS_TITLE_ICON = 'apps_title'
     ARROW_DOWN_BUTTON = 'arrow_down_button'
     ARROW_DOWN_THIN_BUTTON = 'arrow_down_thin_button'
@@ -89,9 +99,11 @@ class Icons:
     SETTINGS_CONNECTION_SETTINGS_BUTTON = 'settings_connection_settings_button'
     SETTINGS_GENERAL_SETTINGS_BUTTON = 'settings_general_button'
     SETTINGS_MOBILE_APPS_BUTTON = 'settings_mobile_apps_button'
+    SETTINGS_SYNC_NAVIGATION_BUTTON = 'settings_sync_navigation_button'
     SETTINGS_PAGE_TITLE_ICON = 'settings_title'
     SETTINGS_PAGE_VEHICLE_BUTTON = 'settings_vehicle_button'
     SETTINGS_RADIO_BUTTON = 'settings_radio_button'
+    SETTINGS_SOUND_BUTTON = 'settings_sound_button'
     SETTINGS_SOUND_BALANCE_FADE_TITLE = 'settings_sound_balance_fade_title'
     SETTINGS_SOUND_BALANCE_RESET_BUTTON = 'settings_sound_balance_reset_button'
     SETTINGS_SOUND_RESET_ALL_BUTTON = 'settings_sound_tone_reset_all_button'
@@ -230,7 +242,6 @@ class Text:
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'
 
-
 """DATA FOR PARAMETERIZATION"""
 
 main_panel_images = [Icons.MAIN_AUDIO_BUTTON_INACTIVE, Icons.MAIN_CLIMATE_BUTTON_ACTIVE,
@@ -247,3 +258,23 @@ key_numbers_images = [Icons.KEY_0_INACTIVE, Icons.KEY_1_ACTIVE, Icons.KEY_2_INAC
                       Icons.KEY_4_INACTIVE, Icons.KEY_5_INACTIVE, Icons.KEY_6_INACTIVE, Icons.KEY_7_INACTIVE,
                       Icons.KEY_8_ACTIVE, Icons.KEY_9_ACTIVE, Icons.AUDIO_DIRECT_ENTER_BUTTON_INACTIVE,
                       Icons.AUDIO_DIRECT_CANCEL_BUTTON_ACTIVE]
+
+apps_page_images = [Icons.APPS_FIND_MOBILE_APPS_BUTTON,
+                    Icons.APPS_OWNERS_MANUAL_BUTTON,
+                    Icons.APPS_MOBILE_APPS_HELP_BUTTON]
+
+settings_page_images = [Icons.SETTINGS_SOUND_BUTTON,
+                        Icons.SETTINGS_CLOCK_BUTTON,
+                        Icons.SETTINGS_CONNECTION_SETTINGS_BUTTON,
+                        Icons.SETTINGS_ADD_PHONE_BUTTON,
+                        Icons.SETTINGS_RADIO_BUTTON,
+                        Icons.SETTINGS_SYNC_NAVIGATION_BUTTON,
+                        Icons.SETTINGS_MOBILE_APPS_BUTTON,
+                        Icons.SETTINGS_GENERAL_SETTINGS_BUTTON,
+                        Icons.SETIINGS_911_ASSIST_BUTTON,
+                        Icons.SETTINGS_SOFTWARE_UPDATES_BUTTON,
+                        Icons.SETTINGS_VEHICLE_BUTTON,
+                        Icons.SETTINGS_DISPLAY_BUTTON,
+                        Icons.SETTINGS_VOICE_CONTROL_BUTTON,
+                        Icons.SETTINGS_VALET_MODE_BUTTON,
+                        Icons.SETTINGS_TOWING_BUTTON]
