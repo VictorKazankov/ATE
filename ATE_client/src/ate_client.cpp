@@ -1,9 +1,9 @@
 #include <pybind11/pybind11.h>
+
 #include <boost/system/system_error.hpp>
 
 #include "api.h"
 #include "error_defines.h"
-
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
@@ -42,13 +42,21 @@ PYBIND11_MODULE(vhat_client, m) {
       .def(py::init<int, int>(), "", py::arg("x"), py::arg("y"))
       .def(py::init<int, int, int, int>(), "", py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"))
       .def("exists", [](const squish::Object&, std::string& object_name) { return API::Exists(object_name); },
-           "This function returns a true value if the object with the symbolic or real (multi-property) "
-           "name objectName exists; otherwise it returns a false value.",
-           py::arg("objectName"))
+          "This function returns a true value if the object with the symbolic or real (multi-property) "
+          "name objectName exists; otherwise it returns a false value.",
+          py::arg("objectName"))
+      .def_property_readonly("topLeft", &squish::Object::TopLeft)
+      .def_property_readonly("bottomRight", &squish::Object::BottomRight)
       .def_readwrite("x", &squish::Object::x)
       .def_readwrite("y", &squish::Object::y)
       .def_readwrite("width", &squish::Object::width)
       .def_readwrite("height", &squish::Object::height)
+      .def_readwrite("x_top_left", &squish::Object::x_top_left)
+      .def_readwrite("y_top_left", &squish::Object::y_top_left)
+      .def_readwrite("x_bottom_right", &squish::Object::x_bottom_right)
+      .def_readwrite("y_bottom_right", &squish::Object::y_bottom_right)
+      .def_readwrite("parent_width", &squish::Object::parent_width)
+      .def_readwrite("parent_height", &squish::Object::parent_height)
       .def_readwrite("name", &squish::Object::name)
       .def_readwrite("type", &squish::Object::type);
 
