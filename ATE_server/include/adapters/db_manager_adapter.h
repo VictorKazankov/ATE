@@ -6,6 +6,8 @@
 
 #include <db_manager/db_manager.h>
 
+#include "utils/object_data_type.h"
+
 namespace cv {
 class Mat;
 }
@@ -59,6 +61,13 @@ class DBManagerAdapter {
    * @return OpenCv Mat or empty Mat if item doesn't exist
    */
   cv::Mat GetItem(const std::string& name);
+
+  /**
+   * @brief Gets item data by select pattern
+   * @param pattern Select pattern
+   * @return List of objects
+   */
+  std::vector<common::ObjectData> GetItemData(const std::string& pattern);
 
   /**
   * @brief Reload items from icon storage

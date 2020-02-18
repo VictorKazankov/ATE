@@ -138,6 +138,14 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleGetText(const Json::Value& params);
 
   /**
+   * @brief Handler for GetObjectsDataByPattern
+   * @param params GetObjectsDataByPattern params
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandleGetObjectsDataByPattern(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */

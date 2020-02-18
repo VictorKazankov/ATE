@@ -27,7 +27,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kReloadIconStorage, &AteMessageAdapter::HandleReloadIconStorage},
                    {common::jmsg::kLongPress, &AteMessageAdapter::HandleLongPress},
                    {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot},
-                   {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText}} {}
+                   {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText},
+                   {common::jmsg::kGetObjectsDataByPattern, &AteMessageAdapter::HandleGetObjectsDataByPattern}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -332,6 +333,22 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetText(const Json::Value&
   }
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetTextResultObject(res.first), true);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleGetObjectsDataByPattern(const Json::Value& params) {
+  Json::Value error;
+  std::string select_pattern;
+
+  common::jmsg::ExtractGetObjectsDataByPatternParams(params, select_pattern, error);
+
+  if (!error.empty()) {
+    // Extract error occurs
+    return std::make_pair(std::move(error), false);
+  }
+
+  auto res = ate_.GetObjectsDataByPattern(select_pattern);
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetObjectsDataByPatternResponse(res), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {

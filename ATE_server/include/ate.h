@@ -7,6 +7,7 @@
 #include <boost/asio/io_context.hpp>
 #include "adapters/db_manager_adapter.h"
 #include "interaction/interaction.h"
+#include "utils/object_data_type.h"
 #include "video_streaming/matching/matcher.h"
 #include "video_streaming/streamer.h"
 
@@ -114,6 +115,13 @@ class ATE {
    * @return string representation of detected text on predefined area
    */
   std::pair<std::string, std::error_code> GetText(const cv::Point& point, const cv::Point& delta_point);
+
+  /**
+   * @brief Gets a list of objects by select pattern
+   * @param select_pattern Pattern for selecting
+   * @return List of data object
+   */
+  std::vector<common::ObjectData> GetObjectsDataByPattern(const std::string& select_pattern);
 
  private:
   std::unique_ptr<interaction::Interaction> interaction_;

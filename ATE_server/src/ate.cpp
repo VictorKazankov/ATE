@@ -175,3 +175,8 @@ std::error_code ATE::GetScreenshot(const std::string& path, const std::string& f
 std::pair<std::string, std::error_code> ATE::GetText(const cv::Point& point, const cv::Point& delta_point) {
   return matcher_.GetText(point, delta_point);
 }
+
+// TODO(slisovenko@luxoft.com): temporary dummy. Replace this code after implementation select by pattern
+std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const std::string& select_pattern) {
+  return storage_.GetItemData(select_pattern);
+}

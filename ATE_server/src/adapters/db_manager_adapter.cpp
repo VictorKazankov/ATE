@@ -102,4 +102,23 @@ cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
 
 std::error_code DBManagerAdapter::ReloadStorage() noexcept { return db_manager_->ReloadStorage(); }
 
+std::vector<common::ObjectData> DBManagerAdapter::GetItemData(const std::string& pattern) {
+  std::vector<common::ObjectData> object_data_list;
+  // TODO(slisovenko@luxoft.com): temporary dummy. Replace this code after implementation select by pattern
+  const auto item_info = db_manager_->GetItem(pattern, sync_version_, sync_build_version_, collection_mode_);
+  if (item_info.item.IsValid()) {
+    common::ObjectData object_data;
+    object_data.center = item_info.item.center;
+    object_data.top_left = item_info.item.top_left;
+    object_data.bottom_right = item_info.item.bottom_right;
+    object_data.parent_width = item_info.item.parent_width;
+    object_data.parent_height = item_info.item.parent_height;
+    object_data.name = item_info.item.alias;
+
+    object_data_list.emplace_back(std::move(object_data));
+  }
+
+  return object_data_list;
+}
+
 }  // namespace adapter
