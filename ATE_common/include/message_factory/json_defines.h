@@ -38,6 +38,16 @@ constexpr auto kSyncCollectionMode = "sync_collection_mode";
 constexpr auto kLocation = "location";
 constexpr auto kFileName = "filename";
 constexpr auto kText = "text";
+// Object data
+constexpr auto kName = "name";
+constexpr auto kSelectPattern = "select_pattern";
+constexpr auto kXTopLeft = "x_top_left";
+constexpr auto kYTopLeft = "y_top_left";
+constexpr auto kXBottomRight = "x_bottom_right";
+constexpr auto kYBottomRight = "y_bottom_right";
+constexpr auto kParentWidth = "parent_width";
+constexpr auto kParentHeight = "parent_height";
+
 }  // namespace jmsg
 }  // namespace common
 

@@ -17,6 +17,7 @@ constexpr auto kReloadIconStorage = "ReloadIconStorage";
 constexpr auto kLongPress = "LongPress";
 constexpr auto kGetScreenshot = "GetScreenshot";
 constexpr auto kGetText = "GetText";
+constexpr auto kGetObjectsDataByPattern = "GetObjectsDataByPattern";
 
 }  // namespace jmsg
 }  // namespace common

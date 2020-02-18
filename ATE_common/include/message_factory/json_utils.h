@@ -205,6 +205,14 @@ void ExtractChangeSyncModeRequestParams(const Json::Value& params, std::string& 
 void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_left, common::Point& bottom_right,
                                  Json::Value& error);
 
+/**
+ * Extracts params for 'GetObjectsDataByPattern' method
+ * @param params Structured value that holds the parameter values to be used
+ * @param select_pattern Select pattern
+ * @param error Error object, null on success
+ */
+void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string& select_pattern, Json::Value& error);
+
 }  // namespace jmsg
 }  // namespace common
 

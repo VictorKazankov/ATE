@@ -197,6 +197,23 @@ std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& to
   return writer.write(message);
 }
 
+/**
+ * A JSON request contains next data in data section:
+ * [{select_pattern}]
+ */
+std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const std::string& name, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+  params[kSelectPattern] = name;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kGetObjectsDataByPattern, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 
@@ -244,6 +261,33 @@ Json::Value MessageFactory::Server::CreateLongPressResultObject() { return Json:
 Json::Value MessageFactory::Server::CreateGetTextResultObject(const std::string& text) {
   Json::Value result{Json::objectValue};
   result[kText] = text;
+
+  return result;
+}
+
+/**
+ * A JSON response contains an array of next structures of objects in data section:
+ * [{x, y, width, height, x_top_left, y_top_left, x_bottom_right, y_bottom_right, parent_width, parent_height, name}]
+ */
+Json::Value MessageFactory::Server::CreateGetObjectsDataByPatternResponse(const std::vector<ObjectData>& objects_data) {
+  Json::Value result;
+
+  for (const auto& data : objects_data) {
+    Json::Value node;
+    node[kAbscissa] = data.center.x;
+    node[kOrdinate] = data.center.y;
+    node[kWidth] = data.width;
+    node[kHeight] = data.height;
+    node[kXTopLeft] = data.top_left.x;
+    node[kYTopLeft] = data.top_left.y;
+    node[kXBottomRight] = data.bottom_right.x;
+    node[kYBottomRight] = data.bottom_right.y;
+    node[kParentWidth] = data.parent_width;
+    node[kParentHeight] = data.parent_height;
+    node[kName] = data.name;
+
+    result.append(node);
+  }
 
   return result;
 }

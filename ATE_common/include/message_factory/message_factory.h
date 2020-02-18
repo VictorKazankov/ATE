@@ -6,6 +6,7 @@
 #include "json/value.h"
 
 #include "utils/geometry_types.h"
+#include "utils/object_data_type.h"
 #include "utils/squish_types.h"
 
 namespace common {
@@ -36,6 +37,7 @@ class MessageFactory {
     static std::string CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id);
     static std::string CreateGetScreenshotRequest(const std::string& filename, const std::string& location, int id);
     static std::string CreateGetTextRequest(const common::Point& top_left, const common::Point& bottom_right, int id);
+    static std::string CreateGetObjectsDataByPatternRequest(const std::string& name, int id);
   };
 
   /**
@@ -73,6 +75,7 @@ class MessageFactory {
     static Json::Value CreateLongPressResultObject();
     static Json::Value CreateGetScreenshotObject();
     static Json::Value CreateGetTextResultObject(const std::string& text);
+    static Json::Value CreateGetObjectsDataByPatternResponse(const std::vector<ObjectData>& objects_data);
   };
 };
 
