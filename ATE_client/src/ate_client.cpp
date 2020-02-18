@@ -247,4 +247,16 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
         "produced rectangle has zero height/width or is out of frame boundaries.",
         py::arg("x1"), py::arg("y1"), py::arg("x2"), py::arg("y2"), py::return_value_policy::copy);
+
+  m.def("getObjectsDataByPattern", py::overload_cast<const squish::Object&>(&API::GetObjectsDataByPattern),
+        "GetObjectsDataByPattern provides a list of objects that are formed on the basis of the available data in the "
+        "database. The selection of objects is carried out by applying a search pattern."
+        "The function may throw an exception 'runtime_error'.",
+        py::arg("object"));
+
+  m.def("getObjectsDataByPattern", py::overload_cast<const std::string&>(&API::GetObjectsDataByPattern),
+        "GetObjectsDataByPattern provides a list of objects that are formed on the basis of the available data in the "
+        "database. The selection of objects is carried out by applying a search pattern."
+        "The function may throw an exception 'runtime_error'.",
+        py::arg("name"));
 }

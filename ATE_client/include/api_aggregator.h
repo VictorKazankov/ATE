@@ -213,6 +213,20 @@ class ApiAggregator {
    */
   std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 
+  /**
+   * @brief Gets object list by object name
+   * @param object_name Name of object
+   * @return List of objects
+   */
+  std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_name);
+
+  /**
+   * @brief Gets object list by selecting a pattern
+   * @param object_pattern Pattern for selection
+   * @return List of objects
+   */
+  std::vector<squish::Object> GetObjectsDataByPattern(const squish::Object& object_pattern);
+
  private:
   /**
    * @brief The function gets next correlation id for RPC

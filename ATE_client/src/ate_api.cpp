@@ -43,3 +43,20 @@ std::string AteApi::GetText(const std::shared_ptr<interaction::ATEInteraction>& 
   auto response = ate_interaction->SendCommand(message);
   return interaction::JsonRpcParser::ParseGetText(response);
 }
+
+std::vector<squish::Object> AteApi::GetObjectsDataByPattern(
+    const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+    const std::string& object_name) const {
+  auto message =
+      common::jmsg::MessageFactory::Client::CreateGetObjectsDataByPatternRequest(object_name, correlation_id);
+
+  auto response = ate_interaction->SendCommand(message);
+  return interaction::JsonRpcParser::ParseGetObjectsDataByPattern(response);
+}
+
+std::vector<squish::Object> AteApi::GetObjectsDataByPattern(
+    const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+    const squish::Object& object_pattern) const {
+  // TODO(slisovenko@luxoft.com): temporary dummy. Replace this code after implementation select by pattern
+  return GetObjectsDataByPattern(ate_interaction, correlation_id, object_pattern.name);
+}

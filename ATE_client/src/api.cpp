@@ -91,3 +91,11 @@ bool API::GetScreenshot(const std::string& filename, const std::string& location
 std::string API::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
   return GetApiAggregator().GetText(x1, y1, x2, y2);
 }
+
+std::vector<squish::Object> API::GetObjectsDataByPattern(const std::string& object_name) {
+  return GetApiAggregator().GetObjectsDataByPattern(object_name);
+}
+
+std::vector<squish::Object> API::GetObjectsDataByPattern(const squish::Object& object_pattern) {
+  return GetApiAggregator().GetObjectsDataByPattern(object_pattern);
+}

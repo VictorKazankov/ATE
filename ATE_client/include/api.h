@@ -1,6 +1,8 @@
 #ifndef API_H_
 #define API_H_
 
+#include <vector>
+
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
@@ -197,6 +199,21 @@ bool GetScreenshot(const std::string& filename, const std::string& location);
  * @param y2 y axis of the bottom-right coordinate
  */
 std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+
+/**
+ * @brief Gets object list by object name
+ * @param object_name Name of object
+ * @return List of objects
+ */
+std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_name);
+
+/**
+ * @brief Gets object list by selecting a pattern
+ * @param object_pattern Pattern for selection
+ * @return List of objects
+ */
+std::vector<squish::Object> GetObjectsDataByPattern(const squish::Object& object_pattern);
+
 }  // namespace API
 
 #endif  // API_H_

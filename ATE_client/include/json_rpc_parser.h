@@ -41,6 +41,13 @@ class JsonRpcParser {
    */
   static std::string ParseGetText(const std::string& rpc);
 
+  /**
+   * @brief The function parses GetObjectsDataByPattern and forming a list with squish objects
+   * @param rpc Response string for checking
+   * @return List of squish objects
+   */
+  static std::vector<squish::Object> ParseGetObjectsDataByPattern(const std::string& rpc);
+
  private:
   /**
    * @brief RpcStringToJsonStruct performs transformation and validation for responses as RPC string, throws an

@@ -136,3 +136,11 @@ bool ApiAggregator::GetScreenshot(const std::string& filename, const std::string
 std::string ApiAggregator::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
   return ate_api_.GetText(ate_interaction_, GetCorrelationId(), x1, y1, x2, y2);
 }
+
+std::vector<squish::Object> ApiAggregator::GetObjectsDataByPattern(const std::string& object_name) {
+  return ate_api_.GetObjectsDataByPattern(ate_interaction_, GetCorrelationId(), object_name);
+}
+
+std::vector<squish::Object> ApiAggregator::GetObjectsDataByPattern(const squish::Object& object_pattern) {
+  return ate_api_.GetObjectsDataByPattern(ate_interaction_, GetCorrelationId(), object_pattern);
+}

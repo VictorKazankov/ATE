@@ -136,3 +136,66 @@ std::string JsonRpcParser::ParseGetText(const std::string& rpc) {
 
   return result[common::jmsg::kText].asString();
 }
+
+/**
+ * A JSON response contains an array of next structures of objects in data section:
+ * [{x, y, width, height, x_top_left, y_top_left, x_bottom_right, y_bottom_right, parent_width, parent_height, name}]
+ */
+std::vector<squish::Object> JsonRpcParser::ParseGetObjectsDataByPattern(const std::string& rpc) {
+  std::vector<squish::Object> objects_list;
+
+  // If Error - thrown exception
+  Json::Value schema = RpcStringToJsonStruct(rpc);
+
+  // Parse
+  auto& result = schema[common::jmsg::kResult];
+  for (const auto& node : result) {
+    squish::Object object;
+    try {
+      // Validating mandatory data fields
+      if (!node.isMember(common::jmsg::kAbscissa) || !node.isMember(common::jmsg::kOrdinate) ||
+          !node.isMember(common::jmsg::kWidth) || !node.isMember(common::jmsg::kHeight)) {
+        logger::error(
+            "[ParseGetObjectsDataByPattern] Invalid structure of object data in the node. Mandatory fields is "
+            "incorrect.");
+        continue;
+      }
+
+      // Extracting mandatory fields
+      object.x = node[common::jmsg::kAbscissa].asInt();
+      object.y = node[common::jmsg::kOrdinate].asInt();
+      object.width = node[common::jmsg::kWidth].asInt();
+      object.height = node[common::jmsg::kHeight].asInt();
+
+      // Extracting optional fields
+      if (node.isMember(common::jmsg::kXTopLeft) && node[common::jmsg::kXTopLeft].isInt()) {
+        object.x_top_left = node[common::jmsg::kXTopLeft].asInt();
+      }
+      if (node.isMember(common::jmsg::kYTopLeft) && node[common::jmsg::kYTopLeft].isInt()) {
+        object.y_top_left = node[common::jmsg::kYTopLeft].asInt();
+      }
+      if (node.isMember(common::jmsg::kXBottomRight) && node[common::jmsg::kXBottomRight].isInt()) {
+        object.x_bottom_right = node[common::jmsg::kXBottomRight].asInt();
+      }
+      if (node.isMember(common::jmsg::kYBottomRight) && node[common::jmsg::kYBottomRight].isInt()) {
+        object.y_bottom_right = node[common::jmsg::kYBottomRight].asInt();
+      }
+      if (node.isMember(common::jmsg::kParentWidth) && node[common::jmsg::kParentWidth].isInt()) {
+        object.parent_width = node[common::jmsg::kParentWidth].asInt();
+      }
+      if (node.isMember(common::jmsg::kParentHeight) && node[common::jmsg::kParentHeight].isInt()) {
+        object.parent_height = node[common::jmsg::kParentHeight].asInt();
+      }
+      if (node.isMember(common::jmsg::kName) && node[common::jmsg::kName].isString()) {
+        object.name = node[common::jmsg::kName].asCString();
+      }
+
+      // Save object
+      objects_list.push_back(std::move(object));
+    } catch (const Json::LogicError& err) {
+      logger::error("[ParseGetObjectsDataByPattern] Argument error: wrong type of response {}", err.what());
+    }
+  }
+
+  return objects_list;
+}
