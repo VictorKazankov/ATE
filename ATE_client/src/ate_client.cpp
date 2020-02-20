@@ -46,6 +46,9 @@ PYBIND11_MODULE(vhat_client, m) {
            "name objectName exists; otherwise it returns a false value."
            "Throws:"
            " 'NoConnectionEstablished' in case of no connection was established to server-side",
+           " 'VideoStreamNotFound' in case of the video stream is not available"
+           " 'invalid_argument' in case of invalid params sent to the server-side"
+           " 'runtime_error' in case of internal error, parse error, invalid request, method not found",
            py::arg("objectName"))
       .def_property_readonly("topLeft", &squish::Object::TopLeft)
       .def_property_readonly("bottomRight", &squish::Object::BottomRight)

@@ -161,8 +161,10 @@ bool SquishApi::Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_i
     const int kOneSecondTimeout = 1;
     WaitForObject(ate_interaction, correlation_id, object_name, kOneSecondTimeout);
     return true;
-  } catch (const std::runtime_error&) {
+  } catch (const squish::LookupError&) {
     return false;
+  } catch (...) {
+    throw;
   }
 }
 

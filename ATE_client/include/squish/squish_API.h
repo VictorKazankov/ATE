@@ -214,12 +214,14 @@ class SquishApi {
 
   /**
    * @brief This function verifies the object with the symbolic
-   * or real (multi-property) name objectName exists on the screen.
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param object_name - name of the object for verifying existence on the screen
-   * @return returns a true value if the object with the symbolic
-   * or real (multi-property) name objectName exists otherwise false
+   *        or real (multi-property) name objectName exists on the screen.
+   * @param object_name Name of the object for verifying existence on the screen
+   * @return Returns a true value if the object with the symbolic
+   *         or real (multi-property) name objectName exists otherwise false
+   * @throw VideoStreamingError In case of the video stream is not available
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of invalid params in request
+   * @throw runtime_error In case of internal error, parse error, invalid request, method not found
    **/
   bool Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
               const std::string& object_name) const;
