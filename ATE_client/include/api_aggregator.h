@@ -237,7 +237,7 @@ class ApiAggregator {
   /**
    * @brief The function throws "NoConnectionEstablished" exception in case no connection was established (wasn't
    * performed AttachToApplication)
-   * @throw NoConnectionEstablished - in case of no connection was established to server-side
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void ThrowExceptionIfNoConnectionEstablished() const;
 
