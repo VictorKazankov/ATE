@@ -602,4 +602,29 @@ TEST(ExtractGetScreenshotParamsTest, ExtractGetScreenshotRequestParams_WrongPara
   EXPECT_NO_THROW(common::jmsg::ExtractGetScreenshotParams(params, screenshot_name, screenshot_location, error));
 }
 
+TEST(ExtractGetObjectsDataByPatternParamsTest,
+     ExtractGetObjectsDataByPatternParams_WrongParamsType_ExpectNoThrowSuccess) {
+  Json::Value error;
+  std::string select_pattern;
+  Json::Value params;
+  params["select_pattern"] = 125.0;
+
+  EXPECT_NO_THROW(common::jmsg::ExtractGetObjectsDataByPatternParams(params, select_pattern, error));
+  EXPECT_FALSE(error.empty()) << "Error code does not exist.";
+  EXPECT_TRUE(select_pattern.empty()) << "Select pattern not empty.";
+  EXPECT_EQ(static_cast<int>(rpc::Error::kInvalidParams), error["code"].asInt()) << "Errors codes does not match.";
+}
+
+TEST(ExtractGetObjectsDataByPatternParamsTest, ExtractGetObjectsDataByPatternParams_ValidType_ExpectedParams) {
+  Json::Value error;
+  std::string expect_select_pattern = "test_select";
+  std::string select_pattern;
+  Json::Value params;
+  params["select_pattern"] = expect_select_pattern;
+
+  EXPECT_NO_THROW(common::jmsg::ExtractGetObjectsDataByPatternParams(params, select_pattern, error));
+  EXPECT_EQ(select_pattern, expect_select_pattern) << "Select pattern does not match with expected.";
+  EXPECT_TRUE(error.empty()) << "Error code exist.";
+}
+
 }  // namespace

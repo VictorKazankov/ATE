@@ -4,6 +4,7 @@
 
 #include "json/reader.h"
 #include "json/value.h"
+#include "json/writer.h"
 #include "message_factory/json_defines.h"
 
 namespace {
@@ -147,6 +148,15 @@ TEST(MessageFactoryClientTest, CreateGetScreenshotRequest_ValidJsonMessage_Succe
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
+TEST(MessageFactoryClientTest, CreateGetObjectsDataByPatternRequest_InputData_ValidJsonMessage) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreateGetObjectsDataByPatternRequest("test_name", 1);
+  auto expected_message =
+      R"({"id":1,"jsonrpc":"2.0","method":"GetObjectsDataByPattern","params":{"select_pattern":"test_name"}})";
+
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
 TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedResponse_ValidResponse_Success) {
   auto response = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse();
   EXPECT_EQ(Json::Value{true}, response);
@@ -224,6 +234,24 @@ TEST(MessageFactoryServerTest, CreateResponse_InvalidServerResponse_Failure) {
   auto expected_failure_response = R"({"error":false,"id":null,"jsonrpc":"2.0"})";
   EXPECT_TRUE(JsonComparator(server_response_failure, expected_failure_response))
       << "Response mesasge: " << server_response_failure << " Expected response: " << expected_failure_response;
+}
+
+TEST(MessageFactoryServerTest, CreateGetObjectsDataByPatternResponse_ValidServerResponse_Success) {
+  common::ObjectData object_data{{10, 10}, {5, 15}, {15, 5}, 20, 20, 1920, 1200, "test_name"};
+  std::vector<common::ObjectData> object_list{object_data};
+
+  std::string expected_response_str =
+      R"([{"x":10, "y":10, "width":20, "height":20, "x_top_left":5, "y_top_left":15, "x_bottom_right":15, "y_bottom_right":5, "parent_width":1920, "parent_height":1200, "name":"test_name"}])";
+  Json::Value expected_response;
+  Json::Reader reader;
+  reader.parse(expected_response_str, expected_response);
+
+  auto response = common::jmsg::MessageFactory::Server::CreateGetObjectsDataByPatternResponse(object_list);
+
+  EXPECT_EQ(response, expected_response) << "Incorrect response size.";
+  EXPECT_EQ(response.size(), object_list.size()) << "Response from the server does not match with expected.\n"
+                                                 << expected_response << "\n"
+                                                 << response;
 }
 
 }  // namespace
