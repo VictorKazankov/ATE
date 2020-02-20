@@ -61,6 +61,12 @@ class VideoStreamingError : public std::runtime_error {
  public:
   explicit VideoStreamingError() : std::runtime_error{"Video stream not found"} {}
 };
+
+class NoConnectionEstablished : public std::runtime_error {
+ public:
+  explicit NoConnectionEstablished()
+      : std::runtime_error{"No connection to server-side exists. First you need to perform attachToApplication API"} {}
+};
 }  // namespace interaction
 
 #endif  // ATE_ERROR_DEFINES_H_

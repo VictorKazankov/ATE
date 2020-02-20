@@ -234,6 +234,13 @@ class ApiAggregator {
    **/
   uint64_t GetCorrelationId();
 
+  /**
+   * @brief The function throws "NoConnectionEstablished" exception in case no connection was established (wasn't
+   * performed AttachToApplication)
+   * @throw NoConnectionEstablished - in case of no connection was established to server-side
+   **/
+  void ThrowExceptionIfNoConnectionEstablished() const;
+
  private:
   std::shared_ptr<interaction::ATEInteraction> ate_interaction_;
   uint64_t correlation_id_ = 1;
