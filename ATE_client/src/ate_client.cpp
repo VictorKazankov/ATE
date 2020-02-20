@@ -240,8 +240,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a "
         "specific collection. "
         "Throws:"
+        " 'InvalidSyncVersion' In case of the sync_version is incorrect."
+        " 'InvalidSyncBuildVersion' In case of the sync_build_version is incorrect."
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("sync_version"), py::arg("sync_build_version"));
 
   py::enum_<common::squish::CollectionMode>(m, "CollectionMode")
@@ -249,10 +252,12 @@ PYBIND11_MODULE(vhat_client, m) {
       .value("NIGHT", common::squish::CollectionMode::NIGHT);
 
   m.def("changeSyncMode", &API::ChangeSyncMode,
-        "This function changes active collection mode in DBManager."
+        "This function changes active collection mode in DBManager. "
         "Throws:"
+        " 'InvalidSyncCollectionMode' In case of the collection_mode is incorrect"
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("collection_mode"));
 
   m.def(

@@ -183,6 +183,10 @@ bool Exists(const std::string& object_name);
  * @brief This API allows changing sync version and sync build version without restart ate server.
  * @param sync_version Sync version
  * @param sync_build_version Sync build version
+ * @throw InvalidSyncVersion In case of the sync_version is incorrect
+ * @throw InvalidSyncBuildVersion In case of the sync_build_version is incorrect
+ * @throw invalid_argument In case of the invalid arguments in the request
+ * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  */
 void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version);
@@ -190,6 +194,9 @@ void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_b
 /**
  * @brief ChangeSyncMode provides changing collection mode API for active sync
  * @param collection_mode Collection mode
+ * @throw InvalidSyncCollectionMode In case of the collection_mode is incorrect
+ * @throw invalid_argument In case of the invalid arguments in request
+ * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  */
 void ChangeSyncMode(common::squish::CollectionMode collection_mode);

@@ -19,6 +19,10 @@ class AteApi {
    * @param correlation_id - correlation id for RPC
    * @param sync_version Sync version
    * @param sync_build_version Sync build version
+   * @throw InvalidSyncVersion In case of the sync_version is incorrect
+   * @throw InvalidSyncBuildVersion In case of the sync_build_version is incorrect
+   * @throw invalid_argument In case of the invalid arguments in the request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   void ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
                         const uint64_t& correlation_id, const std::string& sync_version,
@@ -29,6 +33,9 @@ class AteApi {
    * @param ate_interaction structure provides the ability to communicate with ATE
    * @param correlation_id - correlation id for RPC
    * @param collection_mode Collection mode
+   * @throw InvalidSyncCollectionMode In case of the collection_mode is incorrect
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   void ChangeSyncMode(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
                       const uint64_t& correlation_id, common::squish::CollectionMode collection_mode) const;
