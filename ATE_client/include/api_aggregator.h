@@ -26,7 +26,7 @@ class ApiAggregator {
   /**
    * @brief This function causes to attach to the application called aut_name.
    * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an
-   *attachable AUT
+   *        attachable AUT
    * @return A handle to its application context
    **/
   squish::ApplicationContext& AttachToApplication(const std::string& aut_name);
@@ -62,6 +62,8 @@ class ApiAggregator {
    * @param modifierState (optional) Specify keyboard modifiers that are held down during the click
    * @param button (optional) Specify mouse button that held down during the click
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
                  common::squish::MouseButton button);
@@ -72,6 +74,8 @@ class ApiAggregator {
    * @param modifierState (optional) Specify keyboard modifiers that are held down during the click
    * @param button (optional) Specify mouse button that held down during the click
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
                  common::squish::MouseButton button);
@@ -80,23 +84,25 @@ class ApiAggregator {
 
   /**
    * @brief This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout
-   * not specified. The x and y coordinates are optional. If they are not specified the tap is made in the center of the
-   * widget. On the other hand, if the additional parameters are given, the tap is made at position x and y (in the
-   * object coordinates).
+   *        not specified. The x and y coordinates are optional. If they are not specified the tap is made in the center
+   *        of the widget. On the other hand, if the additional parameters are given, the tap is made at position
+   *        x and y (in the object coordinates).
    * @param screen_rectangle Position are in screen global coordinates
    * @param x Relative coordinates in the object, optional
    * @param y Relative coordinates in the object, optional
    * @param timeout_msec Timeout in miliseconds between press event and release event, optional
    * @throw InvalidDurationLongPress In case if the press is longer than 60 seconds.
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void LongPress(const squish::Object& screen_rectangle, int timeout_msec);
   void LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec);
 
   /**
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
-   *  widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widge is dragged by
-   *  dx pixels horizontally and by dy pixels vertically.
+   *        widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widget is
+   *        dragged by dx pixels horizontally and by dy pixels vertically.
    * @param object_or_name Desirable object or name
    * @param x Start x coordinate of drag event
    * @param y Start y coordinate of drag event
@@ -104,6 +110,8 @@ class ApiAggregator {
    * @param dy Dragged by pixels vertically
    * @param modifier_state Modifier state [NONE, ALT, CONTROL, SHIFT]
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
                     common::squish::ModifierState modifier_state);
@@ -112,70 +120,82 @@ class ApiAggregator {
 
   /**
    * @brief This function performs a press and hold operation specified by a screen_point. Position is in screen global
-   * coordinates. Press and hold operation doesn't have a timeout for execution and can be interrupted by pressRelease()
-   * API only.
+   *        coordinates. Press and hold operation doesn't have a timeout for execution and can be interrupted by
+   *        pressRelease() API only.
    *
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param screen_point Point in absolute coordinates where to perform the press operation
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressAndHold(const common::Point& screen_point);
 
   /**
    * @brief This function performs a press and hold operation specified by the center of a screen_rectangle. Position
-   * is in screen global coordinates. Press and hold operation doesn't have a timeout for execution and can be
-   * interrupted by pressRelease() API only.
+   *        is in screen global coordinates. Press and hold operation doesn't have a timeout for execution and can be
+   *        interrupted by pressRelease() API only.
    *
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressAndHold(const common::Rect& screen_rectangle);
 
   /**
    * @brief This function performs a press and hold operation specified by the center of the object obtained by
-   * waitForObject(). Press and hold operation doesn't have a timeout for execution and can be interrupted by
-   * pressRelease() API only.
+   *        waitForObject(). Press and hold operation doesn't have a timeout for execution and can be interrupted by
+   *        pressRelease() API only.
    *
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressAndHold(const squish::Object& object);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
-   * by screen_point in screen global coordinates.
+   *        by screen_point in screen global coordinates.
    *
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param screen_point Point in absolute coordinates where to perform the release operation
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressRelease(const common::Point& screen_point);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
-   * by the center of the screen_rectangle in screen global coordinates.
+   *        by the center of the screen_rectangle in screen global coordinates.
    *
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform release operation
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressRelease(const common::Rect& screen_rectangle);
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
-   * by object provided as a result of waitFordObject() API.
+   *        by object provided as a result of waitFordObject() API.
    *
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressRelease(const squish::Object& object);
 
@@ -218,7 +238,7 @@ class ApiAggregator {
    * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
    * @param filename Name of the file (must contain .png extension for successfully saving)
    * @param location Location for saving of screenshot
-   * @return true in case of screenshot saved
+   * @return True in case of screenshot saved
    * @throw VideoStreamNotFound In case of the video stream is not available
    * @throw EmptyScreenshotFileName In case of filename is empty"
    * @throw WrongScreenshotExtension In case of filename extansion is not 'png'
@@ -237,6 +257,9 @@ class ApiAggregator {
    * @param y2 Y axis of the bottom-right coordinate
    * @return Text
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw VideoStreamNotFound - in case of the video stream is not available
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 
@@ -245,6 +268,8 @@ class ApiAggregator {
    * @param object_name Name of object
    * @return List of objects
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_name);
 
@@ -253,6 +278,8 @@ class ApiAggregator {
    * @param object_pattern Pattern for selection
    * @return List of objects
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   std::vector<squish::Object> GetObjectsDataByPattern(const squish::Object& object_pattern);
 
@@ -265,7 +292,7 @@ class ApiAggregator {
 
   /**
    * @brief The function throws "NoConnectionEstablished" exception in case no connection was established (wasn't
-   * performed AttachToApplication)
+   *        performed AttachToApplication)
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void ThrowExceptionIfNoConnectionEstablished() const;

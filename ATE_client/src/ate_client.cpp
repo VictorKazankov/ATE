@@ -45,7 +45,7 @@ PYBIND11_MODULE(vhat_client, m) {
            "This function returns a true value if the object with the symbolic or real (multi-property) "
            "name objectName exists; otherwise it returns a false value."
            "Throws:"
-           " 'NoConnectionEstablished' in case of no connection was established to server-side",
+           " 'NoConnectionEstablished' in case of no connection was established to server-side"
            " 'VideoStreamNotFound' in case of the video stream is not available"
            " 'invalid_argument' in case of invalid params sent to the server-side"
            " 'runtime_error' in case of internal error, parse error, invalid request, method not found",
@@ -93,10 +93,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("attachToApplication", &API::AttachToApplication,
         "This function causes to attach to the application called aut_name and returns a handle to its application "
-        "context. "
-        "Throws:"
-        " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        "context. ",
         py::arg("aut_name"), py::return_value_policy::reference);
 
   m.def("waitForObject", py::overload_cast<const std::string&>(&API::WaitForObject),
@@ -142,7 +139,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "coordinates. "
         "Throws:"
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("screen_point"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("tapObject",
@@ -152,7 +150,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "screen global coordinates. "
         "Throws:"
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("tapObject",
@@ -162,7 +161,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "screen global coordinates. "
         "Throws:"
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("touchAndDrag",
@@ -171,7 +171,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically. "
         "Throws:"
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
         py::arg("modifier") = common::squish::ModifierState::NONE);
 
@@ -180,8 +181,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName"
         "widget starting at position x, y and is dragged by dx pixels horizontally and by dy pixels vertically. "
         "Throws:"
-        " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'runtime_error' in case system's errors"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
         py::arg("modifier") = common::squish::ModifierState::NONE);
 
@@ -191,7 +193,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "pressRelease() API only. Any subsequent call of any other touch based operation prior calling pressRelease() "
         "will cause undefined behaviour"
         "Throws:"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("screen_point"));
 
   m.def("pressAndHold", py::overload_cast<const common::Rect&>(&API::PressAndHold),
@@ -200,7 +204,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "interrupted by pressRelease() API only. Any subsequent call of any other touch based operation prior calling "
         "pressRelease() will cause undefined behaviour"
         "Throws:"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("screen_rectangle"));
 
   m.def("pressAndHold", py::overload_cast<const squish::Object&>(&API::PressAndHold),
@@ -209,7 +215,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "pressRelease() API only. Any subsequent call of any other touch based operation prior calling pressRelease() "
         "will cause undefined behaviour"
         "Throws:"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object"));
 
   m.def("pressRelease", py::overload_cast<const common::Point&>(&API::PressRelease),
@@ -217,7 +225,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "by screen_point in screen global coordinates. Passing argument other than in preceding pressAndHold() call "
         "will cause undefined behaviour."
         "Throws:"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("screen_point"));
 
   m.def("pressRelease", py::overload_cast<const common::Rect&>(&API::PressRelease),
@@ -225,7 +235,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "by the center of the screen_rectangle in screen global coordinates. Passing argument other than in preceding "
         "pressAndHold() call will cause undefined behaviour."
         "Throws:"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("screen_rectangle"));
 
   m.def("pressRelease", py::overload_cast<const squish::Object&>(&API::PressRelease),
@@ -233,7 +245,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "by object provided as a result of waitFordObject() API. Passing argument other than in preceding "
         "pressAndHold() call will cause undefined behaviour."
         "Throws:"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object"));
 
   m.def("changeSyncIconDB", &API::ChangeSyncIconDB,
@@ -265,7 +279,9 @@ PYBIND11_MODULE(vhat_client, m) {
       "This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout not "
       "specified. Throws 'InvalidDurationLongPress' in case if timeout_msec longer than 60 seconds."
       "Throws:"
-      " 'NoConnectionEstablished' in case of no connection was established to server-side",
+      " 'NoConnectionEstablished' in case of no connection was established to server-side"
+      " 'runtime_error' in case system's errors"
+      " 'invalid_argument' in case of invalid params sent to the server-side",
       py::arg("object_or_name"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
 
   m.def("longPress", py::overload_cast<const squish::Object&, int, int, int>(&API::LongPress),
@@ -275,7 +291,9 @@ PYBIND11_MODULE(vhat_client, m) {
         "given, the tap is made at position x and y (in the object coordinates). Throws 'InvalidDurationLongPress' in "
         "case if timeout_msec longer than 60 seconds."
         "Throws:"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
 
   m.def("getScreenshot", py::overload_cast<const std::string&, const std::string&>(&API::GetScreenshot),
@@ -289,7 +307,9 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'WrongScreenshotExtension' in case of screenshot extansion is not 'png'"
         " 'PermissionDenied' in case of server does not have permission to make directory"
         " 'ImageAssemblingFailed' in case of server can't save the screenshot"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("filename"), py::arg("location"));
 
   m.def("getText", &API::GetText,
@@ -298,8 +318,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "The x2, y2 - bottom-right coordinate. "
         "Throws:"
         " 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
-        "produced rectangle has zero height/width or is out of frame boundaries."
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        "                               produced rectangle has zero height/width or is out of frame boundaries."
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'VideoStreamNotFound' in case of the video stream is not available",
         py::arg("x1"), py::arg("y1"), py::arg("x2"), py::arg("y2"), py::return_value_policy::copy);
 
   m.def("getObjectsDataByPattern", py::overload_cast<const squish::Object&>(&API::GetObjectsDataByPattern),
@@ -307,7 +330,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "database. The selection of objects is carried out by applying a search pattern."
         "Throws:"
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object"));
 
   m.def("getObjectsDataByPattern", py::overload_cast<const std::string&>(&API::GetObjectsDataByPattern),
@@ -315,6 +339,7 @@ PYBIND11_MODULE(vhat_client, m) {
         "database. The selection of objects is carried out by applying a search pattern."
         "Throws:"
         " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("name"));
 }

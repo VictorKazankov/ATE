@@ -21,9 +21,9 @@ class SquishApi {
  public:
   /**
    * @brief This function causes to attach to the application called aut_name.
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an
-   *attachable AUT
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param aut_name (ignored) the name of an application that has been registered with the squish server as an
+   *                 attachable AUT
    * @return A handle to its application context
    **/
   squish::ApplicationContext& AttachToApplication(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
@@ -64,11 +64,13 @@ class SquishApi {
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param screen_point - position are in screen global coordinates
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
+   * @param screen_point Position are in screen global coordinates
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
 
   void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
@@ -78,11 +80,13 @@ class SquishApi {
 
   /**
    * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param screen_rectangle - position are in screen global coordinates
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
+   * @param screen_rectangle Position are in screen global coordinates
    * @param The optional modifierState specify keyboard modifiers that are held down during the click
    * @param The optional button specify mouse button that held down during the click
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
                  const common::Rect& screen_rectangle,
@@ -95,16 +99,18 @@ class SquishApi {
 
   /**
    * @brief This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout
-   * not specified. The x and y coordinates are optional. If they are not specified the tap is made in the center of the
-   * widget. On the other hand, if the additional parameters are given, the tap is made at position x and y (in the
-   * object coordinates).
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param screen_rectangle - position are in screen global coordinates
-   * @param x - relative coordinates in the object, optional
-   * @param y - relative coordinates in the object, optional
-   * @param timeout_msec - timeout in miliseconds between press event and release event, optional
-   * @exception Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
+   *        not specified. The x and y coordinates are optional. If they are not specified the tap is made in the center
+   *        of the widget. On the other hand, if the additional parameters are given, the tap is made at position x and
+   *        y (in the object coordinates).
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
+   * @param screen_rectangle Position are in screen global coordinates
+   * @param x Relative coordinates in the object, optional
+   * @param y Relative coordinates in the object, optional
+   * @param timeout_msec Timeout in milliseconds between press event and release event, optional
+   * @throw Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
                  const squish::Object& screen_rectangle, int timeout_msec) const;
@@ -113,16 +119,18 @@ class SquishApi {
 
   /**
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
-   *  widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widge is dragged by
-   *  dx pixels horizontally and by dy pixels vertically.
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param object_or_name - desirable object or name
-   * @param x - start x coordinate of drag event
-   * @param y - start y coordinate of drag event
-   * @param dx - dragged by pixels horizontally
-   * @param dy - dragged by pixels vertically
-   * @param modifier_state - modifier state [NONE, ALT, CONTROL, SHIFT]
+   *        widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widge is
+   *        dragged by dx pixels horizontally and by dy pixels vertically.
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
+   * @param object_or_name Desirable object or name
+   * @param x Start x coordinate of drag event
+   * @param y Start y coordinate of drag event
+   * @param dx Dragged by pixels horizontally
+   * @param dy Dragged by pixels vertically
+   * @param modifier_state Modifier state [NONE, ALT, CONTROL, SHIFT]
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
                     const squish::Object& object_or_name, int x, int y, int dx, int dy,
@@ -133,27 +141,29 @@ class SquishApi {
 
   /**
    * @brief This function performs a press and hold operation specified by a screen_point. Position is in screen global
-   * coordinates. Press and hold operation doesn't have a timeout for execution and can be interrupted by pressRelease()
-   * API only.
+   *        coordinates. Press and hold operation doesn't have a timeout for execution and can be interrupted by
+   *        pressRelease() API only.
    *
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param ate_interaction structure provides the ability to communicate with ATE
    * @param correlation_id - correlation id for RPC
    * @param screen_point Point in absolute coordinates where to perform the press operation
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
                     const common::Point& screen_point) const;
 
   /**
    * @brief This function performs a press and hold operation specified by the center of a screen_rectangle. Position
-   * is in screen global coordinates. Press and hold operation doesn't have a timeout for execution and can be
-   * interrupted by pressRelease() API only.
+   *        is in screen global coordinates. Press and hold operation doesn't have a timeout for execution and can be
+   *        interrupted by pressRelease() API only.
    *
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
    **/
   void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
@@ -161,13 +171,13 @@ class SquishApi {
 
   /**
    * @brief This function performs a press and hold operation specified by the center of the object obtained by
-   * waitForObject(). Press and hold operation doesn't have a timeout for execution and can be interrupted by
-   * pressRelease() API only.
+   *        waitForObject(). Press and hold operation doesn't have a timeout for execution and can be interrupted by
+   *        pressRelease() API only.
    *
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
    **/
   void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
@@ -175,39 +185,45 @@ class SquishApi {
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
-   * by screen_point in screen global coordinates.
+   *        by screen_point in screen global coordinates.
    *
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
    * @param screen_point Point in absolute coordinates where to perform the release operation
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
                     const common::Point& screen_point) const;
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
-   * by the center of the screen_rectangle in screen global coordinates.
+   *        by the center of the screen_rectangle in screen global coordinates.
    *
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform release operation
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
                     const common::Rect& screen_rectangle) const;
 
   /**
    * @brief This function performs a release operation to interrupt running pressAndHold() API at the position specified
-   * by object provided as a result of waitFordObject() API.
+   *        by object provided as a result of waitFordObject() API.
    *
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
                     const squish::Object& object) const;
@@ -228,7 +244,7 @@ class SquishApi {
 
   /**
    * @brief The function sets default timeout for WaitForObject function
-   * @param timeout - timeout for WaitForObject function
+   * @param timeout Timeout for WaitForObject function
    **/
   void SetDefaultWaitForObjectTimeout(int timeout);
 
