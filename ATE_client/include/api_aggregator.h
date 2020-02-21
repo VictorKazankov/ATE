@@ -35,9 +35,10 @@ class ApiAggregator {
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many
    *milliseconds
-   * @param _objectOrName - desirable object or name
-   * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
+   * @param _objectOrName Desirable object or name
+   * @returns The object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
+   @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   squish::Object WaitForObject(const std::string& object_or_name);
   squish::Object WaitForObject(const squish::Object& object_or_name);
@@ -46,29 +47,31 @@ class ApiAggregator {
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
    *milliseconds. This function is useful if you want to synchronize your script execution.
-   * @param _objectOrName - desirable object or name
-   * @param timeoutMSec - timeout in miliseconds
-   * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
+   * @param _objectOrName Desirable object or name
+   * @param timeoutMSec Timeout in miliseconds
+   * @returns The object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
    *i.e., if the function times out, the video stream is not found.
+   @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec);
   squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec);
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
-   * @param screen_point - position are in screen global coordinates
-   * @param The optional modifierState specify keyboard modifiers that are held down during the click
-   * @param The optional button specify mouse button that held down during the click
+   * @param screen_point Position are in screen global coordinates
+   * @param modifierState (optional) Specify keyboard modifiers that are held down during the click
+   * @param button (optional) Specify mouse button that held down during the click
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
-
   void TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
                  common::squish::MouseButton button);
 
   /**
    * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
-   * @param screen_rectangle - position are in screen global coordinates
-   * @param The optional modifierState specify keyboard modifiers that are held down during the click
-   * @param The optional button specify mouse button that held down during the click
+   * @param screen_rectangle Position are in screen global coordinates
+   * @param modifierState (optional) Specify keyboard modifiers that are held down during the click
+   * @param button (optional) Specify mouse button that held down during the click
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
                  common::squish::MouseButton button);
@@ -80,11 +83,12 @@ class ApiAggregator {
    * not specified. The x and y coordinates are optional. If they are not specified the tap is made in the center of the
    * widget. On the other hand, if the additional parameters are given, the tap is made at position x and y (in the
    * object coordinates).
-   * @param screen_rectangle - position are in screen global coordinates
-   * @param x - relative coordinates in the object, optional
-   * @param y - relative coordinates in the object, optional
-   * @param timeout_msec - timeout in miliseconds between press event and release event, optional
-   * @exception Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
+   * @param screen_rectangle Position are in screen global coordinates
+   * @param x Relative coordinates in the object, optional
+   * @param y Relative coordinates in the object, optional
+   * @param timeout_msec Timeout in miliseconds between press event and release event, optional
+   * @throw InvalidDurationLongPress In case if the press is longer than 60 seconds.
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void LongPress(const squish::Object& screen_rectangle, int timeout_msec);
   void LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec);
@@ -93,12 +97,13 @@ class ApiAggregator {
    * @brief TouchAndDrag performs a touch-based drag operation. It initiates a touch drag of the specified objectOrName
    *  widget starting at position x, y(in the objectOrName widget's coordinates). The objectOrName widge is dragged by
    *  dx pixels horizontally and by dy pixels vertically.
-   * @param object_or_name - desirable object or name
-   * @param x - start x coordinate of drag event
-   * @param y - start y coordinate of drag event
-   * @param dx - dragged by pixels horizontally
-   * @param dy - dragged by pixels vertically
-   * @param modifier_state - modifier state [NONE, ALT, CONTROL, SHIFT]
+   * @param object_or_name Desirable object or name
+   * @param x Start x coordinate of drag event
+   * @param y Start y coordinate of drag event
+   * @param dx Dragged by pixels horizontally
+   * @param dy Dragged by pixels vertically
+   * @param modifier_state Modifier state [NONE, ALT, CONTROL, SHIFT]
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
                     common::squish::ModifierState modifier_state);
@@ -113,6 +118,7 @@ class ApiAggregator {
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param screen_point Point in absolute coordinates where to perform the press operation
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void PressAndHold(const common::Point& screen_point);
 
@@ -124,6 +130,7 @@ class ApiAggregator {
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void PressAndHold(const common::Rect& screen_rectangle);
 
@@ -135,6 +142,7 @@ class ApiAggregator {
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void PressAndHold(const squish::Object& object);
 
@@ -145,6 +153,7 @@ class ApiAggregator {
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param screen_point Point in absolute coordinates where to perform the release operation
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void PressRelease(const common::Point& screen_point);
 
@@ -155,6 +164,7 @@ class ApiAggregator {
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform release operation
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void PressRelease(const common::Rect& screen_rectangle);
 
@@ -165,15 +175,17 @@ class ApiAggregator {
    * Passing argument other than in preceding pressAndHold() call will cause undefined behaviour.
    *
    * @param object Object obtained by waitForObject() in the center of which to perform release operation
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   void PressRelease(const squish::Object& object);
 
   /**
    * @brief This function verifies the object with the symbolic
    * or real (multi-property) name objectName exists on the screen.
-   * @param object_name - name of the object for verifying existence on the screen
-   * @return returns a true value if the object with the symbolic
+   * @param object_name Name of the object for verifying existence on the screen
+   * @return Returns a true value if the object with the symbolic
    * or real (multi-property) name objectName exists otherwise false
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    **/
   bool Exists(const std::string& object_name);
 
@@ -181,35 +193,40 @@ class ApiAggregator {
    * @brief This API allows changing sync version and sync build version without restart ate server.
    * @param sync_version Sync version
    * @param sync_build_version Sync build version
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    */
   void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version);
 
   /**
    * @brief ChangeSyncMode provides changing collection mode API for active sync
    * @param collection_mode Collection mode
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    */
   void ChangeSyncMode(common::squish::CollectionMode collection_mode);
 
   /**
    * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
-   * @param filename - name of the file (must contain .png extension for successfully saving)
-   * @param location - location for saving of screenshot
+   * @param filename Name of the file (must contain .png extension for successfully saving)
+   * @param location Location for saving of screenshot
    * @return true in case of screenshot saved
-   * @throw VideoStreamNotFound - in case of the video stream is not available
-   * @throw EmptyScreenshotFileName - in case of filename is empty"
-   * @throw WrongScreenshotExtension - in case of filename extansion is not 'png'
-   * @throw PermissionDenied - in case of server does not have permission to make directory
-   * @throw ImageAssemblingFailed - in case of server can't save the screenshot (only in case of cv::imwrite failed)
-   * @throw InternalError - in case of file system errors, bad alloc
+   * @throw VideoStreamNotFound In case of the video stream is not available
+   * @throw EmptyScreenshotFileName In case of filename is empty"
+   * @throw WrongScreenshotExtension In case of filename extansion is not 'png'
+   * @throw PermissionDenied In case of server does not have permission to make directory
+   * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
+   * @throw InternalError In case of file system errors, bad alloc
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    */
   bool GetScreenshot(const std::string& filename, const std::string& location);
 
   /**
    * @brief GetText returns the text by specified coordinates
-   * @param x1 x axis of the topleft coordinate
-   * @param y1 y axis of the topleft coordinate
-   * @param x2 x axis of the bottom-right coordinate
-   * @param y2 y axis of the bottom-right coordinate
+   * @param x1 X axis of the topleft coordinate
+   * @param y1 Y axis of the topleft coordinate
+   * @param x2 X axis of the bottom-right coordinate
+   * @param y2 Y axis of the bottom-right coordinate
+   * @return Text
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    */
   std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 
@@ -217,6 +234,7 @@ class ApiAggregator {
    * @brief Gets object list by object name
    * @param object_name Name of object
    * @return List of objects
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    */
   std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_name);
 
@@ -224,6 +242,7 @@ class ApiAggregator {
    * @brief Gets object list by selecting a pattern
    * @param object_pattern Pattern for selection
    * @return List of objects
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
    */
   std::vector<squish::Object> GetObjectsDataByPattern(const squish::Object& object_pattern);
 
