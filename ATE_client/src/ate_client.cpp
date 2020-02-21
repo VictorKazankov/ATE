@@ -101,8 +101,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
         "milliseconds. "
         "Throws:"
-        " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
+        " 'VideoStreamingError' in case of the video stream is not available"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of the invalid arguments in request"
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
         py::arg("object_or_name"));
 
   m.def("waitForObject", py::overload_cast<const squish::Object&>(&API::WaitForObject),
@@ -110,8 +113,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
         "milliseconds. "
         "Throws:"
-        " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
+        " 'VideoStreamingError' in case of the video stream is not available"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of the invalid arguments in request"
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
         py::arg("object_or_name"));
 
   m.def("waitForObject", py::overload_cast<const std::string&, int>(&API::WaitForObject),
@@ -119,8 +125,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
         "Throws:"
-        " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
+        " 'VideoStreamingError' in case of the video stream is not available"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of the invalid arguments in request"
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
   m.def("waitForObject", py::overload_cast<const squish::Object&, int>(&API::WaitForObject),
@@ -128,8 +137,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
         "Throws:"
-        " 'runtime_error' in case system's erorrs"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side",
+        " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
+        " 'VideoStreamingError' in case of the video stream is not available"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of the invalid arguments in request"
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
   m.def("tapObject",

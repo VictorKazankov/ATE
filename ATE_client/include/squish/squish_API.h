@@ -30,14 +30,17 @@ class SquishApi {
                                                   const std::string& aut_name = "");
 
   /**
-   * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
-   *enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many
-   *milliseconds
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param object_or_name - desirable object or name
-   * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
-   *i.e., if the function times out, the video stream is not found.
+   * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
+   *        enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that
+   *        many milliseconds
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
+   * @param object_or_name Desirable object or name
+   * @returns The object if successful or raises an exception on failure.
+   * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
+   * @throw VideoStreamingError In case of the video stream is not available
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
                                const uint64_t& correlation_id, const std::string& object_or_name) const;
@@ -45,15 +48,18 @@ class SquishApi {
                                const uint64_t& correlation_id, const squish::Object& object_or_name) const;
 
   /**
-   * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
-   *enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
-   *milliseconds. This function is useful if you want to synchronize your script execution.
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
-   * @param _objectOrName - desirable object or name
-   * @param timeoutMSec - timeout in miliseconds
-   * @returns the object if successful or raises a (catchable) LookupError, VideoStreamingError exception on failure,
-   *i.e., if the function times out, the video stream is not found.
+   * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
+   *        enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
+   *        milliseconds. This function is useful if you want to synchronize your script execution.
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
+   * @param object_or_name Desirable object or name
+   * @param timeoutMSec Timeout in miliseconds
+   * @returns The object if successful or raises an exception on failure.
+   * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
+   * @throw VideoStreamingError In case of the video stream is not available
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
   squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
                                const uint64_t& correlation_id, const std::string& object_or_name,
