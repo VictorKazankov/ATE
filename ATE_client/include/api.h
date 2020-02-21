@@ -13,7 +13,7 @@ namespace API {
 /**
  * @brief This function causes to attach to the application called aut_name.
  * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an
- *attachable AUT
+ *        attachable AUT
  * @return A handle to its application context
  **/
 squish::ApplicationContext& AttachToApplication(const std::string& aut_name);

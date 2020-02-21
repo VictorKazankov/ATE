@@ -114,7 +114,7 @@ class SquishApi {
    * @param x Relative coordinates in the object, optional
    * @param y Relative coordinates in the object, optional
    * @param timeout_msec Timeout in milliseconds between press event and release event, optional
-   * @throw Throws InvalidDurationLongPress in case if the press is longer than 60 seconds.
+   * @throw InvalidDurationLongPress In case of the press is longer than 60 seconds.
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
@@ -152,8 +152,8 @@ class SquishApi {
    *
    * Any subsequent call of any other touch based operation prior calling pressRelease() will cause undefined behaviour.
    *
-   * @param ate_interaction structure provides the ability to communicate with ATE
-   * @param correlation_id - correlation id for RPC
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
    * @param screen_point Point in absolute coordinates where to perform the press operation
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
@@ -256,8 +256,8 @@ class SquishApi {
 
   /**
    * @brief The function allows to check is ApplicationContext already exist, therefore whether a connection was
-   * performed
-   * @return true in case of ApplicationContext exist, false - otherwise
+   *        performed
+   * @return True in case of ApplicationContext exist, false - otherwise
    **/
   bool IsApplicationContextExist() const;
 

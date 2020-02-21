@@ -30,14 +30,14 @@ class ATEInteraction : public Interaction {
 
   /**
    * @brief Function determine whether the socket is open.
-   * @return return true if socket is open otherwise false.
+   * @return True if socket is open otherwise false.
    **/
   bool IsConnectionOpened() const override { return socket_.is_open(); }
 
   /**
    * @brief Send command to server
-   * @param command - specifies string command
-   * @return response string
+   * @param command Specifies string command
+   * @return Response string
    */
   std::string SendCommand(const std::string& command) override;
 

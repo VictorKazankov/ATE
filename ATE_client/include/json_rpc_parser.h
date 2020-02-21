@@ -14,30 +14,32 @@ class JsonRpcParser {
  public:
   /**
    * @brief CheckAndRaiseExceptionInCaseErrors performs validation for responses, throws an exception in case of any
-   * problem with the response. Useful for APIs which not returns any value to Python
-   * @param rpc response string for checking
+   *        problem with the response. Useful for APIs which not returns any value to Python
+   * @param rpc Response string for checking
    **/
   static void CheckAndRaiseExceptionInCaseErrors(const std::string& rpc);
 
   /**
    * @brief ParseWaitForObject performs parsing and validation for WaitForObject response, throws an exception in
-   * case of any problem with the response
-   * @param rpc response string for checking
+   *        case of any problem with the response
+   * @param rpc Response string for checking
+   * @return Constructed and valid squish::Object otherwise empty object
    **/
   static squish::Object ParseWaitForObject(const std::string& rpc);
 
   /**
    * @brief ParseGetScreenshot performs parsing and validation for GetScreenshot response, throws an exception in
-   * case of any problem with the response
-   * @param rpc response string for checking
+   *        case of any problem with the response
+   * @param rpc Response string for checking
+   * @return Result of 'GetScreenshot' operation. True on success otherwise false
    **/
   static bool ParseGetScreenshot(const std::string& rpc);
 
   /**
    * @brief The function parses GetText api
-   * @param rpc response string for checking
-   * @return recognized text on sucess, in other case throws an exception InvalidRectangleCoordinates if coordinates are
-   * invalid
+   * @param rpc Response string for checking
+   * @return Recognized text on sucess, in other case throws an exception InvalidRectangleCoordinates if coordinates are
+   *         invalid
    */
   static std::string ParseGetText(const std::string& rpc);
 
@@ -51,8 +53,8 @@ class JsonRpcParser {
  private:
   /**
    * @brief RpcStringToJsonStruct performs transformation and validation for responses as RPC string, throws an
-   * exception in case of any problem with the response
-   * @param rpc response string for transformation
+   *        exception in case of any problem with the response
+   * @param rpc Response string for transformation
    **/
   static Json::Value RpcStringToJsonStruct(const std::string& rpc);
 };

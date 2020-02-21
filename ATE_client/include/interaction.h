@@ -23,14 +23,14 @@ class Interaction {
 
   /**
    * @brief Function determine whether the socket is open.
-   * @return return true if socket is open otherwise false.
+   * @return True if socket is open otherwise false.
    **/
   virtual bool IsConnectionOpened() const = 0;
 
   /**
    * @brief Send command to server
-   * @param command - specifies string command
-   * @return response string
+   * @param command Specifies string command
+   * @return Response string
    */
   virtual std::string SendCommand(const std::string& command) = 0;
 };
