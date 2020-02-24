@@ -167,13 +167,6 @@ install(FILES
   DESTINATION ${ATE_INSTALL_SYSCONFDIR}
 )
 
-if(ATE_INSTALL_ICON_STORAGE)
-  install(DIRECTORY
-    ../data/icon_storage/
-    DESTINATION "${VHAT_ICON_STORAGE_PREFIX}"
-  )
-endif(ATE_INSTALL_ICON_STORAGE)
-
 if(ATE_INSTALL_SERVER_SERVICE)
   if(USE_LEGACY_SYSTEMD_FILE)
     configure_file("../service/vdp_ate_server.service.legacy.in" "../service/vdp_ate_server.service")

@@ -17,8 +17,7 @@ Contents
     4. [ATE_TESTING](#ATE_TESTING-default-on)
     5. [ATE_PACKAGE](#ATE_PACKAGE-default-off)
     6. [ATE_INSTALL_SERVER_SERVICE](#ATE_INSTALL_SERVER_SERVICE-default-off)
-    7. [ATE_INSTALL_ICON_STORAGE](#ATE_INSTALL_ICON_STORAGE-default-off)
-    8. [CMAKE_TOOLCHAIN_FILE](#CMAKE_TOOLCHAIN_FILE)
+    7. [CMAKE_TOOLCHAIN_FILE](#CMAKE_TOOLCHAIN_FILE)
 4.  [Targets](#targets)
     1.  [default](#default)
     2.  [check](#check)
@@ -125,12 +124,6 @@ Options
 
     ```shell
     cmake path/to/sources -DATE_INSTALL_SERVER_SERVICE=ON [other options ...]
-    ```
-
-- #### ATE_INSTALL_ICON_STORAGE (default: OFF)
-
-    ```shell
-    cmake path/to/sources -DATE_INSTALL_ICON_STORAGE=ON [other options ...]
     ```
 
 - #### CMAKE_TOOLCHAIN_FILE
@@ -270,7 +263,7 @@ Examples
     1. Enable server service install, install icon storage and create package :
         
        ```shell
-        cmake path/to/sources -DCMAKE_INSTALL_PREFIX=/usr -DATE_INSTALL_SERVER_SERVICE=ON -DATE_INSTALL_ICON_STORAGE=ON -DATE_PACKAGE=ON
+        cmake path/to/sources -DCMAKE_INSTALL_PREFIX=/usr -DATE_INSTALL_SERVER_SERVICE=ON -DATE_PACKAGE=ON
         cmake --build path/to/build/directory --target package
         ```
       

@@ -33,7 +33,6 @@ option(ATE_TESTING "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
 option(ATE_PACKAGE "Create Debian package" OFF)
-option(ATE_INSTALL_ICON_STORAGE "Install ATE icon storage" OFF)
 
 # The icon storage path is universal for whole VDP project and must never change
 set(ATE_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for ATE writable data directories" )
@@ -65,7 +64,6 @@ message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
 message(STATUS "ATE_PACKAGE: " ${ATE_PACKAGE})
 message(STATUS "ATE_INSTALL_SERVER_SERVICE: " ${ATE_INSTALL_SERVER_SERVICE})
 message(STATUS "ATE_WRITABLE_DATA_PREFIX: " ${ATE_WRITABLE_DATA_PREFIX})
-message(STATUS "ATE_INSTALL_ICON_STORAGE: " ${ATE_INSTALL_ICON_STORAGE})
 message(STATUS "VHAT_ICON_STORAGE_PREFIX: " ${VHAT_ICON_STORAGE_PREFIX})
 
 add_subdirectory(third_party)
@@ -180,49 +178,18 @@ if(ATE_PACKAGE)
   set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
   set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}_${PROJECT_VERSION_FULL}_${CPACK_DEBIAN_ARCHITECTURE}")
 
-  set(POSTINST_FILE "${CMAKE_CURRENT_BINARY_DIR}/postinst")
   set(PRERM_FILE "${CMAKE_CURRENT_BINARY_DIR}/prerm")
 
-  file(WRITE ${POSTINST_FILE} "#!/bin/bash\n")
   file(WRITE ${PRERM_FILE} "#!/bin/bash\n")
-
+  
   if (ATE_INSTALL_SERVER_SERVICE)
-    file(APPEND ${POSTINST_FILE} "
-      systemctl enable vdp_ate_server
-      systemctl start vdp_ate_server
-    ")
-
     file(APPEND ${PRERM_FILE} "
       systemctl stop vdp_ate_server
       systemctl disable vdp_ate_server
     ")
   endif(ATE_INSTALL_SERVER_SERVICE)
 
-  if (ATE_INSTALL_ICON_STORAGE)
-    #TODO: change the user and group names according to VDP policies
-    file(APPEND ${POSTINST_FILE} "
-      USER=nvidia
-      GROUP=nvidia
-      PERMISSIONS=\"a+rw\"
-      echo \"Changing owner of ${ATE_WRITABLE_DATA_PREFIX} to \${USER}:\${GROUP}...\"
-      if chown --recursive \${USER}:\${GROUP} ${ATE_WRITABLE_DATA_PREFIX}
-      then
-        echo \"Ok\"
-      else
-        echo \"error: failed to set owner of ${ATE_WRITABLE_DATA_PREFIX} to \${USER}:\${GROUP}\"
-      fi
-
-      echo \"Changing permissions of ${ATE_WRITABLE_DATA_PREFIX} to \${PERMISSIONS}...\"
-      if chmod --recursive \${PERMISSIONS} ${ATE_WRITABLE_DATA_PREFIX}
-      then
-        echo \"Ok\"
-      else
-        echo \"error: failed to set permissions of ${ATE_WRITABLE_DATA_PREFIX} to \${PERMISSIONS}\"
-      fi
-    ")
-  endif(ATE_INSTALL_ICON_STORAGE)
-
-  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA ${POSTINST_FILE} ${PRERM_FILE})
+  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA ${PRERM_FILE})
 
   include(CPack)
 endif(ATE_PACKAGE)
