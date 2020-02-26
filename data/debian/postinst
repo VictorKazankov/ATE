@@ -51,7 +51,7 @@ CONSTRAINT id_pk PRIMARY KEY (id));"
 
 #Setup indexes
 mysql ${MYSQL_ROOT_CREDENTIALS} -e "CREATE UNIQUE INDEX unique_fields_index ON 
-${ATE_DB}.${ATE_ICON_TABLE} (sync_version, build_version, mode, name, image_hash, parent_screen);" #defines unique entry at table
+${ATE_DB}.${ATE_ICON_TABLE} (sync_version, build_version, mode, name, image_hash);" #defines unique entry at table
 mysql ${MYSQL_ROOT_CREDENTIALS} -e "CREATE INDEX sync_base_fields_index ON 
 ${ATE_DB}.${ATE_ICON_TABLE} (sync_version, build_version, mode);" #defines most common search set
 
