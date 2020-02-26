@@ -178,19 +178,10 @@ if(ATE_PACKAGE)
   set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
   set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}_${PROJECT_VERSION_FULL}_${CPACK_DEBIAN_ARCHITECTURE}")
 
-  set(PRERM_FILE "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm")
-  
-  file(WRITE ${PRERM_FILE} "#!/bin/bash\n")
-  
-  if (ATE_INSTALL_SERVER_SERVICE)
-    file(APPEND ${PRERM_FILE} "
-      systemctl stop vdp_ate_server
-      systemctl disable vdp_ate_server
-    ")
-  endif(ATE_INSTALL_SERVER_SERVICE)
-
   configure_file("${CMAKE_SOURCE_DIR}/data/debian/postinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst" @ONLY)
-  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst" ${PRERM_FILE})
+  configure_file("${CMAKE_SOURCE_DIR}/data/debian/prerm" "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm" @ONLY)
+  
+  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm")
 
   include(CPack)
 endif(ATE_PACKAGE)

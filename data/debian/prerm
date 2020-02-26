@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ "@ATE_INSTALL_SERVER_SERVICE@" = "ON" ]; then
+    systemctl stop vdp_ate_server
+    systemctl disable vdp_ate_server
+fi
