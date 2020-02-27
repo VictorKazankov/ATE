@@ -9,7 +9,7 @@
 #include "utils/squish_types.h"
 
 #include "ate_api.h"
-#include "ate_interaction.h"
+#include "interaction.h"
 #include "squish/squish_API.h"
 #include "squish/squish_types.h"
 
@@ -304,7 +304,7 @@ class ApiAggregator {
   void ThrowExceptionIfNoConnectionEstablished() const;
 
  private:
-  std::shared_ptr<interaction::ATEInteraction> ate_interaction_;
+  std::shared_ptr<interaction::Interaction> ate_interaction_;
   uint64_t correlation_id_ = 1;
 
   AteApi ate_api_;

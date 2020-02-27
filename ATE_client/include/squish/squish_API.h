@@ -7,7 +7,7 @@
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
-#include "ate_interaction.h"
+#include "interaction.h"
 #include "error_defines.h"
 #include "squish/application_context.h"
 #include "squish/squish_types.h"
@@ -26,7 +26,7 @@ class SquishApi {
    *                 attachable AUT
    * @return A handle to its application context
    **/
-  squish::ApplicationContext& AttachToApplication(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+  squish::ApplicationContext& AttachToApplication(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                                   const std::string& aut_name = "");
 
   /**
@@ -42,9 +42,9 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+  squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                const uint64_t& correlation_id, const std::string& object_or_name) const;
-  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+  squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                const uint64_t& correlation_id, const squish::Object& object_or_name) const;
 
   /**
@@ -61,10 +61,10 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+  squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                const uint64_t& correlation_id, const std::string& object_or_name,
                                int timeout_msec) const;
-  squish::Object WaitForObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+  squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                const uint64_t& correlation_id, const squish::Object& object_or_name,
                                int timeout_msec) const;
 
@@ -79,7 +79,7 @@ class SquishApi {
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
 
-  void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void TapObject(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const common::Point& screen_point,
                  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                  common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
@@ -94,11 +94,11 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void TapObject(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const common::Rect& screen_rectangle,
                  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                  common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
-  void TapObject(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void TapObject(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const squish::Object& screen_rectangle,
                  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
                  common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
@@ -118,9 +118,9 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void LongPress(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const squish::Object& screen_rectangle, int timeout_msec) const;
-  void LongPress(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void LongPress(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const squish::Object& screen_rectangle, int x, int y, int timeout_msec) const;
 
   /**
@@ -138,10 +138,10 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void TouchAndDrag(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const squish::Object& object_or_name, int x, int y, int dx, int dy,
                     common::squish::ModifierState modifier_state) const;
-  void TouchAndDrag(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void TouchAndDrag(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const std::string& object_or_name, int x, int y, int dx, int dy,
                     common::squish::ModifierState modifier_state) const;
 
@@ -158,7 +158,7 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void PressAndHold(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const common::Point& screen_point) const;
 
   /**
@@ -172,7 +172,7 @@ class SquishApi {
    * @param correlation_id Correlation id for RPC
    * @param screen_rectangle Rectangle in absolute coordinates in the center of which to perform press operation
    **/
-  void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void PressAndHold(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const common::Rect& screen_rectangle) const;
 
   /**
@@ -186,7 +186,7 @@ class SquishApi {
    * @param correlation_id Correlation id for RPC
    * @param object Object obtained by waitForObject() in the center of which to perform press operation
    **/
-  void PressAndHold(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void PressAndHold(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const squish::Object& object) const;
 
   /**
@@ -201,7 +201,7 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void PressRelease(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const common::Point& screen_point) const;
 
   /**
@@ -216,7 +216,7 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void PressRelease(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const common::Rect& screen_rectangle) const;
 
   /**
@@ -231,7 +231,7 @@ class SquishApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/
-  void PressRelease(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  void PressRelease(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                     const squish::Object& object) const;
 
   /**
@@ -245,7 +245,7 @@ class SquishApi {
    * @throw invalid_argument In case of invalid params in request
    * @throw runtime_error In case of internal error, parse error, invalid request, method not found
    **/
-  bool Exists(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
+  bool Exists(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
               const std::string& object_name) const;
 
   /**

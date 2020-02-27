@@ -1,10 +1,12 @@
 #ifndef ATE_API_H_
 #define ATE_API_H_
 
-#include "utils/squish_types.h"
+#include <memory>
+#include <vector>
 
-#include "ate_interaction.h"
+#include "interaction.h"
 #include "squish/squish_types.h"
+#include "utils/squish_types.h"
 
 namespace API {
 
@@ -24,7 +26,7 @@ class AteApi {
    * @throw invalid_argument In case of the invalid arguments in the request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  void ChangeSyncIconDB(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
+  void ChangeSyncIconDB(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                         const uint64_t& correlation_id, const std::string& sync_version,
                         const std::string& sync_build_version) const;
 
@@ -37,8 +39,8 @@ class AteApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  void ChangeSyncMode(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                      const uint64_t& correlation_id, common::squish::CollectionMode collection_mode) const;
+  void ChangeSyncMode(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
+                      common::squish::CollectionMode collection_mode) const;
 
   /**
    * @brief This API allows to take a screenshot of current screen and store it on the LVDS board
@@ -55,8 +57,8 @@ class AteApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  bool GetScreenshot(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                     const uint64_t& correlation_id, const std::string& filename, const std::string& location) const;
+  bool GetScreenshot(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
+                     const std::string& filename, const std::string& location) const;
 
   /**
    * @brief GetText returns the text by specified coordinates
@@ -70,8 +72,8 @@ class AteApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  std::string GetText(const std::shared_ptr<interaction::ATEInteraction>& ate_interaction,
-                      const uint64_t& correlation_id, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) const;
+  std::string GetText(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
+                      uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) const;
 
   /**
    * @brief Get object list by object name
@@ -81,9 +83,9 @@ class AteApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  std::vector<squish::Object> GetObjectsDataByPattern(
-      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
-      const std::string& object_name) const;
+  std::vector<squish::Object> GetObjectsDataByPattern(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                                      const uint64_t& correlation_id,
+                                                      const std::string& object_name) const;
 
   /**
    * @brief Get object list by selecting a pattern
@@ -93,9 +95,9 @@ class AteApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  std::vector<squish::Object> GetObjectsDataByPattern(
-      const std::shared_ptr<interaction::ATEInteraction>& ate_interaction, const uint64_t& correlation_id,
-      const squish::Object& object_pattern) const;
+  std::vector<squish::Object> GetObjectsDataByPattern(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                                      const uint64_t& correlation_id,
+                                                      const squish::Object& object_pattern) const;
 };
 }  // namespace API
 

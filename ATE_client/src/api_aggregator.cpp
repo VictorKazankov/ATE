@@ -2,6 +2,7 @@
 
 #include <boost/asio/io_context.hpp>
 
+#include "ate_interaction.h"
 #include "common.h"
 #include "logger/logger.h"
 
