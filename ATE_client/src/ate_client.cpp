@@ -63,8 +63,11 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readwrite("y_bottom_right", &squish::Object::y_bottom_right)
       .def_readwrite("parent_width", &squish::Object::parent_width)
       .def_readwrite("parent_height", &squish::Object::parent_height)
+      .def_readwrite("sync_version", &squish::Object::sync_version)
+      .def_readwrite("build_version", &squish::Object::build_version)
+      .def_readwrite("mode", &squish::Object::mode)
       .def_readwrite("name", &squish::Object::name)
-      .def_readwrite("type", &squish::Object::type);
+      .def_readwrite("parent_screen", &squish::Object::parent_screen);
 
   py::register_exception<squish::LookupError>(m, "LookupError");
   py::register_exception<squish::InvalidSyncVersion>(m, "InvalidSyncVersion");
@@ -82,6 +85,12 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<interaction::VideoStreamingError>(m, "VideoStreamingError");
   py::register_exception<interaction::NoConnectionEstablished>(m, "NoConnectionEstablished");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
+
+  py::enum_<squish::Object::Mode>(m, "Mode")
+      .value("NONE", squish::Object::Mode::kNone)
+      .value("*", squish::Object::Mode::kAny)
+      .value("DAY", squish::Object::Mode::kDay)
+      .value("NIGHT", squish::Object::Mode::kNight);
 
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
       .value("NONE", common::squish::ModifierState::NONE)

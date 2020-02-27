@@ -24,6 +24,8 @@ struct Object : common::Rect {
    */
   common::Point BottomRight() { return common::Point{x_bottom_right, y_bottom_right}; }
 
+  enum class Mode { kNone, kAny, kDay, kNight };
+
   // Data section
   int x_top_left{-1};
   int y_top_left{-1};
@@ -31,8 +33,11 @@ struct Object : common::Rect {
   int y_bottom_right{-1};
   int parent_width{-1};
   int parent_height{-1};
+  std::string sync_version;
+  std::string build_version;
+  Mode mode {Mode::kNone};
   std::string name;
-  std::string type;
+  std::string parent_screen;
 };
 
 }  // namespace squish
