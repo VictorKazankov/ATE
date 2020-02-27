@@ -8,8 +8,6 @@ add_library(ate_server_lib
     adapters/db_manager_adapter.cpp
     factory/recognition_factory.cpp
     interaction/dummy/dummy_interaction.cpp
-    interaction/VDP/vdp_interaction.cpp
-    interaction/VDP/https_client.cpp
     interaction/ATE/tcp_connection.cpp
     interaction/ATE/tcp_connection_manager.cpp
     interaction/ATE/tcp_transport_adapter.cpp
@@ -124,7 +122,6 @@ target_include_directories(ate_server_lib
 target_link_libraries(ate_server_lib
   PUBLIC
     ate_common
-    boost_asio_ssl
     stdc++fs
     opencv_core
     opencv_imgcodecs

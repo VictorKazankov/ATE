@@ -4,7 +4,6 @@
 #include <chrono>
 #include <memory>
 
-#include <boost/asio/io_context.hpp>
 #include "adapters/db_manager_adapter.h"
 #include "interaction/interaction.h"
 #include "utils/object_data_type.h"
@@ -16,7 +15,7 @@
  **/
 class ATE {
  public:
-  explicit ATE(boost::asio::io_context& io_context);
+  explicit ATE();
   ~ATE();
 
   /**

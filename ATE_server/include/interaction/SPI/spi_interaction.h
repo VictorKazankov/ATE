@@ -15,7 +15,7 @@ namespace interaction {
  */
 class SpiInteraction : public Interaction {
  public:
-  SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/, int screen_width,
+  SpiInteraction(const std::string& device_address, int screen_width,
                  int screen_height);
   ~SpiInteraction();
 

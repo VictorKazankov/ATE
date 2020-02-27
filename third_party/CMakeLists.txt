@@ -80,31 +80,6 @@ target_link_libraries(boost_asio
     Threads::Threads
 )
 
-if(ATE_BUILD_SERVER)
-  # Find the OpenSSL encryption library.
-  # https://cmake.org/cmake/help/latest/module/FindOpenSSL.html
-  # https://www.openssl.org
-  # Debian/Ubuntu package name: libssl-dev
-
-  find_package(OpenSSL REQUIRED)
-
-  add_library(boost_asio_ssl SHARED boost_asio_ssl.cpp)
- 
-  target_include_directories(boost_asio_ssl
-    PUBLIC
-      boost/libs/asio/include
-      "${OPENSSL_INCLUDE_DIR}"
-  )
-
-  target_link_libraries(boost_asio_ssl
-    PUBLIC
-      Boost::asio
-    PRIVATE
-      OpenSSL::Crypto
-      OpenSSL::SSL
-  )
-endif()
-
 ### inih
 ### https://github.com/benhoyt/inih
 add_library(inihcpp STATIC
@@ -148,7 +123,6 @@ endif()
 
 if(ATE_BUILD_SERVER)
   install(TARGETS
-    boost_asio_ssl
     LIBRARY DESTINATION ${ATE_INSTALL_LIBDIR}
   )
 endif()

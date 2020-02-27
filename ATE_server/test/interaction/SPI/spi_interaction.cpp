@@ -34,8 +34,7 @@ class SpiInteractionTest : public ::testing::Test {
 };
 
 void SpiInteractionTest::SetUp() {
-  spi_ = std::make_unique<interaction::SpiInteraction>("/dev/null", defines::DisplayType::G1_8INCH_DISP,
-                                                       kWidthResolution, kHeightResolution);
+  spi_ = std::make_unique<interaction::SpiInteraction>("/dev/null", kWidthResolution, kHeightResolution);
   EXPECT_FALSE(spi_ == nullptr);
 
   // open master pseudoterminal

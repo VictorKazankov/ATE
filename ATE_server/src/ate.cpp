@@ -10,7 +10,6 @@
 #include "exceptions.h"
 #include "factory/recognition_factory.h"
 #include "interaction/SPI/spi_interaction.h"
-#include "interaction/VDP/vdp_interaction.h"
 #include "interaction/dummy/dummy_interaction.h"
 #include "logger/logger.h"
 #include "utils/defines.h"
@@ -21,15 +20,6 @@
 using namespace defines;
 
 namespace {
-
-DisplayType StrToDisplayType(const std::string& display_type_str) {
-  if ("G1_8INCH_DISP" == display_type_str) return DisplayType::G1_8INCH_DISP;
-  if ("G2_6INCH_DISP" == display_type_str) return DisplayType::G2_6INCH_DISP;
-  if ("G2_8INCH_DISP" == display_type_str) return DisplayType::G2_8INCH_DISP;
-  if ("G2_10LINCH_DISP" == display_type_str) return DisplayType::G2_10LINCH_DISP;
-  if ("G2_10PINCH_DISP" == display_type_str) return DisplayType::G2_10PINCH_DISP;
-  return DisplayType::UNDEFINED_DISP;
-}
 
 detector::DetectorTypes StrToDetectorType(const std::string& detector_type) {
   if (kTemplateMathcing == detector_type) {
@@ -43,23 +33,13 @@ detector::DetectorTypes StrToDetectorType(const std::string& detector_type) {
   return detector::DetectorTypes::kTemplateDetector;
 }
 
-std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& interaction_type,
-                                                             boost::asio::io_context& io_context) {
+std::unique_ptr<interaction::Interaction> InteractionFactory(const std::string& interaction_type) {
   if (interaction_type == kSpi) {
     cv::Size frame_size{common::Config().GetInt(kVideoStreamSection, kFrameWidthOption, {}),
                         common::Config().GetInt(kVideoStreamSection, kFrameHeightOption, {})};
 
-    return std::make_unique<interaction::SpiInteraction>(
-        utils::GetEnvSettings(utils::EnvSettings::kSpiDeviceAddress),
-        StrToDisplayType(common::Config().GetString(kInteraction, kDisplayTypeOption, {})), frame_size.width,
-        frame_size.height);
-  }
-
-  if (interaction_type == kVdp) {
-    return std::make_unique<interaction::VDPInteraction>(
-        io_context, common::Config().GetString(kInteraction, kAddressOption, {}),
-        common::Config().GetString(kInteraction, kPortOption, {}),
-        StrToDisplayType(common::Config().GetString(kInteraction, kDisplayTypeOption, {})));
+    return std::make_unique<interaction::SpiInteraction>(utils::GetEnvSettings(utils::EnvSettings::kSpiDeviceAddress),
+                                                         frame_size.width, frame_size.height);
   }
 
   if (interaction_type == kDummy) {
@@ -85,8 +65,8 @@ std::unique_ptr<utils::ScreenshotRecorder> MakeScreenshotRecorder() {
 
 }  // namespace
 
-ATE::ATE(boost::asio::io_context& io_context)
-    : interaction_{InteractionFactory(common::Config().GetString(kInteraction, kInteractionType, {}), io_context)},
+ATE::ATE()
+    : interaction_{InteractionFactory(common::Config().GetString(kInteraction, kInteractionType, {}))},
       matcher_{streamer::MakeStreamer(),
                detector::MakeImageDetector(
                    StrToDetectorType(common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType,

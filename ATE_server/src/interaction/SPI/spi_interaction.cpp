@@ -23,7 +23,7 @@ constexpr auto kMillisecondsSendDelay = 25;
 
 namespace interaction {
 
-SpiInteraction::SpiInteraction(const std::string& device_address, defines::DisplayType /*display_type*/,
+SpiInteraction::SpiInteraction(const std::string& device_address,
                                int screen_width, int screen_height)
     : screen_width_(screen_width), screen_height_(screen_height) {
   m_spi_ = open(device_address.c_str(), O_RDWR);

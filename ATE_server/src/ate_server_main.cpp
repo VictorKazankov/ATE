@@ -27,7 +27,7 @@ int main() try {
   logger::info("[initialization] ATE server version: {}", version::kStringFull);
   logger::info("[initialization] Config file: {}", config_file);
 
-  ATE ate(GetMainIoContext());
+  ATE ate;
   AteMessageAdapter ate_message_adapter(ate);
   TransportAdaptersCollection transport_adapters(ate_message_adapter, GetMainIoContext());
 

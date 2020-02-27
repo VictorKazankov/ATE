@@ -2,14 +2,6 @@
 #define ATE_SERVER_UTILS_DEFINES_H_
 
 namespace defines {
-enum class DisplayType {
-  UNDEFINED_DISP = -1,
-  G1_8INCH_DISP = 0,
-  G2_6INCH_DISP = 1,
-  G2_8INCH_DISP = 2,
-  G2_10LINCH_DISP = 3,
-  G2_10PINCH_DISP = 4
-};
 
 enum class ContactId { kOneFingerTouch = 0 };
 
@@ -18,9 +10,6 @@ constexpr auto kTargetOption = "Target";
 constexpr auto kBuildOption = "Build";
 constexpr auto kCollectionModeOption = "CollectionMode";
 constexpr auto kInteraction = "INTERACTION";
-constexpr auto kAddressOption = "Address";
-constexpr auto kPortOption = "Port";
-constexpr auto kDisplayTypeOption = "DisplayType";
 constexpr auto kInteractionType = "Type";
 constexpr auto kDeviceAddress = "DeviceAddress";
 constexpr auto kAteListenerPort = "ListenerPort";
@@ -39,7 +28,6 @@ constexpr double kDefaultTextDetectorConfidence = 0.;
 constexpr auto kTessDataOption = "TESSDATA_PREFIX";
 constexpr auto kTextDetectorPreprocessingList = "PreprocessingList";
 
-constexpr auto kVdp = "VDP";
 constexpr auto kSpi = "SPI";
 constexpr auto kDummy = "Dummy";
 
