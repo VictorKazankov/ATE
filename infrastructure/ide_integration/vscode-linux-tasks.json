@@ -4,7 +4,7 @@
   {
     "label": "ATE desktop build",
     "type": "shell",
-    "command": "clear; cmake ./; make;",
+    "command": "clear; BUILD_DIR="../build/ATE"; mkdir -p $BUILD_DIR; cmake -B$BUILD_DIR -S./ ; make -C $BUILD_DIR;",
     "problemMatcher": [
       "$gcc"
     ],
