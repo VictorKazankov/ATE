@@ -1,6 +1,8 @@
 #include "video_streaming/sync_video_streamer.h"
 
 #include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/time.h>
 #include <cerrno>
 
 #include <opencv2/imgproc.hpp>
@@ -10,10 +12,11 @@
 using namespace streamer;
 
 namespace {
-constexpr auto kOwnerReadAndWrite = 0600;
+constexpr auto kOwnerReadAndWrite = S_IRGRP | S_IWGRP;
+const struct timespec k10SecondsTimeout { 10, 0 };
 
 inline unsigned int ByteToPixel(unsigned int bytes) { return bytes / 4; }
-}
+}  // namespace
 
 void PrintErrorMsgWithErrno(const std::string& msg) {
   std::string error_msg = msg;
@@ -40,14 +43,15 @@ bool SyncVideoStreamer::Frame(cv::Mat& frame) {
 
   try {
     unsigned int stride = ByteToPixel(sync_video_context_.sync_video_stream->stride);
-    
-    logger::debug("[SyncVideoStreamer] Frame resolution [{},{}]; Real image [{},{}]", matrix_size_.width,
-                  matrix_size_.height, stride,
-                  sync_video_context_.sync_video_stream->height);
 
-    const cv::Mat buffer_mat{static_cast<int>(sync_video_context_.sync_video_stream->height),
-                             static_cast<int>(stride),
+    logger::debug("[SyncVideoStreamer] Frame resolution [{},{}]; Real image [{},{}]", matrix_size_.width,
+                  matrix_size_.height, stride, sync_video_context_.sync_video_stream->height);
+
+    const cv::Mat buffer_mat{static_cast<int>(sync_video_context_.sync_video_stream->height), static_cast<int>(stride),
                              CV_8UC4, frame_ptr};
+
+    // TODO Crop image to matrix_size_
+
     cv::cvtColor(buffer_mat, frame, cv::COLOR_BGR2RGB);
   } catch (...) {
     logger::error("[SyncVideoStreamer] An unexpected error occurs while extracting data from the buffer");
@@ -58,7 +62,7 @@ bool SyncVideoStreamer::Frame(cv::Mat& frame) {
 }
 
 void SyncVideoStreamer::ChangeResolution(int x, int y) {
-  logger::info("[SyncVideoStreamer] Changing screen resolution to [{};{}]", x, y);
+  logger::info("[SyncVideoStreamer] Changing screen resolution to [{},{}]", x, y);
 
   matrix_size_ = cv::Size{x, y};
   DestroySyncVideo();
@@ -160,7 +164,14 @@ bool SyncVideoStreamer::GetFrameFromSyncVideo(FrameBufferPtr* frame) {
 
   sync_video::SyncStream* sync_video_stream = sync_video_context_.sync_video_stream;
   sync_video_stream->vhat_frame_req.store(1);
-  sem_wait(sync_video_context_.lock_frame_request);
+
+  if (sem_timedwait(sync_video_context_.lock_frame_request, &k10SecondsTimeout)) {
+    if (errno != ETIMEDOUT) {
+      PrintErrorMsgWithErrno("Semaphore waiting error");
+      return false;
+    }
+  }
+
   int idx = sync_video_stream->vhat_own;
 
   if (idx < 0 || idx >= sync_video_stream->buf_number) {
@@ -169,5 +180,6 @@ bool SyncVideoStreamer::GetFrameFromSyncVideo(FrameBufferPtr* frame) {
   }
 
   *frame = sync_video_context_.shmbuf + sync_video_stream->buf[idx].alig_size * idx;
+
   return true;
 }
