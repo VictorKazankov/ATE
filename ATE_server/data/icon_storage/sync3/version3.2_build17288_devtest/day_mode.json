@@ -1,434 +1,650 @@
 [
-  {
-    "name": "contacts",
-    "extension": "png"
-  },
-  {
-    "name": "settings_radio_ast_refresh_button",
-    "extension": "png"
-  },
-  {
-    "name": "android_auto_lightstyle",
-    "extension": "png"
-  },
-  {
-    "name": "main_apps_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "main_apps_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "main_audio_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "main_audio_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "audio_fm_sources_button",
-    "extension": "png"
-  },
-  {
-    "name": "audio_frequency_button",
-    "extension": "png"
-  },
-  {
-    "name": "audio_sirius_sources_button",
-    "extension": "png"
-  },
-  {
-    "name": "auto_main_menu",
-    "extension": "png"
-  },
-  {
-    "name": "auto_main_menu_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "auto_music_menu",
-    "extension": "png"
-  },
-  {
-    "name": "climate_auto_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "climate_auto_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "back",
-    "extension": "png"
-  },
-  {
-    "name": "checkbox_checked",
-    "extension": "png"
-  },
-  {
-    "name": "checkbox_unchecked",
-    "extension": "png"
-  },
-  {
-    "name": "main_climate_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "main_climate_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "climate_arrow_down_button",
-    "extension": "png"
-  },
-  {
-    "name": "climate_dual_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "climate_dual_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "climate_arrow_up_button",
-    "extension": "png"
-  },
-  {
-    "name": "climate_on_off_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "audio_presets_button",
-    "extension": "png"
-  },
-  {
-    "name": "close",
-    "extension": "png"
-  },
-  {
-    "name": "settings_clock_button",
-    "extension": "png"
-  },
-  {
-    "name": "contact_search",
-    "extension": "png"
-  },
-  {
-    "name": "del_active",
-    "extension": "png"
-  },
-  {
-    "name": "arrow_down_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "arrow_down_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "audio_direct_enter_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_music_app",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_pause_button",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_pause_button_main_screen",
-    "extension": "png"
-  },
-  {
-    "name": "gplay_play_button",
-    "extension": "png"
-  },
-  {
-    "name": "home",
-    "extension": "png"
-  },
-  {
-    "name": "home_sirius_icon",
-    "extension": "png"
-  },
-  {
-    "name": "info_button",
-    "extension": "png"
-  },
-  {
-    "name": "key_0_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_1_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_2_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_3_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_4_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_5_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_6_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_7_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_8_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_9_active",
-    "extension": "png"
-  },
-  {
-    "name": "key_m_active",
-    "extension": "png"
-  },
-  {
-    "name": "main_navigation_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "nav_active",
-    "extension": "png"
-  },
-  {
-    "name": "main_phone_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "main_phone_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "scrollbar_handle",
-    "extension": "png"
-  },
-  {
-    "name": "scroll",
-    "extension": "png"
-  },
-  {
-    "name": "slider",
-    "extension": "png"
-  },
-  {
-    "name": "back_property_field",
-    "extension": "png"
-  },
-  {
-    "name": "settings_sound_balance_fade_button",
-    "extension": "png"
-  },
-  {
-    "name": "main_settings_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "main_settings_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "settings_navigation",
-    "extension": "png"
-  },
-  {
-    "name": "settings_phone_button",
-    "extension": "png"
-  },
-  {
-    "name": "switch_off",
-    "extension": "png"
-  },
-  {
-    "name": "switch_on",
-    "extension": "png"
-  },
-  {
-    "name": "settings_clock_12h_format",
-    "extension": "png"
-  },
-  {
-    "name": "settings_clock_24h_format",
-    "extension": "png"
-  },
-  {
-    "name": "settings_clock_am_period_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "settings_clock_pm_period_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "arrow_up_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "settings_navigation_guidance_prompts_voice_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "settings_navigation_guidance_prompts_voice_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "settings_navigation_guidance_prompts_plus",
-    "extension": "png"
-  },
-  {
-    "name": "settings_navigation_guidance_prompts_chimes_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "settings_navigation_guidance_prompts_chimes_active",
-    "extension": "png"
-  },
-  {
-    "name": "home_exclamation_icon",
-    "extension": "png"
-  },
-  {
-    "name": "climate_down_airflow_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "climate_down_airflow_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "climate_defrost_button",
-    "extension": "png"
-  },
-  {
-    "name": "climate_defrost_max_front_heating_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "climate_defrost_front_heating_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "climate_defrost_rear_heating_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "phone_connect_to_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_bluetooth_button",
-    "extension": "png"
-  },
-  {
-    "name": "apps_find_mobile_apps_button",
-    "extension": "png"
-  },
-  {
-    "name": "apps_siriusxm_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_mobile_apps_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_sync_connect_button",
-    "extension": "png"
-  },
-  {
-    "name": "reset_all_button",
-    "extension": "png"
-  },
-  {
-    "name": "switch_off",
-    "extension": "png"
-  },
-  {
-    "name": "switch_on",
-    "extension": "png"
-  },
-  {
-    "name": "arrow_down_small_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_radio_button",
-    "extension": "png"
-  },
-  {
-    "name": "climate_top_airflow_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "climate_top_airflow_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "settings_sound_button",
-    "extension": "png"
-  },
-  {
-    "name": "arrow_up_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "climate_a_c_button_active",
-    "extension": "png"
-  },
-  {
-    "name": "climate_a_c_button_inactive",
-    "extension": "png"
-  },
-  {
-    "name": "phone_pair_discover_button",
-    "extension": "png"
-  },
-  {
-    "name": "phone_pair_phone_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_automatic_updates_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_vehicle_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_display_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_voice_control_button",
-    "extension": "png"
-  },
-  {
-    "name": "settings_general_button",
-    "extension": "png"
-  },
-  {
-    "name": "medium_button",
-    "extension": "png"
-  }
+   {
+      "y":0,
+      "x":0,
+      "name":"contacts",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_radio_ast_refresh_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"android_auto_lightstyle",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_apps_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_apps_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_audio_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_audio_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"audio_fm_sources_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"audio_frequency_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"audio_sirius_sources_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"auto_main_menu",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"auto_main_menu_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"auto_music_menu",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_auto_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_auto_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"back",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"checkbox_checked",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"checkbox_unchecked",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_climate_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_climate_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_arrow_down_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_dual_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_dual_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_arrow_up_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_on_off_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"audio_presets_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"close",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_clock_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"contact_search",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"del_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"arrow_down_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"arrow_down_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"audio_direct_enter_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"gplay_music_app",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"gplay_pause_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"gplay_pause_button_main_screen",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"gplay_play_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"home",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"home_sirius_icon",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"info_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_0_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_1_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_2_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_3_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_4_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_5_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_6_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_7_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_8_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_9_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"key_m_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_navigation_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"nav_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_phone_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_phone_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"scrollbar_handle",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"scroll",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"slider",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"back_property_field",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_sound_balance_fade_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_settings_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"main_settings_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_navigation",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_phone_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"switch_off",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"switch_on",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_clock_12h_format",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_clock_24h_format",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_clock_am_period_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_clock_pm_period_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"arrow_up_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_navigation_guidance_prompts_voice_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_navigation_guidance_prompts_voice_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_navigation_guidance_prompts_plus",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_navigation_guidance_prompts_chimes_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_navigation_guidance_prompts_chimes_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"home_exclamation_icon",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_down_airflow_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_down_airflow_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_defrost_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_defrost_max_front_heating_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_defrost_front_heating_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_defrost_rear_heating_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"phone_connect_to_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_bluetooth_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"apps_find_mobile_apps_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"apps_siriusxm_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_mobile_apps_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_sync_connect_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"reset_all_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"switch_off",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"switch_on",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"arrow_down_small_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_radio_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_top_airflow_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_top_airflow_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_sound_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"arrow_up_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_a_c_button_active",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"climate_a_c_button_inactive",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"phone_pair_discover_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"phone_pair_phone_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_automatic_updates_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_vehicle_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_display_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_voice_control_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"settings_general_button",
+      "extension":"png"
+   },
+   {
+      "y":0,
+      "x":0,
+      "name":"medium_button",
+      "extension":"png"
+   }
 ]
