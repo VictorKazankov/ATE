@@ -2,7 +2,7 @@ import logging
 from time import sleep
 
 from functional_tests.pages import hmi
-from vhat_client import LookupError as ObjectNotFoundError
+from vhat_client import LookupError
 from vhat_client import object
 
 
@@ -18,7 +18,7 @@ def tap_if_visible(name):
     """ Tap on object if it visible else return false."""
     try:
         tap(name)
-    except ObjectNotFoundError:
+    except LookupError:
         logging.info("Can`t found {} object".format(name))
         return False
     return True
