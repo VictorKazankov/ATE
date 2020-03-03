@@ -200,8 +200,8 @@ void ExtractGetScreenshotParams(const Json::Value& params, std::string& filename
   error = Json::Value{};
 
   try {
-    filename = params[kFileName].asString();
-    location = params[kLocation].asString();
+    filename = params[kFileName].asCString();
+    location = params[kLocation].asCString();
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetScreenshot params");
     logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
@@ -253,8 +253,8 @@ void ExtractChangeSyncIconDBRequestParams(const Json::Value& params, std::string
   error = Json::Value{};
 
   try {
-    sync_version = params[kSyncVersion].asString();
-    sync_build_version = params[kSyncBuildVersion].asString();
+    sync_version = params[kSyncVersion].asCString();
+    sync_build_version = params[kSyncBuildVersion].asCString();
     if (sync_version.empty() || sync_build_version.empty()) {
       error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid ChangeSyncIconDB params");
       logger::error("[json msg parser] {}params: {}(empty sync_version or sync_build_version)", error.toStyledString(),
@@ -271,7 +271,7 @@ void ExtractChangeSyncModeRequestParams(const Json::Value& params, std::string& 
   error = Json::Value{};
 
   try {
-    collection_mode = params[kSyncCollectionMode].asString();
+    collection_mode = params[kSyncCollectionMode].asCString();
     if (collection_mode.empty()) {
       error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid SyncChangeMode params");
       logger::error("[json msg parser] {}params: {}(empty collection mode)", error.toStyledString(),

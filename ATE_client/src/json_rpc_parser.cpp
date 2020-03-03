@@ -134,7 +134,7 @@ std::string JsonRpcParser::ParseGetText(const std::string& rpc) {
     return {};
   }
 
-  return result[common::jmsg::kText].asString();
+  return result[common::jmsg::kText].asCString();
 }
 
 /**
