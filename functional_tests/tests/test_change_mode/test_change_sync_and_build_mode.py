@@ -17,6 +17,7 @@ SYNC_INCORRECT_VERSION = 'sync_incorrect'
 SYNC_INCORRECT_BUILD = 'build_incorrect'
 
 
+@allure.issue(TASK_LINK.format("VHAT-1529"),  "VHAT-1529 for {}".format('sync3'))
 @allure.testcase(TASK_LINK.format("VHAT-698"), "VHAT-698")
 def test_change_sync_and_build_version(get_current_sync_build_version):
     # getting sync and builds values from config file

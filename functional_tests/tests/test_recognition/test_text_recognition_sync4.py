@@ -1,12 +1,17 @@
 import allure
 import pytest
 from functional_tests.tests.helpers import get_exist_result
-from functional_tests.utils.sync4.constants import TASK_LINK, Text
+from functional_tests.utils.sync4.constants import TASK_LINK, Text, str_for_data
 
 pytestmark = pytest.mark.regression_sync4
 
 
 # Main panel
+@allure.issue(TASK_LINK.format("VHAT-975"), "VHAT-975 for 1920*1200 resolution for {}"
+              .format(str_for_data(Text.MAIN_PANEL_SETTINGS_TEXT)))
+@allure.issue(TASK_LINK.format("VHAT-1553"), "VHAT-1553 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format(str_for_data(Text.MAIN_PANEL_AUDIO_TEXT,
+                                   Text.MAIN_PANEL_CLIMATE_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
 @pytest.mark.text_recognition
 @pytest.mark.parametrize("name", [Text.MAIN_PANEL_PHONE_TEXT,
@@ -87,12 +92,16 @@ def test_balance_fade_settings_page_reset_text(sound_settings_sync4):
     sound_settings_sync4.tap_on_back_button()
 
 
+@allure.issue(TASK_LINK.format("VHAT-1553"), "VHAT-1553 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format(str_for_data(Text.SPEED_COMPENSATED_VOLUME_PAGE_OFF_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-863"), "VHAT-863")
 @pytest.mark.text_recognition
 def test_speed_comp_volume_settings_page_off_text(speed_compensated_volume_page):
     assert get_exist_result(Text.SPEED_COMPENSATED_VOLUME_PAGE_OFF_TEXT)
 
 
+@allure.issue(TASK_LINK.format("VHAT-1553"), "VHAT-1553 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format(str_for_data(Text.SPEED_COMPENSATED_VOLUME_PAGE_LOW_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-841"), "VHAT-841")
 @pytest.mark.text_recognition
 def test_speed_comp_volume_settings_page_low_text(speed_compensated_volume_page):
@@ -160,6 +169,8 @@ def test_change_vehicle_name_page_keyboard_keys(change_vehicle_name_page_sync4, 
 
 
 # General settings
+@allure.issue(TASK_LINK.format("VHAT-1553"), "VHAT-1553 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format(str_for_data(Text.LANGUAGE_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
 @pytest.mark.text_recognition
 @pytest.mark.parametrize("n", [Text.LANGUAGE_TEXT, Text.GENERAL_SETTINGS_DISTANCE_TEXT,
@@ -169,6 +180,8 @@ def test_general_settings_page_text(general_settings_sync4, n):
     assert get_exist_result(n)
 
 
+@allure.issue(TASK_LINK.format("VHAT-1553"), "VHAT-1553 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format(str_for_data(Text.LANGUAGE_PAGE_ENGLISH_US_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
 @pytest.mark.text_recognition
 @pytest.mark.parametrize("n", [Text.LANGUAGE_PAGE_ENGLISH_US_TEXT, Text.ESPANOL_TEXT])
@@ -239,6 +252,12 @@ def test_audio_sources_page_text(audio_sync4, name):
     assert get_exist_result(name)
 
 
+@allure.issue(TASK_LINK.format("VHAT-1553"), "VHAT-1553 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format('ALL data'))
+@allure.issue(TASK_LINK.format("VHAT-1542"), "VHAT-1542 for 6'' and 8'' Landscape 800*480 for {}"
+              .format('ALL data'))
+@allure.issue(TASK_LINK.format("VHAT-1338"), "VHAT-1338 for 10'' Landscape 1200*800 for {}"
+              .format('ALL data'))
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
 @pytest.mark.text_recognition
 @pytest.mark.parametrize("name", ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', Text.CANCEL_TEXT, Text.ENTER_TEXT])
@@ -249,6 +268,12 @@ def test_direct_tune_page_text(direct_tune_sync4, name):
 
 
 # Apps page
+@allure.issue(TASK_LINK.format("VHAT-1249"), "VHAT-1249 for {}"
+              .format(str_for_data(Text.APPS_PAGE_MOBILE_APPS_HELP_TEXT, Text.APPS_PAGE_MOBILE_APPS_HELP_TEXT)))
+@allure.issue(TASK_LINK.format("VHAT-1338"), "VHAT-1338 for 10'' Landscape 1200*800 for {}"
+              .format(str_for_data(Text.APPS_PAGE_MOBILE_APPS_HELP_TEXT, Text.APPS_PAGE_MOBILE_APPS_HELP_TEXT)))
+@allure.issue(TASK_LINK.format("VHAT-1553"), "VHAT-1553 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format(str_for_data(Text.APPS_PAGE_MOBILE_APPS_HELP_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-545"), "VHAT-545")
 @pytest.mark.text_recognition
 @pytest.mark.parametrize("name", [Text.APPS_PAGE_MOBILE_OWNERS_MANUAL_TEXT, Text.APPS_PAGE_FIND_APPS_TEXT,

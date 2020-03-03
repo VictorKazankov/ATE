@@ -242,6 +242,11 @@ class Text:
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'
 
+
+def str_for_data(*args):
+    text = ', '.join(args)
+    return text.rstrip(', ')
+
 """DATA FOR PARAMETERIZATION"""
 
 main_panel_images = [Icons.MAIN_AUDIO_BUTTON_INACTIVE, Icons.MAIN_CLIMATE_BUTTON_ACTIVE,

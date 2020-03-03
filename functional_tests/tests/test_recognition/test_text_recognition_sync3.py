@@ -14,7 +14,7 @@ from functional_tests.utils.sync3.constants import (
     settings_second_screen_page_text, siriusxm_travel_link_text,
     sound_settings_page_text, subscription_info_text,
     sync_connect_settings_page_text, vehicle_settings_page_text,
-    voice_control_settings_page_text)
+    voice_control_settings_page_text, str_for_data)
 
 # coordinates for drag down
 touch_drag_coordinates_down = ['page', 400, 300, 0, -200]
@@ -31,6 +31,8 @@ def test_home_page_text(driver_sync3, testdata):
 
 
 # Climate page
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566 for {}".format(str_for_data(Text.CLIMATE_DEFROST_TEXT,
+                                                                                  Text.CLIMATE_A_C_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-585"), "VHAT-585")
 @pytest.mark.parametrize('testdata', climate_page_text)
 @pytest.mark.smoke_text_recognition
@@ -45,6 +47,7 @@ def test_defrost_controls_page_text(climate_defrost_sync3, testdata):
     assert helpers.get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566 for {}".format(str_for_data(Text.CLIMATE_MAX_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-585"), "VHAT-585")
 @pytest.mark.parametrize('testdata', a_c_controls_page_text)
 @pytest.mark.smoke_text_recognition
@@ -81,6 +84,7 @@ def test_text_on_mobile_apps_page(mobile_apps_sync3, testdata):
     assert helpers.get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566")
 @allure.testcase(TASK_LINK.format("VHAT-588"), "VHAT-588")
 @pytest.mark.parametrize('testdata', siriusxm_travel_link_text)
 @pytest.mark.smoke_text_recognition
@@ -88,6 +92,8 @@ def test_text_siriusxm_travel_link_page(mobile_apps_siriusxm_travel_link_sync3, 
     assert helpers.get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566 for {}".format(str_for_data(
+                                                                Text.MOBILE_APPS_SIRIUSXM_SUBSCRIPTION_INFO_DIAL_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-588"), "VHAT-588")
 @pytest.mark.parametrize('testdata', subscription_info_text)
 @pytest.mark.smoke_text_recognition
@@ -112,6 +118,8 @@ def test_settings_sound_page_text(settings_sound_sync3, testdata):
     assert helpers.get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566 for {}".format(str_for_data(Text.SETTINGS_CLOCK_AM_TEXT,
+                                                                                  Text.SETTINGS_CLOCK_12H_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-589"), "VHAT-589")
 @pytest.mark.parametrize('testdata', clock_settings_page_text)
 @pytest.mark.smoke_text_recognition
@@ -219,6 +227,7 @@ def test_settings_voice_control_page_text(settings_voice_control_sync3, testdata
 
 
 # Audio page
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566")
 @allure.testcase(TASK_LINK.format("VHAT-576"), "VHAT-576")
 @pytest.mark.parametrize('testdata', audio_page_text)
 @pytest.mark.smoke_text_recognition
@@ -226,6 +235,11 @@ def test_audio_page_text(audio_sync3, testdata):
     assert helpers.get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-1387"), "VHAT-1387 for {}".format(str_for_data(Text.AUDIO_DIRECT_TUNE_2,
+                                                                                    Text.AUDIO_DIRECT_TUNE_3,
+                                                                                    Text.AUDIO_DIRECT_TUNE_4,
+                                                                                    Text.AUDIO_DIRECT_TUNE_0,
+                                                                                    Text.AUDIO_DIRECT_TUNE_ENTER)))
 @allure.testcase(TASK_LINK.format("VHAT-576"), "VHAT-576")
 @pytest.mark.parametrize('testdata', audio_direct_tune_text)
 @pytest.mark.smoke_text_recognition
@@ -233,6 +247,8 @@ def test_audio_direct_tune_text(audio_direct_tune_sync3, testdata):
     assert helpers.get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566 for {}".format(str_for_data(Text.AUDIO_AM_TEXT,
+                                                                                  Text.AUDIO_CD_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-576"), "VHAT-576")
 @pytest.mark.parametrize('testdata', audio_sources_page_text)
 @pytest.mark.smoke_text_recognition
@@ -240,6 +256,7 @@ def test_audio_sources_page_text(audio_sources_sync3, testdata):
     assert helpers.get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-566"), "VHAT-566 for {}".format(str_for_data(Text.AUDIO_CLSVINYL_TEXT)))
 @allure.testcase(TASK_LINK.format("VHAT-576"), "VHAT-576")
 @pytest.mark.parametrize('testdata', audio_sirius_page_text)
 @pytest.mark.smoke_text_recognition

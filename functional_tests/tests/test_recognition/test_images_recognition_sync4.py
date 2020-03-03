@@ -8,10 +8,13 @@ from functional_tests.utils.sync4.constants import (TASK_LINK,
                                                     audio_sources_page_images,
                                                     key_numbers_images,
                                                     main_panel_images,
-                                                    settings_page_images, Icons)
+                                                    settings_page_images, Icons,
+                                                    str_for_data)
 
 
 # Main panel
+@allure.issue(TASK_LINK.format("VHAT-1308"),  "VHAT-1308 for {}"
+              .format(str_for_data(Icons.MAIN_PANEL_SETTINGS_BUTTON_INACTIVE)))
 @allure.testcase(TASK_LINK.format("VHAT-1285"), "VHAT-1285")
 @pytest.mark.image_recognition
 @pytest.mark.parametrize("testdata", main_panel_images)
@@ -20,6 +23,16 @@ def test_main_panel_images(driver_sync4, testdata):
 
 
 # Audio page
+@allure.issue(TASK_LINK.format("VHAT-1301"), "VHAT-1308 for 6'' and 8'' Landscape 800*480 for {}"
+              .format(str_for_data(Icons.AUDIO_DIRECT_TUNE_BUTTON,
+                                   Icons.AUDIO_PRESET_BUTTON,
+                                   Icons.AUDIO_TUNE_TOGGLE_INACTIVE)))
+@allure.issue(TASK_LINK.format("VHAT-1302"), "VHAT-1302 for 12'' and 15'' Landscape 1920*1200 for {}"
+              .format(str_for_data(Icons.AUDIO_TUNE_TOGGLE_INACTIVE)))
+@allure.issue(TASK_LINK.format("VHAT-1308"), "VHAT-1308 for 12'' and 15'' Portrait 1200*1920 for {}"
+              .format(str_for_data(Icons.AUDIO_PRESET_BUTTON,
+                                   Icons.AUDIO_SOURCES_FM_BUTTON,
+                                   Icons.AUDIO_TUNE_TOGGLE_INACTIVE)))
 @allure.testcase(TASK_LINK.format("VHAT-1285"), "VHAT-1285")
 @pytest.mark.image_recognition
 @pytest.mark.parametrize("testdata", audio_page_images)
@@ -35,6 +48,10 @@ def test_audio_sources_page_images(audio_sync4, testdata):
     assert get_exist_result(testdata)
 
 
+@allure.issue(TASK_LINK.format("VHAT-1301"), "VHAT-1308 for {}"
+              .format("ALL test data for: 6'' and 8'' Landscape 800*480"))
+@allure.issue(TASK_LINK.format("VHAT-1308"), "VHAT-1308 for {}"
+              .format("ALL test data for: 12'' and 15'' Portrait 1200*1920"))
 @allure.testcase(TASK_LINK.format("VHAT-1285"), "VHAT-1285")
 @pytest.mark.image_recognition
 @pytest.mark.parametrize("testdata", key_numbers_images)

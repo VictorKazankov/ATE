@@ -392,3 +392,8 @@ voice_control_settings_page_text = [Text.SETTINGS_VOICE_CONTROL_SETTINGS_TITLE_T
 
 """JIRA"""
 TASK_LINK = 'https://adc.luxoft.com/jira/browse/{}'
+
+
+def str_for_data(*args):
+    text = ', '.join(args)
+    return text.rstrip(', ')
