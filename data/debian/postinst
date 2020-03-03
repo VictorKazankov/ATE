@@ -25,6 +25,8 @@ mysql ${MYSQL_ROOT_CREDENTIALS} -e "CREATE USER 'tshmi'@'localhost' IDENTIFIED b
 GRANT ALL PRIVILEGES ON ate.* TO 'tshmi'@'localhost';FLUSH PRIVILEGES;"
 mysql ${MYSQL_ROOT_CREDENTIALS} -e "CREATE USER 'tdbc'@'localhost' IDENTIFIED by 'BestAppEverMadeByHumans';
 GRANT ALL PRIVILEGES ON ate.* TO 'tdbc'@'localhost';FLUSH PRIVILEGES;"
+mysql ${MYSQL_ROOT_CREDENTIALS} -e "CREATE USER 'test'@'localhost' IDENTIFIED by 'AccountCreatedForTestPurposes';
+GRANT ALL PRIVILEGES ON ate.* TO 'test'@'localhost';FLUSH PRIVILEGES;"
 
 #Create DB and Table
 mysql ${MYSQL_ROOT_CREDENTIALS} -e "CREATE DATABASE IF NOT EXISTS ${ATE_DB};"
@@ -42,8 +44,8 @@ image_top_left_x int DEFAULT NULL,
 image_top_left_y int DEFAULT NULL,
 image_bottom_right_x int DEFAULT NULL,
 image_bottom_right_y int DEFAULT NULL,
-parent_screen_resolution_x int DEFAULT NULL,
-parent_screen_resolution_y int DEFAULT NULL,
+parent_screen_resolution_width int DEFAULT NULL,
+parent_screen_resolution_height int DEFAULT NULL,
 parent_screen VARCHAR(64) DEFAULT NULL,
 changed_by VARCHAR(32) NOT NULL,
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
