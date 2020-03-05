@@ -18,6 +18,7 @@ constexpr auto kLongPress = "LongPress";
 constexpr auto kGetScreenshot = "GetScreenshot";
 constexpr auto kGetText = "GetText";
 constexpr auto kGetObjectsDataByPattern = "GetObjectsDataByPattern";
+constexpr auto kImagesDiscrepancy = "ImagesDiscrepancy";
 
 }  // namespace jmsg
 }  // namespace common

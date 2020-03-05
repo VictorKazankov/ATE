@@ -47,6 +47,9 @@ constexpr auto kXBottomRight = "x_bottom_right";
 constexpr auto kYBottomRight = "y_bottom_right";
 constexpr auto kParentWidth = "parent_width";
 constexpr auto kParentHeight = "parent_height";
+// Image discrepancy
+constexpr auto kIconPathFirst = "icon_path_first";
+constexpr auto kIconPathSecond = "icon_path_second";
 
 }  // namespace jmsg
 }  // namespace common

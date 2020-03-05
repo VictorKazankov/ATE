@@ -214,6 +214,33 @@ std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const s
   return writer.write(message);
 }
 
+/**
+ * A JSON request contains next data in data section:
+ * [{icon_path_second, icon_path_first, x_top_left, y_top_left, x_bottom_right, y_bottom_right}]
+ */
+std::string MessageFactory::Client::CreateImagesDiscrepancyRequest(const std::string& icon_path_second,
+                                                                   const std::string& icon_path_first,
+                                                                   const common::Point& top_left_coordinate,
+                                                                   const common::Point& bottom_right_coordinate,
+                                                                   int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kIconPathSecond] = icon_path_second;
+  params[kIconPathFirst] = icon_path_first;
+  params[kXTopLeft] = top_left_coordinate.x;
+  params[kYTopLeft] = top_left_coordinate.y;
+  params[kXBottomRight] = bottom_right_coordinate.x;
+  params[kYBottomRight] = bottom_right_coordinate.y;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kImagesDiscrepancy, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 
