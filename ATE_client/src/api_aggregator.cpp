@@ -175,3 +175,11 @@ std::vector<squish::Object> ApiAggregator::GetObjectsDataByPattern(const squish:
   ThrowExceptionIfNoConnectionEstablished();
   return ate_api_.GetObjectsDataByPattern(ate_interaction_, GetCorrelationId(), object_pattern);
 }
+
+int ApiAggregator::ImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
+                                     const common::Point& top_left_coordinate,
+                                     const common::Point& bottom_right_coordinate) {
+  ThrowExceptionIfNoConnectionEstablished();
+  return ate_api_.ImagesDiscrepancy(ate_interaction_, GetCorrelationId(), icon_path_second, icon_path_first,
+                                    top_left_coordinate, bottom_right_coordinate);
+}

@@ -50,6 +50,7 @@ constexpr auto kParentHeight = "parent_height";
 // Image discrepancy
 constexpr auto kIconPathFirst = "icon_path_first";
 constexpr auto kIconPathSecond = "icon_path_second";
+constexpr auto kDiscrepancyPercent = "discrepancy_percent";
 
 }  // namespace jmsg
 }  // namespace common

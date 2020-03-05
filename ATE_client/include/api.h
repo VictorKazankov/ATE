@@ -273,6 +273,22 @@ std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_na
  */
 std::vector<squish::Object> GetObjectsDataByPattern(const squish::Object& object_pattern);
 
+/**
+ * @brief Gets the difference between the two images as a percentage
+ * @param icon_path_second Path to the second image
+ * @param icon_path_first Path to the first image
+ * @param top_left_coordinate Top left  coordinate
+ * @param bottom_right_coordinate Bottom right coordinate
+ * @return Percentage of discrepancy
+ * @throw InvalidRectangleCoordinates In case top-left and bottom-right coordinates are mixed up or
+ *                                    produced rectangle has zero height/width or is out of frame boundaries
+ * @throw NoConnectionEstablished In case of no connection was established to server-side
+ * @throw invalid_argument In case of the invalid arguments in request
+ * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ */
+int ImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
+                      const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate);
+
 }  // namespace API
 
 #endif  // API_H_
