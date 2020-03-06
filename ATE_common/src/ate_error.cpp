@@ -48,6 +48,9 @@ std::string AteErrorCategoryImpl::message(int code) const {
     case common::AteError::kOutOfBoundaries:
       return "Out of boundaries";
 
+    case common::AteError::kWrongImageResolution:
+      return "Wrong image resolution";
+
       /*Do not add default case, every error code should have correspoding message*/
   }
 

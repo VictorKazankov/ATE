@@ -102,6 +102,19 @@ class Matcher {
    * on failure return error code and empty string
    */
   std::pair<std::string, std::error_code> GetText(const cv::Point& point, const cv::Point& delta_point);
+
+  /**
+   * @brief Gets the difference between the two images as a percentage
+   * @param icon_path_second Path to the second image
+   * @param icon_path_first Path to the first image
+   * @param top_left_coordinate Top left  coordinate
+   * @param bottom_right_coordinate Bottom right coordinate
+   * @return A discrepancy coefficient and error code of operation
+   */
+  std::pair<int, std::error_code> ImagesDiscrepancy(const std::string& icon_path_second,
+                                                    const std::string& icon_path_first,
+                                                    const cv::Point& top_left_coordinate,
+                                                    const cv::Point& bottom_right_coordinate) const;
 };
 
 }  // namespace detector

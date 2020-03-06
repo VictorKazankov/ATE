@@ -156,4 +156,61 @@ std::pair<std::string, std::error_code> Matcher::GetText(const cv::Point& point,
   return {text_detector_->ExtractText(croped), std::error_code{}};
 }
 
+std::pair<int, std::error_code> Matcher::ImagesDiscrepancy(const std::string& icon_path_second,
+                                                           const std::string& icon_path_first,
+                                                           const cv::Point& top_left_coordinate,
+                                                           const cv::Point& bottom_right_coordinate) const {
+  int discrepancy = 100;
+  std::error_code error{};
+
+  // Read images as grayscale
+  cv::Mat image_second = cv::imread(icon_path_second, cv::IMREAD_GRAYSCALE);
+  cv::Mat image_first = cv::imread(icon_path_first, cv::IMREAD_GRAYSCALE);
+
+  // Images must not be empty
+  if (image_first.empty() || image_second.empty()) {
+    logger::error("[ImagesDiscrepancy] Compared images are empty.");
+    error = common::make_error_code(common::AteError::kSystemError);
+    return {discrepancy, error};
+  }
+
+  // Images resolution must be equal
+  if (image_second.rows != image_first.rows || image_second.cols != image_first.cols) {
+    logger::error("[matcher ImagesDiscrepancy] Images must be equal resolution.");
+    error = common::make_error_code(common::AteError::kWrongImageResolution);
+    return {discrepancy, error};
+  }
+
+  // Еhe compared area should be within the resolution of images
+  cv::Rect screen_rect{0, 0, image_second.size().width, image_second.size().height};
+  if (!screen_rect.contains(top_left_coordinate) || !screen_rect.contains(bottom_right_coordinate)) {
+    logger::error("[matcher ImagesDiscrepancy] Desired area is out of screen boundaries");
+    return {discrepancy, common::make_error_code(common::AteError::kOutOfBoundaries)};
+  }
+
+  try {
+    // Forming images for comparison
+    if (top_left_coordinate != bottom_right_coordinate) {
+      screen_rect = {top_left_coordinate, bottom_right_coordinate};
+    }
+    cv::Mat cmp_image_second = image_second(screen_rect);
+    cv::Mat cmp_image_first = image_first(screen_rect);
+
+    // Calculate the difference
+    cv::Mat diff;
+    cv::absdiff(cmp_image_second, cmp_image_first, diff);
+
+    // Count of the discrepancy
+    int total_number_of_pixels = diff.rows * diff.cols;
+    int non_zero_pixels = countNonZero(diff);
+    discrepancy = 100 * non_zero_pixels / total_number_of_pixels;
+
+  } catch (const cv::Exception& exception) {
+    logger::error("[ImagesDiscrepancy] Exception during operation on images: {}", exception.what());
+    error = common::make_error_code(common::AteError::kSystemError);
+  }
+
+  return {discrepancy, error};
+}
+
 }  // namespace detector

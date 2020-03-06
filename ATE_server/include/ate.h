@@ -132,8 +132,8 @@ class ATE {
    */
   std::pair<int, std::error_code> ImagesDiscrepancy(const std::string& icon_path_second,
                                                     const std::string& icon_path_first,
-                                                    const common::Point& top_left_coordinate,
-                                                    const common::Point& bottom_right_coordinate) const;
+                                                    const cv::Point& top_left_coordinate,
+                                                    const cv::Point& bottom_right_coordinate) const;
 
  private:
   std::unique_ptr<interaction::Interaction> interaction_;

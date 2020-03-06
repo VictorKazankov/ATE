@@ -4,6 +4,7 @@
 #include <utility>
 
 #include <recognition/factory.h>
+#include <opencv2/opencv.hpp>
 
 #include "ate_error.h"
 #include "common.h"
@@ -161,9 +162,9 @@ std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const std::string& 
   return storage_.GetItemData(select_pattern);
 }
 
-std::pair<int, std::error_code> ATE::ImagesDiscrepancy(
-    [[gnu::unused]] const std::string& icon_path_second, [[gnu::unused]] const std::string& icon_path_first,
-    [[gnu::unused]] const common::Point& top_left_coordinate,
-    [[gnu::unused]] const common::Point& bottom_right_coordinate) const {
-  return {0,{}};
+std::pair<int, std::error_code> ATE::ImagesDiscrepancy(const std::string& icon_path_second,
+                                                       const std::string& icon_path_first,
+                                                       const cv::Point& top_left_coordinate,
+                                                       const cv::Point& bottom_right_coordinate) const {
+  return matcher_.ImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate);
 }

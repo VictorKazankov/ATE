@@ -376,12 +376,13 @@ std::pair<Json::Value, bool> AteMessageAdapter::ImagesDiscrepancy(const Json::Va
   // Validation input parameters
   std::error_code error_code;
 
-  if (icon_path_second.empty() || icon_path_first.empty()) {
+  if (p2.empty() || p1.empty()) {
     error = common::jmsg::CreateErrorObject(rpc::Error::kEmptyFileName, "The screenshot's filename is empty");
     return std::make_pair(std::move(error), false);
   }
 
-  if (!fs::exists(icon_path_second, error_code) || !fs::exists(icon_path_first, error_code)) {
+  if (!fs::is_regular_file(icon_path_second, error_code) || !fs::exists(icon_path_second, error_code) ||
+      !fs::is_regular_file(icon_path_first, error_code) || !fs::exists(icon_path_first, error_code)) {
     error = common::jmsg::CreateErrorObject(rpc::Error::kComparingImageNotExist, "Comparing image doesn't exist");
     return std::make_pair(std::move(error), false);
   }
@@ -399,6 +400,14 @@ std::pair<Json::Value, bool> AteMessageAdapter::ImagesDiscrepancy(const Json::Va
     error =
         common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
                                         "Invalid Matching area coordinate: mixed up top-left and bottom-right points");
+    return std::make_pair(std::move(error), false);
+  }
+
+  if ((top_left_coordinate.x == bottom_right_coordinate.x && top_left_coordinate.x > 0) ||
+      (top_left_coordinate.y == bottom_right_coordinate.y && top_left_coordinate.y > 0)) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid Matching area coordinate: comparing rectangle has zero height/width");
     return std::make_pair(std::move(error), false);
   }
 
@@ -428,6 +437,13 @@ std::pair<Json::Value, bool> AteMessageAdapter::ImagesDiscrepancy(const Json::Va
           common::jmsg::CreateErrorObject(rpc::Error::kInternalError, "Internal error during comparison of two images");
       return std::make_pair(std::move(error), false);
     }
+    if (common::AteError::kWrongImageResolution == result.second) {
+      error = common::jmsg::CreateErrorObject(rpc::Error::kComparingImageIncorrectSize,
+                                              "The compared images have different resolutions");
+      return std::make_pair(std::move(error), false);
+    }
+    error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, "Unexpected error.");
+    return std::make_pair(std::move(error), false);
   }
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateImagesDiscrepancyResponse(result.first), true);

@@ -18,7 +18,8 @@ enum class AteError {
   kWrongExtension,
   kSystemError,
   kImageAssemblingFailed,
-  kOutOfBoundaries
+  kOutOfBoundaries,
+  kWrongImageResolution
 };
 
 /**
