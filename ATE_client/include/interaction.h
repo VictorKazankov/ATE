@@ -1,6 +1,8 @@
 #ifndef INTERACTION_H_
 #define INTERACTION_H_
 
+#include <string>
+
 namespace interaction {
 
 class Interaction {
