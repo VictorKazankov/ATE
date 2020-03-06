@@ -12,6 +12,9 @@ enum class Error {
 
   // Values from -32000 to -32099 reserved for implementation-defined server-errors
 
+  // Image Discrepancy error
+  kComparingImageIncorrectSize = -32013,
+  kComparingImageNotExist = -32012,
   // GetText error
   kInvalidRectangleCoordinates = -32011,
   // Screenshot error

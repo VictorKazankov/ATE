@@ -54,6 +54,16 @@ class InvalidRectangleCoordinates : public std::runtime_error {
   explicit InvalidRectangleCoordinates() : std::runtime_error("Invalid coordinates") {}
 };
 
+class ComparingImageIncorrectSize : public std::runtime_error {
+ public:
+  explicit ComparingImageIncorrectSize() : std::runtime_error("Comparing image is the incorrect size") {}
+};
+
+class ComparingImageNotExist : public std::runtime_error {
+ public:
+  explicit ComparingImageNotExist() : std::runtime_error("Comparing image not exist") {}
+};
+
 }  // namespace squish
 
 namespace interaction {

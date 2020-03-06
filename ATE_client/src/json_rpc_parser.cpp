@@ -70,6 +70,12 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
     case rpc::Error::kInvalidRectangleCoordinates:
       throw squish::InvalidRectangleCoordinates{};
 
+    case rpc::Error::kComparingImageIncorrectSize:
+      throw squish::ComparingImageIncorrectSize{};
+
+    case rpc::Error::kComparingImageNotExist:
+      throw squish::ComparingImageNotExist{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }

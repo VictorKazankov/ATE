@@ -76,6 +76,8 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::PermissionDenied>(m, "PermissionDenied");
   py::register_exception<squish::ImageAssemblingFailed>(m, "ImageAssemblingFailed");
   py::register_exception<squish::InvalidRectangleCoordinates>(m, "InvalidRectangleCoordinates");
+  py::register_exception<squish::ComparingImageIncorrectSize>(m, "ComparingImageIncorrectSize");
+  py::register_exception<squish::ComparingImageNotExist>(m, "ComparingImageNotExist");
   py::register_exception<interaction::VideoStreamingError>(m, "VideoStreamingError");
   py::register_exception<interaction::NoConnectionEstablished>(m, "NoConnectionEstablished");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
@@ -361,7 +363,11 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
         "                               produced rectangle has zero height/width or is out of frame boundaries."
-        " 'runtime_error' in case system's erorrs"
+        " 'ComparingImageIncorrectSize' in case incorrect size of image"
+        " 'ComparingImageNotExist' in case comparing images doesn't exist"
+        " 'EmptyScreenshotFileName' in case comparing image file path is empty"
+        " 'PermissionDenied' in case error read permissions"
+        " 'runtime_error' in case system's errors"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("icon_path_second"), py::arg("icon_path_first"), py::arg("point_top_left"),

@@ -282,6 +282,10 @@ std::vector<squish::Object> GetObjectsDataByPattern(const squish::Object& object
  * @return Percentage of discrepancy
  * @throw InvalidRectangleCoordinates In case top-left and bottom-right coordinates are mixed up or
  *                                    produced rectangle has zero height/width or is out of frame boundaries
+ * @throw ComparingImageIncorrectSize in case incorrect size of image
+ * @throw ComparingImageNotExist in case comparing images doesn't exist
+ * @throw EmptyScreenshotFileName in case comparing image file path is empty
+ * @throw PermissionDenied in case error read permissions
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
