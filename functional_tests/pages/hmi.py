@@ -1,11 +1,12 @@
 import time
 
 from functional_tests.utils import wait_for_obj_benchmark
-from functional_tests.utils.ATE_exception_handing import (catch_exception_lookup,
-                                                          catch_exception_video)
-from vhat_client import (
-    ModifierState, MouseButton, attachToApplication, changeSyncIconDB, changeSyncMode,
-    getText, object, tapObject, touchAndDrag, waitForObject)
+from functional_tests.utils.ATE_exception_handing import (
+    catch_exception_lookup, catch_exception_video)
+from vhat_client import (ModifierState, MouseButton, attachToApplication,
+                         changeSyncIconDB, changeSyncMode,
+                         getObjectsDataByPattern, getText, object, tapObject,
+                         touchAndDrag, waitForObject)
 
 
 def attach_to_application():
@@ -52,3 +53,7 @@ def change_sync_mode(collection_mode):
 @catch_exception_video
 def get_text(x1, y1, x2, y2):
     return getText(x1, y1, x2, y2)
+
+
+def get_object_data_pattern(name):
+    return getObjectsDataByPattern(name)
