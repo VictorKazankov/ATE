@@ -315,5 +315,23 @@ void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string
   }
 }
 
+void ExtractImagesDiscrepancyParams(const Json::Value& params, std::string& icon_path_second,
+                                    std::string& icon_path_first, common::Point& top_left_coordinate,
+                                    common::Point& bottom_right_coordinate, Json::Value& error) {
+  error.clear();
+
+  // Extract params
+  try {
+    icon_path_second = params[kIconPathSecond].asCString();
+    icon_path_first = params[kIconPathFirst].asCString();
+    top_left_coordinate = {params[kXTopLeft].asInt(), params[kYTopLeft].asInt()};
+    bottom_right_coordinate = {params[kXBottomRight].asInt(), params[kYBottomRight].asInt()};
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid ImagesDiscrepancyParams params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+  }
+}
+
 }  // namespace jmsg
 }  // namespace common

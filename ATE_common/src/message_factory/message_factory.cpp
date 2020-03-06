@@ -319,6 +319,18 @@ Json::Value MessageFactory::Server::CreateGetObjectsDataByPatternResponse(const 
   return result;
 }
 
+/**
+ * A JSON response contains a percent of discrepancy two images in the data section:
+ * [{discrepancy_percent}]
+ */
+Json::Value MessageFactory::Server::CreateImagesDiscrepancyResponse(int percent_discrepancy) {
+  Json::Value result;
+
+  result[kDiscrepancyPercent] = percent_discrepancy;
+
+  return result;
+}
+
 std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id) {
   Json::Value params;
   Json::FastWriter writer;

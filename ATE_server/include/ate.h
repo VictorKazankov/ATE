@@ -122,6 +122,19 @@ class ATE {
    */
   std::vector<common::ObjectData> GetObjectsDataByPattern(const std::string& select_pattern);
 
+  /**
+   * @brief Gets the difference between the two images as a percentage
+   * @param icon_path_second Path to the second image
+   * @param icon_path_first Path to the first image
+   * @param top_left_coordinate Top left  coordinate
+   * @param bottom_right_coordinate Bottom right coordinate
+   * @return A discrepancy coefficient and error code of operation
+   */
+  std::pair<int, std::error_code> ImagesDiscrepancy(const std::string& icon_path_second,
+                                                    const std::string& icon_path_first,
+                                                    const common::Point& top_left_coordinate,
+                                                    const common::Point& bottom_right_coordinate) const;
+
  private:
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;

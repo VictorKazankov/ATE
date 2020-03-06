@@ -213,6 +213,19 @@ void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_l
  */
 void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string& select_pattern, Json::Value& error);
 
+/**
+ * @brief Extracts params for 'GetImagesDiscrepancy' method
+ * @param params Structured value that holds the parameter values to be used
+ * @param icon_path_second The path to the second comparison image
+ * @param icon_path_first The path to the first comparison image
+ * @param top_left_coordinate Top left coordinate point of the comparison area
+ * @param bottom_right_coordinate Bottom right coordinate point of the comparison area
+ * @param error Error object, null on success
+ */
+void ExtractImagesDiscrepancyParams(const Json::Value& params, std::string& icon_path_second,
+                                    std::string& icon_path_first, common::Point& top_left_coordinate,
+                                    common::Point& bottom_right_coordinate, Json::Value& error);
+
 }  // namespace jmsg
 }  // namespace common
 

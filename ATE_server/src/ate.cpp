@@ -160,3 +160,10 @@ std::pair<std::string, std::error_code> ATE::GetText(const cv::Point& point, con
 std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const std::string& select_pattern) {
   return storage_.GetItemData(select_pattern);
 }
+
+std::pair<int, std::error_code> ATE::ImagesDiscrepancy(
+    [[gnu::unused]] const std::string& icon_path_second, [[gnu::unused]] const std::string& icon_path_first,
+    [[gnu::unused]] const common::Point& top_left_coordinate,
+    [[gnu::unused]] const common::Point& bottom_right_coordinate) const {
+  return {0,{}};
+}

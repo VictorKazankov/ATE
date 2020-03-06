@@ -28,7 +28,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kLongPress, &AteMessageAdapter::HandleLongPress},
                    {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot},
                    {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText},
-                   {common::jmsg::kGetObjectsDataByPattern, &AteMessageAdapter::HandleGetObjectsDataByPattern}} {}
+                   {common::jmsg::kGetObjectsDataByPattern, &AteMessageAdapter::HandleGetObjectsDataByPattern},
+                   {common::jmsg::kImagesDiscrepancy, &AteMessageAdapter::ImagesDiscrepancy}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -351,9 +352,90 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetObjectsDataByPattern(co
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetObjectsDataByPatternResponse(res), true);
 }
 
+std::pair<Json::Value, bool> AteMessageAdapter::ImagesDiscrepancy(const Json::Value& params) {
+  Json::Value error;
+  std::string p2;
+  std::string p1;
+  common::Point top_left_coordinate;
+  common::Point bottom_right_coordinate;
+
+  common::jmsg::ExtractImagesDiscrepancyParams(params, p2, p1, top_left_coordinate, bottom_right_coordinate, error);
+
+  // Creating the correct path to the screenshot
+  fs::path icon_path_second{ATE_WRITABLE_DATA_PREFIX};
+  icon_path_second /= p2;
+
+  fs::path icon_path_first{ATE_WRITABLE_DATA_PREFIX};
+  icon_path_first /= p1;
+
+  if (!error.empty()) {
+    // Extract error occurs
+    return std::make_pair(std::move(error), false);
+  }
+
+  // Validation input parameters
+  std::error_code error_code;
+
+  if (icon_path_second.empty() || icon_path_first.empty()) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kEmptyFileName, "The screenshot's filename is empty");
+    return std::make_pair(std::move(error), false);
+  }
+
+  if (!fs::exists(icon_path_second, error_code) || !fs::exists(icon_path_first, error_code)) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kComparingImageNotExist, "Comparing image doesn't exist");
+    return std::make_pair(std::move(error), false);
+  }
+
+  auto first_image_size = fs::file_size(icon_path_first, error_code);
+  auto second_image_size = fs::file_size(icon_path_second, error_code);
+  if (first_image_size == 0 || first_image_size == std::numeric_limits<uintmax_t>::max() || second_image_size == 0 ||
+      second_image_size == std::numeric_limits<uintmax_t>::max()) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kComparingImageIncorrectSize, "Comparing image is incorrect size");
+    return std::make_pair(std::move(error), false);
+  }
+
+  if (top_left_coordinate.x > bottom_right_coordinate.x || top_left_coordinate.y > bottom_right_coordinate.y) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid Matching area coordinate: mixed up top-left and bottom-right points");
+    return std::make_pair(std::move(error), false);
+  }
+
+  auto first_image_permissions = fs::status(icon_path_first).permissions();
+  auto second_image_permissions = fs::status(icon_path_second).permissions();
+  if ((first_image_permissions & fs::perms::owner_read) == fs::perms::none ||
+      (first_image_permissions & fs::perms::group_read) == fs::perms::none ||
+      (first_image_permissions & fs::perms::others_read) == fs::perms::none ||
+      (second_image_permissions & fs::perms::owner_read) == fs::perms::none ||
+      (second_image_permissions & fs::perms::group_read) == fs::perms::none ||
+      (second_image_permissions & fs::perms::others_read) == fs::perms::none) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kPermissionDenied, "Invalid read permission");
+    return std::make_pair(std::move(error), false);
+  }
+
+  // Get image discrepancy
+  auto result = ate_.ImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate);
+
+  if (result.second) {
+    if (common::AteError::kOutOfBoundaries == result.second) {
+      error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                              "Specified area is out of screen boundaries");
+      return std::make_pair(std::move(error), false);
+    }
+    if (common::AteError::kSystemError == result.second) {
+      error =
+          common::jmsg::CreateErrorObject(rpc::Error::kInternalError, "Internal error during comparison of two images");
+      return std::make_pair(std::move(error), false);
+    }
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateImagesDiscrepancyResponse(result.first), true);
+}
+
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {
   Json::Value error = common::jmsg::CreateErrorObject(rpc::Error::kMethodNotFound, "Method not found");
-  logger::error("[ate message adadpter] {}\nparams: {}", error.toStyledString(), params.toStyledString());
+  logger::error("[ate message adapter] {}\nparams: {}", error.toStyledString(), params.toStyledString());
   return std::make_pair(std::move(error), false);
 }
 
