@@ -484,6 +484,9 @@ Json::Value AteMessageAdapter::CheckChangeSyncConfigurationResult(const adapter:
     case adapter::DBManagerError::kInvalidSyncBuildVersion: {
       return common::jmsg::CreateErrorObject(rpc::Error::kInvalidSyncBuildVersion, "Invalid sync build version");
     }
+    case adapter::DBManagerError::kLogicError: {
+      return common::jmsg::CreateErrorObject(rpc::Error::kInternalError, "Failed to check Icon storage configuration");
+    }
     case adapter::DBManagerError::kSuccess: {
       break;
     }

@@ -4,7 +4,9 @@
 #include <memory>
 #include <string>
 
-#include <db_manager/db_manager.h>
+#include <db_manager/access_credentials.h>
+#include <db_manager/icon_data_mapper.h>
+#include <db_manager/attribute_types.h>
 
 #include "utils/object_data_type.h"
 
@@ -22,6 +24,8 @@ enum class DBManagerError {
   kInvalidSyncVersion,
   kInvalidSyncBuildVersion,
   kInvalidCollectionMode,
+
+  kLogicError,
 };
 
 /**
@@ -76,10 +80,19 @@ class DBManagerAdapter {
   std::error_code ReloadStorage() noexcept;
 
  private:
-  db_manager::SyncVersion sync_version_;
-  db_manager::SyncBuildVersion sync_build_version_;
-  db_manager::CollectionMode collection_mode_;
-  std::unique_ptr<db_manager::IDbManager> db_manager_;
+  struct StorageConfig {
+    std::string sync_version;
+    std::string build_version;
+    db_manager::HmiMode mode{db_manager::HmiMode::kNone};
+  };
+
+  db_manager::AccessCredentials GetAccessCredentials() const;
+  std::unique_ptr<db_manager::IconDataMapper> CreateDataMapper(db_manager::AccessCredentials access_credentials) const;
+  StorageConfig CreateConfiguration(std::string sync_version, std::string build_version, std::string mode) const;
+  DBManagerError CheckConfiguration(const StorageConfig& config) const;
+
+  StorageConfig config_;
+  std::unique_ptr<db_manager::IconDataMapper> icon_data_mapper_;
 };
 
 }  // namespace adapter
