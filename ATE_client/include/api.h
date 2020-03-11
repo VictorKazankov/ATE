@@ -8,6 +8,7 @@
 
 #include "squish/application_context.h"
 #include "squish/squish_types.h"
+#include "squish/wildcard.h"
 
 namespace API {
 /**
@@ -264,14 +265,14 @@ std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_name);
 
 /**
- * @brief Gets object list by selecting a pattern
- * @param object_pattern Pattern for selection
+ * @brief Gets object list by wildcard object
+ * @param wildcard Pattern for selection
  * @return List of objects
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  */
-std::vector<squish::Object> GetObjectsDataByPattern(const squish::Object& object_pattern);
+std::vector<squish::Object> GetObjectsDataByPattern(const squish::Wildcard& wildcard);
 
 /**
  * @brief Gets the difference between the two images as a percentage

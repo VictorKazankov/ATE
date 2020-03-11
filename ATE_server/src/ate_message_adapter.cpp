@@ -338,16 +338,21 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetText(const Json::Value&
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleGetObjectsDataByPattern(const Json::Value& params) {
   Json::Value error;
-  std::string select_pattern;
+  std::string name;
+  std::string sync_version;
+  std::string sync_build_version;
+  std::string parent_name;
+  std::string collection_mode;
 
-  common::jmsg::ExtractGetObjectsDataByPatternParams(params, select_pattern, error);
+  common::jmsg::ExtractGetObjectsDataByPatternParams(params, name, sync_version, sync_build_version, parent_name,
+                                                     collection_mode, error);
 
   if (!error.empty()) {
     // Extract error occurs
     return std::make_pair(std::move(error), false);
   }
 
-  auto res = ate_.GetObjectsDataByPattern(select_pattern);
+  auto res = ate_.GetObjectsDataByPattern(name);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetObjectsDataByPatternResponse(res), true);
 }

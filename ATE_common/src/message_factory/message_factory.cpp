@@ -201,10 +201,18 @@ std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& to
  * A JSON request contains next data in data section:
  * [{select_pattern}]
  */
-std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const std::string& name, int id) {
+std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const std::string& name,
+                                                                         const std::string& sync_version,
+                                                                         const std::string& sync_build_version,
+                                                                         const std::string& parent_name,
+                                                                         const std::string& collection_mode, int id) {
   Json::Value params;
   Json::FastWriter writer;
-  params[kSelectPattern] = name;
+  params[kName] = name;
+  params[kSyncVersion] = sync_version;
+  params[kSyncBuildVersion] = sync_build_version;
+  params[kParentName] = parent_name;
+  params[kSyncCollectionMode] = collection_mode;
 
   Json::Value message;
 

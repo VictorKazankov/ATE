@@ -4,6 +4,7 @@
 #include "ate_api.h"
 #include "interaction.h"
 #include "squish/squish_types.h"
+#include "squish/wildcard.h"
 
 #define private public
 #define protected public
@@ -43,30 +44,12 @@ void AteApiTest::TearDown() {
   mock_ = nullptr;
 }
 
-TEST_F(AteApiTest, GetObjectsDataByPattern_PassStringNameReceiveVaildResponse_ReceiveValidResponse) {
-  std::string valid_response(
-      R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"x":1,"y":1},{"height":10,"width":10,"x":1,"y":1}]})");
-  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
-
-  API::AteApi api;
-  std::vector<squish::Object> objects = api.GetObjectsDataByPattern(mock_, 1, "name");
-  EXPECT_TRUE(!objects.empty());
-
-  for (const auto& object : objects) {
-    EXPECT_EQ(object.x, 1);
-    EXPECT_EQ(object.y, 1);
-    EXPECT_EQ(object.width, 10);
-    EXPECT_EQ(object.height, 10);
-  }
-}
-
 TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObjectReceiveVaildResponse_ReceiveValidResponse) {
   std::string valid_response(
       R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"x":1,"y":1},{"height":10,"width":10,"x":1,"y":1}]})");
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
 
-  squish::Object valid_object;
-  valid_object.name = "object_name";
+  squish::Wildcard valid_object("object_name");
 
   API::AteApi api;
   std::vector<squish::Object> objects = api.GetObjectsDataByPattern(mock_, 1, valid_object);
@@ -84,8 +67,7 @@ TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObject_ReceiveResponseWithI
   std::string invalid_response(R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"y":1}]})");
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(invalid_response));
 
-  squish::Object valid_object;
-  valid_object.name = "object_name";
+  squish::Wildcard valid_object("object_name");
 
   API::AteApi api;
   std::vector<squish::Object> objects = api.GetObjectsDataByPattern(mock_, 1, valid_object);

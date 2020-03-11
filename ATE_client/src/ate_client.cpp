@@ -412,15 +412,15 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamNotFound' in case of the video stream is not available",
         py::arg("x1"), py::arg("y1"), py::arg("x2"), py::arg("y2"), py::return_value_policy::copy);
 
-  /*m.def("getObjectsDataByPattern", py::overload_cast<const squish::Object&>(&API::GetObjectsDataByPattern),
+  m.def("getObjectsDataByPattern", py::overload_cast<const squish::Wildcard&>(&API::GetObjectsDataByPattern),
         "GetObjectsDataByPattern provides a list of objects that are formed on the basis of the available data in the "
         "database. The selection of objects is carried out by applying a search pattern."
         "Throws:"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of invalid params sent to the server-side",
-        py::arg("object"));
-*/
+        py::arg("wildcard"));
+
   m.def("getObjectsDataByPattern", py::overload_cast<const std::string&>(&API::GetObjectsDataByPattern),
         "GetObjectsDataByPattern provides a list of objects that are formed on the basis of the available data in the "
         "database. The selection of objects is carried out by applying a search pattern."

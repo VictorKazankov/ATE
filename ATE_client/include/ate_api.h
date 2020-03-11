@@ -6,6 +6,7 @@
 
 #include "interaction.h"
 #include "squish/squish_types.h"
+#include "squish/wildcard.h"
 #include "utils/squish_types.h"
 
 namespace API {
@@ -76,28 +77,17 @@ class AteApi {
                       uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) const;
 
   /**
-   * @brief Get object list by object name
-   * @param object_name Name of object
-   * @param correlation_id Correlation id for RPC
-   * @return List of objects
-   * @throw invalid_argument In case of the invalid arguments in request
-   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
-   */
-  std::vector<squish::Object> GetObjectsDataByPattern(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                                                      const uint64_t& correlation_id,
-                                                      const std::string& object_name) const;
-
-  /**
    * @brief Get object list by selecting a pattern
    * @param object_pattern Pattern for selection
    * @param correlation_id Correlation id for RPC
+   * @param wildcard Pattern for selection
    * @return List of objects
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   std::vector<squish::Object> GetObjectsDataByPattern(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                                       const uint64_t& correlation_id,
-                                                      const squish::Object& object_pattern) const;
+                                                      const squish::Wildcard& wildcard) const;
 
   /**
    * @brief Gets the difference between the two images as a percentage

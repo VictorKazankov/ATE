@@ -37,11 +37,14 @@ class MessageFactory {
     static std::string CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id);
     static std::string CreateGetScreenshotRequest(const std::string& filename, const std::string& location, int id);
     static std::string CreateGetTextRequest(const common::Point& top_left, const common::Point& bottom_right, int id);
-    static std::string CreateGetObjectsDataByPatternRequest(const std::string& name, int id);
     static std::string CreateGetImagesDiscrepancyRequest(const std::string& icon_path_second,
                                                          const std::string& icon_path_first,
                                                          const common::Point& top_left_coordinate,
                                                          const common::Point& bottom_right_coordinate, int id);
+    static std::string CreateGetObjectsDataByPatternRequest(const std::string& name, const std::string& sync_version,
+                                                            const std::string& sync_build_version,
+                                                            const std::string& parent_name,
+                                                            const std::string& collection_mode, int id);
   };
 
   /**

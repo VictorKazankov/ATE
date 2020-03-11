@@ -605,25 +605,47 @@ TEST(ExtractGetScreenshotParamsTest, ExtractGetScreenshotRequestParams_WrongPara
 TEST(ExtractGetObjectsDataByPatternParamsTest,
      ExtractGetObjectsDataByPatternParams_WrongParamsType_ExpectNoThrowSuccess) {
   Json::Value error;
-  std::string select_pattern;
+  std::string name;
+  std::string sync_version;
+  std::string sync_build_version;
+  std::string parent_name;
+  std::string collection_mode;
   Json::Value params;
-  params["select_pattern"] = 125.0;
 
-  EXPECT_NO_THROW(common::jmsg::ExtractGetObjectsDataByPatternParams(params, select_pattern, error));
+  params[common::jmsg::kName] = 123;
+  params[common::jmsg::kSyncVersion] = false;
+  params[common::jmsg::kSyncBuildVersion] = 123;
+  params[common::jmsg::kParentName] = "main";
+  params[common::jmsg::kSyncCollectionMode] = "DAY_MODE";
+
+  EXPECT_NO_THROW(common::jmsg::ExtractGetObjectsDataByPatternParams(params, name, sync_version, sync_build_version,
+                                                                     parent_name, collection_mode, error));
   EXPECT_FALSE(error.empty()) << "Error code does not exist.";
-  EXPECT_TRUE(select_pattern.empty()) << "Select pattern not empty.";
   EXPECT_EQ(static_cast<int>(rpc::Error::kInvalidParams), error["code"].asInt()) << "Errors codes does not match.";
 }
 
 TEST(ExtractGetObjectsDataByPatternParamsTest, ExtractGetObjectsDataByPatternParams_ValidType_ExpectedParams) {
   Json::Value error;
-  std::string expect_select_pattern = "test_select";
-  std::string select_pattern;
+  std::string name;
+  std::string sync_version;
+  std::string sync_build_version;
+  std::string parent_name;
+  std::string collection_mode;
   Json::Value params;
-  params["select_pattern"] = expect_select_pattern;
 
-  EXPECT_NO_THROW(common::jmsg::ExtractGetObjectsDataByPatternParams(params, select_pattern, error));
-  EXPECT_EQ(select_pattern, expect_select_pattern) << "Select pattern does not match with expected.";
+  params[common::jmsg::kName] = "name";
+  params[common::jmsg::kSyncVersion] = "sync3";
+  params[common::jmsg::kSyncBuildVersion] = "build1";
+  params[common::jmsg::kParentName] = "main";
+  params[common::jmsg::kSyncCollectionMode] = "DAY_MODE";
+
+  EXPECT_NO_THROW(common::jmsg::ExtractGetObjectsDataByPatternParams(params, name, sync_version, sync_build_version,
+                                                                     parent_name, collection_mode, error));
+  EXPECT_EQ(name, "name");
+  EXPECT_EQ(sync_version, "sync3");
+  EXPECT_EQ(sync_build_version, "build1");
+  EXPECT_EQ(parent_name, "main");
+  EXPECT_EQ(collection_mode, "DAY_MODE");
   EXPECT_TRUE(error.empty()) << "Error code exist.";
 }
 

@@ -302,12 +302,18 @@ void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_l
 
 // TODO(slisovenko@luxoft.com): Need to review the code for availability select_pattern params after implementation
 //  select by pattern
-void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string& select_pattern, Json::Value& error) {
+void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string& name, std::string& sync_version,
+                                          std::string& sync_build_version, std::string& parent_name,
+                                          std::string& collection_mode, Json::Value& error) {
   error.clear();
 
   // Extract params
   try {
-    select_pattern = params[kSelectPattern].asCString();
+    name = params[kName].asCString();
+    sync_version = params[kSyncVersion].asCString();
+    sync_build_version = params[kSyncBuildVersion].asCString();
+    parent_name = params[kParentName].asCString();
+    collection_mode = params[kSyncCollectionMode].asCString();
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetObjectsDataByPattern params");
     logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),

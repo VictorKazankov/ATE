@@ -93,11 +93,11 @@ std::string API::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
 }
 
 std::vector<squish::Object> API::GetObjectsDataByPattern(const std::string& object_name) {
-  return GetApiAggregator().GetObjectsDataByPattern(object_name);
+  return GetObjectsDataByPattern(squish::Wildcard(object_name, "", "", "", common::squish::CollectionMode::ANY));
 }
 
-std::vector<squish::Object> API::GetObjectsDataByPattern(const squish::Object& object_pattern) {
-  return GetApiAggregator().GetObjectsDataByPattern(object_pattern);
+std::vector<squish::Object> API::GetObjectsDataByPattern(const squish::Wildcard& wildcard) {
+  return GetApiAggregator().GetObjectsDataByPattern(wildcard.name_);
 }
 
 int API::GetImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
