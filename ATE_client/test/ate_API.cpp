@@ -44,7 +44,8 @@ void AteApiTest::TearDown() {
 }
 
 TEST_F(AteApiTest, GetObjectsDataByPattern_PassStringNameReceiveVaildResponse_ReceiveValidResponse) {
-  std::string valid_response(R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"x":1,"y":1},{"height":10,"width":10,"x":1,"y":1}]})");
+  std::string valid_response(
+      R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"x":1,"y":1},{"height":10,"width":10,"x":1,"y":1}]})");
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
 
   API::AteApi api;
@@ -60,7 +61,8 @@ TEST_F(AteApiTest, GetObjectsDataByPattern_PassStringNameReceiveVaildResponse_Re
 }
 
 TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObjectReceiveVaildResponse_ReceiveValidResponse) {
-  std::string valid_response(R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"x":1,"y":1},{"height":10,"width":10,"x":1,"y":1}]})");
+  std::string valid_response(
+      R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"x":1,"y":1},{"height":10,"width":10,"x":1,"y":1}]})");
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
 
   squish::Object valid_object;
@@ -88,4 +90,17 @@ TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObject_ReceiveResponseWithI
   API::AteApi api;
   std::vector<squish::Object> objects = api.GetObjectsDataByPattern(mock_, 1, valid_object);
   EXPECT_TRUE(objects.empty());
+}
+
+TEST_F(AteApiTest, GetImagesDiscrepancy_ValidResponse_ExpectedResult) {
+  int expected_discrepancy = 20;
+  char valid_response[256]{};
+  snprintf(valid_response, sizeof(valid_response) / sizeof(char),
+           R"({"id":1,"jsonrpc":"2.0","result":{"discrepancy_percent":%d}})", expected_discrepancy);
+
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
+
+  API::AteApi api;
+  auto discrepancy = api.GetImagesDiscrepancy(mock_, 1, "path1", "path2", {0, 0}, {100, 100});
+  EXPECT_EQ(discrepancy, expected_discrepancy);
 }
