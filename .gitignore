@@ -14,5 +14,7 @@ CMakeLists.txt.user*
 .pytest_cache/
 *.py[cod]
 allure-report/
-allure-results/
 tmp/
+/functional_tests/allure-results/*container.json
+/functional_tests/allure-results/*result.json
+/functional_tests/allure-results/*.txt

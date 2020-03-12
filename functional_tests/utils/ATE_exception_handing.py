@@ -1,6 +1,5 @@
 import logging
 from functools import wraps
-from sys import exit as sys_exit
 from time import sleep
 
 from pytest import exit as pytest_exit
@@ -61,8 +60,8 @@ def catch_exception_video(function):
         if IS_EXIT_WHEN_VideoStreamingError:
             finish_pytest_runs(TEXT_FOR_EXIT_WHEN_VideoStreamingError)
         else:
-            logging.info("Exit from test using sys.exit(1) because of {}".format(str(VideoStreamingError)))
-            sys_exit(1)
+            logging.info("raise {} for tracking purpose".format(str(VideoStreamingError)))
+            raise VideoStreamingError
 
     return wrapper
 
