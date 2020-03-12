@@ -303,4 +303,38 @@ TEST_F(MatcherTest, GetScreenshot_VideoTemporarilyUnavailableErrorCode_VideoTemp
       << "Expected error: " << expected_error_code.message() << " Returned error: " << error_code.message();
 }
 
+TEST_F(MatcherTest, GetImagesDiscrepancy_DifferentImagesResolution_WrongImageResolution) {
+  const auto path_to_screenshot1 = ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png";
+  const auto path_to_screenshot2 = ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png";
+
+  auto result = matcher_->GetImagesDiscrepancy(path_to_screenshot1, path_to_screenshot2, {}, {});
+  EXPECT_EQ(result.second, common::AteError::kWrongImageResolution);
+}
+
+TEST_F(MatcherTest, GetImagesDiscrepancy_InvalidCoordinates_OutOfBoundaries) {
+  const auto path_to_screenshot = ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png";
+
+  auto result = matcher_->GetImagesDiscrepancy(path_to_screenshot, path_to_screenshot, {0, 0}, {0, 99999});
+  EXPECT_EQ(result.second, common::AteError::kOutOfBoundaries);
+}
+
+TEST_F(MatcherTest, GetImagesDiscrepancy_InvalidImages_SystemError) {
+  const auto path_to_screenshot = "invalid_path";
+
+  auto result = matcher_->GetImagesDiscrepancy(path_to_screenshot, path_to_screenshot, {0, 0}, {0, 0});
+  EXPECT_EQ(result.second, common::AteError::kSystemError);
+}
+
+TEST_F(MatcherTest, GetImagesDiscrepancy_ValidData_NoError) {
+  const auto path_to_screenshot = ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png";
+
+  auto result = matcher_->GetImagesDiscrepancy(path_to_screenshot, path_to_screenshot, {0, 0}, {0, 0});
+  EXPECT_EQ(result.second, std::error_code{});
+  EXPECT_EQ(result.first, 0);
+
+  result = matcher_->GetImagesDiscrepancy(path_to_screenshot, path_to_screenshot, {0, 0}, {100, 100});
+  EXPECT_EQ(result.second, std::error_code{});
+  EXPECT_EQ(result.first, 0);
+}
+
 }  // namespace
