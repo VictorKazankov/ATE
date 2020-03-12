@@ -627,4 +627,61 @@ TEST(ExtractGetObjectsDataByPatternParamsTest, ExtractGetObjectsDataByPatternPar
   EXPECT_TRUE(error.empty()) << "Error code exist.";
 }
 
+TEST(ExtractGetImagesDiscrepancyParamsTest, ExtractGetImagesDiscrepancyParams_InvalidRequestType_InvalidParamsError) {
+  Json::Value error;
+
+  std::string path2;
+  std::string path1;
+  common::Point top_left;
+  common::Point bottom_right;
+
+  const auto expected_path2 = 10;
+  const auto expected_path1 = "path1";
+  common::Point expected_top_left{0, 10};
+  common::Point expected_bottom_right{90, 100};
+
+  Json::Value params;
+  params[common::jmsg::kIconPathSecond] = expected_path2;
+  params[common::jmsg::kIconPathFirst] = expected_path1;
+  params[common::jmsg::kXTopLeft] = expected_top_left.x;
+  params[common::jmsg::kYTopLeft] = expected_top_left.y;
+  params[common::jmsg::kXBottomRight] = expected_bottom_right.x;
+  params[common::jmsg::kYBottomRight] = expected_bottom_right.y;
+
+  common::jmsg::ExtractGetImagesDiscrepancyParams(params, path2, path1, top_left, bottom_right, error);
+  EXPECT_TRUE(path2.empty()) << "Path to the second image must be empty.";
+  EXPECT_EQ(static_cast<int>(rpc::Error::kInvalidParams), error["code"].asInt()) << "Errors codes does not match.";
+}
+
+TEST(ExtractGetImagesDiscrepancyParamsTest, ExtractGetImagesDiscrepancyParams_ValidRequest_ExpectedParams) {
+  Json::Value error;
+
+  std::string path2;
+  std::string path1;
+  common::Point top_left;
+  common::Point bottom_right;
+
+  const auto expected_path2 = "path2";
+  const auto expected_path1 = "path1";
+  common::Point expected_top_left{0, 10};
+  common::Point expected_bottom_right{90, 100};
+
+  Json::Value params;
+  params[common::jmsg::kIconPathSecond] = expected_path2;
+  params[common::jmsg::kIconPathFirst] = expected_path1;
+  params[common::jmsg::kXTopLeft] = expected_top_left.x;
+  params[common::jmsg::kYTopLeft] = expected_top_left.y;
+  params[common::jmsg::kXBottomRight] = expected_bottom_right.x;
+  params[common::jmsg::kYBottomRight] = expected_bottom_right.y;
+
+  EXPECT_NO_THROW(common::jmsg::ExtractGetImagesDiscrepancyParams(params, path2, path1, top_left, bottom_right, error));
+  EXPECT_EQ(path2, expected_path2) << "Path to the second image does not match with expected.";
+  EXPECT_EQ(path1, expected_path1) << "Path to the second image does not match with expected.";
+  EXPECT_EQ(top_left.x, expected_top_left.x) << "Top left x coordinate does not match with expected.";
+  EXPECT_EQ(top_left.y, expected_top_left.y) << "Top left y coordinate does not match with expected.";
+  EXPECT_EQ(bottom_right.x, expected_bottom_right.x) << "Bottom right x coordinate does not match with expected.";
+  EXPECT_EQ(bottom_right.y, expected_bottom_right.y) << "Bottom right y coordinate does not match with expected.";
+  EXPECT_TRUE(error.empty()) << "Error code exist.";
+}
+
 }  // namespace

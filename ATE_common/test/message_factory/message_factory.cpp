@@ -27,8 +27,7 @@ bool JsonComparator(const std::string& message1, const std::string& message2) {
 
 TEST(MessageFactoryClientTest, CreateAttachToApplicationRequest_ValidJsonMessage_Success) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateAttachToApplicationRequest(1000, 1);
-  auto expected_message =
-      R"({"id":1,"jsonrpc":"2.0","method":"AttachToApplication","params":{"timeout_msec":1000}})";
+  auto expected_message = R"({"id":1,"jsonrpc":"2.0","method":"AttachToApplication","params":{"timeout_msec":1000}})";
 
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
@@ -124,8 +123,7 @@ TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedRequest_ValidJson
 
 TEST(MessageFactoryClientTest, CreateLongPressRequest_ValidJsonMessage_Success) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateLongPressRequest(1, 2, 2000, 1);
-  auto expected_message =
-      R"({"id":1,"jsonrpc":"2.0","method":"LongPress","params":{"timeout_msec":2000,"x":1,"y":2}})";
+  auto expected_message = R"({"id":1,"jsonrpc":"2.0","method":"LongPress","params":{"timeout_msec":2000,"x":1,"y":2}})";
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
@@ -133,8 +131,7 @@ TEST(MessageFactoryClientTest, CreateLongPressRequest_ValidJsonMessage_Success) 
 TEST(MessageFactoryClientTest, CreateGetTextRequest_ValidJsonMessage_Success) {
   auto request_message =
       common::jmsg::MessageFactory::Client::CreateGetTextRequest(common::Point{10, 20}, common::Point{70, 80}, 1);
-  auto expected_message =
-      R"({"id":1,"jsonrpc":"2.0","method":"GetText","params":{"x":10,"y":20,"dx":70,"dy":80}})";
+  auto expected_message = R"({"id":1,"jsonrpc":"2.0","method":"GetText","params":{"x":10,"y":20,"dx":70,"dy":80}})";
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
@@ -152,6 +149,29 @@ TEST(MessageFactoryClientTest, CreateGetObjectsDataByPatternRequest_InputData_Va
   auto request_message = common::jmsg::MessageFactory::Client::CreateGetObjectsDataByPatternRequest("test_name", 1);
   auto expected_message =
       R"({"id":1,"jsonrpc":"2.0","method":"GetObjectsDataByPattern","params":{"select_pattern":"test_name"}})";
+
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
+TEST(MessageFactoryClientTest, CreateGetImageDiscrepancyRequest_InputData_ValidJsonMessage) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreateGetImagesDiscrepancyRequest(
+      "/image2.png", "/image1.png", {0, 0}, {100, 100}, 1);
+  auto expected_message =
+      R"(
+        {
+          "id":1,"jsonrpc":"2.0",
+          "method":"GetImagesDiscrepancy",
+          "params":{
+            "icon_path_second":"/image2.png",
+            "icon_path_first":"/image1.png",
+            "x_top_left": 0,
+            "y_top_left": 0,
+            "x_bottom_right": 100,
+            "y_bottom_right": 100
+          }
+        }
+      )";
 
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
@@ -252,6 +272,17 @@ TEST(MessageFactoryServerTest, CreateGetObjectsDataByPatternResponse_ValidServer
   EXPECT_EQ(response.size(), object_list.size()) << "Response from the server does not match with expected.\n"
                                                  << expected_response << "\n"
                                                  << response;
+}
+
+TEST(MessageFactoryServerTest, CreateGetImageDiscrepancyResponse_ValidServerResponse_Success) {
+  std::string expected_response_str = R"({"discrepancy_percent":10})";
+
+  Json::Value expected_response;
+  Json::Reader reader;
+  reader.parse(expected_response_str, expected_response);
+
+  auto response = common::jmsg::MessageFactory::Server::CreateGetImagesDiscrepancyResponse(10);
+  EXPECT_EQ(response, expected_response) << "Incorrect response.";
 }
 
 }  // namespace
