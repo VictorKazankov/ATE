@@ -28,7 +28,7 @@ def tap_object(object):
 
 @catch_exception_video
 def obj_exists(name):
-    time.sleep(0.5)
+    time.sleep(1)
     return object().exists(name)
 
 
