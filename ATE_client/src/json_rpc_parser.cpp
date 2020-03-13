@@ -210,7 +210,7 @@ std::vector<squish::Object> JsonRpcParser::ParseGetObjectsDataByPattern(const st
  * A JSON response contains a percent of discrepancy two images in the data section:
  * [{discrepancy_percent}]
  */
-int JsonRpcParser::ParseImagesDiscrepancy(const std::string& rpc) {
+int JsonRpcParser::ParseGetImagesDiscrepancy(const std::string& rpc) {
   Json::Value schema = RpcStringToJsonStruct(rpc);
 
   // Parse
@@ -220,7 +220,7 @@ int JsonRpcParser::ParseImagesDiscrepancy(const std::string& rpc) {
   if (!result.isMember(common::jmsg::kDiscrepancyPercent) || !result[common::jmsg::kDiscrepancyPercent].isInt() ||
       !result[common::jmsg::kDiscrepancyPercent].isUInt()) {
     logger::error(
-        "[ImagesDiscrepancy] Invalid structure of object data in the JSON response. Mandatory field is "
+        "[GetImagesDiscrepancy] Invalid structure of object data in the JSON response. Mandatory field is "
         "incorrect.");
     throw std::runtime_error("Missing mandatory field in the response from the server.");
   }
@@ -230,7 +230,7 @@ int JsonRpcParser::ParseImagesDiscrepancy(const std::string& rpc) {
   try {
     discrepancy_percent = result[common::jmsg::kDiscrepancyPercent].asInt();
   } catch (const Json::LogicError& err) {
-    logger::error("[ImagesDiscrepancy] Argument error: wrong type of response {}", err.what());
+    logger::error("[GetImagesDiscrepancy] Argument error: wrong type of response {}", err.what());
     throw std::runtime_error("Error during parsing response. Wrong type of response");
   }
 

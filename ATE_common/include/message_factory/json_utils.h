@@ -222,9 +222,9 @@ void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string
  * @param bottom_right_coordinate Bottom right coordinate point of the comparison area
  * @param error Error object, null on success
  */
-void ExtractImagesDiscrepancyParams(const Json::Value& params, std::string& icon_path_second,
-                                    std::string& icon_path_first, common::Point& top_left_coordinate,
-                                    common::Point& bottom_right_coordinate, Json::Value& error);
+void ExtractGetImagesDiscrepancyParams(const Json::Value& params, std::string& icon_path_second,
+                                       std::string& icon_path_first, common::Point& top_left_coordinate,
+                                       common::Point& bottom_right_coordinate, Json::Value& error);
 
 }  // namespace jmsg
 }  // namespace common

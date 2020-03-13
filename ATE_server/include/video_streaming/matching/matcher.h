@@ -111,10 +111,10 @@ class Matcher {
    * @param bottom_right_coordinate Bottom right coordinate
    * @return A discrepancy coefficient and error code of operation
    */
-  std::pair<int, std::error_code> ImagesDiscrepancy(const std::string& icon_path_second,
-                                                    const std::string& icon_path_first,
-                                                    const cv::Point& top_left_coordinate,
-                                                    const cv::Point& bottom_right_coordinate) const;
+  std::pair<int, std::error_code> GetImagesDiscrepancy(const std::string& icon_path_second,
+                                                       const std::string& icon_path_first,
+                                                       const cv::Point& top_left_coordinate,
+                                                       const cv::Point& bottom_right_coordinate) const;
 };
 
 }  // namespace detector

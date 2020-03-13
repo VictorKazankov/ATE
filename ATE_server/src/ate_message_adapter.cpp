@@ -29,7 +29,7 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot},
                    {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText},
                    {common::jmsg::kGetObjectsDataByPattern, &AteMessageAdapter::HandleGetObjectsDataByPattern},
-                   {common::jmsg::kImagesDiscrepancy, &AteMessageAdapter::ImagesDiscrepancy}} {}
+                   {common::jmsg::kGetImagesDiscrepancy, &AteMessageAdapter::GetImagesDiscrepancy}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -352,14 +352,14 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetObjectsDataByPattern(co
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetObjectsDataByPatternResponse(res), true);
 }
 
-std::pair<Json::Value, bool> AteMessageAdapter::ImagesDiscrepancy(const Json::Value& params) {
+std::pair<Json::Value, bool> AteMessageAdapter::GetImagesDiscrepancy(const Json::Value& params) {
   Json::Value error;
   std::string p2;
   std::string p1;
   common::Point top_left_coordinate;
   common::Point bottom_right_coordinate;
 
-  common::jmsg::ExtractImagesDiscrepancyParams(params, p2, p1, top_left_coordinate, bottom_right_coordinate, error);
+  common::jmsg::ExtractGetImagesDiscrepancyParams(params, p2, p1, top_left_coordinate, bottom_right_coordinate, error);
 
   // Creating the correct path to the screenshot
   fs::path icon_path_second{ATE_WRITABLE_DATA_PREFIX};
@@ -424,7 +424,8 @@ std::pair<Json::Value, bool> AteMessageAdapter::ImagesDiscrepancy(const Json::Va
   }
 
   // Get image discrepancy
-  auto result = ate_.ImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate);
+  auto result =
+      ate_.GetImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate);
 
   if (result.second) {
     if (common::AteError::kOutOfBoundaries == result.second) {
@@ -446,7 +447,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::ImagesDiscrepancy(const Json::Va
     return std::make_pair(std::move(error), false);
   }
 
-  return std::make_pair(common::jmsg::MessageFactory::Server::CreateImagesDiscrepancyResponse(result.first), true);
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetImagesDiscrepancyResponse(result.first), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {

@@ -218,11 +218,11 @@ std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const s
  * A JSON request contains next data in data section:
  * [{icon_path_second, icon_path_first, x_top_left, y_top_left, x_bottom_right, y_bottom_right}]
  */
-std::string MessageFactory::Client::CreateImagesDiscrepancyRequest(const std::string& icon_path_second,
-                                                                   const std::string& icon_path_first,
-                                                                   const common::Point& top_left_coordinate,
-                                                                   const common::Point& bottom_right_coordinate,
-                                                                   int id) {
+std::string MessageFactory::Client::CreateGetImagesDiscrepancyRequest(const std::string& icon_path_second,
+                                                                      const std::string& icon_path_first,
+                                                                      const common::Point& top_left_coordinate,
+                                                                      const common::Point& bottom_right_coordinate,
+                                                                      int id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -235,7 +235,7 @@ std::string MessageFactory::Client::CreateImagesDiscrepancyRequest(const std::st
 
   Json::Value message;
 
-  CreatePackageStructure(message, kImagesDiscrepancy, id);
+  CreatePackageStructure(message, kGetImagesDiscrepancy, id);
   message[kParams] = params;
 
   return writer.write(message);
@@ -323,7 +323,7 @@ Json::Value MessageFactory::Server::CreateGetObjectsDataByPatternResponse(const 
  * A JSON response contains a percent of discrepancy two images in the data section:
  * [{discrepancy_percent}]
  */
-Json::Value MessageFactory::Server::CreateImagesDiscrepancyResponse(int percent_discrepancy) {
+Json::Value MessageFactory::Server::CreateGetImagesDiscrepancyResponse(int percent_discrepancy) {
   Json::Value result;
 
   result[kDiscrepancyPercent] = percent_discrepancy;

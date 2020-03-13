@@ -116,10 +116,10 @@ class AteApi {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  int ImagesDiscrepancy(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                        const uint64_t& correlation_id, const std::string& icon_path_second,
-                        const std::string& icon_path_first, const common::Point& top_left_coordinate,
-                        const common::Point& bottom_right_coordinate) const;
+  int GetImagesDiscrepancy(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                           const uint64_t& correlation_id, const std::string& icon_path_second,
+                           const std::string& icon_path_first, const common::Point& top_left_coordinate,
+                           const common::Point& bottom_right_coordinate) const;
 };
 }  // namespace API
 

@@ -38,10 +38,10 @@ class MessageFactory {
     static std::string CreateGetScreenshotRequest(const std::string& filename, const std::string& location, int id);
     static std::string CreateGetTextRequest(const common::Point& top_left, const common::Point& bottom_right, int id);
     static std::string CreateGetObjectsDataByPatternRequest(const std::string& name, int id);
-    static std::string CreateImagesDiscrepancyRequest(const std::string& icon_path_second,
-                                                      const std::string& icon_path_first,
-                                                      const common::Point& top_left_coordinate,
-                                                      const common::Point& bottom_right_coordinate, int id);
+    static std::string CreateGetImagesDiscrepancyRequest(const std::string& icon_path_second,
+                                                         const std::string& icon_path_first,
+                                                         const common::Point& top_left_coordinate,
+                                                         const common::Point& bottom_right_coordinate, int id);
   };
 
   /**
@@ -80,7 +80,7 @@ class MessageFactory {
     static Json::Value CreateGetScreenshotObject();
     static Json::Value CreateGetTextResultObject(const std::string& text);
     static Json::Value CreateGetObjectsDataByPatternResponse(const std::vector<ObjectData>& objects_data);
-    static Json::Value CreateImagesDiscrepancyResponse(int percent_discrepancy);
+    static Json::Value CreateGetImagesDiscrepancyResponse(int percent_discrepancy);
   };
 };
 

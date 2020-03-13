@@ -162,9 +162,9 @@ std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const std::string& 
   return storage_.GetItemData(select_pattern);
 }
 
-std::pair<int, std::error_code> ATE::ImagesDiscrepancy(const std::string& icon_path_second,
-                                                       const std::string& icon_path_first,
-                                                       const cv::Point& top_left_coordinate,
-                                                       const cv::Point& bottom_right_coordinate) const {
-  return matcher_.ImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate);
+std::pair<int, std::error_code> ATE::GetImagesDiscrepancy(const std::string& icon_path_second,
+                                                          const std::string& icon_path_first,
+                                                          const cv::Point& top_left_coordinate,
+                                                          const cv::Point& bottom_right_coordinate) const {
+  return matcher_.GetImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate);
 }

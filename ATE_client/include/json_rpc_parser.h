@@ -51,12 +51,12 @@ class JsonRpcParser {
   static std::vector<squish::Object> ParseGetObjectsDataByPattern(const std::string& rpc);
 
   /**
-   * @brief The function parses ImagesDiscrepancy and gets percent of discrepancy of two images
+   * @brief The function parses GetImagesDiscrepancy and gets percent of discrepancy of two images
    * @param rpc Response string for checking
    * @return Percent of discrepancy two images
    * @throw runtime_error In case if missing mandatory field in response
    */
-  static int ParseImagesDiscrepancy(const std::string& rpc);
+  static int ParseGetImagesDiscrepancy(const std::string& rpc);
 
  private:
   /**

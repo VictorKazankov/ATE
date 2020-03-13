@@ -100,8 +100,8 @@ std::vector<squish::Object> API::GetObjectsDataByPattern(const squish::Object& o
   return GetApiAggregator().GetObjectsDataByPattern(object_pattern);
 }
 
-int API::ImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
-                           const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate) {
-  return GetApiAggregator().ImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate,
-                                              bottom_right_coordinate);
+int API::GetImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
+                              const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate) {
+  return GetApiAggregator().GetImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate,
+                                                 bottom_right_coordinate);
 }

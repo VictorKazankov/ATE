@@ -358,7 +358,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("name"));
 
-  m.def("imagesDiscrepancy", &API::ImagesDiscrepancy,
+  m.def("getImagesDiscrepancy", &API::GetImagesDiscrepancy,
         "ImagesDiscrepancy provides functionality for comparing two images and returns the percentage of discrepancy"
         "Throws:"
         " 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
@@ -374,9 +374,9 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("point_bottom_right"));
 
   m.def(
-      "imagesDiscrepancy",
+      "getImagesDiscrepancy",
       [](const std::string& icon_path_second, const std::string& icon_path_first) {
-        return API::ImagesDiscrepancy(icon_path_second, icon_path_first, common::Point{}, common::Point{});
+        return API::GetImagesDiscrepancy(icon_path_second, icon_path_first, common::Point{}, common::Point{});
       },
       "ImagesDiscrepancy provides functionality for comparing two images and returns the percentage of discrepancy"
       "Throws:"

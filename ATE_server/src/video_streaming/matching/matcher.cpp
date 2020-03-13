@@ -156,10 +156,10 @@ std::pair<std::string, std::error_code> Matcher::GetText(const cv::Point& point,
   return {text_detector_->ExtractText(croped), std::error_code{}};
 }
 
-std::pair<int, std::error_code> Matcher::ImagesDiscrepancy(const std::string& icon_path_second,
-                                                           const std::string& icon_path_first,
-                                                           const cv::Point& top_left_coordinate,
-                                                           const cv::Point& bottom_right_coordinate) const {
+std::pair<int, std::error_code> Matcher::GetImagesDiscrepancy(const std::string& icon_path_second,
+                                                              const std::string& icon_path_first,
+                                                              const cv::Point& top_left_coordinate,
+                                                              const cv::Point& bottom_right_coordinate) const {
   int discrepancy = 100;
   std::error_code error{};
 
@@ -169,14 +169,14 @@ std::pair<int, std::error_code> Matcher::ImagesDiscrepancy(const std::string& ic
 
   // Images must not be empty
   if (image_first.empty() || image_second.empty()) {
-    logger::error("[ImagesDiscrepancy] Compared images are empty.");
+    logger::error("[GetImagesDiscrepancy] Compared images are empty.");
     error = common::make_error_code(common::AteError::kSystemError);
     return {discrepancy, error};
   }
 
   // Images resolution must be equal
   if (image_second.rows != image_first.rows || image_second.cols != image_first.cols) {
-    logger::error("[matcher ImagesDiscrepancy] Images must be equal resolution.");
+    logger::error("[matcher GetImagesDiscrepancy] Images must be equal resolution.");
     error = common::make_error_code(common::AteError::kWrongImageResolution);
     return {discrepancy, error};
   }
@@ -184,7 +184,7 @@ std::pair<int, std::error_code> Matcher::ImagesDiscrepancy(const std::string& ic
   // Еhe compared area should be within the resolution of images
   cv::Rect screen_rect{0, 0, image_second.size().width, image_second.size().height};
   if (!screen_rect.contains(top_left_coordinate) || !screen_rect.contains(bottom_right_coordinate)) {
-    logger::error("[matcher ImagesDiscrepancy] Desired area is out of screen boundaries");
+    logger::error("[matcher GetImagesDiscrepancy] Desired area is out of screen boundaries");
     return {discrepancy, common::make_error_code(common::AteError::kOutOfBoundaries)};
   }
 
@@ -206,7 +206,7 @@ std::pair<int, std::error_code> Matcher::ImagesDiscrepancy(const std::string& ic
     discrepancy = 100 * non_zero_pixels / total_number_of_pixels;
 
   } catch (const cv::Exception& exception) {
-    logger::error("[ImagesDiscrepancy] Exception during operation on images: {}", exception.what());
+    logger::error("[GetImagesDiscrepancy] Exception during operation on images: {}", exception.what());
     error = common::make_error_code(common::AteError::kSystemError);
   }
 

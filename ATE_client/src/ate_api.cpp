@@ -61,13 +61,13 @@ std::vector<squish::Object> AteApi::GetObjectsDataByPattern(
   return GetObjectsDataByPattern(ate_interaction, correlation_id, object_pattern.name);
 }
 
-int AteApi::ImagesDiscrepancy(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                              const uint64_t& correlation_id, const std::string& icon_path_second,
-                              const std::string& icon_path_first, const common::Point& top_left_coordinate,
-                              const common::Point& bottom_right_coordinate) const {
-  auto message = common::jmsg::MessageFactory::Client::CreateImagesDiscrepancyRequest(
+int AteApi::GetImagesDiscrepancy(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                 const uint64_t& correlation_id, const std::string& icon_path_second,
+                                 const std::string& icon_path_first, const common::Point& top_left_coordinate,
+                                 const common::Point& bottom_right_coordinate) const {
+  auto message = common::jmsg::MessageFactory::Client::CreateGetImagesDiscrepancyRequest(
       icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate, correlation_id);
 
   auto response = ate_interaction->SendCommand(message);
-  return interaction::JsonRpcParser::ParseImagesDiscrepancy(response);
+  return interaction::JsonRpcParser::ParseGetImagesDiscrepancy(response);
 }
