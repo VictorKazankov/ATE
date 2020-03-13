@@ -4,3 +4,4 @@ allure-pytest
 paramiko
 requests
 pytest-timeout
+allpairspy
