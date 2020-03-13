@@ -2,7 +2,8 @@ import time
 
 from vhat_client import (ModifierState, MouseButton, attachToApplication,
                          changeSyncIconDB, changeSyncMode,
-                         getObjectsDataByPattern, getText, object, tapObject,
+                         getImagesDiscrepancy, getObjectsDataByPattern,
+                         getScreenshot, getText, object, tapObject,
                          touchAndDrag, waitForObject)
 
 from functional_tests.utils import wait_for_obj_benchmark
@@ -40,13 +41,13 @@ def touch_and_drag(object, x, y, dx, dy, modifier=None):
         touchAndDrag(object, x, y, dx, dy)
 
 
-# TODO : 'InvalidSyncVersion' In case of the sync_version is incorrect."
+#TODO : 'InvalidSyncVersion' In case of the sync_version is incorrect."
 #       'InvalidSyncBuildVersion' In case of the sync_build_version is incorrect."
 def change_sync_icon_db(sync, build):
     changeSyncIconDB(sync, build)
 
 
-# TODO :  'InvalidSyncCollectionMode' In case of the collection_mode is incorrect"
+#TODO :  'InvalidSyncCollectionMode' In case of the collection_mode is incorrect"
 def change_sync_mode(collection_mode):
     changeSyncMode(collection_mode)
 
@@ -58,3 +59,11 @@ def get_text(x1, y1, x2, y2):
 
 def get_objects_data_by_pattern(*args, **kwargs):
     return getObjectsDataByPattern(*args, **kwargs)
+
+
+def get_screenshot(filename, location):
+    return getScreenshot(filename, location)
+
+
+def get_images_discrepancy(path1, path2, *args, **kwargs):
+    return getImagesDiscrepancy(path1, path2, *args, **kwargs)
