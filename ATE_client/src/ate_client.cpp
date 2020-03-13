@@ -359,35 +359,20 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("name"));
 
   m.def("getImagesDiscrepancy", &API::GetImagesDiscrepancy,
-        "ImagesDiscrepancy provides functionality for comparing two images and returns the percentage of discrepancy"
+        "GetImagesDiscrepancy provides functionality for comparing two images and returns the percentage of "
+        "      discrepancy. If you need to compare certain areas of the image, specify the coordinates of the top left "
+        "      corner (point_top_left) and bottom right (point_bottom_right)."
         "Throws:"
-        " 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
+        " 'InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or "
         "                               produced rectangle has zero height/width or is out of frame boundaries."
-        " 'ComparingImageIncorrectSize' in case incorrect size of image"
-        " 'ComparingImageNotExist' in case comparing images doesn't exist"
-        " 'EmptyScreenshotFileName' in case comparing image file path is empty"
-        " 'PermissionDenied' in case error read permissions"
-        " 'runtime_error' in case system's errors"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
-        py::arg("icon_path_second"), py::arg("icon_path_first"), py::arg("point_top_left"),
-        py::arg("point_bottom_right"));
-
-  m.def(
-      "getImagesDiscrepancy",
-      [](const std::string& icon_path_second, const std::string& icon_path_first) {
-        return API::GetImagesDiscrepancy(icon_path_second, icon_path_first, common::Point{}, common::Point{});
-      },
-      "ImagesDiscrepancy provides functionality for comparing two images and returns the percentage of discrepancy"
-      "Throws:"
-      " 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
-      "                               produced rectangle has zero height/width or is out of frame boundaries."
-      " 'ComparingImageIncorrectSize' in case incorrect size of image"
-      " 'ComparingImageNotExist' in case comparing images doesn't exist"
-      " 'EmptyScreenshotFileName' in case comparing image file path is empty"
-      " 'PermissionDenied' in case error read permissions"
-      " 'runtime_error' in case system's errors"
-      " 'NoConnectionEstablished' in case of no connection was established to server-side"
-      " 'invalid_argument' in case of invalid params sent to the server-side",
-      py::arg("icon_path_second"), py::arg("icon_path_first"));
+        " 'ComparingImageIncorrectSize' In case incorrect size of image"
+        " 'ComparingImageNotExist' In case comparing images doesn't exist"
+        " 'EmptyScreenshotFileName' In case comparing image file path is empty"
+        " 'PermissionDenied' In case error read permissions"
+        " 'runtime_error' In case system's errors"
+        " 'NoConnectionEstablished' In case of no connection was established to server-side"
+        " 'invalid_argument' In case of invalid params sent to the server-side",
+        py::arg("icon_path_second"), py::arg("icon_path_first"),
+        py::arg_v("point_top_left", common::Point(), "The top left coordinate of the comparison area"),
+        py::arg_v("point_bottom_right", common::Point(), "The bottom right coordinate of the comparison area"));
 }
