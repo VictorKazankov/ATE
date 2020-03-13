@@ -103,15 +103,15 @@ class AteApi {
    * @brief Gets the difference between the two images as a percentage
    * @param icon_path_second Path to the second image
    * @param icon_path_first Path to the first image
-   * @param top_left_coordinate Top left  coordinate
-   * @param bottom_right_coordinate Bottom right coordinate
+   * @param top_left_coordinate The top left coordinate of the comparison area
+   * @param bottom_right_coordinate The bottom right coordinate of the comparison area
    * @return Percentage of discrepancy
    * @throw InvalidRectangleCoordinates In case top-left and bottom-right coordinates are mixed up or
    *                                    produced rectangle has zero height/width or is out of frame boundaries
-   * @throw ComparingImageIncorrectSize in case incorrect size of image
-   * @throw ComparingImageNotExist in case comparing images doesn't exist
-   * @throw EmptyScreenshotFileName in case comparing image file path is empty
-   * @throw PermissionDenied in case error read permissions
+   * @throw ComparingImageIncorrectSize In case incorrect size of image
+   * @throw ComparingImageNotExist In case comparing images doesn't exist
+   * @throw EmptyScreenshotFileName In case comparing image file path is empty
+   * @throw PermissionDenied In case error read permissions
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found

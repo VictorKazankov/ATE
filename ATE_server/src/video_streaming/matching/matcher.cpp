@@ -181,7 +181,7 @@ std::pair<int, std::error_code> Matcher::GetImagesDiscrepancy(const std::string&
     return {discrepancy, error};
   }
 
-  // Еhe compared area should be within the resolution of images
+  // The compared area should be within the resolution of images
   cv::Rect screen_rect{0, 0, image_second.size().width, image_second.size().height};
   if (!screen_rect.contains(top_left_coordinate) || !screen_rect.contains(bottom_right_coordinate)) {
     logger::error("[matcher GetImagesDiscrepancy] Desired area is out of screen boundaries");
