@@ -25,6 +25,12 @@ sudo apt update
 readonly VHAT_DEV_TOOLS="wget g++-5 ninja-build cmake clang-format autoconf automake libtool pkg-config gcovr"
 readonly VHAT_USE_LIBS="libssl-dev python2.7-dev"
 readonly DBUS_LIBS="libdbus-glib-1-dev libglib2.0-dev"
+readonly MYSQL_SERVER_LIBS="mysql-server"
+readonly MYSQL_CLIENT_LIBS="libmariadb-dev"
+
+## For non-interactive mysql installation
+echo "mysql-server mysql-server/root_password password OhMyGodIamaRoot" | sudo debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password OhMyGodIamaRoot" | sudo debconf-set-selections
 
 if [ $TARGET != $LVDS_TARGET ]
 then
@@ -32,9 +38,18 @@ then
 fi
 
 # List of the all necessary packages
-readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $GSTREAMER_LIBS $DBUS_LIBS"
+readonly INSTALL_PACKAGES="$VHAT_DEV_TOOLS $VHAT_USE_LIBS $GSTREAMER_LIBS $DBUS_LIBS $MYSQL_SERVER_LIBS"
 
 sudo apt install -y $INSTALL_PACKAGES
+
+## MariaDB connector for MySQL server
+# all actions related to MariaDB should be done ONLY after mysql-server was installed, cause it affects it
+sudo apt install -y software-properties-common
+sudo apt-key adv --fetch-keys 'http://mariadb.org/mariadb_release_signing_key.asc'
+sudo add-apt-repository 'deb [arch=arm64] http://mirrors.nav.ro/mariadb/repo/10.4/ubuntu xenial main'
+sudo apt update
+
+sudo apt install -y $MYSQL_CLIENT_LIBS
 
 ## Go to the source root directory
 cd "$(dirname "$0")/.."
