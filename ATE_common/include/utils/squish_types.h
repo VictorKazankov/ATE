@@ -18,7 +18,7 @@ enum class MouseButton { NONE, LEFT_BUTTON, MIDDLE_BUTTON, RIGHT_BUTTON };
 /**
  * @brief CollectionMode represents collection mode
  **/
-enum class CollectionMode { DAY, NIGHT };
+enum class CollectionMode {NONE, ANY, DAY, NIGHT };
 
 }  // namespace squish
 }  // namespace common
