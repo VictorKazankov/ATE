@@ -69,6 +69,66 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readwrite("name", &squish::Object::name)
       .def_readwrite("parent_screen", &squish::Object::parent_screen);
 
+  py::class_<squish::Wildcard>(m, "Wildcard")
+      .def("__init__",
+           [](squish::Wildcard& instance, py::dict dict) {
+             std::string name;
+             std::string sync_version;
+             std::string build_version;
+             std::string parent_name;
+             common::squish::CollectionMode mode = common::squish::CollectionMode::NONE;
+
+             if (dict.contains("name")) {
+               auto name_value = dict["name"];
+               if (py::isinstance<py::str>(name_value)) {
+                 name = name_value.cast<std::string>();
+               }
+             }
+
+             if (dict.contains("sync_version")) {
+               auto sync_version_value = dict["sync_version"];
+               if (py::isinstance<py::str>(sync_version_value)) {
+                 sync_version = sync_version_value.cast<std::string>();
+               }
+             }
+
+             if (dict.contains("build_version")) {
+               auto build_version_value = dict["build_version"];
+               if (py::isinstance<py::str>(build_version_value)) {
+                 build_version = build_version_value.cast<std::string>();
+               }
+             }
+
+             if (dict.contains("parent_name")) {
+               auto parent_name_value = dict["parent_name"];
+               if (py::isinstance<py::str>(parent_name_value)) {
+                 parent_name = parent_name_value.cast<std::string>();
+               }
+             }
+
+             if (dict.contains("mode")) {
+               auto mode_value = dict["mode"];
+               if (py::isinstance<common::squish::CollectionMode>(mode_value)) {
+                 mode = mode_value.cast<common::squish::CollectionMode>();
+               }
+             }
+
+             new (&instance) squish::Wildcard(name, sync_version, build_version, parent_name, mode);
+           },
+           "Throws:"
+           " 'NoConnectionEstablished' in case of no connection was established to server-side"
+           " 'invalid_argument' in case of class was filled by invalid params"
+           " 'runtime_error' in case of internal error, parse error, etc.")
+      .def_readwrite("name", &squish::Wildcard::name_)
+      .def_readwrite("sync_version", &squish::Wildcard::sync_version_)
+      .def_readwrite("build_version", &squish::Wildcard::build_version_)
+      .def_readwrite("parent_name", &squish::Wildcard::parent_name_)
+      .def_readwrite("mode", &squish::Wildcard::mode_)
+      .def("getMatchObjects", &squish::Wildcard::GetMatchObjects,
+           "This function returns results that matches to defined criterias, "
+           "the non-empty list of the 'squish::objects' if pattern matches to any object in the database, "
+           "otherwise empty list");
+
   py::register_exception<squish::LookupError>(m, "LookupError");
   py::register_exception<squish::InvalidSyncVersion>(m, "InvalidSyncVersion");
   py::register_exception<squish::InvalidSyncBuildVersion>(m, "InvalidSyncBuildVersion");
@@ -287,6 +347,8 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("sync_version"), py::arg("sync_build_version"));
 
   py::enum_<common::squish::CollectionMode>(m, "CollectionMode")
+      .value("NONE", common::squish::CollectionMode::NONE)
+      .value("ANY", common::squish::CollectionMode::ANY)
       .value("DAY", common::squish::CollectionMode::DAY)
       .value("NIGHT", common::squish::CollectionMode::NIGHT);
 
@@ -350,7 +412,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamNotFound' in case of the video stream is not available",
         py::arg("x1"), py::arg("y1"), py::arg("x2"), py::arg("y2"), py::return_value_policy::copy);
 
-  m.def("getObjectsDataByPattern", py::overload_cast<const squish::Object&>(&API::GetObjectsDataByPattern),
+  /*m.def("getObjectsDataByPattern", py::overload_cast<const squish::Object&>(&API::GetObjectsDataByPattern),
         "GetObjectsDataByPattern provides a list of objects that are formed on the basis of the available data in the "
         "database. The selection of objects is carried out by applying a search pattern."
         "Throws:"
@@ -358,7 +420,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object"));
-
+*/
   m.def("getObjectsDataByPattern", py::overload_cast<const std::string&>(&API::GetObjectsDataByPattern),
         "GetObjectsDataByPattern provides a list of objects that are formed on the basis of the available data in the "
         "database. The selection of objects is carried out by applying a search pattern."
