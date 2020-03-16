@@ -46,11 +46,11 @@ TEST(MessageFactoryClientTest, CreateChangeSyncIconDBRequest_ValidJsonMessage_Su
 }
 
 TEST(MessageFactoryClientTest, CreateChangeSyncModeRequest_ValidJsonMessage_Success) {
-  auto request_message = common::jmsg::MessageFactory::Client::CreateChangeSyncModeRequest("day_mode", 1);
+  auto request_message = common::jmsg::MessageFactory::Client::CreateChangeSyncModeRequest("DAY", 1);
   auto expected_message =
       R"({"id":1,"jsonrpc":"2.0",
       "method":"ChangeSyncMode",
-      "params":{"sync_collection_mode":"day_mode"}})";
+      "params":{"sync_collection_mode":"DAY"}})";
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
@@ -147,9 +147,9 @@ TEST(MessageFactoryClientTest, CreateGetScreenshotRequest_ValidJsonMessage_Succe
 
 TEST(MessageFactoryClientTest, CreateGetObjectsDataByPatternRequest_InputData_ValidJsonMessage) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateGetObjectsDataByPatternRequest(
-      "test_name", "sync3", "revision1", "main", "DAY_MODE", 1);
+      {"test_name", "sync3", "revision1", common::squish::CollectionMode::DAY, "main"}, 1);
   auto expected_message =
-      R"({"id":1,"jsonrpc":"2.0","method":"GetObjectsDataByPattern","params":{"name":"test_name","parent_name":"main","sync_build_version":"revision1","sync_collection_mode":"DAY_MODE","sync_version":"sync3"}})";
+      R"({"id":1,"jsonrpc":"2.0","method":"GetObjectsDataByPattern","params":{"name":"test_name","parent_screen":"main","sync_build_version":"revision1","sync_collection_mode":"DAY","sync_version":"sync3"}})";
 
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
@@ -258,11 +258,20 @@ TEST(MessageFactoryServerTest, CreateResponse_InvalidServerResponse_Failure) {
 }
 
 TEST(MessageFactoryServerTest, CreateGetObjectsDataByPatternResponse_ValidServerResponse_Success) {
-  common::ObjectData object_data{{10, 10}, {5, 15}, {15, 5}, 20, 20, 1920, 1200, "test_name"};
+  common::ObjectData object_data;
+  object_data.name = "test_name";
+  object_data.parent_screen = "test_parent";
+  object_data.center = {10, 10};
+  object_data.top_left = {5, 15};
+  object_data.bottom_right = {15, 5};
+  object_data.width = 20;
+  object_data.height = 20;
+  object_data.parent_width = 1920;
+  object_data.parent_height = 1200;
   std::vector<common::ObjectData> object_list{object_data};
 
   std::string expected_response_str =
-      R"([{"x":10, "y":10, "width":20, "height":20, "x_top_left":5, "y_top_left":15, "x_bottom_right":15, "y_bottom_right":5, "parent_width":1920, "parent_height":1200, "name":"test_name"}])";
+      R"([{"x":10, "y":10, "width":20, "height":20, "x_top_left":5, "y_top_left":15, "x_bottom_right":15, "y_bottom_right":5, "parent_width":1920, "parent_height":1200, "name":"test_name", "parent_screen":"test_parent"}])";
   Json::Value expected_response;
   Json::Reader reader;
   reader.parse(expected_response_str, expected_response);

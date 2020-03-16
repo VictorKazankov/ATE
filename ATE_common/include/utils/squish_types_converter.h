@@ -15,6 +15,13 @@ namespace squish {
  */
 std::string CollectionModeToStr(const CollectionMode& mode);
 
+/**
+ * @brief Convert CollectionMode from string to enum
+ * @param mode Collection mode string value
+ * @return Collection mode's enum value
+ */
+CollectionMode StrToCollectionMode(const std::string& mode);
+
 }  // namespace squish
 }  // namespace common
 

@@ -40,7 +40,7 @@ constexpr auto kFileName = "filename";
 constexpr auto kText = "text";
 // Object data
 constexpr auto kName = "name";
-constexpr auto kParentName = "parent_name";
+constexpr auto kParentScreen = "parent_screen";
 constexpr auto kXTopLeft = "x_top_left";
 constexpr auto kYTopLeft = "y_top_left";
 constexpr auto kXBottomRight = "x_bottom_right";

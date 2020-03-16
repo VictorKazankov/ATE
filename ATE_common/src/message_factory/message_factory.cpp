@@ -6,6 +6,7 @@
 
 #include "message_factory/json_defines.h"
 #include "message_factory/json_messages.h"
+#include "utils/squish_types_converter.h"
 
 namespace common {
 namespace jmsg {
@@ -201,18 +202,15 @@ std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& to
  * A JSON request contains next data in data section:
  * [{select_pattern}]
  */
-std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const std::string& name,
-                                                                         const std::string& sync_version,
-                                                                         const std::string& sync_build_version,
-                                                                         const std::string& parent_name,
-                                                                         const std::string& collection_mode, int id) {
+std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity,
+                                                                         int id) {
   Json::Value params;
   Json::FastWriter writer;
-  params[kName] = name;
-  params[kSyncVersion] = sync_version;
-  params[kSyncBuildVersion] = sync_build_version;
-  params[kParentName] = parent_name;
-  params[kSyncCollectionMode] = collection_mode;
+  params[kName] = object_data_identity.name;
+  params[kSyncVersion] = object_data_identity.sync_version;
+  params[kSyncBuildVersion] = object_data_identity.build_version;
+  params[kParentScreen] = object_data_identity.parent_screen;
+  params[kSyncCollectionMode] = squish::CollectionModeToStr(object_data_identity.mode);
 
   Json::Value message;
 
@@ -302,7 +300,8 @@ Json::Value MessageFactory::Server::CreateGetTextResultObject(const std::string&
 
 /**
  * A JSON response contains an array of next structures of objects in data section:
- * [{x, y, width, height, x_top_left, y_top_left, x_bottom_right, y_bottom_right, parent_width, parent_height, name}]
+ * [{x, y, width, height, x_top_left, y_top_left, x_bottom_right, y_bottom_right, parent_width, parent_height, name,
+ * kParentScreen}]
  */
 Json::Value MessageFactory::Server::CreateGetObjectsDataByPatternResponse(const std::vector<ObjectData>& objects_data) {
   Json::Value result;
@@ -320,6 +319,7 @@ Json::Value MessageFactory::Server::CreateGetObjectsDataByPatternResponse(const 
     node[kParentWidth] = data.parent_width;
     node[kParentHeight] = data.parent_height;
     node[kName] = data.name;
+    node[kParentScreen] = data.parent_screen;
 
     result.append(node);
   }

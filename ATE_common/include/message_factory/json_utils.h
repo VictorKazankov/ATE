@@ -9,6 +9,7 @@
 #include "rpc_error.h"
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
+#include "utils/object_data_type.h"
 
 namespace common {
 namespace jmsg {
@@ -208,16 +209,11 @@ void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_l
 /**
  * Extracts params for 'GetObjectsDataByPattern' method
  * @param params Structured value that holds the parameter values to be used
- * @param name Name pattern
- * @param sync_version Sync version pattern
- * @param sync_build_version Sync build version pattern
- * @param parent_name Name pattern
- * @param collection_mode Collection mode pattern
+ * @param object_data_identity Identity struct for performing search into DB 
  * @param error Error object, null on success
  */
-void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string& name, std::string& sync_version,
-                                          std::string& sync_build_version, std::string& parent_name,
-                                          std::string& collection_mode, Json::Value& error);
+void ExtractGetObjectsDataByPatternParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
+                                          Json::Value& error);
 
 /**
  * @brief Extracts params for 'GetImagesDiscrepancy' method

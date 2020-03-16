@@ -97,7 +97,7 @@ std::vector<squish::Object> API::GetObjectsDataByPattern(const std::string& obje
 }
 
 std::vector<squish::Object> API::GetObjectsDataByPattern(const squish::Wildcard& wildcard) {
-  return GetApiAggregator().GetObjectsDataByPattern(wildcard.name_);
+  return GetApiAggregator().GetObjectsDataByPattern(wildcard);
 }
 
 int API::GetImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,

@@ -119,11 +119,11 @@ PYBIND11_MODULE(vhat_client, m) {
            " 'NoConnectionEstablished' in case of no connection was established to server-side"
            " 'invalid_argument' in case of class was filled by invalid params"
            " 'runtime_error' in case of internal error, parse error, etc.")
-      .def_readwrite("name", &squish::Wildcard::name_)
-      .def_readwrite("sync_version", &squish::Wildcard::sync_version_)
-      .def_readwrite("build_version", &squish::Wildcard::build_version_)
-      .def_readwrite("parent_name", &squish::Wildcard::parent_name_)
-      .def_readwrite("mode", &squish::Wildcard::mode_)
+      .def_readwrite("name", &squish::Wildcard::name)
+      .def_readwrite("sync_version", &squish::Wildcard::sync_version)
+      .def_readwrite("build_version", &squish::Wildcard::build_version)
+      .def_readwrite("parent_name", &squish::Wildcard::parent_screen)
+      .def_readwrite("mode", &squish::Wildcard::mode)
       .def("getMatchObjects", &squish::Wildcard::GetMatchObjects,
            "This function returns results that matches to defined criterias, "
            "the non-empty list of the 'squish::objects' if pattern matches to any object in the database, "

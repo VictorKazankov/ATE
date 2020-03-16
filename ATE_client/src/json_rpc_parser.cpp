@@ -148,7 +148,8 @@ std::string JsonRpcParser::ParseGetText(const std::string& rpc) {
 
 /**
  * A JSON response contains an array of next structures of objects in data section:
- * [{x, y, width, height, x_top_left, y_top_left, x_bottom_right, y_bottom_right, parent_width, parent_height, name}]
+ * [{x, y, width, height, x_top_left, y_top_left, x_bottom_right, y_bottom_right, parent_width, parent_height, name,
+ * parent_screen}]
  */
 std::vector<squish::Object> JsonRpcParser::ParseGetObjectsDataByPattern(const std::string& rpc) {
   std::vector<squish::Object> objects_list;
@@ -197,6 +198,9 @@ std::vector<squish::Object> JsonRpcParser::ParseGetObjectsDataByPattern(const st
       }
       if (node.isMember(common::jmsg::kName) && node[common::jmsg::kName].isString()) {
         object.name = node[common::jmsg::kName].asCString();
+      }
+      if (node.isMember(common::jmsg::kParentScreen) && node[common::jmsg::kParentScreen].isString()) {
+        object.parent_screen = node[common::jmsg::kParentScreen].asCString();
       }
 
       // Save object

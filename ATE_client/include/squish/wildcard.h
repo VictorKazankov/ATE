@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "utils/object_data_type.h"
 #include "utils/squish_types.h"
 
 #include "squish_types.h"
@@ -15,7 +16,7 @@ namespace squish {
  * @brief Wildcard provides the ability to extract information about objects from a database by pattern and stores this
  *        information inside 'match_objects'.
  */
-class Wildcard {
+class Wildcard : public common::ObjectDataIdentity {
  public:
   /**
    * @brief The constructor of Wildcard takes patterns 'name', 'sync_version', 'build_version', 'parent_name', 'mode'
@@ -23,14 +24,14 @@ class Wildcard {
    * @param name The name of the object for searching objects in the database
    * @param sync_version The sync version for searching objects in the database
    * @param build_version The build version for searching objects in the database
-   * @param parent_name The parent name for searching objects in the database
+   * @param parent_screen The parent screen name for searching objects in the database
    * @param mode The mode for searching objects in the database
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   Wildcard(const std::string& name, const std::string& sync_version = "", const std::string& build_version = "",
-           const std::string& parent_name = "",
+           const std::string& parent_screen = "",
            common::squish::CollectionMode mode = common::squish::CollectionMode::NONE);
 
   /**
@@ -43,13 +44,6 @@ class Wildcard {
 
  private:
   std::vector<Object> match_objects_;
-
- public:
-  std::string name_;
-  std::string sync_version_;
-  std::string build_version_;
-  std::string parent_name_;
-  common::squish::CollectionMode mode_;
 };
 
 }  // namespace squish
