@@ -17,7 +17,7 @@ TEST(ObjectTest, ObjectConstructor_NoArgs_ObjEmpty) {
   EXPECT_EQ(obj.height, 0);
   EXPECT_TRUE(obj.sync_version.empty());
   EXPECT_TRUE(obj.build_version.empty());
-  EXPECT_EQ(obj.mode, Object::Mode::kNone);
+  EXPECT_EQ(obj.mode, common::squish::CollectionMode::kNone);
   EXPECT_TRUE(obj.name.empty());
   EXPECT_TRUE(obj.parent_screen.empty());
 }
@@ -30,7 +30,7 @@ TEST(ObjectTest, ObjectConstructor_XY_Success) {
   EXPECT_EQ(obj.height, 0);
   EXPECT_TRUE(obj.sync_version.empty());
   EXPECT_TRUE(obj.build_version.empty());
-  EXPECT_EQ(obj.mode, Object::Mode::kNone);
+  EXPECT_EQ(obj.mode, common::squish::CollectionMode::kNone);
   EXPECT_TRUE(obj.name.empty());
   EXPECT_TRUE(obj.parent_screen.empty());
 }
@@ -43,7 +43,7 @@ TEST(ObjectTest, ObjectConstructor_XYWH_Success) {
   EXPECT_EQ(obj.height, 200);
   EXPECT_TRUE(obj.sync_version.empty());
   EXPECT_TRUE(obj.build_version.empty());
-  EXPECT_EQ(obj.mode, Object::Mode::kNone);
+  EXPECT_EQ(obj.mode, common::squish::CollectionMode::kNone);
   EXPECT_TRUE(obj.name.empty());
   EXPECT_TRUE(obj.parent_screen.empty());
 }

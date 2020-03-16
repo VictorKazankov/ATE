@@ -57,7 +57,7 @@ TEST(MessageFactoryClientTest, CreateChangeSyncModeRequest_ValidJsonMessage_Succ
 
 TEST(MessageFactoryClientTest, CreateTapObjectRequest_ValidJsonMessage_Success) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateTapObjectRequest(
-      1, 1, common::squish::ModifierState::NONE, common::squish::MouseButton::LEFT_BUTTON, 1);
+      1, 1, common::squish::ModifierState::kNone, common::squish::MouseButton::kLeftButton, 1);
   auto expected_message =
       R"({"id":1,"jsonrpc":"2.0",
       "method":"TapObject",
@@ -71,7 +71,7 @@ TEST(MessageFactoryClientTest, CreateTapObjectRequest_ValidJsonMessage_Success) 
 
 TEST(MessageFactoryClientTest, CreateTouchAndDragRequest_ValidJsonMessage_Success) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateTouchAndDragRequest(
-      "object", 1, 1, 2, 2, common::squish::ModifierState::NONE, 1);
+      "object", 1, 1, 2, 2, common::squish::ModifierState::kNone, 1);
   auto expected_message =
       R"({"id":1,"jsonrpc":"2.0",
       "method":"TouchAndDrag",
@@ -147,7 +147,7 @@ TEST(MessageFactoryClientTest, CreateGetScreenshotRequest_ValidJsonMessage_Succe
 
 TEST(MessageFactoryClientTest, CreateGetObjectsDataByPatternRequest_InputData_ValidJsonMessage) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateGetObjectsDataByPatternRequest(
-      {"test_name", "sync3", "revision1", common::squish::CollectionMode::DAY, "main"}, 1);
+      {"test_name", "sync3", "revision1", common::squish::CollectionMode::kDay, "main"}, 1);
   auto expected_message =
       R"({"id":1,"jsonrpc":"2.0","method":"GetObjectsDataByPattern","params":{"name":"test_name","parent_screen":"main","sync_build_version":"revision1","sync_collection_mode":"DAY","sync_version":"sync3"}})";
 

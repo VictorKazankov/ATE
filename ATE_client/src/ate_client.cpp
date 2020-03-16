@@ -71,12 +71,12 @@ PYBIND11_MODULE(vhat_client, m) {
 
   py::class_<squish::Wildcard>(m, "Wildcard")
       .def("__init__",
-           [](squish::Wildcard& instance, py::dict dict) {
+           [](squish::Wildcard& instance, py::dict& dict) {
              std::string name;
              std::string sync_version;
              std::string build_version;
              std::string parent_name;
-             common::squish::CollectionMode mode = common::squish::CollectionMode::NONE;
+             common::squish::CollectionMode mode = common::squish::CollectionMode::kNone;
 
              if (dict.contains("name")) {
                auto name_value = dict["name"];
@@ -125,7 +125,7 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readwrite("parent_name", &squish::Wildcard::parent_screen)
       .def_readwrite("mode", &squish::Wildcard::mode)
       .def("getMatchObjects", &squish::Wildcard::GetMatchObjects,
-           "This function returns results that matches to defined criterias, "
+           "This function returns results that matches to defined criterion, "
            "the non-empty list of the 'squish::objects' if pattern matches to any object in the database, "
            "otherwise empty list");
 
@@ -146,23 +146,23 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<interaction::NoConnectionEstablished>(m, "NoConnectionEstablished");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
-  py::enum_<squish::Object::Mode>(m, "Mode")
-      .value("NONE", squish::Object::Mode::kNone)
-      .value("*", squish::Object::Mode::kAny)
-      .value("DAY", squish::Object::Mode::kDay)
-      .value("NIGHT", squish::Object::Mode::kNight);
+  py::enum_<common::squish::CollectionMode>(m, "Mode")
+      .value("NONE", common::squish::CollectionMode::kNone)
+      .value("*", common::squish::CollectionMode::kAny)
+      .value("DAY", common::squish::CollectionMode::kDay)
+      .value("NIGHT", common::squish::CollectionMode::kNight);
 
   py::enum_<common::squish::ModifierState>(m, "ModifierState")
-      .value("NONE", common::squish::ModifierState::NONE)
-      .value("ALT", common::squish::ModifierState::ALT)
-      .value("CONTROL", common::squish::ModifierState::CONTROL)
-      .value("SHIFT", common::squish::ModifierState::SHIFT);
+      .value("NONE", common::squish::ModifierState::kNone)
+      .value("ALT", common::squish::ModifierState::kAlt)
+      .value("CONTROL", common::squish::ModifierState::kControl)
+      .value("SHIFT", common::squish::ModifierState::kShift);
 
   py::enum_<common::squish::MouseButton>(m, "MouseButton")
-      .value("NONE", common::squish::MouseButton::NONE)
-      .value("LEFT_BUTTON", common::squish::MouseButton::LEFT_BUTTON)
-      .value("MIDDLE_BUTTON", common::squish::MouseButton::MIDDLE_BUTTON)
-      .value("RIGHT_BUTTON", common::squish::MouseButton::RIGHT_BUTTON);
+      .value("NONE", common::squish::MouseButton::kNone)
+      .value("LEFT_BUTTON", common::squish::MouseButton::kLeftButton)
+      .value("MIDDLE_BUTTON", common::squish::MouseButton::kMiddleButton)
+      .value("RIGHT_BUTTON", common::squish::MouseButton::kRightButton);
 
   m.def("attachToApplication", &API::AttachToApplication,
         "This function causes to attach to the application called aut_name and returns a handle to its application "
@@ -259,7 +259,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
-        py::arg("modifier") = common::squish::ModifierState::NONE);
+        py::arg("modifier") = common::squish::ModifierState::kNone);
 
   m.def("touchAndDrag",
         py::overload_cast<const std::string&, int, int, int, int, common::squish::ModifierState>(&API::TouchAndDrag),
@@ -270,7 +270,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
-        py::arg("modifier") = common::squish::ModifierState::NONE);
+        py::arg("modifier") = common::squish::ModifierState::kNone);
 
   m.def("pressAndHold", py::overload_cast<const common::Point&>(&API::PressAndHold),
         "pressAndHold performs a press and hold operation specified by a screen_point. Position is in screen global "
@@ -347,10 +347,10 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("sync_version"), py::arg("sync_build_version"));
 
   py::enum_<common::squish::CollectionMode>(m, "CollectionMode")
-      .value("NONE", common::squish::CollectionMode::NONE)
-      .value("ANY", common::squish::CollectionMode::ANY)
-      .value("DAY", common::squish::CollectionMode::DAY)
-      .value("NIGHT", common::squish::CollectionMode::NIGHT);
+      .value("NONE", common::squish::CollectionMode::kNone)
+      .value("ANY", common::squish::CollectionMode::kAny)
+      .value("DAY", common::squish::CollectionMode::kDay)
+      .value("NIGHT", common::squish::CollectionMode::kNight);
 
   m.def("changeSyncMode", &API::ChangeSyncMode,
         "This function changes active collection mode in DBManager. "

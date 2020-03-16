@@ -93,7 +93,7 @@ std::string API::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
 }
 
 std::vector<squish::Object> API::GetObjectsDataByPattern(const std::string& object_name) {
-  return GetObjectsDataByPattern(squish::Wildcard(object_name, "", "", "", common::squish::CollectionMode::ANY));
+  return GetObjectsDataByPattern(squish::Wildcard(object_name, "", "", "", common::squish::CollectionMode::kAny));
 }
 
 std::vector<squish::Object> API::GetObjectsDataByPattern(const squish::Wildcard& wildcard) {

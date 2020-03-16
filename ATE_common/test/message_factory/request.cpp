@@ -61,8 +61,8 @@ void WrongWaitForObjectParamsTest(const char* message) {
 void WrongTapObjectParamsTest(const char* message) {
   int x;
   int y;
-  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE;
-  common::squish::MouseButton mouse_button = common::squish::MouseButton::NONE;
+  common::squish::ModifierState modifier_state = common::squish::ModifierState::kNone;
+  common::squish::MouseButton mouse_button = common::squish::MouseButton::kNone;
   Json::Value error;
 
   common::jmsg::ExtractTapObjectRequestParams(message, x, y, modifier_state, mouse_button, error);
@@ -251,8 +251,8 @@ TEST(ExtractTapObjectRequestParamsTest, ExtractTapObjectRequestParams_ValidParam
 
   params["x"] = 1;
   params["y"] = 2;
-  params["modifier_state"] = static_cast<int>(common::squish::ModifierState::NONE);
-  params["button"] = static_cast<int>(common::squish::MouseButton::LEFT_BUTTON);
+  params["modifier_state"] = static_cast<int>(common::squish::ModifierState::kNone);
+  params["button"] = static_cast<int>(common::squish::MouseButton::kLeftButton);
 
   int x{};
   int y{};
@@ -264,8 +264,8 @@ TEST(ExtractTapObjectRequestParamsTest, ExtractTapObjectRequestParams_ValidParam
 
   EXPECT_EQ(x, 1);
   EXPECT_EQ(y, 2);
-  EXPECT_EQ(modifier, common::squish::ModifierState::NONE);
-  EXPECT_EQ(button, common::squish::MouseButton::LEFT_BUTTON);
+  EXPECT_EQ(modifier, common::squish::ModifierState::kNone);
+  EXPECT_EQ(button, common::squish::MouseButton::kLeftButton);
   EXPECT_TRUE(error.empty());
 }
 
@@ -277,7 +277,7 @@ TEST(ExtractTouchAndDragRequestParamsTest, ExtractTouchAndDragRequestParams_Vali
   params["y"] = 2;
   params["dx"] = 10;
   params["dy"] = 20;
-  params["modifier_state"] = static_cast<int>(common::squish::ModifierState::NONE);
+  params["modifier_state"] = static_cast<int>(common::squish::ModifierState::kNone);
 
   std::string name;
   int x{};
@@ -294,7 +294,7 @@ TEST(ExtractTouchAndDragRequestParamsTest, ExtractTouchAndDragRequestParams_Vali
   EXPECT_EQ(y, 2);
   EXPECT_EQ(dx, 10);
   EXPECT_EQ(dy, 20);
-  EXPECT_EQ(modifier, common::squish::ModifierState::NONE);
+  EXPECT_EQ(modifier, common::squish::ModifierState::kNone);
   EXPECT_TRUE(error.empty());
 }
 
@@ -306,7 +306,7 @@ TEST(ExtractTouchAndDragRequestParamsTest, ExtractTouchAndDragRequestParams_Wron
   params["y"] = "wrong_type";
   params["dx"] = "wrong_type";
   params["dy"] = "wrong_type";
-  params["modifier_state"] = static_cast<int>(common::squish::ModifierState::NONE);
+  params["modifier_state"] = static_cast<int>(common::squish::ModifierState::kNone);
 
   std::string name;
   int x{};
@@ -635,7 +635,7 @@ TEST(ExtractGetObjectsDataByPatternParamsTest, ExtractGetObjectsDataByPatternPar
   EXPECT_EQ(object_identity.sync_version, "sync3");
   EXPECT_EQ(object_identity.build_version, "build1");
   EXPECT_EQ(object_identity.parent_screen, "main");
-  EXPECT_EQ(object_identity.mode, common::squish::CollectionMode::DAY);
+  EXPECT_EQ(object_identity.mode, common::squish::CollectionMode::kDay);
   EXPECT_TRUE(error.empty()) << "Error code exist.";
 }
 

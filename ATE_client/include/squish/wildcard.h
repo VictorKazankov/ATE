@@ -30,9 +30,9 @@ class Wildcard : public common::ObjectDataIdentity {
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
-  Wildcard(const std::string& name, const std::string& sync_version = "", const std::string& build_version = "",
+  explicit Wildcard(const std::string& name, const std::string& sync_version = "", const std::string& build_version = "",
            const std::string& parent_screen = "",
-           common::squish::CollectionMode mode = common::squish::CollectionMode::NONE);
+           common::squish::CollectionMode mode = common::squish::CollectionMode::kNone);
 
   /**
    * @name GetMatchObjects

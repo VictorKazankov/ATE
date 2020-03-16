@@ -81,8 +81,8 @@ class SquishApi {
 
   void TapObject(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const common::Point& screen_point,
-                 common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
-                 common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
+                 common::squish::ModifierState modifier_state = common::squish::ModifierState::kNone,
+                 common::squish::MouseButton button = common::squish::MouseButton::kNone) const;
 
   /**
    * @brief TapObject performs a touch tap at the center of the rectangle specified by screenRectangle.
@@ -96,12 +96,12 @@ class SquishApi {
    **/
   void TapObject(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const common::Rect& screen_rectangle,
-                 common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
-                 common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
+                 common::squish::ModifierState modifier_state = common::squish::ModifierState::kNone,
+                 common::squish::MouseButton button = common::squish::MouseButton::kNone) const;
   void TapObject(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
                  const squish::Object& screen_rectangle,
-                 common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE,
-                 common::squish::MouseButton button = common::squish::MouseButton::NONE) const;
+                 common::squish::ModifierState modifier_state = common::squish::ModifierState::kNone,
+                 common::squish::MouseButton button = common::squish::MouseButton::kNone) const;
 
   /**
    * @brief This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout

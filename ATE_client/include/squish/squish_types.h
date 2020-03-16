@@ -4,6 +4,7 @@
 #include <string>
 
 #include "utils/geometry_types.h"
+#include "utils/squish_types.h"
 
 namespace squish {
 
@@ -24,8 +25,6 @@ struct Object : common::Rect {
    */
   common::Point BottomRight() { return common::Point{x_bottom_right, y_bottom_right}; }
 
-  enum class Mode { kNone, kAny, kDay, kNight };
-
   // Data section
   int x_top_left{-1};
   int y_top_left{-1};
@@ -35,7 +34,7 @@ struct Object : common::Rect {
   int parent_height{-1};
   std::string sync_version;
   std::string build_version;
-  Mode mode {Mode::kNone};
+  common::squish::CollectionMode mode{common::squish::CollectionMode::kNone};
   std::string name;
   std::string parent_screen;
 };

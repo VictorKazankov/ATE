@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 TEST(CollectionModeToStrTest, CollectionModeToStr_CorrectCollectionMode_Success) {
-  auto mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::DAY);
+  auto mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::kDay);
   const auto none_mode = "NONE";
   const auto any_mode = "ANY";
   const auto day_mode = "DAY";
@@ -11,13 +11,13 @@ TEST(CollectionModeToStrTest, CollectionModeToStr_CorrectCollectionMode_Success)
 
   EXPECT_STREQ(mode.c_str(), day_mode) << "Mode: " << mode << " Expected mode: " << day_mode;
 
-  mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::NIGHT);
+  mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::kNight);
   EXPECT_STREQ(mode.c_str(), night_mode) << "Mode: " << mode << " Expected mode: " << night_mode;
 
-  mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::NONE);
+  mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::kNone);
   EXPECT_STREQ(mode.c_str(), none_mode) << "Mode: " << mode << " Expected mode: " << none_mode;
 
-  mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::ANY);
+  mode = common::squish::CollectionModeToStr(common::squish::CollectionMode::kAny);
   EXPECT_STREQ(mode.c_str(), any_mode) << "Mode: " << mode << " Expected mode: " << any_mode;
 }
 
@@ -28,10 +28,10 @@ TEST(CollectionModeToStrTest, CollectionModeToStr_WrongCollectionMode_Failure) {
 
 TEST(StrToCollectionModeTest, StrToCollectionMode_CorrectCollectionMode_Success) {
   using namespace common::squish;
-  const std::pair<std::string, CollectionMode> none_mode = {"NONE", CollectionMode::NONE};
-  const std::pair<std::string, CollectionMode> any_mode = {"ANY", CollectionMode::ANY};
-  const std::pair<std::string, CollectionMode> day_mode = {"DAY", CollectionMode::DAY};
-  const std::pair<std::string, CollectionMode> night_mode = {"NIGHT", CollectionMode::NIGHT};
+  const std::pair<std::string, CollectionMode> none_mode = {"NONE", CollectionMode::kNone};
+  const std::pair<std::string, CollectionMode> any_mode = {"ANY", CollectionMode::kAny};
+  const std::pair<std::string, CollectionMode> day_mode = {"DAY", CollectionMode::kDay};
+  const std::pair<std::string, CollectionMode> night_mode = {"NIGHT", CollectionMode::kNight};
 
   auto mode = StrToCollectionMode(none_mode.first);
   EXPECT_EQ(mode, none_mode.second) << "Mode: " << CollectionModeToStr(mode)

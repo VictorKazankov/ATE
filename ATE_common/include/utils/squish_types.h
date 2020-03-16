@@ -5,20 +5,18 @@ namespace common {
 namespace squish {
 /**
  * @brief ModifierState represents squish modifiers states
- * Named against accepted rules because of them uses in Python
  **/
-enum class ModifierState { NONE, ALT, CONTROL, SHIFT };
+enum class ModifierState { kNone, kAlt, kControl, kShift };
 
 /**
  * @brief MouseButton represents squish buttons
- * Named against accepted rules because of them uses in Python
  **/
-enum class MouseButton { NONE, LEFT_BUTTON, MIDDLE_BUTTON, RIGHT_BUTTON };
+enum class MouseButton { kNone, kLeftButton, kMiddleButton, kRightButton };
 
 /**
  * @brief CollectionMode represents collection mode
  **/
-enum class CollectionMode {NONE, ANY, DAY, NIGHT };
+enum class CollectionMode { kNone, kDay, kNight, kAny };
 
 }  // namespace squish
 }  // namespace common

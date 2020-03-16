@@ -16,7 +16,7 @@ struct ObjectDataIdentity {
   std::string name;
   std::string sync_version;
   std::string build_version;
-  squish::CollectionMode mode{squish::CollectionMode::NONE};
+  squish::CollectionMode mode{squish::CollectionMode::kNone};
   std::string parent_screen;
 };
 

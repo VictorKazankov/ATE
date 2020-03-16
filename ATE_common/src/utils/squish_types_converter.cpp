@@ -15,16 +15,16 @@ const std::string kNightEnumValuesString = "NIGHT";
 std::string CollectionModeToStr(const common::squish::CollectionMode& mode) {
   std::string collection_mode_str;
   switch (mode) {
-    case common::squish::CollectionMode::NONE:
+    case common::squish::CollectionMode::kNone:
       collection_mode_str = kNoneEnumValuesString;
       break;
-    case common::squish::CollectionMode::ANY:
+    case common::squish::CollectionMode::kAny:
       collection_mode_str = kAnyEnumValuesString;
       break;
-    case common::squish::CollectionMode::DAY:
+    case common::squish::CollectionMode::kDay:
       collection_mode_str = kDayEnumValuesString;
       break;
-    case common::squish::CollectionMode::NIGHT:
+    case common::squish::CollectionMode::kNight:
       collection_mode_str = kNightEnumValuesString;
       break;
   }
@@ -32,10 +32,10 @@ std::string CollectionModeToStr(const common::squish::CollectionMode& mode) {
 }
 
 CollectionMode StrToCollectionMode(const std::string& mode) {
-  if (mode == kNoneEnumValuesString) return common::squish::CollectionMode::NONE;
-  if (mode == kAnyEnumValuesString) return common::squish::CollectionMode::ANY;
-  if (mode == kDayEnumValuesString) return common::squish::CollectionMode::DAY;
-  if (mode == kNightEnumValuesString) return common::squish::CollectionMode::NIGHT;
+  if (mode == kNoneEnumValuesString) return common::squish::CollectionMode::kNone;
+  if (mode == kAnyEnumValuesString) return common::squish::CollectionMode::kAny;
+  if (mode == kDayEnumValuesString) return common::squish::CollectionMode::kDay;
+  if (mode == kNightEnumValuesString) return common::squish::CollectionMode::kNight;
 
   throw std::runtime_error("Undefided CollectionMode value");
 }  // namespace squish

@@ -97,8 +97,8 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleTapObject(const Json::Value& params) {
   cv::Point point;
-  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE;
-  common::squish::MouseButton mouse_button = common::squish::MouseButton::NONE;
+  common::squish::ModifierState modifier_state = common::squish::ModifierState::kNone;
+  common::squish::MouseButton mouse_button = common::squish::MouseButton::kNone;
   Json::Value extract_error;
 
   common::jmsg::ExtractTapObjectRequestParams(params, point.x, point.y, modifier_state, mouse_button, extract_error);
@@ -144,7 +144,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleTouchAndDrag(const Json::V
   std::string object_or_name;
   cv::Point start_point;
   cv::Point delta_point;
-  common::squish::ModifierState modifier_state = common::squish::ModifierState::NONE;
+  common::squish::ModifierState modifier_state = common::squish::ModifierState::kNone;
   Json::Value extract_error;
 
   common::jmsg::ExtractTouchAndDragRequestParams(params, object_or_name, start_point.x, start_point.y, delta_point.x,

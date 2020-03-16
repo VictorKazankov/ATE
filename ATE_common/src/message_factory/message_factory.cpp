@@ -200,7 +200,7 @@ std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& to
 
 /**
  * A JSON request contains next data in data section:
- * [{select_pattern}]
+ * [{object_data_identity}]
  */
 std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity,
                                                                          int id) {
