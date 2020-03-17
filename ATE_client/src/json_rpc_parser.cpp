@@ -1,5 +1,7 @@
 #include "json_rpc_parser.h"
 
+#include "utils/squish_types_converter.h"
+
 #include "logger/logger.h"
 #include "message_factory/json_defines.h"
 #include "message_factory/json_messages.h"
@@ -201,6 +203,15 @@ std::vector<squish::Object> JsonRpcParser::ParseGetObjectsDataByPattern(const st
       }
       if (node.isMember(common::jmsg::kParentScreen) && node[common::jmsg::kParentScreen].isString()) {
         object.parent_screen = node[common::jmsg::kParentScreen].asCString();
+      }
+      if (node.isMember(common::jmsg::kSyncVersion) && node[common::jmsg::kSyncVersion].isString()) {
+        object.sync_version = node[common::jmsg::kSyncVersion].asCString();
+      }
+      if (node.isMember(common::jmsg::kSyncBuildVersion) && node[common::jmsg::kSyncBuildVersion].isString()) {
+        object.build_version = node[common::jmsg::kSyncBuildVersion].asCString();
+      }
+      if (node.isMember(common::jmsg::kSyncCollectionMode) && node[common::jmsg::kSyncCollectionMode].isString()) {
+        object.mode = common::squish::StrToCollectionMode(node[common::jmsg::kSyncCollectionMode].asCString());
       }
 
       // Save object
