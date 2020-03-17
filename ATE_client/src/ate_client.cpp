@@ -146,9 +146,9 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<interaction::NoConnectionEstablished>(m, "NoConnectionEstablished");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
-  py::enum_<common::squish::CollectionMode>(m, "Mode")
+  py::enum_<common::squish::CollectionMode>(m, "CollectionMode")
       .value("NONE", common::squish::CollectionMode::kNone)
-      .value("*", common::squish::CollectionMode::kAny)
+      .value("ANY", common::squish::CollectionMode::kAny)
       .value("DAY", common::squish::CollectionMode::kDay)
       .value("NIGHT", common::squish::CollectionMode::kNight);
 
@@ -345,12 +345,6 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("sync_version"), py::arg("sync_build_version"));
-
-  py::enum_<common::squish::CollectionMode>(m, "CollectionMode")
-      .value("NONE", common::squish::CollectionMode::kNone)
-      .value("ANY", common::squish::CollectionMode::kAny)
-      .value("DAY", common::squish::CollectionMode::kDay)
-      .value("NIGHT", common::squish::CollectionMode::kNight);
 
   m.def("changeSyncMode", &API::ChangeSyncMode,
         "This function changes active collection mode in DBManager. "
