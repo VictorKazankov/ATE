@@ -50,6 +50,21 @@ squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Inter
   return interaction::JsonRpcParser::ParseWaitForObject(response);
 }
 
+squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                        const uint64_t& correlation_id, const squish::Wildcard& wildcard) const {
+  return WaitForObject(ate_interaction, correlation_id, wildcard, default_wait_for_object_timeout_in_ms_);
+}
+
+squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                        const uint64_t& correlation_id, const squish::Wildcard& wildcard,
+                                        int timeout_sec) const {
+  logger::debug("Object wairForObject(Wildcard)");
+  const auto message =
+      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(wildcard, timeout_sec, correlation_id);
+  const auto response = ate_interaction->SendCommand(message);
+  return interaction::JsonRpcParser::ParseWaitForObject(response);
+}
+
 void SquishApi::TapObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                           const uint64_t& correlation_id, const squish::Object& screen_rectangle,
                           common::squish::ModifierState modifier_state, common::squish::MouseButton button) const {
@@ -155,8 +170,8 @@ void SquishApi::PressRelease(const std::shared_ptr<interaction::Interaction>& at
   PressRelease(ate_interaction, correlation_id, object.Center());
 }
 
-bool SquishApi::Exists(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                       const uint64_t& correlation_id, const std::string& object_name) const {
+bool SquishApi::Exists(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
+                       const std::string& object_name) const {
   try {
     const int kOneSecondTimeout = 1;
     WaitForObject(ate_interaction, correlation_id, object_name, kOneSecondTimeout);

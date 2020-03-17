@@ -29,6 +29,14 @@ squish::Object API::WaitForObject(const squish::Object& object_or_name, int time
   return GetApiAggregator().WaitForObject(object_or_name, timeout_msec);
 }
 
+squish::Object API::WaitForObject(const squish::Wildcard& wildcard) {
+  return GetApiAggregator().WaitForObject(wildcard);
+}
+
+squish::Object API::WaitForObject(const squish::Wildcard& wildcard, int timeout_msec) {
+  return GetApiAggregator().WaitForObject(wildcard, timeout_msec);
+}
+
 void API::TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
                     common::squish::MouseButton button) {
   GetApiAggregator().TapObject(screen_point, modifier_state, button);

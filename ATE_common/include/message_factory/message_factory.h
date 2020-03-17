@@ -25,6 +25,8 @@ class MessageFactory {
   struct Client {
     static std::string CreateAttachToApplicationRequest(uint16_t timeout_msec, int id);
     static std::string CreateWaitForObjectRequest(const std::string& icon_name, uint32_t timeout_msec, int id);
+    static std::string CreateWaitForObjectRequest(const common::ObjectDataIdentity& object_data_identity,
+                                                  uint32_t timeout_msec, int id);
     static std::string CreateTapObjectRequest(uint16_t x, uint16_t y, squish::ModifierState modifier_state,
                                               squish::MouseButton mouse_button, int id);
     static std::string CreateTouchAndDragRequest(const std::string& object_or_name, uint16_t x, uint16_t y, int16_t dx,

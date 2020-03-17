@@ -193,6 +193,32 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
         py::arg("object_or_name"));
 
+  m.def("waitForObject", py::overload_cast<const squish::Wildcard&>(&API::WaitForObject),
+        "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled) "
+        "and returns the first found object. "
+        "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
+        "milliseconds. "
+        "Throws:"
+        " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
+        " 'VideoStreamingError' in case of the video stream is not available"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of the invalid arguments in request"
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        py::arg("wildcard"));
+
+  m.def("waitForObject", py::overload_cast<const squish::Wildcard&, int>(&API::WaitForObject),
+        "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled) "
+        "and returns the first found object. "
+        "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
+        "milliseconds. This function is useful if you want to synchronize your script execution. "
+        "Throws:"
+        " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
+        " 'VideoStreamingError' in case of the video stream is not available"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of the invalid arguments in request"
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        py::arg("wildcard"), py::arg("timeout_msec"));
+
   m.def("waitForObject", py::overload_cast<const std::string&, int>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "

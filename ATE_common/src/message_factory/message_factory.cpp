@@ -19,6 +19,14 @@ void CreatePackageStructure(Json::Value& structure, const std::string& method, i
   structure[kId] = id;
 }
 
+void PutObjectDataIdentityIntoRequest(const ObjectDataIdentity& object_data_identity, Json::Value& params) {
+  params[kName] = object_data_identity.name;
+  params[kSyncVersion] = object_data_identity.sync_version;
+  params[kSyncBuildVersion] = object_data_identity.build_version;
+  params[kParentScreen] = object_data_identity.parent_screen;
+  params[kSyncCollectionMode] = squish::CollectionModeToStr(object_data_identity.mode);
+}
+
 }  // namespace
 
 std::string MessageFactory::Client::CreateAttachToApplicationRequest(uint16_t timeout_msec, int id) {
@@ -39,11 +47,26 @@ std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string
   Json::Value params;
   Json::FastWriter writer;
 
-  params[kObjectName] = object_name;
+  params[kName] = object_name;
   params[kTimeoutMsec] = timeout_msec;
 
   Json::Value message;
 
+  CreatePackageStructure(message, kWaitForObject, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
+std::string MessageFactory::Client::CreateWaitForObjectRequest(const common::ObjectDataIdentity& object_data_identity,
+                                                               uint32_t timeout_msec, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  PutObjectDataIdentityIntoRequest(object_data_identity, params);
+  params[kTimeoutMsec] = timeout_msec;
+
+  Json::Value message;
   CreatePackageStructure(message, kWaitForObject, id);
   message[kParams] = params;
 
@@ -206,11 +229,8 @@ std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const O
                                                                          int id) {
   Json::Value params;
   Json::FastWriter writer;
-  params[kName] = object_data_identity.name;
-  params[kSyncVersion] = object_data_identity.sync_version;
-  params[kSyncBuildVersion] = object_data_identity.build_version;
-  params[kParentScreen] = object_data_identity.parent_screen;
-  params[kSyncCollectionMode] = squish::CollectionModeToStr(object_data_identity.mode);
+
+  PutObjectDataIdentityIntoRequest(object_data_identity, params);
 
   Json::Value message;
 

@@ -61,6 +61,16 @@ squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name
   return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name);
 }
 
+squish::Object ApiAggregator::WaitForObject(const squish::Wildcard& wildcard) {
+  ThrowExceptionIfNoConnectionEstablished();
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), wildcard);
+}
+
+squish::Object ApiAggregator::WaitForObject(const squish::Wildcard& wildcard, int timeout_msec) {
+  ThrowExceptionIfNoConnectionEstablished();
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), wildcard, timeout_msec);
+}
+
 squish::Object ApiAggregator::WaitForObject(const std::string& object_or_name, int timeout_msec) {
   ThrowExceptionIfNoConnectionEstablished();
   return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, timeout_msec);

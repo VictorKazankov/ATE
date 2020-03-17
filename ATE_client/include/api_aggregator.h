@@ -48,6 +48,22 @@ class ApiAggregator {
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
+   *        enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that
+   *        many milliseconds
+   * @param wildcard Pattern for selection
+   * @param timeout_msec Timeout in miliseconds
+   * @returns The object if successful or raises an exception on failure.
+   * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
+   * @throw VideoStreamingError In case of the video stream is not available
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw invalid_argument In case of the invalid arguments in request
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   **/
+  squish::Object WaitForObject(const squish::Wildcard& wildcard);
+  squish::Object WaitForObject(const squish::Wildcard& wildcard, int timeout_msec);
+
+  /**
+   * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
    *        milliseconds. This function is useful if you want to synchronize your script execution.
    * @param object_or_name Desirable object or name
