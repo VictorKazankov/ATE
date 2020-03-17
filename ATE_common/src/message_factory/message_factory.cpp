@@ -320,6 +320,9 @@ Json::Value MessageFactory::Server::CreateGetObjectsDataByPatternResponse(const 
     node[kParentHeight] = data.parent_height;
     node[kName] = data.name;
     node[kParentScreen] = data.parent_screen;
+    node[kSyncVersion] = data.sync_version;
+    node[kSyncBuildVersion] = data.build_version;
+    node[kSyncCollectionMode] = squish::CollectionModeToStr(data.mode);
 
     result.append(node);
   }

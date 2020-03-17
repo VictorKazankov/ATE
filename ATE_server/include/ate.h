@@ -117,10 +117,10 @@ class ATE {
 
   /**
    * @brief Gets a list of objects by select pattern
-   * @param select_pattern Pattern for selecting
+   * @param pattern Pattern for selecting
    * @return List of data object
    */
-  std::vector<common::ObjectData> GetObjectsDataByPattern(const std::string& select_pattern);
+  std::vector<common::ObjectData> GetObjectsDataByPattern(const common::ObjectDataIdentity& pattern);
 
   /**
    * @brief Gets the difference between the two images as a percentage

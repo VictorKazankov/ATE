@@ -261,6 +261,9 @@ TEST(MessageFactoryServerTest, CreateGetObjectsDataByPatternResponse_ValidServer
   common::ObjectData object_data;
   object_data.name = "test_name";
   object_data.parent_screen = "test_parent";
+  object_data.build_version = "test_build";
+  object_data.sync_version = "test_sync";
+  object_data.mode = common::squish::CollectionMode::kDay;
   object_data.center = {10, 10};
   object_data.top_left = {5, 15};
   object_data.bottom_right = {15, 5};
@@ -271,7 +274,7 @@ TEST(MessageFactoryServerTest, CreateGetObjectsDataByPatternResponse_ValidServer
   std::vector<common::ObjectData> object_list{object_data};
 
   std::string expected_response_str =
-      R"([{"x":10, "y":10, "width":20, "height":20, "x_top_left":5, "y_top_left":15, "x_bottom_right":15, "y_bottom_right":5, "parent_width":1920, "parent_height":1200, "name":"test_name", "parent_screen":"test_parent"}])";
+      R"([{"x":10, "y":10, "width":20, "height":20, "x_top_left":5, "y_top_left":15, "x_bottom_right":15, "y_bottom_right":5, "parent_width":1920, "parent_height":1200, "name":"test_name", "parent_screen":"test_parent", "sync_version":"test_sync", "sync_build_version":"test_build", "sync_collection_mode":"DAY"}])";
   Json::Value expected_response;
   Json::Reader reader;
   reader.parse(expected_response_str, expected_response);

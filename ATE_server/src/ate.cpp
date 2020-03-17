@@ -157,9 +157,8 @@ std::pair<std::string, std::error_code> ATE::GetText(const cv::Point& point, con
   return matcher_.GetText(point, delta_point);
 }
 
-// TODO(slisovenko@luxoft.com): temporary dummy. Replace this code after implementation select by pattern
-std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const std::string& select_pattern) {
-  return storage_.GetItemData(select_pattern);
+std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const common::ObjectDataIdentity& pattern) {
+  return storage_.GetItemData(pattern);
 }
 
 std::pair<int, std::error_code> ATE::GetImagesDiscrepancy(const std::string& icon_path_second,

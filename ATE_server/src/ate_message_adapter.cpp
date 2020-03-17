@@ -347,7 +347,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetObjectsDataByPattern(co
     return std::make_pair(std::move(error), false);
   }
 
-  auto res = ate_.GetObjectsDataByPattern(object_data_identity.name);  // TODO
+  auto res = ate_.GetObjectsDataByPattern(object_data_identity);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetObjectsDataByPatternResponse(res), true);
 }
