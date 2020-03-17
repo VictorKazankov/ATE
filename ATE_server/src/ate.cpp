@@ -112,18 +112,23 @@ void ATE::PressAndHold(const cv::Point& point) { interaction_->Press(point.x, po
 
 void ATE::PressRelease(const cv::Point& point) { interaction_->Release(point.x, point.y); }
 
-std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const std::string& object_or_name,
+std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const common::ObjectDataIdentity& object_data_identity,
                                                         const std::chrono::milliseconds& timeout) {
   const auto timeout_point = std::chrono::steady_clock::now() + timeout;
-  auto pattern = storage_.GetItem(object_or_name);
-  const bool is_image = !pattern.empty();
-  cv::Rect match_area;
-  std::error_code match_error;
 
-  do {
-    std::tie(match_area, match_error) =
-        is_image ? matcher_.MatchImage(object_or_name, pattern) : matcher_.MatchText(object_or_name);
-  } while (match_error == common::AteError::kPatternNotFound && std::chrono::steady_clock::now() <= timeout_point);
+  cv::Rect match_area{};
+  std::error_code match_error{common::AteError::kPatternNotFound};
+  cv::Mat pattern;
+
+  auto objects = storage_.GetItemData(object_data_identity);
+  for (const auto& object : objects) {
+    pattern = storage_.GetItem(object.name);
+    const bool is_image = !pattern.empty();
+    do {
+      std::tie(match_area, match_error) =
+          is_image ? matcher_.MatchImage(object.name, pattern) : matcher_.MatchText(object.name);
+    } while (match_error == common::AteError::kPatternNotFound && std::chrono::steady_clock::now() <= timeout_point);
+  }
 
   return {match_area, match_error};
 }

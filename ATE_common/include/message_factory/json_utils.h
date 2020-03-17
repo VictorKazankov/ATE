@@ -8,8 +8,8 @@
 
 #include "rpc_error.h"
 #include "utils/geometry_types.h"
-#include "utils/squish_types.h"
 #include "utils/object_data_type.h"
+#include "utils/squish_types.h"
 
 namespace common {
 namespace jmsg {
@@ -73,10 +73,11 @@ bool CheckHeaderType(const Json::Value& value);
  * during the invocation of the 'WaitForObject' method
  *
  * @param[out] object_or_name
+ * @param[out] object_data_identity Identity struct for performing search into DB
  * @param[out] timeout - object waiting duration
  * @param[out] error - error object, null on successs
  */
-void ExtractWaitForObjectRequestParams(const Json::Value& params, std::string& object_or_name,
+void ExtractWaitForObjectRequestParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
                                        std::chrono::milliseconds& timeout, Json::Value& error);
 
 /**
@@ -209,7 +210,7 @@ void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_l
 /**
  * Extracts params for 'GetObjectsDataByPattern' method
  * @param params Structured value that holds the parameter values to be used
- * @param object_data_identity Identity struct for performing search into DB 
+ * @param object_data_identity Identity struct for performing search into DB
  * @param error Error object, null on success
  */
 void ExtractGetObjectsDataByPatternParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,

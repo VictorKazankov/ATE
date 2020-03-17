@@ -60,11 +60,11 @@ AteMessageAdapter::MessageHandlerFunction AteMessageAdapter::GetHandler(const st
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::Value& params) {
-  std::string object_or_name;
+  common::ObjectDataIdentity object_data_identity;
   std::chrono::milliseconds timeout;
   Json::Value error;
 
-  common::jmsg::ExtractWaitForObjectRequestParams(params, object_or_name, timeout, error);
+  common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, error);
 
   if (!error.empty()) {
     // Extract error occurs
@@ -73,7 +73,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
 
   cv::Rect position;
   std::error_code error_code;
-  std::tie(position, error_code) = ate_.WaitForObject(object_or_name, timeout);
+  std::tie(position, error_code) = ate_.WaitForObject(object_data_identity, timeout);
 
   // TODO: replace by switch! Hint: return from waitForObject enum
   if (error_code) {
@@ -85,8 +85,8 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
       logger::warn("[ate message adapter] unhandled error: {}, treated as object not found error");
       error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
     }
-    logger::info("[ate message adapter] object_or_name: {}, timeout: {}ms error: {}", object_or_name, timeout.count(),
-                 error.toStyledString());
+    logger::info("[ate message adapter] object_or_name: {}, timeout: {}ms error: {}", object_data_identity.name,
+                 timeout.count(), error.toStyledString());
     return std::make_pair(std::move(error), false);
   }
 

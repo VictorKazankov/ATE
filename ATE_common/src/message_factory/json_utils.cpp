@@ -13,6 +13,38 @@
 namespace common {
 namespace jmsg {
 
+namespace {
+
+void ExtractObjectDataIdentity(const Json::Value& params, ObjectDataIdentity& object_data_identity,
+                               Json::Value& error) {
+  error.clear();
+  // extract json message
+
+  if (params.isMember(kName)) {
+    object_data_identity.name = params[kName].asCString();
+  }
+  if (params.isMember(kSyncVersion)) {
+    object_data_identity.sync_version = params[kSyncVersion].asCString();
+  }
+  if (params.isMember(kSyncBuildVersion)) {
+    object_data_identity.build_version = params[kSyncBuildVersion].asCString();
+  }
+  if (params.isMember(kParentScreen)) {
+    object_data_identity.parent_screen = params[kParentScreen].asCString();
+  }
+  if (params.isMember(kSyncCollectionMode)) {
+    object_data_identity.mode = squish::StrToCollectionMode(params[kSyncCollectionMode].asCString());
+  }
+  // at least one field must be filled
+  if (object_data_identity.name.empty() && object_data_identity.sync_version.empty() &&
+      object_data_identity.build_version.empty() && object_data_identity.parent_screen.empty() &&
+      squish::CollectionMode::kNone == object_data_identity.mode) {
+    throw Json::LogicError("At least one field must be filled");
+  }
+}
+
+}  // namespace
+
 Json::Value CreateErrorObject(rpc::Error code, const char* message, Json::Value data) {
   Json::Value error_value{Json::objectValue};
 
@@ -107,13 +139,18 @@ bool CheckHeaderType(const Json::Value& value) {
   return res;
 }
 
-void ExtractWaitForObjectRequestParams(const Json::Value& params, std::string& object_or_name,
+void ExtractWaitForObjectRequestParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
                                        std::chrono::milliseconds& timeout, Json::Value& error) {
-  error = Json::Value{};
-
+  // reset values
+  error.clear();
+  object_data_identity = ObjectDataIdentity{};
+  timeout = std::chrono::milliseconds(0);
+  // try to extract json message
   try {
-    object_or_name = params[kObjectName].asCString();
-    timeout = std::chrono::milliseconds{params[kTimeoutMsec].asUInt()};
+    ExtractObjectDataIdentity(params, object_data_identity, error);
+    if (params.isMember(kTimeoutMsec)) {
+      timeout = std::chrono::milliseconds{params[kTimeoutMsec].asUInt()};
+    }
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid WaitForObject params");
     logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),
@@ -304,14 +341,9 @@ void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_l
 void ExtractGetObjectsDataByPatternParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
                                           Json::Value& error) {
   error.clear();
-
   // Extract params
   try {
-    object_data_identity.name = params[kName].asCString();
-    object_data_identity.sync_version = params[kSyncVersion].asCString();
-    object_data_identity.build_version = params[kSyncBuildVersion].asCString();
-    object_data_identity.parent_screen = params[kParentScreen].asCString();
-    object_data_identity.mode = squish::StrToCollectionMode(params[kSyncCollectionMode].asCString());
+    ExtractObjectDataIdentity(params, object_data_identity, error);
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetObjectsDataByPattern params");
     logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),

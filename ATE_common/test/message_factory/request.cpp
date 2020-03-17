@@ -42,11 +42,11 @@ void RightRequestTest(const char* message) {
 }
 
 void WrongWaitForObjectParamsTest(const char* message) {
-  std::string object_or_name;
+  common::ObjectDataIdentity object_data_identity;
   std::chrono::milliseconds timeout;
   Json::Value error;
 
-  common::jmsg::ExtractWaitForObjectRequestParams(message, object_or_name, timeout, error);
+  common::jmsg::ExtractWaitForObjectRequestParams(message, object_data_identity, timeout, error);
 
   EXPECT_FALSE(error.empty()) << "Error must be non-empty";
   int ec = 0;
@@ -235,14 +235,18 @@ TEST(ExtractWaitForObjectParamsTest, ExtractWaitForObjectParams_ValidParam_Succe
   params["object_or_name"] = "name";
   params["timeout_msec"] = 1000;
 
-  std::string object_name;
+  common::ObjectDataIdentity object_data_identity;
   std::chrono::milliseconds timeout;
   Json::Value error{};
 
-  common::jmsg::ExtractWaitForObjectRequestParams(params, object_name, timeout, error);
+  common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, error);
 
-  EXPECT_STREQ(object_name.c_str(), "name");
+  EXPECT_STREQ(object_data_identity.name.c_str(), "name");
   EXPECT_EQ(timeout, std::chrono::milliseconds{1000});
+  EXPECT_TRUE(object_data_identity.sync_version.empty());
+  EXPECT_TRUE(object_data_identity.build_version.empty());
+  EXPECT_TRUE(object_data_identity.parent_screen.empty());
+  EXPECT_EQ(object_data_identity.mode, common::squish::CollectionMode::kNone);
   EXPECT_TRUE(error.empty());
 }
 
