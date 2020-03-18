@@ -40,6 +40,20 @@ ToType ConvertMode(FromType mode) {
 constexpr auto SquishModeToDbMode = ConvertMode<HmiMode, common::squish::CollectionMode>;
 constexpr auto DbModeToSquishMode = ConvertMode<common::squish::CollectionMode, HmiMode>;
 
+HmiMode ConfigStringToDbMode(std::string mode) {
+  std::transform(mode.begin(), mode.end(), mode.begin(), [](unsigned char c) { return std::toupper(c); });
+  if (mode == "DAY_MODE" || mode == "DAY") {
+    return HmiMode::kDay;
+  } else if (mode == "NIGHT_MODE" || mode == "NIGHT") {
+    return HmiMode::kNight;
+  } else {
+    logger::critical(
+        "[DBManagerAdapter] Failed to convert configured mode {} to db_manager::HmiMode. Defaulting to HmiMode::kNone.",
+        mode);
+    return HmiMode::kNone;
+  }
+}
+
 IconWildcard ObjectIdentityToDbWildcard(const common::ObjectDataIdentity& object_identity) {
   return IconWildcard{object_identity.sync_version, object_identity.build_version,
                       SquishModeToDbMode(object_identity.mode), object_identity.name, object_identity.parent_screen};
@@ -88,17 +102,8 @@ std::unique_ptr<IconDataMapper> DBManagerAdapter::CreateDataMapper(AccessCredent
 }
 
 DBManagerAdapter::StorageConfig DBManagerAdapter::CreateConfiguration(std::string sync_version,
-                                                                      std::string build_version,
-                                                                      std::string mode) const {
-  std::transform(mode.begin(), mode.end(), mode.begin(), [](unsigned char c) { return std::toupper(c); });
-  if (mode == "DAY_MODE" || mode == "DAY") {
-    return StorageConfig{std::move(sync_version), std::move(build_version), HmiMode::kDay};
-  } else if (mode == "NIGHT_MODE" || mode == "NIGHT") {
-    return StorageConfig{std::move(sync_version), std::move(build_version), HmiMode::kNight};
-  } else {
-    logger::critical("[DBManagerAdapter] Failed to parse MODE parameter. Defaulting to NONE mode.");
-    return StorageConfig{std::move(sync_version), std::move(build_version), HmiMode::kNone};
-  }
+                                                                      std::string build_version, HmiMode mode) const {
+  return StorageConfig{std::move(sync_version), std::move(build_version), mode};
 }
 
 DBManagerError DBManagerAdapter::CheckConfiguration(const StorageConfig& config) const {
@@ -134,8 +139,8 @@ DBManagerError DBManagerAdapter::CheckConfiguration(const StorageConfig& config)
     }
 
     logger::critical(
-        "[DBManagerAdapter] CheckConfiguration(): failed to match config {},{},{} but could determine which attribute "
-        "is invalid.",
+        "[DBManagerAdapter] CheckConfiguration(): failed to match config {},{},{} but could not determine which "
+        "attribute is invalid.",
         config.sync_version, config.build_version, HmiModeToString(config.mode));
     return DBManagerError::kLogicError;
   }
@@ -143,22 +148,29 @@ DBManagerError DBManagerAdapter::CheckConfiguration(const StorageConfig& config)
   return DBManagerError::kSuccess;
 }
 
-bool DBManagerAdapter::Init(const std::string&, const std::string& sync_version, const std::string& build_version,
-                            const std::string& mode) {
+DBManagerError DBManagerAdapter::Init(const std::string& sync_version, const std::string& build_version,
+                                      const std::string& mode) {
   icon_data_mapper_ = CreateDataMapper(GetAccessCredentials());
-  config_ = CreateConfiguration(sync_version, build_version, mode);
-  return icon_data_mapper_ && CheckConfiguration(config_) == DBManagerError::kSuccess;
+  assert(icon_data_mapper_);
+  if (!icon_data_mapper_) {
+    logger::critical("[DBManagerAdapter] Init(): icon_data_mapper_ was not created");
+    return DBManagerError::kLogicError;
+  }
+
+  config_ = CreateConfiguration(sync_version, build_version, converters::ConfigStringToDbMode(mode));
+  return CheckConfiguration(config_);
 }
 
 DBManagerError DBManagerAdapter::ChangeSyncVersion(const std::string& sync_version, const std::string& build_version) {
-  auto new_config = CreateConfiguration(sync_version, build_version, HmiModeToString(config_.mode));
+  auto new_config = CreateConfiguration(sync_version, build_version, config_.mode);
   DBManagerError error = CheckConfiguration(new_config);
   if (error == DBManagerError::kSuccess) config_ = std::move(new_config);
   return error;
 }
 
 DBManagerError DBManagerAdapter::ChangeCollectionMode(const std::string& collection_mode) {
-  auto new_config = CreateConfiguration(config_.sync_version, config_.build_version, collection_mode);
+  auto new_config = CreateConfiguration(config_.sync_version, config_.build_version,
+                                        converters::ConfigStringToDbMode(collection_mode));
   DBManagerError error = CheckConfiguration(new_config);
   if (error == DBManagerError::kSuccess) config_ = std::move(new_config);
   return error;
@@ -189,14 +201,6 @@ cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
   }
 }
 
-std::error_code DBManagerAdapter::ReloadStorage() noexcept {
-  /* no-op
-
-     With current adapted DB manager interface, reload operation does not need to be performed
-  */
-  return {};
-}
-
 std::vector<common::ObjectData> DBManagerAdapter::GetItemDataByWildcard(const common::ObjectDataIdentity& wildcard) {
   assert(icon_data_mapper_);
   if (!icon_data_mapper_) {
@@ -204,17 +208,15 @@ std::vector<common::ObjectData> DBManagerAdapter::GetItemDataByWildcard(const co
     return {};
   }
 
-  using converters::DbIconToObjectData;
-  using converters::ObjectIdentityToDbWildcard;
-
   std::vector<common::ObjectData> result;
-  auto match_results = icon_data_mapper_->Match(ObjectIdentityToDbWildcard(wildcard));
+  auto match_results = icon_data_mapper_->Match(converters::ObjectIdentityToDbWildcard(wildcard));
   if (match_results) {
     // TODO:
     //   replace by mechanism that would not fetch Icon pixmap from storage as soon as it will be available in DbMgr
-    std::transform(
-        match_results->begin(), match_results->end(), std::back_inserter(result),
-        [this](const IconIdentity& identity) { return DbIconToObjectData(icon_data_mapper_->Get(identity)); });
+    std::transform(match_results->begin(), match_results->end(), std::back_inserter(result),
+                   [this](const IconIdentity& identity) {
+                     return converters::DbIconToObjectData(icon_data_mapper_->Get(identity));
+                   });
   }
 
   return result;

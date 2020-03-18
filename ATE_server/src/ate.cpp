@@ -76,10 +76,11 @@ ATE::ATE()
                factory::CreateTextDetector(common::Config().GetString(kDBSection, kTargetOption, {})),
                MakeScreenshotRecorder(), std::make_unique<utils::GpioVideoStatus>()} {
   // Init storage
-  auto is_init = storage_.Init(VHAT_ICON_STORAGE_PREFIX, common::Config().GetString(kDBSection, kTargetOption, {}),
-                               common::Config().GetString(kDBSection, kBuildOption, {}),
-                               common::Config().GetString(kDBSection, kCollectionModeOption, {}));
-  if (!is_init) {
+  auto storage_result = storage_.Init(common::Config().GetString(kDBSection, kTargetOption, {}),
+                                      common::Config().GetString(kDBSection, kBuildOption, {}),
+                                      common::Config().GetString(kDBSection, kCollectionModeOption, {}));
+  if (storage_result != adapter::DBManagerError::kSuccess) {
+    logger::critical("[ATE] failed to initialize storage. Error: {}", static_cast<int>(storage_result));
     throw storage::ConnectionFailure{};
   }
 }
@@ -152,7 +153,10 @@ adapter::DBManagerError ATE::ChangeSyncMode(const std::string& collection_mode) 
   return storage_.ChangeCollectionMode(collection_mode);
 }
 
-std::error_code ATE::ReloadStorageItems() noexcept { return storage_.ReloadStorage(); }
+std::error_code ATE::ReloadStorageItems() noexcept {
+  /* no-op */
+  return {};
+}
 
 std::error_code ATE::GetScreenshot(const std::string& path, const std::string& filename) {
   return matcher_.GetScreenshot(path, filename);

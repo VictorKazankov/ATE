@@ -24,7 +24,6 @@ enum class DBManagerError {
   kInvalidSyncVersion,
   kInvalidSyncBuildVersion,
   kInvalidCollectionMode,
-
   kLogicError,
 };
 
@@ -39,10 +38,10 @@ class DBManagerAdapter {
    * @param sync_version Sync version
    * @param sync_build_version Sync build version
    * @param collection_mode Collection mode
-   * @return True if initialization is success, false otherwise
+   * @return Error code, where kSuccess means success
    */
-  bool Init(const std::string& path_to_storage, const std::string& sync_version, const std::string& sync_build_version,
-            const std::string& collection_mode);
+  DBManagerError Init(const std::string& sync_version, const std::string& sync_build_version,
+                      const std::string& collection_mode);
 
   /**
    * @brief Changes sync configuration
@@ -73,12 +72,6 @@ class DBManagerAdapter {
    */
   std::vector<common::ObjectData> GetItemDataByWildcard(const common::ObjectDataIdentity& wildcard);
 
-  /**
-   * @brief Reload items from icon storage
-   * @return Empty error on success, error code otherwise
-   */
-  std::error_code ReloadStorage() noexcept;
-
  private:
   struct StorageConfig {
     std::string sync_version;
@@ -88,7 +81,8 @@ class DBManagerAdapter {
 
   db_manager::AccessCredentials GetAccessCredentials() const;
   std::unique_ptr<db_manager::IconDataMapper> CreateDataMapper(db_manager::AccessCredentials access_credentials) const;
-  StorageConfig CreateConfiguration(std::string sync_version, std::string build_version, std::string mode) const;
+  StorageConfig CreateConfiguration(std::string sync_version, std::string build_version,
+                                    db_manager::HmiMode mode) const;
   DBManagerError CheckConfiguration(const StorageConfig& config) const;
 
   StorageConfig config_;
