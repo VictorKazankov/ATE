@@ -5,6 +5,7 @@
 #include "message_factory/json_utils.h"
 #include "message_factory/message_factory.h"
 #include "rpc_error.h"
+#include "utils/squish_types_converter.h"
 
 namespace {
 
@@ -232,8 +233,13 @@ TEST(CheckHeaderTypeTest, CheckHeaderType_WrongRpcVersion_Failur) {
 
 TEST(ExtractWaitForObjectParamsTest, ExtractWaitForObjectParams_ValidParam_Success) {
   Json::Value params{};
-  params["object_or_name"] = "name";
-  params["timeout_msec"] = 1000;
+  params[common::jmsg::kName] = "name";
+  params[common::jmsg::kSyncVersion] = "sync";
+  params[common::jmsg::kSyncBuildVersion] = "build";
+  params[common::jmsg::kParentScreen] = "parent";
+  params[common::jmsg::kSyncCollectionMode] =
+      common::squish::CollectionModeToStr(common::squish::CollectionMode::kNight);
+  params[common::jmsg::kTimeoutMsec] = 1000;
 
   common::ObjectDataIdentity object_data_identity;
   std::chrono::milliseconds timeout;
@@ -242,11 +248,11 @@ TEST(ExtractWaitForObjectParamsTest, ExtractWaitForObjectParams_ValidParam_Succe
   common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, error);
 
   EXPECT_STREQ(object_data_identity.name.c_str(), "name");
+  EXPECT_STREQ(object_data_identity.sync_version.c_str(), "sync");
+  EXPECT_STREQ(object_data_identity.build_version.c_str(), "build");
+  EXPECT_STREQ(object_data_identity.parent_screen.c_str(), "parent");
+  EXPECT_EQ(object_data_identity.mode, common::squish::CollectionMode::kNight);
   EXPECT_EQ(timeout, std::chrono::milliseconds{1000});
-  EXPECT_TRUE(object_data_identity.sync_version.empty());
-  EXPECT_TRUE(object_data_identity.build_version.empty());
-  EXPECT_TRUE(object_data_identity.parent_screen.empty());
-  EXPECT_EQ(object_data_identity.mode, common::squish::CollectionMode::kNone);
   EXPECT_TRUE(error.empty());
 }
 

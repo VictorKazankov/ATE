@@ -104,7 +104,29 @@ TEST(MessageFactoryClientTest, CreateWaitForObjectRequest_ValidJsonMessage_Succe
   auto expected_message =
       R"({"id" :1,"jsonrpc":"2.0",
       "method":"WaitForObject",
-      "params":{"object_or_name":"object_name",
+      "params":{"name":"object_name",
+                "timeout_msec":1}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
+TEST(MessageFactoryClientTest, CreateWaitForObjectRequest_PassObjectDataIdentity_ValidJsonMessage) {
+  common::ObjectDataIdentity object_data_identity;
+  object_data_identity.name = "test_name";
+  object_data_identity.sync_version = "test_sync";
+  object_data_identity.build_version = "test_build";
+  object_data_identity.parent_screen = "test_parent_screen";
+  object_data_identity.mode = common::squish::CollectionMode::kNight;
+
+  auto request_message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_data_identity, 1, 1);
+  auto expected_message =
+      R"({"id" :1,"jsonrpc":"2.0",
+      "method":"WaitForObject",
+      "params":{"name":"test_name",
+                "sync_version":"test_sync",
+                "sync_build_version":"test_build",
+                "parent_screen":"test_parent_screen",
+                "sync_collection_mode":"NIGHT",
                 "timeout_msec":1}})";
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;

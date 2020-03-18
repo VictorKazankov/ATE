@@ -48,6 +48,7 @@ TEST(APITest, WaitForObject_NotConnected_Exception) {
   EXPECT_THROW(API::WaitForObject("test_unknown_name"), std::runtime_error);
   EXPECT_THROW(API::WaitForObject(squish::Object{}, kTimeMs), std::runtime_error);
   EXPECT_THROW(API::WaitForObject("test_unknown_name", kTimeMs), std::runtime_error);
+  EXPECT_THROW(API::WaitForObject(common::ObjectDataIdentity{}, kTimeMs), std::runtime_error);
 }
 
 TEST(APITest, TapObject_NotConnected_Exception) {
