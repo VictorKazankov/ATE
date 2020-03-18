@@ -163,7 +163,7 @@ std::pair<std::string, std::error_code> ATE::GetText(const cv::Point& point, con
 }
 
 std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const common::ObjectDataIdentity& pattern) {
-  return storage_.GetItemData(pattern);
+  return storage_.GetItemDataByWildcard(pattern);
 }
 
 std::pair<int, std::error_code> ATE::GetImagesDiscrepancy(const std::string& icon_path_second,

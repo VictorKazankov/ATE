@@ -5,8 +5,8 @@
 #include <string>
 
 #include <db_manager/access_credentials.h>
-#include <db_manager/icon_data_mapper.h>
 #include <db_manager/attribute_types.h>
+#include <db_manager/icon_data_mapper.h>
 
 #include "utils/object_data_type.h"
 
@@ -67,16 +67,16 @@ class DBManagerAdapter {
   cv::Mat GetItem(const std::string& name);
 
   /**
-   * @brief Gets item data by select pattern
-   * @param pattern Select pattern
-   * @return List of objects
+   * @brief Gets items data by wildcard
+   * @param wildcard Pattern identity object
+   * @return List of objects data
    */
-  std::vector<common::ObjectData> GetItemData(const std::string& pattern);
+  std::vector<common::ObjectData> GetItemDataByWildcard(const common::ObjectDataIdentity& wildcard);
 
   /**
-  * @brief Reload items from icon storage
-  * @return Empty error on success, error code otherwise
-  */
+   * @brief Reload items from icon storage
+   * @return Empty error on success, error code otherwise
+   */
   std::error_code ReloadStorage() noexcept;
 
  private:
