@@ -83,7 +83,9 @@ class DBManagerAdapter {
   std::unique_ptr<db_manager::IconDataMapper> CreateDataMapper(db_manager::AccessCredentials access_credentials) const;
   StorageConfig CreateConfiguration(std::string sync_version, std::string build_version,
                                     db_manager::HmiMode mode) const;
+  DBManagerError ValidateConfiguration(const StorageConfig& config) const;
   DBManagerError CheckConfiguration(const StorageConfig& config) const;
+  DBManagerError ChangeConfiguration(StorageConfig config);
 
   StorageConfig config_;
   std::unique_ptr<db_manager::IconDataMapper> icon_data_mapper_;

@@ -106,6 +106,25 @@ DBManagerAdapter::StorageConfig DBManagerAdapter::CreateConfiguration(std::strin
   return StorageConfig{std::move(sync_version), std::move(build_version), mode};
 }
 
+DBManagerError DBManagerAdapter::ValidateConfiguration(const StorageConfig& config) const {
+  if (config.sync_version.empty()) {
+    logger::critical("[DBManagerAdapter] ValidateConfiguration(): invalid config.sync_version value: {}",
+                     config.sync_version);
+    return DBManagerError::kInvalidSyncVersion;
+  }
+  if (config.build_version.empty()) {
+    logger::critical("[DBManagerAdapter] ValidateConfiguration(): invalid config.build_version value: {}",
+                     config.build_version);
+    return DBManagerError::kInvalidSyncBuildVersion;
+  }
+  if (config.mode != HmiMode::kDay && config.mode != HmiMode::kNight) {
+    logger::critical("[DBManagerAdapter] ValidateConfiguration(): invalid config.mode value: {} (aka {})",
+                     static_cast<int>(config.mode), HmiModeToString(config.mode));
+    return DBManagerError::kInvalidCollectionMode;
+  }
+  return DBManagerError::kSuccess;
+}
+
 DBManagerError DBManagerAdapter::CheckConfiguration(const StorageConfig& config) const {
   assert(icon_data_mapper_);
   if (!icon_data_mapper_) {
@@ -158,22 +177,29 @@ DBManagerError DBManagerAdapter::Init(const std::string& sync_version, const std
   }
 
   config_ = CreateConfiguration(sync_version, build_version, converters::ConfigStringToDbMode(mode));
-  return CheckConfiguration(config_);
+  return ValidateConfiguration(config_);
+}
+
+DBManagerError DBManagerAdapter::ChangeConfiguration(StorageConfig config) {
+  auto error = ValidateConfiguration(config);
+  if (error != DBManagerError::kSuccess) return error;
+
+  error = CheckConfiguration(config);
+  if (error != DBManagerError::kSuccess) return error;
+
+  config_ = std::move(config);
+  return DBManagerError::kSuccess;
 }
 
 DBManagerError DBManagerAdapter::ChangeSyncVersion(const std::string& sync_version, const std::string& build_version) {
   auto new_config = CreateConfiguration(sync_version, build_version, config_.mode);
-  DBManagerError error = CheckConfiguration(new_config);
-  if (error == DBManagerError::kSuccess) config_ = std::move(new_config);
-  return error;
+  return ChangeConfiguration(new_config);
 }
 
 DBManagerError DBManagerAdapter::ChangeCollectionMode(const std::string& collection_mode) {
   auto new_config = CreateConfiguration(config_.sync_version, config_.build_version,
                                         converters::ConfigStringToDbMode(collection_mode));
-  DBManagerError error = CheckConfiguration(new_config);
-  if (error == DBManagerError::kSuccess) config_ = std::move(new_config);
-  return error;
+  return ChangeConfiguration(new_config);
 }
 
 cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
@@ -183,6 +209,14 @@ cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
     return {};
   }
 
+  // Storage can change any time, so need to verify that selected config triplet <sync,build,mode> exists:
+  if (CheckConfiguration(config_) != DBManagerError::kSuccess) {
+    logger::error("[DBManagerAdapter] GetItem(): storage config {},{},{} is incompatible with current storage state",
+                  config_.sync_version, config_.build_version, HmiModeToString(config_.mode));
+    return {};
+  }
+
+  // Assemble identity as config triplet + name
   IconIdentity identity{config_.sync_version, config_.build_version, config_.mode, name};
 
   // Try to fetch Icon from storage, and if such Icon does not exist - simply return empty mat
