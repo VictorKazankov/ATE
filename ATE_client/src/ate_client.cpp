@@ -5,6 +5,7 @@
 
 #include "api.h"
 #include "error_defines.h"
+#include "message_factory/json_defines.h"
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
@@ -78,36 +79,36 @@ PYBIND11_MODULE(vhat_client, m) {
              std::string parent_name;
              common::squish::CollectionMode mode = common::squish::CollectionMode::kNone;
 
-             if (dict.contains("name")) {
-               auto name_value = dict["name"];
+             if (dict.contains(common::jmsg::kName)) {
+               auto name_value = dict[common::jmsg::kName];
                if (py::isinstance<py::str>(name_value)) {
                  name = name_value.cast<std::string>();
                }
              }
 
-             if (dict.contains("sync_version")) {
-               auto sync_version_value = dict["sync_version"];
+             if (dict.contains(common::jmsg::kSyncVersion)) {
+               auto sync_version_value = dict[common::jmsg::kSyncVersion];
                if (py::isinstance<py::str>(sync_version_value)) {
                  sync_version = sync_version_value.cast<std::string>();
                }
              }
 
-             if (dict.contains("build_version")) {
-               auto build_version_value = dict["build_version"];
+             if (dict.contains(common::jmsg::kSyncBuildVersion)) {
+               auto build_version_value = dict[common::jmsg::kSyncBuildVersion];
                if (py::isinstance<py::str>(build_version_value)) {
                  build_version = build_version_value.cast<std::string>();
                }
              }
 
-             if (dict.contains("parent_name")) {
-               auto parent_name_value = dict["parent_name"];
+             if (dict.contains(common::jmsg::kParentScreen)) {
+               auto parent_name_value = dict[common::jmsg::kParentScreen];
                if (py::isinstance<py::str>(parent_name_value)) {
                  parent_name = parent_name_value.cast<std::string>();
                }
              }
 
-             if (dict.contains("mode")) {
-               auto mode_value = dict["mode"];
+             if (dict.contains(common::jmsg::kSyncCollectionMode)) {
+               auto mode_value = dict[common::jmsg::kSyncCollectionMode];
                if (py::isinstance<common::squish::CollectionMode>(mode_value)) {
                  mode = mode_value.cast<common::squish::CollectionMode>();
                }
