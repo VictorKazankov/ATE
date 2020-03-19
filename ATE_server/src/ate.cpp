@@ -121,7 +121,7 @@ std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const common::ObjectData
   std::error_code match_error{common::AteError::kPatternNotFound};
   cv::Mat pattern;
 
-  auto objects = storage_.GetItemData(object_data_identity);
+  auto objects = storage_.GetItemDataByWildcard(object_data_identity);
   for (const auto& object : objects) {
     pattern = storage_.GetItem(object.name);
     const bool is_image = !pattern.empty();
