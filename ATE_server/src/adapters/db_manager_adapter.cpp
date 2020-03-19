@@ -8,6 +8,7 @@
 
 #include <db_manager/access_credentials.h>
 #include <db_manager/factory.h>
+#include <db_manager/icon_data.h>
 
 #include <opencv2/imgcodecs.hpp>
 
@@ -59,7 +60,7 @@ IconWildcard ObjectIdentityToDbWildcard(const common::ObjectDataIdentity& object
                       SquishModeToDbMode(object_identity.mode), object_identity.name, object_identity.parent_screen};
 }
 
-common::ObjectData DbIconToObjectData(const Icon& icon) {
+common::ObjectData DbIconDataToObjectData(const IconData& icon) {
   common::ObjectData result;
 
   result.name = icon.GetName();
@@ -245,12 +246,8 @@ std::vector<common::ObjectData> DBManagerAdapter::GetItemDataByWildcard(const co
   std::vector<common::ObjectData> result;
   auto match_results = icon_data_mapper_->Match(converters::ObjectIdentityToDbWildcard(wildcard));
   if (match_results) {
-    // TODO:
-    //   replace by mechanism that would not fetch Icon pixmap from storage as soon as it will be available in DbMgr
     std::transform(match_results->begin(), match_results->end(), std::back_inserter(result),
-                   [this](const IconIdentity& identity) {
-                     return converters::DbIconToObjectData(icon_data_mapper_->Get(identity));
-                   });
+                   converters::DbIconDataToObjectData);
   }
 
   return result;
