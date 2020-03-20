@@ -59,11 +59,21 @@ class DBManagerAdapter {
   adapter::DBManagerError ChangeCollectionMode(const std::string& collection_mode);
 
   /**
-   * @brief Get item from collection
+   * @brief Get item from collection. The function uses stored config
    * @param name Item name (key)
    * @return OpenCv Mat or empty Mat if item doesn't exist
    */
   cv::Mat GetItem(const std::string& name);
+  /**
+   * @brief Get item from collection
+   * @param name Item name (key)
+   * @param sync Sync version
+   * @param build Sync build
+   * @param mode Collection mode
+   * @return OpenCv Mat or empty Mat if item doesn't exist
+   */
+  cv::Mat GetItem(const std::string& name, const std::string& sync, const std::string& build,
+                  common::squish::CollectionMode mode);
 
   /**
    * @brief Gets items data by wildcard
@@ -86,6 +96,14 @@ class DBManagerAdapter {
   DBManagerError ValidateConfiguration(const StorageConfig& config) const;
   DBManagerError CheckConfiguration(const StorageConfig& config) const;
   DBManagerError ChangeConfiguration(StorageConfig config);
+
+  /**
+   * @brief Get item from collection
+   * @param name Item name (key)
+   * @param config Storage config: sync, build, mode
+   * @return OpenCv Mat or empty Mat if item doesn't exist
+   */
+  cv::Mat GetItem(const std::string& name, const StorageConfig& config);
 
   StorageConfig config_;
   std::unique_ptr<db_manager::IconDataMapper> icon_data_mapper_;

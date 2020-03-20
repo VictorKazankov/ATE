@@ -139,7 +139,7 @@ std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const common::ObjectData
 
   auto objects = storage_.GetItemDataByWildcard(object_data_identity);
   for (const auto& object : objects) {
-    pattern = storage_.GetItem(object.name);  // BUG
+    pattern = storage_.GetItem(object.name, object.sync_version, object.build_version, object.mode);
     const bool is_image = !pattern.empty();
     do {
       std::tie(match_area, match_error) =

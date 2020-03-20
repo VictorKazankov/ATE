@@ -203,7 +203,7 @@ DBManagerError DBManagerAdapter::ChangeCollectionMode(const std::string& collect
   return ChangeConfiguration(new_config);
 }
 
-cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
+cv::Mat DBManagerAdapter::GetItem(const std::string& name, const StorageConfig& config) {
   assert(icon_data_mapper_);
   if (!icon_data_mapper_) {
     logger::critical("[DBManagerAdapter] GetItem(): icon_data_mapper_ was not created");
@@ -211,14 +211,15 @@ cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
   }
 
   // Storage can change any time, so need to verify that selected config triplet <sync,build,mode> exists:
-  if (CheckConfiguration(config_) != DBManagerError::kSuccess) {
-    logger::error("[DBManagerAdapter] GetItem(): storage config {},{},{} is incompatible with current storage state",
-                  config_.sync_version, config_.build_version, HmiModeToString(config_.mode));
+  if (CheckConfiguration(config) != DBManagerError::kSuccess) {
+    logger::error(
+        "[DBManagerAdapter] GetItem(): storage config '{}','{}','{}' is incompatible with current storage state",
+        config.sync_version, config.build_version, HmiModeToString(config.mode));
     return {};
   }
 
   // Assemble identity as config triplet + name
-  IconIdentity identity{config_.sync_version, config_.build_version, config_.mode, name};
+  IconIdentity identity{config.sync_version, config.build_version, config.mode, name};
 
   // Try to fetch Icon from storage, and if such Icon does not exist - simply return empty mat
   try {
@@ -227,14 +228,23 @@ cv::Mat DBManagerAdapter::GetItem(const std::string& name) {
     if (!pixmap.empty()) {
       return cv::imdecode(cv::Mat(pixmap), cv::IMREAD_COLOR);
     } else {
-      logger::error("[DBManagerAdapter] read empty pixmap for Icon [{}, {}, {}, {}].", config_.sync_version,
-                    config_.build_version, HmiModeToString(config_.mode), name);
+      logger::error("[DBManagerAdapter] read empty pixmap for Icon ['{}', '{}', '{}', '{}'].", config.sync_version,
+                    config.build_version, HmiModeToString(config.mode), name);
       return {};
     }
   } catch (const DbManagerError&) {
     return {};
   }
+  return {};  // suppress compiler warning
 }
+
+cv::Mat DBManagerAdapter::GetItem(const std::string& name, const std::string& sync, const std::string& build,
+                                  common::squish::CollectionMode mode) {
+  StorageConfig config{sync, build, converters::SquishModeToDbMode(mode)};
+  return this->GetItem(name, config);
+}
+
+cv::Mat DBManagerAdapter::GetItem(const std::string& name) { return this->GetItem(name, config_); }
 
 std::vector<common::ObjectData> DBManagerAdapter::GetItemDataByWildcard(const common::ObjectDataIdentity& wildcard) {
   assert(icon_data_mapper_);
