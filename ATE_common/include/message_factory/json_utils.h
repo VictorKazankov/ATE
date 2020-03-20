@@ -72,7 +72,6 @@ bool CheckHeaderType(const Json::Value& value);
  * @param[in] params - structured value that holds the parameter values to be used
  * during the invocation of the 'WaitForObject' method
  *
- * @param[out] object_or_name
  * @param[out] object_data_identity Identity struct for performing search into DB
  * @param[out] timeout - object waiting duration
  * @param[out] error - error object, null on successs

@@ -64,6 +64,11 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
   std::chrono::milliseconds timeout;
   Json::Value error;
 
+  const bool is_wildcard = params.isMember(common::jmsg::kName) && params.isMember(common::jmsg::kSyncVersion) &&
+                           params.isMember(common::jmsg::kSyncBuildVersion) &&
+                           params.isMember(common::jmsg::kParentScreen) &&
+                           params.isMember(common::jmsg::kSyncCollectionMode);
+
   common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, error);
 
   if (!error.empty()) {
@@ -73,7 +78,8 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
 
   cv::Rect position;
   std::error_code error_code;
-  std::tie(position, error_code) = ate_.WaitForObject(object_data_identity, timeout);
+  std::tie(position, error_code) = is_wildcard ? ate_.WaitForObject(object_data_identity, timeout)
+                                               : ate_.WaitForObject(object_data_identity.name, timeout);
 
   // TODO: replace by switch! Hint: return from waitForObject enum
   if (error_code) {
