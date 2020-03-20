@@ -361,7 +361,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::GetImagesDiscrepancy(const Json:
 
   common::jmsg::ExtractGetImagesDiscrepancyParams(params, p2, p1, top_left_coordinate, bottom_right_coordinate, error);
 
-  // Creating the correct path to the screenshot
+  // Creating the correct path to the images
   fs::path icon_path_second{ATE_WRITABLE_DATA_PREFIX};
   icon_path_second /= p2;
 
@@ -384,6 +384,23 @@ std::pair<Json::Value, bool> AteMessageAdapter::GetImagesDiscrepancy(const Json:
   if (!fs::is_regular_file(icon_path_second, error_code) || !fs::exists(icon_path_second, error_code) ||
       !fs::is_regular_file(icon_path_first, error_code) || !fs::exists(icon_path_first, error_code)) {
     error = common::jmsg::CreateErrorObject(rpc::Error::kComparingImageNotExist, "Comparing image doesn't exist");
+    return std::make_pair(std::move(error), false);
+  }
+
+  // Check supported resolution
+  std::string icon_first_ext = fs::path(icon_path_first).extension();
+  std::transform(icon_first_ext.begin(), icon_first_ext.end(), icon_first_ext.begin(),
+                 [](unsigned char c) -> unsigned char { return std::toupper(c); });
+  std::string icon_second_ext = fs::path(icon_path_second).extension();
+  std::transform(icon_second_ext.begin(), icon_second_ext.end(), icon_second_ext.begin(),
+                 [](unsigned char c) -> unsigned char { return std::toupper(c); });
+  std::vector<std::string> supported_resolution{".PNG", ".JPG", ".JPEG"};
+  if (std::find(supported_resolution.begin(), supported_resolution.end(), icon_second_ext) ==
+          supported_resolution.end() ||
+      std::find(supported_resolution.begin(), supported_resolution.end(), icon_first_ext) ==
+          supported_resolution.end()) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kUnsupportedFileType,
+                                            "Compared images have unsupported file types");
     return std::make_pair(std::move(error), false);
   }
 

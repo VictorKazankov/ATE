@@ -78,6 +78,7 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::InvalidRectangleCoordinates>(m, "InvalidRectangleCoordinates");
   py::register_exception<squish::ComparingImageIncorrectSize>(m, "ComparingImageIncorrectSize");
   py::register_exception<squish::ComparingImageNotExist>(m, "ComparingImageNotExist");
+  py::register_exception<squish::UnsupportedFileType>(m, "UnsupportedFileType");
   py::register_exception<interaction::VideoStreamingError>(m, "VideoStreamingError");
   py::register_exception<interaction::NoConnectionEstablished>(m, "NoConnectionEstablished");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
@@ -371,7 +372,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'PermissionDenied' In case error read permissions"
         " 'runtime_error' In case system's errors"
         " 'NoConnectionEstablished' In case of no connection was established to server-side"
-        " 'invalid_argument' In case of invalid params sent to the server-side",
+        " 'invalid_argument' In case of invalid params sent to the server-side"
+        " 'UnsupportedFileType' In case of incorrect image file type",
         py::arg("icon_path_second"), py::arg("icon_path_first"),
         py::arg_v("point_top_left", common::Point(), "The top left coordinate of the comparison area"),
         py::arg_v("point_bottom_right", common::Point(), "The bottom right coordinate of the comparison area"));

@@ -64,6 +64,11 @@ class ComparingImageNotExist : public std::runtime_error {
   explicit ComparingImageNotExist() : std::runtime_error("Comparing image not exist") {}
 };
 
+class UnsupportedFileType : public std::runtime_error {
+ public:
+  explicit UnsupportedFileType() : std::runtime_error("Unsupported file type") {}
+};
+
 }  // namespace squish
 
 namespace interaction {

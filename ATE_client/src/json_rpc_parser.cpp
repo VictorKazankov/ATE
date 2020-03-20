@@ -76,6 +76,9 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
     case rpc::Error::kComparingImageNotExist:
       throw squish::ComparingImageNotExist{};
 
+    case rpc::Error::kUnsupportedFileType:
+      throw squish::UnsupportedFileType{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }

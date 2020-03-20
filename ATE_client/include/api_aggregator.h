@@ -305,6 +305,7 @@ class ApiAggregator {
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw UnsupportedFileType In case of incorrect image file type
    */
   int GetImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
                            const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate);
