@@ -21,6 +21,7 @@ constexpr auto kErrorData = "data";
 // Params names
 constexpr auto kObjectName = "object_or_name";
 constexpr auto kTimeoutMsec = "timeout_msec";
+constexpr auto kTimeInterval = "time_interval_msec";
 constexpr auto kAbscissa = "x";
 constexpr auto kOrdinate = "y";
 constexpr auto kAbscissaDrag = "dx";

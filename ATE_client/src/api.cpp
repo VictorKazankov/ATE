@@ -113,3 +113,8 @@ int API::GetImagesDiscrepancy(const std::string& icon_path_second, const std::st
   return GetApiAggregator().GetImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate,
                                                  bottom_right_coordinate);
 }
+
+std::vector<std::string> API::CaptureFrames(int interval, int duration, const common::Point& top_left,
+                                            const common::Point& bottom_right, const std::string& path) {
+  return GetApiAggregator().CaptureFrames(interval, duration, top_left, bottom_right, path);
+}

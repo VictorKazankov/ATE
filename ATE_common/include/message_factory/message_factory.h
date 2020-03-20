@@ -48,6 +48,9 @@ class MessageFactory {
     static std::string CreateGetObjectsDataByPatternRequest(const std::string& object_name, uint64_t id);
     static std::string CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity,
                                                             uint64_t id);
+    static std::string CreateCaptureFramesRequest(int interval, int duration, const common::Point& left_top,
+                                                  const common::Point& bottom_right, const std::string& path,
+                                                  uint64_t id);
   };
 
   /**

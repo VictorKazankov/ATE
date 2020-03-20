@@ -72,3 +72,13 @@ int AteApi::GetImagesDiscrepancy(const std::shared_ptr<interaction::Interaction>
   auto response = ate_interaction->SendCommand(message);
   return interaction::JsonRpcParser::ParseGetImagesDiscrepancy(response);
 }
+
+std::vector<std::string> AteApi::CaptureFrames(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                               const uint64_t& correlation_id, int interval, int duration,
+                                               const common::Point& top_left, const common::Point& bottom_right,
+                                               const std::string& path) const {
+  auto message = common::jmsg::MessageFactory::Client::CreateCaptureFramesRequest(interval, duration, top_left,
+                                                                                  bottom_right, path, correlation_id);
+  auto response = ate_interaction->SendCommand(message);
+  return interaction::JsonRpcParser::ParseCaptureFrames(response);
+}

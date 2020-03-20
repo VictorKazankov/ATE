@@ -19,6 +19,7 @@ constexpr auto kGetScreenshot = "GetScreenshot";
 constexpr auto kGetText = "GetText";
 constexpr auto kGetObjectsDataByPattern = "GetObjectsDataByPattern";
 constexpr auto kGetImagesDiscrepancy = "GetImagesDiscrepancy";
+constexpr auto kCaptureFrames = "CaptureFrames";
 
 }  // namespace jmsg
 }  // namespace common

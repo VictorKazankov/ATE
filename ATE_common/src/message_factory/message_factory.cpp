@@ -284,6 +284,31 @@ std::string MessageFactory::Client::CreateGetImagesDiscrepancyRequest(const std:
   return writer.write(message);
 }
 
+/*
+ * [{time_interval_msec, timeout_msec, x_top_left, y_top_left, x_bottom_right, y_bottom_right, location}]
+ */
+std::string MessageFactory::Client::CreateCaptureFramesRequest(int interval, int duration,
+                                                               const common::Point& left_top,
+                                                               const common::Point& bottom_right,
+                                                               const std::string& path, uint64_t id) {
+  Json::Value params;
+  Json::FastWriter writer;
+  params[kTimeInterval] = interval;
+  params[kTimeoutMsec] = duration;
+  params[kXTopLeft] = left_top.x;
+  params[kYTopLeft] = left_top.y;
+  params[kXBottomRight] = bottom_right.x;
+  params[kYBottomRight] = bottom_right.y;
+  params[kLocation] = path.empty() ? "." : path;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kCaptureFrames, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 

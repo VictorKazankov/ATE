@@ -472,4 +472,16 @@ PYBIND11_MODULE(vhat_client, m) {
         py::arg("icon_path_second"), py::arg("icon_path_first"),
         py::arg_v("point_top_left", common::Point(), "The top left coordinate of the comparison area"),
         py::arg_v("point_bottom_right", common::Point(), "The bottom right coordinate of the comparison area"));
+
+  m.def("captureFrames", &API::CaptureFrames,
+        "CaptureFrames provides capturing video frames of desired area at a specified interval and duration"
+        "Throws:"
+        " 'VideoStreamNotFound' In case of the video stream is not available"
+        " 'PermissionDenied' In case of server does not have permission to make directory"
+        " 'ImageAssemblingFailed' In case of server can't save the screenshot"
+        " 'NoConnectionEstablished' In case of no connection was established to server-side"
+        " 'InvalidDurationLongPress' In case if the duration is longer than 5s"  // TODO rename
+        " 'runtime_error' In case system's errors"
+        " 'invalid_argument' In case of invalid params sent to the server-side",
+        py::arg("interval"), py::arg("duration"), py::arg("top_left"), py::arg("bottom_right"), py::arg("path"));
 }

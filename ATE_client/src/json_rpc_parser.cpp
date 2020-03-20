@@ -254,3 +254,27 @@ int JsonRpcParser::ParseGetImagesDiscrepancy(const std::string& rpc) {
 
   return discrepancy_percent;
 }
+
+/*
+ * A JSON response contains an array of next structures of objects in data section:
+ * [{filename: [...]}]
+ */
+std::vector<std::string> JsonRpcParser::ParseCaptureFrames(const std::string& rpc) {
+  // If Error - thrown exception
+  Json::Value schema = RpcStringToJsonStruct(rpc);
+
+  std::vector<std::string> file_list;
+
+  // Parse
+  auto& result = schema[common::jmsg::kResult];
+  if (result.isMember(common::jmsg::kFileName)) {
+    for (const auto& node : result[common::jmsg::kFileName]) {
+      try {
+        file_list.emplace_back(node.asCString());
+      } catch (const Json::LogicError& err) {
+        logger::error("[ParseCaptureFrames] Argument error: wrong type of response {}", err.what());
+      }
+    }
+  }
+  return file_list;
+}

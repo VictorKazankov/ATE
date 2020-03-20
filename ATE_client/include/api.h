@@ -324,6 +324,25 @@ std::vector<squish::Object> GetObjectsDataByPattern(const squish::Wildcard& wild
 int GetImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
                          const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate);
 
+/**
+ * @brief CaptureFrames saves frames in specified path with desired area and returns an array of stored frame names
+ * @param interval Interval in milliseconds
+ * @param duration Duration in milleseconds (max 5s - 5000ms)
+ * @param top_left Top left point
+ * @param bottom_right Bottom right point
+ * @param path Path where frames will be stored
+ * @return List of frame names
+ * @throw VideoStreamNotFound In case of the video stream is not available
+ * @throw PermissionDenied In case of server does not have permission to make directory
+ * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
+ * @throw InternalError In case of file system errors, bad alloc
+ * @throw NoConnectionEstablished In case of no connection was established to server-side
+ * @throw InvalidDurationLongPress In case if the duration is longer than 5s. // TODO rename
+ * @throw invalid_argument In case of the invalid arguments in request
+ */
+std::vector<std::string> CaptureFrames(int interval, int duration, const common::Point& top_left,
+                                       const common::Point& bottom_right, const std::string& path);
+
 }  // namespace API
 
 #endif  // API_H_

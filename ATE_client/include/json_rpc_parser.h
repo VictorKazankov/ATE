@@ -58,6 +58,13 @@ class JsonRpcParser {
    */
   static int ParseGetImagesDiscrepancy(const std::string& rpc);
 
+  /**
+   * @brief The function parses CaptureFrames and forming a list with frame names
+   * @param rpc Response string for checking
+   * @return List of frame names
+   */
+  static std::vector<std::string> ParseCaptureFrames(const std::string& rpc);
+
  private:
   /**
    * @brief RpcStringToJsonStruct performs transformation and validation for responses as RPC string, throws an
