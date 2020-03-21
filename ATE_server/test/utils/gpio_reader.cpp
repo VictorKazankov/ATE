@@ -40,9 +40,24 @@ void GpioReaderTest::TearDown() {
   gpio_reader_.reset();
 }
 
-TEST_F(GpioReaderTest, GetStatus_GpioNotSupported_Success) {
-  std::unique_ptr<GpioReader> reader = std::make_unique<GpioReader>("");
-  EXPECT_TRUE(reader->GetStatus()) << "Status should be on";
+TEST_F(GpioReaderTest, CheckGpioAvailable_GpioNotSupported_Failure) {
+  std::unique_ptr<GpioReader> reader_of_nothing = std::make_unique<GpioReader>("");
+  EXPECT_FALSE(reader_of_nothing->CheckGpioAvailable()) << "Gpio should be unvailable";
+}
+
+TEST_F(GpioReaderTest, CheckGpioAvailable_GpioNotExist_Failure) {
+  std::unique_ptr<GpioReader> reader_of_not_exist = std::make_unique<GpioReader>("/a/not/exit/path");
+  EXPECT_FALSE(reader_of_not_exist->CheckGpioAvailable()) << "Gpio should be unavailable";
+}
+
+TEST_F(GpioReaderTest, CheckGpioAvailable_GpioUnknowValue_Failure) {
+  std::ofstream(gpio_path_ / kValue) << "Invalid value";
+  EXPECT_FALSE(gpio_reader_->CheckGpioAvailable()) << "Gpio should be unavailable";
+}
+
+TEST_F(GpioReaderTest, GetStatus_GpioUnvailable_Failure) {
+  std::unique_ptr<GpioReader> reader_of_nothing = std::make_unique<GpioReader>("");
+  EXPECT_FALSE(reader_of_nothing->GetStatus()) << "Status should be off";
 }
 
 TEST_F(GpioReaderTest, GetStatus_GpioOn_Sucess) {
@@ -50,19 +65,9 @@ TEST_F(GpioReaderTest, GetStatus_GpioOn_Sucess) {
   EXPECT_TRUE(gpio_reader_->GetStatus()) << "Status should be on";
 }
 
-TEST_F(GpioReaderTest, GetStatus_GpioOff_Sucess) {
+TEST_F(GpioReaderTest, GetStatus_GpioOff_Failure) {
   std::ofstream(gpio_path_ / kValue) << "0";
   EXPECT_FALSE(gpio_reader_->GetStatus()) << "Status should be off";
-}
-
-TEST_F(GpioReaderTest, GetStatus_GpioUnknowValue_Failure) {
-  std::ofstream(gpio_path_ / "value") << "unknown value";
-  EXPECT_FALSE(gpio_reader_->GetStatus()) << "Gpio should not return the status";
-}
-
-TEST_F(GpioReaderTest, GetStatus_GpioNotExist_Failure) {
-  GpioReader gpio_reader_not_exit("/a/not/exit/path");
-  EXPECT_FALSE(gpio_reader_not_exit.GetStatus()) << "Gpio should not return the status";
 }
 
 }  // namespace
