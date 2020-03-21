@@ -104,13 +104,15 @@ std::error_code ScreenshotErrorToStdErrorCode(utils::ScreenshotError screenshot_
 
 ATE::ATE()
     : interaction_{InteractionFactory(common::Config().GetString(kInteraction, kInteractionType, {}))},
-      matcher_{streamer::MakeStreamer(),
-               detector::MakeImageDetector(
-                   StrToDetectorType(common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType,
-                                                                kMultiscaleTemplateMatching)),
-                   common::Config().GetDouble(kImageDetectorSection, kImageDetectorConfidenceOption, {})),
-               factory::CreateTextDetector(common::Config().GetString(kDBSection, kTargetOption, {})),
-               MakeScreenshotRecorder(), std::make_unique<utils::GpioVideoStatus>()} {
+      matcher_{
+          streamer::MakeStreamer(),
+          detector::MakeImageDetector(
+              StrToDetectorType(common::Config().GetString(kImageDetectorSection, kImageDetectorMatchingType,
+                                                           kMultiscaleTemplateMatching)),
+              common::Config().GetDouble(kImageDetectorSection, kImageDetectorConfidenceOption, {})),
+          factory::CreateTextDetector(common::Config().GetString(kDBSection, kTargetOption, {})),
+          MakeScreenshotRecorder(),
+          std::make_unique<utils::GpioVideoStatus>(utils::GetEnvSettings(utils::EnvSettings::kGpioVideoStatusPath))} {
   // Init storage
   auto storage_result =
       storage_.Init(adapter::CreateDBManager(), common::Config().GetString(kDBSection, kTargetOption, {}),

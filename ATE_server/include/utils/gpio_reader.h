@@ -18,14 +18,23 @@ class GpioReader {
   explicit GpioReader(const std::string& path);
 
   /**
-   * @brief read the the status of value attribute
-   * @return if gpio is disable or not exported, return true
-   * if gpio is configure and exported return gpio value (if value is 0 return false otherwise return false)
+   * @brief Read the the status of value attribute
+   * @return Return gpio value on succeed (e.g. gpio supported and available)
+   *         on failure return false
    */
   bool GetStatus() const;
+
+  /**
+   * @brief Check if the gpio file system is available to use
+   * @return Return true if gpio path has been available for using
+   *         otherwise return false
+   */
+  bool CheckGpioAvailable() const;
+
   ~GpioReader();
 
  private:
+  std::string GetValuePath() const { return {gpio_path_ + "/value"}; };
   std::string gpio_path_;
 };
 

@@ -24,7 +24,7 @@ class VideoStatus {
  */
 class GpioVideoStatus : public VideoStatus {
  public:
-  explicit GpioVideoStatus();
+  explicit GpioVideoStatus(const std::string& gpio_path);
   ~GpioVideoStatus() final;
 
   GpioVideoStatus(const GpioVideoStatus&) = delete;
