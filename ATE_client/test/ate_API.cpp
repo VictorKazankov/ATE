@@ -133,3 +133,14 @@ TEST_F(AteApiTest, GetImagesDiscrepancy_ValidResponse_ExpectedResult) {
   auto discrepancy = api.GetImagesDiscrepancy(mock_, 1, "path1", "path2", {0, 0}, {100, 100});
   EXPECT_EQ(discrepancy, expected_discrepancy);
 }
+
+TEST_F(AteApiTest, CaptureFrames_PassValidParams_ValidResponse) {
+  std::string valid_response(R"({"id":1,"jsonrpc":"2.0","result": {"filename":["file1.png","file2.png"]} })");
+
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
+
+  API::AteApi api;
+  auto file_list = api.CaptureFrames(mock_, 1, 1, 50, common::Point(), common::Point(), ".");
+
+  EXPECT_EQ(file_list.size(), 2) << "expected the list of two filenames";
+}

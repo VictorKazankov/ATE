@@ -209,6 +209,16 @@ TEST(MessageFactoryClientTest, CreateGetImageDiscrepancyRequest_InputData_ValidJ
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
+TEST(MessageFactoryClientTest, CreateCaptureFramesRequest_ValidData_ExpectedMessage) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreateCaptureFramesRequest(2, 100, common::Point(1, 2),
+                                                                                          common::Point(4, 5), ".", 1);
+  auto expected_message =
+      R"({"id":1,"jsonrpc":"2.0","method":"CaptureFrames","params":{"time_interval_msec":2,"timeout_msec":100,
+          "x_top_left":1,"y_top_left":2,"x_bottom_right":4,"y_bottom_right":5,"location":"."}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
 TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedResponse_ValidResponse_Success) {
   auto response = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse();
   EXPECT_EQ(Json::Value{true}, response);
@@ -285,7 +295,7 @@ TEST(MessageFactoryServerTest, CreateResponse_InvalidServerResponse_Failure) {
   auto server_response_failure = common::jmsg::MessageFactory::Server::CreateResponse(0, Json::Value{false}, false);
   auto expected_failure_response = R"({"error":false,"id":null,"jsonrpc":"2.0"})";
   EXPECT_TRUE(JsonComparator(server_response_failure, expected_failure_response))
-      << "Response mesasge: " << server_response_failure << " Expected response: " << expected_failure_response;
+      << "Response message: " << server_response_failure << " Expected response: " << expected_failure_response;
 }
 
 TEST(MessageFactoryServerTest, CreateGetObjectsDataByPatternResponse_ValidServerResponse_Success) {
@@ -327,6 +337,18 @@ TEST(MessageFactoryServerTest, CreateGetImageDiscrepancyResponse_ValidServerResp
 
   auto response = common::jmsg::MessageFactory::Server::CreateGetImagesDiscrepancyResponse(10);
   EXPECT_EQ(response, expected_response) << "Incorrect response.";
+}
+
+TEST(MessageFactoryServerTest, CreateCaptureFramesResponse_ListOfFilenames_ValidResponse) {
+  std::string expected_str = R"({"filename":["frame1.png","frame2.png","frame3.png"]})";
+  Json::Reader reader;
+  Json::Value expected;
+
+  reader.parse(expected_str, expected);
+  auto response = common::jmsg::MessageFactory::Server::CreateCaptureFramesResponse(
+      std::vector<std::string>{"frame1.png", "frame2.png", "frame3.png"});
+  EXPECT_EQ(response, expected) << "Response message: " << response.toStyledString()
+                                << " Expected response: " << expected_str;
 }
 
 }  // namespace
