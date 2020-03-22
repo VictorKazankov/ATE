@@ -44,6 +44,14 @@ bool Matcher::GrabNewFrame() {
   return result;
 }
 
+std::error_code Matcher::GetFrame(cv::Mat& frame, const cv::Rect& area) {
+  if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
+    return common::make_error_code(common::AteError::kVideoTemporarilyUnavailable);
+  }
+  frame = area.empty() ? screen_ : screen_(area);
+  return {};
+}
+
 std::pair<cv::Rect, std::error_code> Matcher::MatchImage(const std::string& object, const cv::Mat& pattern) {
   if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     logger::error("[matcher] Video stream unavailable");
@@ -108,13 +116,22 @@ void Matcher::ChangePreprocessingList(const std::string& sync_version) {
   };
 }
 
-std::error_code Matcher::GetScreenshot(const std::string& file_name, const std::string& file_path) {
+std::error_code Matcher::GetScreenshot(const std::string& file_name, const std::string& file_path,
+                                       const cv::Rect& area) {
   if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     logger::error("[matcher] Video stream unavailable");
     return {common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
   }
+  if (!area.empty()) {
+    const cv::Rect screen_rect{0, 0, screen_.size().width, screen_.size().height};
+    if (!screen_rect.contains(area.tl()) || !screen_rect.contains(area.br())) {
+      logger::error("[matcher] Desired area is out of screen boundaries");
+      return {common::make_error_code(common::AteError::kOutOfBoundaries)};
+    }
+  }
 
-  utils::ScreenshotError screenshot_error = utils::ScreenshotRecorder::GetScreenshot(screen_, file_name, file_path);
+  utils::ScreenshotError screenshot_error =
+      utils::ScreenshotRecorder::GetScreenshot(area.empty() ? screen_ : screen_(area), file_name, file_path);
 
   if (screenshot_error != utils::ScreenshotError::kSuccess) {
     switch (screenshot_error) {

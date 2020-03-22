@@ -90,6 +90,7 @@ class MessageFactory {
     static Json::Value CreateGetTextResultObject(const std::string& text);
     static Json::Value CreateGetObjectsDataByPatternResponse(const std::vector<ObjectData>& objects_data);
     static Json::Value CreateGetImagesDiscrepancyResponse(int percent_discrepancy);
+    static Json::Value CreateCaptureFramesResponse(const std::vector<std::string>& frame_list);
   };
 };
 

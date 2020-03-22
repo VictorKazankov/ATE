@@ -140,6 +140,18 @@ class ATE {
                                                        const cv::Point& top_left_coordinate,
                                                        const cv::Point& bottom_right_coordinate) const;
 
+  /**
+   * @brief CaptureFrames saves captured frames per interval with specified duration
+   * @param interval Interval in miliseconds
+   * @param duratin Duration in miliseconds
+   * @param area Desired area
+   * @param path Path where frames stored
+   * @param error If an error ocurred than error parameter will be filled, otherwise empty
+   * @return List of frame names
+   */
+  std::vector<std::string> CaptureFrames(size_t interval, size_t duration, const cv::Rect& area,
+                                         const std::string& path, std::error_code& error);
+
  private:
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;

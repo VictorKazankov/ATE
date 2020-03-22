@@ -207,7 +207,7 @@ void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_l
                                  Json::Value& error);
 
 /**
- * Extracts params for 'GetObjectsDataByPattern' method
+ * @brief Extracts params for 'GetObjectsDataByPattern' method
  * @param params Structured value that holds the parameter values to be used
  * @param object_data_identity Identity struct for performing search into DB
  * @param object_name Name of Object
@@ -229,6 +229,19 @@ void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string
 void ExtractGetImagesDiscrepancyParams(const Json::Value& params, std::string& icon_path_second,
                                        std::string& icon_path_first, common::Point& top_left_coordinate,
                                        common::Point& bottom_right_coordinate, Json::Value& error);
+
+/**
+ * @brief Extracts params for 'CaptureFrames' method
+ * @param params Structured value that holds the parameter values to be used
+ * @param interval Interval in miliseconds
+ * @param duratin Duration in miliseconds
+ * @param top_left Top left coordinate
+ * @param bottom_right Bottom-right coordinate
+ * @param path Path where stored frames
+ * @param error Error object, null on success
+ */
+void ExtractCaptureFramesParams(const Json::Value& params, int& interval, int& duration, common::Point& top_left,
+                                common::Point& bottom_right, std::string& path, Json::Value& error);
 
 }  // namespace jmsg
 }  // namespace common

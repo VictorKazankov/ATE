@@ -38,10 +38,11 @@ class ScreenshotRecorder {
 
   /**
    * @brief Saves screenshot to file
-   * @param frame frame to save to file
-   * @return true if successful, otherwise - false
+   * @param frame Frame to save to file
+   * @param filename Filename (short name)
+   * @return True if successful, otherwise - false
    **/
-  bool SaveScreenshot(const cv::Mat& frame) const;
+  bool SaveScreenshot(const cv::Mat& frame, const std::string& filename = "") const;
 
   /**
    * @brief Saves screenshot to file with highlight area
@@ -73,10 +74,16 @@ class ScreenshotRecorder {
    * @return true if screenshot saved, otherwise - false
    **/
   static ScreenshotError GetScreenshot(const cv::Mat& color_frame, const std::string& path,
-                                        const std::string& file_name);
+                                       const std::string& file_name);
+
+  /**
+   * @brief Creates directory from path
+   * @param path Full path to directory
+   * @return Error whether failed to create directory, otherwise empty error
+   **/
+  static std::error_code MakeDirectories(const fs::path& dir);
 
  private:
-  static std::error_code MakeDirectories(const fs::path& dir);
   fs::path GetFileName(const std::string& file_suffix = "") const;
 };
 }  // namespace utils

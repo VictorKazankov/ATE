@@ -23,6 +23,27 @@ inline bool IsWildcardParam(const Json::Value& params) {
          params.isMember(common::jmsg::kSyncBuildVersion) && params.isMember(common::jmsg::kParentScreen) &&
          params.isMember(common::jmsg::kSyncCollectionMode);
 }
+
+Json::Value ConvertScreenshotErrorCodeToObjectError(const std::error_code& error_code) {
+  Json::Value result_error;
+  if (error_code) {
+    if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
+    } else if (error_code == common::AteError::kEmptyFileName) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kEmptyFileName, error_code.message().c_str());
+    } else if (error_code == common::AteError::kWrongExtension) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kWrongExtension, error_code.message().c_str());
+    } else if (error_code == common::AteError::kPermissionDenied) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kPermissionDenied, error_code.message().c_str());
+    } else if (error_code == common::AteError::kImageAssemblingFailed) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kImageAssemblingFailed, error_code.message().c_str());
+    } else {
+      logger::warn("[ate message adapter] unhandled error {}", error_code.message());
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
+    }
+  }
+  return result_error;
+}
 }  // namespace
 
 AteMessageAdapter::AteMessageAdapter(ATE& ate)
@@ -40,7 +61,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot},
                    {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText},
                    {common::jmsg::kGetObjectsDataByPattern, &AteMessageAdapter::HandleGetObjectsDataByPattern},
-                   {common::jmsg::kGetImagesDiscrepancy, &AteMessageAdapter::GetImagesDiscrepancy}} {}
+                   {common::jmsg::kGetImagesDiscrepancy, &AteMessageAdapter::GetImagesDiscrepancy},
+                   {common::jmsg::kCaptureFrames, &AteMessageAdapter::HandleCaptureFrames}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -289,20 +311,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetScreenshot(const Json::
   std::error_code error_code = ate_.GetScreenshot(location, filename);
 
   if (error_code) {
-    if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
-      result_error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
-    } else if (error_code == common::AteError::kEmptyFileName) {
-      result_error = common::jmsg::CreateErrorObject(rpc::Error::kEmptyFileName, error_code.message().c_str());
-    } else if (error_code == common::AteError::kWrongExtension) {
-      result_error = common::jmsg::CreateErrorObject(rpc::Error::kWrongExtension, error_code.message().c_str());
-    } else if (error_code == common::AteError::kPermissionDenied) {
-      result_error = common::jmsg::CreateErrorObject(rpc::Error::kPermissionDenied, error_code.message().c_str());
-    } else if (error_code == common::AteError::kImageAssemblingFailed) {
-      result_error = common::jmsg::CreateErrorObject(rpc::Error::kImageAssemblingFailed, error_code.message().c_str());
-    } else {
-      logger::warn("[ate message adapter] unhandled error {}", error_code.message());
-      result_error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
-    }
+    result_error = ConvertScreenshotErrorCodeToObjectError(error_code);
     return std::make_pair(std::move(result_error), false);
   }
 
@@ -483,6 +492,30 @@ std::pair<Json::Value, bool> AteMessageAdapter::GetImagesDiscrepancy(const Json:
   }
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetImagesDiscrepancyResponse(result.first), true);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleCaptureFrames(const Json::Value& params) {
+  Json::Value error;
+  int interval{}, duration{};
+  common::Point top_left, bottom_right;
+  std::string path;
+
+  common::jmsg::ExtractCaptureFramesParams(params, interval, duration, top_left, bottom_right, path, error);
+
+  if (!error.empty()) {
+    // Extract error occurs
+    return std::make_pair(std::move(error), false);
+  }
+
+  std::error_code screenshot_error;
+  auto res = ate_.CaptureFrames(interval, duration,
+                                cv::Rect(cv::Point{top_left.x, top_left.y}, cv::Point{bottom_right.x, bottom_right.y}),
+                                path, screenshot_error);
+  if (screenshot_error) {
+    error = ConvertScreenshotErrorCodeToObjectError(screenshot_error);
+    return std::make_pair(std::move(error), false);
+  }
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateCaptureFramesResponse(res), !screenshot_error);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {

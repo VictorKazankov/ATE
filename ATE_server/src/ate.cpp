@@ -1,6 +1,12 @@
 #include "ate.h"
 
+#include <atomic>
+#include <condition_variable>
+#include <future>
+#include <mutex>
+#include <queue>
 #include <stdexcept>
+#include <thread>
 #include <utility>
 
 #include <recognition/factory.h>
@@ -20,6 +26,7 @@
 #include "video_streaming/streamer_factory.h"
 
 using namespace defines;
+namespace fs = std::experimental::filesystem;
 
 namespace {
 
@@ -199,4 +206,141 @@ std::pair<int, std::error_code> ATE::GetImagesDiscrepancy(const std::string& ico
                                                           const cv::Point& top_left_coordinate,
                                                           const cv::Point& bottom_right_coordinate) const {
   return matcher_.GetImagesDiscrepancy(icon_path_second, icon_path_first, top_left_coordinate, bottom_right_coordinate);
+}
+
+std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, const cv::Rect& area,
+                                            const std::string& sub_path, std::error_code& error) {
+  using namespace std::chrono_literals;
+  constexpr const auto kLimitTime = 5s;
+
+  if (std::chrono::milliseconds(duration) > kLimitTime) {
+    error = common::make_error_code(common::AteError::kInvalidDurationLongPress);  // TODO
+    return {};
+  }
+
+  error = utils::ScreenshotRecorder::MakeDirectories(fs::path(ATE_WRITABLE_DATA_PREFIX) / sub_path);
+  if (error) return {};
+
+  std::vector<std::string> result;
+  result.reserve(0u == interval ? duration : duration / interval + 1);
+
+  std::queue<std::pair<std::string, cv::Mat>> queue_frames;
+  std::atomic_bool getting_frames{true};
+  std::atomic_bool error_occur{false};
+  std::mutex mut;
+  std::condition_variable cond_var;
+
+  // perform saving frames in the other thread
+  std::thread save_thr([sub_path, &queue_frames, &getting_frames, &error_occur, &result, &mut, &cond_var]() {
+    std::vector<std::pair<std::string, cv::Mat>> frames;
+    std::vector<std::future<bool>> future_frames;
+    bool log_left_unsaved_frames{true};
+    utils::ScreenshotRecorder recorder(true, sub_path);
+    auto fn_recorder = [&recorder](const cv::Mat& frame, const std::string& filename) {
+      return recorder.SaveScreenshot(frame, filename);
+    };
+
+    while (true) {
+      if (getting_frames) {
+        std::unique_lock<std::mutex> lk(mut);
+        cond_var.wait(lk, [&getting_frames, &queue_frames]() { return !getting_frames || !queue_frames.empty(); });
+        while (!queue_frames.empty()) {
+          frames.emplace_back(std::move(queue_frames.front().first), std::move(queue_frames.front().second));
+          queue_frames.pop();
+        }
+      } else {
+        while (!queue_frames.empty()) {
+          frames.emplace_back(std::move(queue_frames.front().first), std::move(queue_frames.front().second));
+          queue_frames.pop();
+        }
+        if (log_left_unsaved_frames) {
+          log_left_unsaved_frames = false;
+          logger::debug("Left unsaved frames in container after duration was end: {}\nFrame size: {} bytes",
+                        frames.size(), frames.empty() ? 0 : frames[0].second.total() * frames[0].second.elemSize());
+        }
+      }
+
+      future_frames.reserve(frames.size());
+      for (auto& item : frames) {
+        future_frames.push_back(
+            std::async(std::launch::async | std::launch::deferred, fn_recorder, item.second, item.first));
+      }
+
+      for (size_t i = 0; i < future_frames.size(); ++i) {
+        if (future_frames[i].get()) {
+          result.push_back(std::move(frames[i].first));
+        } else {
+          error_occur = true;
+        }
+      }
+
+      if (error_occur) {
+        logger::error("Error occurred in the child thread");
+        break;
+      }
+
+      frames.clear();
+      future_frames.clear();
+
+      if (!getting_frames && queue_frames.empty()) break;
+    }
+  });
+
+  constexpr auto kCharSize = 100;
+  char time_cstr[kCharSize];
+  auto const time_point = std::chrono::steady_clock::now() + std::chrono::milliseconds(duration);
+  auto elapsed_interval_processing = std::chrono::steady_clock::now();
+  size_t counter = 0;
+  std::string filename;
+
+  do {
+    cv::Mat frame;
+    error = matcher_.GetFrame(frame, area);
+    if (!error) {
+      // define file name as timestamp year_month_day_hours_minutes_seconds_(%d).png
+      std::time_t t = std::time(nullptr);
+      std::memset(time_cstr, 0, kCharSize * sizeof(*time_cstr));
+      std::strftime(time_cstr, kCharSize, "%y_%m_%d_%H_%M_%S(", std::localtime(&t));
+      filename = time_cstr;
+      filename.append(std::to_string(++counter) + ").png");
+
+      std::lock_guard<std::mutex> lock(mut);
+      queue_frames.emplace(filename, std::move(frame));
+    } else {
+      logger::error("Unable to get video frame");
+      cond_var.notify_one();
+      continue;
+    }
+
+    cond_var.notify_one();
+
+    if (0u != interval) {
+      const auto elapsed_ms = std::chrono::duration_cast<std::chrono::duration<size_t, std::milli>>(
+                                  std::chrono::steady_clock::now() - elapsed_interval_processing)
+                                  .count();
+      if (elapsed_ms < interval) {
+        elapsed_interval_processing = std::chrono::steady_clock::now();
+        // track time spent on processing with specified interval
+        std::this_thread::sleep_for(std::chrono::milliseconds(interval - elapsed_ms));
+      } else {
+        // the thread is late on processing, that means no sense to sleep if even interval > 0
+        elapsed_interval_processing =
+            std::chrono::steady_clock::now() - std::chrono::milliseconds(elapsed_ms - interval);
+      }
+    }
+  } while (!error_occur && std::chrono::steady_clock::now() < time_point);
+
+  getting_frames = false;
+  cond_var.notify_one();
+
+  if (save_thr.joinable()) {
+    save_thr.join();
+  }
+
+  if (error_occur) {
+    error = common::make_error_code(common::AteError::kImageAssemblingFailed);
+    logger::error("Caught error in main thread from child thread");
+  }
+
+  return result;
 }

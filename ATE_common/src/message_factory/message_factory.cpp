@@ -284,7 +284,8 @@ std::string MessageFactory::Client::CreateGetImagesDiscrepancyRequest(const std:
   return writer.write(message);
 }
 
-/*
+/**
+ * A JSON request contains next data in data section:
  * [{time_interval_msec, timeout_msec, x_top_left, y_top_left, x_bottom_right, y_bottom_right, location}]
  */
 std::string MessageFactory::Client::CreateCaptureFramesRequest(int interval, int duration,
@@ -404,6 +405,19 @@ Json::Value MessageFactory::Server::CreateGetImagesDiscrepancyResponse(int perce
   return result;
 }
 
+/**
+ * A JSON response contains a percent of discrepancy two images in the data section:
+ * [{filename: [...]}]
+ */
+Json::Value MessageFactory::Server::CreateCaptureFramesResponse(const std::vector<std::string>& frame_list) {
+  Json::Value result;
+  for (const auto& frame : frame_list) {
+    Json::Value node(frame);
+    result[kFileName].append(node);
+  }
+  return result;
+}
+
 std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(int x, int y, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
@@ -416,7 +430,7 @@ std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(int 
   message[kParams] = params;
 
   return writer.write(message);
-}
+}  // namespace jmsg
 
 Json::Value MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse() { return Json::Value{true}; }
 

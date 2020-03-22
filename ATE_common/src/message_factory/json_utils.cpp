@@ -356,7 +356,26 @@ void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string
   try {
     object_name = params[kName].asCString();
   } catch (const Json::LogicError& wrong_params) {
-    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetText params");
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetObjectsDataByPattern params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+    return;
+  }
+}
+
+void ExtractCaptureFramesParams(const Json::Value& params, int& interval, int& duration, common::Point& top_left,
+                                common::Point& bottom_right, std::string& path, Json::Value& error) {
+  error.clear();
+  try {
+    interval = params[kTimeInterval].asUInt();
+    duration = params[kTimeoutMsec].asUInt();
+    top_left.x = params[kXTopLeft].asInt();
+    top_left.y = params[kYTopLeft].asInt();
+    bottom_right.x = params[kXBottomRight].asInt();
+    bottom_right.y = params[kYBottomRight].asInt();
+    path = params[kLocation].asCString();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid CaptureFrames params");
     logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
                   wrong_params.what());
     return;

@@ -154,6 +154,14 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> GetImagesDiscrepancy(const Json::Value& params);
 
   /**
+   * @brief Handler for CaptureFrames
+   * @param params CaptureFrames params
+   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandleCaptureFrames(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */

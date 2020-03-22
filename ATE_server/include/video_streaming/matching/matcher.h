@@ -57,6 +57,14 @@ class Matcher {
   Matcher& operator=(Matcher&&) = delete;
 
   /**
+   * @brief GetFrame grabs frame from stream
+   * @param frame Output frame from stream
+   * @param area Desired area
+   * @return Error if an error occured while reading frame
+   */
+  std::error_code GetFrame(cv::Mat& frame, const cv::Rect& area = cv::Rect());
+
+  /**
    * @brief MatchImage provide image detection of the pattern on TDK screen
    * @param object - object name
    * @param pattern - pattern image
@@ -88,11 +96,13 @@ class Matcher {
 
   /**
    * @brief The function gets screenshot from the current screen
-   * @param file_name name of screenshot file
-   * @param file_path location for saving screenshot with prefix 'screenshots_store_dir_'
-   * @return error code in case screenshot failed, otherwise empty error_code
+   * @param file_name Name of screenshot file
+   * @param file_path Location for saving screenshot with prefix 'screenshots_store_dir_'
+   * @param area Desiread area
+   * @return Error code in case screenshot failed, otherwise empty error_code
    */
-  std::error_code GetScreenshot(const std::string& file_name, const std::string& file_path);
+  std::error_code GetScreenshot(const std::string& file_name, const std::string& file_path,
+                                const cv::Rect& area = cv::Rect());
 
   /**
    * @brief The function extracts text from predefined area in accordance with coordinates

@@ -87,12 +87,17 @@ fs::path ScreenshotRecorder::GetFileName(const std::string& file_suffix) const {
   return store_file;
 }
 
-bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame) const {
-  fs::path store_file = GetFileName();
+bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const std::string& filename) const {
+  fs::path store_file = filename.empty() ? GetFileName() : (screenshots_store_dir_ / filename);
 
   if (store_file.empty()) return false;
 
-  cv::imwrite(store_file.c_str(), frame);
+  try {
+    cv::imwrite(store_file.c_str(), frame);
+  } catch (std::runtime_error& err) {
+    logger::error("[screenshot_recorder] SaveScreenshot is failed: {}", err.what());
+    return false;
+  }
 
   logger::info("[screenshot_recorder] Screenshot was stored to {}", store_file);
 
