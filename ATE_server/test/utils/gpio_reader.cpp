@@ -50,9 +50,9 @@ TEST_F(GpioReaderTest, CheckGpioAvailable_GpioNotExist_Failure) {
   EXPECT_FALSE(reader_of_not_exist->CheckGpioAvailable()) << "Gpio should be unavailable";
 }
 
-TEST_F(GpioReaderTest, CheckGpioAvailable_GpioUnknowValue_Failure) {
+TEST_F(GpioReaderTest, GetStatus_GpioUnknowValue_Failure) {
   std::ofstream(gpio_path_ / kValue) << "Invalid value";
-  EXPECT_FALSE(gpio_reader_->CheckGpioAvailable()) << "Gpio should be unavailable";
+  EXPECT_FALSE(gpio_reader_->GetStatus()) << "Status should be off";
 }
 
 TEST_F(GpioReaderTest, GetStatus_GpioUnvailable_Failure) {

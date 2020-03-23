@@ -36,6 +36,7 @@ class GpioReader {
  private:
   std::string GetValuePath() const { return {gpio_path_ + "/value"}; };
   std::string gpio_path_;
+  bool is_gpio_exist_;
 };
 
 }  // namespace utils

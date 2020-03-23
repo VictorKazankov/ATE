@@ -8,42 +8,37 @@
 
 namespace utils {
 
-GpioReader::GpioReader(const std::string& path) : gpio_path_(path) {}
-GpioReader::~GpioReader() {}
+GpioReader::GpioReader(const std::string& path) : gpio_path_(path) {
+  std::ifstream fs_value(GetValuePath(), std::ifstream::in);
 
-bool GpioReader::CheckGpioAvailable() const {
-  if (gpio_path_.empty()) {
-    return false;
+  if (!gpio_path_.empty() && fs_value.is_open()) {
+    is_gpio_exist_ = true;
   } else {
-    std::ifstream fs_value(GetValuePath(), std::ifstream::in);
-    if (!fs_value.is_open()) {
-      logger::error("[gpio reader] open file {} error {}", GetValuePath(), strerror(errno));
-      return false;
-    }
-
-    std::string procesing_line;
-    if (!std::getline(fs_value, procesing_line)) {
-      logger::error("[gpio reader] reading file {} error {}", GetValuePath(), strerror(errno));
-      return false;
-    }
-
-    if (procesing_line != "0" && procesing_line != "1") {
-      logger::error("[gpio reader] line processing {} unknown value error", procesing_line);
-      return false;
-    }
-    return true;
+    logger::info("[gpio reader] GPIO file system not exist");
+    is_gpio_exist_ = false;
   }
 }
 
+GpioReader::~GpioReader() {}
+
+bool GpioReader::CheckGpioAvailable() const { return is_gpio_exist_; }
+
 bool GpioReader::GetStatus() const {
-  if (!CheckGpioAvailable()) {
+  std::string value;
+  if (!is_gpio_exist_) {
     return false;
   } else {
     std::ifstream fs_value(GetValuePath(), std::ifstream::in);
-    std::string value;
-    std::getline(fs_value, value);
-    return (value == "1");
+    if (!std::getline(fs_value, value)) {
+      logger::error("[gpio reader] reading file {} error {}", GetValuePath(), strerror(errno));
+      return false;
+    }
+    if (value != "0" && value != "1") {
+      logger::error("[gpio reader] line processing {} unknown value error", value);
+      return false;
+    }
   }
+  return (value == "1");
 }
 
 }  // namespace utils
