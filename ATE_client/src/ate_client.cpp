@@ -10,6 +10,7 @@
 #include "utils/squish_types.h"
 
 namespace py = pybind11;
+using namespace common::jmsg;
 
 namespace {
 const uint32_t kDefaultLongPressTimeout = 2000;
@@ -22,27 +23,29 @@ PYBIND11_MODULE(vhat_client, m) {
       .def(py::init())
       .def("detach", &squish::ApplicationContext::Detach)
       .def_property_readonly("isRunning", &squish::ApplicationContext::IsRunning)
-      .def_property_readonly("host", &squish::ApplicationContext::host)
-      .def_property_readonly("port", &squish::ApplicationContext::port);
+      .def_property_readonly(kHost, &squish::ApplicationContext::host)
+      .def_property_readonly(kPort, &squish::ApplicationContext::port);
 
   py::class_<common::Point>(m, "ScreenPoint")
       .def(py::init())
-      .def(py::init<int&, int&>(), "", py::arg("x"), py::arg("y"))
-      .def_readwrite("x", &common::Point::x)
-      .def_readwrite("y", &common::Point::y);
+      .def(py::init<int&, int&>(), "", py::arg(kAbscissa), py::arg(kOrdinate))
+      .def_readwrite(kAbscissa, &common::Point::x)
+      .def_readwrite(kOrdinate, &common::Point::y);
 
   py::class_<common::Rect>(m, "ScreenRectangle")
       .def(py::init())
-      .def(py::init<int&, int&, int&, int&>(), "", py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"))
-      .def_readwrite("x", &common::Rect::x)
-      .def_readwrite("y", &common::Rect::y)
-      .def_readwrite("width", &common::Rect::width)
-      .def_readwrite("height", &common::Rect::height);
+      .def(py::init<int&, int&, int&, int&>(), "", py::arg(kAbscissa), py::arg(kOrdinate), py::arg(kWidth),
+           py::arg(kHeight))
+      .def_readwrite(kAbscissa, &common::Rect::x)
+      .def_readwrite(kOrdinate, &common::Rect::y)
+      .def_readwrite(kWidth, &common::Rect::width)
+      .def_readwrite(kHeight, &common::Rect::height);
 
   py::class_<squish::Object>(m, "object")
       .def(py::init())
-      .def(py::init<int, int>(), "", py::arg("x"), py::arg("y"))
-      .def(py::init<int, int, int, int>(), "", py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"))
+      .def(py::init<int, int>(), "", py::arg(kAbscissa), py::arg(kOrdinate))
+      .def(py::init<int, int, int, int>(), "", py::arg(kAbscissa), py::arg(kOrdinate), py::arg(kWidth),
+           py::arg(kHeight))
       .def("exists", [](const squish::Object&, std::string& object_name) { return API::Exists(object_name); },
            "This function returns a true value if the object with the symbolic or real (multi-property) "
            "name objectName exists; otherwise it returns a false value."
@@ -54,21 +57,21 @@ PYBIND11_MODULE(vhat_client, m) {
            py::arg("objectName"))
       .def_property_readonly("topLeft", &squish::Object::TopLeft)
       .def_property_readonly("bottomRight", &squish::Object::BottomRight)
-      .def_readwrite("x", &squish::Object::x)
-      .def_readwrite("y", &squish::Object::y)
-      .def_readwrite("width", &squish::Object::width)
-      .def_readwrite("height", &squish::Object::height)
-      .def_readwrite("x_top_left", &squish::Object::x_top_left)
-      .def_readwrite("y_top_left", &squish::Object::y_top_left)
-      .def_readwrite("x_bottom_right", &squish::Object::x_bottom_right)
-      .def_readwrite("y_bottom_right", &squish::Object::y_bottom_right)
-      .def_readwrite("parent_width", &squish::Object::parent_width)
-      .def_readwrite("parent_height", &squish::Object::parent_height)
-      .def_readwrite("sync_version", &squish::Object::sync_version)
-      .def_readwrite("build_version", &squish::Object::build_version)
-      .def_readwrite("mode", &squish::Object::mode)
-      .def_readwrite("name", &squish::Object::name)
-      .def_readwrite("parent_screen", &squish::Object::parent_screen);
+      .def_readwrite(kAbscissa, &squish::Object::x)
+      .def_readwrite(kOrdinate, &squish::Object::y)
+      .def_readwrite(kWidth, &squish::Object::width)
+      .def_readwrite(kHeight, &squish::Object::height)
+      .def_readwrite(kXTopLeft, &squish::Object::x_top_left)
+      .def_readwrite(kYTopLeft, &squish::Object::y_top_left)
+      .def_readwrite(kXBottomRight, &squish::Object::x_bottom_right)
+      .def_readwrite(kYBottomRight, &squish::Object::y_bottom_right)
+      .def_readwrite(kParentWidth, &squish::Object::parent_width)
+      .def_readwrite(kParentHeight, &squish::Object::parent_height)
+      .def_readwrite(kSyncVersion, &squish::Object::sync_version)
+      .def_readwrite(kSyncBuildVersion, &squish::Object::build_version)
+      .def_readwrite(kSyncCollectionMode, &squish::Object::mode)
+      .def_readwrite(kName, &squish::Object::name)
+      .def_readwrite(kParentScreen, &squish::Object::parent_screen);
 
   py::class_<squish::Wildcard>(m, "Wildcard")
       .def("__init__",
@@ -79,35 +82,35 @@ PYBIND11_MODULE(vhat_client, m) {
              std::string parent_name;
              common::squish::CollectionMode mode = common::squish::CollectionMode::kNone;
 
-             if (dict.contains(common::jmsg::kName)) {
+             if (dict.contains(kName)) {
                auto name_value = dict[common::jmsg::kName];
                if (py::isinstance<py::str>(name_value)) {
                  name = name_value.cast<std::string>();
                }
              }
 
-             if (dict.contains(common::jmsg::kSyncVersion)) {
+             if (dict.contains(kSyncVersion)) {
                auto sync_version_value = dict[common::jmsg::kSyncVersion];
                if (py::isinstance<py::str>(sync_version_value)) {
                  sync_version = sync_version_value.cast<std::string>();
                }
              }
 
-             if (dict.contains(common::jmsg::kSyncBuildVersion)) {
+             if (dict.contains(kSyncBuildVersion)) {
                auto build_version_value = dict[common::jmsg::kSyncBuildVersion];
                if (py::isinstance<py::str>(build_version_value)) {
                  build_version = build_version_value.cast<std::string>();
                }
              }
 
-             if (dict.contains(common::jmsg::kParentScreen)) {
+             if (dict.contains(kParentScreen)) {
                auto parent_name_value = dict[common::jmsg::kParentScreen];
                if (py::isinstance<py::str>(parent_name_value)) {
                  parent_name = parent_name_value.cast<std::string>();
                }
              }
 
-             if (dict.contains(common::jmsg::kSyncCollectionMode)) {
+             if (dict.contains(kSyncCollectionMode)) {
                auto mode_value = dict[common::jmsg::kSyncCollectionMode];
                if (py::isinstance<common::squish::CollectionMode>(mode_value)) {
                  mode = mode_value.cast<common::squish::CollectionMode>();
@@ -120,11 +123,11 @@ PYBIND11_MODULE(vhat_client, m) {
            " 'NoConnectionEstablished' in case of no connection was established to server-side"
            " 'invalid_argument' in case of class was filled by invalid params"
            " 'runtime_error' in case of internal error, parse error, etc.")
-      .def_readwrite("name", &squish::Wildcard::name)
-      .def_readwrite("sync_version", &squish::Wildcard::sync_version)
-      .def_readwrite("build_version", &squish::Wildcard::build_version)
-      .def_readwrite("parent_name", &squish::Wildcard::parent_screen)
-      .def_readwrite("mode", &squish::Wildcard::mode)
+      .def_readwrite(kName, &squish::Wildcard::name)
+      .def_readwrite(kSyncVersion, &squish::Wildcard::sync_version)
+      .def_readwrite(kSyncBuildVersion, &squish::Wildcard::build_version)
+      .def_readwrite(kParentScreen, &squish::Wildcard::parent_screen)
+      .def_readwrite(kSyncCollectionMode, &squish::Wildcard::mode)
       .def("getMatchObjects", &squish::Wildcard::GetMatchObjects,
            "This function returns results that matches to defined criterion, "
            "the non-empty list of the 'squish::objects' if pattern matches to any object in the database, "
