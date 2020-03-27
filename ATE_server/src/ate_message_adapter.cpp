@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <utility>
+#include <experimental/filesystem>
 
 #include "json/value.h"
 
@@ -13,6 +14,8 @@
 #include "message_factory/message_factory.h"
 #include "rpc_error.h"
 #include "utils/squish_types.h"
+
+namespace fs = std::experimental::filesystem;
 
 AteMessageAdapter::AteMessageAdapter(ATE& ate)
     : ate_(ate),
