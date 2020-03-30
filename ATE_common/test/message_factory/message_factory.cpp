@@ -167,6 +167,15 @@ TEST(MessageFactoryClientTest, CreateGetScreenshotRequest_ValidJsonMessage_Succe
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
+TEST(MessageFactoryClientTest, CreateGetObjectsDataByPatternRequest_InputObjectName_ValidJsonMessage) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreateGetObjectsDataByPatternRequest("test_name", 1);
+  auto expected_message =
+      R"({"id":1,"jsonrpc":"2.0","method":"GetObjectsDataByPattern","params":{"name":"test_name"}})";
+
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
 TEST(MessageFactoryClientTest, CreateGetObjectsDataByPatternRequest_InputData_ValidJsonMessage) {
   auto request_message = common::jmsg::MessageFactory::Client::CreateGetObjectsDataByPatternRequest(
       {"test_name", "sync3", "revision1", common::squish::CollectionMode::kDay, "main"}, 1);

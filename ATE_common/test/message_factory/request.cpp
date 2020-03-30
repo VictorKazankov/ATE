@@ -649,6 +649,18 @@ TEST(ExtractGetObjectsDataByPatternParamsTest, ExtractGetObjectsDataByPatternPar
   EXPECT_TRUE(error.empty()) << "Error code exist.";
 }
 
+TEST(ExtractGetObjectsDataByPatternParamsTest,
+     ExtractGetObjectsDataByPatternParamsObjectName_ValidType_ExpectedObjectName) {
+  Json::Value error;
+  Json::Value params;
+  std::string object_name;
+  params[common::jmsg::kName] = "test_name";
+
+  EXPECT_NO_THROW(common::jmsg::ExtractGetObjectsDataByPatternParams(params, object_name, error));
+  EXPECT_EQ(object_name, "test_name");
+  EXPECT_TRUE(error.empty()) << "Error code exist.";
+}
+
 TEST(ExtractGetImagesDiscrepancyParamsTest, ExtractGetImagesDiscrepancyParams_InvalidRequestType_InvalidParamsError) {
   Json::Value error;
 
