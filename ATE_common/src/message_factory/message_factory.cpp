@@ -223,6 +223,23 @@ std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& to
 
 /**
  * A JSON request contains next data in data section:
+ * [{name}]
+ */
+std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const std::string& object_name, int id) {
+  Json::Value params;
+  Json::FastWriter writer;
+
+  params[kName] = object_name;
+
+  Json::Value message;
+  CreatePackageStructure(message, kGetObjectsDataByPattern, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
+/**
+ * A JSON request contains next data in data section:
  * [{object_data_identity}]
  */
 std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity,

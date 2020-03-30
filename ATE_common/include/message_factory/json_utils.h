@@ -210,10 +210,12 @@ void ExtractGetTextRequestParams(const Json::Value& params, common::Point& top_l
  * Extracts params for 'GetObjectsDataByPattern' method
  * @param params Structured value that holds the parameter values to be used
  * @param object_data_identity Identity struct for performing search into DB
+ * @param object_name Name of Object
  * @param error Error object, null on success
  */
 void ExtractGetObjectsDataByPatternParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
                                           Json::Value& error);
+void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string& object_name, Json::Value& error);
 
 /**
  * @brief Extracts params for 'GetImagesDiscrepancy' method

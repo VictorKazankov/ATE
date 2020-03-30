@@ -288,12 +288,14 @@ class ApiAggregator {
   /**
    * @brief Gets object list by selecting a pattern
    * @param wildcard Pattern for selection
+   * @param object_name Name of Object
    * @return List of objects
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    */
   std::vector<squish::Object> GetObjectsDataByPattern(const squish::Wildcard& wildcard);
+  std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_name);
 
   /**
    * @brief Gets the difference between the two images as a percentage

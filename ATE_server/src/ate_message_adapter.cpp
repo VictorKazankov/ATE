@@ -1,8 +1,8 @@
 #include "ate_message_adapter.h"
 
 #include <cassert>
-#include <utility>
 #include <experimental/filesystem>
+#include <utility>
 
 #include "json/value.h"
 
@@ -16,6 +16,14 @@
 #include "utils/squish_types.h"
 
 namespace fs = std::experimental::filesystem;
+
+namespace {
+inline bool IsWildcardParam(const Json::Value& params) {
+  return params.isMember(common::jmsg::kName) && params.isMember(common::jmsg::kSyncVersion) &&
+         params.isMember(common::jmsg::kSyncBuildVersion) && params.isMember(common::jmsg::kParentScreen) &&
+         params.isMember(common::jmsg::kSyncCollectionMode);
+}
+}  // namespace
 
 AteMessageAdapter::AteMessageAdapter(ATE& ate)
     : ate_(ate),
@@ -67,10 +75,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::
   std::chrono::milliseconds timeout;
   Json::Value error;
 
-  const bool is_wildcard = params.isMember(common::jmsg::kName) && params.isMember(common::jmsg::kSyncVersion) &&
-                           params.isMember(common::jmsg::kSyncBuildVersion) &&
-                           params.isMember(common::jmsg::kParentScreen) &&
-                           params.isMember(common::jmsg::kSyncCollectionMode);
+  const bool is_wildcard = IsWildcardParam(params);
 
   common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, error);
 
@@ -349,14 +354,19 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleGetObjectsDataByPattern(co
   Json::Value error;
   common::ObjectDataIdentity object_data_identity;
 
-  common::jmsg::ExtractGetObjectsDataByPatternParams(params, object_data_identity, error);
+  const bool is_wildcard = IsWildcardParam(params);
+  logger::info("DEBUG: HandleGetObjectsDataByPattern is wildcard {}", is_wildcard);
+
+  is_wildcard ? common::jmsg::ExtractGetObjectsDataByPatternParams(params, object_data_identity, error)
+              : common::jmsg::ExtractGetObjectsDataByPatternParams(params, object_data_identity.name, error);
 
   if (!error.empty()) {
     // Extract error occurs
     return std::make_pair(std::move(error), false);
   }
 
-  auto res = ate_.GetObjectsDataByPattern(object_data_identity);
+  auto res = is_wildcard ? ate_.GetObjectsDataByPattern(object_data_identity)
+                         : ate_.GetObjectsDataByPattern(object_data_identity.name);
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateGetObjectsDataByPatternResponse(res), true);
 }

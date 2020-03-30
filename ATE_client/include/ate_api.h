@@ -81,6 +81,7 @@ class AteApi {
    * @param object_pattern Pattern for selection
    * @param correlation_id Correlation id for RPC
    * @param wildcard Pattern for selection
+   * @param object_name Name of Object
    * @return List of objects
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
@@ -88,6 +89,10 @@ class AteApi {
   std::vector<squish::Object> GetObjectsDataByPattern(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                                       const uint64_t& correlation_id,
                                                       const squish::Wildcard& wildcard) const;
+
+  std::vector<squish::Object> GetObjectsDataByPattern(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                                      const uint64_t& correlation_id,
+                                                      const std::string& object_name) const;
 
   /**
    * @brief Gets the difference between the two images as a percentage

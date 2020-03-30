@@ -176,6 +176,11 @@ std::string ApiAggregator::GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16
   return ate_api_.GetText(ate_interaction_, GetCorrelationId(), x1, y1, x2, y2);
 }
 
+std::vector<squish::Object> ApiAggregator::GetObjectsDataByPattern(const std::string& object_name) {
+  ThrowExceptionIfNoConnectionEstablished();
+  return ate_api_.GetObjectsDataByPattern(ate_interaction_, GetCorrelationId(), object_name);
+}
+
 std::vector<squish::Object> ApiAggregator::GetObjectsDataByPattern(const squish::Wildcard& wildcard) {
   ThrowExceptionIfNoConnectionEstablished();
   return ate_api_.GetObjectsDataByPattern(ate_interaction_, GetCorrelationId(), wildcard);

@@ -183,7 +183,13 @@ std::pair<std::string, std::error_code> ATE::GetText(const cv::Point& point, con
 }
 
 std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const common::ObjectDataIdentity& pattern) {
+  logger::debug("GetObjectsDataByPattern(wildcard)");
   return storage_.GetItemDataByWildcard(pattern);
+}
+
+std::vector<common::ObjectData> ATE::GetObjectsDataByPattern(const std::string& object_name) {
+  logger::debug("GetObjectsDataByPattern(string)");
+  return storage_.GetItemData(object_name);
 }
 
 std::pair<int, std::error_code> ATE::GetImagesDiscrepancy(const std::string& icon_path_second,

@@ -351,6 +351,18 @@ void ExtractGetObjectsDataByPatternParams(const Json::Value& params, ObjectDataI
   }
 }
 
+void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string& object_name, Json::Value& error) {
+  error.clear();
+  try {
+    object_name = params[kName].asCString();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid GetText params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+    return;
+  }
+}
+
 void ExtractGetImagesDiscrepancyParams(const Json::Value& params, std::string& icon_path_second,
                                        std::string& icon_path_first, common::Point& top_left_coordinate,
                                        common::Point& bottom_right_coordinate, Json::Value& error) {

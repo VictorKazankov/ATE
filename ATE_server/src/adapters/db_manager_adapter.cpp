@@ -263,4 +263,14 @@ std::vector<common::ObjectData> DBManagerAdapter::GetItemDataByWildcard(const co
   return result;
 }
 
+std::vector<common::ObjectData> DBManagerAdapter::GetItemData(const std::string& object_name) {
+  if (object_name.empty()) {  // it's workaround, because empty object name in wildcard means as asterisk
+    return {};
+  }
+
+  common::ObjectDataIdentity identity{object_name, config_.sync_version, config_.build_version,
+                                      converters::DbModeToSquishMode(config_.mode), "*"};
+
+  return GetItemDataByWildcard(identity);
+}
 }  // namespace adapter

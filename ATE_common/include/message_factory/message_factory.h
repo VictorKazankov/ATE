@@ -43,6 +43,7 @@ class MessageFactory {
                                                          const std::string& icon_path_first,
                                                          const common::Point& top_left_coordinate,
                                                          const common::Point& bottom_right_coordinate, int id);
+    static std::string CreateGetObjectsDataByPatternRequest(const std::string& object_name, int id);
     static std::string CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity, int id);
   };
 

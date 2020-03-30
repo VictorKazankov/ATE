@@ -82,6 +82,13 @@ class DBManagerAdapter {
    */
   std::vector<common::ObjectData> GetItemDataByWildcard(const common::ObjectDataIdentity& wildcard);
 
+  /**
+   * @brief Gets item data by object name using initialized config params(sync, build, mode)
+   * @param object_name Name of Object
+   * @return List of objects data
+   */
+  std::vector<common::ObjectData> GetItemData(const std::string& object_name);
+
  private:
   struct StorageConfig {
     std::string sync_version;
@@ -107,7 +114,7 @@ class DBManagerAdapter {
 
   StorageConfig config_;
   std::unique_ptr<db_manager::IconDataMapper> icon_data_mapper_;
-};
+};  // namespace adapter
 
 }  // namespace adapter
 
