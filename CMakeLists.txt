@@ -33,10 +33,7 @@ option(ATE_TESTING "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
 option(ATE_PACKAGE "Create Debian package" OFF)
-
-# The icon storage path is universal for whole VDP project and must never change
 set(ATE_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for ATE writable data directories" )
-set(VHAT_ICON_STORAGE_PREFIX "${ATE_WRITABLE_DATA_PREFIX}/icon_storage" CACHE STRING "Prefix for ATE icon storage")
 
 # All configs must be placed into <install prefix>/etc/vdp
 if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
@@ -64,7 +61,6 @@ message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
 message(STATUS "ATE_PACKAGE: " ${ATE_PACKAGE})
 message(STATUS "ATE_INSTALL_SERVER_SERVICE: " ${ATE_INSTALL_SERVER_SERVICE})
 message(STATUS "ATE_WRITABLE_DATA_PREFIX: " ${ATE_WRITABLE_DATA_PREFIX})
-message(STATUS "VHAT_ICON_STORAGE_PREFIX: " ${VHAT_ICON_STORAGE_PREFIX})
 
 add_subdirectory(third_party)
 add_subdirectory(ATE_common/src)
