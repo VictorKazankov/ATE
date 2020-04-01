@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# Create and set permissions to writable data directory
+mkdir -p @ATE_WRITABLE_DATA_PREFIX@
+
+readonly USER=nvidia
+readonly GROUP=nvidia
+echo "Changing owner of @ATE_WRITABLE_DATA_PREFIX@ to ${USER}:${GROUP}..."
+chown --recursive ${USER}:${GROUP} @ATE_WRITABLE_DATA_PREFIX@
+test $? -eq 0 && echo "Ok" || echo "error: failed to set owner of @ATE_WRITABLE_DATA_PREFIX@ to ${USER}:${GROUP}"
+
+readonly PERMISSIONS="a+rw"
+echo "Changing permissions of @ATE_WRITABLE_DATA_PREFIX@ to ${PERMISSIONS}..."
+chmod --recursive ${PERMISSIONS} @ATE_WRITABLE_DATA_PREFIX@
+test $? -eq 0 && echo "Ok" || echo "error: failed to set permissions of @ATE_WRITABLE_DATA_PREFIX@ to ${PERMISSIONS}"
+
+# Enable and start service if build is configured so
 if [ "@ATE_INSTALL_SERVER_SERVICE@" = "ON" ]; then
     systemctl enable vdp_ate_server
     systemctl start vdp_ate_server
