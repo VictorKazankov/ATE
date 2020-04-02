@@ -54,8 +54,8 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
     case rpc::Error::kInvalidSyncCollectionMode:
       throw squish::InvalidSyncCollectionMode{};
 
-    case rpc::Error::kInvalidDurationLongPress:
-      throw squish::InvalidDurationLongPress{};
+    case rpc::Error::kInvalidDuration:
+      throw squish::InvalidDuration{};
 
     case rpc::Error::kEmptyFileName:
       throw squish::EmptyScreenshotFileName{};

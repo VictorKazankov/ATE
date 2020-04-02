@@ -24,7 +24,7 @@ enum class Error {
   kPermissionDenied = -32008,
   kEmptyFileName = -32007,
   // Long press error
-  kInvalidDurationLongPress = -32006,
+  kInvalidDuration = -32006,
   kReloadStorageError = -32005,
   // Sync configuration changed error
   kInvalidSyncCollectionMode = -32004,

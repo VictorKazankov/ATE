@@ -24,9 +24,9 @@ class InvalidSyncCollectionMode : public std::runtime_error {
   explicit InvalidSyncCollectionMode() : std::runtime_error{"Invalid sync collection mode"} {}
 };
 
-class InvalidDurationLongPress : public std::runtime_error {
+class InvalidDuration : public std::runtime_error {
  public:
-  explicit InvalidDurationLongPress() : std::runtime_error{"Too long press action duration"} {}
+  explicit InvalidDuration() : std::runtime_error{"Too long action duration"} {}
 };
 
 class EmptyScreenshotFileName : public std::runtime_error {

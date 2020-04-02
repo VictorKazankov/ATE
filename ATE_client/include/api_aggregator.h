@@ -113,7 +113,7 @@ class ApiAggregator {
    * @param x Relative coordinates in the object, optional
    * @param y Relative coordinates in the object, optional
    * @param timeout_msec Timeout in miliseconds between press event and release event, optional
-   * @throw InvalidDurationLongPress In case if the press is longer than 60 seconds.
+   * @throw InvalidDuration In case if the press is longer than 60 seconds.
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
@@ -327,7 +327,7 @@ class ApiAggregator {
    * @return List of frame names
    * @throw VideoStreamNotFound In case of the video stream is not available
    * @throw PermissionDenied In case of server does not have permission to make directory
-   * @throw InvalidDurationLongPress In case if the duration longer than 5 sec // TODO rename
+   * @throw InvalidDuration In case if the duration longer than 5 sec
    * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
    * @throw InternalError In case of file system errors, bad alloc
    * @throw NoConnectionEstablished In case of no connection was established to server-side

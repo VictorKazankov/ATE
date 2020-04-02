@@ -163,8 +163,8 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleLongPress(const Json::Valu
   std::error_code error_code;
   error_code = ate_.LongPress(x, y, timeout);
 
-  if (error_code == common::AteError::kInvalidDurationLongPress) {
-    error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidDurationLongPress, error_code.message().c_str());
+  if (error_code == common::AteError::kInvalidDuration) {
+    error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidDuration, error_code.message().c_str());
   }
 
   if (!error.empty()) {

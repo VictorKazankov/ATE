@@ -23,10 +23,10 @@ TEST(AteErrorTest, MakeErrorCode_VideoTemporarilyUnavailable_Success) {
   EXPECT_STREQ(code.message().c_str(), "Video output is temporary unavailable");
 }
 
-TEST(AteErrorTest, MakeErrorCode_InvalidDurationLongPress_Success) {
-  auto code = common::make_error_code(common::AteError::kInvalidDurationLongPress);
-  EXPECT_EQ(code, common::AteError::kInvalidDurationLongPress) << "Error code: " << code.message() << "\n";
-  EXPECT_STREQ(code.message().c_str(), "Too long press action duration");
+TEST(AteErrorTest, MakeErrorCode_InvalidDuration_Success) {
+  auto code = common::make_error_code(common::AteError::kInvalidDuration);
+  EXPECT_EQ(code, common::AteError::kInvalidDuration) << "Error code: " << code.message() << "\n";
+  EXPECT_STREQ(code.message().c_str(), "Too long action duration");
 }
 
 TEST(AteErrorTest, MakeErrorCode_EmptyFileName_Success) {
@@ -64,7 +64,7 @@ TEST(AteErrorTest, MakeErrorrCode_WrongErrorType_Failure) {
   EXPECT_NE(code, common::AteError::kPatternInvalid) << "Error code: " << code.message() << "\n";
   EXPECT_NE(code, common::AteError::kPatternNotFound) << "Error code: " << code.message() << "\n";
   EXPECT_NE(code, common::AteError::kVideoTemporarilyUnavailable) << "Error code: " << code.message() << "\n";
-  EXPECT_NE(code, common::AteError::kInvalidDurationLongPress) << "Error code: " << code.message() << "\n";
+  EXPECT_NE(code, common::AteError::kInvalidDuration) << "Error code: " << code.message() << "\n";
   EXPECT_STREQ(code.message().c_str(), "Unrecognized Error");
 }
 

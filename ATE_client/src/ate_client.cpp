@@ -137,7 +137,7 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::InvalidSyncVersion>(m, "InvalidSyncVersion");
   py::register_exception<squish::InvalidSyncBuildVersion>(m, "InvalidSyncBuildVersion");
   py::register_exception<squish::InvalidSyncCollectionMode>(m, "InvalidSyncCollectionMode");
-  py::register_exception<squish::InvalidDurationLongPress>(m, "InvalidDurationLongPress");
+  py::register_exception<squish::InvalidDuration>(m, "InvalidDuration");
   py::register_exception<squish::EmptyScreenshotFileName>(m, "EmptyScreenshotFileName");
   py::register_exception<squish::WrongScreenshotExtension>(m, "WrongScreenshotExtension");
   py::register_exception<squish::PermissionDenied>(m, "PermissionDenied");
@@ -388,7 +388,7 @@ PYBIND11_MODULE(vhat_client, m) {
   m.def(
       "longPress", py::overload_cast<const squish::Object&, int>(&API::LongPress),
       "This function is pressing on the specified object a pointed amount of milliseconds, or 2 seconds if timeout not "
-      "specified. Throws 'InvalidDurationLongPress' in case if timeout_msec longer than 60 seconds."
+      "specified. Throws 'InvalidDuration' in case if timeout_msec longer than 60 seconds."
       "Throws:"
       " 'NoConnectionEstablished' in case of no connection was established to server-side"
       " 'runtime_error' in case system's errors"
@@ -399,7 +399,7 @@ PYBIND11_MODULE(vhat_client, m) {
         "This function is taps by pressing with specified timeout in milliseconds on the specified object. "
         "The x, y coordinates and timeout_msec are optional. If they are"
         "not specified the tap is made in the center of the widget. On the other hand, if the additional parameters are"
-        "given, the tap is made at position x and y (in the object coordinates). Throws 'InvalidDurationLongPress' in "
+        "given, the tap is made at position x and y (in the object coordinates). Throws 'InvalidDuration' in "
         "case if timeout_msec longer than 60 seconds."
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
@@ -475,12 +475,13 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("captureFrames", &API::CaptureFrames,
         "CaptureFrames provides capturing video frames of desired area at a specified interval and duration"
+        "Throws 'InvalidDuration' in case if duration longer than 1 minute(60 000 milliseconds)."
         "Throws:"
         " 'VideoStreamNotFound' In case of the video stream is not available"
         " 'PermissionDenied' In case of server does not have permission to make directory"
         " 'ImageAssemblingFailed' In case of server can't save the screenshot"
         " 'NoConnectionEstablished' In case of no connection was established to server-side"
-        " 'InvalidDurationLongPress' In case if the duration is longer than 5s"  // TODO rename
+        " 'InvalidDuration' In case if the duration is longer than 5s"
         " 'runtime_error' In case system's errors"
         " 'invalid_argument' In case of invalid params sent to the server-side",
         py::arg("interval"), py::arg("duration"), py::arg("top_left"), py::arg("bottom_right"), py::arg("path"));

@@ -27,8 +27,8 @@ std::string AteErrorCategoryImpl::message(int code) const {
     case common::AteError::kPatternNotFound:
       return "Pattern is not found";
 
-    case common::AteError::kInvalidDurationLongPress:
-      return "Too long press action duration";
+    case common::AteError::kInvalidDuration:
+      return "Too long action duration";
 
     case common::AteError::kEmptyFileName:
       return "The screenshot's filename is empty";

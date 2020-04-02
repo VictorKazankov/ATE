@@ -103,7 +103,7 @@ std::error_code ATE::LongPress(uint16_t x, uint16_t y, const std::chrono::millis
   std::error_code long_press_error;
 
   if (timeout > kMaxLongPressDelay) {
-    return common::make_error_code(common::AteError::kInvalidDurationLongPress);
+    return common::make_error_code(common::AteError::kInvalidDuration);
   }
   interaction_->Press(x, y);
   std::this_thread::sleep_for(timeout);
@@ -214,7 +214,7 @@ std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, co
   constexpr const auto kLimitTime = 5s;
 
   if (std::chrono::milliseconds(duration) > kLimitTime) {
-    error = common::make_error_code(common::AteError::kInvalidDurationLongPress);  // TODO
+    error = common::make_error_code(common::AteError::kInvalidDuration);
     return {};
   }
 

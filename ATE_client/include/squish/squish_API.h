@@ -149,7 +149,7 @@ class SquishApi {
    * @param x Relative coordinates in the object, optional
    * @param y Relative coordinates in the object, optional
    * @param timeout_msec Timeout in milliseconds between press event and release event, optional
-   * @throw InvalidDurationLongPress In case of the press is longer than 60 seconds.
+   * @throw InvalidDuration In case of the press is longer than 60 seconds.
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
    **/

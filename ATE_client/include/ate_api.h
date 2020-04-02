@@ -127,7 +127,7 @@ class AteApi {
    * @param bottom_right Bottom right point
    * @param path Path where frames will be stored
    * @return List of frame names
-   * @throw InvalidDurationLongPress In case if the duration longer than 5s // TODO rename
+   * @throw InvalidDuration In case if the duration longer than 5s
    * @throw VideoStreamNotFound In case of the video stream is not available
    * @throw PermissionDenied In case of server does not have permission to make directory
    * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
