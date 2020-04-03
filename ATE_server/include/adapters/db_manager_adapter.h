@@ -4,8 +4,6 @@
 #include <memory>
 #include <string>
 
-#include <db_manager/access_credentials.h>
-#include <db_manager/attribute_types.h>
 #include <db_manager/icon_data_mapper.h>
 
 #include "utils/object_data_type.h"
@@ -34,14 +32,15 @@ class DBManagerAdapter {
  public:
   /**
    * @brief Storage initialization
+   * @param db_manager Database manager
    * @param path_to_storage Path to storage
    * @param sync_version Sync version
    * @param sync_build_version Sync build version
    * @param collection_mode Collection mode
    * @return Error code, where kSuccess means success
    */
-  DBManagerError Init(const std::string& sync_version, const std::string& sync_build_version,
-                      const std::string& collection_mode);
+  DBManagerError Init(std::unique_ptr<db_manager::IconDataMapper> db_manager, const std::string& sync_version,
+                      const std::string& sync_build_version, const std::string& collection_mode);
 
   /**
    * @brief Changes sync configuration
@@ -96,10 +95,6 @@ class DBManagerAdapter {
     db_manager::HmiMode mode{db_manager::HmiMode::kNone};
   };
 
-  db_manager::AccessCredentials GetAccessCredentials() const;
-  std::unique_ptr<db_manager::IconDataMapper> CreateDataMapper(db_manager::AccessCredentials access_credentials) const;
-  StorageConfig CreateConfiguration(std::string sync_version, std::string build_version,
-                                    db_manager::HmiMode mode) const;
   DBManagerError ValidateConfiguration(const StorageConfig& config) const;
   DBManagerError CheckConfiguration(const StorageConfig& config) const;
   DBManagerError ChangeConfiguration(StorageConfig config);

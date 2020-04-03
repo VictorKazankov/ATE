@@ -6,6 +6,7 @@
 #include <recognition/factory.h>
 #include <opencv2/opencv.hpp>
 
+#include "adapters/db_manager_factory.h"
 #include "ate_error.h"
 #include "common.h"
 #include "exceptions.h"
@@ -76,9 +77,10 @@ ATE::ATE()
                factory::CreateTextDetector(common::Config().GetString(kDBSection, kTargetOption, {})),
                MakeScreenshotRecorder(), std::make_unique<utils::GpioVideoStatus>()} {
   // Init storage
-  auto storage_result = storage_.Init(common::Config().GetString(kDBSection, kTargetOption, {}),
-                                      common::Config().GetString(kDBSection, kBuildOption, {}),
-                                      common::Config().GetString(kDBSection, kCollectionModeOption, {}));
+  auto storage_result =
+      storage_.Init(adapter::CreateDBManager(), common::Config().GetString(kDBSection, kTargetOption, {}),
+                    common::Config().GetString(kDBSection, kBuildOption, {}),
+                    common::Config().GetString(kDBSection, kCollectionModeOption, {}));
   if (storage_result != adapter::DBManagerError::kSuccess) {
     logger::critical("[ATE] failed to initialize storage. Error: {}", static_cast<int>(storage_result));
     throw storage::ConnectionFailure{};

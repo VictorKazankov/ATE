@@ -3,13 +3,9 @@
 #include <algorithm>
 #include <cassert>
 #include <cctype>
-#include <iterator>
 #include <stdexcept>
 
-#include <db_manager/access_credentials.h>
-#include <db_manager/factory.h>
 #include <db_manager/icon_data.h>
-
 #include <opencv2/imgcodecs.hpp>
 
 #include "logger/logger.h"
@@ -87,26 +83,6 @@ common::ObjectData DbIconDataToObjectData(const IconData& icon) {
 }
 }  // namespace converters
 
-AccessCredentials DBManagerAdapter::GetAccessCredentials() const {
-  const std::string reader_login = "reader";
-  const std::string reader_password = "JustCuriousWhatIsInside";
-  const std::string database = "ate";
-  const std::string table = "icon_storage";
-  return AccessCredentials{reader_login, reader_password, database, table};
-}
-
-std::unique_ptr<IconDataMapper> DBManagerAdapter::CreateDataMapper(AccessCredentials access_credentials) const try {
-  return CreateIconDataMapper(std::move(access_credentials));
-} catch (const DbManagerError& err) {
-  logger::error("[DBManagerAdapter] Can't create Icon Data Mapper: {}.", err.what());
-  return {};
-}
-
-DBManagerAdapter::StorageConfig DBManagerAdapter::CreateConfiguration(std::string sync_version,
-                                                                      std::string build_version, HmiMode mode) const {
-  return StorageConfig{std::move(sync_version), std::move(build_version), mode};
-}
-
 DBManagerError DBManagerAdapter::ValidateConfiguration(const StorageConfig& config) const {
   if (config.sync_version.empty()) {
     logger::critical("[DBManagerAdapter] ValidateConfiguration(): invalid config.sync_version value: {}",
@@ -168,16 +144,17 @@ DBManagerError DBManagerAdapter::CheckConfiguration(const StorageConfig& config)
   return DBManagerError::kSuccess;
 }
 
-DBManagerError DBManagerAdapter::Init(const std::string& sync_version, const std::string& build_version,
+DBManagerError DBManagerAdapter::Init(std::unique_ptr<db_manager::IconDataMapper> db_manager,
+                                      const std::string& sync_version, const std::string& build_version,
                                       const std::string& mode) {
-  icon_data_mapper_ = CreateDataMapper(GetAccessCredentials());
+  icon_data_mapper_ = std::move(db_manager);
   assert(icon_data_mapper_);
   if (!icon_data_mapper_) {
     logger::critical("[DBManagerAdapter] Init(): icon_data_mapper_ was not created");
     return DBManagerError::kLogicError;
   }
 
-  config_ = CreateConfiguration(sync_version, build_version, converters::ConfigStringToDbMode(mode));
+  config_ = StorageConfig{sync_version, build_version, converters::ConfigStringToDbMode(mode)};
   return ValidateConfiguration(config_);
 }
 
@@ -193,14 +170,12 @@ DBManagerError DBManagerAdapter::ChangeConfiguration(StorageConfig config) {
 }
 
 DBManagerError DBManagerAdapter::ChangeSyncVersion(const std::string& sync_version, const std::string& build_version) {
-  auto new_config = CreateConfiguration(sync_version, build_version, config_.mode);
-  return ChangeConfiguration(new_config);
+  return ChangeConfiguration(StorageConfig{sync_version, build_version, config_.mode});
 }
 
 DBManagerError DBManagerAdapter::ChangeCollectionMode(const std::string& collection_mode) {
-  auto new_config = CreateConfiguration(config_.sync_version, config_.build_version,
-                                        converters::ConfigStringToDbMode(collection_mode));
-  return ChangeConfiguration(new_config);
+  return ChangeConfiguration(
+      StorageConfig{config_.sync_version, config_.build_version, converters::ConfigStringToDbMode(collection_mode)});
 }
 
 cv::Mat DBManagerAdapter::GetItem(const std::string& name, const StorageConfig& config) {
