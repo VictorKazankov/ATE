@@ -174,10 +174,18 @@ if(ATE_PACKAGE)
   set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
   set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}_${PROJECT_VERSION_FULL}_${CPACK_DEBIAN_ARCHITECTURE}")
 
+  set(LEGACY_ICON_STORAGE "/var/lib/vdp/vhat/icon_storage")
+  set(LEGACY_ICON_STORAGE_BAK "/var/lib/vdp/vhat/.icon_storage.bak")
+
+  configure_file("${CMAKE_SOURCE_DIR}/data/debian/preinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/preinst" @ONLY)
   configure_file("${CMAKE_SOURCE_DIR}/data/debian/postinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst" @ONLY)
   configure_file("${CMAKE_SOURCE_DIR}/data/debian/prerm" "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm" @ONLY)
   
-  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm")
+  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+    "${CMAKE_CURRENT_BINARY_DIR}/debian/preinst"
+    "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst"
+    "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm"
+  )
 
   include(CPack)
 endif(ATE_PACKAGE)

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ -d @LEGACY_ICON_STORAGE@ ]; then
+    echo "Backing-up @LEGACY_ICON_STORAGE@ in @LEGACY_ICON_STORAGE_BAK@..."
+    mv -f @LEGACY_ICON_STORAGE@ @LEGACY_ICON_STORAGE_BAK@
+fi

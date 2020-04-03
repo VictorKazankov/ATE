@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Restore back-up of legacy Icon storage, if there is any
+if [ -d @LEGACY_ICON_STORAGE_BAK@ ]; then
+    echo "Restoring @LEGACY_ICON_STORAGE@ from back-up @LEGACY_ICON_STORAGE_BAK@..."
+    mv -f @LEGACY_ICON_STORAGE_BAK@ @LEGACY_ICON_STORAGE@
+fi
+
 # Create and set permissions to writable data directory
 mkdir -p @ATE_WRITABLE_DATA_PREFIX@
 
