@@ -93,7 +93,10 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const std::string&
   if (store_file.empty()) return false;
 
   try {
-    cv::imwrite(store_file.c_str(), frame);
+    if (!cv::imwrite(store_file.c_str(), frame)) {
+      logger::error("[screenshot_recorder] SaveScreenshot couldn't save file: '{}'", store_file.c_str());
+      return false;
+    }
   } catch (std::runtime_error& err) {
     logger::error("[screenshot_recorder] SaveScreenshot is failed: {}", err.what());
     return false;
@@ -118,7 +121,10 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& hi
 
   rectangle(marked_image, highlight_area, cv::Scalar(0, 255, 0), 2, 8, 0);
 
-  cv::imwrite(store_file.c_str(), marked_image);
+  if (!cv::imwrite(store_file.c_str(), marked_image)) {
+    logger::error("[screenshot_recorder] SaveScreenshot couldn't save file: '{}'", store_file.c_str());
+    return false;
+  }
 
   logger::info("[screenshot_recorder] Screenshot was stored to {}", store_file);
 
@@ -159,7 +165,10 @@ ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, co
   }
 
   try {
-    cv::imwrite(store_file.c_str(), color_frame);
+    if (!cv::imwrite(store_file.c_str(), color_frame)) {
+      logger::error("[screenshot_recorder] GetScreenshot couldn't save file: '{}'", store_file.c_str());
+      return ScreenshotError::kSystemError;
+    }
   } catch (const std::runtime_error& exception) {
     logger::error("Exception converting image to PNG format: {}", exception.what());
     return ScreenshotError::kImageAssemblingFailed;
