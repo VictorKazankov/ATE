@@ -331,6 +331,7 @@ class ApiAggregator {
    * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
    * @throw InternalError In case of file system errors, bad alloc
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw NoAvailableDiskSpace In case if no available space on a disk
    */
   std::vector<std::string> CaptureFrames(int interval, int duration, const common::Point& top_left,
                                          const common::Point& bottom_right, const std::string& path);

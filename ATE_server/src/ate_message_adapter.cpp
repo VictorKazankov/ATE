@@ -37,6 +37,10 @@ Json::Value ConvertScreenshotErrorCodeToObjectError(const std::error_code& error
       result_error = common::jmsg::CreateErrorObject(rpc::Error::kPermissionDenied, error_code.message().c_str());
     } else if (error_code == common::AteError::kImageAssemblingFailed) {
       result_error = common::jmsg::CreateErrorObject(rpc::Error::kImageAssemblingFailed, error_code.message().c_str());
+    } else if (error_code == common::AteError::kInvalidDuration) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidDuration, error_code.message().c_str());
+    } else if (error_code == common::AteError::kNoAvailableDiskSpace) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kNoAvailableDiskSpace, error_code.message().c_str());
     } else {
       logger::warn("[ate message adapter] unhandled error {}", error_code.message());
       result_error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());

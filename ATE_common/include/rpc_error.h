@@ -12,6 +12,8 @@ enum class Error {
 
   // Values from -32000 to -32099 reserved for implementation-defined server-errors
 
+  // Screenshot error
+  kNoAvailableDiskSpace = -32015,
   // Image Discrepancy error
   kUnsupportedFileType = -32014,
   kComparingImageIncorrectSize = -32013,

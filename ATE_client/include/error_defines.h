@@ -82,6 +82,12 @@ class NoConnectionEstablished : public std::runtime_error {
   explicit NoConnectionEstablished()
       : std::runtime_error{"No connection to server-side exists. First you need to perform attachToApplication API"} {}
 };
+
+class NoAvailableDiskSpace : public std::runtime_error {
+ public:
+  explicit NoAvailableDiskSpace() : std::runtime_error{"No free space on a disk"} {}
+};
+
 }  // namespace interaction
 
 #endif  // ATE_ERROR_DEFINES_H_

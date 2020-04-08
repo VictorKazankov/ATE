@@ -148,6 +148,7 @@ PYBIND11_MODULE(vhat_client, m) {
   py::register_exception<squish::UnsupportedFileType>(m, "UnsupportedFileType");
   py::register_exception<interaction::VideoStreamingError>(m, "VideoStreamingError");
   py::register_exception<interaction::NoConnectionEstablished>(m, "NoConnectionEstablished");
+  py::register_exception<interaction::NoAvailableDiskSpace>(m, "NoAvailableDiskSpace");
   py::register_exception<boost::system::system_error>(m, "boost_system_error");
 
   py::enum_<common::squish::CollectionMode>(m, "CollectionMode")
@@ -419,6 +420,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'PermissionDenied' in case of server does not have permission to make directory"
         " 'ImageAssemblingFailed' in case of server can't save the screenshot"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'NoAvailableDiskSpace' In case if no available space on a disk"
         " 'runtime_error' in case system's errors"
         " 'invalid_argument' in case of invalid params sent to the server-side",
         py::arg("filename"), py::arg("location"));
@@ -482,6 +484,7 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'ImageAssemblingFailed' In case of server can't save the screenshot"
         " 'NoConnectionEstablished' In case of no connection was established to server-side"
         " 'InvalidDuration' In case if the duration is longer than 5s"
+        " 'NoAvailableDiskSpace' In case if no available space on a disk"
         " 'runtime_error' In case system's errors"
         " 'invalid_argument' In case of invalid params sent to the server-side",
         py::arg("interval"), py::arg("duration"), py::arg("top_left"), py::arg("bottom_right"), py::arg("path"));

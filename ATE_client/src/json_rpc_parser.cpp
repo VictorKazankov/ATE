@@ -81,6 +81,9 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
     case rpc::Error::kUnsupportedFileType:
       throw squish::UnsupportedFileType{};
 
+    case rpc::Error::kNoAvailableDiskSpace:
+      throw interaction::NoAvailableDiskSpace{};
+
     default:
       throw std::runtime_error("Undefined error occurred");
   }

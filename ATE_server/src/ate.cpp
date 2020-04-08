@@ -72,6 +72,34 @@ std::unique_ptr<utils::ScreenshotRecorder> MakeScreenshotRecorder() {
   return screenshot_recorder;
 }
 
+std::error_code ScreenshotErrorToStdErrorCode(utils::ScreenshotError screenshot_error) {
+  switch (screenshot_error) {
+    case utils::ScreenshotError::kEmptyFileName:
+      return common::make_error_code(common::AteError::kEmptyFileName);
+
+    case utils::ScreenshotError::kSystemError:
+      return common::make_error_code(common::AteError::kSystemError);
+
+    case utils::ScreenshotError::kWrongExtension:
+      return common::make_error_code(common::AteError::kWrongExtension);
+
+    case utils::ScreenshotError::kPermissionDenied:
+      return common::make_error_code(common::AteError::kPermissionDenied);
+
+    case utils::ScreenshotError::kImageAssemblingFailed:
+      return common::make_error_code(common::AteError::kImageAssemblingFailed);
+
+    case utils::ScreenshotError::kNoAvailableDiskSpace:
+      return common::make_error_code(common::AteError::kNoAvailableDiskSpace);
+
+    case utils::ScreenshotError::kSuccess:
+      return {};
+  }
+
+  assert(!"Unhandled ScreenshotError code");
+  return common::make_error_code(common::AteError::kSystemError);
+}
+
 }  // namespace
 
 ATE::ATE()
@@ -218,73 +246,63 @@ std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, co
     return {};
   }
 
-  error = utils::ScreenshotRecorder::MakeDirectories(fs::path(ATE_WRITABLE_DATA_PREFIX) / sub_path);
-  if (error) return {};
-
   std::vector<std::string> result;
   result.reserve(0u == interval ? duration : duration / interval + 1);
 
   std::queue<std::pair<std::string, cv::Mat>> queue_frames;
   std::atomic_bool getting_frames{true};
-  std::atomic_bool error_occur{false};
+  std::atomic_bool error_on_save{false};
   std::mutex mut;
   std::condition_variable cond_var;
+  std::error_code error_code_on_save;
 
   // perform saving frames in the other thread
-  std::thread save_thr([sub_path, &queue_frames, &getting_frames, &error_occur, &result, &mut, &cond_var]() {
-    std::vector<std::pair<std::string, cv::Mat>> frames;
-    std::vector<std::future<bool>> future_frames;
-    bool log_left_unsaved_frames{true};
-    utils::ScreenshotRecorder recorder(true, sub_path);
-    auto fn_recorder = [&recorder](const cv::Mat& frame, const std::string& filename) {
-      return recorder.SaveScreenshot(frame, filename);
-    };
+  std::thread save_thr(
+      [sub_path, &queue_frames, &getting_frames, &error_on_save, &error_code_on_save, &result, &mut, &cond_var]() {
+        std::vector<std::pair<std::string, cv::Mat>> frames;
+        bool log_left_unsaved_frames{true};
 
-    while (true) {
-      if (getting_frames) {
-        std::unique_lock<std::mutex> lk(mut);
-        cond_var.wait(lk, [&getting_frames, &queue_frames]() { return !getting_frames || !queue_frames.empty(); });
-        while (!queue_frames.empty()) {
-          frames.emplace_back(std::move(queue_frames.front().first), std::move(queue_frames.front().second));
-          queue_frames.pop();
+        while (true) {
+          if (getting_frames) {
+            std::unique_lock<std::mutex> lk(mut);
+            cond_var.wait(lk, [&getting_frames, &queue_frames]() { return !getting_frames || !queue_frames.empty(); });
+            while (!queue_frames.empty()) {
+              frames.emplace_back(std::move(queue_frames.front().first), std::move(queue_frames.front().second));
+              queue_frames.pop();
+            }
+          } else {
+            while (!queue_frames.empty()) {
+              frames.emplace_back(std::move(queue_frames.front().first), std::move(queue_frames.front().second));
+              queue_frames.pop();
+            }
+            // Log uses for extra debug info: how many frames kept in RAM after finishing of frame grabbing
+            if (log_left_unsaved_frames) {
+              log_left_unsaved_frames = false;
+              logger::debug("Left unsaved frames in container after duration was end: {}\nFrame size: {} bytes",
+                            frames.size(), frames.empty() ? 0 : frames[0].second.total() * frames[0].second.elemSize());
+            }
+          }
+
+          for (auto& item : frames) {
+            const auto screen_error = utils::ScreenshotRecorder::GetScreenshot(item.second, sub_path, item.first);
+            if (utils::ScreenshotError::kSuccess != screen_error) {
+              error_code_on_save = ScreenshotErrorToStdErrorCode(screen_error);
+              error_on_save = true;
+              break;
+            }
+            result.push_back(item.first);
+          }
+
+          frames.clear();
+
+          if (error_on_save) {
+            logger::error("Error occurred in the child thread");
+            break;
+          }
+
+          if (!getting_frames && queue_frames.empty()) break;
         }
-      } else {
-        while (!queue_frames.empty()) {
-          frames.emplace_back(std::move(queue_frames.front().first), std::move(queue_frames.front().second));
-          queue_frames.pop();
-        }
-        if (log_left_unsaved_frames) {
-          log_left_unsaved_frames = false;
-          logger::debug("Left unsaved frames in container after duration was end: {}\nFrame size: {} bytes",
-                        frames.size(), frames.empty() ? 0 : frames[0].second.total() * frames[0].second.elemSize());
-        }
-      }
-
-      future_frames.reserve(frames.size());
-      for (auto& item : frames) {
-        future_frames.push_back(
-            std::async(std::launch::async | std::launch::deferred, fn_recorder, item.second, item.first));
-      }
-
-      for (size_t i = 0; i < future_frames.size(); ++i) {
-        if (future_frames[i].get()) {
-          result.push_back(std::move(frames[i].first));
-        } else {
-          error_occur = true;
-        }
-      }
-
-      if (error_occur) {
-        logger::error("Error occurred in the child thread");
-        break;
-      }
-
-      frames.clear();
-      future_frames.clear();
-
-      if (!getting_frames && queue_frames.empty()) break;
-    }
-  });
+      });
 
   constexpr auto kCharSize = 100;
   char time_cstr[kCharSize];
@@ -292,6 +310,7 @@ std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, co
   auto elapsed_interval_processing = std::chrono::steady_clock::now();
   size_t counter = 0;
   std::string filename;
+  bool at_least_one_grabbed{false};
 
   do {
     cv::Mat frame;
@@ -304,10 +323,15 @@ std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, co
       filename = time_cstr;
       filename.append(std::to_string(++counter) + ").png");
 
+      at_least_one_grabbed = true;
+
       std::lock_guard<std::mutex> lock(mut);
       queue_frames.emplace(filename, std::move(frame));
     } else {
       logger::error("Unable to get video frame");
+      if (at_least_one_grabbed) {  // ignore this error if any frame was grabbed
+        error.clear();
+      }
       cond_var.notify_one();
       continue;
     }
@@ -328,7 +352,7 @@ std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, co
             std::chrono::steady_clock::now() - std::chrono::milliseconds(elapsed_ms - interval);
       }
     }
-  } while (!error_occur && std::chrono::steady_clock::now() < time_point);
+  } while (!error_on_save && std::chrono::steady_clock::now() < time_point);
 
   getting_frames = false;
   cond_var.notify_one();
@@ -337,9 +361,28 @@ std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, co
     save_thr.join();
   }
 
-  if (error_occur) {
-    error = common::make_error_code(common::AteError::kImageAssemblingFailed);
-    logger::error("Caught error in main thread from child thread");
+  if (error_on_save) {
+    error = error ? error : error_code_on_save;
+    logger::error("Caught error in main thread from child thread: {}", error_code_on_save.message());
+  }
+
+  // remove saved frames on error
+  if (error && !result.empty()) {
+    logger::warn("CaptureFrames is failed, next captured frames are going to be removed:");
+    result.erase(
+        std::remove_if(result.begin(), result.end(),
+                       [&sub_path](const std::string& file) {
+                         std::error_code error_rm_frame;
+                         if (!fs::remove(fs::path(ATE_WRITABLE_DATA_PREFIX) / sub_path / file, error_rm_frame)) {
+                           logger::error("Failed to remove '{}/{}/{}', error - {}", ATE_WRITABLE_DATA_PREFIX, sub_path,
+                                         file, error_rm_frame.message());
+                           return false;
+                         }
+                         logger::warn("File is successfully removed: '{}/{}/{}'", ATE_WRITABLE_DATA_PREFIX, sub_path,
+                                      file);
+                         return true;
+                       }),
+        result.end());
   }
 
   return result;

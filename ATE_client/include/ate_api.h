@@ -132,6 +132,7 @@ class AteApi {
    * @throw PermissionDenied In case of server does not have permission to make directory
    * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
    * @throw InternalError In case of file system errors, bad alloc
+   * @throw NoAvailableDiskSpace In case if no available space on a disk
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    */
   std::vector<std::string> CaptureFrames(const std::shared_ptr<interaction::Interaction>& ate_interaction,

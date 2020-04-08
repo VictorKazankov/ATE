@@ -1,11 +1,14 @@
 #include "utils/screenshot_recorder.h"
 
 #include <ctime>
+#include <experimental/filesystem>
 
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
 #include "logger/logger.h"
+
+namespace fs = std::experimental::filesystem;
 
 namespace {
 constexpr auto kExtension = ".png";
@@ -21,6 +24,33 @@ std::string GetStringTimestamp() {
 
   logger::warn("[screenshot_recorder] Can't convert timestamp to string");
   return std::string();
+}
+
+bool CheckDiskSpace(const cv::Mat& frame, std::error_code& ec) {
+  constexpr const auto kCriticalLimitBytes = 300000000u;
+  constexpr const auto kWarningLimitBytes = 500000000u;
+
+  size_t bytes_to_write =
+      frame.total() * frame.elemSize();  // this is not entirely correct, because written file on a disk is compressed
+
+  fs::space_info root = fs::space("/", ec);
+  if (ec) {
+    logger::error("[screenshot recorder] {}", ec.message());
+    return false;
+  }
+
+  bool result{true};
+
+  if (bytes_to_write >= root.available || (root.available - bytes_to_write) <= kCriticalLimitBytes) {
+    logger::error("[screenshot_recorder] Not enough disk space for writing: available {}b, requested to write {}b",
+                  root.available, bytes_to_write);
+    result = false;
+  } else if ((root.available - bytes_to_write) <= kWarningLimitBytes) {
+    logger::warn("[screenshot_recorder] Disk space close to critical: available {}b, requested to write {}b",
+                 root.available, bytes_to_write);
+  }
+
+  return result;
 }
 
 ScreenshotRecorder::ScreenshotRecorder(bool enable_saving_screenshots, const std::string& screenshots_store_dir)
@@ -88,6 +118,9 @@ fs::path ScreenshotRecorder::GetFileName(const std::string& file_suffix) const {
 }
 
 bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const std::string& filename) const {
+  std::error_code ec;
+  if (!CheckDiskSpace(frame, ec)) return false;
+
   fs::path store_file = filename.empty() ? GetFileName() : (screenshots_store_dir_ / filename);
 
   if (store_file.empty()) return false;
@@ -109,6 +142,9 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const std::string&
 
 bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& highlight_area,
                                         const std::string& hint) const {
+  std::error_code ec;
+  if (!CheckDiskSpace(frame, ec)) return false;
+
   std::string file_suffix = (highlight_area.area() ? "detected" : "not-detected");
   if (!hint.empty()) file_suffix.append("_" + hint);
 
@@ -133,11 +169,19 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& hi
 
 bool ScreenshotRecorder::TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame,
                                          const cv::Rect& highlight_area, const std::string& hint) const {
-  return SaveScreenshot(color_frame) && SaveScreenshot(grey_frame, highlight_area, hint);
+  std::error_code ec;
+  return CheckDiskSpace(color_frame, ec) && SaveScreenshot(color_frame) &&
+         SaveScreenshot(grey_frame, highlight_area, hint);
 }
 
 ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, const std::string& path,
                                                   const std::string& file_name) {
+  std::error_code error;
+  if (!CheckDiskSpace(color_frame, error)) {
+    if (error) return ScreenshotError::kSystemError;
+    return ScreenshotError::kNoAvailableDiskSpace;
+  }
+
   if (file_name.empty() || fs::path(file_name).stem().empty()) {
     logger::error("[screenshot_recorder] Empty filename for screenshot");
     return ScreenshotError::kEmptyFileName;
@@ -154,7 +198,7 @@ ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, co
 
   fs::path parent_dir = store_file.parent_path();
 
-  std::error_code error = MakeDirectories(parent_dir);
+  error = MakeDirectories(parent_dir);
 
   if (error) {
     if (error == std::errc::permission_denied || error == std::errc::operation_not_permitted) {

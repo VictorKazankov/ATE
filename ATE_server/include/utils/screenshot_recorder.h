@@ -18,6 +18,7 @@ enum class ScreenshotError {
   kWrongExtension,
   kSystemError,
   kImageAssemblingFailed,
+  kNoAvailableDiskSpace,
   kSuccess
 };
 
