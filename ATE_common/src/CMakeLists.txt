@@ -70,6 +70,6 @@ endif()
 #                   Test coverage
 #######################################################
 if (ATE_COVERAGE)
-  target_compile_options(ate_common PRIVATE --coverage)
-  target_link_libraries(ate_common PRIVATE gcov)
+  target_compile_options(ate_common PUBLIC --coverage)
+  target_link_libraries(ate_common PUBLIC gcov)
 endif (ATE_COVERAGE)

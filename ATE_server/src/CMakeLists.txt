@@ -177,11 +177,3 @@ if(ATE_INSTALL_SERVER_SERVICE)
     DESTINATION "/lib/systemd/system/"
   )
 endif(ATE_INSTALL_SERVER_SERVICE)
-
-#######################################################
-#                   Test coverage
-#######################################################
-if (ATE_COVERAGE)
-  target_compile_options(ate_server_lib PRIVATE --coverage)
-  target_link_libraries(ate_server_lib PRIVATE gcov)
-endif (ATE_COVERAGE)

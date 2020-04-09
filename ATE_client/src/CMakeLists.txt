@@ -85,14 +85,3 @@ elseif(MSVC)
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   )
 endif()
-
-#######################################################
-#                   Test coverage
-#######################################################
-if (ATE_COVERAGE)
-  target_compile_options(vhat_client_library PRIVATE --coverage)
-  target_link_libraries(vhat_client_library PRIVATE 
-                        pybind11::module
-                        ate_common
-                        gcov)
-endif(ATE_COVERAGE)
