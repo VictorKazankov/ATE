@@ -33,10 +33,7 @@ option(ATE_TESTING "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
 option(ATE_PACKAGE "Create Debian package" OFF)
-
-# The icon storage path is universal for whole VDP project and must never change
 set(ATE_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for ATE writable data directories" )
-set(VHAT_ICON_STORAGE_PREFIX "${ATE_WRITABLE_DATA_PREFIX}/icon_storage" CACHE STRING "Prefix for ATE icon storage")
 
 # All configs must be placed into <install prefix>/etc/vdp
 if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
@@ -64,7 +61,6 @@ message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
 message(STATUS "ATE_PACKAGE: " ${ATE_PACKAGE})
 message(STATUS "ATE_INSTALL_SERVER_SERVICE: " ${ATE_INSTALL_SERVER_SERVICE})
 message(STATUS "ATE_WRITABLE_DATA_PREFIX: " ${ATE_WRITABLE_DATA_PREFIX})
-message(STATUS "VHAT_ICON_STORAGE_PREFIX: " ${VHAT_ICON_STORAGE_PREFIX})
 
 add_subdirectory(third_party)
 add_subdirectory(ATE_common/src)
@@ -178,10 +174,18 @@ if(ATE_PACKAGE)
   set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
   set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}_${PROJECT_VERSION_FULL}_${CPACK_DEBIAN_ARCHITECTURE}")
 
+  set(LEGACY_ICON_STORAGE "/var/lib/vdp/vhat/icon_storage")
+  set(LEGACY_ICON_STORAGE_BAK "/var/lib/vdp/vhat/.icon_storage.bak")
+
+  configure_file("${CMAKE_SOURCE_DIR}/data/debian/preinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/preinst" @ONLY)
   configure_file("${CMAKE_SOURCE_DIR}/data/debian/postinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst" @ONLY)
   configure_file("${CMAKE_SOURCE_DIR}/data/debian/prerm" "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm" @ONLY)
   
-  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst" "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm")
+  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+    "${CMAKE_CURRENT_BINARY_DIR}/debian/preinst"
+    "${CMAKE_CURRENT_BINARY_DIR}/debian/postinst"
+    "${CMAKE_CURRENT_BINARY_DIR}/debian/prerm"
+  )
 
   include(CPack)
 endif(ATE_PACKAGE)
