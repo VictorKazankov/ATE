@@ -90,6 +90,7 @@ if (ATE_COVERAGE AND GCOVR_EXECUTABLE)
       --filter=${PROJECT_SOURCE_DIR}/ATE_client/include
       --filter=${PROJECT_SOURCE_DIR}/ATE_client/src
       --object-directory=${PROJECT_BINARY_DIR}
+      --print-summary
     DEPENDS
       check
   )
