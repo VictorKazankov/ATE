@@ -1,7 +1,7 @@
 import logging
 
 from functional_tests.pages import hmi
-from functional_tests.pages.interaction import tap, tap_if_visible
+from functional_tests.pages.interaction import tap, tap_if_visible, tap_first_if_visible_else_second, tap_until_visible
 from functional_tests.utils.sync4.constants import Icons, Text
 
 
@@ -11,8 +11,10 @@ class SettingsPage:
             logging.info("Settings page is already open")
         elif tap_if_visible(Icons.MAIN_PANEL_SETTINGS_BUTTON_ACTIVE):
             logging.info('Open settings page')
+        elif hmi.waitForObject(Icons.BACK_BUTTON):
+            tap_until_visible(Icons.BACK_BUTTON)
         else:
-            logging.info('Open settings page222')
+            logging.info('Open settings page')
             tap(Icons.MAIN_PANEL_SETTINGS_BUTTON_INACTIVE)
 
     def open_sound_settings_page(self):
@@ -76,6 +78,13 @@ class SettingsPage:
     def tap_on_back_button(self):
         tap(Icons.BACK_BUTTON)
 
+    def open_send_feedback(self):
+        if hmi.obj_exists(Text.SETTINGS_GENERAL_FEEDBACK_HEADER):
+            logging.info("settings-general-feedback page is already open")
+        else:
+            self.open_general_settings()
+            tap(Text.GENERAL_SETTINGS_SEND_FEEDBACK_TEXT)
+
 
 class GeneralSettingsPage(SettingsPage):
     def open_language_page(self):
@@ -100,7 +109,7 @@ class ClimatePage:
     def open_climate_page(self):
         if self.climate_page_is_active():
             logging.info('Climate page is already open')
-        elif tap_if_visible(Icons.MAIN_CLIMATE_BUTTON_ACTIVE):
+        elif tap_first_if_visible_else_second(Icons.MAIN_CLIMATE_BUTTON_ACTIVE, Text.MAIN_PANEL_CLIMATE_TEXT):
             logging.info('Open climate page')
         elif tap_if_visible(Text.CANCEL_TEXT):
             logging.info('Closing popup window on add climate page')

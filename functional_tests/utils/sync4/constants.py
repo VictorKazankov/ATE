@@ -237,6 +237,10 @@ class Text:
     TEXT_BUTTON_9 = '9'
     TONE_SETTINGS_TEXT = 'Tone Settings'
     TOUCH_SCREEN_BEEP_TEXT = 'Touch Screen Beep'
+    SETTINGS_VEHICLE_BUTTON_TEXT = 'Vehicle'
+    SETTINGS_GENERAL_FEEDBACK_HEADER = 'Select area for feedback'
+    SETTINGS_GENERAL_FEEDBACK_VOICE = 'Voice'
+    SETTINGS_GENERAL_FEEDBACK_USER_INTERFACE = 'User Interface'
 
 
 """JIRA"""
