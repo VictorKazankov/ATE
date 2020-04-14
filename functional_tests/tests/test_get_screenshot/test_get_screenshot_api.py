@@ -3,7 +3,6 @@ import time
 import allure
 import pytest
 from vhat_client import WrongScreenshotExtension, EmptyScreenshotFileName, PermissionDenied
-from vhat_client import attachToApplication as attach_to_application
 from vhat_client import getScreenshot as get_screenshot
 
 from functional_tests import config_reader
@@ -19,13 +18,8 @@ file_name = 'screenshot1.png'
 folder_name = 'screenshots'
 
 
-@pytest.fixture(scope='module', autouse=True)
-def attach_to_app():
-    attach_to_application('')
-
-
 @pytest.fixture(scope='function')
-def client():
+def client(attach_to_app):
     client = start()
     execute_command(client, 'cd {}; sudo rm -r "{}"'.format(default_folder, folder_name),
                     True, True)
