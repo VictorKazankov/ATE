@@ -24,3 +24,16 @@ function(add_executable_from_dir_recursive TARGET)
   file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
   add_executable(${TARGET} ${SOURCE_FILES})
 endfunction()
+
+# Add option (i.e. boolean cache var) with default value depending on condition
+# Syntax: conditional_option(OPTION DOC CONDITION)
+# OPTION - name
+# DOC - doc string
+# CONDITION - if-resolvable condition (e.g. NOT ${a} AND b)
+macro(conditional_option OPTION DOC)
+  if(${ARGN})
+    option(${OPTION} ${DOC} ON)
+  else()
+    option(${OPTION} ${DOC} OFF)
+  endif()
+endmacro()

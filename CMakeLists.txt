@@ -27,9 +27,15 @@ include(${PROJECT_SOURCE_DIR}/infrastructure/cmake/functions/functions.cmake)
 # Must be included after project() to set up all the variables correctly
 include(GNUInstallDirs)
 
+# Custom location for find_package to look up ThirdParty dependencies on Win32
+if(WIN32)
+  list(APPEND CMAKE_PREFIX_PATH "$ENV{USERPROFILE}/VHAT/ThirdParty")
+endif()
+
+# Config
 option(ATE_BUILD_CLIENT "Build ATE client" ON)
-option(ATE_BUILD_SERVER "Build ATE server" ON)
-option(ATE_TESTING "Build ATE with tests" ON)
+conditional_option(ATE_BUILD_SERVER "Build ATE server" NOT WIN32)
+conditional_option(ATE_TESTING "Build ATE with tests" NOT WIN32)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
 option(ATE_PACKAGE "Create Debian package" OFF)
