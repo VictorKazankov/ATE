@@ -12,16 +12,14 @@ target_include_directories(${TEST_NAME}
 if(UNIX)
   target_link_libraries(${TEST_NAME}
     PRIVATE 
-      ate_common
-      vhat_client_library
+      ate_client_lib
       ${GTEST_BOTH_LIBRARIES}
       ${GMOCK_BOTH_LIBRARIES}
   )
 elseif(MSVC)
   target_link_libraries(vhat_client_test
     PRIVATE
-      ate_common
-      vhat_client_library
+      ate_client_lib
       gtest_main
   )
   set_target_properties(gtest

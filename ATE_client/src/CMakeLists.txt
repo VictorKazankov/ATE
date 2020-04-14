@@ -1,68 +1,49 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-include(GNUInstallDirs)
-
-project(vhat_client)
-
-set(SOURCE_LIST
+add_library(ate_client_lib STATIC
   api.cpp
   api_aggregator.cpp
   ate_api.cpp 
   ate_interaction.cpp
-  ate_client.cpp
   json_rpc_parser.cpp
   squish/application_context.cpp
   squish/squish_API.cpp
   squish/wildcard.cpp
 )
 
-add_library(vhat_client
-  MODULE
-    ${SOURCE_LIST}
+set_target_properties(ate_client_lib PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
 )
 
-set_target_properties(vhat_client PROPERTIES
-  PREFIX "${PYTHON_MODULE_PREFIX}"
-  SUFFIX "${PYTHON_MODULE_EXTENSION}"
-)
-
-target_include_directories(vhat_client
+target_include_directories(ate_client_lib
   PUBLIC
     ../include
 )
 
-add_library(vhat_client_library STATIC
-  ${SOURCE_LIST}
-)
-
-target_include_directories(vhat_client_library
+target_link_libraries(ate_client_lib
   PUBLIC
-    ../include
-)
-
-target_link_libraries(vhat_client_library
-  PUBLIC
-    pybind11::module
     ate_common
 )
 
-target_compile_definitions(vhat_client_library
+target_compile_definitions(ate_client_lib
   PUBLIC
     ATE_CLIENT_CONFIG_DIR="${ATE_INSTALL_SYSCONFDIR}"
 )
 
-target_link_libraries(vhat_client
-  ate_common
-  pybind11::module
-)
+pybind11_add_module(ate_client ate_client.cpp)
 
-target_compile_definitions(vhat_client
+target_include_directories(ate_client
   PUBLIC
-    ATE_CLIENT_CONFIG_DIR="${ATE_INSTALL_SYSCONFDIR}"
+    ../include
 )
-message(STATUS "ATE_CLIENT_CONFIG_DIR: " ${ATE_INSTALL_SYSCONFDIR})
 
-set_target_properties(vhat_client PROPERTIES
+target_link_libraries(ate_client
+  PRIVATE
+    ate_client_lib
+)
+
+set_target_properties(ate_client PROPERTIES
+  OUTPUT_NAME "vhat_client"
   INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_LIBDIR}"
 )
 
@@ -72,16 +53,16 @@ install(FILES
 )
 
 if(UNIX)
-  message(WARNING "Python 2.7 and debian-style install path were hardcoded (https://wiki.debian.org/Python#Deviations_from_upstream)"
-          " as py 2.7 on Ubuntu 16/18 is rigid required target platform.")
+  message("INFO: ATE client install path was hardcoded for Python 2.7 and Debian system "
+          "(https://wiki.debian.org/Python#Deviations_from_upstream)")
 
   install(TARGETS
-    vhat_client
+    ate_client
     LIBRARY DESTINATION "${ATE_INSTALL_LIBPREFIX}/python2.7/dist-packages"
   )
-elseif(MSVC)
+elseif(WIN32)
   install(TARGETS
-    vhat_client
+    ate_client
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   )
 endif()
