@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-include(GNUInstallDirs)
-
 ### Boost libraries
 ### Add new libraries from https://github.com/boostorg
 ### as git submodule
@@ -25,7 +23,7 @@ add_subdirectory(boost/libs/system)
 
 ## Boost.Asio
 ## https://think-async.com
-add_library(boost_asio SHARED boost_asio.cpp)
+add_library(boost_asio STATIC boost_asio.cpp)
 add_library(Boost::asio ALIAS boost_asio)
 
 if(MSVC)
@@ -50,8 +48,6 @@ if(MSVC)
   )
 endif(MSVC)
 
-# BOOST_ASIO_DYN_LINK necessary for separate compilling
-# https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/using.html#boost_asio.using.optional_separate_compilation
 target_compile_definitions(boost_asio
   PUBLIC
     BOOST_ASIO_DISABLE_BOOST_ARRAY
@@ -61,8 +57,8 @@ target_compile_definitions(boost_asio
     BOOST_ASIO_DISABLE_BOOST_DATE_TIME
     BOOST_ASIO_DISABLE_BOOST_REGEX
     BOOST_ASIO_DISABLE_BOOST_THROW_EXCEPTION
-    BOOST_ASIO_DYN_LINK
     BOOST_ASIO_NO_DEPRECATED
+    BOOST_ASIO_SEPARATE_COMPILATION
 )
 
 target_include_directories(boost_asio
@@ -87,15 +83,16 @@ add_library(inihcpp STATIC
   inih/ini.c
 )
 
-# inihcpp is intended to be linked into the shared lib.
-# Thus it requires -fPIC compilation option.
-# https://stackoverflow.com/questions/38296756/what-is-the-idiomatic-way-in-cmake-to-add-the-fpic-compiler-option
-set_property(TARGET inihcpp PROPERTY POSITION_INDEPENDENT_CODE ON)
-
 target_include_directories(inihcpp
   INTERFACE
     inih/cpp
     inih
+)
+
+# Libs linked to ate_common are de-facto shared object and must be compiled with -fPIC
+set_target_properties(boost_asio inihcpp
+  PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
 )
 
 if(ATE_BUILD_CLIENT)
@@ -108,21 +105,3 @@ endif(ATE_BUILD_CLIENT)
 ### spdlog
 ### https://github.com/gabime/spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
-
-if(UNIX)
-  install(TARGETS
-    boost_asio
-    LIBRARY DESTINATION ${ATE_INSTALL_LIBDIR}
-  )
-elseif(MSVC)
-  install(TARGETS
-    boost_asio
-    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  )
-endif()
-
-if(ATE_BUILD_SERVER)
-  install(TARGETS
-    LIBRARY DESTINATION ${ATE_INSTALL_LIBDIR}
-  )
-endif()

@@ -1,14 +1,13 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-include(GNUInstallDirs)
-
 # JsonCpp
 # http://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html
 # Debian/Ubuntu package name: libjsoncpp-dev
 find_package(jsoncpp REQUIRED)
 
+conditional_set(LIBRARY_TYPE STATIC SHARED WIN32)
 add_library(ate_common
-  SHARED
+  ${LIBRARY_TYPE}
     config/config.cpp
     logger/logger_setup.cpp
     message_factory/json_utils.cpp
@@ -35,7 +34,7 @@ target_link_libraries(ate_common
     spdlog::spdlog
 )
 
-if(UNIX)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(ate_common
     PUBLIC
       -pedantic
@@ -43,26 +42,12 @@ if(UNIX)
       -Werror
       -Wextra
   )
-elseif(MSVC)
-  target_compile_options(ate_common
-    PUBLIC
-      -DNOMINMAX
-  )
-  set_target_properties(ate_common 
-    PROPERTIES
-      WINDOWS_EXPORT_ALL_SYMBOLS TRUE
-  )
 endif()
 
 if(UNIX)
   install(TARGETS
     ate_common
     LIBRARY DESTINATION ${ATE_INSTALL_LIBDIR}
-  )
-elseif(MSVC)
-  install(TARGETS
-    ate_common
-    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
 endif()
 

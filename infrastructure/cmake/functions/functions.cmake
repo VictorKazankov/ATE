@@ -25,6 +25,20 @@ function(add_executable_from_dir_recursive TARGET)
   add_executable(${TARGET} ${SOURCE_FILES})
 endfunction()
 
+# Set variable depending on condition
+# Syntax: conditional_set(NAME VALUE_TRUE VALUE_FALSE CONDITION)
+# NAME - variable name
+# VALUE_TRUE - value to set if condition is true
+# VALUE_FALSE - value to set if condition is false
+# CONDITION - if-resolvable condition (e.g. NOT ${a} AND b)
+macro(conditional_set NAME VALUE_TRUE VALUE_FALSE)
+  if(${ARGN})
+    set(${NAME} ${VALUE_TRUE})
+  else()
+    set(${NAME} ${VALUE_FALSE})
+  endif()
+endmacro()
+
 # Add option (i.e. boolean cache var) with default value depending on condition
 # Syntax: conditional_option(OPTION DOC CONDITION)
 # OPTION - name
