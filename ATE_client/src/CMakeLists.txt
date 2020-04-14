@@ -44,8 +44,13 @@ target_link_libraries(ate_client
 
 set_target_properties(ate_client PROPERTIES
   OUTPUT_NAME "vhat_client"
-  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_LIBDIR}"
 )
+
+if(UNIX)
+  set_target_properties(ate_client PROPERTIES
+    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_LIBDIR}"
+  )
+endif()
 
 install(FILES
   ../data/ate_client.ini
@@ -63,6 +68,6 @@ if(UNIX)
 elseif(WIN32)
   install(TARGETS
     ate_client
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    LIBRARY DESTINATION "${ATE_PYTHON_SITEPACKAGES_DIR}"
   )
 endif()

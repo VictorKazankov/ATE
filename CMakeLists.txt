@@ -39,20 +39,29 @@ conditional_option(ATE_TESTING "Build ATE with tests" NOT WIN32)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
 option(ATE_PACKAGE "Create Debian package" OFF)
-set(ATE_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE STRING "Prefix for ATE writable data directories" )
 
-# All configs must be placed into <install prefix>/etc/vdp
-if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
-  set(ATE_INSTALL_SYSCONFDIR /${CMAKE_INSTALL_SYSCONFDIR}/vdp)
-else()
-  set(ATE_INSTALL_SYSCONFDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/vdp)
+# Platform specific parameters
+if(UNIX)
+  set(ATE_WRITABLE_DATA_PREFIX "/var/lib/vdp/vhat" CACHE PATH "Prefix for ATE writable data directories" )
+
+  # All configs must be placed into <install prefix>/etc/vdp
+  if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
+    set(ATE_INSTALL_SYSCONFDIR "/${CMAKE_INSTALL_SYSCONFDIR}/vdp" CACHE PATH "ATE config dir")
+  else()
+    set(ATE_INSTALL_SYSCONFDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/vdp" CACHE PATH "ATE config dir")
+  endif()
+
+  # All libs must ignore Debian specific /lib/<multi-arch> policy and simply install into <install prefix>/lib
+  # Since there are several libraries installed, group them into <install prefix>/lib/ate
+  set(ATE_INSTALL_LIBPREFIX lib CACHE PATH "ATE install prefix for libs")
+  set(ATE_INSTALL_LIBDIR "${ATE_INSTALL_LIBPREFIX}/vhat" CACHE PATH "ATE install dir for libs")
+elseif(WIN32)
+  if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(ATE_INSTALL_SYSCONFDIR "$ENV{ALLUSERSPROFILE}/VDP" CACHE PATH "ATE config dir")
+  else()
+    set(ATE_INSTALL_SYSCONFDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/vdp" CACHE PATH "ATE config dir")
+  endif()
 endif()
-message(STATUS "ATE_INSTALL_SYSCONFDIR: " ${ATE_INSTALL_SYSCONFDIR})
-
-# All libs must ignore Debian specific /lib/<multi-arch> policy and simply install into <install prefix>/lib
-# Since there are several libraries installed, group them into <install prefix>/lib/ate
-set(ATE_INSTALL_LIBPREFIX lib)
-set(ATE_INSTALL_LIBDIR ${ATE_INSTALL_LIBPREFIX}/vhat)
 
 file(WRITE "${CMAKE_BINARY_DIR}/ate_version" "${PROJECT_VERSION_FULL}\n")
 install(FILES "${CMAKE_BINARY_DIR}/ate_version" DESTINATION ${ATE_INSTALL_SYSCONFDIR})
@@ -64,6 +73,7 @@ message(STATUS "ATE_TESTING: " ${ATE_TESTING})
 message(STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
 message(STATUS "CMAKE_INSTALL_PREFIX: " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
+message(STATUS "ATE_INSTALL_SYSCONFDIR: " ${ATE_INSTALL_SYSCONFDIR})
 message(STATUS "ATE_PACKAGE: " ${ATE_PACKAGE})
 message(STATUS "ATE_INSTALL_SERVER_SERVICE: " ${ATE_INSTALL_SERVER_SERVICE})
 message(STATUS "ATE_WRITABLE_DATA_PREFIX: " ${ATE_WRITABLE_DATA_PREFIX})
