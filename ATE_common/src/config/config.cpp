@@ -18,9 +18,16 @@ string Reader::GetString(const string& section, const string& option, const stri
 
 int Reader::GetInt(const string& section, const string& option, const int default_value) const {
   const long result = reader_.GetInteger(section, option, default_value);
-  return std::numeric_limits<int>::min() <= result && result <= std::numeric_limits<int>::max()
-             ? static_cast<int>(result)
-             : default_value;
+
+  constexpr int kIntMin = std::numeric_limits<int>::min();
+  constexpr int kIntMax = std::numeric_limits<int>::max();
+  if (result <= kIntMin) {
+    return kIntMin;
+  } else if (result >= kIntMax) {
+    return kIntMax;
+  } else {
+    return static_cast<int>(result);
+  }
 }
 
 double Reader::GetDouble(const string& section, const string& option, const double default_value) const {

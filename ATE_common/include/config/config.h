@@ -49,7 +49,8 @@ class Reader {
    * This functions matches a section and option name to find a value in a INI file, and converts
    * the value to an int type.
    *
-   * Value must be in the [INT_MIN, INT_MAX] range.
+   * Value must be in the [INT_MIN, INT_MAX] range. In case of out of range, INT_MAX (INT_MIN)
+   * will be returned.
    */
   int GetInt(const std::string& section, const std::string& option, const int default_value) const;
 

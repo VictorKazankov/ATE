@@ -57,16 +57,11 @@ TEST_F(ConfigReaderTest, ParseInt) {
   EXPECT_EQ(reader_->GetInt(section, "MinInt32", 0), std::numeric_limits<std::int32_t>::min());
   EXPECT_EQ(reader_->GetInt(section, "MaxInt32", 0), std::numeric_limits<std::int32_t>::max());
 
-  //TODO: FIXME Test is fail in Window. MinInt32Minus1 = 2147483648 might not true in Win
-  // Return a default value if the number does not fall into the bounds
   const std::string min_int32_minus1 = "MinInt32Minus1";
-  EXPECT_EQ(reader_->GetInt(section, min_int32_minus1, 0), 0);
-  EXPECT_EQ(reader_->GetInt(section, min_int32_minus1, 1), 1);
+  EXPECT_EQ(reader_->GetInt(section, min_int32_minus1, 0), std::numeric_limits<int>::min());
 
-  //TODO: FIXME Test is fail in Window. 
   const std::string max_int32_plus1 = "MaxInt32Plus1";
-  EXPECT_EQ(reader_->GetInt(section, max_int32_plus1, 0), 0);
-  EXPECT_EQ(reader_->GetInt(section, max_int32_plus1, 1), 1);
+  EXPECT_EQ(reader_->GetInt(section, max_int32_plus1, 0), std::numeric_limits<int>::max());
 
   EXPECT_EQ(reader_->GetInt(section, "Oct", 0), 8);
   EXPECT_EQ(reader_->GetInt(section, "OctZero", 1), 0);
