@@ -3,13 +3,12 @@ Automated Test Environment.
 
 Contents
 --------
-1.  [Prerequisites](#prerequisites)
-    1. [PC](#pc)
-    2. [LVDS board](#lvds-board)
-2.  [Build](#build)
-    1. [Prepare environment](#prepare-environment)
-    2. [Generate a build system](#generate-a-build-system)
-    3. [Build a project](#build-a-project) 
+1. [Prepare build environment](#prepare-build-environment)
+    * [Linux (VDP board or Desktop Ubuntu 18.04)](#linux-vdp-board-or-desktop-ubuntu-1804)
+    * [Windows 10 PC](#windows-10-pc)
+1. [Build and install](#build-and-install)
+    * [Linux (VDP board or Desktop Ubuntu 18.04)](#linux-vdp-board-or-desktop-ubuntu-1804-1)
+    * [Windows 10 PC](#windows-10-pc-1)
 3.  [Options](#options)
     1. [ATE_BUILD_CLIENT](#ATE_BUILD_CLIENT-default-on)
     2. [ATE_BUILD_SERVER](#ATE_BUILD_SERVER-default-on)
@@ -30,55 +29,108 @@ Contents
 6.  [Usage](#usage)
 7.  [Build dependencies](#build-dependencies)
 
-## Prerequisites
+## Prepare build environment
 
-### PC
-Supported OS:
-* Ubuntu 18.04 LTS
-* Windows 10 (ATE client only) - **TBD**
+### Linux (VDP board or Desktop Ubuntu 18.04)
 
-### LVDS board
-1. LVDS board rev 0.9 or higher (aka _Luxoft baseboard v.1.0 ("green")_ or _Luxoft baseboard v.1.1 ("black")_ )
+1. Install tools and dependencies:
+    * #### Desktop Ubuntu 18.04:
+        1. Run:
+            ```shell
+            sudo apt update
+            sudo apt install git cmake libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libdbus-glib-1-dev libglib2.0-dev python2.7-dev
+            ```
+    * #### VDP board TX1:
+        1. Add entries to _/etc/apt/sources.list_:
+            ```
+            deb http://ports.ubuntu.com/ubuntu-ports/ xenial main restricted universe multiverse
+            deb http://ports.ubuntu.com/ubuntu-ports/ xenial-updates main restricted universe multiverse
+            ```
+        1. Run:
+            ```shell
+            sudo apt update
+            sudo apt install git cmake libdbus-glib-1-dev libglib2.0-dev python2.7-dev
+            ```
 
-1. Board set up with latest Jetson TX1 update package from: https://github.ford.com/LVDS2Eth/Jetson_TX1_Update_Package
+1. Clone, build and install VHAT dependencies:
+    * [ThirdParty](https://github.ford.com/VHAT/ThirdParty)
+    * [DBManagerLib](https://github.ford.com/VHAT/DBManagerLib)
+    * [RecognitionLib](https://github.ford.com/VHAT/RecognitionLib)
 
-1. OpenCV installed from JetPack 3.3: https://github.ford.com/VHAT/ATE/wiki/Set-up-LVDS-board-for-the-ATE-Server
-
-Build
------
-
-Building this project, consists of three stages:
-
-1. ### Prepare environment
-
-    - Clone the repository:
-    
-        ```shell
-        git clone git@github.ford.com:VHAT/ATE.git
-        ```
-    - Run setup environment script:
-    
-        ```shell
-        ATE/infrastructure/setup-environment.sh
-        ```
-
-2. ### Generate a build system
-    
+1. Clone repository and init submodules:
     ```shell
-    cmake path/to/sources [options ...]
-    ``` 
+    git clone git@github.ford.com:VHAT/ATE.git
+    git -C ATE submodule update --init
+    ```
 
-    [More about options](#options).
+### Windows 10 PC
 
-3. ### Build a project
-    
+1. Download and install Python 2.7 with latest bugfix https://www.python.org/download/releases/2.7/
+1. Download and install latest CMake https://cmake.org/download/
+1. Download and install latest git https://git-scm.com/downloads/
+1. Download and install Visual Studio 2015 or later https://visualstudio.microsoft.com/downloads/.
+1. In Visual Studio Installer select _Desktop development with C++_ and install latest _MSVC build tools_ and _Windows 10 SDK_.
+1. Clone, build and install [ThirdParty](https://github.ford.com/VHAT/ThirdParty).
+
+## Build and install
+
+### Linux (VDP board or Desktop Ubuntu 18.04)
+
+1. Create build dir and generate build tool files there:
     ```shell
-    cmake --build path/to/build/directory [--target target]
+    mkdir build && cd build
+    cmake ../ATE
+    ```
+
+    * To configure build check [options section](#options) .
+
+1. Build:
+    ```shell
+    cmake --build .
     ```
     
-    [More about targets](#targets).
+    * To choose build target check [targets section](#targets).
 
-   
+1. Install:
+    ```shell
+    sudo cmake --build . --target install
+    ```
+
+    * To choose install directory check [install section](#install).
+
+### Windows 10 PC
+
+Only ATE client is supported on Windows platform.
+
+1. Create build dir and generate build tool files there:
+
+    ```
+    md build
+    cd build
+    cmake ..\ATE
+    ```
+
+1. Build
+    * Debug:
+        ```
+        cmake --build . --config Debug
+        ```
+
+    * Release:
+        ```
+        cmake --build . --config Release
+        ```
+
+1. Install
+    * Debug:
+        ```
+        cmake --build . --config Debug
+        ```
+    * Release:
+        ```
+        cmake --build . --config Release
+        ```
+
 Options
 -------
 
