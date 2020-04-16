@@ -13,7 +13,7 @@ namespace jmsg {
 
 namespace {
 
-void CreatePackageStructure(Json::Value& structure, const std::string& method, int id) {
+void CreatePackageStructure(Json::Value& structure, const std::string& method, uint64_t id) {
   structure[kJsonRpc] = kRpcVersion;
   structure[kMethod] = method;
   structure[kId] = id;
@@ -29,7 +29,7 @@ void PutObjectDataIdentityIntoRequest(const ObjectDataIdentity& object_data_iden
 
 }  // namespace
 
-std::string MessageFactory::Client::CreateAttachToApplicationRequest(uint16_t timeout_msec, int id) {
+std::string MessageFactory::Client::CreateAttachToApplicationRequest(int timeout_msec, uint64_t id) {
   Json::Value message;
   Json::Value params;
   Json::FastWriter writer;
@@ -42,8 +42,8 @@ std::string MessageFactory::Client::CreateAttachToApplicationRequest(uint16_t ti
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string& object_name, uint32_t timeout_msec,
-                                                               int id) {
+std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string& object_name, int timeout_msec,
+                                                               uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -59,7 +59,7 @@ std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string
 }
 
 std::string MessageFactory::Client::CreateWaitForObjectRequest(const common::ObjectDataIdentity& object_data_identity,
-                                                               uint32_t timeout_msec, int id) {
+                                                               int timeout_msec, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -73,8 +73,8 @@ std::string MessageFactory::Client::CreateWaitForObjectRequest(const common::Obj
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t y, squish::ModifierState modifier_state,
-                                                           squish::MouseButton mouse_button, int id) {
+std::string MessageFactory::Client::CreateTapObjectRequest(int x, int y, squish::ModifierState modifier_state,
+                                                           squish::MouseButton mouse_button, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -91,9 +91,9 @@ std::string MessageFactory::Client::CreateTapObjectRequest(uint16_t x, uint16_t 
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreateTouchAndDragRequest(const std::string& object_or_name, uint16_t x, uint16_t y,
-                                                              int16_t dx, int16_t dy,
-                                                              squish::ModifierState modifier_state, int id) {
+std::string MessageFactory::Client::CreateTouchAndDragRequest(const std::string& object_or_name, int x, int y, int dx,
+                                                              int dy, squish::ModifierState modifier_state,
+                                                              uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -112,7 +112,7 @@ std::string MessageFactory::Client::CreateTouchAndDragRequest(const std::string&
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreatePressAndHoldRequest(uint16_t x, uint16_t y, int id) {
+std::string MessageFactory::Client::CreatePressAndHoldRequest(int x, int y, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -127,7 +127,7 @@ std::string MessageFactory::Client::CreatePressAndHoldRequest(uint16_t x, uint16
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreatePressReleaseRequest(uint16_t x, uint16_t y, int id) {
+std::string MessageFactory::Client::CreatePressReleaseRequest(int x, int y, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -143,7 +143,7 @@ std::string MessageFactory::Client::CreatePressReleaseRequest(uint16_t x, uint16
 }
 
 std::string MessageFactory::Client::CreateChangeSyncIconDBRequest(const std::string& sync_version,
-                                                                  const std::string& sync_build_version, int id) {
+                                                                  const std::string& sync_build_version, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -157,7 +157,7 @@ std::string MessageFactory::Client::CreateChangeSyncIconDBRequest(const std::str
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreateChangeSyncModeRequest(const std::string& collection_mode, int id) {
+std::string MessageFactory::Client::CreateChangeSyncModeRequest(const std::string& collection_mode, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -171,7 +171,7 @@ std::string MessageFactory::Client::CreateChangeSyncModeRequest(const std::strin
   return writer.write(message);
 }
 
-std::string MessageFactory::Client::CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id) {
+std::string MessageFactory::Client::CreateLongPressRequest(int x, int y, int timeout_msec, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -188,7 +188,7 @@ std::string MessageFactory::Client::CreateLongPressRequest(uint16_t x, uint16_t 
 }
 
 std::string MessageFactory::Client::CreateGetScreenshotRequest(const std::string& filename, const std::string& location,
-                                                               int id) {
+                                                               uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -204,7 +204,7 @@ std::string MessageFactory::Client::CreateGetScreenshotRequest(const std::string
 }
 
 std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& top_left,
-                                                         const common::Point& bottom_right, int id) {
+                                                         const common::Point& bottom_right, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -225,7 +225,7 @@ std::string MessageFactory::Client::CreateGetTextRequest(const common::Point& to
  * A JSON request contains next data in data section:
  * [{name}]
  */
-std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const std::string& object_name, int id) {
+std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const std::string& object_name, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -243,7 +243,7 @@ std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const s
  * [{object_data_identity}]
  */
 std::string MessageFactory::Client::CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity,
-                                                                         int id) {
+                                                                         uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -265,7 +265,7 @@ std::string MessageFactory::Client::CreateGetImagesDiscrepancyRequest(const std:
                                                                       const std::string& icon_path_first,
                                                                       const common::Point& top_left_coordinate,
                                                                       const common::Point& bottom_right_coordinate,
-                                                                      int id) {
+                                                                      uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -379,7 +379,7 @@ Json::Value MessageFactory::Server::CreateGetImagesDiscrepancyResponse(int perce
   return result;
 }
 
-std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id) {
+std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(int x, int y, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
@@ -395,7 +395,7 @@ std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(uint
 
 Json::Value MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse() { return Json::Value{true}; }
 
-std::string MessageFactory::SignalConnection::CreateIconReloadRequest(int id) {
+std::string MessageFactory::SignalConnection::CreateIconReloadRequest(uint64_t id) {
   Json::FastWriter writer;
 
   Json::Value message;

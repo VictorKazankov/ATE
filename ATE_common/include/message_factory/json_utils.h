@@ -104,8 +104,8 @@ void ExtractTapObjectRequestParams(const Json::Value& params, int& x, int& y, sq
  * @param error - error object, null on successs
  **/
 
-void ExtractLongPressRequestParams(const Json::Value& params, uint16_t& x, uint16_t& y,
-                                   std::chrono::milliseconds& timeout, Json::Value& error);
+void ExtractLongPressRequestParams(const Json::Value& params, int& x, int& y, std::chrono::milliseconds& timeout,
+                                   Json::Value& error);
 
 /**
  * @brief Extract params for 'TouchAndDrag' method

@@ -537,8 +537,7 @@ TEST(ExtractLongPressRequestParamsTest, ExtractLongPressRequestParams_ValidParam
   params["y"] = 2;
   params["timeout_msec"] = 2000;
 
-  uint16_t x;
-  uint16_t y;
+  int x, y;
   std::chrono::milliseconds timeout;
   Json::Value error;
 
@@ -556,8 +555,7 @@ TEST(ExtractLongPressRequestParamsTest, ExtractLongPressRequestParams_WrongParam
   params["y"] = "2";
   params["timeout_msec"] = "2000";
 
-  uint16_t x;
-  uint16_t y;
+  int x, y;
   std::chrono::milliseconds timeout;
   Json::Value error;
 

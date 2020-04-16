@@ -128,8 +128,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleTapObject(const Json::Valu
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleLongPress(const Json::Value& params) {
-  uint16_t x;
-  uint16_t y;
+  int x, y;
   std::chrono::milliseconds timeout;
   Json::Value error;
 

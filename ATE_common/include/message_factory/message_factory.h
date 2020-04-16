@@ -23,28 +23,31 @@ class MessageFactory {
    * @brief Struct 'Client' stores factory methods which uses for creating json messages requests (client -> server)
    */
   struct Client {
-    static std::string CreateAttachToApplicationRequest(uint16_t timeout_msec, int id);
-    static std::string CreateWaitForObjectRequest(const std::string& icon_name, uint32_t timeout_msec, int id);
+    static std::string CreateAttachToApplicationRequest(int timeout_msec, uint64_t id);
+    static std::string CreateWaitForObjectRequest(const std::string& icon_name, int timeout_msec, uint64_t id);
     static std::string CreateWaitForObjectRequest(const common::ObjectDataIdentity& object_data_identity,
-                                                  uint32_t timeout_msec, int id);
-    static std::string CreateTapObjectRequest(uint16_t x, uint16_t y, squish::ModifierState modifier_state,
-                                              squish::MouseButton mouse_button, int id);
-    static std::string CreateTouchAndDragRequest(const std::string& object_or_name, uint16_t x, uint16_t y, int16_t dx,
-                                                 int16_t dy, squish::ModifierState modifier_state, int id);
-    static std::string CreatePressAndHoldRequest(uint16_t x, uint16_t y, int id);
-    static std::string CreatePressReleaseRequest(uint16_t x, uint16_t y, int id);
+                                                  int timeout_msec, uint64_t id);
+    static std::string CreateTapObjectRequest(int x, int y, squish::ModifierState modifier_state,
+                                              squish::MouseButton mouse_button, uint64_t id);
+    static std::string CreateTouchAndDragRequest(const std::string& object_or_name, int x, int y, int dx, int dy,
+                                                 squish::ModifierState modifier_state, uint64_t id);
+    static std::string CreatePressAndHoldRequest(int x, int y, uint64_t id);
+    static std::string CreatePressReleaseRequest(int x, int y, uint64_t id);
     static std::string CreateChangeSyncIconDBRequest(const std::string& sync_version,
-                                                     const std::string& sync_build_version, int id);
-    static std::string CreateChangeSyncModeRequest(const std::string& collection_mode, int id);
-    static std::string CreateLongPressRequest(uint16_t x, uint16_t y, uint32_t timeout_msec, int id);
-    static std::string CreateGetScreenshotRequest(const std::string& filename, const std::string& location, int id);
-    static std::string CreateGetTextRequest(const common::Point& top_left, const common::Point& bottom_right, int id);
+                                                     const std::string& sync_build_version, uint64_t id);
+    static std::string CreateChangeSyncModeRequest(const std::string& collection_mode, uint64_t id);
+    static std::string CreateLongPressRequest(int x, int y, int timeout_msec, uint64_t id);
+    static std::string CreateGetScreenshotRequest(const std::string& filename, const std::string& location,
+                                                  uint64_t id);
+    static std::string CreateGetTextRequest(const common::Point& top_left, const common::Point& bottom_right,
+                                            uint64_t id);
     static std::string CreateGetImagesDiscrepancyRequest(const std::string& icon_path_second,
                                                          const std::string& icon_path_first,
                                                          const common::Point& top_left_coordinate,
-                                                         const common::Point& bottom_right_coordinate, int id);
-    static std::string CreateGetObjectsDataByPatternRequest(const std::string& object_name, int id);
-    static std::string CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity, int id);
+                                                         const common::Point& bottom_right_coordinate, uint64_t id);
+    static std::string CreateGetObjectsDataByPatternRequest(const std::string& object_name, uint64_t id);
+    static std::string CreateGetObjectsDataByPatternRequest(const ObjectDataIdentity& object_data_identity,
+                                                            uint64_t id);
   };
 
   /**
@@ -53,7 +56,7 @@ class MessageFactory {
    * (dbus adapter -> ATE)
    */
   struct DBusConnection {
-    static std::string CreateDisplayTypeChangedRequest(uint16_t x, uint16_t y, int id);
+    static std::string CreateDisplayTypeChangedRequest(int x, int y, uint64_t id);
     static Json::Value CreateDisplayTypeChangedResponse();
   };
 
@@ -62,7 +65,7 @@ class MessageFactory {
    * @brief Struct SignalConnection stores factory methods which use for creating json messages request
    */
   struct SignalConnection {
-    static std::string CreateIconReloadRequest(int id);
+    static std::string CreateIconReloadRequest(uint64_t id);
     static Json::Value CreateIconReloadResponse();
   };
 
