@@ -61,6 +61,11 @@ elseif(WIN32)
   else()
     set(ATE_INSTALL_SYSCONFDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_SYSCONFDIR}/vdp" CACHE PATH "ATE config dir")
   endif()
+
+  if(ATE_COVERAGE)
+    message("ATE_COVERAGE is unsupported for WIN32 platform: turning it off")
+    set(ATE_COVERAGE OFF CACHE BOOL "Enable test coverage" FORCE)
+  endif()
 endif()
 
 file(WRITE "${CMAKE_BINARY_DIR}/ate_version" "${PROJECT_VERSION_FULL}\n")
@@ -70,6 +75,7 @@ message(STATUS ${PROJECT_NAME} " v" ${PROJECT_VERSION_FULL})
 message(STATUS "ATE_BUILD_CLIENT: " ${ATE_BUILD_CLIENT})
 message(STATUS "ATE_BUILD_SERVER: " ${ATE_BUILD_SERVER})
 message(STATUS "ATE_TESTING: " ${ATE_TESTING})
+message(STATUS "ATE_COVERAGE: " ${ATE_COVERAGE})
 message(STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
 message(STATUS "CMAKE_INSTALL_PREFIX: " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "CMAKE_TOOLCHAIN_FILE: " ${CMAKE_TOOLCHAIN_FILE})
@@ -92,9 +98,12 @@ endif(ATE_BUILD_CLIENT)
 #######################################################
 #                   Test coverage
 #######################################################
-find_program(GCOVR_EXECUTABLE gcovr)
+if (ATE_COVERAGE)
+  find_program(GCOVR_EXECUTABLE gcovr)
+  if(${GCOVR_EXECUTABLE} MATCHES ".*-NOTFOUND")
+    message(FATAL_ERROR "gcovr executable not found. Cannot configure 'coverage' target.")
+  endif()
 
-if (ATE_COVERAGE AND GCOVR_EXECUTABLE)
   add_custom_target(coverage
     COMMAND
       ${GCOVR_EXECUTABLE}
@@ -128,9 +137,6 @@ if (ATE_COVERAGE AND GCOVR_EXECUTABLE)
     DEPENDS
       check
   )
-elseif (ATE_COVERAGE AND NOT GCOVR_EXECUTABLE)
-  set(ATE_COVERAGE OFF)
-  message(WARNING "For test coverage need gcovr")
 endif ()
 
 #------------------------------------------ unit tests ------------------------------------------#
@@ -155,7 +161,12 @@ if(ATE_TESTING)
   endif(ATE_BUILD_CLIENT)
 
   # run all tests
-  add_custom_target(check COMMAND ctest)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_custom_target(check COMMAND ctest)
+  elseif(MSVC)
+    add_custom_target(check COMMAND ctest -C $<CONFIG>)
+  endif()
+
 endif(ATE_TESTING)
 
 if(ATE_PACKAGE)
