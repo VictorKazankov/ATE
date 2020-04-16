@@ -42,6 +42,12 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
       -Werror
       -Wextra
   )
+elseif(MSVC)
+  target_compile_options(ate_common
+    PUBLIC
+      /W4
+      /WX
+  )
 endif()
 
 if(UNIX)

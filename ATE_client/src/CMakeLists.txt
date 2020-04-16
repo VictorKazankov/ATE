@@ -30,6 +30,13 @@ target_compile_definitions(ate_client_lib
     ATE_CLIENT_CONFIG_DIR="${ATE_INSTALL_SYSCONFDIR}"
 )
 
+if(MSVC)
+  target_compile_definitions(ate_client_lib
+    PRIVATE
+      _CRT_SECURE_NO_WARNINGS
+  )
+endif()
+
 pybind11_add_module(ate_client ate_client.cpp)
 
 target_include_directories(ate_client
