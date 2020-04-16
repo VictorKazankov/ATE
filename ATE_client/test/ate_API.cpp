@@ -6,8 +6,6 @@
 #include "squish/squish_types.h"
 #include "squish/wildcard.h"
 
-#define private public
-#define protected public
 #include "squish/application_context.h"
 
 using ::testing::_;

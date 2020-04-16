@@ -35,7 +35,7 @@ endif()
 # Config
 option(ATE_BUILD_CLIENT "Build ATE client" ON)
 conditional_option(ATE_BUILD_SERVER "Build ATE server" NOT WIN32)
-conditional_option(ATE_TESTING "Build ATE with tests" NOT WIN32)
+option(ATE_TESTING "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
 option(ATE_INSTALL_SERVER_SERVICE "Install ATE server service" OFF)
 option(ATE_PACKAGE "Create Debian package" OFF)

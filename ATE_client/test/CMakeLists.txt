@@ -1,33 +1,17 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-set(TEST_NAME vhat_client_test)
+add_executable_from_dir_recursive(ate_client_test)
 
-add_executable_from_dir_recursive(${TEST_NAME})  
-
-target_include_directories(${TEST_NAME}
+target_include_directories(ate_client_test
   PRIVATE
     ../include
 )
 
-if(UNIX)
-  target_link_libraries(${TEST_NAME}
-    PRIVATE 
-      ate_client_lib
-      ${GTEST_BOTH_LIBRARIES}
-      ${GMOCK_BOTH_LIBRARIES}
-  )
-elseif(MSVC)
-  target_link_libraries(vhat_client_test
-    PRIVATE
-      ate_client_lib
-      gtest_main
-  )
-  set_target_properties(gtest
-                        gtest_main
-                        vhat_client_library
-                        vhat_client_test
-                        PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                        "${CMAKE_BINARY_DIR}/test")
-endif()
+target_link_libraries(ate_client_test
+  PRIVATE
+    ate_client_lib
+    ${GTEST_BOTH_LIBRARIES}
+    ${GMOCK_BOTH_LIBRARIES}
+)
 
-gtest_add_tests(${TEST_NAME} "" AUTO)
+gtest_add_tests(ate_client_test "" AUTO)

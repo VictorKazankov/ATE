@@ -1,42 +1,35 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-set(ATE_COMMON_TEST_DATA_PATH "${CMAKE_CURRENT_SOURCE_DIR}/data")
-set(TEST_NAME ate_common_test)
+add_executable_from_dir_recursive(ate_common_test)
 
-add_executable_from_dir_recursive(${TEST_NAME})
+target_compile_definitions(ate_common_test
+  PRIVATE
+    ATE_COMMON_TEST_DATA_PATH="${CMAKE_CURRENT_SOURCE_DIR}/data"
+)
 
-if(UNIX)
+target_link_libraries(ate_common_test
+  PRIVATE
+    ${GTEST_BOTH_LIBRARIES}
+    ate_common
+)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_link_libraries(ate_common_test
     PRIVATE
-      ${GTEST_BOTH_LIBRARIES}
       stdc++fs
-      ate_common
-      )
+  )
 elseif(MSVC)
   #check msvc version (later MSVC v141) which required to support file system library
   #https://docs.microsoft.com/en-us/cpp/standard-library/filesystem?view=vs-2019
   if(MSVC_VERSION LESS 1910) #VS 15.0 (v141 toolset)
     message(FATAL_ERROR "Unit test using file system library but not supported by current MSVC version: ${MSVC_VERSION}")
     RESULT_VARIABLE ("Unit test is uncompilable because compiler not support std::experimental::filesystem")
-  else()
-    target_link_libraries(ate_common_test
-      PRIVATE
-      gtest_main
-      ate_common
-    )
-    set_target_properties( gtest 
-                           gtest_main
-                           ate_common
-                           ate_common_test 
-                           PROPERTIES RUNTIME_OUTPUT_DIRECTORY 
-                           "${CMAKE_BINARY_DIR}/test" )
-
   endif()
+
+  target_compile_definitions(ate_common_test
+    PRIVATE
+      _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+  )
 endif()
 
-target_compile_definitions(${TEST_NAME}
-  PRIVATE
-    ATE_COMMON_TEST_DATA_PATH="${ATE_COMMON_TEST_DATA_PATH}"
-)
-
-gtest_add_tests(${TEST_NAME} "" AUTO)
+gtest_add_tests(ate_common_test "" AUTO)

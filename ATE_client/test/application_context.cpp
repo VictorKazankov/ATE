@@ -1,8 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#define private public
-#define protected public
 #include "squish/application_context.h"
 
 using ::testing::_;  // Matcher for parameters
@@ -27,20 +25,19 @@ class ApplicationContextTest : public ::testing::Test {
   void TearDown() override;
 
   std::unique_ptr<squish::ApplicationContext> application_context_;
-  MockATEInteraction* mock_{nullptr};
+  std::shared_ptr<MockATEInteraction> mock_;
 };
 
 void ApplicationContextTest::SetUp() {
   application_context_ = std::make_unique<squish::ApplicationContext>();
-  auto mock = std::make_unique<MockATEInteraction>();
-  application_context_->Attach(std::move(mock));
-  mock_ = static_cast<MockATEInteraction*>(application_context_->ate_interaction_.get());
+  mock_ = std::make_shared<MockATEInteraction>();
+  application_context_->Attach(mock_);
   ASSERT_TRUE(mock_);
 }
 
 void ApplicationContextTest::TearDown() {
   application_context_.reset();
-  mock_ = nullptr;
+  mock_.reset();
 }
 
 TEST_F(ApplicationContextTest, IsRunning_IsConnectionOpened_True) {

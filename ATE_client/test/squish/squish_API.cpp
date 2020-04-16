@@ -1,8 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#define private public
-#define protected public
 #include "squish/squish_API.h"
 
 using ::testing::_;  // Matcher for parameters
