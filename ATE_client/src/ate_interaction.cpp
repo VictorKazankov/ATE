@@ -22,6 +22,26 @@ ATEInteraction::ATEInteraction(boost::asio::io_context& io_context, const std::s
   Connect();
 }
 
+bool ATEInteraction::IsConnectionOpened() const {
+  if (socket_.is_open()) {
+    boost::system::error_code ec;
+    char c;
+
+    bool old = socket_.non_blocking();
+    socket_.non_blocking(true);
+
+    socket_.read_some(boost::asio::mutable_buffer(&c, 1), ec);
+
+    boost::system::error_code ec_block;
+    socket_.non_blocking(old, ec_block);
+
+    logger::debug("[socket.read_some()] error: {} - {}", ec.value(), ec.message());
+
+    return (!ec || boost::asio::error::would_block == ec);
+  }
+  return false;
+}
+
 void ATEInteraction::Connect() {
   auto endpoints = resolver_.resolve(host_, port_);
   auto endpoint_iterator = endpoints.begin();

@@ -32,7 +32,7 @@ class ATEInteraction : public Interaction {
    * @brief Function determine whether the socket is open.
    * @return True if socket is open otherwise false.
    **/
-  bool IsConnectionOpened() const override { return socket_.is_open(); }
+  bool IsConnectionOpened() const override;
 
   /**
    * @brief Send command to server
@@ -52,7 +52,7 @@ class ATEInteraction : public Interaction {
   const std::string host_;
   const std::string port_;
 
-  boost::asio::ip::tcp::socket socket_;
+  mutable boost::asio::ip::tcp::socket socket_;
   boost::asio::ip::tcp::resolver resolver_;
 
   static const size_t kAttempts{3};

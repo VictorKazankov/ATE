@@ -27,7 +27,7 @@ auto& GetMainIoContext() {
 uint64_t ApiAggregator::GetCorrelationId() { return correlation_id_++; }
 
 void ApiAggregator::ThrowExceptionIfNoConnectionEstablished() const {
-  if (!ate_interaction_) throw interaction::NoConnectionEstablished();
+  if (!ate_interaction_ || !ate_interaction_->IsConnectionOpened()) throw interaction::NoConnectionEstablished();
 }
 
 ApiAggregator::ApiAggregator() {
