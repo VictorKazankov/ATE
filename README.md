@@ -204,6 +204,12 @@ Targets
     
     Launches built (and builds if not yet) unit tests. Enabled by default.
     
+    * On Windows must specify `--config Debug` or `--config Release` option. e.g.:
+
+        ```shell
+        cmake --build . --config Debug --target check
+        ```
+
     See also [`test`](#test).
 
 - #### test
