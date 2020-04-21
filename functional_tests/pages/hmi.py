@@ -30,6 +30,12 @@ def tap_object(object):
 
 @catch_exception_video
 def obj_exists(name):
+    """
+    wrapper of object().exists() method
+    :param name: name of the icon/text object to be recognized
+    :return: the result of wrapped method - True if recognition was successful
+    """
+    # TODO:: investigate if timeout can be removed VHAT-1850
     time.sleep(1)
     return object().exists(name)
 
