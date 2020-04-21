@@ -363,8 +363,9 @@ void ExtractGetObjectsDataByPatternParams(const Json::Value& params, std::string
   }
 }
 
-void ExtractCaptureFramesParams(const Json::Value& params, int& interval, int& duration, common::Point& top_left,
-                                common::Point& bottom_right, std::string& path, Json::Value& error) {
+void ExtractCaptureFramesParams(const Json::Value& params, unsigned int& interval, unsigned int& duration,
+                                common::Point& top_left, common::Point& bottom_right, std::string& path,
+                                Json::Value& error) {
   error.clear();
   try {
     interval = params[kTimeInterval].asUInt();

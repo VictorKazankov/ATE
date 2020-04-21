@@ -718,8 +718,8 @@ TEST(ExtractGetImagesDiscrepancyParamsTest, ExtractGetImagesDiscrepancyParams_Va
 
 TEST(ExtractCaptureFramesParamsTest, ExtractCaptureFramesParams_ValidParams_Valid) {
   Json::Value params;
-  params[common::jmsg::kTimeInterval] = 1;
-  params[common::jmsg::kTimeoutMsec] = 100;
+  params[common::jmsg::kTimeInterval] = 1u;
+  params[common::jmsg::kTimeoutMsec] = 100u;
   params[common::jmsg::kXTopLeft] = 10;
   params[common::jmsg::kYTopLeft] = 20;
   params[common::jmsg::kXBottomRight] = 30;
@@ -727,14 +727,14 @@ TEST(ExtractCaptureFramesParamsTest, ExtractCaptureFramesParams_ValidParams_Vali
   params[common::jmsg::kLocation] = "~/test";
 
   Json::Value error;
-  int interval{}, duration{};
+  unsigned int interval{}, duration{};
   common::Point top_left, bottom_right;
   std::string path;
 
   EXPECT_NO_THROW(
       common::jmsg::ExtractCaptureFramesParams(params, interval, duration, top_left, bottom_right, path, error));
-  EXPECT_EQ(interval, 1);
-  EXPECT_EQ(duration, 100);
+  EXPECT_EQ(interval, 1u);
+  EXPECT_EQ(duration, 100u);
   EXPECT_EQ(top_left.x, 10);
   EXPECT_EQ(top_left.y, 20);
   EXPECT_EQ(bottom_right.x, 30);

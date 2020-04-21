@@ -339,6 +339,8 @@ int GetImagesDiscrepancy(const std::string& icon_path_second, const std::string&
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw InvalidDuration In case if the duration is longer than 5s
  * @throw NoAvailableDiskSpace In case if no available space on a disk
+ * @throw InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or produced rectangle
+ * has zero height/width or is out of frame boundaries."
  * @throw invalid_argument In case of the invalid arguments in request
  */
 std::vector<std::string> CaptureFrames(int interval, int duration, const common::Point& top_left,

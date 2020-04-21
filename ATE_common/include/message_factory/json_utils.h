@@ -240,8 +240,9 @@ void ExtractGetImagesDiscrepancyParams(const Json::Value& params, std::string& i
  * @param path Path where stored frames
  * @param error Error object, null on success
  */
-void ExtractCaptureFramesParams(const Json::Value& params, int& interval, int& duration, common::Point& top_left,
-                                common::Point& bottom_right, std::string& path, Json::Value& error);
+void ExtractCaptureFramesParams(const Json::Value& params, unsigned int& interval, unsigned int& duration,
+                                common::Point& top_left, common::Point& bottom_right, std::string& path,
+                                Json::Value& error);
 
 }  // namespace jmsg
 }  // namespace common

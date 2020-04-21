@@ -41,6 +41,9 @@ Json::Value ConvertScreenshotErrorCodeToObjectError(const std::error_code& error
       result_error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidDuration, error_code.message().c_str());
     } else if (error_code == common::AteError::kNoAvailableDiskSpace) {
       result_error = common::jmsg::CreateErrorObject(rpc::Error::kNoAvailableDiskSpace, error_code.message().c_str());
+    } else if (error_code == common::AteError::kOutOfBoundaries) {
+      result_error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                                     "Specified area is out of screen boundaries");
     } else {
       logger::warn("[ate message adapter] unhandled error {}", error_code.message());
       result_error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
@@ -500,7 +503,7 @@ std::pair<Json::Value, bool> AteMessageAdapter::GetImagesDiscrepancy(const Json:
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleCaptureFrames(const Json::Value& params) {
   Json::Value error;
-  int interval{}, duration{};
+  unsigned int interval{}, duration{};
   common::Point top_left, bottom_right;
   std::string path;
 

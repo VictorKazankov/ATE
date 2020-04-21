@@ -330,6 +330,8 @@ class ApiAggregator {
    * @throw InvalidDuration In case if the duration longer than 5 sec
    * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
    * @throw InternalError In case of file system errors, bad alloc
+   * @throw InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or produced
+   * rectangle has zero height/width or is out of frame boundaries."
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw NoAvailableDiskSpace In case if no available space on a disk
    */

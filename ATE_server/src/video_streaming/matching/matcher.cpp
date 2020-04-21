@@ -48,7 +48,22 @@ std::error_code Matcher::GetFrame(cv::Mat& frame, const cv::Rect& area) {
   if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     return common::make_error_code(common::AteError::kVideoTemporarilyUnavailable);
   }
-  frame = area.empty() ? screen_ : screen_(area);
+
+  const cv::Rect kEmptyRect{};  // standard `empty` method checks width == 0 or height == 0, so in this case can be
+                                // bug with points (9999, 9999), (9999, 9999)
+  const cv::Rect frame_boundaries{cv::Point{0, 0}, screen_.size()};
+
+  if (area != kEmptyRect) {
+    // fix difference in 1 pixel when area and frame have the same rectangle
+    if (frame_boundaries != area &&
+        (area.empty() || !frame_boundaries.contains(area.tl()) || !frame_boundaries.contains(area.br()))) {
+      logger::error("[matcher GetFrame] Desired area is out of screen boundaries: screen - {}x{}, area - {}:{} ; {}:{}",
+                    frame_boundaries.width, frame_boundaries.height, area.tl().x, area.tl().y, area.br().x,
+                    area.br().y);
+      return common::make_error_code(common::AteError::kOutOfBoundaries);
+    }
+  }
+  frame = (area.empty() || area == frame_boundaries) ? screen_ : screen_(area);
   return {};
 }
 

@@ -485,6 +485,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'NoConnectionEstablished' In case of no connection was established to server-side"
         " 'InvalidDuration' In case if the duration is longer than 5s"
         " 'NoAvailableDiskSpace' In case if no available space on a disk"
+        " 'InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or "
+        "                               produced rectangle has zero height/width or is out of frame boundaries."
         " 'runtime_error' In case system's errors"
         " 'invalid_argument' In case of invalid params sent to the server-side",
         py::arg("interval"), py::arg("duration"), py::arg("top_left"), py::arg("bottom_right"), py::arg("path"));
