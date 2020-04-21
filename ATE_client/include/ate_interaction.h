@@ -1,6 +1,8 @@
 #ifndef ATE_INTERACTION_H_
 #define ATE_INTERACTION_H_
 
+#include <memory>
+
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/streambuf.hpp>
@@ -11,7 +13,7 @@ namespace interaction {
 
 class ATEInteraction : public Interaction {
  public:
-  ATEInteraction(boost::asio::io_context& io_context, const std::string& host, const std::string& port);
+  ATEInteraction(std::shared_ptr<boost::asio::io_context> io_context, const std::string& host, const std::string& port);
   ~ATEInteraction() = default;
 
   /**
@@ -52,6 +54,7 @@ class ATEInteraction : public Interaction {
   const std::string host_;
   const std::string port_;
 
+  std::shared_ptr<boost::asio::io_context> io_context_;
   mutable boost::asio::ip::tcp::socket socket_;
   boost::asio::ip::tcp::resolver resolver_;
 

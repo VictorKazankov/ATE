@@ -28,6 +28,7 @@ class ApiAggregator {
    * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an
    *        attachable AUT
    * @return A handle to its application context
+   * @throw runtime_error In case of an internal error
    **/
   squish::ApplicationContext& AttachToApplication(const std::string& aut_name);
 

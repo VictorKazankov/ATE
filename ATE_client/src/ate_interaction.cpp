@@ -17,8 +17,15 @@ namespace {
 const auto kReconnectTimeout{1s};
 }  // namespace
 
-ATEInteraction::ATEInteraction(boost::asio::io_context& io_context, const std::string& host, const std::string& port)
-    : host_(host), port_(port), socket_(io_context), resolver_(io_context), read_stream_(&read_buffer_) {
+ATEInteraction::ATEInteraction(std::shared_ptr<boost::asio::io_context> io_context, const std::string& host,
+                               const std::string& port)
+    : host_(host),
+      port_(port),
+      io_context_(io_context ? std::move(io_context)
+                             : throw std::runtime_error{"ATEInteraction: io_context is nullptr"}),
+      socket_(*io_context_),
+      resolver_{*io_context_},
+      read_stream_(&read_buffer_) {
   Connect();
 }
 

@@ -172,6 +172,8 @@ PYBIND11_MODULE(vhat_client, m) {
   m.def("attachToApplication", &API::AttachToApplication,
         "This function causes to attach to the application called aut_name and returns a handle to its application "
         "context. ",
+        "Throws:"
+        " 'runtime_error' in case of an internal error",
         py::arg("aut_name"), py::return_value_policy::reference);
 
   m.def("waitForObject", py::overload_cast<const std::string&>(&API::WaitForObject),

@@ -18,8 +18,9 @@ const std::string kTestSettingSection = "TEST_SETTINGS";
 const std::string kWaitForObjectTimeoutOption = "WaitForObjectTimeout";
 constexpr auto kConfigEnvVar = "ATE_CLIENT_CONFIG";
 
-auto& GetMainIoContext() {
-  static boost::asio::io_context io_context;
+auto GetMainIoContext() {
+  static std::shared_ptr<boost::asio::io_context> io_context;
+  if (!io_context) io_context = std::make_shared<boost::asio::io_context>();
   return io_context;
 }
 }  // namespace
