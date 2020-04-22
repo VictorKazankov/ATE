@@ -57,6 +57,55 @@ void SquishApiTest::TearDown() {
   mock_ = nullptr;
 }
 
+TEST_F(SquishApiTest, AttachToApplication_SetAteInteractionMock_HostAndPortEqualForInteractionAndAppContext) {
+  EXPECT_CALL(*mock_, SendCommand(_)).Times(0);
+  EXPECT_CALL(*mock_, host()).WillRepeatedly(Return("127.0.0.1"));
+  EXPECT_CALL(*mock_, port()).WillRepeatedly(Return("8800"));
+
+  const squish::ApplicationContext& context = api_.AttachToApplication(mock_);
+
+  EXPECT_EQ(context.host(), mock_->host());
+  EXPECT_EQ(context.port(), mock_->port());
+}
+
+TEST_F(SquishApiTest, AttachToApplication_SetAnotherAteInteractionAsFirstIsRunning_AppContextNotChanged) {
+  EXPECT_CALL(*mock_, SendCommand(_)).Times(0);
+  EXPECT_CALL(*mock_, host()).WillRepeatedly(Return("127.0.0.1"));
+  EXPECT_CALL(*mock_, port()).WillRepeatedly(Return("8800"));
+  EXPECT_CALL(*mock_, IsConnectionOpened()).WillOnce(Return(true));
+
+  std::shared_ptr<MockATEInteraction> another_mock = std::make_shared<MockATEInteraction>();
+  EXPECT_CALL(*another_mock, SendCommand(_)).Times(0);
+  EXPECT_CALL(*another_mock, host()).WillRepeatedly(Return("localhost"));
+  EXPECT_CALL(*another_mock, port()).WillRepeatedly(Return("5000"));
+  EXPECT_CALL(*another_mock, IsConnectionOpened()).Times(0);
+
+  api_.AttachToApplication(mock_);
+  const squish::ApplicationContext& context = api_.AttachToApplication(another_mock);
+
+  EXPECT_EQ(context.host(), mock_->host());
+  EXPECT_EQ(context.port(), mock_->port());
+}
+
+TEST_F(SquishApiTest, AttachToApplication_SetAnotherAteInteractionAsFirstIsNotRunning_AppContextChanged) {
+  EXPECT_CALL(*mock_, SendCommand(_)).Times(0);
+  EXPECT_CALL(*mock_, host()).WillRepeatedly(Return("127.0.0.1"));
+  EXPECT_CALL(*mock_, port()).WillRepeatedly(Return("8800"));
+  EXPECT_CALL(*mock_, IsConnectionOpened()).WillOnce(Return(false));
+
+  std::shared_ptr<MockATEInteraction> another_mock = std::make_shared<MockATEInteraction>();
+  EXPECT_CALL(*another_mock, SendCommand(_)).Times(0);
+  EXPECT_CALL(*another_mock, host()).WillRepeatedly(Return("localhost"));
+  EXPECT_CALL(*another_mock, port()).WillRepeatedly(Return("5000"));
+  EXPECT_CALL(*another_mock, IsConnectionOpened()).Times(0);
+
+  api_.AttachToApplication(mock_);
+  const squish::ApplicationContext& context = api_.AttachToApplication(another_mock);
+
+  EXPECT_EQ(context.host(), another_mock->host());
+  EXPECT_EQ(context.port(), another_mock->port());
+}
+
 TEST_F(SquishApiTest, WaitForObject_StringName_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
@@ -158,60 +207,4 @@ TEST_F(SquishApiTest, PressRelease_Object_SendCommandCallOnce) {
 
   api_.PressRelease(mock_, kId, Object{});
 }
-
-/* TODO
-TEST_F(SquishApiTest, AttachToApplication_SetEmptyAppName_CallOnce) {
-  API::SquishApi api;
-
-  EXPECT_CALL(*mock_, SendCommand(_)).Times(1);
-
-  api.AttachToApplication(mock_, "");
-}
-*/
-
-/*
-class APITestPredefinedEnvVar : public ::testing::Test {
- public:
-  void SetUp() override;
-  void TearDown() override;
-
- private:
-  static const char* kConfigEnvVar;
-  char* config_env_var_old_{nullptr};
-};
-
-const char* APITestPredefinedEnvVar::kConfigEnvVar{"ATE_CLIENT_CONFIG"};
-
-void APITestPredefinedEnvVar::SetUp() {
-  const auto kInvalidConfigValue = "";
-  config_env_var_old_ = std::getenv(kConfigEnvVar);
-  ASSERT_EQ(0, setenv(kConfigEnvVar, kInvalidConfigValue, 1)) << "Couldn't set environment variable " << kConfigEnvVar;
-}
-
-void APITestPredefinedEnvVar::TearDown() {
-  ASSERT_EQ(0, setenv(kConfigEnvVar, config_env_var_old_ ? config_env_var_old_ : "", 1))
-      << "Couldn't restore value of the environment variable " << kConfigEnvVar;
-}
-
-TEST_F(APITestPredefinedEnvVar, AttachToApplication_SetInvalidConfig_Exception) {
-  EXPECT_THROW(API::AttachToApplication(""), std::runtime_error);
-}
-
-
-
-TEST(APITest, ChangeSyncIconDB_NotConnected_Exception) {
-  EXPECT_THROW(API::ChangeSyncIconDB("test_unknown_sync", "test_unknown_build"), std::runtime_error);
-}
-
-TEST(APITest, ChangeSyncMode_NotConnected_Exception) {
-  EXPECT_THROW(API::ChangeSyncMode(common::squish::CollectionMode::DAY), std::runtime_error);
-}
-
-TEST(APITest, GetText_NotConnected_Exception) { EXPECT_THROW(API::GetText(0, 1, 2, 3), std::runtime_error); }
-
-TEST(APITest, GetScreenshot_NotConnected_Exception) {
-  EXPECT_THROW(API::GetScreenshot("filename", "location"), std::runtime_error);
-}
-
-*/
 }  // namespace
