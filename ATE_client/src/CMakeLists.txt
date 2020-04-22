@@ -17,7 +17,7 @@ set_target_properties(ate_client_lib PROPERTIES
 
 target_include_directories(ate_client_lib
   PUBLIC
-    ../include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include
 )
 
 target_link_libraries(ate_client_lib
@@ -37,44 +37,15 @@ if(MSVC)
   )
 endif()
 
-pybind11_add_module(ate_client ate_client.cpp)
-
-target_include_directories(ate_client
-  PUBLIC
-    ../include
-)
-
-target_link_libraries(ate_client
-  PRIVATE
-    ate_client_lib
-)
-
-set_target_properties(ate_client PROPERTIES
-  OUTPUT_NAME "vhat_client"
-)
-
-if(UNIX)
-  set_target_properties(ate_client PROPERTIES
-    INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${ATE_INSTALL_LIBDIR}"
-  )
-endif()
-
 install(FILES
   ../data/ate_client.ini
   DESTINATION ${ATE_INSTALL_SYSCONFDIR}
 )
 
-if(UNIX)
-  message("INFO: ATE client install path was hardcoded for Python 2.7 and Debian system "
-          "(https://wiki.debian.org/Python#Deviations_from_upstream)")
+if(ATE_BUILD_CLIENT_PYTHON)
+  add_subdirectory(client_python)
+endif()
 
-  install(TARGETS
-    ate_client
-    LIBRARY DESTINATION "${ATE_INSTALL_LIBPREFIX}/python2.7/dist-packages"
-  )
-elseif(WIN32)
-  install(TARGETS
-    ate_client
-    LIBRARY DESTINATION "${ATE_PYTHON_SITEPACKAGES_DIR}"
-  )
+if(ATE_BUILD_CLIENT_CLI)
+  add_subdirectory(client_cli)
 endif()

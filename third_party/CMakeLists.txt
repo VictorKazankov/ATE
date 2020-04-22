@@ -96,7 +96,7 @@ set_target_properties(boost_asio inihcpp
     POSITION_INDEPENDENT_CODE ON
 )
 
-if(ATE_BUILD_CLIENT)
+if(ATE_BUILD_CLIENT_PYTHON)
   ### Pybind11
   ### https://pybind11.readthedocs.io/en/stable/index.html
   set(PYBIND11_PYTHON_VERSION 2.7 CACHE STRING "Pybind11 Python version")
@@ -108,7 +108,7 @@ if(ATE_BUILD_CLIENT)
     set(ATE_PYTHON_SITEPACKAGES_DIR ${PYTHON_SITE_PACKAGES} CACHE PATH "Python site-packages dir")
     message(STATUS "Python site-packages dir: " ${ATE_PYTHON_SITEPACKAGES_DIR})
   endif()
-endif(ATE_BUILD_CLIENT)
+endif(ATE_BUILD_CLIENT_PYTHON)
 
 ### spdlog
 ### https://github.com/gabime/spdlog

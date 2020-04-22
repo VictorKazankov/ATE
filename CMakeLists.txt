@@ -33,7 +33,8 @@ if(WIN32)
 endif()
 
 # Config
-option(ATE_BUILD_CLIENT "Build ATE client" ON)
+option(ATE_BUILD_CLIENT_PYTHON "Build ATE client for Python" ON)
+conditional_option(ATE_BUILD_CLIENT_CLI "Build ATE client for CLI" WIN32)
 conditional_option(ATE_BUILD_SERVER "Build ATE server" NOT WIN32)
 option(ATE_TESTING "Build ATE with tests" ON)
 option(ATE_COVERAGE "Enable test coverage" OFF)
@@ -72,7 +73,8 @@ file(WRITE "${CMAKE_BINARY_DIR}/ate_version" "${PROJECT_VERSION_FULL}\n")
 install(FILES "${CMAKE_BINARY_DIR}/ate_version" DESTINATION ${ATE_INSTALL_SYSCONFDIR})
 
 message(STATUS ${PROJECT_NAME} " v" ${PROJECT_VERSION_FULL})
-message(STATUS "ATE_BUILD_CLIENT: " ${ATE_BUILD_CLIENT})
+message(STATUS "ATE_BUILD_CLIENT_PYTHON: " ${ATE_BUILD_CLIENT_PYTHON})
+message(STATUS "ATE_BUILD_CLIENT_CLI: " ${ATE_BUILD_CLIENT_CLI})
 message(STATUS "ATE_BUILD_SERVER: " ${ATE_BUILD_SERVER})
 message(STATUS "ATE_TESTING: " ${ATE_TESTING})
 message(STATUS "ATE_COVERAGE: " ${ATE_COVERAGE})
@@ -91,9 +93,9 @@ if(ATE_BUILD_SERVER)
   add_subdirectory(ATE_server/src)
 endif(ATE_BUILD_SERVER)
 
-if(ATE_BUILD_CLIENT)
+if(ATE_BUILD_CLIENT_PYTHON OR ATE_BUILD_CLIENT_CLI)
   add_subdirectory(ATE_client/src)
-endif(ATE_BUILD_CLIENT)
+endif()
 
 #######################################################
 #                   Test coverage
@@ -156,9 +158,9 @@ if(ATE_TESTING)
     add_subdirectory(ATE_server/test)
   endif(ATE_BUILD_SERVER)
   
-  if(ATE_BUILD_CLIENT)
+  if(ATE_BUILD_CLIENT_PYTHON OR ATE_BUILD_CLIENT_CLI)
     add_subdirectory(ATE_client/test)
-  endif(ATE_BUILD_CLIENT)
+  endif()
 
   # run all tests
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
