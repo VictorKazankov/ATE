@@ -24,6 +24,10 @@ def execute_command(client, command, passwd_required=False, ignore_error=False):
     return stdout
 
 
+def execute_command_and_get_result(client, command, passwd_required=False, ignore_error=False):
+    return execute_command(client, command, passwd_required, ignore_error).read().strip()
+
+
 def execute_list_of_commands(client, command_list):
     for command in command_list:
         if command.strip().startswith('sudo'):

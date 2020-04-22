@@ -7,13 +7,13 @@ from functional_tests.utils.resolution import SyncResolution
 from functional_tests.utils.ssh_connect import execute_command, start, execute_list_of_commands
 from functional_tests.utils import ssh_commands as cmd
 
-_server_config = 'ate_server.ini'
+
 _server_config_bkp = 'ate_server.ini.bkp'
-_config_path = '/etc/vdp/{}'.format(_server_config)
+_config_path = cmd.ATE_SERVER_CONFIG
 _cmd_get_data = '''cat {} | egrep "FrameWidth|FrameHeight|Target =|Build =|CollectionMode ="'''
 
 _tmp_config_bkp_path = '~/{}'.format(_server_config_bkp)
-_tmp_config_path = '~/{}'.format(_server_config)
+_tmp_config_path = '~/ate_server.ini'
 _octal_permissions_notation = 666
 
 _attr_name_sync_v = 'Target'
