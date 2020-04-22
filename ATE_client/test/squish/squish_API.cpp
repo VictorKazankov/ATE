@@ -123,6 +123,24 @@ TEST_F(SquishApiTest, TouchAndDrag_StringName_SendCommandCallOnce) {
   api_.TouchAndDrag(mock_, kId, "test_unknown_name", 1, 2, 3, 4, common::squish::ModifierState::kNone);
 }
 
+TEST_F(SquishApiTest, PressAndHold_Point_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.PressAndHold(mock_, kId, common::Point{});
+}
+
+TEST_F(SquishApiTest, PressAndHold_Rect_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.PressAndHold(mock_, kId, common::Rect{});
+}
+
+TEST_F(SquishApiTest, PressAndHold_Object_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.PressAndHold(mock_, kId, Object{});
+}
+
 /* TODO
 TEST_F(SquishApiTest, AttachToApplication_SetEmptyAppName_CallOnce) {
   API::SquishApi api;
@@ -161,17 +179,7 @@ TEST_F(APITestPredefinedEnvVar, AttachToApplication_SetInvalidConfig_Exception) 
   EXPECT_THROW(API::AttachToApplication(""), std::runtime_error);
 }
 
-TEST(APITest, PressAndHold_NotConnected_Exception) {
-  EXPECT_THROW(API::PressAndHold(common::Point{}), std::runtime_error);
-  EXPECT_THROW(API::PressAndHold(common::Rect{}), std::runtime_error);
-  EXPECT_THROW(API::PressAndHold(Object{}), std::runtime_error);
-}
 
-TEST(APITest, PressRelease_NotConnected_Exception) {
-  EXPECT_THROW(API::PressRelease(common::Point{}), std::runtime_error);
-  EXPECT_THROW(API::PressRelease(common::Rect{}), std::runtime_error);
-  EXPECT_THROW(API::PressRelease(Object{}), std::runtime_error);
-}
 
 TEST(APITest, ChangeSyncIconDB_NotConnected_Exception) {
   EXPECT_THROW(API::ChangeSyncIconDB("test_unknown_sync", "test_unknown_build"), std::runtime_error);
