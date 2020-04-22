@@ -22,7 +22,7 @@ const int kTimeMs = 100;
 const std::string kObjName = "test_name";
 const squish::Wildcard kWidcard{"test_name"};
 const std::string wfo_response(R"({"id":6,"jsonrpc":"2.0","result":{"height":15,"width":45,"x":44,"y":419}})");
-const std::string tap_response(R"({"id":10,"jsonrpc":"2.0","result":true})");
+const std::string general_response(R"({"id":10,"jsonrpc":"2.0","result":true})");
 }  // namespace
 
 class MockATEInteraction : public interaction::Interaction {
@@ -57,58 +57,70 @@ void SquishApiTest::TearDown() {
   mock_ = nullptr;
 }
 
-TEST_F(SquishApiTest, WaitForObject_StringName_CallOnce) {
+TEST_F(SquishApiTest, WaitForObject_StringName_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
   api_.WaitForObject(mock_, kId, kObjName);
 }
 
-TEST_F(SquishApiTest, WaitForObject_StringNameAndTime_CallOnce) {
+TEST_F(SquishApiTest, WaitForObject_StringNameAndTime_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
   api_.WaitForObject(mock_, kId, kObjName, kTimeMs);
 }
 
-TEST_F(SquishApiTest, WaitForObject_Object_CallOnce) {
+TEST_F(SquishApiTest, WaitForObject_Object_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
   api_.WaitForObject(mock_, kId, squish::Object{});
 }
 
-TEST_F(SquishApiTest, WaitForObject_ObjectAndTime_CallOnce) {
+TEST_F(SquishApiTest, WaitForObject_ObjectAndTime_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
   api_.WaitForObject(mock_, kId, squish::Object{}, kTimeMs);
 }
 
-TEST_F(SquishApiTest, WaitForObject_Wildcard_CallOnce) {
+TEST_F(SquishApiTest, WaitForObject_Wildcard_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
   api_.WaitForObject(mock_, kId, kWidcard);
 }
 
-TEST_F(SquishApiTest, WaitForObject_WildcardAndTime_CallOnce) {
+TEST_F(SquishApiTest, WaitForObject_WildcardAndTime_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
   api_.WaitForObject(mock_, kId, kWidcard, kTimeMs);
 }
 
-TEST_F(SquishApiTest, TapObject_Point_CallOnce) {
-  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(tap_response));
+TEST_F(SquishApiTest, TapObject_Point_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
 
   api_.TapObject(mock_, kId, common::Point{});
 }
 
-TEST_F(SquishApiTest, TapObject_Rect_CallOnce) {
-  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(tap_response));
+TEST_F(SquishApiTest, TapObject_Rect_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
 
   api_.TapObject(mock_, kId, common::Rect{});
 }
 
-TEST_F(SquishApiTest, TapObject_Object_CallOnce) {
-  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(tap_response));
+TEST_F(SquishApiTest, TapObject_Object_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
 
   api_.TapObject(mock_, kId, Object{});
+}
+
+TEST_F(SquishApiTest, TouchAndDrag_Object_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.TouchAndDrag(mock_, kId, Object{}, 1, 2, 3, 4, common::squish::ModifierState::kNone);
+}
+
+TEST_F(SquishApiTest, TouchAndDrag_StringName_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.TouchAndDrag(mock_, kId, "test_unknown_name", 1, 2, 3, 4, common::squish::ModifierState::kNone);
 }
 
 /* TODO
@@ -147,12 +159,6 @@ void APITestPredefinedEnvVar::TearDown() {
 
 TEST_F(APITestPredefinedEnvVar, AttachToApplication_SetInvalidConfig_Exception) {
   EXPECT_THROW(API::AttachToApplication(""), std::runtime_error);
-}
-
-TEST(APITest, TouchAndDrag_NotConnected_Exception) {
-  EXPECT_THROW(API::TouchAndDrag(Object{}, 1, 2, 3, 4, common::squish::ModifierState::NONE), std::runtime_error);
-  EXPECT_THROW(API::TouchAndDrag("test_unknown_name", 1, 2, 3, 4, common::squish::ModifierState::NONE),
-               std::runtime_error);
 }
 
 TEST(APITest, PressAndHold_NotConnected_Exception) {
