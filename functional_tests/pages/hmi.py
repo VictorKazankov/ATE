@@ -24,8 +24,14 @@ def wait_for_object(object_name, timeout=7000):
     return obj
 
 
-def tap_object(object):
-    tapObject(object, ModifierState.NONE, MouseButton.LEFT_BUTTON)
+def tap_object(element, modifier_state=ModifierState.NONE, mouse_button=MouseButton.LEFT_BUTTON):
+    """
+    wrapping method for vhat_client.tabObject
+    :param element: object to tap
+    :param modifier_state: ModifierState enum value
+    :param mouse_button: MouseButton enum value
+    """
+    return tapObject(element, modifier_state, mouse_button)
 
 
 @catch_exception_video
