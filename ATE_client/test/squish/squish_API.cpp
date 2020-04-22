@@ -3,6 +3,10 @@
 
 #include "squish/squish_API.h"
 
+#define private public
+#define protected public
+#include "squish/application_context.h"
+
 using ::testing::_;  // Matcher for parameters
 using ::testing::Invoke;
 using ::testing::Return;
@@ -11,6 +15,93 @@ using ::testing::ReturnRef;
 namespace {
 
 using namespace squish;
+
+namespace {
+constexpr int kId = 1;
+const int kTimeMs = 100;
+const std::string kObjName = "test_name";
+const squish::Wildcard kWidcard{"test_name"};
+std::string response(R"({"id":6,"jsonrpc":"2.0","result":{"height":15,"width":45,"x":44,"y":419}})");
+}  // namespace
+
+class MockATEInteraction : public interaction::Interaction {
+ public:
+  MOCK_CONST_METHOD0(host, std::string());
+  MOCK_CONST_METHOD0(port, std::string());
+  MOCK_METHOD0(Connect, void());
+  MOCK_CONST_METHOD0(IsConnectionOpened, bool());
+  MOCK_METHOD1(SendCommand, std::string(const std::string&));
+};
+
+class SquishApiTest : public ::testing::Test {
+ public:
+  void SetUp() override;
+  void TearDown() override;
+
+  std::unique_ptr<squish::ApplicationContext> application_context_;
+  std::shared_ptr<MockATEInteraction> mock_{nullptr};
+  API::SquishApi api_;
+};
+
+void SquishApiTest::SetUp() {
+  application_context_ = std::make_unique<squish::ApplicationContext>();
+  auto mock = std::make_unique<MockATEInteraction>();
+  application_context_->Attach(std::move(mock));
+  mock_ = std::make_shared<MockATEInteraction>();
+  ASSERT_TRUE(mock_);
+}
+
+void SquishApiTest::TearDown() {
+  application_context_.reset();
+  mock_ = nullptr;
+}
+
+TEST_F(SquishApiTest, WaitForObject_StringName_CallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+
+  api_.WaitForObject(mock_, kId, kObjName);
+}
+
+TEST_F(SquishApiTest, WaitForObject_StringNameAndTime_CallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+
+  api_.WaitForObject(mock_, kId, kObjName, kTimeMs);
+}
+
+TEST_F(SquishApiTest, WaitForObject_Object_CallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+
+  api_.WaitForObject(mock_, kId, squish::Object{});
+}
+
+TEST_F(SquishApiTest, WaitForObject_ObjectAndTime_CallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+
+  api_.WaitForObject(mock_, kId, squish::Object{}, kTimeMs);
+}
+
+TEST_F(SquishApiTest, WaitForObject_Wildcard_CallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+
+  api_.WaitForObject(mock_, kId, kWidcard);
+}
+
+TEST_F(SquishApiTest, WaitForObject_WildcardAndTime_CallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+
+  api_.WaitForObject(mock_, kId, kWidcard, kTimeMs);
+}
+
+/* TODO
+TEST_F(SquishApiTest, AttachToApplication_SetEmptyAppName_CallOnce) {
+  API::SquishApi api;
+
+  EXPECT_CALL(*mock_, SendCommand(_)).Times(1);
+
+  api.AttachToApplication(mock_, "");
+}
+*/
+
 /*
 class APITestPredefinedEnvVar : public ::testing::Test {
  public:
@@ -39,15 +130,6 @@ TEST_F(APITestPredefinedEnvVar, AttachToApplication_SetInvalidConfig_Exception) 
   EXPECT_THROW(API::AttachToApplication(""), std::runtime_error);
 }
 
-TEST(APITest, WaitForObject_NotConnected_Exception) {
-  const int kTimeMs = 100;
-
-  EXPECT_THROW(API::WaitForObject(squish::Object{}), std::runtime_error);
-  EXPECT_THROW(API::WaitForObject("test_unknown_name"), std::runtime_error);
-  EXPECT_THROW(API::WaitForObject(squish::Object{}, kTimeMs), std::runtime_error);
-  EXPECT_THROW(API::WaitForObject("test_unknown_name", kTimeMs), std::runtime_error);
-  EXPECT_THROW(API::WaitForObject(common::ObjectDataIdentity{}, kTimeMs), std::runtime_error);
-}
 
 TEST(APITest, TapObject_NotConnected_Exception) {
   EXPECT_THROW(API::TapObject(common::Point{}), std::runtime_error);
