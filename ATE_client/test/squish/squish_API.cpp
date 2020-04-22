@@ -141,6 +141,24 @@ TEST_F(SquishApiTest, PressAndHold_Object_SendCommandCallOnce) {
   api_.PressAndHold(mock_, kId, Object{});
 }
 
+TEST_F(SquishApiTest, PressRelease_Point_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.PressRelease(mock_, kId, common::Point{});
+}
+
+TEST_F(SquishApiTest, PressRelease_Rect_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.PressRelease(mock_, kId, common::Rect{});
+}
+
+TEST_F(SquishApiTest, PressRelease_Object_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.PressRelease(mock_, kId, Object{});
+}
+
 /* TODO
 TEST_F(SquishApiTest, AttachToApplication_SetEmptyAppName_CallOnce) {
   API::SquishApi api;
