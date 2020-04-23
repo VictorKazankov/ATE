@@ -3,30 +3,10 @@
 
 2. Install [tox](https://tox.readthedocs.io/en/latest/install.html).
 
-3. Clone project ATE on your machine and build ATE client successfully.
+3. Clone project ATE on your machine, build and install ATE client. Refer to project [README](../README.md) or product documentation for instructions.
 
-    ```
-    git clone -b develop git@github.ford.com:VHAT/ATE.git
-
-    cd ATE
-
-    git submodule init
-
-    git submodule update --recursive
-
-    cmake -DATE_BUILD_SERVER:BOOL=OFF -DATE_WITH_TESTS:BOOL=OFF -P infrastructure/build.cmake
-    ```
-
-4. Configure vhat_client
-
-    - Create the symbolic link to vhat_client
-    
-        ```
-        sudo ln -sf ~/build-ATE-Release/install/lib/python2.7/dist-packages/vhat_client.so /usr/lib/python2.7/vhat_client.so
-        ```
-        
-   - Change vhat_client configure ~/build-ATE-Release/install/etc/ate_client.ini
-    
+4. Configure vhat_client. Edit file `/usr/local/etc/vdp/ate_client.ini` on Ubuntu or `C:\ProgramData\VDP\ate_client.ini` on Windows:
+    - In a`[BOARD]` section set `Address` to ip or hostname of VDP board. e.g.:
         ```
         [BOARD]
         #This section configures LVDS board
