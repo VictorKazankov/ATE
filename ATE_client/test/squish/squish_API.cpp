@@ -3,11 +3,9 @@
 
 #include "squish/squish_API.h"
 
-#define private public
-#define protected public
 #include "squish/application_context.h"
 
-using ::testing::_;  // Matcher for parameters
+using ::testing::_;
 using ::testing::Invoke;
 using ::testing::Return;
 using ::testing::ReturnRef;
@@ -46,15 +44,15 @@ class SquishApiTest : public ::testing::Test {
 
 void SquishApiTest::SetUp() {
   application_context_ = std::make_unique<squish::ApplicationContext>();
-  auto mock = std::make_unique<MockATEInteraction>();
-  application_context_->Attach(std::move(mock));
+  auto mock = std::make_shared<MockATEInteraction>();
+  application_context_->Attach(mock);
   mock_ = std::make_shared<MockATEInteraction>();
   ASSERT_TRUE(mock_);
 }
 
 void SquishApiTest::TearDown() {
   application_context_.reset();
-  mock_ = nullptr;
+  mock_.reset();
 }
 
 TEST_F(SquishApiTest, AttachToApplication_SetAteInteractionMock_HostAndPortEqualForInteractionAndAppContext) {
