@@ -16,6 +16,7 @@ namespace API {
  * @param aut_name (ignored) the name of an application that has been registered with the squishserver as an
  *        attachable AUT
  * @return A handle to its application context
+ * @throw TypeError In case of incompatible function arguments
  **/
 squish::ApplicationContext& AttachToApplication(const std::string& aut_name);
 
@@ -30,6 +31,7 @@ squish::ApplicationContext& AttachToApplication(const std::string& aut_name);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 squish::Object WaitForObject(const std::string& object_or_name);
 squish::Object WaitForObject(const squish::Object& object_or_name);
@@ -46,6 +48,7 @@ squish::Object WaitForObject(const squish::Object& object_or_name);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec);
 squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec);
@@ -61,6 +64,7 @@ squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_m
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 squish::Object WaitForObject(const squish::Wildcard& wildcard);
 
@@ -76,6 +80,7 @@ squish::Object WaitForObject(const squish::Wildcard& wildcard);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 squish::Object WaitForObject(const squish::Wildcard& wildcard, int timeout_msec);
 
@@ -87,6 +92,7 @@ squish::Object WaitForObject(const squish::Wildcard& wildcard, int timeout_msec)
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
                common::squish::MouseButton button);
@@ -99,6 +105,7 @@ void TapObject(const common::Point& screen_point, common::squish::ModifierState 
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void TapObject(const common::Rect& screen_rectangle, common::squish::ModifierState modifier_state,
                common::squish::MouseButton button);
@@ -118,6 +125,7 @@ void TapObject(const squish::Object& screen_rectangle, common::squish::ModifierS
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void LongPress(const squish::Object& screen_rectangle, int timeout_msec);
 void LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout_msec);
@@ -135,6 +143,7 @@ void LongPress(const squish::Object& screen_rectangle, int x, int y, int timeout
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void TouchAndDrag(const squish::Object& object_or_name, int x, int y, int dx, int dy,
                   common::squish::ModifierState modifier_state);
@@ -152,6 +161,7 @@ void TouchAndDrag(const std::string& object_or_name, int x, int y, int dx, int d
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void PressAndHold(const common::Point& screen_point);
 
@@ -166,6 +176,7 @@ void PressAndHold(const common::Point& screen_point);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void PressAndHold(const common::Rect& screen_rectangle);
 
@@ -180,6 +191,7 @@ void PressAndHold(const common::Rect& screen_rectangle);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void PressAndHold(const squish::Object& object);
 
@@ -193,6 +205,7 @@ void PressAndHold(const squish::Object& object);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void PressRelease(const common::Point& screen_point);
 
@@ -206,6 +219,7 @@ void PressRelease(const common::Point& screen_point);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 void PressRelease(const common::Rect& screen_rectangle);
 
@@ -219,6 +233,7 @@ void PressRelease(const common::Rect& screen_rectangle);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ *  @throw TypeError In case of incompatible function arguments
  **/
 void PressRelease(const squish::Object& object);
 
@@ -232,6 +247,7 @@ void PressRelease(const squish::Object& object);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of invalid params in request
  * @throw runtime_error In case of internal error, parse error, invalid request, method not found
+ * @throw TypeError In case of incompatible function arguments
  **/
 bool Exists(const std::string& object_name);
 
@@ -244,6 +260,7 @@ bool Exists(const std::string& object_name);
  * @throw invalid_argument In case of the invalid arguments in the request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw NoConnectionEstablished In case of no connection was established to server-side
+ * @throw TypeError In case of incompatible function arguments
  */
 void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version);
 
@@ -254,6 +271,7 @@ void ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_b
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw NoConnectionEstablished In case of no connection was established to server-side
+ * @throw TypeError In case of incompatible function arguments
  */
 void ChangeSyncMode(common::squish::CollectionMode collection_mode);
 
@@ -269,6 +287,7 @@ void ChangeSyncMode(common::squish::CollectionMode collection_mode);
  * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
  * @throw InternalError In case of file system errors, bad alloc
  * @throw NoConnectionEstablished In case of no connection was established to server-side
+ * @throw TypeError In case of incompatible function arguments
  */
 bool GetScreenshot(const std::string& filename, const std::string& location);
 
@@ -280,6 +299,7 @@ bool GetScreenshot(const std::string& filename, const std::string& location);
  * @param y2 Y axis of the bottom-right coordinate
  * @return Text
  * @throw NoConnectionEstablished In case of no connection was established to server-side
+ * @throw TypeError In case of incompatible function arguments
  */
 std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 
@@ -290,6 +310,7 @@ std::string GetText(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  */
 std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_name);
 
@@ -300,6 +321,7 @@ std::vector<squish::Object> GetObjectsDataByPattern(const std::string& object_na
  * @throw NoConnectionEstablished In case of no connection was established to server-side
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+ * @throw TypeError In case of incompatible function arguments
  */
 std::vector<squish::Object> GetObjectsDataByPattern(const squish::Wildcard& wildcard);
 
@@ -320,6 +342,7 @@ std::vector<squish::Object> GetObjectsDataByPattern(const squish::Wildcard& wild
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw UnsupportedFileType In case of incorrect image file type
+ * @throw TypeError In case of incompatible function arguments
  */
 int GetImagesDiscrepancy(const std::string& icon_path_second, const std::string& icon_path_first,
                          const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate);
@@ -342,6 +365,7 @@ int GetImagesDiscrepancy(const std::string& icon_path_second, const std::string&
  * @throw InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or produced rectangle
  * has zero height/width or is out of frame boundaries."
  * @throw invalid_argument In case of the invalid arguments in request
+ * @throw TypeError In case of incompatible function arguments
  */
 std::vector<std::string> CaptureFrames(int interval, int duration, const common::Point& top_left,
                                        const common::Point& bottom_right, const std::string& path);

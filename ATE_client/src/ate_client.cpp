@@ -173,7 +173,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "This function causes to attach to the application called aut_name and returns a handle to its application "
         "context. ",
         "Throws:"
-        " 'runtime_error' in case of an internal error",
+        " 'runtime_error' in case of an internal error"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("aut_name"), py::return_value_policy::reference);
 
   m.def("waitForObject", py::overload_cast<const std::string&>(&API::WaitForObject),
@@ -185,7 +186,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
-        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object_or_name"));
 
   m.def("waitForObject", py::overload_cast<const squish::Object&>(&API::WaitForObject),
@@ -197,7 +199,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
-        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object_or_name"));
 
   m.def("waitForObject", py::overload_cast<const squish::Wildcard&>(&API::WaitForObject),
@@ -210,7 +213,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
-        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("wildcard"));
 
   m.def("waitForObject", py::overload_cast<const squish::Wildcard&, int>(&API::WaitForObject),
@@ -223,7 +227,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
-        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("wildcard"), py::arg("timeout_msec"));
 
   m.def("waitForObject", py::overload_cast<const std::string&, int>(&API::WaitForObject),
@@ -235,7 +240,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
-        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
   m.def("waitForObject", py::overload_cast<const squish::Object&, int>(&API::WaitForObject),
@@ -247,7 +253,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
-        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found",
+        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object_or_name"), py::arg("timeout_msec"));
 
   m.def("tapObject",
@@ -258,7 +265,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("screen_point"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("tapObject",
@@ -269,7 +277,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("tapObject",
@@ -280,7 +289,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("screen_rectangle"), py::arg("modifier_state"), py::arg("button"));
 
   m.def("touchAndDrag",
@@ -290,7 +300,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
         py::arg("modifier") = common::squish::ModifierState::kNone);
 
@@ -301,7 +312,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'runtime_error' in case system's errors"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("dx"), py::arg("dy"),
         py::arg("modifier") = common::squish::ModifierState::kNone);
 
@@ -313,7 +325,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("screen_point"));
 
   m.def("pressAndHold", py::overload_cast<const common::Rect&>(&API::PressAndHold),
@@ -324,7 +337,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("screen_rectangle"));
 
   m.def("pressAndHold", py::overload_cast<const squish::Object&>(&API::PressAndHold),
@@ -335,7 +349,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object"));
 
   m.def("pressRelease", py::overload_cast<const common::Point&>(&API::PressRelease),
@@ -345,7 +360,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("screen_point"));
 
   m.def("pressRelease", py::overload_cast<const common::Rect&>(&API::PressRelease),
@@ -355,7 +371,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("screen_rectangle"));
 
   m.def("pressRelease", py::overload_cast<const squish::Object&>(&API::PressRelease),
@@ -365,27 +382,30 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object"));
 
   m.def("changeSyncIconDB", &API::ChangeSyncIconDB,
         "ChangeSyncIconDB performs a change sync_version and sync build_version for getting search item from a "
         "specific collection. "
         "Throws:"
-        " 'InvalidSyncVersion' In case of the sync_version is incorrect."
-        " 'InvalidSyncBuildVersion' In case of the sync_build_version is incorrect."
+        " 'InvalidSyncVersion' in case of the sync_version is incorrect."
+        " 'InvalidSyncBuildVersion' in case of the sync_build_version is incorrect."
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("sync_version"), py::arg("sync_build_version"));
 
   m.def("changeSyncMode", &API::ChangeSyncMode,
         "This function changes active collection mode in DBManager. "
         "Throws:"
-        " 'InvalidSyncCollectionMode' In case of the collection_mode is incorrect"
+        " 'InvalidSyncCollectionMode' in case of the collection_mode is incorrect"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("collection_mode"));
 
   m.def(
@@ -395,7 +415,8 @@ PYBIND11_MODULE(vhat_client, m) {
       "Throws:"
       " 'NoConnectionEstablished' in case of no connection was established to server-side"
       " 'runtime_error' in case system's errors"
-      " 'invalid_argument' in case of invalid params sent to the server-side",
+      " 'invalid_argument' in case of invalid params sent to the server-side"
+      " 'TypeError' in case of incompatible function arguments",
       py::arg("object_or_name"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
 
   m.def("longPress", py::overload_cast<const squish::Object&, int, int, int>(&API::LongPress),
@@ -407,7 +428,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("object_or_name"), py::arg("x"), py::arg("y"), py::arg("timeout_msec") = int(kDefaultLongPressTimeout));
 
   m.def("getScreenshot", py::overload_cast<const std::string&, const std::string&>(&API::GetScreenshot),
@@ -422,9 +444,10 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'PermissionDenied' in case of server does not have permission to make directory"
         " 'ImageAssemblingFailed' in case of server can't save the screenshot"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'NoAvailableDiskSpace' In case if no available space on a disk"
+        " 'NoAvailableDiskSpace' in case if no available space on a disk"
         " 'runtime_error' in case system's errors"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("filename"), py::arg("location"));
 
   m.def("getText", &API::GetText,
@@ -437,7 +460,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'runtime_error' in case system's errors"
         " 'invalid_argument' in case of invalid params sent to the server-side"
-        " 'VideoStreamNotFound' in case of the video stream is not available",
+        " 'VideoStreamNotFound' in case of the video stream is not available"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("x1"), py::arg("y1"), py::arg("x2"), py::arg("y2"), py::return_value_policy::copy);
 
   m.def("getObjectsDataByPattern", py::overload_cast<const squish::Wildcard&>(&API::GetObjectsDataByPattern),
@@ -446,7 +470,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("wildcard"));
 
   m.def("getObjectsDataByPattern", py::overload_cast<const std::string&>(&API::GetObjectsDataByPattern),
@@ -455,7 +480,8 @@ PYBIND11_MODULE(vhat_client, m) {
         "Throws:"
         " 'runtime_error' in case system's erorrs"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of invalid params sent to the server-side",
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("name"));
 
   m.def("getImagesDiscrepancy", &API::GetImagesDiscrepancy,
@@ -463,16 +489,17 @@ PYBIND11_MODULE(vhat_client, m) {
         "      discrepancy. If you need to compare certain areas of the image, specify the coordinates of the top left "
         "      corner (point_top_left) and bottom right (point_bottom_right)."
         "Throws:"
-        " 'InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or "
+        " 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
         "                               produced rectangle has zero height/width or is out of frame boundaries."
-        " 'ComparingImageIncorrectSize' In case incorrect size of image"
-        " 'ComparingImageNotExist' In case comparing images doesn't exist"
-        " 'EmptyScreenshotFileName' In case comparing image file path is empty"
-        " 'PermissionDenied' In case error read permissions"
-        " 'runtime_error' In case system's errors"
-        " 'NoConnectionEstablished' In case of no connection was established to server-side"
-        " 'invalid_argument' In case of invalid params sent to the server-side"
-        " 'UnsupportedFileType' In case of incorrect image file type",
+        " 'ComparingImageIncorrectSize' in case incorrect size of image"
+        " 'ComparingImageNotExist' in case comparing images doesn't exist"
+        " 'EmptyScreenshotFileName' in case comparing image file path is empty"
+        " 'PermissionDenied' in case error read permissions"
+        " 'runtime_error' in case system's errors"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'UnsupportedFileType' in case of incorrect image file type"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("icon_path_second"), py::arg("icon_path_first"),
         py::arg_v("point_top_left", common::Point(), "The top left coordinate of the comparison area"),
         py::arg_v("point_bottom_right", common::Point(), "The bottom right coordinate of the comparison area"));
@@ -481,15 +508,16 @@ PYBIND11_MODULE(vhat_client, m) {
         "CaptureFrames provides capturing video frames of desired area at a specified interval and duration"
         "Throws 'InvalidDuration' in case if duration longer than 1 minute(60 000 milliseconds)."
         "Throws:"
-        " 'VideoStreamNotFound' In case of the video stream is not available"
-        " 'PermissionDenied' In case of server does not have permission to make directory"
-        " 'ImageAssemblingFailed' In case of server can't save the screenshot"
-        " 'NoConnectionEstablished' In case of no connection was established to server-side"
-        " 'InvalidDuration' In case if the duration is longer than 5s"
-        " 'NoAvailableDiskSpace' In case if no available space on a disk"
-        " 'InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or "
+        " 'VideoStreamNotFound' in case of the video stream is not available"
+        " 'PermissionDenied' in case of server does not have permission to make directory"
+        " 'ImageAssemblingFailed' in case of server can't save the screenshot"
+        " 'NoConnectionEstablished' in case of no connection was established to server-side"
+        " 'InvalidDuration' in case if the duration is longer than 5s"
+        " 'NoAvailableDiskSpace' in case if no available space on a disk"
+        " 'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or "
         "                               produced rectangle has zero height/width or is out of frame boundaries."
-        " 'runtime_error' In case system's errors"
-        " 'invalid_argument' In case of invalid params sent to the server-side",
+        " 'runtime_error' in case system's errors"
+        " 'invalid_argument' in case of invalid params sent to the server-side"
+        " 'TypeError' in case of incompatible function arguments",
         py::arg("interval"), py::arg("duration"), py::arg("top_left"), py::arg("bottom_right"), py::arg("path"));
 }
