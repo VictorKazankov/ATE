@@ -2,6 +2,8 @@ using namespace System;
 using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
 
+// clang-format off
+
 [assembly:AssemblyTitleAttribute("ATE")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
