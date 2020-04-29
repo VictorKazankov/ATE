@@ -1,0 +1,28 @@
+#ifndef ATE_CLIENT_CLIENT_CLI_ENUMS_H_
+#define ATE_CLIENT_CLIENT_CLI_ENUMS_H_
+
+#include "utils/squish_types.h"
+
+namespace ATE {
+
+// clang-format off
+
+public enum class Modifier {
+  None = common::squish::ModifierState::kNone,
+  Alt = common::squish::ModifierState::kAlt,
+  Control = common::squish::ModifierState::kControl,
+  Shift = common::squish::ModifierState::kShift,
+};
+
+public enum class MouseButton {
+  None = common::squish::MouseButton::kNone,
+  LeftButton = common::squish::MouseButton::kLeftButton,
+  MiddleButton = common::squish::MouseButton::kMiddleButton,
+  RightButton = common::squish::MouseButton::kRightButton,
+};
+
+// clang-format on
+
+}  // namespace ATE
+
+#endif  // ATE_CLIENT_CLIENT_CLI_ENUMS_H_

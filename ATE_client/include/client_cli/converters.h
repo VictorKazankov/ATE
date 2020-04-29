@@ -5,6 +5,7 @@
 
 #include "object.h"
 #include "squish/squish_types.h"
+#include "utils/geometry_types.h"
 
 namespace ATE {
 namespace impl_detail {
@@ -38,6 +39,20 @@ squish::Object ToSquishObject(ATE::Object^ o);
  * @return Handle to ATE::Object object which hold copy of o
  **/
 ATE::Object^ ToAteObject(const squish::Object& o);
+
+/**
+ * @brief Convert ATE::ScreenPoint into common::Point
+ * @param p Point represented as ATE::ScreenPoint value
+ * @return copy of p represented as common::Point type
+ **/
+common::Point ToCommonPoint(ATE::ScreenPoint p);
+
+/**
+ * @brief Convert ATE::ScreenRectangle into common::Rect
+ * @param r Rectangle represented as ATE::ScreenRectangle handle
+ * @return copy of r represented as common::Rect type
+ **/
+common::Rect ToCommonRect(ATE::ScreenRectangle^ r);
 
 // clang-format on
 

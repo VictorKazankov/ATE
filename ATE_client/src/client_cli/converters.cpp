@@ -42,6 +42,14 @@ ATE::Object^ ToAteObject(const squish::Object& o) {
   return result;
 }
 
+common::Point ToCommonPoint(ATE::ScreenPoint p) {
+  return common::Point{p.X, p.Y};
+}
+
+common::Rect ToCommonRect(ATE::ScreenRectangle^ r) {
+  return common::Rect{r->X, r->Y, r->Width, r->Height};
+}
+
 // clang-format on
 
 }  // namespace impl_detail
