@@ -38,7 +38,7 @@ class SpiWriteFailure : public std::system_error {
   explicit SpiWriteFailure() : std::system_error{std::make_error_code(std::errc::io_error)} {}
 };
 
-class InteractionTypeError : std::invalid_argument {
+class InteractionTypeError : public std::invalid_argument {
  public:
   explicit InteractionTypeError() : std::invalid_argument{"Undefined type of interaction"} {}
 };
