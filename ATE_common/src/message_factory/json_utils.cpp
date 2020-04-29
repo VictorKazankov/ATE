@@ -15,6 +15,14 @@ namespace jmsg {
 
 namespace {
 
+/**
+ * @brief Extract params fot 'ObjectDataIdentity' object
+ *
+ * @param params structured value that holds the parameter values
+ *
+ * @param object_data_identity Identity struct for performing search into DB
+ * @param error Error object, null on success
+ */
 void ExtractObjectDataIdentity(const Json::Value& params, ObjectDataIdentity& object_data_identity,
                                Json::Value& error) {
   error.clear();
@@ -55,7 +63,7 @@ Json::Value CreateErrorObject(rpc::Error code, const char* message, Json::Value 
     std::swap(error_value[kErrorData], data);
   }
 
-  return std::move(error_value);
+  return error_value;
 }
 
 bool ParseJson(const std::string& json_message, Json::Value& value) {

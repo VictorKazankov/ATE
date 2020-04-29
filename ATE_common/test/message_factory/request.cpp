@@ -583,6 +583,25 @@ TEST(ExtractGetTextRequestParams, ExtractGetTextRequestParams_ValidParam_Success
   EXPECT_EQ(bottom_right.y, 80);
 }
 
+TEST(ExtractGetTextRequestParams, ExtractGetTextRequestParams_InvalidParam_ErrorInvalidParams) {
+  Json::Value params;
+
+  params[common::jmsg::kAbscissa] = "";  // instead of an integer we pass a string
+
+  common::Point top_left{}, bottom_right{};
+  Json::Value error;
+
+  common::jmsg::ExtractGetTextRequestParams(params, top_left, bottom_right, error);
+
+  EXPECT_EQ(error[common::jmsg::kErrorCode].asInt(), static_cast<int>(rpc::Error::kInvalidParams));
+  EXPECT_STREQ(error[common::jmsg::kErrorMessage].asCString(), "Invalid GetText params");
+  EXPECT_TRUE(error[common::jmsg::kErrorData].isNull());
+  EXPECT_EQ(top_left.x, 0);
+  EXPECT_EQ(top_left.y, 0);
+  EXPECT_EQ(bottom_right.x, 0);
+  EXPECT_EQ(bottom_right.y, 0);
+}
+
 TEST(ExtractGetScreenshotRequestParamsTest, ExtractGetScreenshotRequestParams_ValidParam_Success) {
   Json::Value params;
   params["filename"] = "file.png";
@@ -741,6 +760,28 @@ TEST(ExtractCaptureFramesParamsTest, ExtractCaptureFramesParams_ValidParams_Vali
   EXPECT_EQ(bottom_right.y, 40);
   EXPECT_STREQ(path.c_str(), "~/test");
   EXPECT_TRUE(error.empty()) << "Error code exist";
+}
+
+TEST(ExtractCaptureFramesParamsTest, ExtractCaptureFramesParams_InvalidParams_ErrorInvalidParams) {
+  Json::Value params;
+  params[common::jmsg::kTimeInterval] = "";  // instead of an integer we pass a string
+
+  Json::Value error;
+  unsigned int interval{0}, duration{0};
+  common::Point top_left, bottom_right;
+  std::string path;
+
+  common::jmsg::ExtractCaptureFramesParams(params, interval, duration, top_left, bottom_right, path, error);
+  EXPECT_EQ(interval, 0);
+  EXPECT_EQ(duration, 0);
+  EXPECT_EQ(top_left.x, 0);
+  EXPECT_EQ(top_left.y, 0);
+  EXPECT_EQ(bottom_right.x, 0);
+  EXPECT_EQ(bottom_right.y, 0);
+  EXPECT_TRUE(path.empty());
+  EXPECT_EQ(error[common::jmsg::kErrorCode].asInt(), static_cast<int>(rpc::Error::kInvalidParams));
+  EXPECT_STREQ(error[common::jmsg::kErrorMessage].asCString(), "Invalid CaptureFrames params");
+  EXPECT_TRUE(error[common::jmsg::kErrorData].isNull());
 }
 
 }  // namespace
