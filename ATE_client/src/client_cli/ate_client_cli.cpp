@@ -12,12 +12,44 @@ using namespace impl_detail;
 
 // clang-format off
 
-ApplicationContext^ API::AttachToApplication(String^ aut_name) try {
-  return gcnew ApplicationContext(::API::AttachToApplication(ToStdString(aut_name)));
+ApplicationContext^ API::AttachToApplication(String^ autName) try {
+  return gcnew ApplicationContext(::API::AttachToApplication(ToStdString(autName)));
 } catch (const std::exception& e) {
   throw gcnew Exception(ToSystemString(e.what()));
 }
 
-// clang-format on
+ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName) try {
+  return ToAteObject(::API::WaitForObject(ToSquishObject(objectOrName)));
+} catch (const squish::LookupError&) {
+  throw gcnew LookupError();
+} catch (const std::exception& e) {
+  throw gcnew Exception(ToSystemString(e.what()));
+}
+
+ATE::Object^ API::WaitForObject(System::String^ objectOrName) try {
+  return ToAteObject(::API::WaitForObject(ToStdString(objectOrName)));
+} catch (const squish::LookupError&) {
+  throw gcnew LookupError();
+} catch (const std::exception& e) {
+  throw gcnew Exception(ToSystemString(e.what()));
+}
+
+ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName, int timeoutMSec) try {
+  return ToAteObject(::API::WaitForObject(ToSquishObject(objectOrName), timeoutMSec));
+} catch (const squish::LookupError&) {
+  throw gcnew LookupError();
+} catch(const std::exception& e) {
+  throw gcnew Exception(ToSystemString(e.what()));
+}
+
+ATE::Object^ API::WaitForObject(System::String^ objectOrName, int timeoutMSec) try {
+  return ToAteObject(::API::WaitForObject(ToStdString(objectOrName), timeoutMSec));
+} catch (const squish::LookupError&) {
+  throw gcnew LookupError();
+} catch (const std::exception& e) {
+  throw gcnew Exception(ToSystemString(e.what()));
+}
+
+  // clang-format on
 
 }  // namespace ATE

@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include "object.h"
+#include "squish/squish_types.h"
+
 namespace ATE {
 namespace impl_detail {
 
@@ -21,6 +24,20 @@ std::string ToStdString(System::String^ s);
  * @return Handle to System::String object which holds copy of s
  **/
 System::String^ ToSystemString(const std::string& s);
+
+/**
+ * @brief Convert ATE::Object into squish::Object
+ * @param o Handle to Object represented as ATE::Object
+ * @return copy of o represented as squish::Object
+ **/
+squish::Object ToSquishObject(ATE::Object^ o);
+
+/**
+ * @brief Convert squish::Object to ATE::Object
+ * @param o Object represented as squish::Object type
+ * @return Handle to ATE::Object object which hold copy of o
+ **/
+ATE::Object^ ToAteObject(const squish::Object& o);
 
 // clang-format on
 

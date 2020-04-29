@@ -8,6 +8,7 @@ namespace ATE {
 
 // clang-format off
 
+/// <summary>Handle to Application Context returned by AttachToAppliction() API</summary>
 public ref class ApplicationContext {
  public:
   /** <summary>

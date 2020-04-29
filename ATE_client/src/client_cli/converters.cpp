@@ -22,6 +22,26 @@ System::String^ ToSystemString(const std::string& s) {
   return gcnew System::String(s.c_str());
 }
 
+squish::Object ToSquishObject(ATE::Object^ o) {
+  squish::Object result{};
+  result.x = o->X;
+  result.y = o->Y;
+  result.width = o->Width;
+  result.height = o->Height;
+  result.name = ToStdString(o->Name);
+  return result;
+}
+
+ATE::Object^ ToAteObject(const squish::Object& o) {
+  ATE::Object^ result = gcnew ATE::Object;
+  result->Name = ToSystemString(o.name);
+  result->X = o.x;
+  result->Y = o.y;
+  result->Width = o.width;
+  result->Height = o.height;
+  return result;
+}
+
 // clang-format on
 
 }  // namespace impl_detail
