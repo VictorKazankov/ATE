@@ -14,6 +14,12 @@
 
 namespace detector {
 
+bool Contains(const cv::Rect& rect, const cv::Point& pt) {
+  // the code from cv::Rect::contains  x <= pt.x && pt.x < x + width && y <= pt.y && pt.y < y + height;
+  // it doesn't take into account the right and bottom edges
+  return rect.x <= pt.x && pt.x <= rect.x + rect.width && rect.y <= pt.y && pt.y <= rect.y + rect.height;
+}
+
 Matcher::Matcher(std::unique_ptr<streamer::Streamer> streamer, std::unique_ptr<Detector<cv::Mat>> image_detector,
                  std::unique_ptr<Detector<std::string>> text_detector,
                  std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder,
@@ -56,7 +62,7 @@ std::error_code Matcher::GetFrame(cv::Mat& frame, const cv::Rect& area) {
   if (area != kEmptyRect) {
     // fix difference in 1 pixel when area and frame have the same rectangle
     if (frame_boundaries != area &&
-        (area.empty() || !frame_boundaries.contains(area.tl()) || !frame_boundaries.contains(area.br()))) {
+        (area.empty() || !Contains(frame_boundaries, area.tl()) || !Contains(frame_boundaries, area.br()))) {
       logger::error("[matcher GetFrame] Desired area is out of screen boundaries: screen - {}x{}, area - {}:{} ; {}:{}",
                     frame_boundaries.width, frame_boundaries.height, area.tl().x, area.tl().y, area.br().x,
                     area.br().y);
@@ -139,7 +145,7 @@ std::error_code Matcher::GetScreenshot(const std::string& file_name, const std::
   }
   if (!area.empty()) {
     const cv::Rect screen_rect{0, 0, screen_.size().width, screen_.size().height};
-    if (!screen_rect.contains(area.tl()) || !screen_rect.contains(area.br())) {
+    if (!Contains(screen_rect, area.tl()) || !Contains(screen_rect, area.br())) {
       logger::error("[matcher] Desired area is out of screen boundaries");
       return {common::make_error_code(common::AteError::kOutOfBoundaries)};
     }
@@ -176,13 +182,14 @@ std::pair<std::string, std::error_code> Matcher::GetText(const cv::Point& point,
     return {{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
   }
 
-  cv::Rect screen_rect{0, 0, screen_.size().width, screen_.size().height};
-  if (!screen_rect.contains(point) || !screen_rect.contains(delta_point)) {
+  const cv::Rect crop_area(point, delta_point);
+  const cv::Rect screen_rect{cv::Point{0, 0}, screen_.size()};
+
+  if (crop_area.empty() || !Contains(screen_rect, point) || !Contains(screen_rect, delta_point)) {
     logger::error("[matcher] Desired area is out of screen boundaries");
     return {{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
   }
 
-  cv::Rect crop_area(point, delta_point);
   cv::Mat croped = screen_(crop_area);
 
   return {text_detector_->ExtractText(croped), std::error_code{}};
@@ -214,8 +221,8 @@ std::pair<int, std::error_code> Matcher::GetImagesDiscrepancy(const std::string&
   }
 
   // The compared area should be within the resolution of images
-  cv::Rect screen_rect{0, 0, image_second.size().width, image_second.size().height};
-  if (!screen_rect.contains(top_left_coordinate) || !screen_rect.contains(bottom_right_coordinate)) {
+  cv::Rect screen_rect{cv::Point{0, 0}, image_second.size()};
+  if (!Contains(screen_rect, top_left_coordinate) || !Contains(screen_rect, bottom_right_coordinate)) {
     logger::error("[matcher GetImagesDiscrepancy] Desired area is out of screen boundaries");
     return {discrepancy, common::make_error_code(common::AteError::kOutOfBoundaries)};
   }
