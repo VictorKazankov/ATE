@@ -2,14 +2,26 @@ import logging
 import re
 import time
 
-from vhat_client import CollectionMode
-
+import allure
+import vhat_client
 from functional_tests.pages import hmi
+from functional_tests.utils import get_benchmark
+from vhat_client import CollectionMode
 
 
 def get_exist_result(name):
+    """
+    check of existence object and getting time recognition
+    :param object name:
+    :return:
+    """
+    # wait 1 sec for rendering page with object
     time.sleep(1)
-    return hmi.obj_exists(name)
+    # get time recognition of object for adding it to report
+    start = time.time()
+    result = vhat_client.object().exists(name)
+    get_benchmark.set_time(time.time() - start, name)
+    return result
 
 
 def touch_and_drag_page(object, x, y, dx, dy, modifier=None):
