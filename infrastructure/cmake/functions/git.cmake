@@ -20,14 +20,14 @@ endfunction(git_get_commit_hash)
 # GIT_RC_VERSION - output variable
 # Example usage: get_rc_version(${GIT_TAG} GIT_RC_VERSION)
 function(get_rc_version GIT_TAG GIT_RC_VERSION)
-    string(REGEX MATCH "rc[0-9]*" TMP ${GIT_TAG})
+    string(REGEX MATCH "rc[0-9]+" TMP ${GIT_TAG})
     if("${TMP}" STREQUAL "")
         set(${GIT_RC_VERSION} ${RC_VERSION} PARENT_SCOPE)
     else()
-        string(REGEX MATCH "[0-9]" RC_VERSION ${TMP})
+        string(REGEX MATCH "[0-9]+" RC_VERSION ${TMP})
         set(${GIT_RC_VERSION} "-${RC_VERSION}" PARENT_SCOPE)
     endif()
-    
+
 endfunction(get_rc_version)
 
 # Parse git tag and get git tag, major version and minor version
@@ -47,8 +47,8 @@ function(git_get_latest_tag GIT_TAG GIT_TAG_VERSION_MAJOR GIT_TAG_VERSION_MINOR 
     ##
     ## Parse tag
     ##
-    string(REGEX MATCH "[0-9].[0-9].[0-9]" TMP ${TAG_FROM_GIT}) 
-    string(REGEX MATCHALL "[0-9]" VERSION_LIST ${TMP}) 
+    string(REGEX MATCH "[0-9]+.[0-9]+.[0-9]+" TMP ${TAG_FROM_GIT})
+    string(REGEX MATCHALL "[0-9]+" VERSION_LIST ${TMP})
     list(LENGTH VERSION_LIST VERSION_LIST_LENGTH)
 
     if (${VERSION_LIST_LENGTH} LESS 3)
