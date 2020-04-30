@@ -4,7 +4,7 @@ from vhat_client import (ModifierState, MouseButton, attachToApplication,
                          changeSyncIconDB, changeSyncMode,
                          getImagesDiscrepancy, getObjectsDataByPattern,
                          getScreenshot, getText, object, tapObject,
-                         touchAndDrag, waitForObject, captureFrames)
+                         touchAndDrag, waitForObject, captureFrames, ScreenPoint)
 
 from functional_tests.utils import wait_for_obj_benchmark
 from functional_tests.utils.ATE_exception_handing import (
@@ -77,8 +77,10 @@ def get_screenshot(filename, location):
     return getScreenshot(filename, location)
 
 
-def get_images_discrepancy(path1, path2, *args, **kwargs):
-    return getImagesDiscrepancy(path1, path2, *args, **kwargs)
+def get_images_discrepancy(path1, path2,
+                           top_left_coordinate=ScreenPoint(0, 0),
+                           bottom_right_coordinate=ScreenPoint(0, 0)):
+    return getImagesDiscrepancy(path1, path2, top_left_coordinate, bottom_right_coordinate)
 
 
 @catch_exception_video
