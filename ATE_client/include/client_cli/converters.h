@@ -1,6 +1,7 @@
 #ifndef ATE_CLIENT_CLIENT_CLI_CONVERTERS_H_
 #define ATE_CLIENT_CLIENT_CLI_CONVERTERS_H_
 
+#include <exception>
 #include <string>
 
 #include "object.h"
@@ -11,6 +12,13 @@ namespace ATE {
 namespace impl_detail {
 
 // clang-format off
+
+/**
+ * @brief Convert exception from std::exception family (both ATE and std) into System::Exception
+ * @param e Exception to convert
+ * @return Handle to exception type corresponding to type of e
+ **/
+System::Exception^ ToSystemException(const std::exception& e);
 
 /**
  * @brief Convert System::String into std::string
