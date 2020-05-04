@@ -3,8 +3,10 @@
 #include <memory>
 #include <typeinfo>
 
+#include "enums.h"
 #include "error_defines.h"
 #include "errors.h"
+#include "utils/squish_types.h"
 
 namespace ATE {
 namespace impl_detail {
@@ -71,17 +73,37 @@ squish::Object ToSquishObject(ATE::Object^ o) {
   result.y = o->Y;
   result.width = o->Width;
   result.height = o->Height;
+  result.x_top_left = o->TopLeftX;
+  result.y_top_left = o->TopLeftY;
+  result.x_bottom_right = o->BottomRightX;
+  result.y_bottom_right = o->BottomRightY;
+  result.parent_width = o->ParentWidth;
+  result.parent_height = o->ParentHeight;
+  result.sync_version = ToStdString(o->SyncVersion);
+  result.build_version = ToStdString(o->SyncBuildVersion);
+  result.mode = static_cast<common::squish::CollectionMode>(o->SyncCollectionMode);
   result.name = ToStdString(o->Name);
+  result.parent_screen = ToStdString(o->ParentScreen);
   return result;
 }
 
 ATE::Object^ ToAteObject(const squish::Object& o) {
   ATE::Object^ result = gcnew ATE::Object;
-  result->Name = ToSystemString(o.name);
   result->X = o.x;
   result->Y = o.y;
   result->Width = o.width;
   result->Height = o.height;
+  result->TopLeftX = o.x_top_left;
+  result->TopLeftY = o.y_top_left;
+  result->BottomRightX = o.x_bottom_right;
+  result->BottomRightY = o.y_bottom_right;
+  result->ParentWidth = o.parent_width;
+  result->ParentHeight = o.parent_height;
+  result->SyncVersion = ToSystemString(o.sync_version);
+  result->SyncBuildVersion = ToSystemString(o.build_version);
+  result->SyncCollectionMode = static_cast<CollectionMode>(o.mode);
+  result->Name = ToSystemString(o.name);
+  result->ParentScreen = ToSystemString(o.parent_screen);
   return result;
 }
 

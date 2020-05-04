@@ -21,6 +21,13 @@ public enum class MouseButton {
   RightButton = common::squish::MouseButton::kRightButton,
 };
 
+public enum class CollectionMode {
+  None = common::squish::CollectionMode::kNone,
+  Day = common::squish::CollectionMode::kDay,
+  Night = common::squish::CollectionMode::kNight,
+  Any = common::squish::CollectionMode::kAny,
+};
+
 // clang-format on
 
 }  // namespace ATE
