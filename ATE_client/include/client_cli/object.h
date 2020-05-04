@@ -2,6 +2,7 @@
 #define ATE_CLIENT_CLIENT_CLI_OBJECT_H_
 
 #include "enums.h"
+#include "errors.h"
 #include "screen_point.h"
 #include "screen_rectangle.h"
 
@@ -14,6 +15,23 @@ public ref class Object : public ScreenRectangle {
  public:
   /// <summary>Default construct Object.</summary>
   Object() : ScreenRectangle{0, 0, 0, 0} {}
+
+  /** <summary>
+        Method returns a true value if the object with the symbolic or real (multi-property)
+        <paramref name="objectName"/> exists; otherwise it returns a false value.
+      </summary>
+      <param>
+        <param name="objectName">Symbolic or real (multi-property) Object name to check existence of</param>
+      </param>
+      <returns>
+        true if the object exists, otherwise false."
+      </returns>
+      <exception cref="ATE::NoConnectionEstablished">Thrown if no connection to ATE server</exception>
+      <exception cref="ATE::VideoStreamingError">Thrown if video stream is not available</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
+      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+  **/
+  bool Exists(System::String^ objectName);
 
   /// <summary>Top-left point of bounding rect of the Object.</summary>
   property ScreenPoint TopLeft {

@@ -4,6 +4,7 @@ add_library(client_cli SHARED
   ate_client_cli.cpp
   assembly_info.cpp
   converters.cpp
+  object.cpp
 )
 
 target_include_directories(client_cli PUBLIC
