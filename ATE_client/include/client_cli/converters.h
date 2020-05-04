@@ -6,7 +6,9 @@
 
 #include "object.h"
 #include "squish/squish_types.h"
+#include "squish/wildcard.h"
 #include "utils/geometry_types.h"
+#include "wildcard.h"
 
 namespace ATE {
 namespace impl_detail {
@@ -47,6 +49,13 @@ squish::Object ToSquishObject(ATE::Object^ o);
  * @return Handle to ATE::Object object which hold copy of o
  **/
 ATE::Object^ ToAteObject(const squish::Object& o);
+
+/**
+ * @brief Convert ATE::Wildcard into squish::Wildcard
+ * @param w Handle to Wildcard represented as ATE::Wildcard
+ * @return copy of w represented as squish::Wildcard
+ **/
+squish::Wildcard ToSquishWildcard(ATE::Wildcard^ w);
 
 /**
  * @brief Convert ATE::ScreenPoint into common::Point

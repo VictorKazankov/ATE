@@ -107,6 +107,14 @@ ATE::Object^ ToAteObject(const squish::Object& o) {
   return result;
 }
 
+squish::Wildcard ToSquishWildcard(ATE::Wildcard^ w) {
+  return squish::Wildcard{ToStdString(w->Name),
+                          ToStdString(w->SyncVersion),
+                          ToStdString(w->SyncBuildVersion),
+                          ToStdString(w->ParentScreen),
+                          static_cast<common::squish::CollectionMode>(w->SyncCollectionMode)};
+}
+
 common::Point ToCommonPoint(ATE::ScreenPoint p) {
   return common::Point{p.X, p.Y};
 }

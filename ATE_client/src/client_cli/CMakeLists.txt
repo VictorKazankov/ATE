@@ -5,6 +5,7 @@ add_library(client_cli SHARED
   assembly_info.cpp
   converters.cpp
   object.cpp
+  wildcard.cpp
 )
 
 target_include_directories(client_cli PUBLIC
