@@ -1,9 +1,10 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+// Helper macros for testing private section
+#define protected public
+#define private public
 #include "squish/squish_API.h"
-
-#include "squish/application_context.h"
 
 using ::testing::_;
 using ::testing::Invoke;
@@ -33,13 +34,16 @@ class MockATEInteraction : public interaction::Interaction {
 };
 
 class SquishApiTest : public ::testing::Test {
- public:
+ protected:
   void SetUp() override;
   void TearDown() override;
 
   std::unique_ptr<squish::ApplicationContext> application_context_;
   std::shared_ptr<MockATEInteraction> mock_{nullptr};
   API::SquishApi api_;
+  squish::Object screen_rectangle_{0, 0, 0, 0};
+  uint64_t correlation_id_ = 0;
+  int timeout_msec_ = 0;
 };
 
 void SquishApiTest::SetUp() {
@@ -203,6 +207,39 @@ TEST_F(SquishApiTest, PressRelease_Rect_SendCommandCallOnce) {
 TEST_F(SquishApiTest, PressRelease_Object_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
 
-  api_.PressRelease(mock_, kId, Object{});
+  api_.PressRelease(mock_, kId, squish::Object{});
 }
+
+TEST_F(SquishApiTest, SetDefaultWaitForObjectTimeout_TimeoutMsec_Success) {
+  timeout_msec_ = 1;
+  api_.SetDefaultWaitForObjectTimeout(timeout_msec_);
+  EXPECT_EQ(timeout_msec_, api_.default_wait_for_object_timeout_in_ms_);
+}
+
+TEST_F(SquishApiTest, LongPress_InvalidParams_MessageNotSent) {
+  EXPECT_CALL(*mock_, SendCommand(_)).Times(0);
+
+  int x1{1}, x2{0}, y1{0}, y2{1}, x3{-1}, y3{-1};
+
+  api_.LongPress(mock_, correlation_id_, screen_rectangle_, x1, y1, timeout_msec_);
+  api_.LongPress(mock_, correlation_id_, screen_rectangle_, x2, y2, timeout_msec_);
+  api_.LongPress(mock_, correlation_id_, screen_rectangle_, x3, y1, timeout_msec_);
+  api_.LongPress(mock_, correlation_id_, screen_rectangle_, x2, y3, timeout_msec_);
+}
+
+TEST_F(SquishApiTest, LongPress_ValidParams_SendCommandCallOnce) {
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(general_response));
+
+  api_.LongPress(mock_, correlation_id_, screen_rectangle_, timeout_msec_);
+}
+
+TEST_F(SquishApiTest, Exists_ValidResponce_ExpectTrue) {
+  std::string response =
+      R"({\"id\":0,\"jsonrpc\":\"2.0\",\"method\":\"WaitForObject\",
+          \"params\":{\"name\":\"test_name\",\"timeout_msec_\":1}})";
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+
+  EXPECT_TRUE(api_.Exists(mock_, correlation_id_, kObjName));
+}
+
 }  // namespace

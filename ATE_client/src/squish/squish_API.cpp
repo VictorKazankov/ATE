@@ -5,6 +5,7 @@
 #include "logger/logger.h"
 #include "message_factory/message_factory.h"
 
+#include "error_defines.h"
 #include "json_rpc_parser.h"
 
 using namespace API;

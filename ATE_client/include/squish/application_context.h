@@ -4,8 +4,6 @@
 #include <memory>
 #include <string>
 
-#include <boost/asio/io_context.hpp>
-
 #include "interaction.h"
 #include "squish/squish_types.h"
 

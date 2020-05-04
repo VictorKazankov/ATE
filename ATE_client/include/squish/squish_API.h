@@ -1,14 +1,14 @@
 #ifndef SQUISH_API_H_
 #define SQUISH_API_H_
 
-#include <chrono>
+#include <memory>
 #include <string>
 
 #include "utils/geometry_types.h"
 #include "utils/squish_types.h"
 
-#include "error_defines.h"
 #include "interaction.h"
+
 #include "squish/application_context.h"
 #include "squish/squish_types.h"
 #include "squish/wildcard.h"
