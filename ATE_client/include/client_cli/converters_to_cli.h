@@ -4,9 +4,11 @@
 #include <string>
 
 #include "application_context.h"
+#include "enums.h"
 #include "object.h"
 #include "squish/application_context.h"
 #include "squish/squish_types.h"
+#include "utils/squish_types.h"
 
 namespace ATE {
 namespace impl_detail {
@@ -33,6 +35,13 @@ System::String^ ToCli(const std::string& native_str);
  * @return Handle to ApplicationContext CLI object with reference to app_context
  **/
 ApplicationContext^ ToCli(squish::ApplicationContext& app_context);
+
+/**
+ * @brief Convert CollectionMode into its CLI counterpart
+ * @param mode value to convert
+ * @return value of CLI enum type
+ **/
+CollectionMode ToCli(common::squish::CollectionMode mode);
 
 /**
  * @brief Convert squish::Object  into its CLI counterpart

@@ -5,7 +5,6 @@
 #include "api.h"
 #include "converters_from_cli.h"
 #include "converters_to_cli.h"
-#include "utils/squish_types.h"
 
 namespace ATE {
 
@@ -46,24 +45,24 @@ ATE::Object^ API::WaitForObject(System::String^ objectOrName, int timeoutMSec) t
 
 void API::TapObject(ScreenPoint screenPoint, Modifier modifierState, MouseButton button) try {
   ::API::TapObject(FromCli(screenPoint),
-                   static_cast<common::squish::ModifierState>(modifierState),
-                   static_cast<common::squish::MouseButton>(button));
+                   FromCli(modifierState),
+                   FromCli(button));
 } catch (const std::exception& e) {
   throw Rethrow(e);
 }
 
 void API::TapObject(ScreenRectangle^ screenRectangle, Modifier modifierState, MouseButton button) try {
   ::API::TapObject(FromCli(screenRectangle),
-                   static_cast<common::squish::ModifierState>(modifierState),
-                   static_cast<common::squish::MouseButton>(button));
+                   FromCli(modifierState),
+                   FromCli(button));
 } catch (const std::exception& e) {
   throw Rethrow(e);
 }
 
 void API::TapObject(ATE::Object^ object, Modifier modifierState, MouseButton button) try {
   ::API::TapObject(FromCli(object),
-                   static_cast<common::squish::ModifierState>(modifierState),
-                   static_cast<common::squish::MouseButton>(button));
+                   FromCli(modifierState),
+                   FromCli(button));
 } catch (const std::exception& e) {
   throw Rethrow(e);
 }

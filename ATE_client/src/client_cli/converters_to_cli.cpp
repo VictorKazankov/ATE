@@ -1,8 +1,5 @@
 #include "converters_to_cli.h"
 
-#include "enums.h"
-#include "utils/squish_types.h"
-
 namespace ATE {
 namespace impl_detail {
 
@@ -20,6 +17,10 @@ ApplicationContext^ ToCli(squish::ApplicationContext& app_context) {
   return gcnew ApplicationContext(app_context);
 }
 
+CollectionMode ToCli(common::squish::CollectionMode mode) {
+  return static_cast<CollectionMode>(mode);
+}
+
 ATE::Object^ ToCli(const squish::Object& object) {
   ATE::Object^ result = gcnew ATE::Object;
   result->X = object.x;
@@ -34,7 +35,7 @@ ATE::Object^ ToCli(const squish::Object& object) {
   result->ParentHeight = object.parent_height;
   result->SyncVersion = ToCli(object.sync_version);
   result->SyncBuildVersion = ToCli(object.build_version);
-  result->SyncCollectionMode = static_cast<CollectionMode>(object.mode);
+  result->SyncCollectionMode = ToCli(object.mode);
   result->Name = ToCli(object.name);
   result->ParentScreen = ToCli(object.parent_screen);
   return result;

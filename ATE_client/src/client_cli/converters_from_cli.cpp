@@ -2,9 +2,6 @@
 
 #include <memory>
 
-#include "enums.h"
-#include "utils/squish_types.h"
-
 namespace ATE {
 namespace impl_detail {
 
@@ -21,6 +18,18 @@ std::string FromCli(System::String^ cli_str) {
   return std::string{chars.get()};
 }
 
+common::squish::ModifierState FromCli(Modifier modifier) {
+  return static_cast<common::squish::ModifierState>(modifier);
+}
+
+common::squish::MouseButton FromCli(MouseButton mouse_button) {
+  return static_cast<common::squish::MouseButton>(mouse_button);
+}
+
+common::squish::CollectionMode FromCli(CollectionMode mode) {
+  return static_cast<common::squish::CollectionMode>(mode);
+}
+
 squish::Object FromCli(ATE::Object^ cli_object) {
   squish::Object result{};
   result.x = cli_object->X;
@@ -35,7 +44,7 @@ squish::Object FromCli(ATE::Object^ cli_object) {
   result.parent_height = cli_object->ParentHeight;
   result.sync_version = FromCli(cli_object->SyncVersion);
   result.build_version = FromCli(cli_object->SyncBuildVersion);
-  result.mode = static_cast<common::squish::CollectionMode>(cli_object->SyncCollectionMode);
+  result.mode = FromCli(cli_object->SyncCollectionMode);
   result.name = FromCli(cli_object->Name);
   result.parent_screen = FromCli(cli_object->ParentScreen);
   return result;
@@ -46,7 +55,7 @@ squish::Wildcard FromCli(ATE::Wildcard^ cli_wildcard) {
                           FromCli(cli_wildcard->SyncVersion),
                           FromCli(cli_wildcard->SyncBuildVersion),
                           FromCli(cli_wildcard->ParentScreen),
-                          static_cast<common::squish::CollectionMode>(cli_wildcard->SyncCollectionMode)};
+                          FromCli(cli_wildcard->SyncCollectionMode)};
 }
 
 common::Point FromCli(ATE::ScreenPoint cli_point) {
