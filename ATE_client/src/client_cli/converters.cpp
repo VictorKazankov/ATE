@@ -67,6 +67,10 @@ System::String^ ToSystemString(const std::string& s) {
   return gcnew System::String(s.c_str());
 }
 
+ApplicationContext^ ToAteApplicationContex(squish::ApplicationContext& app_context) {
+  return gcnew ApplicationContext(app_context);
+}
+
 squish::Object ToSquishObject(ATE::Object^ o) {
   squish::Object result{};
   result.x = o->X;

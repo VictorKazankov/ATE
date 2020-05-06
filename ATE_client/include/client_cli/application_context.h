@@ -1,7 +1,6 @@
 #ifndef ATE_CLIENT_CLIENT_CLI_APPLICATION_CONTEXT_H_
 #define ATE_CLIENT_CLIENT_CLI_APPLICATION_CONTEXT_H_
 
-#include "converters.h"
 #include "squish/application_context.h"
 
 namespace ATE {
@@ -15,7 +14,7 @@ public ref class ApplicationContext {
         This method detaches a previously attached application.
       </summary>
   **/
-  void Detach() { native_ref_.Detach(); }
+  void Detach();
 
   /** <summary>
         Every application context is connected to an ATE server. This
@@ -25,7 +24,7 @@ public ref class ApplicationContext {
       </summary>
   **/
   property System::String^ Host {
-    System::String^ get() { return impl_detail::ToSystemString(native_ref_.host()); }
+    System::String^ get();
   }
 
   /** <summary>
@@ -35,7 +34,7 @@ public ref class ApplicationContext {
       </summary>
   **/
   property System::String^ Port {
-    System::String^ get() { return impl_detail::ToSystemString(native_ref_.port()); }
+    System::String^ get();
   }
 
  internal:

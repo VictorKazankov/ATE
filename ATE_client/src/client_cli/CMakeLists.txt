@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 add_library(client_cli SHARED
+  application_context.cpp
   ate_client_cli.cpp
   assembly_info.cpp
   converters.cpp

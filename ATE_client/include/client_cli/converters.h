@@ -4,7 +4,9 @@
 #include <exception>
 #include <string>
 
+#include "application_context.h"
 #include "object.h"
+#include "squish/application_context.h"
 #include "squish/squish_types.h"
 #include "squish/wildcard.h"
 #include "utils/geometry_types.h"
@@ -35,6 +37,13 @@ std::string ToStdString(System::String^ s);
  * @return Handle to System::String object which holds copy of s
  **/
 System::String^ ToSystemString(const std::string& s);
+
+/**
+ * @brief Convert squish::ApplicationContext into ATE::ApplicationContext
+ * @param app_context Application context represented as squish::ApplicationContext
+ * @return Handle to ATE::ApplicationContext object which holds copy of app_context
+ **/
+ApplicationContext^ ToAteApplicationContex(squish::ApplicationContext& app_context);
 
 /**
  * @brief Convert ATE::Object into squish::Object

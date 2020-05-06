@@ -14,7 +14,7 @@ using namespace impl_detail;
 // clang-format off
 
 ApplicationContext^ API::AttachToApplication(String^ autName) try {
-  return gcnew ApplicationContext(::API::AttachToApplication(ToStdString(autName)));
+  return ToAteApplicationContex(::API::AttachToApplication(ToStdString(autName)));
 } catch (const std::exception& e) {
   throw ToSystemException(e);
 }
