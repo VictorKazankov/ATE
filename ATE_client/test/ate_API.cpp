@@ -21,12 +21,16 @@ class MockATEInteraction : public interaction::Interaction {
 };
 
 class AteApiTest : public ::testing::Test {
- public:
+ protected:
   void SetUp() override;
   void TearDown() override;
 
   std::unique_ptr<squish::ApplicationContext> application_context_;
   std::shared_ptr<MockATEInteraction> mock_{nullptr};
+  API::AteApi api_;
+  const uint64_t correlation_id_{1};
+  const std::string sync_version_{"sync3"};
+  const std::string sync_build_version_{"build_3"};
 };
 
 void AteApiTest::SetUp() {
@@ -51,8 +55,7 @@ TEST_F(AteApiTest, GetObjectsDataByPattern_PassObjectName_ReceiveValidResponse) 
                                    R"(]})");
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
 
-  API::AteApi api;
-  std::vector<squish::Object> objects = api.GetObjectsDataByPattern(mock_, 1, "test_name");
+  std::vector<squish::Object> objects = api_.GetObjectsDataByPattern(mock_, 1, "test_name");
 
   EXPECT_TRUE(!objects.empty());
   for (const auto& object : objects) {
@@ -86,8 +89,7 @@ TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObjectReceiveVaildResponse_
   const squish::Wildcard valid_object("object_name");
   const int kObjectsCountAtResponce = 2;
 
-  API::AteApi api;
-  std::vector<squish::Object> objects = api.GetObjectsDataByPattern(mock_, 1, valid_object);
+  std::vector<squish::Object> objects = api_.GetObjectsDataByPattern(mock_, 1, valid_object);
   EXPECT_TRUE(!objects.empty());
   EXPECT_EQ(objects.size(), kObjectsCountAtResponce);
 
@@ -116,8 +118,7 @@ TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObject_ReceiveResponseWithI
 
   squish::Wildcard valid_object("object_name");
 
-  API::AteApi api;
-  std::vector<squish::Object> objects = api.GetObjectsDataByPattern(mock_, 1, valid_object);
+  std::vector<squish::Object> objects = api_.GetObjectsDataByPattern(mock_, 1, valid_object);
   EXPECT_TRUE(objects.empty());
 }
 
@@ -129,8 +130,7 @@ TEST_F(AteApiTest, GetImagesDiscrepancy_ValidResponse_ExpectedResult) {
 
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
 
-  API::AteApi api;
-  auto discrepancy = api.GetImagesDiscrepancy(mock_, 1, "path1", "path2", {0, 0}, {100, 100});
+  auto discrepancy = api_.GetImagesDiscrepancy(mock_, 1, "path1", "path2", {0, 0}, {100, 100});
   EXPECT_EQ(discrepancy, expected_discrepancy);
 }
 
@@ -139,8 +139,39 @@ TEST_F(AteApiTest, CaptureFrames_PassValidParams_ValidResponse) {
 
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(valid_response));
 
-  API::AteApi api;
-  auto file_list = api.CaptureFrames(mock_, 1, 1, 50, common::Point(), common::Point(), ".");
+  auto file_list = api_.CaptureFrames(mock_, 1, 1, 50, common::Point(), common::Point(), ".");
 
   EXPECT_EQ(file_list.size(), 2) << "expected the list of two filenames";
+}
+
+TEST_F(AteApiTest, ChangeSyncIconDB_PassErrorParam_RuntimeError) {
+  std::string response(R"({"id":1,"jsonrpc":"2.0",
+      "method":"ChangeSyncIconDB",
+      "params":{"sync_build_version":"build_version",
+                "sync_version":"sync_version"},"error":{"code":-32700}})");
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+  EXPECT_THROW(api_.ChangeSyncIconDB(mock_, correlation_id_, sync_version_, sync_build_version_), std::runtime_error);
+}
+
+TEST_F(AteApiTest, ChangeSyncMode_PassErrorParam_RuntimeError) {
+  std::string response(R"({"id":1,"jsonrpc":"2.0",
+      "method":"ChangeSyncMode",
+      "params":{"sync_collection_mode":"DAY"},"error":{"code":-32700}})");
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+  EXPECT_THROW(api_.ChangeSyncMode(mock_, correlation_id_, common::squish::CollectionMode::kDay), std::runtime_error);
+}
+
+TEST_F(AteApiTest, GetScreenshot_PassErrorParam_RuntimeError) {
+  std::string response(R"({"id":1,"jsonrpc":"2.0","method":"GetScreenshot",
+            "params":{"filename":"filename.png",
+            "location":"location"},"error":{"code":-32700}})");
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+  EXPECT_THROW(api_.GetScreenshot(mock_, correlation_id_, "filename.png", "location"), std::runtime_error);
+}
+
+TEST_F(AteApiTest, GetText_PassErrorParam_RuntimeError) {
+  std::string response(R"({"id":1,"jsonrpc":"2.0","method":"GetText",
+    "params":{"x":10,"y":20,"dx":70,"dy":80},"error":{"code":-32700}})");
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+  EXPECT_THROW(api_.GetText(mock_, correlation_id_, 10, 20, 70, 80), std::runtime_error);
 }
