@@ -3,7 +3,8 @@
 #include <exception>
 
 #include "api.h"
-#include "converters.h"
+#include "converters_from_cli.h"
+#include "converters_to_cli.h"
 #include "utils/squish_types.h"
 
 namespace ATE {
@@ -14,57 +15,57 @@ using namespace impl_detail;
 // clang-format off
 
 ApplicationContext^ API::AttachToApplication(String^ autName) try {
-  return ToAteApplicationContex(::API::AttachToApplication(ToStdString(autName)));
+  return ToCli(::API::AttachToApplication(FromCli(autName)));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName) try {
-  return ToAteObject(::API::WaitForObject(ToSquishObject(objectOrName)));
+  return ToCli(::API::WaitForObject(FromCli(objectOrName)));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 ATE::Object^ API::WaitForObject(System::String^ objectOrName) try {
-  return ToAteObject(::API::WaitForObject(ToStdString(objectOrName)));
+  return ToCli(::API::WaitForObject(FromCli(objectOrName)));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName, int timeoutMSec) try {
-  return ToAteObject(::API::WaitForObject(ToSquishObject(objectOrName), timeoutMSec));
+  return ToCli(::API::WaitForObject(FromCli(objectOrName), timeoutMSec));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 ATE::Object^ API::WaitForObject(System::String^ objectOrName, int timeoutMSec) try {
-  return ToAteObject(::API::WaitForObject(ToStdString(objectOrName), timeoutMSec));
+  return ToCli(::API::WaitForObject(FromCli(objectOrName), timeoutMSec));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 void API::TapObject(ScreenPoint screenPoint, Modifier modifierState, MouseButton button) try {
-  ::API::TapObject(ToCommonPoint(screenPoint),
+  ::API::TapObject(FromCli(screenPoint),
                    static_cast<common::squish::ModifierState>(modifierState),
                    static_cast<common::squish::MouseButton>(button));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 void API::TapObject(ScreenRectangle^ screenRectangle, Modifier modifierState, MouseButton button) try {
-  ::API::TapObject(ToCommonRect(screenRectangle),
+  ::API::TapObject(FromCli(screenRectangle),
                    static_cast<common::squish::ModifierState>(modifierState),
                    static_cast<common::squish::MouseButton>(button));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 void API::TapObject(ATE::Object^ object, Modifier modifierState, MouseButton button) try {
-  ::API::TapObject(ToSquishObject(object),
+  ::API::TapObject(FromCli(object),
                    static_cast<common::squish::ModifierState>(modifierState),
                    static_cast<common::squish::MouseButton>(button));
 } catch (const std::exception& e) {
-  throw ToSystemException(e);
+  throw Rethrow(e);
 }
 
 // clang-format on

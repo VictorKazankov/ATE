@@ -4,7 +4,9 @@ add_library(client_cli SHARED
   application_context.cpp
   ate_client_cli.cpp
   assembly_info.cpp
-  converters.cpp
+  converters_from_cli.cpp
+  converters_to_cli.cpp
+  errors.cpp
   object.cpp
   wildcard.cpp
 )

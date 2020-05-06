@@ -1,6 +1,6 @@
 #include "application_context.h"
 
-#include "converters.h"
+#include "converters_to_cli.h"
 
 namespace ATE {
 
@@ -13,11 +13,11 @@ void ApplicationContext::Detach() {
 }
 
 System::String^ ApplicationContext::Host::get() {
-   return ToSystemString(native_ref_.host());
+   return ToCli(native_ref_.host());
 }
 
 System::String^ ApplicationContext::Port::get() {
-  return ToSystemString(native_ref_.port());
+  return ToCli(native_ref_.port());
 }
 
 // clang-format on

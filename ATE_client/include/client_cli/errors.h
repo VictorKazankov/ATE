@@ -1,9 +1,20 @@
 #ifndef ATE_CLIENT_CLIENT_CLI_ERRORS_H_
 #define ATE_CLIENT_CLIENT_CLI_ERRORS_H_
 
+#include <exception>
+
 namespace ATE {
 
 // clang-format off
+
+namespace impl_detail {
+/**
+ * @brief Convert exception from std::exception family (both ATE and std) into System::Exception
+ * @param e Exception to convert
+ * @return Handle to exception type corresponding to type of e
+ **/
+System::Exception^ Rethrow(const std::exception& e);
+}  // namespace impl_detail
 
 /// <summary>Base class for all ATE specific exceptions</summary>
 public ref class AteError : public System::Exception {};
