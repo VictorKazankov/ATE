@@ -9,14 +9,10 @@
 
 #include "error_defines.h"
 
-using namespace interaction;
+namespace interaction {
 
-namespace {
+namespace impl {
 
-/**
- * @brief The function verifies is message with JSON valid
- * @return true in case of valid JSON, otherwise false
- **/
 bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
   if (!common::jmsg::ParseJson(message, value)) {
     return false;
@@ -25,9 +21,6 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
   return common::jmsg::CheckHeader(value) && common::jmsg::CheckHeaderType(value);
 }
 
-/**
- * @brief The function handles errors related to JSON structure. In case of error, it throws the appropriate exception
- */
 [[noreturn]] void ErrorHandler(const Json::Value& error) {
   switch (static_cast<rpc::Error>(error[common::jmsg::kErrorCode].asInt())) {
     case rpc::Error::kObjectNotFound:
@@ -88,14 +81,14 @@ bool IsJsonStructureValid(const std::string& message, Json::Value& value) {
       throw std::runtime_error("Undefined error occurred");
   }
 }
-}  // namespace
+}  // namespace impl
 
 Json::Value JsonRpcParser::RpcStringToJsonStruct(const std::string& rpc) {
   Json::Value schema;
 
-  if (IsJsonStructureValid(rpc, schema)) {
+  if (impl::IsJsonStructureValid(rpc, schema)) {
     if (schema.isMember(common::jmsg::kError)) {
-      ErrorHandler(schema[common::jmsg::kError]);
+      impl::ErrorHandler(schema[common::jmsg::kError]);
     }
   }
 
@@ -136,11 +129,11 @@ bool JsonRpcParser::ParseGetScreenshot(const std::string& rpc) {
 std::string JsonRpcParser::ParseGetText(const std::string& rpc) {
   Json::Value schema;
 
-  if (!IsJsonStructureValid(rpc, schema)) return {};
+  if (!impl::IsJsonStructureValid(rpc, schema)) return {};
 
   // check response parameters
   if (schema.isMember(common::jmsg::kError)) {
-    ErrorHandler(schema[common::jmsg::kError]);
+    impl::ErrorHandler(schema[common::jmsg::kError]);
   }
   const auto& result = schema[common::jmsg::kResult];
   if (!result.isMember(common::jmsg::kText)) {
@@ -281,3 +274,5 @@ std::vector<std::string> JsonRpcParser::ParseCaptureFrames(const std::string& rp
   }
   return file_list;
 }
+
+}  // namespace interaction

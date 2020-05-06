@@ -7,6 +7,21 @@
 
 namespace interaction {
 
+namespace impl {
+
+/**
+ * @brief The function verifies is message with JSON valid
+ * @return True in case of valid JSON, otherwise false
+ **/
+bool IsJsonStructureValid(const std::string& message, Json::Value& value);
+
+/**
+ * @brief The function handles errors related to JSON structure. In case of error, it throws the appropriate exception
+ */
+[[noreturn]] void ErrorHandler(const Json::Value& error);
+
+}  // namespace impl
+
 /**
  * @brief JsonRpcParser provides functions to parse JSON RPC messages with responses regarding to APIs
  **/
