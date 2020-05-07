@@ -41,6 +41,18 @@ ATE::Object^ ToCli(const squish::Object& object) {
   return result;
 }
 
+System::Collections::Generic::List<ATE::Object^>^ ToCli(const std::vector<squish::Object>& objects) {
+  auto result = gcnew System::Collections::Generic::List<ATE::Object^>();
+  for (const auto& o : objects) result->Add(ToCli(o));
+  return result;
+}
+
+System::Collections::Generic::List<System::String^>^ ToCli(const std::vector<std::string>& strings) {
+  auto result = gcnew System::Collections::Generic::List<System::String^>();
+  for (const auto& s : strings) result->Add(ToCli(s));
+  return result;
+}
+
 // clang-format on
 
 }  // namespace impl_detail

@@ -2,6 +2,7 @@
 #define ATE_CLIENT_CLIENT_CLI_CONVERTERS_TO_CLI_H_
 
 #include <string>
+#include <vector>
 
 #include "application_context.h"
 #include "enums.h"
@@ -49,6 +50,20 @@ CollectionMode ToCli(common::squish::CollectionMode mode);
  * @return Handle to CLI ATE::Object which is copy of original object
  **/
 ATE::Object^ ToCli(const squish::Object& object);
+
+/**
+ * @brief Convert Object list into its CLI counterpart
+ * @param objects reference to vector of squish::Objects in native memory
+ * @return Handle to CLI List which holds copies of original objects
+ **/
+System::Collections::Generic::List<ATE::Object^>^ ToCli(const std::vector<squish::Object>& objects);
+
+/**
+ * @brief Convert string list into its CLI counterpart
+ * @param objects reference to vector of std::strings in native memory
+ * @return Handle to CLI List which holds copies of original strings
+ **/
+System::Collections::Generic::List<System::String^>^ ToCli(const std::vector<std::string>& strings);
 
 // clang-format on
 

@@ -57,10 +57,54 @@ const auto kWaitForObjectForwarder = [](auto... args) { return ::API::WaitForObj
  *        based on argument pack resolution. This function object can be passed to InvokeVoid() template
  *        without taking care of TapObject() overloads.
  * @param args Parameter pack
- * @return Selected WaitForObject() call result
- * @throw All exceptions that can throw selected WaitForObject() overload.
+ * @throw All exceptions that can throw selected TapObject() overload.
  **/
 const auto kTapObjectForwarder = [](auto... args) { ::API::TapObject(args...); };
+
+/**
+ * @brief Forwarding functor for TouchAndDrag() API. Calls the appropriate ::API::TouchAndDrag()
+ *        based on argument pack resolution. This function object can be passed to InvokeVoid() template
+ *        without taking care of TouchAndDrag() overloads.
+ * @param args Parameter pack
+ * @throw All exceptions that can throw selected TouchAndDrag() overload.
+ **/
+const auto kTouchAndDragForwarder = [](auto... args) { ::API::TouchAndDrag(args...); };
+
+/**
+ * @brief Forwarding functor for PressAndHold() API. Calls the appropriate ::API::PressAndHold()
+ *        based on argument pack resolution. This function object can be passed to InvokeVoid() template
+ *        without taking care of PressAndHold() overloads.
+ * @param args Parameter pack
+ * @throw All exceptions that can throw selected PressAndHold() overload.
+ **/
+const auto kPressAndHoldForwarder = [](auto... args) { ::API::PressAndHold(args...); };
+
+/**
+ * @brief Forwarding functor for PressRelease() API. Calls the appropriate ::API::PressRelease()
+ *        based on argument pack resolution. This function object can be passed to InvokeVoid() template
+ *        without taking care of PressRelease() overloads.
+ * @param args Parameter pack
+ * @throw All exceptions that can throw selected PressRelease() overload.
+ **/
+const auto kPressReleaseForwarder = [](auto... args) { ::API::PressRelease(args...); };
+
+/**
+ * @brief Forwarding functor for LongPress() API. Calls the appropriate ::API::LongPress()
+ *        based on argument pack resolution. This function object can be passed to InvokeVoid() template
+ *        without taking care of LongPress() overloads.
+ * @param args Parameter pack
+ * @throw All exceptions that can throw selected LongPress() overload.
+ **/
+const auto kLongPressForwarder = [](auto... args) { ::API::LongPress(args...); };
+
+/**
+ * @brief Forwarding functor for GetObjectsDataByPattern() API. Calls the appropriate ::API::GetObjectsDataByPattern()
+ *        based on argument pack resolution. This function object can be passed to InvokeRet() template
+ *        without taking care of GetObjectsDataByPattern() overloads.
+ * @param args Parameter pack
+ * @throw All exceptions that can throw selected GetObjectsDataByPattern() overload.
+ **/
+const auto kGetObjectsDataByPatternForwarder = [](auto... args) { return ::API::GetObjectsDataByPattern(args...); };
 
 }  // namespace impl_detail
 }  // namespace ATE
