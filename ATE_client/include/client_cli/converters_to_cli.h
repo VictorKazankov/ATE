@@ -52,6 +52,21 @@ ATE::Object^ ToCli(const squish::Object& object);
 
 // clang-format on
 
+/**
+ * @brief Dummy converter for types that are compatible between CLI and
+ *        native worlds and which simply does nothing. This template
+ *        converter will be chosen by C++ compiler, in case there is no
+ *        better non-template overload for x value argument. Example of
+ *        type that cannot be converted is plain int
+ * @param x Value to be converted
+ * @tparam T type of x
+ * @return same value as x
+ **/
+template <typename T>
+auto ToCli(T x) {
+  return x;
+}
+
 }  // namespace impl_detail
 }  // namespace ATE
 
