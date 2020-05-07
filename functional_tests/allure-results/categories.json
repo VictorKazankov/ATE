@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Product defects",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Failed before verification",
+    "matchedStatuses": ["broken"]
+  },
+  {
+    "name": "Ignored tests",
+    "matchedStatuses": ["skipped"]
+  },
+  {
+    "name": "Connection attempts",
+    "matchedStatuses": ["failed", "broken", "passed", "skipped", "unknown"],
+    "traceRegex": ".*RuntimeError: Connection attempts.*"
+  },
+  {
+    "name": "FixtureLookupError",
+    "matchedStatuses": ["broken", "failed"],
+    "messageRegex": ".*FixtureLookupError.*"
+  },
+  {
+    "name": "Exception",
+    "matchedStatuses": ["broken", "failed"],
+    "messageRegex": ".*Exception:.*"
+  },
+  {
+    "name": "VideoStreamingError",
+    "traceRegex": ".*VideoStreamingError*"
+  },
+  {
+    "name": "LookupError",
+    "traceRegex": ".*LookupError.*"
+  }
+]
