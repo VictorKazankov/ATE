@@ -21,6 +21,7 @@ public ref class API {
       </summary>
       <param name="autName">Name of an application to attach to (temporarily ignored by ATE).</param>
       <returns>Handle to attached application context.</returns>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
       <exception cref="System::Exception">Thrown if cannot connect to ATE server or internal error has occurred.</exception>
    **/
   static ApplicationContext^ AttachToApplication(System::String^ autName);
@@ -32,7 +33,11 @@ public ref class API {
       <param name="objectOrName">Object or name to wait for.</param>
       <returns>Object if successful</returns>
       <exception cref="LookupError">Thrown on failure, i.e. if the method times out</exception>
-      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static ATE::Object^ WaitForObject(ATE::Object^ objectOrName);
 
@@ -43,7 +48,11 @@ public ref class API {
       <param name="objectOrName">Object or name to wait for.</param>
       <returns>Object if successful</returns>
       <exception cref="LookupError">Thrown on failure, i.e. if the method times out</exception>
-      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static ATE::Object^ WaitForObject(System::String^ objectOrName);
 
@@ -54,7 +63,11 @@ public ref class API {
       <param name="objectOrName">Object or name to wait for.</param>
       <returns>Object if successful</returns>
       <exception cref="LookupError">Thrown on failure, i.e. if the method times out</exception>
-      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static ATE::Object^ WaitForObject(ATE::Object^ objectOrName, int timeoutMSec);
 
@@ -65,7 +78,11 @@ public ref class API {
       <param name="objectOrName">Object or name to wait for.</param>
       <returns>Object if successful</returns>
       <exception cref="LookupError">Thrown on failure, i.e. if the method times out</exception>
-      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static ATE::Object^ WaitForObject(System::String^ objectOrName, int timeoutMSec);
 
@@ -77,8 +94,9 @@ public ref class API {
       <param name="screenPoint">Position in screen global coordinates.</param>
       <param name="modifierState">Argument which indicates which special keys are pressed at the time of a tap.</param>
       <param name="button">Argument which indicates which mouse button is used for a tap.</param>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server</exception>
       <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
-      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static void TapObject(ScreenPoint screenPoint, Modifier modifierState, MouseButton button);
 
@@ -90,8 +108,10 @@ public ref class API {
       <param name="screenRectangle">Rectangle, center of which to be tapped in screen global coordinates.</param>
       <param name="modifierState">Argument which indicates which special keys are pressed at the time of a tap.</param>
       <param name="button">Argument which indicates which mouse button is used for a tap.</param>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server</exception>
       <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
-      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static void TapObject(ScreenRectangle^ screenRectangle, Modifier modifierState, MouseButton button);
 
@@ -103,8 +123,10 @@ public ref class API {
       <param name="object">Object, center of which to be tapped in screen global coordinates.</param>
       <param name="modifierState">Argument which indicates which special keys are pressed at the time of a tap.</param>
       <param name="button">Argument which indicates which mouse button is used for a tap.</param>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server</exception>
       <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
-      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static void TapObject(ATE::Object^ object, Modifier modifierState, MouseButton button);
 };
