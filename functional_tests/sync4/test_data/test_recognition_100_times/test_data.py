@@ -8,4 +8,4 @@ open_page = PageSupervisor().settings_page.open_settings_page
 icon = Icons.SETTINGS_ADD_PHONE_BUTTON
 
 # text to verify
-text = Text.MAIN_PANEL_SETTINGS_TEXT
+text = Text.PHONE_BUTTON_TEXT
