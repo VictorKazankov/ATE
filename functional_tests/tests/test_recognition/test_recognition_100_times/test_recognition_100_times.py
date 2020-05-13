@@ -2,11 +2,10 @@ import logging
 
 import allure
 import pytest
-from vhat_client import LookupError
-
 from functional_tests.pages import hmi
 from functional_tests.tests.import_helper_functions import Data
 from functional_tests.utils.report import jira_test
+from vhat_client import LookupError
 
 pytestmark = [pytest.mark.regression_sync4, pytest.mark.regression_sync3, pytest.mark.recognition_100_times]
 
