@@ -12,9 +12,9 @@ from functional_tests.utils.sync3.constants import (
     navigation_settings_page_text, pair_bluetooth_device_page,
     radio_settings_page_text, settings_first_screen_page_text,
     settings_second_screen_page_text, siriusxm_travel_link_text,
-    sound_settings_page_text, subscription_info_text,
+    sound_settings_page_text, str_for_data, subscription_info_text,
     sync_connect_settings_page_text, vehicle_settings_page_text,
-    voice_control_settings_page_text, str_for_data)
+    voice_control_settings_page_text)
 
 # coordinates for drag down
 touch_drag_coordinates_down = ['page', 400, 300, 0, -200]

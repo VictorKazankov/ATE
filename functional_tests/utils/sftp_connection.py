@@ -1,5 +1,5 @@
-from scp import SCPClient
 from functional_tests.utils.ssh_connect import start
+from scp import SCPClient
 
 
 class SftpConnection:

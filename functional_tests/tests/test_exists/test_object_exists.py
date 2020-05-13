@@ -1,5 +1,4 @@
 import pytest
-
 from functional_tests.pages.hmi import obj_exists
 from functional_tests.tests.import_helper_functions import Data
 from functional_tests.utils.report import jira_test

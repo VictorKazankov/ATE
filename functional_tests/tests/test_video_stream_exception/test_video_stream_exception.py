@@ -1,16 +1,13 @@
-import allure
-import pytest
-
 from time import sleep
 
+import allure
+import pytest
+from functional_tests import config_reader
+from functional_tests.utils.ssh_connect import execute_command, start
+from functional_tests.utils.sync3.constants import TASK_LINK
+from vhat_client import LookupError, VideoStreamingError
 from vhat_client import attachToApplication as attach_to_application
 from vhat_client import waitForObject as wait_for_object
-from vhat_client import VideoStreamingError, LookupError
-
-from functional_tests import config_reader
-from functional_tests.utils.ssh_connect import start, execute_command
-from functional_tests.utils.sync3.constants import TASK_LINK
-
 
 STOP_STREAMER = 'sudo systemctl stop vdp_media_server.service'
 START_STREAMER = 'sudo systemctl start vdp_media_server.service'

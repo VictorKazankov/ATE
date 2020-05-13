@@ -1,11 +1,12 @@
 import allure
 import pytest
 from allpairspy import AllPairs
+from functional_tests.utils.sync4.constants import TASK_LINK
 from vhat_client import Wildcard
 
-from functional_tests.utils.sync4.constants import TASK_LINK
+from ..helpers import (check_wildcard_results_amount,
+                       check_wildcard_results_content)
 from .test_data import *
-from ..helpers import check_wildcard_results_amount, check_wildcard_results_content
 
 pytestmark = [pytest.mark.regression_sync4, pytest.mark.regression_sync3, pytest.mark.Wildcard]
 

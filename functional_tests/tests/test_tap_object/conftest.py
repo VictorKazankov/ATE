@@ -1,10 +1,8 @@
-import vhat_client
-
 import pytest
-
+import vhat_client
 from functional_tests.pages.hmi import waitForObject
 from functional_tests.pages.interaction import tap_if_visible
-from functional_tests.tests.import_helper_functions import data, Data
+from functional_tests.tests.import_helper_functions import Data, data
 
 path = 'test_tap_object'
 

@@ -1,7 +1,6 @@
 import allure
 import pytest
 import vhat_client
-
 from functional_tests.pages import hmi
 from functional_tests.pages.hmi import wait_for_object
 from functional_tests.tests.helpers import check_wildcard_results_amount

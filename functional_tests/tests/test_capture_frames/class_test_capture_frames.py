@@ -1,11 +1,12 @@
 import logging
+
 import allure
-
-from functional_tests.tests.test_capture_frames.class_screen_point import ScreenPoint, INVALID_RESOLUTION
 from functional_tests.pages.hmi import capture_frames as hmi_capture_frames
+from functional_tests.tests.test_capture_frames.class_screen_point import (
+    INVALID_RESOLUTION, ScreenPoint)
 from functional_tests.utils import ssh_commands as cmd
-from functional_tests.utils.ssh_connect import start, execute_command, execute_command_and_get_result
-
+from functional_tests.utils.ssh_connect import (
+    execute_command, execute_command_and_get_result, start)
 
 DIR_PREFIX = '/var/lib/vdp/vhat'
 DEF_FOLDER_NAME = 'tmp_capture_frames'

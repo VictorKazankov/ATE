@@ -1,6 +1,5 @@
-from vhat_client import CollectionMode
-
 from functional_tests.utils.sync3.constants import Icons
+from vhat_client import CollectionMode
 
 # Common test data
 

@@ -1,9 +1,9 @@
 import pytest
-from vhat_client import ScreenPoint, EmptyScreenshotFileName, UnsupportedFileType, ComparingImageIncorrectSize, \
-    ComparingImageNotExist, InvalidRectangleCoordinates
-
 from functional_tests.pages.hmi import get_images_discrepancy
-from functional_tests.utils.report import jira_test, jira_issue
+from functional_tests.utils.report import jira_issue, jira_test
+from vhat_client import (ComparingImageIncorrectSize, ComparingImageNotExist,
+                         EmptyScreenshotFileName, InvalidRectangleCoordinates,
+                         ScreenPoint, UnsupportedFileType)
 
 pytestmark = [pytest.mark.imagesDiscrepancy, pytest.mark.no_sync_dependence,
               pytest.mark.regression_sync4, pytest.mark.regression_sync3]

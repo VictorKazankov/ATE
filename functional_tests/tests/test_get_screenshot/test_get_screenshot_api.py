@@ -2,12 +2,12 @@ import time
 
 import allure
 import pytest
-from vhat_client import WrongScreenshotExtension, EmptyScreenshotFileName, PermissionDenied
-from vhat_client import getScreenshot as get_screenshot
-
 from functional_tests import config_reader
-from functional_tests.utils.ssh_connect import start, execute_command
+from functional_tests.utils.ssh_connect import execute_command, start
 from functional_tests.utils.sync4.constants import TASK_LINK
+from vhat_client import (EmptyScreenshotFileName, PermissionDenied,
+                         WrongScreenshotExtension)
+from vhat_client import getScreenshot as get_screenshot
 
 pytestmark = [pytest.mark.get_screenshot_api, pytest.mark.regression_sync3, pytest.mark.regression_sync4]
 

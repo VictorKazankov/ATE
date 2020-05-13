@@ -1,11 +1,10 @@
 import allure
 import pytest
-from vhat_client import Wildcard
-
 from functional_tests.pages.hmi import get_objects_data_by_pattern
 from functional_tests.tests.helpers import check_wildcard_results_content
 from functional_tests.tests.import_helper_functions import data
 from functional_tests.utils.sync3.constants import TASK_LINK
+from vhat_client import Wildcard
 
 pytestmark = [pytest.mark.regression_sync4, pytest.mark.regression_sync3, pytest.mark.getObjectsDataByPattern]
 

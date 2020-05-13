@@ -1,12 +1,13 @@
+from functional_tests.config_reader import read_configuration_from_file
+from functional_tests.pages.hmi import change_sync_icon_db, change_sync_mode
+from functional_tests.utils import ssh_commands as cmd
+from functional_tests.utils.resolution import SyncResolution
+from functional_tests.utils.ssh_connect import (execute_command,
+                                                execute_list_of_commands,
+                                                start)
+from functional_tests.utils.TSHMI_API import TSHMI_API
 from vhat_client import (CollectionMode, InvalidSyncBuildVersion,
                          InvalidSyncCollectionMode, InvalidSyncVersion)
-from functional_tests.config_reader import read_configuration_from_file
-from functional_tests.pages.hmi import (change_sync_icon_db, change_sync_mode)
-from functional_tests.utils.TSHMI_API import TSHMI_API
-from functional_tests.utils.resolution import SyncResolution
-from functional_tests.utils.ssh_connect import execute_command, start, execute_list_of_commands
-from functional_tests.utils import ssh_commands as cmd
-
 
 _server_config_bkp = 'ate_server.ini.bkp'
 _config_path = cmd.ATE_SERVER_CONFIG

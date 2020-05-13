@@ -1,5 +1,4 @@
 import allure
-
 from functional_tests.tests.import_helper_functions import data
 
 _JIRA_TICKET_LINK = 'https://adc.luxoft.com/jira/browse/{}'

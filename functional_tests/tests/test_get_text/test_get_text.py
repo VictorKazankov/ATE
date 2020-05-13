@@ -1,10 +1,8 @@
-from vhat_client import InvalidRectangleCoordinates
-
 import pytest
-
 from functional_tests.pages import hmi
 from functional_tests.tests.import_helper_functions import Data, data
-from functional_tests.utils.report import jira_test, jira_issue
+from functional_tests.utils.report import jira_issue, jira_test
+from vhat_client import InvalidRectangleCoordinates
 
 pytestmark = [pytest.mark.regression_sync4, pytest.mark.regression_sync3, pytest.mark.get_text]
 

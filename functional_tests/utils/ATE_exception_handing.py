@@ -2,11 +2,9 @@ import logging
 from functools import wraps
 from time import sleep
 
-from pytest import exit as pytest_exit
-
-from vhat_client import VideoStreamingError, LookupError
 from functional_tests.config_reader import read_configuration
-
+from pytest import exit as pytest_exit
+from vhat_client import LookupError, VideoStreamingError
 
 SECTION_NAME = 'RUN_MODE'
 PARAM_NAME = 'TEST_RUN_MODE'

@@ -2,13 +2,13 @@ import allure
 import pytest
 from functional_tests.tests import helpers
 from functional_tests.tests.helpers import get_exist_result
-from functional_tests.utils.sync4.constants import (TASK_LINK,
+from functional_tests.utils.sync4.constants import (TASK_LINK, Icons,
                                                     apps_page_images,
                                                     audio_page_images,
                                                     audio_sources_page_images,
                                                     key_numbers_images,
                                                     main_panel_images,
-                                                    settings_page_images, Icons,
+                                                    settings_page_images,
                                                     str_for_data)
 
 

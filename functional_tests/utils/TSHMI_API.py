@@ -1,7 +1,7 @@
 from time import sleep
+
 import requests
 from functional_tests.params_handler import get_host
-
 
 HTTP_SUCCESS_CODE = 200
 URL = 'https://{}/{}'

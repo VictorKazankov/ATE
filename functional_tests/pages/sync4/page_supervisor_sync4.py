@@ -1,11 +1,7 @@
-from functional_tests.pages.sync4.pages import (AppsPage, AudioPage,
-                                                BluetoothPage, ClimatePage,
-                                                ConnectionSettingsPage,
-                                                FeaturesPage,
-                                                GeneralSettingsPage, PhonePage,
-                                                SettingsAudioPage,
-                                                SettingsClockPage,
-                                                SettingsPage)
+from functional_tests.pages.sync4.pages import (
+    AppsPage, AudioPage, BluetoothPage, ClimatePage, ConnectionSettingsPage,
+    FeaturesPage, GeneralSettingsPage, PhonePage, SettingsAudioPage,
+    SettingsClockPage, SettingsPage)
 
 
 class PageSupervisor:

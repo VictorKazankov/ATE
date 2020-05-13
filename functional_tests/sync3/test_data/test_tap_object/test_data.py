@@ -10,5 +10,3 @@ from_page_object = Icons.MAIN_PHONE_BUTTON_INACTIVE
 
 # text to verify
 check_object = Text.SOURCES_TEXT
-
-

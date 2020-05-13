@@ -1,7 +1,8 @@
 import logging
 
 from functional_tests.pages import hmi
-from functional_tests.pages.interaction import tap, tap_if_visible, tap_first_if_visible_else_second, tap_until_visible
+from functional_tests.pages.interaction import (
+    tap, tap_first_if_visible_else_second, tap_if_visible, tap_until_visible)
 from functional_tests.utils.sync4.constants import Icons, Text
 
 

@@ -1,5 +1,4 @@
 import paramiko as paramiko
-
 from functional_tests import params_handler
 from functional_tests.config_reader import read_configuration
 

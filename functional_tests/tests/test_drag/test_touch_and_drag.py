@@ -1,8 +1,8 @@
 import pytest
 import vhat_client
-
 from functional_tests.pages import hmi
-from functional_tests.pages.interaction import return_obj_if_exist, tap_until_visible
+from functional_tests.pages.interaction import (return_obj_if_exist,
+                                                tap_until_visible)
 from functional_tests.tests.import_helper_functions import Data
 from functional_tests.utils.report import jira_test
 

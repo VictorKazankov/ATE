@@ -1,6 +1,6 @@
-import pytest
 import os
 
+import pytest
 from functional_tests import config_reader
 from functional_tests.utils import ssh_connect
 from functional_tests.utils.sftp_connection import SftpConnection

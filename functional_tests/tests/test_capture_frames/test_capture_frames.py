@@ -1,19 +1,22 @@
 import logging
+
 import pytest
-
-from vhat_client import captureFrames as vhat_captureFrames
-from vhat_client import InvalidDuration, PermissionDenied, VideoStreamingError, NoAvailableDiskSpace, \
-    InvalidRectangleCoordinates
-
-from functional_tests.tests.test_capture_frames.class_test_capture_frames import CaptureFramesTest, DEF_FOLDER_NAME, \
-    DEF_INTERVAL, DEF_DURATION, DEF_LEFT_POINT, DEF_RIGHT_POINT, MIN_INTERVAL, MAX_DURATION, MIN_LEFT_POINT
-from functional_tests.tests.test_capture_frames.class_screen_point import ScreenPoint
-
 from functional_tests.pages.hmi import capture_frames as hmi_capture_frames
+from functional_tests.tests.test_capture_frames.class_screen_point import \
+    ScreenPoint
+from functional_tests.tests.test_capture_frames.class_test_capture_frames import (
+    DEF_DURATION, DEF_FOLDER_NAME, DEF_INTERVAL, DEF_LEFT_POINT,
+    DEF_RIGHT_POINT, MAX_DURATION, MIN_INTERVAL, MIN_LEFT_POINT,
+    CaptureFramesTest)
 from functional_tests.utils import ssh_commands as cmd
-from functional_tests.utils.report import jira_test, jira_issue
-from functional_tests.utils.ssh_connect import start, execute_command, execute_list_of_commands, \
-    execute_command_and_get_result
+from functional_tests.utils.report import jira_test
+from functional_tests.utils.ssh_connect import (
+    execute_command, execute_command_and_get_result, execute_list_of_commands,
+    start)
+from vhat_client import (InvalidDuration, InvalidRectangleCoordinates,
+                         NoAvailableDiskSpace, PermissionDenied,
+                         VideoStreamingError)
+from vhat_client import captureFrames as vhat_captureFrames
 
 pytestmark = [pytest.mark.captureFrames, pytest.mark.regression_sync3, pytest.mark.regression_sync4]
 

@@ -1,5 +1,5 @@
 from functional_tests.pages.sync4.page_supervisor_sync4 import PageSupervisor
-from functional_tests.utils.sync4.constants import Text, Icons
+from functional_tests.utils.sync4.constants import Icons, Text
 
 page_to_check_horizontal = PageSupervisor().settings_page.open_settings_page
 page_to_check_vertical = PageSupervisor().settings_page.open_send_feedback

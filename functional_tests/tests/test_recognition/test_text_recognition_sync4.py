@@ -1,7 +1,8 @@
 import allure
 import pytest
 from functional_tests.tests.helpers import get_exist_result
-from functional_tests.utils.sync4.constants import TASK_LINK, Text, str_for_data
+from functional_tests.utils.sync4.constants import (TASK_LINK, Text,
+                                                    str_for_data)
 
 pytestmark = pytest.mark.regression_sync4
 

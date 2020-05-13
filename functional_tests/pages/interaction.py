@@ -2,8 +2,7 @@ import logging
 from time import sleep
 
 from functional_tests.pages import hmi
-from vhat_client import LookupError
-from vhat_client import object
+from vhat_client import LookupError, object
 
 
 def tap(name):

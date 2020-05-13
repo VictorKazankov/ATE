@@ -1,6 +1,5 @@
 from vhat_client import ScreenPoint as vhat_ScreenPoint
 
-
 INVALID_RESOLUTION = '0x0'
 
 

@@ -1,5 +1,5 @@
 from functional_tests.pages.sync3.page_supervisor_sync3 import PageSupervisor
-from functional_tests.utils.sync3.constants import Text, Icons
+from functional_tests.utils.sync3.constants import Icons, Text
 
 # open method of the required page
 open_method = PageSupervisor().home_page.open_home_page
