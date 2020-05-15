@@ -62,16 +62,40 @@ class ATE {
   void PressRelease(const cv::Point& point);
 
   /**
-   * @brief Waits until the object is accessible (i.e., it exists and is visible and enabled)
-   * @param object_data_identity Identity struct for performing search into DB
-   * @param object_or_name Object or name of the object
-   * @param timeout Timeout for detection of the object
-   * @return: a pair of possition and error code which indicate the result of function, rectangle with specified
-   * coordinates of the object if successful, otherwise return error code and empty rectangle
+   * @brief Waits for specified timeout until Object identified by object_or_name becomes
+   *        detectible on the screen and returns the detection area rectange of this Object.
+   *        If image with name object_or_name exists in Truth DB for currently selected DB
+   *        config (sync_version, build_version, mode) then Object is detected as image.
+   *        Otherwise text is detected, which exactly matches object_or_name string.
+   * @param object_or_name Name of the image in Truth DB or text to wait for
+   * @param timeout Timeout in ms to wait. Object will be tried to detect at least once even if
+   *                detection time overruns given timeout
+   * @return Detection area rectangle and zero error code on success. If timeout runs out,
+   *         then zero rectangle and AteError::kPatternNotFound error code. On other failure,
+   *         zero rectangle and appropriate non-zero error code
+   */
+  std::pair<cv::Rect, std::error_code> WaitForObject(const std::string& object_or_name,
+                                                     const std::chrono::milliseconds& timeout);
+
+  /**
+   * @brief Waits for specified timeout until the image from Truth DB identified by
+   *        object_data_identity will become detectible on the screen and returns
+   *        the detection area rectangle of this image.
+   *        object_data_identity may specify single image in Truth DB or multiple images if
+   *        ObjectDataIdentity struct string fields contain wildcard characters (*, ?) or mode
+   *        is set to kAny.
+   *        In case multiple images match object_data_identity, the detection area of a first
+   *        image detected on the screen will be returned.
+   *        Thid method does not perform text detection. In case no image can be fetched from
+   *        DB by object_data_identity, AteError::kPatternNotFound is returned
+   * @param object_data_identity Identity of image in TruthDB or pattern for iamge search in Truth DB
+   * @param timeout Timeout in ms to wait. All images that matched object_data_identity will be tried
+   *                to detect at least once even if overall detection time overruns given timeout
+   * @return Detection area rectangle of first found image and zero error code on success. If timeout
+   *         runs out, then zero rectangle and Ate::ErrorCode::kPatternNotFound error code. On other
+   *         failure, zero rectangle and appropriate non-zero error code
    */
   std::pair<cv::Rect, std::error_code> WaitForObject(const common::ObjectDataIdentity& object_data_identity,
-                                                     const std::chrono::milliseconds& timeout);
-  std::pair<cv::Rect, std::error_code> WaitForObject(const std::string& object_or_name,
                                                      const std::chrono::milliseconds& timeout);
 
   /**

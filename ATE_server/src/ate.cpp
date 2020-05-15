@@ -1,5 +1,6 @@
 #include "ate.h"
 
+#include <algorithm>
 #include <atomic>
 #include <condition_variable>
 #include <future>
@@ -170,21 +171,22 @@ std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const std::string& objec
 
 std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const common::ObjectDataIdentity& object_data_identity,
                                                         const std::chrono::milliseconds& timeout) {
-  const auto timeout_point = std::chrono::steady_clock::now() + timeout;
-
   cv::Rect match_area{};
   std::error_code match_error{common::AteError::kPatternNotFound};
-  cv::Mat pattern;
 
-  auto objects = storage_.GetItemDataByWildcard(object_data_identity);
-  for (const auto& object : objects) {
-    pattern = storage_.GetItem(object.name, object.sync_version, object.build_version, object.mode);
-    if (!pattern.empty()) {
-      do {
-        std::tie(match_area, match_error) = matcher_.MatchImage(object.name, pattern);
-      } while (match_error == common::AteError::kPatternNotFound && std::chrono::steady_clock::now() <= timeout_point);
-    }
-  }
+  const auto objects = storage_.GetItemDataByWildcard(object_data_identity);
+  const auto timeout_point = std::chrono::steady_clock::now() + timeout;
+
+  // Match all objects at least once before checking the timeout
+  do {
+    std::find_if(objects.cbegin(), objects.cend(), [this, &match_area, &match_error](const auto& object) {
+      const auto pattern = storage_.GetItem(object.name, object.sync_version, object.build_version, object.mode);
+      if (!pattern.empty()) std::tie(match_area, match_error) = matcher_.MatchImage(object.name, pattern);
+
+      // We search for either first success or first fatal error. kPatternNotFound is interpreted as 'retry'
+      return match_error != common::AteError::kPatternNotFound;
+    });
+  } while (match_error == common::AteError::kPatternNotFound && std::chrono::steady_clock::now() <= timeout_point);
 
   return {match_area, match_error};
 }
