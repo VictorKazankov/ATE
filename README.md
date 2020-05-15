@@ -124,11 +124,11 @@ Only ATE client is supported on Windows platform.
 1. Install
     * Debug:
         ```
-        cmake --build . --config Debug
+        cmake --build . --target install --config Debug
         ```
     * Release:
         ```
-        cmake --build . --config Release
+        cmake --build . --target install --config Release
         ```
 
 Options

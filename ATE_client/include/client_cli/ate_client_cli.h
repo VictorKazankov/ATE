@@ -364,7 +364,7 @@ public ref class API {
       <param name="y1">Rectangle top coordinate.</param>
       <param name="x2">Rectangle right coordinate.</param>
       <param name="y2">Rectangle bottom coordinate.</param>
-      <returns>List of Objects.</returns>
+      <returns>String containing detected text inside boundaries.</returns>
       <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
       <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
                                                     rectangle has zero height/width or is out of frame boundaries</exception>
@@ -401,8 +401,8 @@ public ref class API {
   /** <summary>
         This methods compares two images and returns the percentage of discrepancy.
       </summary>
-      <param name="pathSecond">Path to second image.</param>
-      <param name="pathFirst">Path to first image.</param>
+      <param name="pathSecond">Path to second image on VDP board relative to /var/lib/vdp/vhat/.</param>
+      <param name="pathFirst">Path to first image on VDP board relative to /var/lib/vdp/vhat/.</param>
       <returns>Percentage of discrepancy of two images.</returns>
       <exception cref="ComparingImageIncorrectSize">Thrown if image size is incorrect.</exception>
       <exception cref="ComparingImageNotExist">Thrown if compared image does not exist.</exception>

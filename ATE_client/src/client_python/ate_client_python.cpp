@@ -506,7 +506,7 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("captureFrames", &API::CaptureFrames,
         "CaptureFrames provides capturing video frames of desired area at a specified interval and duration"
-        "Throws 'InvalidDuration' in case if duration longer than 1 minute(60 000 milliseconds)."
+        "Throws 'InvalidDuration' in case if duration longer than 5 seconds (5 000 milliseconds)."
         "Throws:"
         " 'VideoStreamNotFound' in case of the video stream is not available"
         " 'PermissionDenied' in case of server does not have permission to make directory"
