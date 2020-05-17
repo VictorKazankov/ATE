@@ -47,7 +47,9 @@ PYBIND11_MODULE(vhat_client, m) {
       .def(py::init<int, int, int, int>(), "", py::arg(kAbscissa), py::arg(kOrdinate), py::arg(kWidth),
            py::arg(kHeight))
       .def(
-          "exists", [](const squish::Object&, std::string& object_name) { return API::Exists(object_name); },
+          "exists",
+          [](const squish::Object&, std::string& object_name, const common::Point& top_left,
+             const common::Point& bottom_right) { return API::Exists(object_name, top_left, bottom_right); },
           "This function returns a true value if the object with the symbolic or real (multi-property) "
           "name objectName exists; otherwise it returns a false value."
           "Throws:"
@@ -55,7 +57,7 @@ PYBIND11_MODULE(vhat_client, m) {
           " 'VideoStreamNotFound' in case of the video stream is not available"
           " 'invalid_argument' in case of invalid params sent to the server-side"
           " 'runtime_error' in case of internal error, parse error, invalid request, method not found",
-          py::arg("objectName"))
+          py::arg("objectName"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}))
       .def_property_readonly("topLeft", &squish::Object::TopLeft)
       .def_property_readonly("bottomRight", &squish::Object::BottomRight)
       .def_readwrite(kAbscissa, &squish::Object::x)
@@ -179,7 +181,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'TypeError' in case of incompatible function arguments",
         py::arg("aut_name"), py::return_value_policy::reference);
 
-  m.def("waitForObject", py::overload_cast<const std::string&>(&API::WaitForObject),
+  m.def("waitForObject",
+        py::overload_cast<const std::string&, const common::Point&, const common::Point&>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
         "milliseconds. "
@@ -190,9 +193,10 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
         " 'TypeError' in case of incompatible function arguments",
-        py::arg("object_or_name"));
+        py::arg("object_or_name"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}));
 
-  m.def("waitForObject", py::overload_cast<const squish::Object&>(&API::WaitForObject),
+  m.def("waitForObject",
+        py::overload_cast<const squish::Object&, const common::Point&, const common::Point&>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
         "milliseconds. "
@@ -203,9 +207,10 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
         " 'TypeError' in case of incompatible function arguments",
-        py::arg("object_or_name"));
+        py::arg("object_or_name"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}));
 
-  m.def("waitForObject", py::overload_cast<const squish::Wildcard&>(&API::WaitForObject),
+  m.def("waitForObject",
+        py::overload_cast<const squish::Wildcard&, const common::Point&, const common::Point&>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled) "
         "and returns the first found object. "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
@@ -217,23 +222,27 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
         " 'TypeError' in case of incompatible function arguments",
-        py::arg("wildcard"));
+        py::arg("wildcard"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}));
 
-  m.def("waitForObject", py::overload_cast<const squish::Wildcard&, int>(&API::WaitForObject),
-        "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled) "
-        "and returns the first found object. "
-        "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
-        "milliseconds. This function is useful if you want to synchronize your script execution. "
-        "Throws:"
-        " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
-        " 'VideoStreamingError' in case of the video stream is not available"
-        " 'NoConnectionEstablished' in case of no connection was established to server-side"
-        " 'invalid_argument' in case of the invalid arguments in request"
-        " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
-        " 'TypeError' in case of incompatible function arguments",
-        py::arg("wildcard"), py::arg("timeout_msec"));
+  m.def(
+      "waitForObject",
+      py::overload_cast<const squish::Wildcard&, int, const common::Point&, const common::Point&>(&API::WaitForObject),
+      "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled) "
+      "and returns the first found object. "
+      "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
+      "milliseconds. This function is useful if you want to synchronize your script execution. "
+      "Throws:"
+      " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
+      " 'VideoStreamingError' in case of the video stream is not available"
+      " 'NoConnectionEstablished' in case of no connection was established to server-side"
+      " 'invalid_argument' in case of the invalid arguments in request"
+      " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
+      " 'TypeError' in case of incompatible function arguments",
+      py::arg("wildcard"), py::arg("timeout_msec"), py::arg_v("top_left", common::Point{}),
+      py::arg_v("bottom_right", common::Point{}));
 
-  m.def("waitForObject", py::overload_cast<const std::string&, int>(&API::WaitForObject),
+  m.def("waitForObject",
+        py::overload_cast<const std::string&, int, const common::Point&, const common::Point&>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
@@ -244,9 +253,11 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
         " 'TypeError' in case of incompatible function arguments",
-        py::arg("object_or_name"), py::arg("timeout_msec"));
+        py::arg("object_or_name"), py::arg("timeout_msec"), py::arg_v("top_left", common::Point{}),
+        py::arg_v("bottom_right", common::Point{}));
 
-  m.def("waitForObject", py::overload_cast<const squish::Object&, int>(&API::WaitForObject),
+  m.def("waitForObject",
+        py::overload_cast<const squish::Object&, int, const common::Point&, const common::Point&>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
@@ -257,7 +268,8 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
         " 'TypeError' in case of incompatible function arguments",
-        py::arg("object_or_name"), py::arg("timeout_msec"));
+        py::arg("object_or_name"), py::arg("timeout_msec"), py::arg_v("top_left", common::Point{}),
+        py::arg_v("bottom_right", common::Point{}));
 
   m.def("tapObject",
         py::overload_cast<const common::Point&, common::squish::ModifierState, common::squish::MouseButton>(

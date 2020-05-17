@@ -26,42 +26,51 @@ squish::ApplicationContext& SquishApi::AttachToApplication(
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                                        const uint64_t& correlation_id, const squish::Object& object_or_name) const {
-  return WaitForObject(ate_interaction, correlation_id, object_or_name, default_wait_for_object_timeout_in_ms_);
+                                        const uint64_t& correlation_id, const squish::Object& object_or_name,
+                                        const common::Point& top_left, const common::Point& bottom_right) const {
+  return WaitForObject(ate_interaction, correlation_id, object_or_name, default_wait_for_object_timeout_in_ms_,
+                       top_left, bottom_right);
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                         const uint64_t& correlation_id, const squish::Object& object_or_name,
-                                        int timeout_msec) const {
-  return WaitForObject(ate_interaction, correlation_id, object_or_name.name, timeout_msec);
-}
-
-squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                                        const uint64_t& correlation_id, const std::string& object_or_name) const {
-  return WaitForObject(ate_interaction, correlation_id, object_or_name, default_wait_for_object_timeout_in_ms_);
+                                        int timeout_msec, const common::Point& top_left,
+                                        const common::Point& bottom_right) const {
+  return WaitForObject(ate_interaction, correlation_id, object_or_name.name, timeout_msec, top_left, bottom_right);
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                         const uint64_t& correlation_id, const std::string& object_or_name,
-                                        int timeout_msec) const {
+                                        const common::Point& top_left, const common::Point& bottom_right) const {
+  return WaitForObject(ate_interaction, correlation_id, object_or_name, default_wait_for_object_timeout_in_ms_,
+                       top_left, bottom_right);
+}
+
+squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                        const uint64_t& correlation_id, const std::string& object_or_name,
+                                        int timeout_msec, const common::Point& top_left,
+                                        const common::Point& bottom_right) const {
   logger::debug("Object waitForObject()");
-  const auto message =
-      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_or_name, timeout_msec, correlation_id);
+  const auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(
+      object_or_name, timeout_msec, top_left, bottom_right, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   return interaction::JsonRpcParser::ParseWaitForObject(response);
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                                        const uint64_t& correlation_id, const squish::Wildcard& wildcard) const {
-  return WaitForObject(ate_interaction, correlation_id, wildcard, default_wait_for_object_timeout_in_ms_);
+                                        const uint64_t& correlation_id, const squish::Wildcard& wildcard,
+                                        const common::Point& top_left, const common::Point& bottom_right) const {
+  return WaitForObject(ate_interaction, correlation_id, wildcard, default_wait_for_object_timeout_in_ms_, top_left,
+                       bottom_right);
 }
 
 squish::Object SquishApi::WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                         const uint64_t& correlation_id, const squish::Wildcard& wildcard,
-                                        int timeout_sec) const {
+                                        int timeout_sec, const common::Point& top_left,
+                                        const common::Point& bottom_right) const {
   logger::debug("Object wairForObject(Wildcard)");
-  const auto message =
-      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(wildcard, timeout_sec, correlation_id);
+  const auto message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(wildcard, timeout_sec, top_left,
+                                                                                        bottom_right, correlation_id);
   const auto response = ate_interaction->SendCommand(message);
   return interaction::JsonRpcParser::ParseWaitForObject(response);
 }
@@ -172,10 +181,11 @@ void SquishApi::PressRelease(const std::shared_ptr<interaction::Interaction>& at
 }
 
 bool SquishApi::Exists(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
-                       const std::string& object_name) const {
+                       const std::string& object_name, const common::Point& top_left,
+                       const common::Point& bottom_right) const {
   try {
     const int kOneSecondTimeout = 1;
-    WaitForObject(ate_interaction, correlation_id, object_name, kOneSecondTimeout);
+    WaitForObject(ate_interaction, correlation_id, object_name, kOneSecondTimeout, top_left, bottom_right);
     return true;
   } catch (const squish::LookupError&) {
     return false;

@@ -42,11 +42,14 @@ class SquishApi {
    * @throw VideoStreamingError In case of the video stream is not available
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
   squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                               const uint64_t& correlation_id, const std::string& object_or_name) const;
+                               const uint64_t& correlation_id, const std::string& object_or_name,
+                               const common::Point& top_left, const common::Point& bottom_right) const;
   squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                               const uint64_t& correlation_id, const squish::Object& object_or_name) const;
+                               const uint64_t& correlation_id, const squish::Object& object_or_name,
+                               const common::Point& top_left, const common::Point& bottom_right) const;
 
   /**
    * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
@@ -60,9 +63,11 @@ class SquishApi {
    * @throw VideoStreamingError In case of the video stream is not available
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
   squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                               const uint64_t& correlation_id, const squish::Wildcard& wildcard) const;
+                               const uint64_t& correlation_id, const squish::Wildcard& wildcard,
+                               const common::Point& top_left, const common::Point& bottom_right) const;
 
   /**
    * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
@@ -77,13 +82,14 @@ class SquishApi {
    * @throw VideoStreamingError In case of the video stream is not available
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
   squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                               const uint64_t& correlation_id, const std::string& object_or_name,
-                               int timeout_msec) const;
+                               const uint64_t& correlation_id, const std::string& object_or_name, int timeout_msec,
+                               const common::Point& top_left, const common::Point& bottom_right) const;
   squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                               const uint64_t& correlation_id, const squish::Object& object_or_name,
-                               int timeout_msec) const;
+                               const uint64_t& correlation_id, const squish::Object& object_or_name, int timeout_msec,
+                               const common::Point& top_left, const common::Point& bottom_right) const;
 
   /**
    * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
@@ -98,10 +104,11 @@ class SquishApi {
    * @throw VideoStreamingError In case of the video stream is not available
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
   squish::Object WaitForObject(const std::shared_ptr<interaction::Interaction>& ate_interaction,
-                               const uint64_t& correlation_id, const squish::Wildcard& wildcard,
-                               int timeout_msec) const;
+                               const uint64_t& correlation_id, const squish::Wildcard& wildcard, int timeout_msec,
+                               const common::Point& top_left, const common::Point& bottom_right) const;
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
@@ -279,9 +286,10 @@ class SquishApi {
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of invalid params in request
    * @throw runtime_error In case of internal error, parse error, invalid request, method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
   bool Exists(const std::shared_ptr<interaction::Interaction>& ate_interaction, const uint64_t& correlation_id,
-              const std::string& object_name) const;
+              const std::string& object_name, const common::Point& top_left, const common::Point& bottom_right) const;
 
   /**
    * @brief The function sets default timeout for WaitForObject function

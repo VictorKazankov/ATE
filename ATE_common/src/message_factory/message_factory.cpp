@@ -43,12 +43,17 @@ std::string MessageFactory::Client::CreateAttachToApplicationRequest(int timeout
 }
 
 std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string& object_name, int timeout_msec,
-                                                               uint64_t id) {
+                                                               const common::Point& top_left,
+                                                               const common::Point& bottom_right, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
   params[kName] = object_name;
   params[kTimeoutMsec] = timeout_msec;
+  params[kXTopLeft] = top_left.x;
+  params[kYTopLeft] = top_left.y;
+  params[kXBottomRight] = bottom_right.x;
+  params[kYBottomRight] = bottom_right.y;
 
   Json::Value message;
 
@@ -59,12 +64,17 @@ std::string MessageFactory::Client::CreateWaitForObjectRequest(const std::string
 }
 
 std::string MessageFactory::Client::CreateWaitForObjectRequest(const common::ObjectDataIdentity& object_data_identity,
-                                                               int timeout_msec, uint64_t id) {
+                                                               int timeout_msec, const common::Point& top_left,
+                                                               const common::Point& bottom_right, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;
 
   PutObjectDataIdentityIntoRequest(object_data_identity, params);
   params[kTimeoutMsec] = timeout_msec;
+  params[kXTopLeft] = top_left.x;
+  params[kYTopLeft] = top_left.y;
+  params[kXBottomRight] = bottom_right.x;
+  params[kYBottomRight] = bottom_right.y;
 
   Json::Value message;
   CreatePackageStructure(message, kWaitForObject, id);

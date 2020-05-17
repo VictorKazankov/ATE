@@ -43,9 +43,12 @@ class ApiAggregator {
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
-  squish::Object WaitForObject(const std::string& object_or_name);
-  squish::Object WaitForObject(const squish::Object& object_or_name);
+  squish::Object WaitForObject(const std::string& object_or_name, const common::Point& top_left,
+                               const common::Point& bottom_right);
+  squish::Object WaitForObject(const squish::Object& object_or_name, const common::Point& top_left,
+                               const common::Point& bottom_right);
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -59,9 +62,12 @@ class ApiAggregator {
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
-  squish::Object WaitForObject(const squish::Wildcard& wildcard);
-  squish::Object WaitForObject(const squish::Wildcard& wildcard, int timeout_msec);
+  squish::Object WaitForObject(const squish::Wildcard& wildcard, const common::Point& top_left,
+                               const common::Point& bottom_right);
+  squish::Object WaitForObject(const squish::Wildcard& wildcard, int timeout_msec, const common::Point& top_left,
+                               const common::Point& bottom_right);
 
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -75,9 +81,12 @@ class ApiAggregator {
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of the invalid arguments in request
    * @throw runtime_error In case of an internal error, parse error, invalid request, a method not foun
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
-  squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec);
-  squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec);
+  squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec, const common::Point& top_left,
+                               const common::Point& bottom_right);
+  squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec, const common::Point& top_left,
+                               const common::Point& bottom_right);
 
   /**
    * @brief TapObject performs a touch tap at the position specified by screenPoint.
@@ -232,8 +241,9 @@ class ApiAggregator {
    * @throw NoConnectionEstablished In case of no connection was established to server-side
    * @throw invalid_argument In case of invalid params in request
    * @throw runtime_error In case of internal error, parse error, invalid request, method not found
+   * @throw InvalidRectangleCoordinates In case of the invalid coordinates
    **/
-  bool Exists(const std::string& object_name);
+  bool Exists(const std::string& object_name, const common::Point& top_left, const common::Point& bottom_right);
 
   /**
    * @brief This API allows changing sync version and sync build version without restart ate server.

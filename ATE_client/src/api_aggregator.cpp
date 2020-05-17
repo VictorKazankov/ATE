@@ -52,34 +52,43 @@ squish::ApplicationContext& ApiAggregator::AttachToApplication(const std::string
   return squish_api_.AttachToApplication(ate_interaction_, aut_name);
 }
 
-squish::Object ApiAggregator::WaitForObject(const std::string& object_or_name) {
+squish::Object ApiAggregator::WaitForObject(const std::string& object_or_name, const common::Point& top_left,
+                                            const common::Point& bottom_right) {
   ThrowExceptionIfNoConnectionEstablished();
-  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name);
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, top_left, bottom_right);
 }
 
-squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name) {
+squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name, const common::Point& top_left,
+                                            const common::Point& bottom_right) {
   ThrowExceptionIfNoConnectionEstablished();
-  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name);
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, top_left, bottom_right);
 }
 
-squish::Object ApiAggregator::WaitForObject(const squish::Wildcard& wildcard) {
+squish::Object ApiAggregator::WaitForObject(const squish::Wildcard& wildcard, const common::Point& top_left,
+                                            const common::Point& bottom_right) {
   ThrowExceptionIfNoConnectionEstablished();
-  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), wildcard);
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), wildcard, top_left, bottom_right);
 }
 
-squish::Object ApiAggregator::WaitForObject(const squish::Wildcard& wildcard, int timeout_msec) {
+squish::Object ApiAggregator::WaitForObject(const squish::Wildcard& wildcard, int timeout_msec,
+                                            const common::Point& top_left, const common::Point& bottom_right) {
   ThrowExceptionIfNoConnectionEstablished();
-  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), wildcard, timeout_msec);
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), wildcard, timeout_msec, top_left,
+                                   bottom_right);
 }
 
-squish::Object ApiAggregator::WaitForObject(const std::string& object_or_name, int timeout_msec) {
+squish::Object ApiAggregator::WaitForObject(const std::string& object_or_name, int timeout_msec,
+                                            const common::Point& top_left, const common::Point& bottom_right) {
   ThrowExceptionIfNoConnectionEstablished();
-  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, timeout_msec);
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, timeout_msec, top_left,
+                                   bottom_right);
 }
 
-squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name, int timeout_msec) {
+squish::Object ApiAggregator::WaitForObject(const squish::Object& object_or_name, int timeout_msec,
+                                            const common::Point& top_left, const common::Point& bottom_right) {
   ThrowExceptionIfNoConnectionEstablished();
-  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, timeout_msec);
+  return squish_api_.WaitForObject(ate_interaction_, GetCorrelationId(), object_or_name, timeout_msec, top_left,
+                                   bottom_right);
 }
 
 void ApiAggregator::TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
@@ -152,9 +161,10 @@ void ApiAggregator::PressRelease(const squish::Object& object) {
   squish_api_.PressRelease(ate_interaction_, GetCorrelationId(), object);
 }
 
-bool ApiAggregator::Exists(const std::string& object_name) {
+bool ApiAggregator::Exists(const std::string& object_name, const common::Point& top_left,
+                           const common::Point& bottom_right) {
   ThrowExceptionIfNoConnectionEstablished();
-  return squish_api_.Exists(ate_interaction_, GetCorrelationId(), object_name);
+  return squish_api_.Exists(ate_interaction_, GetCorrelationId(), object_name, top_left, bottom_right);
 }
 
 void ApiAggregator::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {

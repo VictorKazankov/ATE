@@ -13,28 +13,34 @@ squish::ApplicationContext& API::AttachToApplication(const std::string& aut_name
   return GetApiAggregator().AttachToApplication(aut_name);
 }
 
-squish::Object API::WaitForObject(const std::string& object_or_name) {
-  return GetApiAggregator().WaitForObject(object_or_name);
+squish::Object API::WaitForObject(const std::string& object_or_name, const common::Point& top_left,
+                                  const common::Point& bottom_right) {
+  return GetApiAggregator().WaitForObject(object_or_name, top_left, bottom_right);
 }
 
-squish::Object API::WaitForObject(const squish::Object& object_or_name) {
-  return GetApiAggregator().WaitForObject(object_or_name);
+squish::Object API::WaitForObject(const squish::Object& object_or_name, const common::Point& top_left,
+                                  const common::Point& bottom_right) {
+  return GetApiAggregator().WaitForObject(object_or_name, top_left, bottom_right);
 }
 
-squish::Object API::WaitForObject(const std::string& object_or_name, int timeout_msec) {
-  return GetApiAggregator().WaitForObject(object_or_name, timeout_msec);
+squish::Object API::WaitForObject(const std::string& object_or_name, int timeout_msec, const common::Point& top_left,
+                                  const common::Point& bottom_right) {
+  return GetApiAggregator().WaitForObject(object_or_name, timeout_msec, top_left, bottom_right);
 }
 
-squish::Object API::WaitForObject(const squish::Object& object_or_name, int timeout_msec) {
-  return GetApiAggregator().WaitForObject(object_or_name, timeout_msec);
+squish::Object API::WaitForObject(const squish::Object& object_or_name, int timeout_msec, const common::Point& top_left,
+                                  const common::Point& bottom_right) {
+  return GetApiAggregator().WaitForObject(object_or_name, timeout_msec, top_left, bottom_right);
 }
 
-squish::Object API::WaitForObject(const squish::Wildcard& wildcard) {
-  return GetApiAggregator().WaitForObject(wildcard);
+squish::Object API::WaitForObject(const squish::Wildcard& wildcard, const common::Point& top_left,
+                                  const common::Point& bottom_right) {
+  return GetApiAggregator().WaitForObject(wildcard, top_left, bottom_right);
 }
 
-squish::Object API::WaitForObject(const squish::Wildcard& wildcard, int timeout_msec) {
-  return GetApiAggregator().WaitForObject(wildcard, timeout_msec);
+squish::Object API::WaitForObject(const squish::Wildcard& wildcard, int timeout_msec, const common::Point& top_left,
+                                  const common::Point& bottom_right) {
+  return GetApiAggregator().WaitForObject(wildcard, timeout_msec, top_left, bottom_right);
 }
 
 void API::TapObject(const common::Point& screen_point, common::squish::ModifierState modifier_state,
@@ -82,7 +88,9 @@ void API::PressRelease(const common::Rect& screen_rectangle) { GetApiAggregator(
 
 void API::PressRelease(const squish::Object& object) { GetApiAggregator().PressRelease(object); }
 
-bool API::Exists(const std::string& object_name) { return GetApiAggregator().Exists(object_name); }
+bool API::Exists(const std::string& object_name, const common::Point& top_left, const common::Point& bottom_right) {
+  return GetApiAggregator().Exists(object_name, top_left, bottom_right);
+}
 
 void API::ChangeSyncIconDB(const std::string& sync_version, const std::string& sync_build_version) {
   GetApiAggregator().ChangeSyncIconDB(sync_version, sync_build_version);

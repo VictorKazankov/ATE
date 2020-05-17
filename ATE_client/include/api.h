@@ -32,9 +32,12 @@ squish::ApplicationContext& AttachToApplication(const std::string& aut_name);
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw TypeError In case of incompatible function arguments
+ * @throw InvalidRectangleCoordinates In case of the invalid coordinates
  **/
-squish::Object WaitForObject(const std::string& object_or_name);
-squish::Object WaitForObject(const squish::Object& object_or_name);
+squish::Object WaitForObject(const std::string& object_or_name, const common::Point& top_left,
+                             const common::Point& bottom_right);
+squish::Object WaitForObject(const squish::Object& object_or_name, const common::Point& top_left,
+                             const common::Point& bottom_right);
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -49,9 +52,12 @@ squish::Object WaitForObject(const squish::Object& object_or_name);
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw TypeError In case of incompatible function arguments
+ * @throw InvalidRectangleCoordinates In case of the invalid coordinates
  **/
-squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec);
-squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec);
+squish::Object WaitForObject(const std::string& object_or_name, int timeout_msec, const common::Point& top_left,
+                             const common::Point& bottom_right);
+squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_msec, const common::Point& top_left,
+                             const common::Point& bottom_right);
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -65,8 +71,10 @@ squish::Object WaitForObject(const squish::Object& object_or_name, int timeout_m
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw TypeError In case of incompatible function arguments
+ * @throw InvalidRectangleCoordinates In case of the invalid coordinates
  **/
-squish::Object WaitForObject(const squish::Wildcard& wildcard);
+squish::Object WaitForObject(const squish::Wildcard& wildcard, const common::Point& top_left,
+                             const common::Point& bottom_right);
 
 /**
  * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
@@ -81,8 +89,10 @@ squish::Object WaitForObject(const squish::Wildcard& wildcard);
  * @throw invalid_argument In case of the invalid arguments in request
  * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
  * @throw TypeError In case of incompatible function arguments
+ * @throw InvalidRectangleCoordinates In case of the invalid coordinates
  **/
-squish::Object WaitForObject(const squish::Wildcard& wildcard, int timeout_msec);
+squish::Object WaitForObject(const squish::Wildcard& wildcard, int timeout_msec, const common::Point& top_left,
+                             const common::Point& bottom_right);
 
 /**
  * @brief TapObject performs a touch tap at the position specified by screenPoint.
@@ -248,8 +258,9 @@ void PressRelease(const squish::Object& object);
  * @throw invalid_argument In case of invalid params in request
  * @throw runtime_error In case of internal error, parse error, invalid request, method not found
  * @throw TypeError In case of incompatible function arguments
+ * @throw InvalidRectangleCoordinates In case of the invalid coordinates
  **/
-bool Exists(const std::string& object_name);
+bool Exists(const std::string& object_name, const common::Point& top_left, const common::Point& bottom_right);
 
 /**
  * @brief This API allows changing sync version and sync build version without restart ate server.
