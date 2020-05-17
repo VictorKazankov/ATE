@@ -1,0 +1,75 @@
+"""
+Constants for icons and text for Menlo
+"""
+
+
+class Icons:
+    MAIN_APPS_BUTTON_ACTIVE = 'main_apps_button_active'
+    MAIN_APPS_BUTTON_INACTIVE = 'main_apps_button_inactive'
+
+    APPS_RADIO_BUTTON = 'apps_radio_button'
+    APPS_PHONE_BUTTON = 'apps_phone_button'
+
+    MAIN_SETTINGS_CONTROLS_BUTTON_INACTIVE = 'main_settings_controls_button_inactive'
+    MAIN_SETTINGS_CONTROLS_BUTTON_ACTIVE = 'main_settings_controls_button_active'
+    SETTINGS_SOUND_BUTTON = 'settings_sound_button'
+    SETTINGS_CLOCK_BUTTON = 'settings_clock_button'
+    SETTINGS_PHONE_LIST_BUTTON = 'settings_phone_list_button'
+    SETTINGS_PHONE_LIST_ADD_PHONE_BUTTON = 'settings_phone_list_add_phone_button'
+    SETTINGS_CONNECTIVITY_BUTTON = 'settings_connectivity_button'
+
+
+class Text:
+    # GENERAL
+    RESET_TEXT = 'Reset'
+    OFF_TEXT = 'Off'
+
+    # APPS
+    APPS_RADIO_TEXT = 'Radio'
+    APPS_PHONE_TEXT = 'Phone'
+    APPS_TIRE_PRESSURE_TEXT = 'Tire'
+    APPS_TRIP_IOD_TEXT = 'Trip IOD'
+    APPS_SEATBELT_TEXT = 'Seatbelt'
+    APPS_BLUETOOTH_STEREO_TEXT = 'Bluetooth'
+    APPS_OWNERS_MANUAL_TEXT = 'Manual'
+
+    # SETTINGS GENERAL
+    SETTINGS_PANEL_TITLE_TEXT = 'SETTINGS'
+    SETTINGS_PANEL_CLOCK_BUTTON_TEXT = 'Clock'
+    SETTINGS_PANEL_PHONE_LIST_BUTTON_TEXT = 'Phone List'
+    SETTINGS_PANEL_CONNECTIVITY_BUTTON_TEXT = 'Connectivity'
+    SETTINGS_PANEL_RADIO_BUTTON_TEXT = 'Radio'
+    SETTINGS_PANEL_VEHICLE_BUTTON_TEXT = 'Vehicle'
+
+    # SETTINGS SOUND
+    SETTINGS_SOUND_TITLE_TEXT = 'SOUND'
+    SETTINGS_SOUND_TONE_TEXT = 'Tone Settings'
+    SETTINGS_SOUND_BALANCE_FADE_TEXT = 'Balance/Fade'
+    SETTINGS_SOUND_DSP_OCCUPANCY_TEXT = 'DSP Occupancy'
+
+    # SETTINGS CLOCK
+    SETTINGS_CLOCK_TITLE_TEXT = 'CLOCK'
+    SETTINGS_CLOCK_MODE_TEXT = '24-hour Mode'
+    SETTINGS_CLOCK_TIME_ZONE_TEXT = 'Automatic Time Zone Update'
+
+    # SETTINGS PHONE
+    SETTINGS_PHONE_TITLE_TEXT = 'PHONE LIST'
+    SETTINGS_PHONE_ADD_PHONE_TEXT = 'Add phone'
+
+    # SETTINGS CONNECTIVITY
+    SETTINGS_CONNECTIVITY_TITLE_TEXT = 'CONNECTIVITY'
+    SETTINGS_CONNECTIVITY_FEATURES_TEXT = 'Connected Vehicle Features'
+    SETTINGS_CONNECTIVITY_BLUETOOTH_TEXT = 'Bluetooth'
+    SETTINGS_CONNECTIVITY_PROJECTION_TEXT = 'Wireless App Projection'
+    SETTINGS_CONNECTIVITY_NETWORKS_TEXT = 'Manage Wi-Fi Networks'
+
+    # SETTINGS RADIO
+    SETTINGS_RADIO_TITLE_TEXT = 'RADIO'
+    SETTINGS_RADIO_TEXT = 'Radio Text'
+
+    # SETTINGS VEHICLE
+    SETTINGS_VEHICLE_TITLE_TEXT = 'VEHICLE'
+    SETTINGS_VEHICLE_IDLE_TEXT = '30min Max Idle'
+    SETTINGS_VEHICLE_EXIT_TEXT = 'Easy Entry/Exit'
+    SETTINGS_VEHICLE_LOCKS_TEXT = 'Locks'
+    SETTINGS_VEHICLE_DOOR_CODE_TEXT = 'Door Keypad Code'
