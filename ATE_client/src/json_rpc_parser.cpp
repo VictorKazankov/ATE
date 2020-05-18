@@ -9,6 +9,73 @@
 
 #include "error_defines.h"
 
+namespace {
+/**
+ * @brief The function parse JSON node and make a try to convert it to squish::Object
+ * @param node Json value with an object
+ * @return Filled squish::object if successfully, otherwise - empty squish::object
+ * @throw Json::LogicError In case of issues with JSON node parsing
+ */
+squish::Object ExtractSquishObject(const Json::Value& node) {
+  squish::Object object;
+  try {
+    // Validating mandatory data fields
+    if (!node.isMember(common::jmsg::kAbscissa) || !node.isMember(common::jmsg::kOrdinate) ||
+        !node.isMember(common::jmsg::kWidth) || !node.isMember(common::jmsg::kHeight)) {
+      logger::error("Invalid structure of object data in the node. Mandatory fields is incorrect.");
+      return object;
+    }
+
+    // Extracting mandatory fields
+    object.x = node[common::jmsg::kAbscissa].asInt();
+    object.y = node[common::jmsg::kOrdinate].asInt();
+    object.width = node[common::jmsg::kWidth].asInt();
+    object.height = node[common::jmsg::kHeight].asInt();
+
+    // Extracting optional fields
+    if (node.isMember(common::jmsg::kXTopLeft) && node[common::jmsg::kXTopLeft].isInt()) {
+      object.x_top_left = node[common::jmsg::kXTopLeft].asInt();
+    }
+    if (node.isMember(common::jmsg::kYTopLeft) && node[common::jmsg::kYTopLeft].isInt()) {
+      object.y_top_left = node[common::jmsg::kYTopLeft].asInt();
+    }
+    if (node.isMember(common::jmsg::kXBottomRight) && node[common::jmsg::kXBottomRight].isInt()) {
+      object.x_bottom_right = node[common::jmsg::kXBottomRight].asInt();
+    }
+    if (node.isMember(common::jmsg::kYBottomRight) && node[common::jmsg::kYBottomRight].isInt()) {
+      object.y_bottom_right = node[common::jmsg::kYBottomRight].asInt();
+    }
+    if (node.isMember(common::jmsg::kParentWidth) && node[common::jmsg::kParentWidth].isInt()) {
+      object.parent_width = node[common::jmsg::kParentWidth].asInt();
+    }
+    if (node.isMember(common::jmsg::kParentHeight) && node[common::jmsg::kParentHeight].isInt()) {
+      object.parent_height = node[common::jmsg::kParentHeight].asInt();
+    }
+    if (node.isMember(common::jmsg::kName) && node[common::jmsg::kName].isString()) {
+      object.name = node[common::jmsg::kName].asCString();
+    }
+    if (node.isMember(common::jmsg::kParentScreen) && node[common::jmsg::kParentScreen].isString()) {
+      object.parent_screen = node[common::jmsg::kParentScreen].asCString();
+    }
+    if (node.isMember(common::jmsg::kSyncVersion) && node[common::jmsg::kSyncVersion].isString()) {
+      object.sync_version = node[common::jmsg::kSyncVersion].asCString();
+    }
+    if (node.isMember(common::jmsg::kSyncBuildVersion) && node[common::jmsg::kSyncBuildVersion].isString()) {
+      object.build_version = node[common::jmsg::kSyncBuildVersion].asCString();
+    }
+    if (node.isMember(common::jmsg::kSyncCollectionMode) && node[common::jmsg::kSyncCollectionMode].isString()) {
+      object.mode = common::squish::StrToCollectionMode(node[common::jmsg::kSyncCollectionMode].asCString());
+    }
+
+  } catch (const Json::LogicError& err) {
+    logger::error("Argument error: wrong type of response {}", err.what());
+    throw err;
+  }
+
+  return object;
+}
+}  // namespace
+
 namespace interaction {
 
 namespace impl {
@@ -100,20 +167,7 @@ void JsonRpcParser::CheckAndRaiseExceptionInCaseErrors(const std::string& rpc) {
 squish::Object JsonRpcParser::ParseWaitForObject(const std::string& rpc) {
   Json::Value schema = RpcStringToJsonStruct(rpc);
 
-  squish::Object object;
-
-  if (common::jmsg::CheckWaitForObjectResponse(schema)) {
-    logger::debug("[parse message] waitForObject response");
-
-    auto& result = schema[common::jmsg::kResult];
-
-    object.x = result[common::jmsg::kAbscissa].asInt();
-    object.y = result[common::jmsg::kOrdinate].asInt();
-    object.width = result[common::jmsg::kWidth].asInt();
-    object.height = result[common::jmsg::kHeight].asInt();
-  }
-
-  return object;
+  return ExtractSquishObject(schema[common::jmsg::kResult]);
 }
 
 bool JsonRpcParser::ParseGetScreenshot(const std::string& rpc) {
@@ -155,65 +209,14 @@ std::vector<squish::Object> JsonRpcParser::ParseGetObjectsDataByPattern(const st
   // If Error - thrown exception
   Json::Value schema = RpcStringToJsonStruct(rpc);
 
-  // Parse
   auto& result = schema[common::jmsg::kResult];
   for (const auto& node : result) {
-    squish::Object object;
     try {
-      // Validating mandatory data fields
-      if (!node.isMember(common::jmsg::kAbscissa) || !node.isMember(common::jmsg::kOrdinate) ||
-          !node.isMember(common::jmsg::kWidth) || !node.isMember(common::jmsg::kHeight)) {
-        logger::error(
-            "[ParseGetObjectsDataByPattern] Invalid structure of object data in the node. Mandatory fields is "
-            "incorrect.");
-        continue;
+      squish::Object object = ExtractSquishObject(node);
+      if (object.x != 0 && object.y != 0 && object.width != 0 && object.height != 0) {
+        objects_list.push_back(std::move(object));
       }
-
-      // Extracting mandatory fields
-      object.x = node[common::jmsg::kAbscissa].asInt();
-      object.y = node[common::jmsg::kOrdinate].asInt();
-      object.width = node[common::jmsg::kWidth].asInt();
-      object.height = node[common::jmsg::kHeight].asInt();
-
-      // Extracting optional fields
-      if (node.isMember(common::jmsg::kXTopLeft) && node[common::jmsg::kXTopLeft].isInt()) {
-        object.x_top_left = node[common::jmsg::kXTopLeft].asInt();
-      }
-      if (node.isMember(common::jmsg::kYTopLeft) && node[common::jmsg::kYTopLeft].isInt()) {
-        object.y_top_left = node[common::jmsg::kYTopLeft].asInt();
-      }
-      if (node.isMember(common::jmsg::kXBottomRight) && node[common::jmsg::kXBottomRight].isInt()) {
-        object.x_bottom_right = node[common::jmsg::kXBottomRight].asInt();
-      }
-      if (node.isMember(common::jmsg::kYBottomRight) && node[common::jmsg::kYBottomRight].isInt()) {
-        object.y_bottom_right = node[common::jmsg::kYBottomRight].asInt();
-      }
-      if (node.isMember(common::jmsg::kParentWidth) && node[common::jmsg::kParentWidth].isInt()) {
-        object.parent_width = node[common::jmsg::kParentWidth].asInt();
-      }
-      if (node.isMember(common::jmsg::kParentHeight) && node[common::jmsg::kParentHeight].isInt()) {
-        object.parent_height = node[common::jmsg::kParentHeight].asInt();
-      }
-      if (node.isMember(common::jmsg::kName) && node[common::jmsg::kName].isString()) {
-        object.name = node[common::jmsg::kName].asCString();
-      }
-      if (node.isMember(common::jmsg::kParentScreen) && node[common::jmsg::kParentScreen].isString()) {
-        object.parent_screen = node[common::jmsg::kParentScreen].asCString();
-      }
-      if (node.isMember(common::jmsg::kSyncVersion) && node[common::jmsg::kSyncVersion].isString()) {
-        object.sync_version = node[common::jmsg::kSyncVersion].asCString();
-      }
-      if (node.isMember(common::jmsg::kSyncBuildVersion) && node[common::jmsg::kSyncBuildVersion].isString()) {
-        object.build_version = node[common::jmsg::kSyncBuildVersion].asCString();
-      }
-      if (node.isMember(common::jmsg::kSyncCollectionMode) && node[common::jmsg::kSyncCollectionMode].isString()) {
-        object.mode = common::squish::StrToCollectionMode(node[common::jmsg::kSyncCollectionMode].asCString());
-      }
-
-      // Save object
-      objects_list.push_back(std::move(object));
-    } catch (const Json::LogicError& err) {
-      logger::error("[ParseGetObjectsDataByPattern] Argument error: wrong type of response {}", err.what());
+    } catch (...) {
     }
   }
 
@@ -275,4 +278,27 @@ std::vector<std::string> JsonRpcParser::ParseCaptureFrames(const std::string& rp
   return file_list;
 }
 
+/*
+ * A JSON response contains an array of next structures of objects in data section:
+ * [{x, y, width, height, x_top_left, y_top_left, x_bottom_right, y_bottom_right, parent_width, parent_height, name,
+ * parent_screen}]
+ */
+std::vector<squish::Object> JsonRpcParser::ParseFindAllImages(const std::string& rpc) {
+  std::vector<squish::Object> objects_list;
+
+  Json::Value schema = RpcStringToJsonStruct(rpc);
+
+  auto& result = schema[common::jmsg::kResult];
+  for (const auto& node : result) {
+    try {
+      squish::Object object = ExtractSquishObject(node);
+      if (object.x != -1 && object.y != -1 && object.width != -1 && object.height != -1) {
+        objects_list.push_back(std::move(object));
+      }
+    } catch (...) {
+    }
+  }
+
+  return objects_list;
+}
 }  // namespace interaction

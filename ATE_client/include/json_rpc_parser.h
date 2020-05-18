@@ -80,6 +80,18 @@ class JsonRpcParser {
    */
   static std::vector<std::string> ParseCaptureFrames(const std::string& rpc);
 
+  /**
+   * @brief The function parses FindAllImages and forming a list with found objects
+   * @param rpc Response string for checking
+   * @return List of found objects
+   * @throw VideoStreamingError In case of the video stream is not available
+   * @throw runtime_error In case of an internal error
+   * @throw invalid_argument In case of the invalid arguments in the request
+   * @throw InvalidRectangleCoordinates In case top-left and bottom-right coordinates are mixed up or
+   *                                    produced rectangle has zero height/width or is out of frame boundaries
+   */
+  static std::vector<squish::Object> ParseFindAllImages(const std::string& rpc);
+
  private:
   /**
    * @brief RpcStringToJsonStruct performs transformation and validation for responses as RPC string, throws an

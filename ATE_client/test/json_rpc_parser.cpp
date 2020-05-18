@@ -253,4 +253,18 @@ TEST(JsonRpcParserTest, ParseCaptureFrames_ResponseWithValidParams_ValidFileList
   EXPECT_EQ(expected_result, file_list);
 }
 
+TEST(JsonRpcParserTest, ParseFindAllImages_TwoObjects_ObjectListWithTwoItems) {
+  const size_t kTwoObjects{2};
+  const std::string response{
+      R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":20,"x":1,"y":2},{"height":10,"width":20,"x":14,"y":3}]})"};
+  auto objects_list = interaction::JsonRpcParser::ParseFindAllImages(response);
+  EXPECT_EQ(objects_list.size(), kTwoObjects);
+}
+
+TEST(JsonRpcParserTest, ParseFindAllImages_InvalidParam_ObjectListEmpty) {
+  const std::string response{
+      R"({"id":10,"jsonrpc":"2.0","result":{"x":"invalid_param", "y":10,"width":20,"height":30}})"};
+  auto objects_list = interaction::JsonRpcParser::ParseFindAllImages(response);
+  EXPECT_TRUE(objects_list.empty());
+}
 }  // namespace
