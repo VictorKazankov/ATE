@@ -310,6 +310,29 @@ std::string MessageFactory::Client::CreateCaptureFramesRequest(int interval, int
   return writer.write(message);
 }
 
+/**
+ * A JSON request contains next data in data section:
+ * [{object_name, x_top_left, y_top_left, x_bottom_right, y_bottom_right}]
+ */
+std::string MessageFactory::Client::CreateFindAllImagesRequest(const std::string& object_name,
+                                                               const common::Point& left_top,
+                                                               const common::Point& bottom_right, uint64_t id) {
+  Json::Value params;
+  Json::FastWriter writer;
+  params[kObjectName] = object_name;
+  params[kXTopLeft] = left_top.x;
+  params[kYTopLeft] = left_top.y;
+  params[kXBottomRight] = bottom_right.x;
+  params[kYBottomRight] = bottom_right.y;
+
+  Json::Value message;
+
+  CreatePackageStructure(message, kFindAllImages, id);
+  message[kParams] = params;
+
+  return writer.write(message);
+}
+
 std::string MessageFactory::Server::CreateResponse(std::uint64_t id, Json::Value result_or_error, bool is_result) {
   Json::Value response{Json::objectValue};
 

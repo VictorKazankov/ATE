@@ -219,6 +219,16 @@ TEST(MessageFactoryClientTest, CreateCaptureFramesRequest_ValidData_ExpectedMess
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
 
+TEST(MessageFactoryClientTest, CreateFindAllImagesRequest_ValidData_ExpectedMessage) {
+  auto request_message = common::jmsg::MessageFactory::Client::CreateFindAllImagesRequest(
+      "object_under_test", common::Point(1, 2), common::Point(4, 5), 1);
+  auto expected_message =
+      R"({"id":1,"jsonrpc":"2.0","method":"FindAllImages","params":{"object_or_name":"object_under_test",
+          "x_top_left":1,"y_top_left":2,"x_bottom_right":4,"y_bottom_right":5}})";
+  EXPECT_TRUE(JsonComparator(request_message, expected_message))
+      << "Request message: " << request_message << " Expected message: " << expected_message;
+}
+
 TEST(MessageFactoryDBusConnectionTest, CreateDisplayTypeChangedResponse_ValidResponse_Success) {
   auto response = common::jmsg::MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse();
   EXPECT_EQ(Json::Value{true}, response);
