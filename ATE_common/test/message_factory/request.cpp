@@ -415,15 +415,6 @@ TEST(ExtractDisplayTypeChangedRequestParamsTest,
   EXPECT_FALSE(error.empty());
 }
 
-TEST(CheckWaitForObjectResponseTest, CheckWaitForObjectResponse_ValidResponse_Success) {
-  auto correct_response = R"({"id":1,"jsonrpc":"2.0","result":{"height":10,"width":20,"x":1,"y":2}})";
-
-  Json::Value value;
-  common::jmsg::ParseJson(correct_response, value);
-
-  EXPECT_TRUE(common::jmsg::CheckWaitForObjectResponse(value));
-}
-
 TEST(CheckGetScreenshotResponseTest, CheckGetScreenshotResponse_ValidResponse_Success) {
   auto correct_response = R"({"id":1,"jsonrpc":"2.0","result":true})";
   Json::Value value;
@@ -436,24 +427,6 @@ TEST(CheckGetScreenshotResponseTest, CheckGetScreenshotResponse_InvalidResponse_
   Json::Value value;
   common::jmsg::ParseJson(incorrect_response, value);
   EXPECT_FALSE(common::jmsg::CheckGetScreenshotResponse(value));
-}
-
-TEST(CheckWaitForObjectResponseTest, CheckWaitForObjectResponse_WrongParamsType_Failure) {
-  constexpr auto wrong_param_type =
-      R"({"id":1,"jsonrpc":"2.0","result":{"height":"wrong","width":"wrong","x":"wrong","y":"wrong"}})";
-  Json::Value value;
-
-  common::jmsg::ParseJson(wrong_param_type, value);
-  EXPECT_FALSE(common::jmsg::CheckWaitForObjectResponse(value));
-}
-
-TEST(CheckWaitForObjectResponseTest, CheckWaitForObjectResponse_WrongKeyValues_Failure) {
-  constexpr auto wrong_key =
-      R"({"id":1,"jsonrpc":"2.0","result":{"height":"wrong","width":"wrong","xx":"wrong","yy":"wrong"}})";
-  Json::Value value;
-
-  common::jmsg::ParseJson(wrong_key, value);
-  EXPECT_FALSE(common::jmsg::CheckWaitForObjectResponse(value));
 }
 
 TEST(ExtractChangeSyncIconDBRequestParamsTest, ExtractChangeSyncIconDBRequestParams_ValidParam_Success) {

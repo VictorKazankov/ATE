@@ -162,14 +162,6 @@ void ExtractGetScreenshotParams(const Json::Value& params, std::string& filename
 void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, int& y, Json::Value& error);
 
 /**
- * @brief Check response scheme of message 'WaitForObject'
- *
- * @param value - reference to 'Json::Value' for verification of json schema
- * @return true - schema is correct otherwise false
- */
-bool CheckWaitForObjectResponse(const Json::Value& schema);
-
-/**
  * @brief Check response scheme of message 'GetScreenshot'
  * @param value - reference to 'Json::Value' for verification of json schema
  * @return true - schema is correct otherwise false

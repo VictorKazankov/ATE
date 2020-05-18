@@ -267,28 +267,6 @@ void ExtractDisplayTypeChangedRequestParams(const Json::Value& params, int& x, i
   }
 }
 
-bool CheckWaitForObjectResponse(const Json::Value& schema) {
-  auto& result = schema[kResult];
-  bool res =
-      result.isMember(kAbscissa) && result.isMember(kOrdinate) && result.isMember(kWidth) && result.isMember(kHeight);
-
-  if (!res) {
-    logger::error("[json msg parser][check wait for object] Argument error: wrong type of response 'WaitForObject'");
-    return res;
-  }
-
-  auto& abscissa = result[kAbscissa];
-  auto& ordinate = result[kOrdinate];
-  auto& width = result[kWidth];
-  auto& height = result[kHeight];
-
-  res = abscissa.isUInt() && ordinate.isUInt() && width.isUInt() && height.isUInt();
-  if (!res) {
-    logger::error("[json msg parser][check rect] Argument error: wrong type of params of 'WaitForObject' response");
-  }
-  return res;
-}
-
 bool CheckGetScreenshotResponse(const Json::Value& schema) {
   auto& result = schema[kResult];
   return result.isBool();
