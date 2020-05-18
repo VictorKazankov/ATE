@@ -32,6 +32,7 @@ class MockDetector : public Detector<T> {
   ~MockDetector() override = default;
 
   MOCK_METHOD2_T(Detect, cv::Rect(const cv::Mat& frame, const T& pattern));
+  MOCK_METHOD2_T(DetectAll, std::vector<cv::Rect>(const cv::Mat& frame, const T& pattern));
 };
 
 template <>
