@@ -75,7 +75,8 @@ class ATE {
    *         zero rectangle and appropriate non-zero error code
    */
   std::pair<cv::Rect, std::error_code> WaitForObject(const std::string& object_or_name,
-                                                     const std::chrono::milliseconds& timeout);
+                                                     const std::chrono::milliseconds& timeout,
+                                                     const cv::Rect& search_region);
 
   /**
    * @brief Waits for specified timeout until the image from Truth DB identified by
@@ -96,7 +97,8 @@ class ATE {
    *         failure, zero rectangle and appropriate non-zero error code
    */
   std::pair<cv::Rect, std::error_code> WaitForObject(const common::ObjectDataIdentity& object_data_identity,
-                                                     const std::chrono::milliseconds& timeout);
+                                                     const std::chrono::milliseconds& timeout,
+                                                     const cv::Rect& search_region);
 
   /**
    * @brief The function changes resolution for video stream

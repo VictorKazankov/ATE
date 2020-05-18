@@ -148,7 +148,8 @@ bool CheckHeaderType(const Json::Value& value) {
 }
 
 void ExtractWaitForObjectRequestParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
-                                       std::chrono::milliseconds& timeout, Json::Value& error) {
+                                       std::chrono::milliseconds& timeout, common::Point& top_left,
+                                       common::Point& bottom_right, Json::Value& error) {
   // reset values
   error.clear();
   object_data_identity = ObjectDataIdentity{};
@@ -159,6 +160,10 @@ void ExtractWaitForObjectRequestParams(const Json::Value& params, ObjectDataIden
     if (params.isMember(kTimeoutMsec)) {
       timeout = std::chrono::milliseconds{params[kTimeoutMsec].asUInt()};
     }
+    top_left.x = params[kXTopLeft].asInt();
+    top_left.y = params[kYTopLeft].asInt();
+    bottom_right.x = params[kXBottomRight].asInt();
+    bottom_right.y = params[kYBottomRight].asInt();
   } catch (const Json::LogicError& wrong_params) {
     error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid WaitForObject params");
     logger::error("[json msg parser] {}params: {}({})", error.toStyledString(), params.toStyledString(),

@@ -20,6 +20,11 @@ bool Contains(const cv::Rect& rect, const cv::Point& pt) {
   return rect.x <= pt.x && pt.x <= rect.x + rect.width && rect.y <= pt.y && pt.y <= rect.y + rect.height;
 }
 
+bool Contains(const cv::Mat& screen, const cv::Rect& area) {
+  const cv::Rect screen_rect{0, 0, screen.size().width, screen.size().height};
+  return Contains(screen_rect, area.tl()) && Contains(screen_rect, area.br());
+}
+
 Matcher::Matcher(std::unique_ptr<streamer::Streamer> streamer, std::unique_ptr<Detector<cv::Mat>> image_detector,
                  std::unique_ptr<Detector<std::string>> text_detector,
                  std::unique_ptr<utils::ScreenshotRecorder> screenshot_recorder,
@@ -73,7 +78,8 @@ std::error_code Matcher::GetFrame(cv::Mat& frame, const cv::Rect& area) {
   return {};
 }
 
-std::pair<cv::Rect, std::error_code> Matcher::DetectImage(const std::string& object, const cv::Mat& pattern) {
+std::pair<cv::Rect, std::error_code> Matcher::DetectImage(const std::string& object, const cv::Mat& pattern,
+                                                          const cv::Rect& search_region) {
   if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     logger::error("[matcher] Video stream unavailable");
     return {cv::Rect{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
@@ -84,14 +90,20 @@ std::pair<cv::Rect, std::error_code> Matcher::DetectImage(const std::string& obj
     return {cv::Rect{}, common::make_error_code(common::AteError::kPatternInvalid)};
   }
 
-  if (pattern.rows > screen_.rows || pattern.cols > screen_.cols) {
+  if (pattern.rows > screen_.rows || pattern.cols > screen_.cols ||
+      (!search_region.empty() && (pattern.rows > search_region.width || pattern.cols > search_region.height))) {
     logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
                   screen_.size);
-
     return {cv::Rect{}, common::make_error_code(common::AteError::kPatternInvalid)};
   }
 
-  const cv::Rect detected_object = image_detector_->Detect(screen_, pattern);
+  if (!Contains(screen_, search_region)) {
+    logger::error("[matcher] Desired area is out of screen boundaries");
+    return {cv::Rect{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
+  }
+
+  const cv::Rect detected_object =
+      image_detector_->Detect(!search_region.empty() ? screen_(search_region) : screen_, pattern);
 
   if (screenshot_recorder_) {
     screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, {detected_object}, object);
@@ -104,7 +116,7 @@ std::pair<cv::Rect, std::error_code> Matcher::DetectImage(const std::string& obj
   return {detected_object, std::error_code{}};
 }
 
-std::pair<cv::Rect, std::error_code> Matcher::DetectText(const std::string& text) {
+std::pair<cv::Rect, std::error_code> Matcher::DetectText(const std::string& text, const cv::Rect& search_region) {
   if (text.empty()) {
     logger::error("[matcher] The search text is empty");
     return {cv::Rect{}, common::make_error_code(common::AteError::kPatternInvalid)};
@@ -115,7 +127,12 @@ std::pair<cv::Rect, std::error_code> Matcher::DetectText(const std::string& text
     return {cv::Rect{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
   }
 
-  cv::Rect detected_area = text_detector_->Detect(screen_, text);
+  if (!Contains(screen_, search_region)) {
+    logger::error("[matcher] Desired area is out of screen boundaries");
+    return {cv::Rect{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
+  }
+
+  cv::Rect detected_area = text_detector_->Detect(!search_region.empty() ? screen_(search_region) : screen_, text);
 
   if (screenshot_recorder_) {
     screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, {detected_area}, text);

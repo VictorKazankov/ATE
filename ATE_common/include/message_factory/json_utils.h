@@ -77,7 +77,8 @@ bool CheckHeaderType(const Json::Value& value);
  * @param[out] error - error object, null on successs
  */
 void ExtractWaitForObjectRequestParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
-                                       std::chrono::milliseconds& timeout, Json::Value& error);
+                                       std::chrono::milliseconds& timeout, Point& top_left, Point& bottom_right,
+                                       Json::Value& error);
 
 /**
  * @brief Extract params fot 'TapObject' method

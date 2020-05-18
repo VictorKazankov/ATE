@@ -132,32 +132,55 @@ AteMessageAdapter::MessageHandlerFunction AteMessageAdapter::GetHandler(const st
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleWaitForObject(const Json::Value& params) {
   common::ObjectDataIdentity object_data_identity;
+  common::Point top_left_coordinate;
+  common::Point bottom_right_coordinate;
   std::chrono::milliseconds timeout;
   Json::Value error;
 
   const bool is_wildcard = IsWildcardParam(params);
 
-  common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, error);
+  common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, top_left_coordinate,
+                                                  bottom_right_coordinate, error);
 
+  if (top_left_coordinate.x > bottom_right_coordinate.x || top_left_coordinate.y > bottom_right_coordinate.y) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid Matching area coordinate: mixed up top-left and bottom-right points");
+  }
+  if ((top_left_coordinate.x == bottom_right_coordinate.x && top_left_coordinate.x > 0) ||
+      (top_left_coordinate.y == bottom_right_coordinate.y && top_left_coordinate.y > 0)) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid Matching area coordinate: comparing rectangle has zero height/width");
+  }
   if (!error.empty()) {
     // Extract error occurs
     return std::make_pair(std::move(error), false);
   }
 
+  cv::Rect search_region{cv::Point{top_left_coordinate.x, top_left_coordinate.y},
+                         cv::Point{bottom_right_coordinate.x, bottom_right_coordinate.y}};
   cv::Rect position;
   std::error_code error_code;
-  std::tie(position, error_code) = is_wildcard ? ate_.WaitForObject(object_data_identity, timeout)
-                                               : ate_.WaitForObject(object_data_identity.name, timeout);
+  std::tie(position, error_code) = is_wildcard ? ate_.WaitForObject(object_data_identity, timeout, search_region)
+                                               : ate_.WaitForObject(object_data_identity.name, timeout, search_region);
 
-  // TODO: replace by switch! Hint: return from waitForObject enum
   if (error_code) {
-    if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
-      error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
-    } else if (error_code == common::AteError::kPatternInvalid || error_code == common::AteError::kPatternNotFound) {
-      error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
-    } else {
-      logger::warn("[ate message adapter] unhandled error: {}, treated as object not found error");
-      error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
+    switch (static_cast<common::AteError>(error_code.value())) {
+      case common::AteError::kVideoTemporarilyUnavailable:
+        error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
+        break;
+      case common::AteError::kPatternInvalid:
+      case common::AteError::kPatternNotFound:
+        error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
+        break;
+      case common::AteError::kOutOfBoundaries:
+        error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates, error_code.message().c_str());
+        break;
+      default:
+        logger::warn("[ate message adapter] unhandled error: {}, treated as object not found error");
+        error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
+        break;
     }
     logger::info("[ate message adapter] object_or_name: {}, timeout: {}ms error: {}", object_data_identity.name,
                  timeout.count(), error.toStyledString());

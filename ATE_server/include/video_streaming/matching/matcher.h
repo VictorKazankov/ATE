@@ -71,7 +71,8 @@ class Matcher {
    * @return Rectangle with x, y, width, height of the detected object on succeed,
    * on failure return error code and empty rectangle
    */
-  std::pair<cv::Rect, std::error_code> DetectImage(const std::string& object, const cv::Mat& pattern);
+  std::pair<cv::Rect, std::error_code> DetectImage(const std::string& object, const cv::Mat& pattern,
+                                                   const cv::Rect& search_region);
 
   /**
    * @brief DetectImages provide image detection for multiple occurrences of the pattern on the video source
@@ -89,7 +90,7 @@ class Matcher {
    * @return Rectangle with x, y, width, height of the detected object on succeed,
    * on failure return error code and empty rectangle
    */
-  std::pair<cv::Rect, std::error_code> DetectText(const std::string& text);
+  std::pair<cv::Rect, std::error_code> DetectText(const std::string& text, const cv::Rect& search_region);
 
   /**
    * @brief The function changes resolution for video stream
