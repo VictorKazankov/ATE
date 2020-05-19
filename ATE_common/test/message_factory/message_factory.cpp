@@ -361,4 +361,17 @@ TEST(MessageFactoryServerTest, CreateCaptureFramesResponse_ListOfFilenames_Valid
                                 << " Expected response: " << expected_str;
 }
 
+TEST(MessageFactoryServerTest, CreateFindAllImagesResponse_ThreeItems_ResponseWithThreeItems) {
+  std::vector<common::Rect> response_list{common::Rect(1, 1, 2, 2), common::Rect(2, 2, 2, 2), common::Rect(3, 3, 2, 2)};
+  std::string expected_str =
+      R"([{"x":1,"y":1,"width":2,"height":2},{"x":2,"y":2,"width":2,"height":2},{"x":3,"y":3,"width":2,"height":2}])";
+  Json::Reader reader;
+  Json::Value expected;
+
+  reader.parse(expected_str, expected);
+  auto response = common::jmsg::MessageFactory::Server::CreateFindAllImagesResponse(response_list);
+  EXPECT_EQ(response, expected) << "Response message: " << response.toStyledString()
+                                << " Expected response: " << expected_str;
+}
+
 }  // namespace

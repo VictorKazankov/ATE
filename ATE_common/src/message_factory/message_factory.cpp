@@ -441,6 +441,27 @@ Json::Value MessageFactory::Server::CreateCaptureFramesResponse(const std::vecto
   return result;
 }
 
+/**
+ * A JSON response contains an array of next structures of objects in data section:
+ * [{x, y, width, height}]
+ */
+Json::Value MessageFactory::Server::CreateFindAllImagesResponse(
+    const std::vector<common::Rect>& detected_objects_list) {
+  Json::Value result;
+
+  for (const auto& area : detected_objects_list) {
+    Json::Value node;
+    node[kAbscissa] = area.x;
+    node[kOrdinate] = area.y;
+    node[kWidth] = area.width;
+    node[kHeight] = area.height;
+
+    result.append(node);
+  }
+
+  return result;
+}
+
 std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(int x, int y, uint64_t id) {
   Json::Value params;
   Json::FastWriter writer;

@@ -93,6 +93,7 @@ class MessageFactory {
     static Json::Value CreateGetObjectsDataByPatternResponse(const std::vector<ObjectData>& objects_data);
     static Json::Value CreateGetImagesDiscrepancyResponse(int percent_discrepancy);
     static Json::Value CreateCaptureFramesResponse(const std::vector<std::string>& frame_list);
+    static Json::Value CreateFindAllImagesResponse(const std::vector<common::Rect>& detected_objects_list);
   };
 };
 
