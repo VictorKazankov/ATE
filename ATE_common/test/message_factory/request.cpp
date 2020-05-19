@@ -757,4 +757,46 @@ TEST(ExtractCaptureFramesParamsTest, ExtractCaptureFramesParams_InvalidParams_Er
   EXPECT_TRUE(error[common::jmsg::kErrorData].isNull());
 }
 
+TEST(ExtractFindAllImagesParamsTest, ExtractFindAllImagesParams_ValidParams_Valid) {
+  Json::Value params;
+  const int kX = 10;
+  const int kY = 20;
+  const int kWidth = 30;
+  const int kHeight = 40;
+
+  params[common::jmsg::kObjectName] = "name";
+  params[common::jmsg::kXTopLeft] = kX;
+  params[common::jmsg::kYTopLeft] = kY;
+  params[common::jmsg::kXBottomRight] = kWidth;
+  params[common::jmsg::kYBottomRight] = kHeight;
+
+  Json::Value error;
+  std::string object_name;
+  common::Point top_left, bottom_right;
+
+  EXPECT_NO_THROW(common::jmsg::ExtractFindAllImagesParams(params, object_name, top_left, bottom_right, error));
+  EXPECT_EQ(top_left.x, kX);
+  EXPECT_EQ(top_left.y, kY);
+  EXPECT_EQ(bottom_right.x, kWidth);
+  EXPECT_EQ(bottom_right.y, kHeight);
+  EXPECT_TRUE(error.empty()) << "Error code exist";
+}
+
+TEST(ExtractFindAllImagesParamsTest, ExtractFindAllImagesParams_EmptyJson_ErrorInvalidParams) {
+  Json::Value params;
+
+  params[common::jmsg::kObjectName] = "name";
+  params[common::jmsg::kXTopLeft] = "some string";  // string instead of int
+  params[common::jmsg::kYTopLeft] = 20;
+  params[common::jmsg::kXBottomRight] = 30;
+  params[common::jmsg::kYBottomRight] = 40;
+
+  Json::Value error;
+  std::string object_name;
+  common::Point top_left, bottom_right;
+
+  EXPECT_NO_THROW(common::jmsg::ExtractFindAllImagesParams(params, object_name, top_left, bottom_right, error));
+  EXPECT_EQ(error[common::jmsg::kErrorCode].asInt(), static_cast<int>(rpc::Error::kInvalidParams));
+}
+
 }  // namespace

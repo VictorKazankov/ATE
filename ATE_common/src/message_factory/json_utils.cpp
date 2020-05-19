@@ -369,6 +369,23 @@ void ExtractCaptureFramesParams(const Json::Value& params, unsigned int& interva
   }
 }
 
+void ExtractFindAllImagesParams(const Json::Value& params, std::string& object_or_name, common::Point& top_left,
+                                common::Point& bottom_right, Json::Value& error) {
+  error.clear();
+  try {
+    object_or_name = params[kObjectName].asCString();
+    top_left.x = params[kXTopLeft].asInt();
+    top_left.y = params[kYTopLeft].asInt();
+    bottom_right.x = params[kXBottomRight].asInt();
+    bottom_right.y = params[kYBottomRight].asInt();
+  } catch (const Json::LogicError& wrong_params) {
+    error = CreateErrorObject(rpc::Error::kInvalidParams, "Invalid FindAllImages params");
+    logger::error("[json msg parser] {} params: {}({})", error.toStyledString(), params.toStyledString(),
+                  wrong_params.what());
+    return;
+  }
+}
+
 void ExtractGetImagesDiscrepancyParams(const Json::Value& params, std::string& icon_path_second,
                                        std::string& icon_path_first, common::Point& top_left_coordinate,
                                        common::Point& bottom_right_coordinate, Json::Value& error) {

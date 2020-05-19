@@ -236,6 +236,17 @@ void ExtractCaptureFramesParams(const Json::Value& params, unsigned int& interva
                                 common::Point& top_left, common::Point& bottom_right, std::string& path,
                                 Json::Value& error);
 
+/**
+ * @brief Extracts params for 'FindAllImages' method
+ * @param params Structured value that holds the parameter values to be used
+ * @param object_or_name Image name
+ * @param top_left Top left coordinate
+ * @param bottom_right Bottom-right coordinate
+ * @param error Error object, null on success
+ */
+void ExtractFindAllImagesParams(const Json::Value& params, std::string& object_or_name, common::Point& top_left,
+                                common::Point& bottom_right, Json::Value& error);
+
 }  // namespace jmsg
 }  // namespace common
 
