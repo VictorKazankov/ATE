@@ -140,12 +140,13 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const std::string&
   return true;
 }
 
-bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& highlight_area,
+bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const std::vector<cv::Rect>& highlight_areas,
                                         const std::string& hint) const {
   std::error_code ec;
   if (!CheckDiskSpace(frame, ec)) return false;
 
-  std::string file_suffix = (highlight_area.area() ? "detected" : "not-detected");
+  std::string file_suffix = ((!highlight_areas.empty() && highlight_areas[0].area()) ? "detected" : "not-detected");
+
   if (!hint.empty()) file_suffix.append("_" + hint);
 
   fs::path store_file = GetFileName(file_suffix);
@@ -155,7 +156,9 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& hi
   cv::Mat marked_image;
   cvtColor(frame, marked_image, cv::COLOR_GRAY2BGR);
 
-  rectangle(marked_image, highlight_area, cv::Scalar(0, 255, 0), 2, 8, 0);
+  for (auto& item : highlight_areas) {
+    rectangle(marked_image, item, cv::Scalar(0, 255, 0), 2, 8, 0);
+  }
 
   if (!cv::imwrite(store_file.c_str(), marked_image)) {
     logger::error("[screenshot_recorder] SaveScreenshot couldn't save file: '{}'", store_file.c_str());
@@ -168,10 +171,10 @@ bool ScreenshotRecorder::SaveScreenshot(const cv::Mat& frame, const cv::Rect& hi
 }
 
 bool ScreenshotRecorder::TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame,
-                                         const cv::Rect& highlight_area, const std::string& hint) const {
+                                         const std::vector<cv::Rect>& highlight_areas, const std::string& hint) const {
   std::error_code ec;
   return CheckDiskSpace(color_frame, ec) && SaveScreenshot(color_frame) &&
-         SaveScreenshot(grey_frame, highlight_area, hint);
+         SaveScreenshot(grey_frame, highlight_areas, hint);
 }
 
 ScreenshotError ScreenshotRecorder::GetScreenshot(const cv::Mat& color_frame, const std::string& path,

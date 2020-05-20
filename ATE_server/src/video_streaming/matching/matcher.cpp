@@ -94,7 +94,7 @@ std::pair<cv::Rect, std::error_code> Matcher::DetectImage(const std::string& obj
   const cv::Rect detected_object = image_detector_->Detect(screen_, pattern);
 
   if (screenshot_recorder_) {
-    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_object, object);
+    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, {detected_object}, object);
   }
 
   if (detected_object.empty()) {
@@ -118,7 +118,7 @@ std::pair<cv::Rect, std::error_code> Matcher::DetectText(const std::string& text
   cv::Rect detected_area = text_detector_->Detect(screen_, text);
 
   if (screenshot_recorder_) {
-    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_area, text);
+    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, {detected_area}, text);
   }
 
   if (detected_area.empty()) {
@@ -255,7 +255,7 @@ std::pair<int, std::error_code> Matcher::GetImagesDiscrepancy(const std::string&
   return {discrepancy, error};
 }
 
-std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const std::string& /*object*/,
+std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const std::string& object,
                                                                         const cv::Mat& pattern, const cv::Rect& area) {
   if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     logger::error("[matcher] Video stream unavailable");
@@ -285,10 +285,9 @@ std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const st
   const std::vector<cv::Rect> detected_objects =
       image_detector_->DetectAll(area.empty() ? screen_ : screen_(area), pattern);
 
-  // TODO
-  // if (screenshot_recorder_) {
-  //  screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_object, object);
-  //}
+  if (screenshot_recorder_) {
+    screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_objects, object);
+  }
 
   if (detected_objects.empty()) {
     return {{}, common::make_error_code(common::AteError::kPatternNotFound)};

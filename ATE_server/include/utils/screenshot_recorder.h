@@ -32,8 +32,8 @@ class ScreenshotRecorder {
  public:
   /**
    * @brief Constructor
-   * @param enable_saving_screenshots flag which turns on creation of screenshots while recognition
-   * @param screenshots_store_dir points out folder to store screenshots
+   * @param enable_saving_screenshots Flag which turns on creation of screenshots while recognition
+   * @param screenshots_store_dir Points out folder to store screenshots
    **/
   ScreenshotRecorder(bool enable_saving_screenshots, const std::string& screenshots_store_dir);
 
@@ -47,32 +47,33 @@ class ScreenshotRecorder {
 
   /**
    * @brief Saves screenshot to file with highlight area
-   * @param frame frame to save to file
-   * @param highlight_area area to highlight at the frame
-   * @param hint suffix for screenshot name
-   * @return true if successful, otherwise - false
+   * @param frame Frame to save to file
+   * @param highlight_areas Areas to highlight at the frame
+   * @param hint Suffix for screenshot name
+   * @return True if successful, otherwise - false
    **/
-  bool SaveScreenshot(const cv::Mat& frame, const cv::Rect& highlight_area, const std::string& hint = "") const;
+  bool SaveScreenshot(const cv::Mat& frame, const std::vector<cv::Rect>& highlight_areas,
+                      const std::string& hint = "") const;
 
   /**
    * @brief Saves screenshot to file with and without highlight area.
    * It's a wrapper for SaveScreenshot(const cv::Mat&) and
    * SaveScreenshot(const cv::Mat&, const cv::Rect&, const std::string&)
-   * @param color_frame frame to save to file without highlight area
-   * @param grey_frame frame to save to file with highlight area
-   * @param highlight_area area to highlight at the frame
-   * @param hint suffix for screenshot name
-   * @return true if successful, otherwise - false
+   * @param color_frame Frame to save to file without highlight area
+   * @param grey_frame Frame to save to file with highlight area
+   * @param highlight_areas Areas to highlight at the frame
+   * @param hint Suffix for screenshot name
+   * @return True if successful, otherwise - false
    **/
-  bool TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame, const cv::Rect& highlight_area,
-                       const std::string& hint = "") const;
+  bool TakeScreenshots(const cv::Mat& color_frame, const cv::Mat& grey_frame,
+                       const std::vector<cv::Rect>& highlight_areas, const std::string& hint = "") const;
 
   /**
    * @brief Saves screenshot to file
-   * @param color_frame frame to save to file without highlight area
-   * @param path location for saving screenshot with prefix 'screenshots_store_dir_
-   * @param file_name name of screenshot file
-   * @return true if screenshot saved, otherwise - false
+   * @param color_frame Frame to save to file without highlight area
+   * @param path Location for saving screenshot with prefix 'screenshots_store_dir_
+   * @param file_name Name of screenshot file
+   * @return True if screenshot saved, otherwise - false
    **/
   static ScreenshotError GetScreenshot(const cv::Mat& color_frame, const std::string& path,
                                        const std::string& file_name);
