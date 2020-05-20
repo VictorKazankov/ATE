@@ -38,10 +38,10 @@ class Matcher {
 
  public:
   /**
-   * @params streamer - Streamer. Must be not null
-   * @params image_detector - Image detector. Must be not null
-   * @params text_detector - Text detector. Must be not null
-   * @params screenshot_recorder - Screenshot recorder or null
+   * @params streamer Streamer. Must be not null
+   * @params image_detector Image detector. Must be not null
+   * @params text_detector Text detector. Must be not null
+   * @params screenshot_recorder Screenshot recorder or null
    */
   Matcher(std::unique_ptr<streamer::Streamer> streamer, std::unique_ptr<Detector<cv::Mat>> image_detector,
           std::unique_ptr<Detector<std::string>> text_detector,
@@ -65,26 +65,26 @@ class Matcher {
   std::error_code GetFrame(cv::Mat& frame, const cv::Rect& area = cv::Rect());
 
   /**
-   * @brief MatchImage provide image detection of the pattern on TDK screen
-   * @param object - object name
-   * @param pattern - pattern image
-   * @return rectangle with x, y, width, height of the detected object on succeed,
+   * @brief MatchImage provide image detection of the pattern on video source
+   * @param object Object name
+   * @param pattern Pattern image
+   * @return Rectangle with x, y, width, height of the detected object on succeed,
    * on failure return error code and empty rectangle
    */
   std::pair<cv::Rect, std::error_code> MatchImage(const std::string& object, const cv::Mat& pattern);
 
   /**
-   * @brief MatchText provide text detection of the pattern on TDK screen
-   * @param text - text which need to find on TDK screen
-   * @return rectangle with x, y, width, height of the detected object on succeed,
+   * @brief MatchText provide text detection of the pattern on video source
+   * @param text Text which need to find on video source
+   * @return Rectangle with x, y, width, height of the detected object on succeed,
    * on failure return error code and empty rectangle
    */
   std::pair<cv::Rect, std::error_code> MatchText(const std::string& text);
 
   /**
    * @brief The function changes resolution for video stream
-   * @param x - a new high value
-   * @param y - a new width value
+   * @param x A new height value
+   * @param y A new width value
    */
   void ChangeResolution(int x, int y);
 
@@ -106,9 +106,9 @@ class Matcher {
 
   /**
    * @brief The function extracts text from predefined area in accordance with coordinates
-   * @param point of start of predefined rectangle
-   * @param delta_point of end of predefined rectangle
-   * @return string representation of detected text on predefined area on succeed,
+   * @param point Start point of predefined rectangle
+   * @param delta_point End point of predefined rectangle
+   * @return String representation of detected text on predefined area on succeed,
    * on failure return error code and empty string
    */
   std::pair<std::string, std::error_code> GetText(const cv::Point& point, const cv::Point& delta_point);
