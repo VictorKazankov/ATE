@@ -162,6 +162,14 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleCaptureFrames(const Json::Value& params);
 
   /**
+   * @brief Handler for FindAllImages
+   * @param params FindAllImages params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   * (for easier verification of the error)
+   */
+  std::pair<Json::Value, bool> HandleFindAllImages(const Json::Value& params);
+
+  /**
    * @brief Handler for unknown method
    * @param params - params from client message
    */

@@ -51,6 +51,28 @@ Json::Value ConvertScreenshotErrorCodeToObjectError(const std::error_code& error
   }
   return result_error;
 }
+
+std::pair<Json::Value, bool> IsRectanglesTopLeftAndBottomRightPointsValid(
+    const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate) {
+  Json::Value error;
+
+  if (top_left_coordinate.x > bottom_right_coordinate.x || top_left_coordinate.y > bottom_right_coordinate.y) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid Matching area coordinate: mixed up top-left and bottom-right points");
+    return std::make_pair(std::move(error), false);
+  }
+
+  if ((top_left_coordinate.x == bottom_right_coordinate.x && top_left_coordinate.x > 0) ||
+      (top_left_coordinate.y == bottom_right_coordinate.y && top_left_coordinate.y > 0)) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid Matching area coordinate: comparing rectangle has zero height/width");
+    return std::make_pair(std::move(error), false);
+  }
+
+  return std::make_pair(std::move(error), true);
+}
 }  // namespace
 
 AteMessageAdapter::AteMessageAdapter(ATE& ate)
@@ -69,7 +91,8 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText},
                    {common::jmsg::kGetObjectsDataByPattern, &AteMessageAdapter::HandleGetObjectsDataByPattern},
                    {common::jmsg::kGetImagesDiscrepancy, &AteMessageAdapter::GetImagesDiscrepancy},
-                   {common::jmsg::kCaptureFrames, &AteMessageAdapter::HandleCaptureFrames}} {}
+                   {common::jmsg::kCaptureFrames, &AteMessageAdapter::HandleCaptureFrames},
+                   {common::jmsg::kFindAllImages, &AteMessageAdapter::HandleFindAllImages}} {}
 
 std::string AteMessageAdapter::OnMessage(const std::string& message) {
   std::lock_guard<std::mutex> lock(on_message_guard_);
@@ -447,20 +470,9 @@ std::pair<Json::Value, bool> AteMessageAdapter::GetImagesDiscrepancy(const Json:
     return std::make_pair(std::move(error), false);
   }
 
-  if (top_left_coordinate.x > bottom_right_coordinate.x || top_left_coordinate.y > bottom_right_coordinate.y) {
-    error =
-        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
-                                        "Invalid Matching area coordinate: mixed up top-left and bottom-right points");
-    return std::make_pair(std::move(error), false);
-  }
-
-  if ((top_left_coordinate.x == bottom_right_coordinate.x && top_left_coordinate.x > 0) ||
-      (top_left_coordinate.y == bottom_right_coordinate.y && top_left_coordinate.y > 0)) {
-    error =
-        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
-                                        "Invalid Matching area coordinate: comparing rectangle has zero height/width");
-    return std::make_pair(std::move(error), false);
-  }
+  std::pair<Json::Value, bool> validation_result =
+      IsRectanglesTopLeftAndBottomRightPointsValid(top_left_coordinate, bottom_right_coordinate);
+  if (!validation_result.second) return validation_result;
 
   auto first_image_permissions = fs::status(icon_path_first).permissions();
   auto second_image_permissions = fs::status(icon_path_second).permissions();
@@ -523,6 +535,46 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleCaptureFrames(const Json::
     return std::make_pair(std::move(error), false);
   }
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateCaptureFramesResponse(res), !screenshot_error);
+}
+
+std::pair<Json::Value, bool> AteMessageAdapter::HandleFindAllImages(const Json::Value& params) {
+  Json::Value error;
+  std::string object_or_name;
+  common::Point top_left, bottom_right;
+
+  common::jmsg::ExtractFindAllImagesParams(params, object_or_name, top_left, bottom_right, error);
+
+  if (!error.empty()) {
+    return std::make_pair(std::move(error), false);
+  }
+
+  std::pair<Json::Value, bool> validation_result = IsRectanglesTopLeftAndBottomRightPointsValid(top_left, bottom_right);
+  if (!validation_result.second) return validation_result;
+
+  std::vector<common::Rect> found_objects;
+  std::error_code error_code;
+
+  std::tie(found_objects, error_code) = ate_.FindAllImages(
+      object_or_name, common::Rect(top_left.x, top_left.y, bottom_right.x - top_left.x, bottom_right.y - top_left.y));
+
+  if (error_code) {
+    Json::Value error;
+    if (error_code == common::AteError::kVideoTemporarilyUnavailable) {
+      error = common::jmsg::CreateErrorObject(rpc::Error::kVideoStreamNotFound, error_code.message().c_str());
+    } else if (error_code == common::AteError::kPatternInvalid || error_code == common::AteError::kPatternNotFound) {
+      error = common::jmsg::CreateErrorObject(rpc::Error::kObjectNotFound, error_code.message().c_str());
+    } else if (error_code == common::AteError::kOutOfBoundaries) {
+      error = common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                              "Specified area is out of screen boundaries");
+    } else {
+      logger::warn("[ate message adapter] unhandled error {}", error_code.message());
+      error = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, error_code.message().c_str());
+    }
+
+    return std::make_pair(std::move(error), false);
+  }
+
+  return std::make_pair(common::jmsg::MessageFactory::Server::CreateFindAllImagesResponse(found_objects), true);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleUnknownMethod(const Json::Value& params) {
