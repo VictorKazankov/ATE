@@ -65,21 +65,31 @@ class Matcher {
   std::error_code GetFrame(cv::Mat& frame, const cv::Rect& area = cv::Rect());
 
   /**
-   * @brief MatchImage provide image detection of the pattern on video source
+   * @brief DetectImage provide image detection of the pattern on the video source
    * @param object Object name
    * @param pattern Pattern image
    * @return Rectangle with x, y, width, height of the detected object on succeed,
    * on failure return error code and empty rectangle
    */
-  std::pair<cv::Rect, std::error_code> MatchImage(const std::string& object, const cv::Mat& pattern);
+  std::pair<cv::Rect, std::error_code> DetectImage(const std::string& object, const cv::Mat& pattern);
 
   /**
-   * @brief MatchText provide text detection of the pattern on video source
-   * @param text Text which need to find on video source
+   * @brief DetectImages provide image detection for multiple occurrences of the pattern on the video source
+   * @param object Object name
+   * @param pattern Pattern image
+   * @param area Area which limitate search region. If it's empty then search performs by the whole screen
+   * @return List of coordinates for detected objects if success, otherwise - error code and an empty list
+   */
+  std::pair<std::vector<cv::Rect>, std::error_code> DetectImages(const std::string& object, const cv::Mat& pattern,
+                                                                 const cv::Rect& area = cv::Rect());
+
+  /**
+   * @brief DetectText provide text detection of the pattern on the video source
+   * @param text Text which need to find on the video source
    * @return Rectangle with x, y, width, height of the detected object on succeed,
    * on failure return error code and empty rectangle
    */
-  std::pair<cv::Rect, std::error_code> MatchText(const std::string& text);
+  std::pair<cv::Rect, std::error_code> DetectText(const std::string& text);
 
   /**
    * @brief The function changes resolution for video stream

@@ -176,6 +176,16 @@ class ATE {
   std::vector<std::string> CaptureFrames(size_t interval, size_t duration, const cv::Rect& area,
                                          const std::string& path, std::error_code& error);
 
+  /**
+   * @brief Performs a search at video source frame for image pattern
+   * @param object_or_name Image name from database
+   * @param area Area for a search. If its empty, search performs by the whole frame
+   * @return List of detected objects and an empty error code in case of success, otherwise - empty list and an error
+   * code
+   */
+  std::pair<std::vector<common::Rect>, std::error_code> FindAllImages(const std::string& object_or_name,
+                                                                      const common::Rect& area);
+
  private:
   std::unique_ptr<interaction::Interaction> interaction_;
   detector::Matcher matcher_;

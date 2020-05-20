@@ -111,7 +111,7 @@ void MatcherTest::TearDown() {
   matcher_.reset();
 }
 
-TEST_F(MatcherTest, MatchText_Success) {
+TEST_F(MatcherTest, DetectText_Success) {
   const unsigned frame_count = 2;
   const std::pair<cv::Rect, std::error_code> match_result = {{cv::Point{32, 32}, cv::Size{32, 32}}, std::error_code{}};
   constexpr auto text_for_matching = "Any text";
@@ -123,11 +123,11 @@ TEST_F(MatcherTest, MatchText_Success) {
       .WillRepeatedly(Return(match_result.first));
 
   for (unsigned i = 0; i < frame_count; ++i) {
-    EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
+    EXPECT_EQ(matcher_->DetectText(text_for_matching), match_result);
   }
 }
 
-TEST_F(MatcherTest, MatchImage_Success) {
+TEST_F(MatcherTest, DetectImage_Success) {
   const unsigned frame_count = 2;
   const std::pair<cv::Rect, std::error_code> match_result = {{cv::Point{32, 32}, cv::Size{32, 32}}, std::error_code{}};
 
@@ -139,11 +139,11 @@ TEST_F(MatcherTest, MatchImage_Success) {
   EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
 
   for (unsigned i = 0; i < frame_count; ++i) {
-    EXPECT_EQ(matcher_->MatchImage(object, pattern), match_result);
+    EXPECT_EQ(matcher_->DetectImage(object, pattern), match_result);
   }
 }
 
-TEST_F(MatcherTest, MatchText_EmptyString_PatternInvalid) {
+TEST_F(MatcherTest, DetectText_EmptyString_PatternInvalid) {
   EXPECT_CALL(*streamer_, Frame(_)).Times(0);
   EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
   EXPECT_CALL(*text_detector_, Detect(_, {})).Times(0);
@@ -151,10 +151,10 @@ TEST_F(MatcherTest, MatchText_EmptyString_PatternInvalid) {
   const std::pair<cv::Rect, std::error_code> match_result = {
       cv::Rect{}, common::make_error_code(common::AteError::kPatternInvalid)};
 
-  EXPECT_EQ(matcher_->MatchText({}), match_result);
+  EXPECT_EQ(matcher_->DetectText({}), match_result);
 }
 
-TEST_F(MatcherTest, MatchImage_TooBigPattern_PatternInvalid) {
+TEST_F(MatcherTest, DetectImage_TooBigPattern_PatternInvalid) {
   const unsigned frame_count = 2;
 
   constexpr auto object = "matcher_tests_big_image";
@@ -168,11 +168,11 @@ TEST_F(MatcherTest, MatchImage_TooBigPattern_PatternInvalid) {
       cv::Rect{}, common::make_error_code(common::AteError::kPatternInvalid)};
 
   for (unsigned i = 0; i < frame_count; ++i) {
-    EXPECT_EQ(matcher_->MatchImage(object, pattern), match_result);
+    EXPECT_EQ(matcher_->DetectImage(object, pattern), match_result);
   }
 }
 
-TEST_F(MatcherTest, MatchText_TextNotRecognized_PatternNotFound) {
+TEST_F(MatcherTest, DetectText_TextNotRecognized_PatternNotFound) {
   constexpr auto text_for_matching = "Any text";
 
   EXPECT_CALL(*streamer_, Frame(_)).WillOnce(Invoke(&MockStreamer::FrameImpl));
@@ -182,7 +182,7 @@ TEST_F(MatcherTest, MatchText_TextNotRecognized_PatternNotFound) {
   const std::pair<cv::Rect, std::error_code> match_result = {
       cv::Rect{}, common::make_error_code(common::AteError::kPatternNotFound)};
 
-  EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
+  EXPECT_EQ(matcher_->DetectText(text_for_matching), match_result);
 }
 
 TEST_F(MatcherTest, Matching_StreamingServiceOff_VideoUnavailable) {
@@ -197,8 +197,8 @@ TEST_F(MatcherTest, Matching_StreamingServiceOff_VideoUnavailable) {
   const std::pair<cv::Rect, std::error_code> match_result = {
       cv::Rect{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
 
-  EXPECT_EQ(matcher_->MatchImage(object, pattern), match_result);
-  EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
+  EXPECT_EQ(matcher_->DetectImage(object, pattern), match_result);
+  EXPECT_EQ(matcher_->DetectText(text_for_matching), match_result);
 }
 
 TEST_F(MatcherTest, Matching_VideoStatusOff_VideoUnavailable) {
@@ -214,8 +214,8 @@ TEST_F(MatcherTest, Matching_VideoStatusOff_VideoUnavailable) {
   const std::pair<cv::Rect, std::error_code> match_result = {
       cv::Rect{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
 
-  EXPECT_EQ(matcher_->MatchImage(object, pattern), match_result);
-  EXPECT_EQ(matcher_->MatchText(text_for_matching), match_result);
+  EXPECT_EQ(matcher_->DetectImage(object, pattern), match_result);
+  EXPECT_EQ(matcher_->DetectText(text_for_matching), match_result);
 }
 
 TEST_F(MatcherTest, GetText_VideoStatusOff_VideoUnvailable) {

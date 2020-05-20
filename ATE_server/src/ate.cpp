@@ -163,7 +163,7 @@ std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const std::string& objec
 
   do {
     std::tie(match_area, match_error) =
-        is_image ? matcher_.MatchImage(object_or_name, pattern) : matcher_.MatchText(object_or_name);
+        is_image ? matcher_.DetectImage(object_or_name, pattern) : matcher_.DetectText(object_or_name);
   } while (match_error == common::AteError::kPatternNotFound && std::chrono::steady_clock::now() <= timeout_point);
 
   return {match_area, match_error};
@@ -181,7 +181,7 @@ std::pair<cv::Rect, std::error_code> ATE::WaitForObject(const common::ObjectData
   do {
     std::find_if(objects.cbegin(), objects.cend(), [this, &match_area, &match_error](const auto& object) {
       const auto pattern = storage_.GetItem(object.name, object.sync_version, object.build_version, object.mode);
-      if (!pattern.empty()) std::tie(match_area, match_error) = matcher_.MatchImage(object.name, pattern);
+      if (!pattern.empty()) std::tie(match_area, match_error) = matcher_.DetectImage(object.name, pattern);
 
       // We search for either first success or first fatal error. kPatternNotFound is interpreted as 'retry'
       return match_error != common::AteError::kPatternNotFound;
@@ -390,4 +390,27 @@ std::vector<std::string> ATE::CaptureFrames(size_t interval, size_t duration, co
   }
 
   return result;
+}
+
+std::pair<std::vector<common::Rect>, std::error_code> ATE::FindAllImages(const std::string& object_or_name,
+                                                                         const common::Rect& area) {
+  auto pattern = storage_.GetItem(object_or_name);
+
+  if (pattern.empty()) {
+    return {{}, common::make_error_code(common::AteError::kPatternInvalid)};
+  }
+
+  std::vector<cv::Rect> found_objects_cv_areas;
+  std::error_code match_error;
+
+  std::tie(found_objects_cv_areas, match_error) =
+      matcher_.DetectImages(object_or_name, pattern, cv::Rect(area.x, area.y, area.width, area.height));
+
+  // transformation from cv::Rect to common::Rect
+  std::vector<common::Rect> found_objects_common_areas;
+  std::transform(
+      found_objects_cv_areas.begin(), found_objects_cv_areas.end(), std::back_inserter(found_objects_common_areas),
+      [](const cv::Rect& cv_rect) { return common::Rect(cv_rect.x, cv_rect.y, cv_rect.width, cv_rect.height); });
+
+  return {found_objects_common_areas, match_error};
 }
