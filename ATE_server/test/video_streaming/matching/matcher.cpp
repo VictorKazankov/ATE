@@ -338,4 +338,124 @@ TEST_F(MatcherTest, GetImagesDiscrepancy_ValidData_NoError) {
   EXPECT_EQ(result.first, 0);
 }
 
+TEST_F(MatcherTest, DetectImages_TwoCall_DetectImagesInvokedTwice) {
+  const unsigned frame_count = 2;
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(frame_count).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(frame_count);
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  for (unsigned i = 0; i < frame_count; ++i) {
+    matcher_->DetectImages("", pattern);
+  }
+}
+
+TEST_F(MatcherTest, DetectImages_NotExistPattern_PatternNotFound) {
+  const std::vector<cv::Rect> empty_vector;
+  const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {
+      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kPatternNotFound)};
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(1).WillRepeatedly(Return(empty_vector));
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  EXPECT_EQ(matcher_->DetectImages("", pattern), match_result);
+}
+
+TEST_F(MatcherTest, DetectImages_OneObject_OneObject) {
+  const std::vector<cv::Rect> result_vector{cv::Rect()};
+  const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {result_vector, {}};
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(1).WillRepeatedly(Return(result_vector));
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  EXPECT_EQ(matcher_->DetectImages("", pattern), match_result);
+}
+
+TEST_F(MatcherTest, DetectImages_VideoStatusError_VideoTemporarilyUnavailable) {
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+  const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {
+      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
+  ON_CALL(*video_status_, GetVideoStatus).WillByDefault(Return(false));
+
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(0);
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  EXPECT_EQ(matcher_->DetectImages("", pattern), match_result);
+}
+
+TEST_F(MatcherTest, DetectImages_TooBigPattern_PatternInvalid) {
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_big_image.png");
+  const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {
+      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kPatternInvalid)};
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(0);
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  EXPECT_EQ(matcher_->DetectImages("", pattern), match_result);
+}
+
+TEST_F(MatcherTest, DetectImages_EmptyPattern_PatternInvalid) {
+  cv::Mat pattern;
+  const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {
+      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kPatternInvalid)};
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(0);
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  EXPECT_EQ(matcher_->DetectImages("", pattern), match_result);
+}
+
+TEST_F(MatcherTest, DetectImages_ValidSearchArea_DetectAllInvokedOnce) {
+  cv::Rect search_area(0, 0, 100, 100);
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(1);
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  matcher_->DetectImages("", pattern, search_area);
+}
+
+TEST_F(MatcherTest, DetectImages_SearchAreaBiggerThanImage_OutOfBoundaries) {
+  cv::Rect search_area(0, 0, 2000, 100);
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+  const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {
+      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(0);
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  EXPECT_EQ(matcher_->DetectImages("", pattern, search_area), match_result);
+}
+
+TEST_F(MatcherTest, DetectImages_SearchAreaLessThanPattern_OutOfBoundaries) {
+  cv::Rect search_area(0, 0, 1, 2);
+  const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
+  const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {
+      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
+
+  EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
+  EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(0);
+  EXPECT_CALL(*image_detector_, Detect(_, _)).Times(0);
+  EXPECT_CALL(*text_detector_, Detect(_, _)).Times(0);
+
+  EXPECT_EQ(matcher_->DetectImages("", pattern, search_area), match_result);
+}
+
 }  // namespace
