@@ -100,12 +100,13 @@ TEST(MessageFactoryClientTest, CreatePressReleaseRequest_ValidJsonMessage_Succes
 }
 
 TEST(MessageFactoryClientTest, CreateWaitForObjectRequest_ValidJsonMessage_Success) {
-  auto request_message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest("object_name", 1, 1);
+  auto request_message =
+      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest("object_name", 1, {10, 20}, {70, 80}, 1);
   auto expected_message =
       R"({"id" :1,"jsonrpc":"2.0",
       "method":"WaitForObject",
       "params":{"name":"object_name",
-                "timeout_msec":1}})";
+                "timeout_msec":1, "x_top_left":10,"y_top_left":20,"x_bottom_right":70,"y_bottom_right":80}})";
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }
@@ -118,7 +119,8 @@ TEST(MessageFactoryClientTest, CreateWaitForObjectRequest_PassObjectDataIdentity
   object_data_identity.parent_screen = "test_parent_screen";
   object_data_identity.mode = common::squish::CollectionMode::kNight;
 
-  auto request_message = common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_data_identity, 1, 1);
+  auto request_message =
+      common::jmsg::MessageFactory::Client::CreateWaitForObjectRequest(object_data_identity, 1, {10, 20}, {70, 80}, 1);
   auto expected_message =
       R"({"id" :1,"jsonrpc":"2.0",
       "method":"WaitForObject",
@@ -127,7 +129,7 @@ TEST(MessageFactoryClientTest, CreateWaitForObjectRequest_PassObjectDataIdentity
                 "sync_build_version":"test_build",
                 "parent_screen":"test_parent_screen",
                 "sync_collection_mode":"NIGHT",
-                "timeout_msec":1}})";
+                "timeout_msec":1, "x_top_left":10,"y_top_left":20,"x_bottom_right":70,"y_bottom_right":80}})";
   EXPECT_TRUE(JsonComparator(request_message, expected_message))
       << "Request message: " << request_message << " Expected message: " << expected_message;
 }

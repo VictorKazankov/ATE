@@ -68,13 +68,13 @@ bool CheckHeaderType(const Json::Value& value);
 
 /**
  * @brief Extract params fot 'WaitForObject' method
- *
- * @param[in] params - structured value that holds the parameter values to be used
- * during the invocation of the 'WaitForObject' method
- *
- * @param[out] object_data_identity Identity struct for performing search into DB
- * @param[out] timeout - object waiting duration
- * @param[out] error - error object, null on successs
+ * @param params Structured value that holds the parameter values to be used
+ *        during the invocation of the 'WaitForObject' method
+ * @param object_data_identity Identity struct for performing search into DB
+ * @param timeout Object waiting duration
+ * @param top_left The top-left coordinate of area
+ * @param bottom_right The bottom-right coordinate of area
+ * @param error Error object, null on successs
  */
 void ExtractWaitForObjectRequestParams(const Json::Value& params, ObjectDataIdentity& object_data_identity,
                                        std::chrono::milliseconds& timeout, Point& top_left, Point& bottom_right,

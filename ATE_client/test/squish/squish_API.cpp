@@ -44,6 +44,8 @@ class SquishApiTest : public ::testing::Test {
   squish::Object screen_rectangle_{0, 0, 0, 0};
   uint64_t correlation_id_ = 0;
   int timeout_msec_ = 0;
+  common::Point top_left_{10, 20};
+  common::Point bottom_right_{80, 90};
 };
 
 void SquishApiTest::SetUp() {
@@ -111,37 +113,37 @@ TEST_F(SquishApiTest, AttachToApplication_SetAnotherAteInteractionAsFirstIsNotRu
 TEST_F(SquishApiTest, WaitForObject_StringName_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
-  api_.WaitForObject(mock_, kId, kObjName);
+  api_.WaitForObject(mock_, kId, kObjName, top_left_, bottom_right_);
 }
 
 TEST_F(SquishApiTest, WaitForObject_StringNameAndTime_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
-  api_.WaitForObject(mock_, kId, kObjName, kTimeMs);
+  api_.WaitForObject(mock_, kId, kObjName, kTimeMs, top_left_, bottom_right_);
 }
 
 TEST_F(SquishApiTest, WaitForObject_Object_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
-  api_.WaitForObject(mock_, kId, squish::Object{});
+  api_.WaitForObject(mock_, kId, squish::Object{}, top_left_, bottom_right_);
 }
 
 TEST_F(SquishApiTest, WaitForObject_ObjectAndTime_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
-  api_.WaitForObject(mock_, kId, squish::Object{}, kTimeMs);
+  api_.WaitForObject(mock_, kId, squish::Object{}, kTimeMs, top_left_, bottom_right_);
 }
 
 TEST_F(SquishApiTest, WaitForObject_Wildcard_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
-  api_.WaitForObject(mock_, kId, kWidcard);
+  api_.WaitForObject(mock_, kId, kWidcard, top_left_, bottom_right_);
 }
 
 TEST_F(SquishApiTest, WaitForObject_WildcardAndTime_SendCommandCallOnce) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
-  api_.WaitForObject(mock_, kId, kWidcard, kTimeMs);
+  api_.WaitForObject(mock_, kId, kWidcard, kTimeMs, top_left_, bottom_right_);
 }
 
 TEST_F(SquishApiTest, TapObject_Point_SendCommandCallOnce) {
@@ -239,7 +241,7 @@ TEST_F(SquishApiTest, Exists_ValidResponce_ExpectTrue) {
           \"params\":{\"name\":\"test_name\",\"timeout_msec_\":1}})";
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
 
-  EXPECT_TRUE(api_.Exists(mock_, correlation_id_, kObjName));
+  EXPECT_TRUE(api_.Exists(mock_, correlation_id_, kObjName, top_left_, bottom_right_));
 }
 
 }  // namespace

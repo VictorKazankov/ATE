@@ -70,6 +70,7 @@ class ATE {
    * @param object_or_name Name of the image in Truth DB or text to wait for
    * @param timeout Timeout in ms to wait. Object will be tried to detect at least once even if
    *                detection time overruns given timeout
+   * @param search_region The area of the screen where the object search
    * @return Detection area rectangle and zero error code on success. If timeout runs out,
    *         then zero rectangle and AteError::kPatternNotFound error code. On other failure,
    *         zero rectangle and appropriate non-zero error code
@@ -92,6 +93,7 @@ class ATE {
    * @param object_data_identity Identity of image in TruthDB or pattern for iamge search in Truth DB
    * @param timeout Timeout in ms to wait. All images that matched object_data_identity will be tried
    *                to detect at least once even if overall detection time overruns given timeout
+   * @param search_region The area of the screen where the object search
    * @return Detection area rectangle of first found image and zero error code on success. If timeout
    *         runs out, then zero rectangle and Ate::ErrorCode::kPatternNotFound error code. On other
    *         failure, zero rectangle and appropriate non-zero error code

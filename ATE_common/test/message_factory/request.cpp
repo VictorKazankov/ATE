@@ -45,9 +45,12 @@ void RightRequestTest(const char* message) {
 void WrongWaitForObjectParamsTest(const char* message) {
   common::ObjectDataIdentity object_data_identity;
   std::chrono::milliseconds timeout;
+  common::Point top_left;
+  common::Point bottom_right;
   Json::Value error;
 
-  common::jmsg::ExtractWaitForObjectRequestParams(message, object_data_identity, timeout, error);
+  common::jmsg::ExtractWaitForObjectRequestParams(message, object_data_identity, timeout, top_left, bottom_right,
+                                                  error);
 
   EXPECT_FALSE(error.empty()) << "Error must be non-empty";
   int ec = 0;
@@ -240,12 +243,18 @@ TEST(ExtractWaitForObjectParamsTest, ExtractWaitForObjectParams_ValidParam_Succe
   params[common::jmsg::kSyncCollectionMode] =
       common::squish::CollectionModeToStr(common::squish::CollectionMode::kNight);
   params[common::jmsg::kTimeoutMsec] = 1000;
+  params[common::jmsg::kXTopLeft] = 10;
+  params[common::jmsg::kYTopLeft] = 20;
+  params[common::jmsg::kXBottomRight] = 70;
+  params[common::jmsg::kYBottomRight] = 80;
 
   common::ObjectDataIdentity object_data_identity;
   std::chrono::milliseconds timeout;
+  common::Point top_left;
+  common::Point bottom_right;
   Json::Value error{};
 
-  common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, error);
+  common::jmsg::ExtractWaitForObjectRequestParams(params, object_data_identity, timeout, top_left, bottom_right, error);
 
   EXPECT_STREQ(object_data_identity.name.c_str(), "name");
   EXPECT_STREQ(object_data_identity.sync_version.c_str(), "sync");
@@ -253,6 +262,10 @@ TEST(ExtractWaitForObjectParamsTest, ExtractWaitForObjectParams_ValidParam_Succe
   EXPECT_STREQ(object_data_identity.parent_screen.c_str(), "parent");
   EXPECT_EQ(object_data_identity.mode, common::squish::CollectionMode::kNight);
   EXPECT_EQ(timeout, std::chrono::milliseconds{1000});
+  EXPECT_EQ(top_left.x, 10);
+  EXPECT_EQ(top_left.y, 20);
+  EXPECT_EQ(bottom_right.x, 70);
+  EXPECT_EQ(bottom_right.y, 80);
   EXPECT_TRUE(error.empty());
 }
 

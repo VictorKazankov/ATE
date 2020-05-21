@@ -52,11 +52,13 @@ PYBIND11_MODULE(vhat_client, m) {
              const common::Point& bottom_right) { return API::Exists(object_name, top_left, bottom_right); },
           "This function returns a true value if the object with the symbolic or real (multi-property) "
           "name objectName exists; otherwise it returns a false value."
+          "It also can perform the object search in some predefined area of the screen."
           "Throws:"
           " 'NoConnectionEstablished' in case of no connection was established to server-side"
           " 'VideoStreamNotFound' in case of the video stream is not available"
           " 'invalid_argument' in case of invalid params sent to the server-side"
-          " 'runtime_error' in case of internal error, parse error, invalid request, method not found",
+          " 'runtime_error' in case of internal error, parse error, invalid request, method not found"
+          " 'InvalidRectangleCoordinates' in case of the invalid coordinates",
           py::arg("objectName"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}))
       .def_property_readonly("topLeft", &squish::Object::TopLeft)
       .def_property_readonly("bottomRight", &squish::Object::BottomRight)
@@ -185,28 +187,30 @@ PYBIND11_MODULE(vhat_client, m) {
         py::overload_cast<const std::string&, const common::Point&, const common::Point&>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
-        "milliseconds. "
+        "milliseconds. It also can perform the object search in some predefined area of the screen. "
         "Throws:"
         " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
-        " 'TypeError' in case of incompatible function arguments",
+        " 'TypeError' in case of incompatible function arguments"
+        " 'InvalidRectangleCoordinates' in case of the invalid coordinates",
         py::arg("object_or_name"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}));
 
   m.def("waitForObject",
         py::overload_cast<const squish::Object&, const common::Point&, const common::Point&>(&API::WaitForObject),
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
-        "milliseconds. "
+        "milliseconds. It also can perform the object search in some predefined area of the screen. "
         "Throws:"
         " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
-        " 'TypeError' in case of incompatible function arguments",
+        " 'TypeError' in case of incompatible function arguments"
+        " 'InvalidRectangleCoordinates' in case of the invalid coordinates",
         py::arg("object_or_name"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}));
 
   m.def("waitForObject",
@@ -214,14 +218,15 @@ PYBIND11_MODULE(vhat_client, m) {
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled) "
         "and returns the first found object. "
         "The function waits for the time defined by the testSettings.waitForObjectTimeout property, that many "
-        "milliseconds. "
+        "milliseconds. It also can perform the object search in some predefined area of the screen. "
         "Throws:"
         " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
-        " 'TypeError' in case of incompatible function arguments",
+        " 'TypeError' in case of incompatible function arguments"
+        " 'InvalidRectangleCoordinates' in case of the invalid coordinates",
         py::arg("wildcard"), py::arg_v("top_left", common::Point{}), py::arg_v("bottom_right", common::Point{}));
 
   m.def(
@@ -230,14 +235,16 @@ PYBIND11_MODULE(vhat_client, m) {
       "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled) "
       "and returns the first found object. "
       "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
-      "milliseconds. This function is useful if you want to synchronize your script execution. "
+      "milliseconds. This function is useful if you want to synchronize your script execution."
+      "It also can perform the object search in some predefined area of the screen. "
       "Throws:"
       " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
       " 'VideoStreamingError' in case of the video stream is not available"
       " 'NoConnectionEstablished' in case of no connection was established to server-side"
       " 'invalid_argument' in case of the invalid arguments in request"
       " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
-      " 'TypeError' in case of incompatible function arguments",
+      " 'TypeError' in case of incompatible function arguments"
+      " 'InvalidRectangleCoordinates' in case of the invalid coordinates",
       py::arg("wildcard"), py::arg("timeout_msec"), py::arg_v("top_left", common::Point{}),
       py::arg_v("bottom_right", common::Point{}));
 
@@ -246,13 +253,15 @@ PYBIND11_MODULE(vhat_client, m) {
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
+        "It also can perform the object search in some predefined area of the screen. "
         "Throws:"
         " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
-        " 'TypeError' in case of incompatible function arguments",
+        " 'TypeError' in case of incompatible function arguments"
+        " 'InvalidRectangleCoordinates' in case of the invalid coordinates",
         py::arg("object_or_name"), py::arg("timeout_msec"), py::arg_v("top_left", common::Point{}),
         py::arg_v("bottom_right", common::Point{}));
 
@@ -261,13 +270,15 @@ PYBIND11_MODULE(vhat_client, m) {
         "waitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and enabled). "
         "The function waits for the time defined by the optional timeoutMSec parameter is used, that many "
         "milliseconds. This function is useful if you want to synchronize your script execution. "
+        "It also can perform the object search in some predefined area of the screen. "
         "Throws:"
         " 'LookupError' in case of the pattern is not detected on the screen or timeout has expired"
         " 'VideoStreamingError' in case of the video stream is not available"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
         " 'invalid_argument' in case of the invalid arguments in request"
         " 'runtime_error' in case of an internal error, parse error, invalid request, a method not found"
-        " 'TypeError' in case of incompatible function arguments",
+        " 'TypeError' in case of incompatible function arguments"
+        " 'InvalidRectangleCoordinates' in case of the invalid coordinates",
         py::arg("object_or_name"), py::arg("timeout_msec"), py::arg_v("top_left", common::Point{}),
         py::arg_v("bottom_right", common::Point{}));
 

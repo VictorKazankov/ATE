@@ -33,10 +33,12 @@ class SquishApi {
   /**
    * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that
-   *        many milliseconds
+   *        many milliseconds. It also can perform the object search in some predefined area of the screen.
    * @param ate_interaction Structure provides the ability to communicate with ATE
    * @param correlation_id Correlation id for RPC
    * @param object_or_name Desirable object or name
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @returns The object if successful or raises an exception on failure.
    * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
    * @throw VideoStreamingError In case of the video stream is not available
@@ -54,10 +56,12 @@ class SquishApi {
   /**
    * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that
-   *        many milliseconds
+   *        many milliseconds. It also can perform the object search in some predefined area of the screen.
    * @param ate_interaction Structure provides the ability to communicate with ATE
    * @param correlation_id Correlation id for RPC
    * @param wildcard Pattern for selection
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @returns The object if successful or raises an exception on failure.
    * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
    * @throw VideoStreamingError In case of the video stream is not available
@@ -72,11 +76,14 @@ class SquishApi {
   /**
    * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
-   *        milliseconds. This function is useful if you want to synchronize your script execution.
+   *        milliseconds. This function is useful if you want to synchronize your script execution. It also can perform
+   *        the object search in some predefined area of the screen.
    * @param ate_interaction Structure provides the ability to communicate with ATE
    * @param correlation_id Correlation id for RPC
    * @param object_or_name Desirable object or name
    * @param timeoutMSec Timeout in miliseconds
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @returns The object if successful or raises an exception on failure.
    * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
    * @throw VideoStreamingError In case of the video stream is not available
@@ -94,11 +101,14 @@ class SquishApi {
   /**
    * @brief WaitForObject waits until the object_or_name object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
-   *        milliseconds. This function is useful if you want to synchronize your script execution.
+   *        milliseconds. This function is useful if you want to synchronize your script execution. It also can perform
+   *        the object search in some predefined area of the screen.
    * @param ate_interaction Structure provides the ability to communicate with ATE
    * @param correlation_id Correlation id for RPC
    * @param wildcard Pattern for selection
    * @param timeoutMSec Timeout in miliseconds
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @returns The object if successful or raises an exception on failure.
    * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
    * @throw VideoStreamingError In case of the video stream is not available
@@ -278,8 +288,12 @@ class SquishApi {
 
   /**
    * @brief This function verifies the object with the symbolic
-   *        or real (multi-property) name objectName exists on the screen.
+   *        or real (multi-property) name objectName exists on the screen. It also can perform the object search in some
+   *        predefined area of the screen.
    * @param object_name Name of the object for verifying existence on the screen
+   * @param correlation_id Correlation id for RPC
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @return Returns a true value if the object with the symbolic
    *         or real (multi-property) name objectName exists otherwise false
    * @throw VideoStreamingError In case of the video stream is not available

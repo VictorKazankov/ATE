@@ -35,8 +35,10 @@ class ApiAggregator {
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that
-   *        many milliseconds
+   *        many milliseconds. It also can perform the object search in some predefined area of the screen.
    * @param object_or_name Desirable object or name
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @returns The object if successful or raises an exception on failure.
    * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
    * @throw VideoStreamingError In case of the video stream is not available
@@ -53,9 +55,11 @@ class ApiAggregator {
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the testSettings.waitForObjectTimeout property, that
-   *        many milliseconds
+   *        many milliseconds. It also can perform the object search in some predefined area of the screen.
    * @param wildcard Pattern for selection
    * @param timeout_msec Timeout in miliseconds
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @returns The object if successful or raises an exception on failure.
    * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
    * @throw VideoStreamingError In case of the video stream is not available
@@ -72,9 +76,12 @@ class ApiAggregator {
   /**
    * @brief WaitForObject waits until the objectOrName object is accessible (i.e., it exists and is visible and
    *        enabled). The function waits for the time defined by the optional timeoutMSec parameter is used, that many
-   *        milliseconds. This function is useful if you want to synchronize your script execution.
+   *        milliseconds. This function is useful if you want to synchronize your script execution. It also can perform
+   *        the object search in some predefined area of the screen.
    * @param object_or_name Desirable object or name
    * @param timeout_msec Timeout in miliseconds
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @returns The object if successful or raises an exception on failure.
    * @throw LookupError In case of the pattern is not detected on the screen or timeout has expired
    * @throw VideoStreamingError In case of the video stream is not available
@@ -233,8 +240,11 @@ class ApiAggregator {
 
   /**
    * @brief This function verifies the object with the symbolic
-   *        or real (multi-property) name objectName exists on the screen.
+   *        or real (multi-property) name objectName exists on the screen. It also can perform the object search in some
+   *        predefined area of the screen.
    * @param object_name Name of the object for verifying existence on the screen
+   * @param top_left The top-left coordinate of area
+   * @param bottom_right The bottom-right coordinate of area
    * @return Returns a true value if the object with the symbolic
    *         or real (multi-property) name objectName exists otherwise false
    * @throw VideoStreamingError In case of the video stream is not available

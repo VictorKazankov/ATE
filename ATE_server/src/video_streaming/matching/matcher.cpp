@@ -273,7 +273,8 @@ std::pair<int, std::error_code> Matcher::GetImagesDiscrepancy(const std::string&
 }
 
 std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const std::string& object,
-                                                                        const cv::Mat& pattern, const cv::Rect& area) {
+                                                                        const cv::Mat& pattern,
+                                                                        const cv::Rect& search_region) {
   if (!video_status_->GetVideoStatus() || !GrabNewFrame()) {
     logger::error("[matcher] Video stream unavailable");
     return {{}, common::make_error_code(common::AteError::kVideoTemporarilyUnavailable)};
@@ -285,28 +286,30 @@ std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const st
   }
 
   if (pattern.rows > screen_.rows || pattern.cols > screen_.cols ||
-      (!area.empty() && (pattern.rows > area.width || pattern.cols > area.height))) {
+      (!search_region.empty() && (pattern.rows > search_region.width || pattern.cols > search_region.height))) {
     logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
                   screen_.size);
 
     return {{}, common::make_error_code(common::AteError::kPatternInvalid)};
   }
 
-  if (!area.empty()) {
+  if (!search_region.empty()) {
     const cv::Rect screen_rect{0, 0, screen_.size().width, screen_.size().height};
-    if (!Contains(screen_rect, area.tl()) || !Contains(screen_rect, area.br())) {
+    if (!Contains(screen_rect, search_region.tl()) || !Contains(screen_rect, search_region.br())) {
       logger::error("[matcher] Desired area is out of screen boundaries");
       return {{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
     }
   }
 
-  std::vector<cv::Rect> detected_objects = image_detector_->DetectAll(area.empty() ? screen_ : screen_(area), pattern);
+  std::vector<cv::Rect> detected_objects =
+      image_detector_->DetectAll(search_region.empty() ? screen_ : screen_(search_region), pattern);
 
   // transform detected items coordinates to absolute coordinates
-  if (!detected_objects.empty() && !area.empty()) {
+  if (!detected_objects.empty() && !search_region.empty()) {
     std::transform(detected_objects.begin(), detected_objects.end(), detected_objects.begin(),
-                   [&area](const cv::Rect& cv_rect) {
-                     return cv::Rect(cv_rect.x + area.x, cv_rect.y + area.y, cv_rect.width, cv_rect.height);
+                   [&search_region](const cv::Rect& cv_rect) {
+                     return cv::Rect(cv_rect.x + search_region.x, cv_rect.y + search_region.y, cv_rect.width,
+                                     cv_rect.height);
                    });
   }
 
