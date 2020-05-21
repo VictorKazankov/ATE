@@ -1,4 +1,5 @@
 import time
+from vhat_client import ScreenPoint
 
 from functional_tests.utils.ATE_exception_handing import (
     catch_exception_lookup, catch_exception_video)
@@ -15,8 +16,8 @@ def attach_to_application():
 
 @catch_exception_video
 @catch_exception_lookup
-def wait_for_object(object_name, timeout=7000):
-    obj = waitForObject(object_name, timeout)
+def wait_for_object(object_name, timeout=7000, top_left=ScreenPoint(0, 0), bottom_right=ScreenPoint(0, 0)):
+    obj = waitForObject(object_name, timeout, top_left, bottom_right)
     return obj
 
 
