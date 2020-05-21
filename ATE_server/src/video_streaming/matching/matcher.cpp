@@ -267,7 +267,8 @@ std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const st
     return {{}, common::make_error_code(common::AteError::kPatternInvalid)};
   }
 
-  if (pattern.rows > screen_.rows || pattern.cols > screen_.cols) {
+  if (pattern.rows > screen_.rows || pattern.cols > screen_.cols ||
+      (!area.empty() && (pattern.rows > area.width || pattern.cols > area.height))) {
     logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
                   screen_.size);
 
@@ -282,8 +283,15 @@ std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const st
     }
   }
 
-  const std::vector<cv::Rect> detected_objects =
-      image_detector_->DetectAll(area.empty() ? screen_ : screen_(area), pattern);
+  std::vector<cv::Rect> detected_objects = image_detector_->DetectAll(area.empty() ? screen_ : screen_(area), pattern);
+
+  // transform detected items coordinates to absolute coordinates
+  if (!detected_objects.empty() && !area.empty()) {
+    std::transform(detected_objects.begin(), detected_objects.end(), detected_objects.begin(),
+                   [&area](const cv::Rect& cv_rect) {
+                     return cv::Rect(cv_rect.x + area.x, cv_rect.y + area.y, cv_rect.width, cv_rect.height);
+                   });
+  }
 
   if (screenshot_recorder_) {
     screenshot_recorder_->TakeScreenshots(screen_, gray_screen_, detected_objects, object);
