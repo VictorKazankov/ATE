@@ -46,15 +46,16 @@ PYBIND11_MODULE(vhat_client, m) {
       .def(py::init<int, int>(), "", py::arg(kAbscissa), py::arg(kOrdinate))
       .def(py::init<int, int, int, int>(), "", py::arg(kAbscissa), py::arg(kOrdinate), py::arg(kWidth),
            py::arg(kHeight))
-      .def("exists", [](const squish::Object&, std::string& object_name) { return API::Exists(object_name); },
-           "This function returns a true value if the object with the symbolic or real (multi-property) "
-           "name objectName exists; otherwise it returns a false value."
-           "Throws:"
-           " 'NoConnectionEstablished' in case of no connection was established to server-side"
-           " 'VideoStreamNotFound' in case of the video stream is not available"
-           " 'invalid_argument' in case of invalid params sent to the server-side"
-           " 'runtime_error' in case of internal error, parse error, invalid request, method not found",
-           py::arg("objectName"))
+      .def(
+          "exists", [](const squish::Object&, std::string& object_name) { return API::Exists(object_name); },
+          "This function returns a true value if the object with the symbolic or real (multi-property) "
+          "name objectName exists; otherwise it returns a false value."
+          "Throws:"
+          " 'NoConnectionEstablished' in case of no connection was established to server-side"
+          " 'VideoStreamNotFound' in case of the video stream is not available"
+          " 'invalid_argument' in case of invalid params sent to the server-side"
+          " 'runtime_error' in case of internal error, parse error, invalid request, method not found",
+          py::arg("objectName"))
       .def_property_readonly("topLeft", &squish::Object::TopLeft)
       .def_property_readonly("bottomRight", &squish::Object::BottomRight)
       .def_readwrite(kAbscissa, &squish::Object::x)
@@ -74,55 +75,56 @@ PYBIND11_MODULE(vhat_client, m) {
       .def_readwrite(kParentScreen, &squish::Object::parent_screen);
 
   py::class_<squish::Wildcard>(m, "Wildcard")
-      .def("__init__",
-           [](squish::Wildcard& instance, py::dict& dict) {
-             std::string name;
-             std::string sync_version;
-             std::string build_version;
-             std::string parent_name;
-             common::squish::CollectionMode mode = common::squish::CollectionMode::kNone;
+      .def(
+          "__init__",
+          [](squish::Wildcard& instance, py::dict& dict) {
+            std::string name;
+            std::string sync_version;
+            std::string build_version;
+            std::string parent_name;
+            common::squish::CollectionMode mode = common::squish::CollectionMode::kNone;
 
-             if (dict.contains(kName)) {
-               auto name_value = dict[common::jmsg::kName];
-               if (py::isinstance<py::str>(name_value)) {
-                 name = name_value.cast<std::string>();
-               }
-             }
+            if (dict.contains(kName)) {
+              auto name_value = dict[common::jmsg::kName];
+              if (py::isinstance<py::str>(name_value)) {
+                name = name_value.cast<std::string>();
+              }
+            }
 
-             if (dict.contains(kSyncVersion)) {
-               auto sync_version_value = dict[common::jmsg::kSyncVersion];
-               if (py::isinstance<py::str>(sync_version_value)) {
-                 sync_version = sync_version_value.cast<std::string>();
-               }
-             }
+            if (dict.contains(kSyncVersion)) {
+              auto sync_version_value = dict[common::jmsg::kSyncVersion];
+              if (py::isinstance<py::str>(sync_version_value)) {
+                sync_version = sync_version_value.cast<std::string>();
+              }
+            }
 
-             if (dict.contains(kSyncBuildVersion)) {
-               auto build_version_value = dict[common::jmsg::kSyncBuildVersion];
-               if (py::isinstance<py::str>(build_version_value)) {
-                 build_version = build_version_value.cast<std::string>();
-               }
-             }
+            if (dict.contains(kSyncBuildVersion)) {
+              auto build_version_value = dict[common::jmsg::kSyncBuildVersion];
+              if (py::isinstance<py::str>(build_version_value)) {
+                build_version = build_version_value.cast<std::string>();
+              }
+            }
 
-             if (dict.contains(kParentScreen)) {
-               auto parent_name_value = dict[common::jmsg::kParentScreen];
-               if (py::isinstance<py::str>(parent_name_value)) {
-                 parent_name = parent_name_value.cast<std::string>();
-               }
-             }
+            if (dict.contains(kParentScreen)) {
+              auto parent_name_value = dict[common::jmsg::kParentScreen];
+              if (py::isinstance<py::str>(parent_name_value)) {
+                parent_name = parent_name_value.cast<std::string>();
+              }
+            }
 
-             if (dict.contains(kSyncCollectionMode)) {
-               auto mode_value = dict[common::jmsg::kSyncCollectionMode];
-               if (py::isinstance<common::squish::CollectionMode>(mode_value)) {
-                 mode = mode_value.cast<common::squish::CollectionMode>();
-               }
-             }
+            if (dict.contains(kSyncCollectionMode)) {
+              auto mode_value = dict[common::jmsg::kSyncCollectionMode];
+              if (py::isinstance<common::squish::CollectionMode>(mode_value)) {
+                mode = mode_value.cast<common::squish::CollectionMode>();
+              }
+            }
 
-             new (&instance) squish::Wildcard(name, sync_version, build_version, parent_name, mode);
-           },
-           "Throws:"
-           " 'NoConnectionEstablished' in case of no connection was established to server-side"
-           " 'invalid_argument' in case of class was filled by invalid params"
-           " 'runtime_error' in case of internal error, parse error, etc.")
+            new (&instance) squish::Wildcard(name, sync_version, build_version, parent_name, mode);
+          },
+          "Throws:"
+          " 'NoConnectionEstablished' in case of no connection was established to server-side"
+          " 'invalid_argument' in case of class was filled by invalid params"
+          " 'runtime_error' in case of internal error, parse error, etc.")
       .def_readwrite(kName, &squish::Wildcard::name)
       .def_readwrite(kSyncVersion, &squish::Wildcard::sync_version)
       .def_readwrite(kSyncBuildVersion, &squish::Wildcard::build_version)
@@ -506,9 +508,8 @@ PYBIND11_MODULE(vhat_client, m) {
 
   m.def("captureFrames", &API::CaptureFrames,
         "CaptureFrames provides capturing video frames of desired area at a specified interval and duration"
-        "Throws 'InvalidDuration' in case if duration longer than 5 seconds (5 000 milliseconds)."
         "Throws:"
-        " 'VideoStreamNotFound' in case of the video stream is not available"
+        " 'VideoStreamingError' in case of the video stream is not available"
         " 'PermissionDenied' in case of server does not have permission to make directory"
         " 'ImageAssemblingFailed' in case of server can't save the screenshot"
         " 'NoConnectionEstablished' in case of no connection was established to server-side"
@@ -520,4 +521,17 @@ PYBIND11_MODULE(vhat_client, m) {
         " 'invalid_argument' in case of invalid params sent to the server-side"
         " 'TypeError' in case of incompatible function arguments",
         py::arg("interval"), py::arg("duration"), py::arg("top_left"), py::arg("bottom_right"), py::arg("path"));
+
+  m.def("findAllImages", &API::FindAllImages,
+        R"(FindAllImages looks for all pattern occurrences at the screen. If top_left and bottom_right set to 0 a search
+        by the whole screen is being performed.
+        Throws:
+         'NoConnectionEstablished' in case of no connection was established to server-side
+         'LookupError' in case of the pattern is not detected on the screen
+         'VideoStreamingError' in case of the video stream is not available
+         'InvalidRectangleCoordinates' in case top-left and bottom-right coordinates are mixed up or produced
+          rectangle has zero height/width or is out of frame boundaries
+         'runtime_error' in case of an internal error, parse error, invalid request, a method not found
+         'invalid_argument' in case of the invalid arguments in request)",
+        py::arg("object_name"), py::arg_v("top_left", common::Point()), py::arg_v("bottom_right", common::Point()));
 }
