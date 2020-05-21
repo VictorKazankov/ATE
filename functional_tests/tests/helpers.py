@@ -2,11 +2,11 @@ import logging
 import re
 import time
 
-import allure
 import vhat_client
+from vhat_client import CollectionMode
+
 from functional_tests.pages import hmi
 from functional_tests.utils import get_benchmark
-from vhat_client import CollectionMode
 
 
 def get_exist_result(name):
@@ -20,7 +20,9 @@ def get_exist_result(name):
     # get time recognition of object for adding it to report
     start = time.time()
     result = vhat_client.object().exists(name)
-    get_benchmark.set_time(time.time() - start, name)
+    # count recognition time for recognized only
+    if result:
+        get_benchmark.set_time(time.time() - start, name)
     return result
 
 

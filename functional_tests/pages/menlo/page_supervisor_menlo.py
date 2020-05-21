@@ -1,4 +1,5 @@
-from functional_tests.pages.menlo.pages import AppsPage, SettingsPage
+from functional_tests.pages.menlo.pages import AppsPage
+from functional_tests.pages.menlo.settings import SettingsPage
 
 
 class PageSupervisor:

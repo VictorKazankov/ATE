@@ -1,23 +1,47 @@
 import pytest
-from functional_tests.pages.menlo import page_supervisor_menlo
+
+from functional_tests.pages.menlo.page_supervisor_menlo import PageSupervisor
+
+
+@pytest.fixture(scope='session')
+def menlo(app_connector):
+    yield PageSupervisor()
+
+
+@pytest.fixture(scope='class')
+def apps_menlo(menlo):
+    page = menlo.apps
+    yield page.open()
+    page.close()
 
 
 @pytest.fixture(scope='module')
-def apps_menlo(app_connector):
-    api = page_supervisor_menlo.PageSupervisor()
-    api.apps.open_apps_page()
-    yield api
-    api.apps.open_apps_page()
+def settings_menlo(menlo):
+    page = menlo.settings_page
+    yield page.open()
+    page.close()
 
 
-@pytest.fixture(scope='module')
-def settings_general_page_menlo(app_connector):
-    api = page_supervisor_menlo.PageSupervisor()
-    api.settings_page.open_settings_page()
-    yield api
+@pytest.fixture(scope='class')
+def settings_sound_menlo(settings_menlo):
+    yield settings_menlo.sound.open()
 
 
-@pytest.fixture(scope='module')
-def settings_clock_menlo(settings_general_page_menlo):
-    api = page_supervisor_menlo.PageSupervisor()
-    api.settings_page.open_settings_clock_page()
+@pytest.fixture(scope='class')
+def settings_clock_menlo(settings_menlo):
+    yield settings_menlo.clock.open()
+
+
+@pytest.fixture(scope='class')
+def settings_phone_list_menlo(settings_menlo):
+    yield settings_menlo.phone_list.open()
+
+
+@pytest.fixture(scope='class')
+def settings_connectivity_menlo(settings_menlo):
+    yield settings_menlo.connectivity.open()
+
+
+@pytest.fixture(scope='class')
+def settings_display_menlo(settings_menlo):
+    yield settings_menlo.display.open()
