@@ -200,3 +200,9 @@ std::vector<std::string> ApiAggregator::CaptureFrames(int interval, int duration
   ThrowExceptionIfNoConnectionEstablished();
   return ate_api_.CaptureFrames(ate_interaction_, GetCorrelationId(), interval, duration, top_left, bottom_right, path);
 }
+
+std::vector<squish::Object> ApiAggregator::FindAllImages(const std::string& object_name, const common::Point& top_left,
+                                                         const common::Point& bottom_right) {
+  ThrowExceptionIfNoConnectionEstablished();
+  return ate_api_.FindAllImages(ate_interaction_, GetCorrelationId(), object_name, top_left, bottom_right);
+}

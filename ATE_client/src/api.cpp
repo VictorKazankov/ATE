@@ -118,3 +118,8 @@ std::vector<std::string> API::CaptureFrames(int interval, int duration, const co
                                             const common::Point& bottom_right, const std::string& path) {
   return GetApiAggregator().CaptureFrames(interval, duration, top_left, bottom_right, path);
 }
+
+std::vector<squish::Object> API::FindAllImages(const std::string& object_name, const common::Point& top_left,
+                                               const common::Point& bottom_right) {
+  return GetApiAggregator().FindAllImages(object_name, top_left, bottom_right);
+}

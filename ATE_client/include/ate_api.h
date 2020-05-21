@@ -128,19 +128,41 @@ class AteApi {
    * @param path Path where frames will be stored
    * @return List of frame names
    * @throw InvalidDuration In case if the duration longer than 5s
-   * @throw VideoStreamNotFound In case of the video stream is not available
+   * @throw VideoStreamingError In case of the video stream is not available
    * @throw PermissionDenied In case of server does not have permission to make directory
    * @throw ImageAssemblingFailed In case of server can't save the screenshot (only in case of cv::imwrite failed)
-   * @throw InternalError In case of file system errors, bad alloc
-   * @throw InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or produced
-   * rectangle has zero height/width or is out of frame boundaries."
+   * @throw InvalidRectangleCoordinates In case top-left and bottom-right coordinates are mixed up or produced
+   *        rectangle has zero height/width or is out of frame boundaries."
    * @throw NoAvailableDiskSpace In case if no available space on a disk
    * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw invalid_argument In case of the invalid arguments in request
    */
   std::vector<std::string> CaptureFrames(const std::shared_ptr<interaction::Interaction>& ate_interaction,
                                          const uint64_t& correlation_id, int interval, int duration,
                                          const common::Point& top_left, const common::Point& bottom_right,
                                          const std::string& path) const;
+
+  /**
+   * @brief FindAllImages looks for all pattern occurrences at the screen. If top_left and bottom_right set to 0 a
+   *        search by the whole screen is being performed.
+   * @param ate_interaction Structure provides the ability to communicate with ATE
+   * @param correlation_id Correlation id for RPC
+   * @param object_name Name of Object
+   * @param top_left Top left point
+   * @param bottom_right Bottom right point
+   * @return List of detected objects coordinates
+   * @throw NoConnectionEstablished In case of no connection was established to server-side
+   * @throw LookupError In case of the pattern is not detected on the screen
+   * @throw VideoStreamingError In case of the video stream is not available
+   * @throw InvalidRectangleCoordinates' In case top-left and bottom-right coordinates are mixed up or produced
+   *        rectangle has zero height/width or is out of frame boundaries."
+   * @throw runtime_error In case of an internal error, parse error, invalid request, a method not found
+   * @throw invalid_argument In case of the invalid arguments in request
+   */
+  std::vector<squish::Object> FindAllImages(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                            const uint64_t& correlation_id, const std::string& object_name,
+                                            const common::Point& top_left, const common::Point& bottom_right);
 };
 }  // namespace API
 

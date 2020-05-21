@@ -175,3 +175,9 @@ TEST_F(AteApiTest, GetText_PassErrorParam_RuntimeError) {
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
   EXPECT_THROW(api_.GetText(mock_, correlation_id_, 10, 20, 70, 80), std::runtime_error);
 }
+
+TEST_F(AteApiTest, FindAllImages_PassValidParams_RPCSent) {
+  EXPECT_CALL(*mock_, SendCommand(_)).Times(1);
+
+  api_.FindAllImages(mock_, correlation_id_, "Name", common::Point(), common::Point());
+}

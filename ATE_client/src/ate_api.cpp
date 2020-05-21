@@ -82,3 +82,12 @@ std::vector<std::string> AteApi::CaptureFrames(const std::shared_ptr<interaction
   auto response = ate_interaction->SendCommand(message);
   return interaction::JsonRpcParser::ParseCaptureFrames(response);
 }
+
+std::vector<squish::Object> AteApi::FindAllImages(const std::shared_ptr<interaction::Interaction>& ate_interaction,
+                                                  const uint64_t& correlation_id, const std::string& object_name,
+                                                  const common::Point& top_left, const common::Point& bottom_right) {
+  auto message = common::jmsg::MessageFactory::Client::CreateFindAllImagesRequest(object_name, top_left, bottom_right,
+                                                                                  correlation_id);
+  auto response = ate_interaction->SendCommand(message);
+  return interaction::JsonRpcParser::ParseFindAllImages(response);
+}
