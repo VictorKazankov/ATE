@@ -13,6 +13,7 @@ class Icons:
     GENERAL_ARROW_UP_ACTIVE = 'general_arrow_up_active'
     GENERAL_CHECKBOX_ACTIVE = 'general_checkbox_active'
     GENERAL_CHECKBOX_INACTIVE = 'general_checkbox_inactive'
+    GENERAL_DRAWER_HANDLE = 'general_drawer_handle'
     GENERAL_INFO = 'general_info'
     GENERAL_TOGLE_ACTIVE = 'general_togle_active'
     GENERAL_TOGLE_INACTIVE = 'general_togle_inactive'

@@ -9,6 +9,12 @@ def menlo(app_connector):
 
 
 @pytest.fixture(scope='class')
+def main_menlo(menlo):
+    menlo.settings.close()
+    menlo.apps.close()
+
+
+@pytest.fixture(scope='class')
 def apps_menlo(menlo):
     page = menlo.apps
     yield page.open()
@@ -17,7 +23,7 @@ def apps_menlo(menlo):
 
 @pytest.fixture(scope='module')
 def settings_menlo(menlo):
-    page = menlo.settings_page
+    page = menlo.settings
     yield page.open()
     page.close()
 

@@ -3,12 +3,12 @@ import logging
 from functional_tests.pages.hmi import touch_and_drag, wait_for_object, obj_exists
 from functional_tests.pages.interaction import tap, tap_first_if_visible_else_second
 from functional_tests.pages.menlo.base import SwipeError
+from functional_tests.pages.menlo.constants import Icons, Text
 from functional_tests.pages.menlo.pages import ControlsSettingsPage
-from functional_tests.utils.menlo.constants import Icons, Text
 
 
 class SettingsPage(ControlsSettingsPage):
-    _load_indicators = [Icons.SETTINGS_SOUND_BUTTON, Text.SETTINGS_SOUND_BUTTON_TEXT]
+    _load_indicators = [Icons.SETTINGS_VEHICLE_BUTTON, Text.SETTINGS_SOUND_BUTTON_TEXT]
 
     def open(self):
         if not self.is_active:
@@ -58,6 +58,19 @@ class SettingsPage(ControlsSettingsPage):
         raise SwipeError('Unable to swipe to any of {}'.format(targets))
 
 
+class SettingsClockPage(SettingsPage):
+    _load_indicators = [Text.SETTINGS_CLOCK_TITLE_TEXT, Icons.SETTINGS_CLOCK_PM_BUTTON_INACTIVE]
+
+    # because of MAIN_VOL_ON_OFF is recognized as SETTINGS_CLOCK_BUTTON
+    def open(self):
+        if not self.is_active:
+            SettingsPage().open()
+            tap(Text.SETTINGS_CLOCK_BUTTON_TEXT)
+            self.wait_for_page_to_load()
+        logging.info('Open {}'.format(self.__class__.__name__))
+        return self
+
+
 class SettingsItemPageBase(SettingsPage):
     @property
     def _icon_to_open(self):
@@ -81,12 +94,6 @@ class SettingsSoundPage(SettingsItemPageBase):
     _load_indicators = [Text.SETTINGS_SOUND_TITLE_TEXT]
     _icon_to_open = Icons.SETTINGS_SOUND_BUTTON
     _text_to_open = Text.SETTINGS_SOUND_BUTTON_TEXT
-
-
-class SettingsClockPage(SettingsItemPageBase):
-    _load_indicators = [Text.SETTINGS_CLOCK_TITLE_TEXT, Icons.SETTINGS_CLOCK_PM_BUTTON_INACTIVE]
-    _icon_to_open = Icons.SETTINGS_CLOCK_BUTTON
-    _text_to_open = Text.SETTINGS_CLOCK_BUTTON_TEXT
 
 
 class SettingsPhoneListPage(SettingsItemPageBase):

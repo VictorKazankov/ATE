@@ -1,8 +1,8 @@
 # This file is used to measure recognition time for get_exist
 import logging
 
-from functional_tests.utils.menlo.constants import Icons as menlo_icon
-from functional_tests.utils.menlo.constants import Text as menlo_text
+from functional_tests.pages.menlo.constants import Icons as menlo_icon
+from functional_tests.pages.menlo.constants import Text as menlo_text
 from functional_tests.utils.sync3.constants import Icons as sync3_icon
 from functional_tests.utils.sync3.constants import Text as sync3_text
 from functional_tests.utils.sync4.constants import Icons as sync4_icon
