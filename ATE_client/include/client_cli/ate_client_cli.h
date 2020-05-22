@@ -465,9 +465,29 @@ public ref class API {
    **/
   static System::Collections::Generic::List<System::String^>^ CaptureFrames(int interval, int duration, ScreenPoint top_left,
                                                                             ScreenPoint bottom_right, System::String^ path);
+
+  /** <summary>
+        FindAllImages looks for all pattern occurrences at the screen. If <paramref name="top_left"/> and
+        <paramref name="bottom_right"/> set to 0 a search by the whole screen is being performed.
+      </summary>
+      <param name="objectOrName">Image name.</param>
+      <param name="top_left">Top-left coordinate of capture area.</param>
+      <param name="bottom_right">Bottom-right coordinate of capture area.</param>
+      <returns>List of found Objects</returns>
+      <exception cref="LookupError">Thrown if nothing found.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server.</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
+   **/
+  static System::Collections::Generic::List<ATE::Object^>^ FindAllImages(System::String^ objectOrName, ScreenPoint top_left,
+                                                                            ScreenPoint bottom_right);
 };
 
-// clang-format on
+  // clang-format on
 
 }  // namespace ATE
 

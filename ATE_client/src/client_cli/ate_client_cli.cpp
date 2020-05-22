@@ -161,6 +161,12 @@ System::Collections::Generic::List<System::String^>^ API::CaptureFrames(int inte
   return InvokeRet(::API::CaptureFrames, interval, duration, top_left, bottom_right, path);
 }
 
+System::Collections::Generic::List<ATE::Object^>^ API::FindAllImages(System::String^ objectOrName, ScreenPoint top_left,
+                                                                        ScreenPoint bottom_right) {
+  CheckArg(objectOrName, "objectOrName");
+  return InvokeRet(::API::FindAllImages, objectOrName, top_left, bottom_right);
+}
+
 // clang-format on
 
 }  // namespace ATE
