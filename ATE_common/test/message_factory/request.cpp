@@ -745,8 +745,8 @@ TEST(ExtractCaptureFramesParamsTest, ExtractCaptureFramesParams_InvalidParams_Er
   std::string path;
 
   common::jmsg::ExtractCaptureFramesParams(params, interval, duration, top_left, bottom_right, path, error);
-  EXPECT_EQ(interval, 0);
-  EXPECT_EQ(duration, 0);
+  EXPECT_EQ(interval, 0u);
+  EXPECT_EQ(duration, 0u);
   EXPECT_EQ(top_left.x, 0);
   EXPECT_EQ(top_left.y, 0);
   EXPECT_EQ(bottom_right.x, 0);
