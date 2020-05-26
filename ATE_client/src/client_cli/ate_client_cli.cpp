@@ -20,9 +20,19 @@ ApplicationContext^ API::AttachToApplication(System::String^ autName) {
   return InvokeRet(::API::AttachToApplication, autName);
 }
 
+ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName) {
+  CheckArg(objectOrName, "objectOrName");
+  return InvokeRet(kWaitForObjectForwarder, objectOrName, ScreenPoint(0,0), ScreenPoint(0,0));
+}
+
 ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName, ScreenPoint topLeft, ScreenPoint bottomRight) {
   CheckArg(objectOrName, "objectOrName");
   return InvokeRet(kWaitForObjectForwarder, objectOrName, topLeft, bottomRight);
+}
+
+ATE::Object^ API::WaitForObject(System::String^ objectOrName) {
+  CheckArg(objectOrName, "objectOrName");
+  return InvokeRet(kWaitForObjectForwarder, objectOrName, ScreenPoint(0,0), ScreenPoint(0,0));
 }
 
 ATE::Object^ API::WaitForObject(System::String^ objectOrName, ScreenPoint topLeft, ScreenPoint bottomRight) {
@@ -30,9 +40,19 @@ ATE::Object^ API::WaitForObject(System::String^ objectOrName, ScreenPoint topLef
   return InvokeRet(kWaitForObjectForwarder, objectOrName, topLeft, bottomRight);
 }
 
+ATE::Object^ API::WaitForObject(Wildcard^ wildcard) {
+  CheckArg(wildcard, "wildcard");
+  return InvokeRet(kWaitForObjectForwarder, wildcard, ScreenPoint(0,0), ScreenPoint(0,0));
+}
+
 ATE::Object^ API::WaitForObject(Wildcard^ wildcard, ScreenPoint topLeft, ScreenPoint bottomRight) {
   CheckArg(wildcard, "wildcard");
   return InvokeRet(kWaitForObjectForwarder, wildcard, topLeft, bottomRight);
+}
+
+ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName, int timeoutMSec) {
+  CheckArg(objectOrName, "objectOrName");
+  return InvokeRet(kWaitForObjectForwarder, objectOrName, timeoutMSec, ScreenPoint(0,0), ScreenPoint(0,0));
 }
 
 ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName, int timeoutMSec, ScreenPoint topLeft,
@@ -41,10 +61,20 @@ ATE::Object^ API::WaitForObject(ATE::Object^ objectOrName, int timeoutMSec, Scre
   return InvokeRet(kWaitForObjectForwarder, objectOrName, timeoutMSec, topLeft, bottomRight);
 }
 
+ATE::Object^ API::WaitForObject(System::String^ objectOrName, int timeoutMSec) {
+  CheckArg(objectOrName, "objectOrName");
+  return InvokeRet(kWaitForObjectForwarder, objectOrName, timeoutMSec, ScreenPoint(0,0), ScreenPoint(0,0));
+}
+
 ATE::Object^ API::WaitForObject(System::String^ objectOrName, int timeoutMSec, ScreenPoint topLeft,
                                 ScreenPoint bottomRight) {
   CheckArg(objectOrName, "objectOrName");
   return InvokeRet(kWaitForObjectForwarder, objectOrName, timeoutMSec, topLeft, bottomRight);
+}
+
+ATE::Object^ API::WaitForObject(Wildcard^ wildcard, int timeoutMSec) {
+  CheckArg(wildcard, "wildcard");
+  return InvokeRet(kWaitForObjectForwarder, wildcard, timeoutMSec, ScreenPoint(0,0), ScreenPoint(0,0));
 }
 
 ATE::Object^ API::WaitForObject(Wildcard^ wildcard, int timeoutMSec, ScreenPoint topLeft, ScreenPoint bottomRight) {

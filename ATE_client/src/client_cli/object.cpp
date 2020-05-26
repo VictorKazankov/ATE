@@ -12,7 +12,13 @@ using namespace impl_detail;
 // clang-format off
 
 bool Object::Exists(System::String^ objectName) try {
-  return ::API::Exists(FromCli(objectName));
+  return ::API::Exists(FromCli(objectName), FromCli(ScreenPoint(0,0)), FromCli(ScreenPoint(0,0)));
+} catch (const std::exception& e) {
+  throw Rethrow(e);
+}
+
+bool Object::Exists(System::String^ objectName, ScreenPoint topLeft, ScreenPoint bottomRight) try {
+  return ::API::Exists(FromCli(objectName), FromCli(topLeft), FromCli(bottomRight));
 } catch (const std::exception& e) {
   throw Rethrow(e);
 }

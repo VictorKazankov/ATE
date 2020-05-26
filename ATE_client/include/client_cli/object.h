@@ -33,6 +33,27 @@ public ref class Object : public ScreenRectangle {
   **/
   bool Exists(System::String^ objectName);
 
+  /** <summary>
+        Method returns a true value if the object with the symbolic or real (multi-property)
+        <paramref name="objectName"/> exists; otherwise it returns a false value.
+      </summary>
+      <param>
+        <param name="objectName">Symbolic or real (multi-property) Object name to check existence of</param>
+        <param name="topLeft">Top-left coordinate of capture area.</param>
+        <param name="bottomRight">Bottom-right coordinate of capture area.</param>
+      </param>
+      <returns>
+        true if the object exists, otherwise false."
+      </returns>
+      <exception cref="ATE::NoConnectionEstablished">Thrown if no connection to ATE server</exception>
+      <exception cref="ATE::VideoStreamingError">Thrown if video stream is not available</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid</exception>
+      <exception cref="System::Exception">Thrown if internal error has occured.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+  **/
+  bool Exists(System::String^ objectName, ScreenPoint topLeft, ScreenPoint bottomRight);
+
   /// <summary>Top-left point of bounding rect of the Object.</summary>
   property ScreenPoint TopLeft {
     ScreenPoint get() { return ScreenPoint{x_top_left_, y_top_left_}; }

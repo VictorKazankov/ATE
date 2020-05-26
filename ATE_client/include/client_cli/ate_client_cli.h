@@ -32,6 +32,23 @@ public ref class API {
         Method waits for the time defined by the waitForObjectTimeout config setting, that many milliseconds.
       </summary>
       <param name="objectOrName">Object or name to wait for.</param>
+      <returns>Object if successful</returns>
+      <exception cref="LookupError">Thrown on failure, i.e. if the method times out.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server.</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
+   **/
+  static ATE::Object^ WaitForObject(ATE::Object^ objectOrName);
+
+  /** <summary>
+        waitForObject waits until the <paramref name="objectOrName"/> object is accessible (i.e., it exists and is visible).
+        Method waits for the time defined by the waitForObjectTimeout config setting, that many milliseconds.
+      </summary>
+      <param name="objectOrName">Object or name to wait for.</param>
       <param name="topLeft">Top-left coordinate of capture area.</param>
       <param name="bottomRight">Bottom-right coordinate of capture area.</param>
       <returns>Object if successful</returns>
@@ -45,6 +62,23 @@ public ref class API {
       <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static ATE::Object^ WaitForObject(ATE::Object^ objectOrName, ScreenPoint topLeft, ScreenPoint bottomRight);
+
+  /** <summary>
+        waitForObject waits until the <paramref name="objectOrName"/> object is accessible (i.e., it exists and is visible).
+        Method waits for the time defined by the waitForObjectTimeout config setting, that many milliseconds.
+      </summary>
+      <param name="objectOrName">Object or name to wait for.</param>
+      <returns>Object if successful</returns>
+      <exception cref="LookupError">Thrown on failure, i.e. if the method times out.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server.</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
+   **/
+  static ATE::Object^ WaitForObject(System::String^ objectOrName);
 
   /** <summary>
         waitForObject waits until the <paramref name="objectOrName"/> object is accessible (i.e., it exists and is visible).
@@ -71,6 +105,24 @@ public ref class API {
         config setting, that many milliseconds.
       </summary>
       <param name="wildcard">Wildcard pattern to match object.</param>
+      <returns>First found Object that matches pattern if successful</returns>
+      <exception cref="LookupError">Thrown on failure, i.e. if the method times out.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server.</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
+   **/
+  static ATE::Object^ WaitForObject(Wildcard^ wildcard);
+
+  /** <summary>
+        waitForObject waits until the first found object that matches <paramref name="wildcard"/> pattern is
+        accessible (i.e., it exists and is visible). Method waits for the time defined by the waitForObjectTimeout
+        config setting, that many milliseconds.
+      </summary>
+      <param name="wildcard">Wildcard pattern to match object.</param>
       <param name="topLeft">Top-left coordinate of capture area.</param>
       <param name="bottomRight">Bottom-right coordinate of capture area.</param>
       <returns>First found Object that matches pattern if successful</returns>
@@ -84,6 +136,24 @@ public ref class API {
       <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
    **/
   static ATE::Object^ WaitForObject(Wildcard^ wildcard, ScreenPoint topLeft, ScreenPoint bottomRight);
+
+  /** <summary>
+        waitForObject waits until the <paramref name="objectOrName"/> object is accessible (i.e., it exists and is visible).
+        Method waits for the time defined by the <paramref name="timeoutMSec"/>, that many milliseconds.
+      </summary>
+      <param name="objectOrName">Object or name to wait for.</param>
+      <param name="timeoutMSec">Wait timeout in milliseconds.</param>
+      <returns>Object if successful</returns>
+      <exception cref="LookupError">Thrown on failure, i.e. if the method times out.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server.</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
+   **/
+  static ATE::Object^ WaitForObject(ATE::Object^ objectOrName, int timeoutMSec);
 
   /** <summary>
         waitForObject waits until the <paramref name="objectOrName"/> object is accessible (i.e., it exists and is visible).
@@ -112,6 +182,24 @@ public ref class API {
       </summary>
       <param name="objectOrName">Object or name to wait for.</param>
       <param name="timeoutMSec">Wait timeout in milliseconds.</param>
+      <returns>Object if successful</returns>
+      <exception cref="LookupError">Thrown on failure, i.e. if the method times out.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server.</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
+   **/
+  static ATE::Object^ WaitForObject(System::String^ objectOrName, int timeoutMSec);
+
+  /** <summary>
+        waitForObject waits until the <paramref name="objectOrName"/> object is accessible (i.e., it exists and is visible).
+        Method waits for the time defined by the <paramref name="timeoutMSec"/>, that many milliseconds.
+      </summary>
+      <param name="objectOrName">Object or name to wait for.</param>
+      <param name="timeoutMSec">Wait timeout in milliseconds.</param>
       <param name="topLeft">Top-left coordinate of capture area.</param>
       <param name="bottomRight">Bottom-right coordinate of capture area.</param>
       <returns>Object if successful</returns>
@@ -126,6 +214,25 @@ public ref class API {
    **/
   static ATE::Object^ WaitForObject(System::String^ objectOrName, int timeoutMSec, ScreenPoint topLeft,
                                     ScreenPoint bottomRight);
+
+  /** <summary>
+        waitForObject waits until the first found object that matches <paramref name="wildcard"/> pattern
+        is accessible (i.e., it exists and is visible). Method waits for the time defined by the
+        <paramref name="timeoutMSec"/>, that many milliseconds.
+      </summary>
+      <param name="wildcard">Wildcard pattern to match object.</param>
+      <param name="timeoutMSec">Wait timeout in milliseconds.</param>
+      <returns>First found Object that matches pattern if successful</returns>
+      <exception cref="LookupError">Thrown on failure, i.e. if the method times out.</exception>
+      <exception cref="InvalidRectangleCoordinates">Thrown if top-left and bottom-right coordinates are mixed up or
+                                                    rectangle has zero height/width or is out of frame boundaries.</exception>
+      <exception cref="VideoStreamingError">Thrown if video stream is not available.</exception>
+      <exception cref="NoConnectionEstablished">Thrown if not connected to ATE server.</exception>
+      <exception cref="System::ArgumentException">Thrown if one or more of the arguments provided are not valid.</exception>
+      <exception cref="System::ArgumentNullException">Thrown if null passed as argument.</exception>
+      <exception cref="System::Exception">Thrown if internal error has occurred.</exception>
+   **/
+  static ATE::Object^ WaitForObject(Wildcard^ wildcard, int timeoutMSec);
 
   /** <summary>
         waitForObject waits until the first found object that matches <paramref name="wildcard"/> pattern
