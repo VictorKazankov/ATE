@@ -56,6 +56,14 @@ std::pair<Json::Value, bool> IsRectanglesTopLeftAndBottomRightPointsValid(
     const common::Point& top_left_coordinate, const common::Point& bottom_right_coordinate) {
   Json::Value error;
 
+  if (top_left_coordinate.x < 0 || bottom_right_coordinate.x < 0 || top_left_coordinate.y < 0 ||
+      bottom_right_coordinate.y < 0) {
+    error =
+        common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
+                                        "Invalid Matching area coordinate: some of the coordinates are less than 0");
+    return std::make_pair(std::move(error), false);
+  }
+
   if (top_left_coordinate.x > bottom_right_coordinate.x || top_left_coordinate.y > bottom_right_coordinate.y) {
     error =
         common::jmsg::CreateErrorObject(rpc::Error::kInvalidRectangleCoordinates,
