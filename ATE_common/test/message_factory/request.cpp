@@ -799,4 +799,21 @@ TEST(ExtractFindAllImagesParamsTest, ExtractFindAllImagesParams_EmptyJson_ErrorI
   EXPECT_EQ(error[common::jmsg::kErrorCode].asInt(), static_cast<int>(rpc::Error::kInvalidParams));
 }
 
+TEST(ExtractFindAllImagesParamsTest, ExtractFindAllImagesParams_EmptyName_ErrorInvalidParams) {
+  Json::Value params;
+
+  params[common::jmsg::kObjectName] = "";
+  params[common::jmsg::kXTopLeft] = 10;
+  params[common::jmsg::kYTopLeft] = 20;
+  params[common::jmsg::kXBottomRight] = 30;
+  params[common::jmsg::kYBottomRight] = 40;
+
+  Json::Value error;
+  std::string object_name;
+  common::Point top_left, bottom_right;
+
+  EXPECT_NO_THROW(common::jmsg::ExtractFindAllImagesParams(params, object_name, top_left, bottom_right, error));
+  EXPECT_EQ(error[common::jmsg::kErrorCode].asInt(), static_cast<int>(rpc::Error::kInvalidParams));
+}
+
 }  // namespace

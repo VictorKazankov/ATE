@@ -374,6 +374,8 @@ void ExtractFindAllImagesParams(const Json::Value& params, std::string& object_o
   error.clear();
   try {
     object_or_name = params[kObjectName].asCString();
+    if (object_or_name.empty()) throw Json::LogicError("Object name is empty");
+
     top_left.x = params[kXTopLeft].asInt();
     top_left.y = params[kYTopLeft].asInt();
     bottom_right.x = params[kXBottomRight].asInt();
