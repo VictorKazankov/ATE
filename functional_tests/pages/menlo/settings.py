@@ -2,9 +2,25 @@ import logging
 
 from functional_tests.pages.hmi import touch_and_drag, wait_for_object, obj_exists
 from functional_tests.pages.interaction import tap, tap_first_if_visible_else_second
-from functional_tests.pages.menlo.base import SwipeError
+from functional_tests.pages.menlo.base import SwipeError, BasePage
 from functional_tests.pages.menlo.constants import Icons, Text
-from functional_tests.pages.menlo.pages import ControlsSettingsPage
+
+
+class ControlsSettingsPage(BasePage):
+    _load_indicators = [Icons.MAIN_SETTINGS_CONTROLS_BUTTON_ACTIVE, Text.CONTROLS_TAB_TITLE_TEXT]
+
+    def open(self):
+        if not self.is_active:
+            tap(Icons.MAIN_SETTINGS_CONTROLS_BUTTON_INACTIVE)
+            self.wait_for_page_to_load()
+        logging.info('Open Controls/Settings page')
+        return self
+
+    def close(self):
+        if ControlsSettingsPage().is_active:
+            tap(Icons.MAIN_SETTINGS_CONTROLS_BUTTON_ACTIVE)
+            logging.info('Close Controls/Settings page')
+        return self
 
 
 class SettingsPage(ControlsSettingsPage):

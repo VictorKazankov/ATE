@@ -17,6 +17,7 @@ class Icons:
     GENERAL_INFO = 'general_info'
     GENERAL_TOGLE_ACTIVE = 'general_togle_active'
     GENERAL_TOGLE_INACTIVE = 'general_togle_inactive'
+    GENERAL_MAXIMIZE_APP_BUTTON = 'general_maximize_app_button'
 
     # MAIN
     MAIN_APPS_BUTTON_ACTIVE = "main_apps_button_active"
@@ -39,6 +40,9 @@ class Icons:
     APPS_SEATBELT_BUTTON = "apps_seatbelt_button"
     APPS_TIRE_PRESSURE_BUTTON = "apps_tire_pressure_button"
     APPS_TRIP_IOD_BUTTON = "apps_trip_iod_button"
+
+    # TIRE PRESSURE APP
+    TIRE_PRESSURE_APP_TITLE_ICON = 'tire_pressure_app_title_icon'
 
     # SETTINGS
     SETTINGS_SOUND_BUTTON = 'settings_sound_button'
@@ -75,6 +79,10 @@ class Text:
     APPS_SEATBELT_TEXT = 'Seatbelt'
     APPS_BLUETOOTH_STEREO_TEXT = 'Bluetooth'
     APPS_OWNERS_MANUAL_TEXT = 'Manual'
+
+    # TIRE PRESSURE APP
+    TIRE_PRESSURE_APP_TITLE_TEXT = 'Tyre pressure (psi)'
+    TIRE_PRESSURE_APP_DEFAULT_VALUE_TEXT = '36'
 
     # CONTROLS/SETTINGS
     CONTROLS_TAB_TITLE_TEXT = 'CONTROLS'

@@ -21,6 +21,11 @@ def apps_menlo(menlo):
     page.close()
 
 
+@pytest.fixture(scope='class')
+def tire_pressure_app(menlo):
+    menlo.apps.tire_pressure.open()
+
+
 @pytest.fixture(scope='module')
 def settings_menlo(menlo):
     page = menlo.settings

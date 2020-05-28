@@ -12,7 +12,6 @@ class PageNotLoadedError(RuntimeError):
 
 
 class BasePage(object):
-
     @property
     def _load_indicators(self):
         raise NotImplementedError('{} load indicators are not assigned'.format(self.__class__.__name__))

@@ -38,3 +38,23 @@ class TestAppsScreen(object):
     ])
     def test_apps_text(self, apps_menlo, text):
         assert get_exist_result(text)
+
+
+class TestTirePressureApp(object):
+    @jira_test("VHAT-2099")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.TIRE_PRESSURE_APP_TITLE_ICON,
+        Icons.GENERAL_MAXIMIZE_APP_BUTTON
+    ])
+    def test_tire_pressure_app_images(self, tire_pressure_app, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2100")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.TIRE_PRESSURE_APP_TITLE_TEXT,
+        Text.TIRE_PRESSURE_APP_DEFAULT_VALUE_TEXT
+    ])
+    def test_tire_pressure_app_text(self, tire_pressure_app, text):
+        assert get_exist_result(text)
