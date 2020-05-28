@@ -125,12 +125,6 @@ class ATE {
   adapter::DBManagerError ChangeSyncMode(const std::string& collection_mode);
 
   /**
-   * @brief The function reloads storage
-   * @return Empty error if successed, otherwise error
-   */
-  std::error_code ReloadStorageItems() noexcept;
-
-  /**
    * @brief The function gets current screenshot
    * @param path location for saving a screenshot
    * @param filename name of a file for saving a screenshot

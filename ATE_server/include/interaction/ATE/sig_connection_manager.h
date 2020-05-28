@@ -33,11 +33,6 @@ class SigConnectionManager : public ConnectionManager {
 
  private:
   /**
-   * @brief The function reloads icon storage
-   */
-  void ReloadStorage();
-
-  /**
    * @brief Provide io_context service stop
    */
   void Terminate();

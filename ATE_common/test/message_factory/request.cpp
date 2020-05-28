@@ -158,21 +158,6 @@ TEST(RpcRequestTest, WrongTapObjectRequest) {
   WrongTapObjectParamsTest("{\"x\":1}");
 }
 
-TEST(RpcRequestTest, CreateIconReloadRequest_ValidId_ValidRequest) {
-  uint64_t id = 42;
-  auto message = common::jmsg::MessageFactory::SignalConnection::CreateIconReloadRequest(id);
-
-  Json::Value params;
-  Json::Value error;
-  std::string method;
-  common::jmsg::ParseJsonRpcRequest(message, id, method, params, error);
-
-  EXPECT_EQ(id, 42) << "Id must be equal";
-  EXPECT_STREQ(method.c_str(), common::jmsg::kReloadIconStorage) << "Method must be equal";
-  EXPECT_TRUE(params.empty()) << "No parameters are assumed";
-  EXPECT_FALSE(error) << "Error must be empty";
-}
-
 TEST(CreateErrorObjectTest, CreateErrorObject_CreateErrorObjectWithEmptyData_CompareSuccess) {
   auto object = common::jmsg::CreateErrorObject(rpc::Error::kInternalError, "message", Json::Value{});
 

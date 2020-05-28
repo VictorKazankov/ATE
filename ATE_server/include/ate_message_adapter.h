@@ -122,14 +122,6 @@ class AteMessageAdapter : public IMessageAdapter {
   std::pair<Json::Value, bool> HandleChangeSyncMode(const Json::Value& params);
 
   /**
-   * @brief Handler for ReloadIconStorage
-   * @param params ReloadIconStorage params
-   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   *         (for easier verification of the error)
-   */
-  std::pair<Json::Value, bool> HandleReloadIconStorage(const Json::Value& params);
-
-  /**
    * @brief Handler for GetScreenshot
    * @param params GetScreenshot params
    * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool

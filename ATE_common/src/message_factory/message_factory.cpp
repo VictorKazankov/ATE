@@ -488,16 +488,5 @@ std::string MessageFactory::DBusConnection::CreateDisplayTypeChangedRequest(int 
 
 Json::Value MessageFactory::DBusConnection::CreateDisplayTypeChangedResponse() { return Json::Value{true}; }
 
-std::string MessageFactory::SignalConnection::CreateIconReloadRequest(uint64_t id) {
-  Json::FastWriter writer;
-
-  Json::Value message;
-  CreatePackageStructure(message, kReloadIconStorage, id);
-
-  return writer.write(message);
-}
-
-Json::Value MessageFactory::SignalConnection::CreateIconReloadResponse() { return Json::Value{true}; }
-
 }  // namespace jmsg
 }  // namespace common

@@ -54,18 +54,4 @@ struct CondSig {
   volatile std::atomic_bool signal_caught{false};
 };
 
-TEST_F(SigConnectionManagerTest, ReloadStorage_SendSIGHUP_Caught) {
-  const auto kTimeSleep = 100u;
-  CondSig condsig;
-
-  sig_manager_->Start();
-
-  EXPECT_CALL(mock_ate_message_adapter_, OnMessage(_)).Times(1).WillOnce(Invoke(&condsig, &CondSig::Wait));
-  raise(SIGHUP);
-
-  for (auto i = 0; !condsig.signal_caught && i < 12; ++i) {  // wait for signal nearly 1200ms, thread worker sleeps 1s
-    std::this_thread::sleep_for(std::chrono::milliseconds(kTimeSleep));
-  }
-  EXPECT_TRUE(condsig.signal_caught) << "Signal wasn't caught";
-}
 }  // namespace

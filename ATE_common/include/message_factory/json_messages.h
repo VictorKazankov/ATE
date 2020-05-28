@@ -13,7 +13,6 @@ constexpr auto kPressRelease = "PressRelease";
 constexpr auto kDisplayTypeChanged = "displayTypeChanged";
 constexpr auto kChangeSyncIconDB = "ChangeSyncIconDB";
 constexpr auto kChangeSyncMode = "ChangeSyncMode";
-constexpr auto kReloadIconStorage = "ReloadIconStorage";
 constexpr auto kLongPress = "LongPress";
 constexpr auto kGetScreenshot = "GetScreenshot";
 constexpr auto kGetText = "GetText";

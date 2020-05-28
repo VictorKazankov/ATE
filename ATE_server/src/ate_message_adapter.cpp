@@ -93,7 +93,6 @@ AteMessageAdapter::AteMessageAdapter(ATE& ate)
                    {common::jmsg::kDisplayTypeChanged, &AteMessageAdapter::HandleDisplayTypeChanged},
                    {common::jmsg::kChangeSyncIconDB, &AteMessageAdapter::HandleChangeSyncIconDB},
                    {common::jmsg::kChangeSyncMode, &AteMessageAdapter::HandleChangeSyncMode},
-                   {common::jmsg::kReloadIconStorage, &AteMessageAdapter::HandleReloadIconStorage},
                    {common::jmsg::kLongPress, &AteMessageAdapter::HandleLongPress},
                    {common::jmsg::kGetScreenshot, &AteMessageAdapter::HandleGetScreenshot},
                    {common::jmsg::kGetText, &AteMessageAdapter::HandleGetText},
@@ -342,19 +341,6 @@ std::pair<Json::Value, bool> AteMessageAdapter::HandleChangeSyncMode(const Json:
   }
 
   return std::make_pair(common::jmsg::MessageFactory::Server::CreateChangeSyncModeResultObject(), true);
-}
-
-std::pair<Json::Value, bool> AteMessageAdapter::HandleReloadIconStorage([[gnu::unused]] const Json::Value& params) {
-  Json::Value result_error;
-
-  std::error_code error = ate_.ReloadStorageItems();
-  if (error) {
-    result_error = common::jmsg::CreateErrorObject(rpc::Error::kReloadStorageError, error.message().data());
-    logger::info("[ate message adapter] Error on reloading icon storage: {}", error.message());
-  }
-
-  logger::info("[ate message adapter] Icon storage has been reloaded");
-  return std::make_pair(result_error, !error);
 }
 
 std::pair<Json::Value, bool> AteMessageAdapter::HandleGetScreenshot(const Json::Value& params) {

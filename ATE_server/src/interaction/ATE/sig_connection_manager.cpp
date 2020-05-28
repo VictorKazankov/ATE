@@ -8,11 +8,8 @@
 
 namespace {
 
-volatile std::atomic_bool sig_reload;
 volatile std::atomic_bool sig_term;
 volatile std::atomic_bool sig_int;
-
-void HandleSigReload([[gnu::unused]] int signum) { sig_reload.store(true); }
 
 void HandleSigTerm(int signum) { SIGTERM == signum ? sig_term.store(true) : sig_int.store(true); }
 
@@ -40,24 +37,19 @@ SigConnectionManager::~SigConnectionManager() { Stop(); }
 
 void SigConnectionManager::Start() {
   running_ = true;
-  sig_reload = sig_term = sig_int = false;
+  sig_term = sig_int = false;
 
   loop_ = std::thread([this]() {
     timespec const kTimeWait{1, 0};
     timespec time_remain;
 
     while (true) {
-      while (running_ && !sig_reload && !sig_term && !sig_int) {
+      while (running_ && !sig_term && !sig_int) {
         nanosleep(&kTimeWait, &time_remain);  // sleep 1s
       }
 
       if (!running_) {
         break;
-      }
-
-      if (sig_reload) {
-        this->ReloadStorage();
-        sig_reload.store(false);
       }
 
       if (sig_term || sig_int) {
@@ -83,9 +75,6 @@ void SigConnectionManager::Start() {
     sigaddset(&act.sa_mask, signum);
 
     switch (signum) {
-      case SIGHUP:
-        act.sa_handler = HandleSigReload;
-        break;
       case SIGABRT:
         act.sa_handler = HandleSigAbort;
         break;
@@ -101,17 +90,6 @@ void SigConnectionManager::Stop() {
   running_ = false;
   if (loop_.joinable()) {
     loop_.join();
-  }
-}
-
-void SigConnectionManager::ReloadStorage() {
-  static size_t id = 1;
-
-  logger::info("[signal] Signal {} has been caught", SIGHUP);
-
-  auto request = common::jmsg::MessageFactory::SignalConnection::CreateIconReloadRequest(++id);
-  if (!request.empty()) {
-    ate_message_adapter_.OnMessage(request);
   }
 }
 

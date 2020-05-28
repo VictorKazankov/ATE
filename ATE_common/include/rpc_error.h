@@ -27,7 +27,6 @@ enum class Error {
   kEmptyFileName = -32007,
   // Long press error
   kInvalidDuration = -32006,
-  kReloadStorageError = -32005,
   // Sync configuration changed error
   kInvalidSyncCollectionMode = -32004,
   kInvalidSyncBuildVersion = -32003,

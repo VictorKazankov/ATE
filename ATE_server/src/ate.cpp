@@ -215,11 +215,6 @@ adapter::DBManagerError ATE::ChangeSyncMode(const std::string& collection_mode) 
   return storage_.ChangeCollectionMode(collection_mode);
 }
 
-std::error_code ATE::ReloadStorageItems() noexcept {
-  /* no-op */
-  return {};
-}
-
 std::error_code ATE::GetScreenshot(const std::string& path, const std::string& filename) {
   return matcher_.GetScreenshot(path, filename);
 }
