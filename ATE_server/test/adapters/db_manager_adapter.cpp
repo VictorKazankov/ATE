@@ -38,6 +38,7 @@ class MockDBManager : public IconDataMapper {
   MOCK_METHOD1(Get, Icon(const IconIdentity&));
   MOCK_METHOD1(Insert, void(const Icon&));
   MOCK_METHOD1(Delete, void(const IconIdentity&));
+  MOCK_METHOD1(BulkDelete, void(const IconWildcard&));
   MOCK_METHOD2(Update, void(const IconIdentity&, const Icon&));
   MOCK_METHOD1(Match, std::unique_ptr<MatchResults>(const IconWildcard&));
 };
