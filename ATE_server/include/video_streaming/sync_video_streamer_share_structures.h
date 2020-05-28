@@ -29,6 +29,10 @@ struct SyncStream {
   unsigned int fps;
   unsigned int stride;
   unsigned int vstride;
+  unsigned int size_image;
+  unsigned int pixel_format;
+  unsigned int data_ready;
+  unsigned int reserved[63];
   int vhat_own;
   SyncBuffer buf[kV4L2BuffersNum];
   int capture_queue[kSyncVideoQSize];
@@ -43,7 +47,7 @@ struct SyncStream {
   int sp_output_queue[kSyncVideoQSize];
   int sp_capture_q_out;
   int sp_output_q_in;
-  std::atomic<int> vhat_frame_req;
+  bool vhat_frame_req;
 };
 
 struct SyncVideoContext {

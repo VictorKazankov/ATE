@@ -13,7 +13,6 @@ using namespace streamer;
 
 namespace {
 constexpr auto kOwnerReadAndWrite = S_IRGRP | S_IWGRP;
-const struct timespec k10SecondsTimeout { 10, 0 };
 
 inline unsigned int ByteToPixel(unsigned int bytes) { return bytes / 4; }
 }  // namespace
@@ -99,7 +98,7 @@ bool SyncVideoStreamer::InitSyncVideo() {
   }
   logger::info("[SyncVideoStreamer] Shared memory semaphore initialization was successful");
 
-  sync_video_context_.sync_video_stream->vhat_frame_req.store(0);
+  sync_video_context_.sync_video_stream->vhat_frame_req = false;
 
   logger::info("[SyncVideoStreamer] Initialization was successful");
   sync_video_inited_ = true;
@@ -163,9 +162,16 @@ bool SyncVideoStreamer::GetFrameFromSyncVideo(FrameBufferPtr* frame) {
   }
 
   sync_video::SyncStream* sync_video_stream = sync_video_context_.sync_video_stream;
-  sync_video_stream->vhat_frame_req.store(1);
+  sync_video_stream->vhat_frame_req = true;
 
-  if (sem_timedwait(sync_video_context_.lock_frame_request, &k10SecondsTimeout)) {
+  struct timespec ten_seconds_timeout;
+  if (clock_gettime(CLOCK_REALTIME, &ten_seconds_timeout) == -1) {
+    logger::error("[SyncVideoStreamer] Unable to get current time");
+    return false;
+  }
+  ten_seconds_timeout.tv_sec += 10;
+
+  if (sem_timedwait(sync_video_context_.lock_frame_request, &ten_seconds_timeout)) {
     if (errno != ETIMEDOUT) {
       PrintErrorMsgWithErrno("Semaphore waiting error");
       return false;
