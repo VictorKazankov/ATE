@@ -26,21 +26,21 @@ class IMessageAdapter {
 /**
  * @class AteMessageAdapter
  * @brief Deserialize of messages with json rpc 2.0 representation and calls handler methods of ATE accordance with
- *  method type
+ *        method type
  **/
 class AteMessageAdapter : public IMessageAdapter {
  public:
   /**
    * @brief Default constructor
-   * @param ate reference to instance of ATE
+   * @param ate Reference to instance of ATE
    */
   explicit AteMessageAdapter(ATE& ate);
 
   /**
    * @brief Receive string message requests in json rpc 2.0 representation parse
-   * message and calls handler accordance with method type
-   * @param message string request with json rpc 2.0 representation
-   * @return response accordance with handler in json rpc 2.0
+   *        message and calls handler accordance with method type
+   * @param message String request with json rpc 2.0 representation
+   * @return Response accordance with handler in json rpc 2.0
    */
   std::string OnMessage(const std::string& message) override;
 
@@ -51,97 +51,105 @@ class AteMessageAdapter : public IMessageAdapter {
 
   /**
    * @brief Handler for WaitForObject
-   * @param params - WaitForObject params
+   * @param params WaitForObject params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleWaitForObject(const Json::Value& params);
 
   /**
    * @brief Handler for TapObject
-   * @param params - TapObject params
+   * @param params TapObject params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleTapObject(const Json::Value& params);
 
   /**
    * @brief Handler for LongPress
-   * @param params - LongPress params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @param params LongPress params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleLongPress(const Json::Value& params);
 
   /**
    * @brief Handler for TouchAndDrag
-   * @param params - TouchAndDrag params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @param params TouchAndDrag params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleTouchAndDrag(const Json::Value& params);
 
   /**
    * @brief Handler for PressAndHold
-   * @param params - PressAndHold params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @param params PressAndHold params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandlePressAndHold(const Json::Value& params);
 
   /**
    * @brief Handler for PressRelease
-   * @param params - PressRelease params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @param params PressRelease params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandlePressRelease(const Json::Value& params);
 
   /**
    * @brief Handler for DisplayTypeChanged
-   * @param params - DisplayTypeChanged params
+   * @param params DisplayTypeChanged params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleDisplayTypeChanged(const Json::Value& params);
 
   /**
    * @brief Change sync version
    * @param params Params from client message
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleChangeSyncIconDB(const Json::Value& params);
 
   /**
    * @brief Handler for ChangeSyncMode
-   * @param params - ChangeSyncMode params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @param params ChangeSyncMode params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleChangeSyncMode(const Json::Value& params);
 
   /**
    * @brief Handler for ReloadIconStorage
    * @param params ReloadIconStorage params
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleReloadIconStorage(const Json::Value& params);
 
   /**
    * @brief Handler for GetScreenshot
    * @param params GetScreenshot params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleGetScreenshot(const Json::Value& params);
 
   /**
    * @brief Handler for GetText
    * @param params GetText params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleGetText(const Json::Value& params);
 
   /**
    * @brief Handler for GetObjectsDataByPattern
    * @param params GetObjectsDataByPattern params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleGetObjectsDataByPattern(const Json::Value& params);
 
@@ -156,8 +164,8 @@ class AteMessageAdapter : public IMessageAdapter {
   /**
    * @brief Handler for CaptureFrames
    * @param params CaptureFrames params
-   * @return pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleCaptureFrames(const Json::Value& params);
 
@@ -165,13 +173,15 @@ class AteMessageAdapter : public IMessageAdapter {
    * @brief Handler for FindAllImages
    * @param params FindAllImages params
    * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
-   * (for easier verification of the error)
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleFindAllImages(const Json::Value& params);
 
   /**
    * @brief Handler for unknown method
-   * @param params - params from client message
+   * @param params Params from client message
+   * @return Pair of Json structure (handle result in case of success and error results in case of failure) and bool
+   *         (for easier verification of the error)
    */
   std::pair<Json::Value, bool> HandleUnknownMethod(const Json::Value& params);
 

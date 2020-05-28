@@ -181,7 +181,7 @@ class ATE {
    * @param object_or_name Image name from database
    * @param area Area for a search. If its empty, search performs by the whole frame
    * @return List of detected objects and an empty error code in case of success, otherwise - empty list and an error
-   * code
+   *         code
    */
   std::pair<std::vector<common::Rect>, std::error_code> FindAllImages(const std::string& object_or_name,
                                                                       const common::Rect& area);
