@@ -91,7 +91,7 @@ std::pair<cv::Rect, std::error_code> Matcher::DetectImage(const std::string& obj
   }
 
   if (pattern.rows > screen_.rows || pattern.cols > screen_.cols ||
-      (!search_region.empty() && (pattern.rows > search_region.width || pattern.cols > search_region.height))) {
+      (!search_region.empty() && (pattern.rows > search_region.height || pattern.cols > search_region.width))) {
     logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
                   screen_.size);
     return {cv::Rect{}, common::make_error_code(common::AteError::kPatternInvalid)};
@@ -286,7 +286,7 @@ std::pair<std::vector<cv::Rect>, std::error_code> Matcher::DetectImages(const st
   }
 
   if (pattern.rows > screen_.rows || pattern.cols > screen_.cols ||
-      (!search_region.empty() && (pattern.rows > search_region.width || pattern.cols > search_region.height))) {
+      (!search_region.empty() && (pattern.rows > search_region.height || pattern.cols > search_region.width))) {
     logger::error("[matcher] Wrong pattern for image detection: pattern size: {}, screen size: {}", pattern.size,
                   screen_.size);
 

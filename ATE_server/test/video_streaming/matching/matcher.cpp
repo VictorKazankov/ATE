@@ -521,11 +521,11 @@ TEST_F(MatcherTest, DetectImages_SearchAreaBiggerThanImage_OutOfBoundaries) {
   EXPECT_EQ(matcher_->DetectImages("", pattern, search_area), match_result);
 }
 
-TEST_F(MatcherTest, DetectImages_SearchAreaLessThanPattern_OutOfBoundaries) {
+TEST_F(MatcherTest, DetectImages_SearchAreaLessThanPattern_PatternInvalid) {
   cv::Rect search_area(0, 0, 1, 2);
   const auto pattern = cv::imread(ATE_SERVER_TEST_DATA_PATH "/video_streaming/matching/matcher_tests_small_image.png");
   const std::pair<std::vector<cv::Rect>, std::error_code> match_result = {
-      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kOutOfBoundaries)};
+      std::vector<cv::Rect>{}, common::make_error_code(common::AteError::kPatternInvalid)};
 
   EXPECT_CALL(*streamer_, Frame(_)).Times(1).WillRepeatedly(Invoke(&MockStreamer::FrameImpl));
   EXPECT_CALL(*image_detector_, DetectAll(_, _)).Times(0);
