@@ -58,3 +58,28 @@ class TestTirePressureApp(object):
     ])
     def test_tire_pressure_app_text(self, tire_pressure_app, text):
         assert get_exist_result(text)
+
+
+class TestTripIodApp(object):
+    @jira_test("VHAT-")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.TRIP_IOD_APP_TITLE_ICON,
+        Icons.GENERAL_MAXIMIZE_APP_BUTTON,
+        Icons.TRIP_IOD_APP_TIMER_ICON,
+        Icons.TRIP_IOD_APP_BATTERY_ICON
+    ])
+    def test_trip_iod_app_images(self, tire_pressure_app, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.TRIP_IOD_APP_TITLE_TEXT, Text.TRIP_IOD_APP_TRIP_COMPUTER_1_TAB_TEXT,
+        Text.TRIP_IOD_APP_TRIP_COMPUTER_2_TAB_TEXT, Text.TRIP_IOD_APP_INACTIVE_TEXT,
+        Text.TRIP_IOD_APP_TIME_SECONDS_DEFAULT_TEXT, Text.TRIP_IOD_APP_NONE_PERCENTAGE_TEXT,
+        Text.TRIP_IOD_APP_CLIMATE_USE_TEXT, Text.TRIP_IOD_APP_ROUTE_TEXT,
+        Text.TRIP_IOD_APP_ACCESSORIES_TEXT, Text.TRIP_IOD_APP_EXT_TEMP_TEXT
+    ])
+    def test_trip_iod_app_text(self, tire_pressure_app, text):
+        assert get_exist_result(text)

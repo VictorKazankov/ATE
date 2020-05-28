@@ -24,6 +24,10 @@ class AppsPage(BasePage):
     def tire_pressure(self):
         return TirePressureAppPage()
 
+    @property
+    def trip_iod(self):
+        return TripIodAppPage()
+
     def close(self):
         if AppsPage().is_active:
             tap(Icons.MAIN_APPS_BUTTON_ACTIVE)
@@ -54,3 +58,9 @@ class TirePressureAppPage(AppPageBase):
     _load_indicators = [Text.TIRE_PRESSURE_APP_TITLE_TEXT]
     _icon_to_open = Icons.APPS_TIRE_PRESSURE_BUTTON
     _text_to_open = Text.APPS_TIRE_PRESSURE_TEXT
+
+
+class TripIodAppPage(AppPageBase):
+    _load_indicators = [Text.TRIP_IOD_APP_TITLE_TEXT]
+    _icon_to_open = Icons.APPS_TRIP_IOD_BUTTON
+    _text_to_open = Text.APPS_TRIP_IOD_TEXT

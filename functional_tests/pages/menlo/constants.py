@@ -44,6 +44,11 @@ class Icons:
     # TIRE PRESSURE APP
     TIRE_PRESSURE_APP_TITLE_ICON = 'tire_pressure_app_title_icon'
 
+    # TRIP IOD APP
+    TRIP_IOD_APP_BATTERY_ICON = 'trip_iod_app_battery_icon'
+    TRIP_IOD_APP_TIMER_ICON = 'trip_iod_app_timer_icon'
+    TRIP_IOD_APP_TITLE_ICON = 'trip_iod_app_title_icon'
+
     # SETTINGS
     SETTINGS_SOUND_BUTTON = 'settings_sound_button'
     SETTINGS_CLOCK_BUTTON = 'settings_clock_button'
@@ -83,6 +88,19 @@ class Text:
     # TIRE PRESSURE APP
     TIRE_PRESSURE_APP_TITLE_TEXT = 'Tyre pressure (psi)'
     TIRE_PRESSURE_APP_DEFAULT_VALUE_TEXT = '36'
+
+    # TRIP IOD APP
+    TRIP_IOD_APP_TITLE_TEXT = 'This trip'
+    TRIP_IOD_APP_TRIP_COMPUTER_1_TAB_TEXT = 'Trip computer 1'
+    TRIP_IOD_APP_TRIP_COMPUTER_2_TAB_TEXT = 'Trip computer 2'
+    TRIP_IOD_APP_INACTIVE_TEXT = 'Inactive'
+    TRIP_IOD_APP_TIME_SECONDS_DEFAULT_TEXT = '00:00:00 seconds'
+    TRIP_IOD_APP_WHERE_ENERGY_GOES_TEST = 'Where did my energy go?'
+    TRIP_IOD_APP_CLIMATE_USE_TEXT = 'Climate use'
+    TRIP_IOD_APP_ROUTE_TEXT = 'Route'
+    TRIP_IOD_APP_ACCESSORIES_TEXT = 'Accessories'
+    TRIP_IOD_APP_EXT_TEMP_TEXT = 'Ext. Temp.'
+    TRIP_IOD_APP_NONE_PERCENTAGE_TEXT = '--%'
 
     # CONTROLS/SETTINGS
     CONTROLS_TAB_TITLE_TEXT = 'CONTROLS'
