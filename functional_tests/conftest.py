@@ -1,6 +1,7 @@
 import logging
 
 import pytest
+
 from functional_tests import params_handler
 from functional_tests.pages import hmi
 from functional_tests.pages.sync3 import page_supervisor_sync3
@@ -8,6 +9,7 @@ from functional_tests.pages.sync4 import page_supervisor_sync4
 from functional_tests.utils import get_benchmark
 from functional_tests.utils import ssh_commands as cmd
 from functional_tests.utils import ssh_connect
+from functional_tests.utils.get_benchmark import attach_stats_file_to_allure, save_stat_to_file
 from functional_tests.utils.server_setup import EnvSetup
 
 CURRENT_SYNC_VERSION = r"sed -n -e '/Target/ s/.*\= *//p' /etc/vdp/ate_server.ini"
@@ -80,6 +82,7 @@ def app_connector(attach_to_app):
     finally:
         logging.info('Average recognition time for images: {}'.format(get_benchmark.get_image_average_time()))
         logging.info('Average recognition time for text: {}'.format(get_benchmark.get_text_average_time()))
+        attach_stats_file_to_allure(save_stat_to_file())
 
 
 @pytest.fixture(scope='module')
