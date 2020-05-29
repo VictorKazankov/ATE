@@ -229,11 +229,10 @@ TEST(JsonRpcParserTest, ParseGetText_ResponseWithError_RuntimeError) {
   EXPECT_THROW(interaction::JsonRpcParser::ParseGetText(response), std::runtime_error);
 }
 
-TEST(JsonRpcParserTest, ParseGetObjectsDataByPattern_ResponseWithInvalidParam_ObjectListEmpty) {
+TEST(JsonRpcParserTest, ParseGetObjectsDataByPattern_ResponseWithInvalidParam_RuntimeError) {
   const std::string response{
       R"({"id":10,"jsonrpc":"2.0","result":{"x":"invalid_param", "y":10,"width":20,"height":30}})"};
-  auto objects_list = interaction::JsonRpcParser::ParseGetObjectsDataByPattern(response);
-  EXPECT_TRUE(objects_list.empty());
+  EXPECT_THROW(interaction::JsonRpcParser::ParseGetObjectsDataByPattern(response), std::runtime_error);
 }
 
 TEST(JsonRpcParserTest, ParseCaptureFrames_ResponseWithInvalidParam_RuntimeError) {
@@ -261,10 +260,9 @@ TEST(JsonRpcParserTest, ParseFindAllImages_TwoObjects_ObjectListWithTwoItems) {
   EXPECT_EQ(objects_list.size(), kTwoObjects);
 }
 
-TEST(JsonRpcParserTest, ParseFindAllImages_InvalidParam_ObjectListEmpty) {
+TEST(JsonRpcParserTest, ParseFindAllImages_InvalidParam_RuntimeError) {
   const std::string response{
       R"({"id":10,"jsonrpc":"2.0","result":{"x":"invalid_param", "y":10,"width":20,"height":30}})"};
-  auto objects_list = interaction::JsonRpcParser::ParseFindAllImages(response);
-  EXPECT_TRUE(objects_list.empty());
+  EXPECT_THROW(interaction::JsonRpcParser::ParseFindAllImages(response), std::runtime_error);
 }
 }  // namespace

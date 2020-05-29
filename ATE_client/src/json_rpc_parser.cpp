@@ -14,7 +14,7 @@ namespace {
  * @brief The function parse JSON node and make a try to convert it to squish::Object
  * @param node Json value with an object
  * @return Filled squish::object if successfully, otherwise - empty squish::object
- * @throw Json::LogicError In case of issues with JSON node parsing
+ * @throw std::runtime_error In case of issue with mandatory fields of with JSON node parsing
  */
 squish::Object ExtractSquishObject(const Json::Value& node) {
   squish::Object object;
@@ -23,7 +23,7 @@ squish::Object ExtractSquishObject(const Json::Value& node) {
     if (!node.isMember(common::jmsg::kAbscissa) || !node.isMember(common::jmsg::kOrdinate) ||
         !node.isMember(common::jmsg::kWidth) || !node.isMember(common::jmsg::kHeight)) {
       logger::error("Invalid structure of object data in the node. Mandatory fields is incorrect.");
-      return object;
+      throw std::runtime_error("Missing mandatory field in the response from the server.");
     }
 
     // Extracting mandatory fields
@@ -31,6 +31,10 @@ squish::Object ExtractSquishObject(const Json::Value& node) {
     object.y = node[common::jmsg::kOrdinate].asInt();
     object.width = node[common::jmsg::kWidth].asInt();
     object.height = node[common::jmsg::kHeight].asInt();
+
+    if (object.width == 0 || object.height == 0) {
+      logger::warn("[json msg parser] Squish object has either width or height equal to zero");
+    }
 
     // Extracting optional fields
     if (node.isMember(common::jmsg::kXTopLeft) && node[common::jmsg::kXTopLeft].isInt()) {
@@ -69,6 +73,8 @@ squish::Object ExtractSquishObject(const Json::Value& node) {
 
   } catch (const Json::LogicError& err) {
     logger::error("Argument error: wrong type of response {}", err.what());
+    throw std::runtime_error("Argument error: wrong type of response " + std::string(err.what()));
+  } catch (const std::runtime_error& err) {
     throw err;
   }
 
@@ -211,13 +217,7 @@ std::vector<squish::Object> JsonRpcParser::ParseGetObjectsDataByPattern(const st
 
   auto& result = schema[common::jmsg::kResult];
   for (const auto& node : result) {
-    try {
-      squish::Object object = ExtractSquishObject(node);
-      if (object.x != 0 && object.y != 0 && object.width != 0 && object.height != 0) {
-        objects_list.push_back(std::move(object));
-      }
-    } catch (...) {
-    }
+    objects_list.push_back(ExtractSquishObject(node));
   }
 
   return objects_list;
@@ -290,12 +290,9 @@ std::vector<squish::Object> JsonRpcParser::ParseFindAllImages(const std::string&
 
   auto& result = schema[common::jmsg::kResult];
   for (const auto& node : result) {
-    try {
-      squish::Object object = ExtractSquishObject(node);
-      if (object.x != -1 && object.y != -1 && object.width != -1 && object.height != -1) {
-        objects_list.push_back(std::move(object));
-      }
-    } catch (...) {
+    squish::Object object = ExtractSquishObject(node);
+    if (object.width > 0 && object.height > 0) {
+      objects_list.push_back(std::move(object));
     }
   }
 

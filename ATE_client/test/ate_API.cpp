@@ -112,14 +112,13 @@ TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObjectReceiveVaildResponse_
   }
 }
 
-TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObject_ReceiveResponseWithInvalidResult) {
+TEST_F(AteApiTest, GetObjectsDataByPattern_PassSquishObject_RuntimeError) {
   std::string invalid_response(R"({"id":1,"jsonrpc":"2.0","result":[{"height":10,"width":10,"y":1}]})");
   EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(invalid_response));
 
   squish::Wildcard valid_object("object_name");
 
-  std::vector<squish::Object> objects = api_.GetObjectsDataByPattern(mock_, 1, valid_object);
-  EXPECT_TRUE(objects.empty());
+  EXPECT_THROW(api_.GetObjectsDataByPattern(mock_, 1, valid_object), std::runtime_error);
 }
 
 TEST_F(AteApiTest, GetImagesDiscrepancy_ValidResponse_ExpectedResult) {

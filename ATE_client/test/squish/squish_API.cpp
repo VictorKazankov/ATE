@@ -236,10 +236,7 @@ TEST_F(SquishApiTest, LongPress_ValidParams_SendCommandCallOnce) {
 }
 
 TEST_F(SquishApiTest, Exists_ValidResponce_ExpectTrue) {
-  std::string response =
-      R"({\"id\":0,\"jsonrpc\":\"2.0\",\"method\":\"WaitForObject\",
-          \"params\":{\"name\":\"test_name\",\"timeout_msec_\":1}})";
-  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(response));
+  EXPECT_CALL(*mock_, SendCommand(_)).WillOnce(Return(wfo_response));
 
   EXPECT_TRUE(api_.Exists(mock_, correlation_id_, kObjName, top_left_, bottom_right_));
 }
