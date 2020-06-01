@@ -2,7 +2,7 @@ import pytest
 
 from functional_tests.pages.menlo.constants import Text, Icons
 from functional_tests.tests.helpers import get_exist_result
-from functional_tests.utils.report import jira_test
+from functional_tests.utils.report import jira_test, jira_issue
 
 pytestmark = [pytest.mark.recognition_menlo,
               pytest.mark.regression_menlo]
@@ -61,7 +61,7 @@ class TestTirePressureApp(object):
 
 
 class TestTripIodApp(object):
-    @jira_test("VHAT-")
+    @jira_test("VHAT-2107")
     @pytest.mark.image_recognition_menlo
     @pytest.mark.parametrize('icon', [
         Icons.TRIP_IOD_APP_TITLE_ICON,
@@ -69,10 +69,15 @@ class TestTripIodApp(object):
         Icons.TRIP_IOD_APP_TIMER_ICON,
         Icons.TRIP_IOD_APP_BATTERY_ICON
     ])
-    def test_trip_iod_app_images(self, tire_pressure_app, icon):
+    def test_trip_iod_app_images(self, trip_iod_menlo, icon):
         assert get_exist_result(icon)
 
-    @jira_test("VHAT-")
+    @jira_issue("VHAT-2106", test_data=[
+        Text.TRIP_IOD_APP_TRIP_COMPUTER_1_TAB_TEXT,
+        Text.TRIP_IOD_APP_INACTIVE_TEXT,
+        Text.TRIP_IOD_APP_TIME_SECONDS_DEFAULT_TEXT
+    ])
+    @jira_test("VHAT-2108")
     @pytest.mark.text_recognition_menlo
     @pytest.mark.parametrize('text', [
         Text.TRIP_IOD_APP_TITLE_TEXT, Text.TRIP_IOD_APP_TRIP_COMPUTER_1_TAB_TEXT,
@@ -81,5 +86,5 @@ class TestTripIodApp(object):
         Text.TRIP_IOD_APP_CLIMATE_USE_TEXT, Text.TRIP_IOD_APP_ROUTE_TEXT,
         Text.TRIP_IOD_APP_ACCESSORIES_TEXT, Text.TRIP_IOD_APP_EXT_TEMP_TEXT
     ])
-    def test_trip_iod_app_text(self, tire_pressure_app, text):
+    def test_trip_iod_app_text(self, trip_iod_menlo, text):
         assert get_exist_result(text)
