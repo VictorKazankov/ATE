@@ -24,4 +24,9 @@ test $? -eq 0 && echo "Ok" || echo "error: failed to set permissions of @ATE_WRI
 if [ "@ATE_INSTALL_SERVER_SERVICE@" = "ON" ]; then
     systemctl enable vdp_ate_server
     systemctl start vdp_ate_server
+    test $? -eq 0 || echo "warning: systemctl start vdp_ate_server returned $?. See \"systemctl status vdp_ate_server\" and " \
+                          "\"journalctl -xe -u vdp_ate_server\" for details. You may require to run vdp_ate_server service manually."
 fi
+
+# Ignore last command exit code
+exit 0
