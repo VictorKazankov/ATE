@@ -59,17 +59,25 @@ def get_top_left_bottom_right_from_object(object):
 
     x_top_left, y_top_left, x_bottom_right, y_bottom_right = extract_object_coordinates(object)
     expand_size = 10
+    min_expand_size = 2
     expand_top, expand_left = get_possible_expand_status(x_top_left, y_top_left, expand_size)
 
     if expand_top and expand_left:
         y_top_left -= expand_size
         x_top_left -= expand_size
+        # Be careful in the future, this hack avoids the restrictions associated with inaccurate coordinates after the search
+        x_bottom_right += expand_size
+        y_bottom_right += min_expand_size
     elif expand_top and not expand_left:
         y_top_left -= expand_size
         x_bottom_right += expand_size
+        # Be careful in the future, this hack avoids the restrictions associated with inaccurate coordinates after the search
+        y_bottom_right += min_expand_size
     elif not expand_top and expand_left:
         y_bottom_right += expand_size
         x_top_left -= expand_size
+        # Be careful in the future, this hack avoids the restrictions associated with inaccurate coordinates after the search
+        x_bottom_right += expand_size
     elif not expand_top and not expand_left:
         y_bottom_right += expand_size
         x_bottom_right += expand_size
