@@ -28,6 +28,10 @@ class AppsPage(BasePage):
     def trip_iod(self):
         return TripIodAppPage()
 
+    @property
+    def radio(self):
+        return RadioAppPage()
+
     def close(self):
         if AppsPage().is_active:
             tap(Icons.MAIN_APPS_BUTTON_ACTIVE)
@@ -64,3 +68,9 @@ class TripIodAppPage(AppPageBase):
     _load_indicators = [Text.TRIP_IOD_APP_TITLE_TEXT]
     _icon_to_open = Icons.APPS_TRIP_IOD_BUTTON
     _text_to_open = Text.APPS_TRIP_IOD_TEXT
+
+
+class RadioAppPage(AppPageBase):
+    _load_indicators = [Text.RADIO_PRESET_TEXT]
+    _icon_to_open = Icons.APPS_RADIO_BUTTON
+    _text_to_open = Text.APPS_RADIO_TEXT

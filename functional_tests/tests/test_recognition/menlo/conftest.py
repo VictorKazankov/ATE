@@ -31,6 +31,11 @@ def trip_iod_menlo(menlo):
     menlo.apps.trip_iod.open()
 
 
+@pytest.fixture(scope='class')
+def radio_app(menlo):
+    menlo.apps.radio.open()
+
+
 @pytest.fixture(scope='module')
 def settings_menlo(menlo):
     page = menlo.settings

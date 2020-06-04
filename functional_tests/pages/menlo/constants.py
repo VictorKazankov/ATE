@@ -49,6 +49,17 @@ class Icons:
     TRIP_IOD_APP_TIMER_ICON = 'trip_iod_app_timer_icon'
     TRIP_IOD_APP_TITLE_ICON = 'trip_iod_app_title_icon'
 
+    # RADIO APP
+    RADIO_AM_SOURCE_BUTTON = 'radio_am_source_button'
+    RADIO_FM_SOURCE_BUTTON = 'radio_fm_source_button'
+    RADIO_SIRIUSXM_SOURCE_BUTTON = 'radio_siriusxm_source_button'
+    RADIO_MANUAL_TUNE_BUTTON = 'radio_manual_tune_button'
+    RADIO_SEEK_LEFT_BUTTON = 'radio_seek_left_button'
+    RADIO_SEEK_RIGHT_BUTTON = 'radio_seek_right_button'
+    RADIO_SETTINGS_BUTTON = 'radio_settings_button'
+    RADIO_MINUS_BUTTON = 'radio_minus_button'
+    RADIO_PLUS_BUTTON = 'radio_plus_button'
+
     # SETTINGS
     SETTINGS_SOUND_BUTTON = 'settings_sound_button'
     SETTINGS_CLOCK_BUTTON = 'settings_clock_button'
@@ -104,6 +115,12 @@ class Text:
     TRIP_IOD_APP_ACCESSORIES_TEXT = 'Accessories'
     TRIP_IOD_APP_EXT_TEMP_TEXT = 'Ext. Temp.'
     TRIP_IOD_APP_NONE_PERCENTAGE_TEXT = '--%'
+
+    # RADIO APP
+    RADIO_PRESET_TEXT = 'Preset'
+    RADIO_AM_TEXT = 'AM'
+    RADIO_FM_TEXT = 'FM'
+    RADIO_SIRIUSXM_TEXT = 'SiriusXM'
 
     # CONTROLS/SETTINGS
     CONTROLS_TAB_TITLE_TEXT = 'CONTROLS'

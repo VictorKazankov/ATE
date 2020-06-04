@@ -88,3 +88,34 @@ class TestTripIodApp(object):
     ])
     def test_trip_iod_app_text(self, trip_iod_menlo, text):
         assert get_exist_result(text)
+
+
+class TestRadioApp(object):
+    @jira_test("VHAT-2129")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.RADIO_AM_SOURCE_BUTTON,
+        Icons.RADIO_FM_SOURCE_BUTTON,
+        Icons.RADIO_SIRIUSXM_SOURCE_BUTTON,
+        Icons.RADIO_SEEK_LEFT_BUTTON,
+        Icons.RADIO_MINUS_BUTTON,
+        Icons.RADIO_MANUAL_TUNE_BUTTON,
+        Icons.RADIO_PLUS_BUTTON,
+        Icons.RADIO_SEEK_RIGHT_BUTTON,
+        Icons.RADIO_SETTINGS_BUTTON,
+        Icons.GENERAL_MAXIMIZE_APP_BUTTON
+    ])
+    def test_radio_app_images(self, radio_app, icon):
+        assert get_exist_result(icon)
+
+    @jira_issue("VHAT-2130", test_data=[Text.RADIO_AM_TEXT, Text.RADIO_FM_TEXT, Text.RADIO_SIRIUSXM_TEXT])
+    @jira_test("VHAT-2128")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.RADIO_AM_TEXT,
+        Text.RADIO_FM_TEXT,
+        Text.RADIO_SIRIUSXM_TEXT,
+        Text.RADIO_PRESET_TEXT
+    ])
+    def test_radio_app_text(self, radio_app, text):
+        assert get_exist_result(text)
