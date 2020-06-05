@@ -60,6 +60,23 @@ class Icons:
     RADIO_MINUS_BUTTON = 'radio_minus_button'
     RADIO_PLUS_BUTTON = 'radio_plus_button'
 
+    # CONTROLS
+    CONTROLS_ACCESS_BUTTON_ACTIVE = 'controls_access_button_active'
+    CONTROLS_ACCESS_BUTTON_INACTIVE = 'controls_access_button_inactive'
+    CONTROLS_VALET_MODE_BUTTON_ACTIVE = 'controls_valet_mode_button_active'
+    CONTROLS_VALET_MODE_BUTTON_INACTIVE = 'controls_valet_mode_inactive'
+    CONTROLS_VALET_MODE_ERASE_BUTTON_ACTIVE = 'controls_valet_mode_erase_button_active'
+    CONTROLS_VALET_MODE_0_BUTTON = 'controls_valet_mode_0_button'
+    CONTROLS_VALET_MODE_1_BUTTON = 'controls_valet_mode_1_button'
+    CONTROLS_VALET_MODE_2_BUTTON = 'controls_valet_mode_2_button'
+    CONTROLS_VALET_MODE_3_BUTTON = 'controls_valet_mode_3_button'
+    CONTROLS_VALET_MODE_4_BUTTON = 'controls_valet_mode_4_button'
+    CONTROLS_VALET_MODE_5_BUTTON = 'controls_valet_mode_5_button'
+    CONTROLS_VALET_MODE_6_BUTTON = 'controls_valet_mode_6_button'
+    CONTROLS_VALET_MODE_7_BUTTON = 'controls_valet_mode_7_button'
+    CONTROLS_VALET_MODE_8_BUTTON = 'controls_valet_mode_8_button'
+    CONTROLS_VALET_MODE_9_BUTTON = 'controls_valet_mode_9_button'
+
     # SEATBELT APP
     SEATBELT_APP_TITLE = 'seatbelt_app_header'
     SEATBELT_APP_BELT_UNKNOWN = 'seatbelt_app_belt_unknown'
@@ -183,6 +200,15 @@ class Text:
     CONTROLS_TAB_TITLE_TEXT = 'CONTROLS'
     SETTINGS_TAB_TITLE_TEXT = 'SETTINGS'
 
+    # CONTROLS
+    CONTROLS_ACCESS_BUTTON_TEXT = 'Access'
+    CONTROLS_VALET_MODE_BUTTON_TEXT = 'Valet Mode'
+
+    # CONTROLS VALET MODE
+    CONTROLS_VALET_MODE_TITLE_TEXT = 'VALET MODE'
+    CONTROLS_VALET_MODE_INFO_MESSAGE_TEXT = 'Enabling Valet Mode will lock the system using a 4-digit PIN selected by'
+    CONTROLS_VALET_MODE_ENTER_PIN_TEXT = 'Enter a 4-digit PIN'
+
     # SETTINGS
     SETTINGS_SOUND_BUTTON_TEXT = 'Sound'
     SETTINGS_CLOCK_BUTTON_TEXT = 'Clock'
@@ -300,7 +326,7 @@ class Text:
     SETTINGS_VEHICLE_HOTSPOT_TITLE_TEXT = "VEHICLE HOTSPOT"
     SETTINGS_VEHICLE_HOTSPOT_TEXT = "Vehicle Hotspot isn't available right now. Please try"
 
-    #SETTINGS PERSONAL PROFILES
+    # SETTINGS PERSONAL PROFILES
     SETTINGS_PERSONAL_PROFILES_TITLE_TEXT = 'PERSONAL PROFILES'
     SETTINGS_PERSONAL_PROFILES_NAME_PROFILE_TEXT = 'Name Profile'
     SETTINGS_PERSONAL_PROFILES_LINK_MEMORY_TEXT = 'Link Memory'
@@ -310,6 +336,6 @@ class Text:
     SETTINGS_PERSONAL_PROFILES_TEXT = 'By creating a personal profile, settings such as Clock,'
     SETTINGS_PERSONAL_PROFILES_CREATE_PROFILE_BUTTON_TEXT = 'Create Profile'
 
-    #SETTINGS AMBIENT LIGHT
+    # SETTINGS AMBIENT LIGHT
     SETTINGS_AMBIENT_LIGHT_TITLE_TEXT = 'AMBIENT LIGHT'
     SETTINGS_AMBIENT_LIGHT_RESET_BUTTON = 'Reset'

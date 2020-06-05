@@ -52,6 +52,18 @@ def owners_manual_app(menlo):
 
 
 @pytest.fixture(scope='module')
+def controls_menlo(menlo):
+    page = menlo.controls
+    yield page.open()
+    page.close()
+
+
+@pytest.fixture(scope='class')
+def controls_valet_mode_menlo(controls_menlo):
+    yield controls_menlo.valet_mode.open()
+
+
+@pytest.fixture(scope='module')
 def settings_menlo(menlo):
     page = menlo.settings
     yield page.open()

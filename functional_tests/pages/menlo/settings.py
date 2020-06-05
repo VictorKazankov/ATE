@@ -22,6 +22,77 @@ class ControlsSettingsPage(BasePage):
             logging.info('Close Controls/Settings page')
         return self
 
+    @staticmethod
+    def _swipe_down_to(name):
+        element = wait_for_object(name)
+        touch_and_drag(element, element.x, element.y, 0, -element.y)
+
+    def swipe_down_using_elements(self, targets, swipe_down_elements):
+        if not swipe_down_elements:
+            raise RuntimeError('swipe down elements not specified')
+
+        def target_exists():
+            return any(obj_exists(target) for target in targets)
+
+        if target_exists():
+            return self
+        for element in swipe_down_elements:
+            self._swipe_down_to(element)
+            if target_exists():
+                return self
+        raise SwipeError('Unable to swipe to any of {}'.format(targets))
+
+
+class ControlsSettingsItemPageBase(ControlsSettingsPage):
+    @property
+    def _icon_to_open(self):
+        raise NotImplementedError('{} icon to open is not assigned'.format(self.__class__.__name__))
+
+    @property
+    def _text_to_open(self):
+        raise NotImplementedError('{} text to open is not assigned'.format(self.__class__.__name__))
+
+    def open_using_base(self, base):
+        if not self.is_active:
+            if not tap_first_if_visible_else_second(self._icon_to_open, self._text_to_open):
+                base.open().swipe_down_until_exists([self._icon_to_open, self._text_to_open])
+                tap_first_if_visible_else_second(self._icon_to_open, self._text_to_open)
+            self.wait_for_page_to_load()
+        logging.info('Open {}'.format(self.__class__.__name__))
+        return self
+
+
+class ControlsPage(ControlsSettingsPage):
+    _load_indicators = [Icons.CONTROLS_VALET_MODE_BUTTON_INACTIVE, Text.CONTROLS_ACCESS_BUTTON_TEXT]
+
+    def open(self):
+        if not self.is_active:
+            ControlsSettingsPage().open()
+            tap(Text.SETTINGS_TAB_TITLE_TEXT)
+            tap(Text.CONTROLS_TAB_TITLE_TEXT)
+            self.wait_for_page_to_load()
+        logging.info('Open Controls tab page')
+        return self
+
+    @property
+    def valet_mode(self):
+        return ValetModePage()
+
+    def swipe_down_until_exists(self, targets):
+        raise RuntimeError('Swipe for Controls tab is not expected due to current build elements amount')
+
+
+class ControlsItemPageBase(ControlsSettingsItemPageBase, ControlsPage):
+    def open(self):
+        self.open_using_base(ControlsPage())
+        return self
+
+
+class ValetModePage(ControlsItemPageBase):
+    _load_indicators = [Text.CONTROLS_VALET_MODE_TITLE_TEXT]
+    _text_to_open = Text.CONTROLS_VALET_MODE_BUTTON_TEXT
+    _icon_to_open = Icons.CONTROLS_VALET_MODE_BUTTON_INACTIVE
+
 
 class SettingsPage(ControlsSettingsPage):
     _load_indicators = [Icons.SETTINGS_VEHICLE_BUTTON, Text.SETTINGS_SOUND_BUTTON_TEXT]
@@ -97,17 +168,8 @@ class SettingsPage(ControlsSettingsPage):
         touch_and_drag(element, element.x, element.y, 0, -element.y)
 
     def swipe_down_until_exists(self, targets):
-        def target_exists():
-            return any(obj_exists(target) for target in targets)
-
-        swipe_down_elements = [Text.SETTINGS_CONNECTIVITY_BUTTON_TEXT, Text.SETTINGS_DISPLAY_BUTTON_TEXT]
-        if target_exists():
-            return self
-        for element in swipe_down_elements:
-            self._swipe_down_to(element)
-            if target_exists():
-                return self
-        raise SwipeError('Unable to swipe to any of {}'.format(targets))
+        self.swipe_down_using_elements(targets,
+                                       [Text.SETTINGS_CONNECTIVITY_BUTTON_TEXT, Text.SETTINGS_DISPLAY_BUTTON_TEXT])
 
 
 class SettingsClockPage(SettingsPage):
@@ -123,22 +185,9 @@ class SettingsClockPage(SettingsPage):
         return self
 
 
-class SettingsItemPageBase(SettingsPage):
-    @property
-    def _icon_to_open(self):
-        raise NotImplementedError('{} icon to open is not assigned'.format(self.__class__.__name__))
-
-    @property
-    def _text_to_open(self):
-        raise NotImplementedError('{} text to open is not assigned'.format(self.__class__.__name__))
-
+class SettingsItemPageBase(ControlsSettingsItemPageBase, SettingsPage):
     def open(self):
-        if not self.is_active:
-            if not tap_first_if_visible_else_second(self._icon_to_open, self._text_to_open):
-                SettingsPage().open().swipe_down_until_exists([self._icon_to_open, self._text_to_open])
-                tap_first_if_visible_else_second(self._icon_to_open, self._text_to_open)
-            self.wait_for_page_to_load()
-        logging.info('Open {}'.format(self.__class__.__name__))
+        self.open_using_base(SettingsPage())
         return self
 
 

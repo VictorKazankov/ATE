@@ -8,6 +8,52 @@ pytestmark = [pytest.mark.recognition_menlo,
               pytest.mark.regression_menlo]
 
 
+class TestControls(object):
+    @jira_test("VHAT-2149")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.CONTROLS_ACCESS_BUTTON_ACTIVE,
+        Icons.CONTROLS_VALET_MODE_BUTTON_INACTIVE
+    ])
+    def test_controls_images(self, controls_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2150")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.CONTROLS_ACCESS_BUTTON_TEXT,
+        Text.CONTROLS_VALET_MODE_BUTTON_TEXT
+    ])
+    def test_controls_text(self, controls_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestControlsValetMode(object):
+    @jira_test("VHAT-2151")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.CONTROLS_VALET_MODE_BUTTON_ACTIVE, Icons.CONTROLS_VALET_MODE_1_BUTTON,
+        Icons.CONTROLS_VALET_MODE_2_BUTTON, Icons.CONTROLS_VALET_MODE_3_BUTTON,
+        Icons.CONTROLS_VALET_MODE_4_BUTTON, Icons.CONTROLS_VALET_MODE_5_BUTTON,
+        Icons.CONTROLS_VALET_MODE_6_BUTTON, Icons.CONTROLS_VALET_MODE_7_BUTTON,
+        Icons.CONTROLS_VALET_MODE_8_BUTTON, Icons.CONTROLS_VALET_MODE_9_BUTTON,
+        Icons.CONTROLS_VALET_MODE_0_BUTTON
+
+    ])
+    def test_controls_valet_mode_images(self, controls_valet_mode_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2152")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.CONTROLS_VALET_MODE_TITLE_TEXT,
+        Text.CONTROLS_VALET_MODE_INFO_MESSAGE_TEXT,
+        Text.CONTROLS_VALET_MODE_ENTER_PIN_TEXT
+    ])
+    def test_controls_valet_mode_text(self, controls_valet_mode_menlo, text):
+        assert get_exist_result(text)
+
+
 class TestSettingsFirstPart(object):
     @jira_test("VHAT-2068")
     @pytest.mark.image_recognition_menlo
