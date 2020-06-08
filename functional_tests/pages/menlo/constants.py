@@ -71,6 +71,10 @@ class Icons:
     SETTINGS_GENERAL_BUTTON = 'settings_general_button'
     SETTINGS_SYSTEM_UPDATES_BUTTON = 'settings_system_updates_button'
     SETTINGS_DISPLAY_BUTTON = 'settings_display_button'
+    SETTINGS_CHARGE_BUTTON = 'settings_charge_button'
+    SETTINGS_VEHICLE_HOTSPOT_BUTTON = 'settings_charge_button'
+    SETTINGS_PERSONAL_PROFILES_BUTTON = 'settings_personal_profiles_button'
+    SETTINGS_AMBIENT_LIGHT_BUTTON = 'settings_ambient_light_button'
 
     # SETTINGS CLOCK
     SETTINGS_CLOCK_AM_BUTTON_ACTIVE = 'settings_clock_am_button_active'
@@ -78,6 +82,22 @@ class Icons:
 
     # SETTINGS PHONE LIST
     SETTINGS_PHONE_LIST_ADD_PHONE_BUTTON = 'settings_phone_list_add_phone_button'
+
+    # SETTINGS CHARGE
+    SETTINGS_CHARGE_PERCENTE_ICON = 'settings_charge_percent_icon'
+
+    # SETTINGS VEHICLE HOTSPOT
+    SETTINGS_VEHICLE_HOTSPOT_SIGNAL_STRENGTH_ICON = 'settings_vehicle_hotspot_signal_strength_icon'
+
+    # SETTINGS PERSONAL PROFILES
+    SETTINGS_PERSONAL_PROFILES_NAME_PROFILE_ICON = 'settings_personal_profiles_name_profile_icon'
+    SETTINGS_PERSONAL_PROFILES_LINK_MEMORY_ICON = 'settings_personal_profiles_link_memory_icon'
+    SETTINGS_PERSONAL_PROFILES_ADD_PHOTO_ICON = 'settings_personal_profiles_add_photo_icon'
+    SETTINGS_PERSONAL_PROFILES_LINK_KEY_FOB_ICON = 'settings_personal_profiles_link_key_fob_icon'
+    SETTINGS_PERSONAL_PROFILES_LINK_PHONE_ICON = 'settings_personal_profiles_link_phone_icon'
+
+    # SETTINGS AMBIENT LIGHT
+    SETTINGS_AMBIENT_LIGHT_SLIDER_ICON = 'settings_ambient_light_slider_icon'
 
 
 class Text:
@@ -138,6 +158,10 @@ class Text:
     SETTINGS_SYSTEM_UPDATES_BUTTON_TEXT = 'System'
     SETTINGS_MOBILE_APPS_BUTTON_TEXT = 'Mobile Apps'
     SETTINGS_DISPLAY_BUTTON_TEXT = 'Display'
+    SETTINGS_CHARGE_BUTTON_TEXT = 'Charge'
+    SETTINGS_VEHICLE_HOTSPOT_BUTTON_TEXT = 'Hotspot'
+    SETTINGS_PERSONAL_PROFILES_BUTTON_TEXT = 'Personal'
+    SETTINGS_AMBIENT_LIGHT_BUTTON_TEXT = 'Ambient'
 
     # SETTINGS SOUND
     SETTINGS_SOUND_TITLE_TEXT = 'SOUND'
@@ -227,3 +251,28 @@ class Text:
     SETTINGS_DISPLAY_MODE_CLUSTER_STATE_AUTO = 'Auto'
     SETTINGS_DISPLAY_MODE_CENTER_STACK = 'Mode - Center Stack:'
     SETTINGS_DISPLAY_MODE_CENTER_STACK_STATE_DAY = 'Day'
+
+    # SETTINGS CHARGE
+    SETTINGS_CHARGE_TITLE_TEXT = 'CHARGE'
+    SETTINGS_CHARGE_STATUS_TEXT = 'STATUS'
+    SETTINGS_CHARGE_PREFERENCES_TEXT = 'PREFERENCES'
+    SETTINGS_CHARGE_CHARGE_SCHEDULING_TEXT = 'Charge scheduling'
+    SETTINGS_CHARGE_DEPARTURE_AND_COMFORT_TEXT = 'Departure and comfort'
+
+    # SETTINGS VEHICLE HOTSPOT
+    SETTINGS_VEHICLE_HOTSPOT_TITLE_TEXT = "VEHICLE HOTSPOT"
+    SETTINGS_VEHICLE_HOTSPOT_TEXT = "Vehicle Hotspot isn't available right now. Please try"
+
+    #SETTINGS PERSONAL PROFILES
+    SETTINGS_PERSONAL_PROFILES_TITLE_TEXT = 'PERSONAL PROFILES'
+    SETTINGS_PERSONAL_PROFILES_NAME_PROFILE_TEXT = 'Name Profile'
+    SETTINGS_PERSONAL_PROFILES_LINK_MEMORY_TEXT = 'Link Memory'
+    SETTINGS_PERSONAL_PROFILES_ADD_PHOTO_TEXT = 'Add Photo'
+    SETTINGS_PERSONAL_PROFILES_LINK_KEY_FOB_TEXT = 'Link Key Fob'
+    SETTINGS_PERSONAL_PROFILES_LINK_PHONE_TEXT = 'Link Phone'
+    SETTINGS_PERSONAL_PROFILES_TEXT = 'By creating a personal profile, settings such as Clock,'
+    SETTINGS_PERSONAL_PROFILES_CREATE_PROFILE_BUTTON_TEXT = 'Create Profile'
+
+    #SETTINGS AMBIENT LIGHT
+    SETTINGS_AMBIENT_LIGHT_TITLE_TEXT = 'AMBIENT LIGHT'
+    SETTINGS_AMBIENT_LIGHT_RESET_BUTTON = 'Reset'

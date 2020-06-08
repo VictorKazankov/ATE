@@ -75,6 +75,22 @@ class SettingsPage(ControlsSettingsPage):
     def system_updates(self):
         return SettingsSystemUpdatesPage()
 
+    @property
+    def charge(self):
+        return SettingsChargePage()
+
+    @property
+    def vehicle_hotspot(self):
+        return SettingsVehicleHotspotPage()
+
+    @property
+    def personal_profiles(self):
+        return SettingsPersonalProfilesPage()
+
+    @property
+    def ambient_light(self):
+        return SettingsAmbientLightPage()
+
     @staticmethod
     def _swipe_down_to(name):
         element = wait_for_object(name)
@@ -188,3 +204,27 @@ class SettingsSystemUpdatesPage(SettingsItemPageBase):
     _load_indicators = [Text.SETTINGS_SYSTEM_UPDATES_TITLE_TEXT]
     _icon_to_open = Icons.SETTINGS_SYSTEM_UPDATES_BUTTON
     _text_to_open = Text.SETTINGS_SYSTEM_UPDATES_BUTTON_TEXT
+
+
+class SettingsChargePage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_CHARGE_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_CHARGE_BUTTON
+    _text_to_open = Text.SETTINGS_CHARGE_BUTTON_TEXT
+
+
+class SettingsVehicleHotspotPage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_VEHICLE_HOTSPOT_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_VEHICLE_HOTSPOT_BUTTON
+    _text_to_open = Text.SETTINGS_VEHICLE_HOTSPOT_BUTTON_TEXT
+
+
+class SettingsPersonalProfilesPage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_PERSONAL_PROFILES_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_PERSONAL_PROFILES_BUTTON
+    _text_to_open = Text.SETTINGS_PERSONAL_PROFILES_BUTTON_TEXT
+
+
+class SettingsAmbientLightPage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_AMBIENT_LIGHT_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_AMBIENT_LIGHT_BUTTON
+    _text_to_open = Text.SETTINGS_AMBIENT_LIGHT_BUTTON_TEXT

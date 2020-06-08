@@ -263,3 +263,89 @@ class TestSettingsDisplay(object):
     ])
     def test_settings_display_text(self, settings_display_menlo, text):
         assert get_exist_result(text)
+
+
+class TestSettingsCharge(object):
+    @jira_test("VHAT-2139")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.SETTINGS_CHARGE_PERCENTE_ICON,
+        Icons.GENERAL_INFO,
+        Icons.GENERAL_DRAWER_HANDLE
+    ])
+    def test_settings_charge_images(self, settings_charge_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2138")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_CHARGE_STATUS_TEXT, Text.SETTINGS_CHARGE_PREFERENCES_TEXT,
+        Text.SETTINGS_CHARGE_CHARGE_SCHEDULING_TEXT, Text.SETTINGS_CHARGE_DEPARTURE_AND_COMFORT_TEXT
+    ])
+    def test_settings_charge_text(self, settings_charge_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestSettingsVehicleHotspot(object):
+    @jira_test("VHAT-2140")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.SETTINGS_VEHICLE_HOTSPOT_SIGNAL_STRENGTH_ICON
+    ])
+    def test_settings_vehile_hotspot_images(self, settings_vehile_hotspot_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2141")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_VEHICLE_HOTSPOT_TEXT
+    ])
+    def test_settings_vehicle_hotspot_text(self, settings_vehile_hotspot_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestSettingsPersonalProfiles(object):
+    @jira_test("VHAT-2142")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.SETTINGS_PERSONAL_PROFILES_NAME_PROFILE_ICON,
+        Icons.SETTINGS_PERSONAL_PROFILES_LINK_MEMORY_ICON,
+        Icons.SETTINGS_PERSONAL_PROFILES_ADD_PHOTO_ICON,
+        Icons.SETTINGS_PERSONAL_PROFILES_LINK_KEY_FOB_ICON,
+        Icons.SETTINGS_PERSONAL_PROFILES_LINK_PHONE_ICON,
+        Icons.GENERAL_INFO
+    ])
+    def test_settings_personal_profiles_images(self, settings_personal_profiles_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2143")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_PERSONAL_PROFILES_NAME_PROFILE_TEXT,
+        Text.SETTINGS_PERSONAL_PROFILES_LINK_MEMORY_TEXT,
+        Text.SETTINGS_PERSONAL_PROFILES_ADD_PHOTO_TEXT,
+        Text.SETTINGS_PERSONAL_PROFILES_LINK_KEY_FOB_TEXT,
+        Text.SETTINGS_PERSONAL_PROFILES_LINK_PHONE_TEXT,
+        Text.SETTINGS_PERSONAL_PROFILES_TEXT,
+        Text.SETTINGS_PERSONAL_PROFILES_CREATE_PROFILE_BUTTON_TEXT
+    ])
+    def test_settings_personal_profiles_text(self, settings_personal_profiles_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestSettingsAmbientLight(object):
+    @jira_test("VHAT-2144")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.SETTINGS_AMBIENT_LIGHT_SLIDER_ICON
+    ])
+    def test_settings_ambient_light_images(self, settings_ambient_light_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2145")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_AMBIENT_LIGHT_RESET_BUTTON
+    ])
+    def test_settings_ambient_light_text(self, settings_ambient_light_menlo, text):
+        assert get_exist_result(text)

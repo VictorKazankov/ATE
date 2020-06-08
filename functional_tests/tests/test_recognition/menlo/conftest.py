@@ -91,3 +91,23 @@ def settings_system_updates_menlo(settings_menlo):
 @pytest.fixture(scope='class')
 def settings_display_menlo(settings_menlo):
     yield settings_menlo.display.open()
+
+
+@pytest.fixture(scope='class')
+def settings_charge_menlo(settings_menlo):
+    yield settings_menlo.charge.open()
+
+
+@pytest.fixture(scope='class')
+def settings_vehile_hotspot_menlo(settings_menlo):
+    yield settings_menlo.vehicle_hotspot.open()
+
+
+@pytest.fixture(scope='class')
+def settings_personal_profiles_menlo(settings_menlo):
+    yield settings_menlo.personal_profiles.open()
+
+
+@pytest.fixture(scope='class')
+def settings_ambient_light_menlo(settings_menlo):
+    yield settings_menlo.ambient_light.open()
