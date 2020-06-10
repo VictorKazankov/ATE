@@ -120,6 +120,127 @@ class TestSettingsConnectivity(object):
         assert get_exist_result(text)
 
 
+class TestSettingsRadio(object):
+    @jira_test("VHAT-2159")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.GENERAL_ARROW_DOWN,
+        Icons.GENERAL_TOGLE_INACTIVE,
+        Icons.GENERAL_INFO
+    ])
+    def test_settings_radio_images(self, settings_radio_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2160")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_RADIO_TITLE_TEXT, Text.SETTINGS_RADIO_PRESET_ROWS_TEXT,
+        Text.SETTINGS_RADIO_AM_HD_RADIO_TEXT
+    ])
+    def test_settings_radio_text(self, settings_radio_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestSettingsDriverAssistance(object):
+    @jira_test("VHAT-2161")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.GENERAL_ARROW_DOWN,
+        Icons.GENERAL_TOGLE_INACTIVE,
+        Icons.GENERAL_TOGLE_ACTIVE,
+        Icons.GENERAL_INFO
+    ])
+    def test_settings_driver_assistance_images(self, settings_driver_assistance_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2162")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_DRIVER_ASSISTANCE_TITLE_TEXT, Text.SETTINGS_DRIVER_ASSISTANCE_CRUISE_CONTROL_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_SPEED_LIMIT_ASSIST_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_LANE_KEEPING_SYSTEMS_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_PRE_COLLISION_ASSIST_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_REAR_VIEW_CAMERA_DELAY_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_GRADE_ASSIST_TEXT, Text.SETTINGS_DRIVER_ASSISTANCE_HILL_DESCENT_CONTROL_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_WRONG_WAY_ALERT_TEXT, Text.SETTINGS_DRIVER_ASSISTANCE_WRONG_WAY_ALERT_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_DRIVER_ALERT_TEXT, Text.SETTINGS_DRIVER_ASSISTANCE_HILL_START_ASSIST_TEXT,
+        Text.SETTINGS_DRIVER_ASSISTANCE_AUTO_START_STOP_TEXT
+    ])
+    def test_settings_driver_assistance_text(self, settings_driver_assistance_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestSettingsVehicle(object):
+    @jira_test("VHAT-2163")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.GENERAL_ARROW_DOWN,
+        Icons.GENERAL_TOGLE_INACTIVE,
+        Icons.GENERAL_INFO
+    ])
+    def test_settings_vehicle_images(self, settings_vehicle_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-164")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_VEHICLE_TITLE_TEXT, Text.SETTINGS_VEHICLE_VEHICLE_POWER_DOWN_TIMER,
+        Text.SETTINGS_VEHICLE_EASY_ENTRY_EXIT_TEXT, Text.SETTINGS_VEHICLE_PARK_LOCK_CONTROL_TEXT,
+        Text.SETTINGS_VEHICLE_SILENT_MODE_TEXT, Text.SETTINGS_VEHICLE_MYKEY_TEXT,
+        Text.SETTINGS_VEHICLE_ONBOARD_MODEM_SERIAL_NUMBER_TEXT, Text.SETTINGS_VEHICLE_ALARM_SYSTEM_TEXT,
+        Text.SETTINGS_VEHICLE_CHIMES_TEXT, Text.SETTINGS_VEHICLE_REMOTE_START_SETUP_TEXT,
+        Text.SETTINGS_VEHICLE_WINDOWS_TEXT, Text.SETTINGS_VEHICLE_WIPERS_TEXT
+    ])
+    def test_settings_vehicle_text(self, settings_vehicle_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestSettingsGeneral(object):
+    @jira_test("VHAT-2165")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.GENERAL_ARROW_DOWN,
+        Icons.GENERAL_TOGLE_ACTIVE,
+        Icons.GENERAL_INFO
+    ])
+    def test_settings_general_images(self, settings_general_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2166")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_GENERAL_TITLE_TEXT, Text.SETTINGS_GENERAL_LANGUAGE_TEXT,
+        Text.SETTINGS_GENERAL_TEMPERATURE_UNITS_TEXT, Text.SETTINGS_GENERAL_MEASUREMENT_UNITS_TEXT,
+        Text.SETTINGS_GENERAL_TIRE_PRESSURE_UNITS_TEXT, Text.SETTINGS_GENERAL_TOUCHSCREEN_BEEP_TEXT,
+        Text.SETTINGS_GENERAL_ABOUT_SYNC_TEXT, Text.SETTINGS_GENERAL_SOFTWARE_LICENSES_TEXT,
+        Text.SETTINGS_GENERAL_SUBMIT_FEEDBACK_TEXT, Text.SETTINGS_GENERAL_RESET_TEXT
+    ])
+    def test_settings_general_text(self, settings_general_menlo, text):
+        assert get_exist_result(text)
+
+
+class TestSettingsSystemUpdates(object):
+    @jira_test("VHAT-2167")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.GENERAL_ARROW_UP,
+        Icons.GENERAL_TOGLE_INACTIVE,
+        Icons.GENERAL_INFO
+    ])
+    def test_settings_system_updates_images(self, settings_system_updates_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2168")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_SYSTEM_UPDATES_TITLE_TEXT, Text.SETTINGS_SYSTEM_UPDATES_AUTOMATIC_UPDATES_TEXT,
+        Text.SETTINGS_SYSTEM_UPDATES_NOTIFICATIONS_TEXT, Text.SETTINGS_SYSTEM_UPDATES_SCHEDULE_UPDATES_TEXT,
+        Text.SETTINGS_SYSTEM_UPDATES_UPDATE_DETAILS_TEXT
+    ])
+    def test_settings_system_updates_text(self, settings_system_updates_menlo, text):
+        assert get_exist_result(text)
+
+
 class TestSettingsDisplay(object):
     @jira_test("VHAT-2078")
     @pytest.mark.image_recognition_menlo

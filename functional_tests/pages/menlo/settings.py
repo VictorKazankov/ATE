@@ -1,7 +1,7 @@
 import logging
 
 from functional_tests.pages.hmi import touch_and_drag, wait_for_object, obj_exists
-from functional_tests.pages.interaction import tap, tap_first_if_visible_else_second
+from functional_tests.pages.interaction import tap, tap_first_if_visible_else_second, tap_if_visible
 from functional_tests.pages.menlo.base import SwipeError, BasePage
 from functional_tests.pages.menlo.constants import Icons, Text
 
@@ -54,6 +54,26 @@ class SettingsPage(ControlsSettingsPage):
     @property
     def display(self):
         return SettingsDisplayPage()
+
+    @property
+    def radio(self):
+        return SettingsRadioPage()
+
+    @property
+    def driver_assistance(self):
+        return SettingsDriverAssistancePage()
+
+    @property
+    def vehicle(self):
+        return SettingsVehiclePage()
+
+    @property
+    def general(self):
+        return SettingsGeneralPage()
+
+    @property
+    def system_updates(self):
+        return SettingsSystemUpdatesPage()
 
     @staticmethod
     def _swipe_down_to(name):
@@ -128,3 +148,43 @@ class SettingsDisplayPage(SettingsItemPageBase):
     _load_indicators = [Text.SETTINGS_DISPLAY_TITLE_TEXT]
     _icon_to_open = Icons.SETTINGS_DISPLAY_BUTTON
     _text_to_open = Text.SETTINGS_DISPLAY_BUTTON_TEXT
+
+
+class SettingsRadioPage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_RADIO_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_RADIO_BUTTON
+    _text_to_open = Text.SETTINGS_RADIO_BUTTON_TEXT
+
+
+class SettingsDriverAssistancePage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_DRIVER_ASSISTANCE_TITLE_TEXT,
+                        Text.SETTINGS_DRIVER_ASSISTANCE_REAR_VIEW_CAMERA_DELAY_TEXT]
+    _icon_to_open = Icons.SETTINGS_DRIVER_ASSISTANCE_BUTTON
+    _text_to_open = Text.SETTINGS_DRIVER_ASSISTANCE_BUTTON_TEXT
+
+    # because when the Driver Assistance tab opens, a popup opens that hides menu items
+    def open(self):
+        if not self.is_active:
+            tap(Text.SETTINGS_DRIVER_ASSISTANCE_BUTTON_TEXT)
+            self.wait_for_page_to_load()
+            tap_if_visible(Text.SETTINGS_DRIVER_ASSISTANCE_CLOSE_BUTTON_TEXT)
+        logging.info('Open {}'.format(self.__class__.__name__))
+        return self
+
+
+class SettingsVehiclePage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_VEHICLE_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_VEHICLE_BUTTON
+    _text_to_open = Text.SETTINGS_VEHICLE_BUTTON_TEXT
+
+
+class SettingsGeneralPage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_GENERAL_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_GENERAL_BUTTON
+    _text_to_open = Text.SETTINGS_GENERAL_BUTTON_TEXT
+
+
+class SettingsSystemUpdatesPage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_SYSTEM_UPDATES_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_SYSTEM_UPDATES_BUTTON
+    _text_to_open = Text.SETTINGS_SYSTEM_UPDATES_BUTTON_TEXT

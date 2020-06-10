@@ -59,5 +59,30 @@ def settings_connectivity_menlo(settings_menlo):
 
 
 @pytest.fixture(scope='class')
+def settings_radio_menlo(settings_menlo):
+    yield settings_menlo.radio.open()
+
+
+@pytest.fixture(scope='class')
+def settings_driver_assistance_menlo(settings_menlo):
+    yield settings_menlo.driver_assistance.open()
+
+
+@pytest.fixture(scope='class')
+def settings_vehicle_menlo(settings_menlo):
+    yield settings_menlo.vehicle.open()
+
+
+@pytest.fixture(scope='class')
+def settings_general_menlo(settings_menlo):
+    yield settings_menlo.general.open()
+
+
+@pytest.fixture(scope='class')
+def settings_system_updates_menlo(settings_menlo):
+    yield settings_menlo.system_updates.open()
+
+
+@pytest.fixture(scope='class')
 def settings_display_menlo(settings_menlo):
     yield settings_menlo.display.open()
