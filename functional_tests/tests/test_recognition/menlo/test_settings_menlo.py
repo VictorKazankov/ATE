@@ -114,7 +114,6 @@ class TestSettingsConnectivity(object):
         Text.SETTINGS_CONNECTIVITY_TITLE_TEXT, Text.SETTINGS_CONNECTIVITY_FEATURES_TEXT,
         Text.SETTINGS_CONNECTIVITY_BLUETOOTH_TEXT, Text.SETTINGS_CONNECTIVITY_PROJECTION_TEXT,
         Text.SETTINGS_CONNECTIVITY_NETWORKS_TEXT
-
     ])
     def test_settings_connectivity_text(self, settings_connectivity_menlo, text):
         assert get_exist_result(text)
@@ -259,7 +258,6 @@ class TestSettingsDisplay(object):
         Text.SETTINGS_DISPLAY_TITLE_TEXT, Text.SETTINGS_DISPLAY_BRIGHTNESS,
         Text.SETTINGS_DISPLAY_MODE_CLUSTER, Text.SETTINGS_DISPLAY_MODE_CLUSTER_STATE_AUTO,
         Text.SETTINGS_DISPLAY_MODE_CENTER_STACK, Text.SETTINGS_DISPLAY_MODE_CENTER_STACK_STATE_DAY
-
     ])
     def test_settings_display_text(self, settings_display_menlo, text):
         assert get_exist_result(text)
@@ -289,15 +287,13 @@ class TestSettingsCharge(object):
 class TestSettingsVehicleHotspot(object):
     @jira_test("VHAT-2140")
     @pytest.mark.image_recognition_menlo
-    @pytest.mark.parametrize('icon', Icons.SETTINGS_VEHICLE_HOTSPOT_SIGNAL_STRENGTH_ICON)
-    def test_settings_vehile_hotspot_images(self, settings_vehile_hotspot_menlo, icon):
-        assert get_exist_result(icon)
+    def test_settings_vehile_hotspot_images(self, settings_vehile_hotspot_menlo):
+        assert get_exist_result(Icons.SETTINGS_VEHICLE_HOTSPOT_SIGNAL_STRENGTH_ICON)
 
     @jira_test("VHAT-2141")
     @pytest.mark.text_recognition_menlo
-    @pytest.mark.parametrize('text', Text.SETTINGS_VEHICLE_HOTSPOT_TEXT)
-    def test_settings_vehicle_hotspot_text(self, settings_vehile_hotspot_menlo, text):
-        assert get_exist_result(text)
+    def test_settings_vehicle_hotspot_text(self, settings_vehile_hotspot_menlo):
+        assert get_exist_result(Text.SETTINGS_VEHICLE_HOTSPOT_TEXT)
 
 
 class TestSettingsPersonalProfiles(object):
@@ -332,12 +328,10 @@ class TestSettingsPersonalProfiles(object):
 class TestSettingsAmbientLight(object):
     @jira_test("VHAT-2144")
     @pytest.mark.image_recognition_menlo
-    @pytest.mark.parametrize('icon', Icons.SETTINGS_AMBIENT_LIGHT_SLIDER_ICON)
-    def test_settings_ambient_light_images(self, settings_ambient_light_menlo, icon):
-        assert get_exist_result(icon)
+    def test_settings_ambient_light_images(self, settings_ambient_light_menlo):
+        assert get_exist_result(Icons.SETTINGS_AMBIENT_LIGHT_SLIDER_ICON)
 
     @jira_test("VHAT-2145")
     @pytest.mark.text_recognition_menlo
-    @pytest.mark.parametrize('text', Text.SETTINGS_AMBIENT_LIGHT_RESET_BUTTON)
-    def test_settings_ambient_light_text(self, settings_ambient_light_menlo, text):
-        assert get_exist_result(text)
+    def test_settings_ambient_light_text(self, settings_ambient_light_menlo):
+        assert get_exist_result(Text.SETTINGS_AMBIENT_LIGHT_RESET_BUTTON)
