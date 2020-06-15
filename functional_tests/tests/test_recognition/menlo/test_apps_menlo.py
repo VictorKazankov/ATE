@@ -60,6 +60,76 @@ class TestTirePressureApp(object):
         assert get_exist_result(text)
 
 
+class TestSeatbeltApp(object):
+    @jira_test("VHAT-2124")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.SEATBELT_APP_TITLE,
+        Icons.SEATBELT_APP_BELT_CNT_OK,
+        Icons.SEATBELT_APP_BELT_OK,
+        Icons.SEATBELT_APP_BELT_UNKNOWN
+    ])
+    def test_seatbelt_app_images(self, seatbelt_app, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2125")
+    @pytest.mark.text_recognition_menlo
+    def test_seatbelt_app_text(self, seatbelt_app):
+        assert get_exist_result(Text.SEATBELT_APP_TITLE_TEXT)
+
+
+class TestBluetoothStereoApp(object):
+    @jira_test("VHAT-2127")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.BLUETOOTH_APP_PHONE,
+        Icons.BLUETOOTH_APP_LETTER,
+        Icons.BLUETOOTH_APP_MESSAGES,
+        Icons.BLUETOOTH_APP_VOICE,
+        Icons.BLUETOOTH_APP_MAN,
+        Icons.BLUETOOTH_APP_ADD
+    ])
+    def test_bluetooth_stereo_app_images(self, bluetooth_stereo_app, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2126")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.BLUETOOTH_APP_TITLE_TEXT,
+        Text.BLUETOOTH_APP_SEARCH_BLUETOOTH_TEXT
+    ])
+    def test_bluetooth_stereo_app_text(self, bluetooth_stereo_app, text):
+        assert get_exist_result(text)
+
+
+class TestOwnersManualApp(object):
+    @jira_test("VHAT-2146")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.OWNERS_MANUAL_APP_HOME_BUTTON,
+        Icons.OWNERS_MANUAL_APP_LOUPE_BUTTON,
+        Icons.OWNERS_MANUAL_APP_CATEGORIES_BUTTON,
+        Icons.OWNERS_MANUAL_APP_VISUAL_SEARCH_BUTTON,
+        Icons.OWNERS_MANUAL_APP_BOOKMARKS_BUTTON,
+        Icons.OWNERS_MANUAL_APP_VIDEOS_BUTTON,
+        Icons.OWNERS_MANUAL_APP_LANGUAGES_BUTTON
+    ])
+    def test_owners_manual_app_images(self, owners_manual_app, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2147")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.OWNERS_MANUAL_APP_CATEGORIES_TEXT,
+        Text.OWNERS_MANUAL_APP_VISUAL_SEARCH_TEXT,
+        Text.OWNERS_MANUAL_APP_VIDEOS_TEXT,
+        Text.OWNERS_MANUAL_APP_BOOKMARKS_TEXT,
+        Text.OWNERS_MANUAL_APP_LANGUAGES_TEXT,
+    ])
+    def test_owners_manual_app_text(self, owners_manual_app, text):
+        assert get_exist_result(text)
+
+
 class TestTripIodApp(object):
     @jira_test("VHAT-2107")
     @pytest.mark.image_recognition_menlo

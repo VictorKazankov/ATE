@@ -36,6 +36,21 @@ def radio_app(menlo):
     menlo.apps.radio.open()
 
 
+@pytest.fixture(scope='class')
+def seatbelt_app(menlo):
+    menlo.apps.seatbelt.open()
+
+
+@pytest.fixture(scope='class')
+def bluetooth_stereo_app(menlo):
+    menlo.apps.bluetooth_stereo.open()
+
+
+@pytest.fixture(scope='class')
+def owners_manual_app(menlo):
+    menlo.apps.owners_manual.open()
+
+
 @pytest.fixture(scope='module')
 def settings_menlo(menlo):
     page = menlo.settings

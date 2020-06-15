@@ -60,6 +60,29 @@ class Icons:
     RADIO_MINUS_BUTTON = 'radio_minus_button'
     RADIO_PLUS_BUTTON = 'radio_plus_button'
 
+    # SEATBELT APP
+    SEATBELT_APP_TITLE = 'seatbelt_app_header'
+    SEATBELT_APP_BELT_UNKNOWN = 'seatbelt_app_belt_unknown'
+    SEATBELT_APP_BELT_OK = 'seatbelt_app_belt_ok'
+    SEATBELT_APP_BELT_CNT_OK = 'seatbelt_app_belt_cnt_ok'
+
+    # BLUETOOTH APP
+    BLUETOOTH_APP_PHONE = 'bluetooth_app_phone'
+    BLUETOOTH_APP_LETTER = 'bluetooth_app_letter'
+    BLUETOOTH_APP_MESSAGES = 'bluetooth_app_messages'
+    BLUETOOTH_APP_VOICE = 'bluetooth_app_voice'
+    BLUETOOTH_APP_MAN = 'bluetooth_app_man'
+    BLUETOOTH_APP_ADD = 'bluetooth_app_add'
+
+    # OWNER'S MANUAL APP
+    OWNERS_MANUAL_APP_HOME_BUTTON = 'owner_manual_app_book_home_button'
+    OWNERS_MANUAL_APP_LOUPE_BUTTON = 'owner_manual_app_loupe_button'
+    OWNERS_MANUAL_APP_CATEGORIES_BUTTON = 'owner_manual_app_categories_button'
+    OWNERS_MANUAL_APP_VISUAL_SEARCH_BUTTON = 'owner_manual_app_visual_search_button'
+    OWNERS_MANUAL_APP_VIDEOS_BUTTON = 'owner_manual_app_videos_button'
+    OWNERS_MANUAL_APP_BOOKMARKS_BUTTON = 'owner_manual_app_bookmarks_button'
+    OWNERS_MANUAL_APP_LANGUAGES_BUTTON = 'owner_manual_app_languages_button'
+
     # SETTINGS
     SETTINGS_SOUND_BUTTON = 'settings_sound_button'
     SETTINGS_CLOCK_BUTTON = 'settings_clock_button'
@@ -141,6 +164,20 @@ class Text:
     RADIO_AM_TEXT = 'AM'
     RADIO_FM_TEXT = 'FM'
     RADIO_SIRIUSXM_TEXT = 'SiriusXM'
+
+    # SEATBELT APP
+    SEATBELT_APP_TITLE_TEXT = 'Seatbelt'
+
+    # BLUETOOTH APP
+    BLUETOOTH_APP_TITLE_TEXT = 'No Device Paired'
+    BLUETOOTH_APP_SEARCH_BLUETOOTH_TEXT = 'Search for Bluetooth device'
+
+    # OWNER'S MANUAL APP
+    OWNERS_MANUAL_APP_CATEGORIES_TEXT = 'Categories'
+    OWNERS_MANUAL_APP_VISUAL_SEARCH_TEXT = 'Visual Search'
+    OWNERS_MANUAL_APP_VIDEOS_TEXT = 'Videos'
+    OWNERS_MANUAL_APP_BOOKMARKS_TEXT = 'Bookmarks'
+    OWNERS_MANUAL_APP_LANGUAGES_TEXT = 'Languages'
 
     # CONTROLS/SETTINGS
     CONTROLS_TAB_TITLE_TEXT = 'CONTROLS'

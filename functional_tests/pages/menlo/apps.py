@@ -38,6 +38,18 @@ class AppsPage(BasePage):
             logging.info('Close apps page')
         return self
 
+    @property
+    def seatbelt(self):
+        return SeatBeltAppPage()
+
+    @property
+    def bluetooth_stereo(self):
+        return BlueToothStereoAppPage()
+
+    @property
+    def owners_manual(self):
+        return OwnersManualAppPage()
+
 
 class AppPageBase(AppsPage):
 
@@ -62,6 +74,24 @@ class TirePressureAppPage(AppPageBase):
     _load_indicators = [Text.TIRE_PRESSURE_APP_TITLE_TEXT]
     _icon_to_open = Icons.APPS_TIRE_PRESSURE_BUTTON
     _text_to_open = Text.APPS_TIRE_PRESSURE_TEXT
+
+
+class SeatBeltAppPage(AppPageBase):
+    _load_indicators = [Icons.SEATBELT_APP_BELT_OK, Text.SEATBELT_APP_TITLE_TEXT]
+    _icon_to_open = Icons.APPS_SEATBELT_BUTTON
+    _text_to_open = Text.APPS_SEATBELT_TEXT
+
+
+class BlueToothStereoAppPage(AppPageBase):
+    _load_indicators = [Icons.BLUETOOTH_APP_MESSAGES, Text.BLUETOOTH_APP_TITLE_TEXT]
+    _icon_to_open = Icons.APPS_BLUETOOTH_STEREO_BUTTON
+    _text_to_open = Text.APPS_BLUETOOTH_STEREO_TEXT
+
+
+class OwnersManualAppPage(AppPageBase):
+    _load_indicators = [Icons.OWNERS_MANUAL_APP_VISUAL_SEARCH_BUTTON]
+    _icon_to_open = Icons.APPS_OWNERS_MANUAL_BUTTON
+    _text_to_open = Text.APPS_OWNERS_MANUAL_TEXT
 
 
 class TripIodAppPage(AppPageBase):
