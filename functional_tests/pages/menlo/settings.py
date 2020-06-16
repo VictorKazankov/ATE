@@ -127,6 +127,10 @@ class SettingsPage(ControlsSettingsPage):
         return SettingsDisplayPage()
 
     @property
+    def mobile_apps(self):
+        return SettingsMobileAppsPage()
+
+    @property
     def radio(self):
         return SettingsRadioPage()
 
@@ -213,6 +217,12 @@ class SettingsDisplayPage(SettingsItemPageBase):
     _load_indicators = [Text.SETTINGS_DISPLAY_TITLE_TEXT]
     _icon_to_open = Icons.SETTINGS_DISPLAY_BUTTON
     _text_to_open = Text.SETTINGS_DISPLAY_BUTTON_TEXT
+
+
+class SettingsMobileAppsPage(SettingsItemPageBase):
+    _load_indicators = [Text.SETTINGS_MOBILE_APPS_TITLE_TEXT]
+    _icon_to_open = Icons.SETTINGS_MOBILE_APPS_BUTTON
+    _text_to_open = Text.SETTINGS_MOBILE_APPS_BUTTON_TEXT
 
 
 class SettingsRadioPage(SettingsItemPageBase):

@@ -226,7 +226,7 @@ class TestSettingsVehicle(object):
     def test_settings_vehicle_images(self, settings_vehicle_menlo, icon):
         assert get_exist_result(icon)
 
-    @jira_test("VHAT-164")
+    @jira_test("VHAT-2164")
     @pytest.mark.text_recognition_menlo
     @pytest.mark.parametrize('text', [
         Text.SETTINGS_VEHICLE_TITLE_TEXT, Text.SETTINGS_VEHICLE_VEHICLE_POWER_DOWN_TIMER,
@@ -256,8 +256,8 @@ class TestSettingsGeneral(object):
     @pytest.mark.parametrize('text', [
         Text.SETTINGS_GENERAL_TITLE_TEXT, Text.SETTINGS_GENERAL_LANGUAGE_TEXT,
         Text.SETTINGS_GENERAL_LANG_ENGLISH_US_TEXT, Text.SETTINGS_GENERAL_TEMPERATURE_UNITS_TEXT,
-        Text. SETTINGS_GENERAL_TEMP_CELSIUS_TEXT, Text.SETTINGS_GENERAL_MEASUREMENT_UNITS_TEXT,
-        Text. SETTINGS_GENERAL_MEASUR_MILES_AND_MPG_TEXT, Text.SETTINGS_GENERAL_TIRE_PRESSURE_UNITS_TEXT,
+        Text.SETTINGS_GENERAL_TEMP_CELSIUS_TEXT, Text.SETTINGS_GENERAL_MEASUREMENT_UNITS_TEXT,
+        Text.SETTINGS_GENERAL_MEASUR_MILES_AND_MPG_TEXT, Text.SETTINGS_GENERAL_TIRE_PRESSURE_UNITS_TEXT,
         Text.SETTINGS_GENERAL_TIRE_PRESSURE_PSI_TEXT, Text.SETTINGS_GENERAL_TOUCHSCREEN_BEEP_TEXT,
         Text.SETTINGS_GENERAL_ABOUT_SYNC_TEXT, Text.SETTINGS_GENERAL_SOFTWARE_LICENSES_TEXT,
         Text.SETTINGS_GENERAL_SUBMIT_FEEDBACK_TEXT, Text.SETTINGS_GENERAL_RESET_TEXT
@@ -381,3 +381,15 @@ class TestSettingsAmbientLight(object):
     @pytest.mark.text_recognition_menlo
     def test_settings_ambient_light_text(self, settings_ambient_light_menlo):
         assert get_exist_result(Text.SETTINGS_AMBIENT_LIGHT_RESET_BUTTON)
+
+
+class TestSettingsMobileApps(object):
+    @jira_issue('VHAT-2179')
+    @jira_test("VHAT-2180")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.SETTINGS_MOBILE_APPS_PASSWORD_MASKED_TEXT
+
+    ])
+    def test_settings_mobile_apps_text(self, settings_mobile_apps_menlo, text):
+        assert get_exist_result(text)

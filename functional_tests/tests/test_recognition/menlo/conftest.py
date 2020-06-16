@@ -145,3 +145,8 @@ def settings_personal_profiles_menlo(settings_menlo):
 @pytest.fixture(scope='class')
 def settings_ambient_light_menlo(settings_menlo):
     yield settings_menlo.ambient_light.open()
+
+
+@pytest.fixture(scope='class')
+def settings_mobile_apps_menlo(settings_menlo):
+    yield settings_menlo.mobile_apps.open()

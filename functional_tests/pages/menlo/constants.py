@@ -122,6 +122,7 @@ class Icons:
     SETTINGS_VEHICLE_HOTSPOT_BUTTON = 'settings_charge_button'
     SETTINGS_PERSONAL_PROFILES_BUTTON = 'settings_personal_profiles_button'
     SETTINGS_AMBIENT_LIGHT_BUTTON = 'settings_ambient_light_button'
+    SETTINGS_MOBILE_APPS_BUTTON = 'settings_mobile_apps_button'
 
     # SETTINGS CLOCK
     SETTINGS_CLOCK_AM_BUTTON_ACTIVE = 'settings_clock_am_button_active'
@@ -358,3 +359,7 @@ class Text:
     # SETTINGS AMBIENT LIGHT
     SETTINGS_AMBIENT_LIGHT_TITLE_TEXT = 'AMBIENT LIGHT'
     SETTINGS_AMBIENT_LIGHT_RESET_BUTTON = 'Reset'
+
+    # SETTINGS MOBILE APPS
+    SETTINGS_MOBILE_APPS_TITLE_TEXT = 'MOBILE APPS'
+    SETTINGS_MOBILE_APPS_PASSWORD_MASKED_TEXT = '**********'
