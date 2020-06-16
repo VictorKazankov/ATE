@@ -32,6 +32,10 @@ class AppsPage(BasePage):
     def radio(self):
         return RadioAppPage()
 
+    @property
+    def phone(self):
+        return PhoneAppPage()
+
     def close(self):
         if AppsPage().is_active:
             tap(Icons.MAIN_APPS_BUTTON_ACTIVE)
@@ -104,3 +108,31 @@ class RadioAppPage(AppPageBase):
     _load_indicators = [Text.RADIO_PRESET_TEXT]
     _icon_to_open = Icons.APPS_RADIO_BUTTON
     _text_to_open = Text.APPS_RADIO_TEXT
+
+
+class PhoneAppPage(AppPageBase):
+    _load_indicators = [Text.PHONE_APP_TITLE_TEXT]
+    _icon_to_open = Icons.APPS_PHONE_BUTTON
+    _text_to_open = Text.APPS_PHONE_TEXT
+
+    @property
+    def add_phone(self):
+        return AddPhonePage()
+
+
+class AddPhonePage(PhoneAppPage):
+    _load_indicators = [Text.ADD_PHONE_TITLE_TEXT]
+
+    def open(self):
+        if not self.is_active:
+            PhoneAppPage().open()
+            tap(Icons.PHONE_ADD_A_DEVICE_BUTTON)
+            self.wait_for_page_to_load()
+        logging.info('Open Add Phone page')
+        return self
+
+    def close(self):
+        if self.is_active:
+            tap(Icons.GENERAL_ARROW_LEFT)
+            logging.info('Close Add Phone page')
+        return self

@@ -41,6 +41,13 @@ class Icons:
     APPS_TIRE_PRESSURE_BUTTON = "apps_tire_pressure_button"
     APPS_TRIP_IOD_BUTTON = "apps_trip_iod_button"
 
+    # PHONE (same as bluetooth)
+    PHONE_ADD_A_DEVICE_BUTTON = 'bluetooth_app_add'
+
+    # ADD PHONE
+    ADD_PHONE_1_ICON = 'add_phone_1_icon'
+    ADD_PHONE_BLUETOOTH_ICON = 'add_phone_bluetooth_icon'
+
     # TIRE PRESSURE APP
     TIRE_PRESSURE_APP_TITLE_ICON = 'tire_pressure_app_title_icon'
 
@@ -181,6 +188,18 @@ class Text:
     RADIO_AM_TEXT = 'AM'
     RADIO_FM_TEXT = 'FM'
     RADIO_SIRIUSXM_TEXT = 'SiriusXM'
+
+    # PHONE APP
+    PHONE_APP_TITLE_TEXT = 'No Device Paired'
+    PHONE_APP_ADD_DEVICE_TEXT = 'Add a Device'
+
+    # ADD PHONE
+    ADD_PHONE_TITLE_TEXT = 'Add Phone'
+    ADD_PHONE_SEARCHING_TEXT = 'SYNC is searching for Bluetooth device'
+    ADD_PHONE_SEARCH_FOR_TEXT = "Search for SYNC in your device's"
+    ADD_PHONE_OR_TEXT = 'OR'
+    ADD_PHONE_ALLOW_TEXT = 'Allow SYNC to search for Bluetooth device'
+    ADD_PHONE_YOU_WILL_TEXT = 'You will need to make sure that your Bluetooth'
 
     # SEATBELT APP
     SEATBELT_APP_TITLE_TEXT = 'Seatbelt'

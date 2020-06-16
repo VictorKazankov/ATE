@@ -189,3 +189,27 @@ class TestRadioApp(object):
     ])
     def test_radio_app_text(self, radio_app, text):
         assert get_exist_result(text)
+
+
+class TestAddPhone(object):
+    @jira_issue("VHAT-2178", test_data=[Icons.ADD_PHONE_1_ICON])
+    @jira_test("VHAT-2176")
+    @pytest.mark.image_recognition_menlo
+    @pytest.mark.parametrize('icon', [
+        Icons.ADD_PHONE_1_ICON,
+        Icons.GENERAL_INFO,
+        Icons.GENERAL_ARROW_LEFT,
+        Icons.ADD_PHONE_BLUETOOTH_ICON
+    ])
+    def test_add_phone_images(self, add_phone_menlo, icon):
+        assert get_exist_result(icon)
+
+    @jira_test("VHAT-2177")
+    @pytest.mark.text_recognition_menlo
+    @pytest.mark.parametrize('text', [
+        Text.ADD_PHONE_TITLE_TEXT, Text.ADD_PHONE_ALLOW_TEXT,
+        Text.ADD_PHONE_OR_TEXT, Text.ADD_PHONE_SEARCH_FOR_TEXT,
+        Text.ADD_PHONE_SEARCHING_TEXT, Text.ADD_PHONE_YOU_WILL_TEXT
+    ])
+    def test_add_phone_text(self, add_phone_menlo, text):
+        assert get_exist_result(text)

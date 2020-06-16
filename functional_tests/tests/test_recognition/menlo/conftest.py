@@ -37,6 +37,13 @@ def radio_app(menlo):
 
 
 @pytest.fixture(scope='class')
+def add_phone_menlo(menlo):
+    page = menlo.apps.phone.add_phone
+    yield page.open()
+    page.close()
+
+
+@pytest.fixture(scope='class')
 def seatbelt_app(menlo):
     menlo.apps.seatbelt.open()
 
