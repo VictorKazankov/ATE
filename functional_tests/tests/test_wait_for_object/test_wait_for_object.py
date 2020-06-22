@@ -1,12 +1,15 @@
 import logging
+
 import allure
 import pytest
 import vhat_client
+from vhat_client import ScreenPoint
+
 from functional_tests.pages import hmi
 from functional_tests.tests.helpers import check_wildcard_results_amount
 from functional_tests.tests.import_helper_functions import data
+from functional_tests.utils.report import jira_test
 from functional_tests.utils.sync4.constants import TASK_LINK
-from vhat_client import ScreenPoint
 
 pytestmark = [pytest.mark.regression_sync4, pytest.mark.regression_sync3, pytest.mark.waitForObject]
 
@@ -123,13 +126,25 @@ def create_vhat_object():
     return test_object
 
 
+def check_active_in_list(name, width, height):
+    wildcard_data = {
+        "sync_collection_mode": vhat_client.CollectionMode.ANY,
+        "name": name
+    }
+    wildcard = vhat_client.Wildcard(wildcard_data)
+    # to ensure list contains several items
+    check_wildcard_results_amount(wildcard.getMatchObjects(), wildcard_data, 3)
+    obj = hmi.wait_for_object(wildcard)
+    assert obj.width == width and obj.height == height
+
+
 @pytest.fixture(scope='module', autouse=True)
 def open_page(app_connector):
     open_function = data(path, name='open_page_method')
     open_function()
 
 
-@allure.testcase(TASK_LINK.format("VHAT-1599"), "VHAT-1599")
+@jira_test("VHAT-1599")
 @pytest.mark.parametrize('string_data', [
     [icon],
     # object to wait, timeout milliseconds for object to be found
@@ -140,7 +155,7 @@ def test_wait_for_object_by_string_data(string_data):
     assert isinstance(obj, vhat_client.object)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-1601"), "VHAT-1601")
+@jira_test("VHAT-1601")
 @pytest.mark.parametrize('object_data', [
     [create_vhat_object()],
     [create_vhat_object(), DEF_TIMEOUT],
@@ -151,7 +166,7 @@ def test_wait_for_object_by_object_data(object_data):
     assert isinstance(obj, object)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-1602"), "VHAT-1602")
+@jira_test("VHAT-1602")
 @pytest.mark.parametrize('exception_data', [
     ('incorrect_string', vhat_client.LookupError),
     (None, TypeError)
@@ -162,7 +177,7 @@ def test_wait_for_object_exceptions(exception_data):
         hmi.wait_for_object(param)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-1685"), "VHAT-1685")
+@jira_test("VHAT-1685")
 def test_wildcard_wait_for_object():
     wildcard_data = data(path, 'wildcard_test_data')
     wildcard = vhat_client.Wildcard(*wildcard_data)
@@ -174,7 +189,7 @@ def test_wildcard_wait_for_object():
         assert False, 'Failed waitForObject for wildcard with params {}'.format(wildcard_data)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-2045"), "VHAT-2045")
+@jira_test("VHAT-2045")
 def test_wait_for_object_by_string_data_with_searching_area_positive():
     obj = hmi.wait_for_object(icon)
     top_left, bottom_right = get_top_left_bottom_right_from_object(obj)
@@ -182,7 +197,7 @@ def test_wait_for_object_by_string_data_with_searching_area_positive():
     assert isinstance(result_obj, vhat_client.object)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-2092"), "VHAT-2092")
+@jira_test("VHAT-2092")
 def test_wait_for_object_by_string_data_with_searching_area_negative():
     with pytest.raises(vhat_client.LookupError) as exc:
         obj = hmi.wait_for_object(icon)
@@ -191,7 +206,7 @@ def test_wait_for_object_by_string_data_with_searching_area_negative():
     logging.exception(exc)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-2054"), "VHAT-2054")
+@jira_test("VHAT-2054")
 @pytest.mark.parametrize('test_data', TEST_DATA_INVALID_RECTANGLE_COORDINATES)
 def test_neg_invalid_rectangle_coordinates_for_object(test_data):
     top_left_coordinate, bottom_right_coordinate = test_data
@@ -200,7 +215,7 @@ def test_neg_invalid_rectangle_coordinates_for_object(test_data):
     logging.exception(exc)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-2057"), "VHAT-2057")
+@jira_test("VHAT-2057")
 @pytest.mark.parametrize('test_data', TEST_DATA_INVALID_RECTANGLE_COORDINATES)
 def test_neg_invalid_rectangle_coordinates_for_wildcard(test_data):
     top_left_coordinate, bottom_right_coordinate = test_data
@@ -211,7 +226,7 @@ def test_neg_invalid_rectangle_coordinates_for_wildcard(test_data):
     logging.exception(exc)
 
 
-@allure.testcase(TASK_LINK.format("VHAT-2058"), "VHAT-2058")
+@jira_test("VHAT-2058")
 def test_wildcard_wait_for_object_with_searching_area_positive():
     wildcard_data = data(path, 'wildcard_test_data')
     wildcard = vhat_client.Wildcard(*wildcard_data)
@@ -238,3 +253,25 @@ def test_wildcard_wait_for_object_with_searching_area_negative():
         top_left, bottom_right = get_negative_top_left_bottom_right_from_object(obj)
         hmi.wait_for_object(wildcard, DEF_TIMEOUT, top_left, bottom_right)
     logging.exception(exc)
+
+
+@jira_test("VHAT-2191")
+@pytest.mark.parametrize('test_data', [
+    data(path, 'first_active_in_list'),
+    data(path, 'middle_active_in_list'),
+    data(path, 'last_active_in_list')
+])
+def test_wildcard_wait_for_object_active_in_list(test_data):
+    name, width, height = test_data
+    check_active_in_list(name, width, height)
+
+
+@jira_test("VHAT-2192")
+def test_wildcard_wait_for_object_no_text_detected():
+    wildcard_data = {
+        "name": data(path, 'text')
+    }
+    wildcard = vhat_client.Wildcard(wildcard_data)
+    check_wildcard_results_amount(wildcard.getMatchObjects(), wildcard_data, 0)
+    with pytest.raises(vhat_client.LookupError):
+        hmi.wait_for_object(wildcard)
